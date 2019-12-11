@@ -33,6 +33,8 @@
                 <x:Type TypeName="local:Themes"/>
             </ObjectDataProvider.MethodParameters>
         </ObjectDataProvider>
+
+        
     </Window.Resources>
     <Window.ContextMenu>
         <ContextMenu Name="EditorContextMenu" MinWidth="175">
@@ -615,13 +617,6 @@
                                 
                                 TextElement.FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" />
 
-
-
-                        <Button Name ="ButtonUnderline" Margin="7,0" ToolTip="Underline" 
-                                Command="{Binding Commands.ToolbarInsertMarkdownCommand }" 
-                                CommandParameter="underline"
-                                fa:Awesome.Content="Underline"                                 
-                                TextElement.FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" />
                         <Button Name ="ButtonStrikeThrough" Margin="7,0" ToolTip="Strikethrough" 
                                 Command="{Binding Commands.ToolbarInsertMarkdownCommand }" 
                                 CommandParameter="strikethrough"
@@ -717,20 +712,82 @@
                         </Button>
 
                         <Button Name ="ButtonCode"  
-								ToolTip="Format selected text as code (Alt+C)"
+								ToolTip="Insert a formatted source code snippet (Alt+C)"
                                 Command="{Binding Commands.ToolbarInsertMarkdownCommand }" 
                                 CommandParameter="code"                                
                                 FontWeight="Medium" 
 								Width="27" Margin="0,0,0,0"
                         >{#}</Button>
 
-						<Button Name="ButtonEmoji" Margin="7,0" 
+						<Button Name="ButtonEmoji" Margin="7,0,0,0" 
 								ToolTip="Insert emoji (Ctrl+J)"
                                 Command="{Binding Commands.ToolbarInsertMarkdownCommand }" 
                                 CommandParameter="emoji"
                                 fa:Awesome.Content="SmileOutline"                                                           
                                 TextElement.FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome"                                 
                         />
+
+                        <Button Name="ButtonMoreMarkdown" Margin="7,0" ToolTip="More Markup Operations" 
+                                fa:Awesome.Content="CaretDown"                                                      
+                        >
+                            <i:Interaction.Behaviors>
+                                <local:DropDownButtonBehavior />
+                            </i:Interaction.Behaviors>
+                            <Button.ContextMenu>
+                                <ContextMenu>
+                                    <MenuItem ToolTip="Make text small" 
+                                              Command="{Binding Commands.ToolbarInsertMarkdownCommand }" 
+                                              CommandParameter="small">
+                                        <MenuItem.Header>
+                                            <StackPanel Orientation="Horizontal">
+                                                <fa:ImageAwesome Icon="ArrowDown" Foreground="Silver" Height="16" Width="16" Margin="0,0,10,0"  />
+                                                <TextBlock>Small</TextBlock>
+                                            </StackPanel>
+                                        </MenuItem.Header>
+                                    </MenuItem>
+
+                                    <MenuItem ToolTip="Underline selected text" 
+                                            Command="{Binding Commands.ToolbarInsertMarkdownCommand }" 
+                                            CommandParameter="underline">
+                                        <MenuItem.Header>
+                                            <StackPanel Orientation="Horizontal" >
+                                                <fa:ImageAwesome Icon="Underline" Foreground="Silver" Height="16" Width="16" Margin="0,0,10,0" />
+                                                <TextBlock>Underline</TextBlock>
+                                            </StackPanel>
+                                        </MenuItem.Header>
+                                    </MenuItem>
+
+
+                                    <MenuItem ToolTip="Mark text with highlight."
+                                              Command="{Binding Commands.ToolbarInsertMarkdownCommand }" 
+                                              CommandParameter="mark" FontWeight="Light">
+                                        <MenuItem.Header>
+                                            <StackPanel Orientation="Horizontal" >
+                                                <fa:ImageAwesome Icon="Pencil" Foreground="Silver" Height="16" Width="16" Margin="0,0,10,0" />
+                                                <TextBlock>Mark Text</TextBlock>
+
+                                            </StackPanel>
+                                        </MenuItem.Header>
+                                    </MenuItem>
+                                    <Separator/>
+                                    <MenuItem ToolTip="Add a page break for printing" 
+                                              Command="{Binding Commands.ToolbarInsertMarkdownCommand }" 
+                                              CommandParameter="pagebreak">
+                                        <MenuItem.Header>
+                                            <StackPanel Orientation="Horizontal">
+                                                <fa:ImageAwesome Icon="Paragraph" Foreground="Silver" Height="16" Width="16" Margin="0,0,10,0"  />
+                                                <TextBlock>Pagebreak</TextBlock>
+                                            </StackPanel>
+                                        </MenuItem.Header>
+                                    </MenuItem>
+                                    
+                                    
+
+
+                                </ContextMenu>
+                            </Button.ContextMenu>
+                        </Button>
+
                     </ToolBar>
 
 					<ToolBar Name="ToolbarAddIns" Visibility="Hidden" FontSize="17">
@@ -738,6 +795,7 @@
                                 ToolTip="Git Operations: Commit, Push, Pull, Clone, Create (Alt+G)">
                             <Image Source="assets/git.png" Height="19" Margin="0,0,2,0"/>
                         </Button>
+                        
 					</ToolBar>
 					
                 </StackPanel>

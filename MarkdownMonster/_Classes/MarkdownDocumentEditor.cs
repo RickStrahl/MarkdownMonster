@@ -569,6 +569,8 @@ namespace MarkdownMonster
                 html = wrapValue(input, "<mark>", "</mark>", stripSpaces: true);
                 cursorMovement = -7;
             }
+            else if (action == "pagebreak")
+                html = "\n<div style='page-break-after: always'></div>\n";
             else if (action == "inlinecode")
             {
                 html = wrapValue(input, "`", "`", stripSpaces: true);
