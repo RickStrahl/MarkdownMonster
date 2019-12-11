@@ -236,7 +236,7 @@ namespace MarkdownMonster.AddIns
         /// You can override this method to capture commands that are not
         /// already handled by the editor.        
         /// </summary>
-        /// <remarks>
+        /// <remarks>   
         /// 
         /// </remarks>
         /// <param name="command">Command Name</param>
@@ -252,9 +252,12 @@ namespace MarkdownMonster.AddIns
         /// like bold/italic that are fired if not handled previously by
         /// the default handlers.
         /// 
-        /// Allows adding custom handlers
+        /// Allows adding custom handlers for additional markdown expansions you'd
+        /// like to fire from custom buttons, or using AdditionalToolbarIcons.
         /// </summary>
-        /// <param name="command"></param>
+        /// <param name="command">Name of the Markup command to handle (ie. something like `bold`, `italic`, `list`)</param>
+        /// <param name="input">Selected text if any</param>
+        /// <returns>Return the expanded or injected text. Return null to leave the input unchanged.</returns>
         public virtual string OnEditorCommand(string command, string input)
         {
             return null;
