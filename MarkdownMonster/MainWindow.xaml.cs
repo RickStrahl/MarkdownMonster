@@ -770,7 +770,11 @@ namespace MarkdownMonster
                 Source = icon, Height = 16, Margin = new Thickness(5, 0, 5, 0), ToolTip = markdownActionCommand
             };
 
-            toolbar.Items.Add(tb);
+            var idx = toolbar.Items.IndexOf(ButtonEmoji);
+            if (idx > -1)
+                toolbar.Items.Insert(idx + 1,tb);
+            else
+                toolbar.Items.Add(tb);
         }
 
         private TabItem OpenRecentDocuments()

@@ -23,7 +23,7 @@
     <link rel="shortcut icon" href="favicon.ico" />
     <link rel="icon" type="image/png" href="favicon.png" />
     <meta content="favicon.png" itemprop="image">
-    
+     
     <style>       
         #ActionButtons {
             width: 100%;
@@ -283,7 +283,7 @@
             <h3 style="clear: both">Better Markdown Editing for Windows</h3>
             <p>
                 Markdown is everywhere these days and it's used for all sorts
-                of different purposes. Wouldn't it be nice if you have an editor that can keep 
+                of different purposes. Wouldn't it be nice if you had an editor that can keep 
                 up with <strong>all</strong> of those scenarios?
             </p>
                 
@@ -291,18 +291,22 @@
                 Markdown Monster is a Markdown editor and viewer that lets you edit Markdown with syntax highlighting
                 and fast text entry. A collapsible, synced, live preview lets you see your output as you type.
                 Easily embed images, links, emojis and code using Markdown text or use our gentle UI
-                helpers that simplify many operations a couple of keystrokes. Paste images from the clipboard or drag and drop from Explorer or our built-in folder browser.
+                helpers that simplify many operations with a couple of keystrokes. Paste images from the clipboard
+                or drag and drop from Explorer or our built-in folder browser.
                 Inline spell-checking and word counts keep your content streamlined unobtrusively.
             </p>
                 
                 
             <p>
-                Export your Markdown to HTML or PDF by saving to disk or by copying Markdown selections as
+                You can export your Markdown to HTML or PDF by saving to disk or by copying Markdown selections as
                 HTML directly to the clipboard. The HTML preview can display syntax colored code snippets 
                 for most common coding languages, and can easily be customized with HTML and CSS template to match 
                 your own sites. You can choose from a light and dark theme, and choose individual editor and  
-                preview themes that are fully customizable. You can even use Vim or EMacs type conventions. Other convenience features let you browse for and 
-                select files in the built-in folder browser, use the document outline to jump through sections in your Markdown, or shell out to Explorer, Terminal or your favorite Git client. It's all about convenience - everything you need at your finger tips.
+                preview themes that are fully customizable. You can even use Vim or EMacs type conventions. 
+                Other convenience features let you browse for and select files in the built-in folder browser,
+                use the document outline to jump through sections in your Markdown, or shell out to Explorer,
+                Terminal or your favorite Git client. It's all about convenience - everything is at your finger 
+                tips, but it's out of your way until you need it.
             </p>
                 
                 <div class="content" style="padding: 0 0 20px">

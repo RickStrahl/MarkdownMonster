@@ -6,7 +6,10 @@
 
 
 ### 1.20.2
-*<small>not released yet</small>* 
+*<small>December 13, 2019</small>* 
+
+* **Add Toolbar DropDown for Additional Editor Operations**  
+The main toolbar now has a new dropdown at the end of the editor operations, that provide additional editor insertion operations that are less common but were not discoverable before. Added operations: `<small>`, `<mark>` and `<u>` (underscore) as well as inserting a Page Break (for PDF generation or printing).
 
 * **Fix: Document Outline not closing when closing last document**  
 Fix Document Outline issue when closing the last document where the Outline stayed active after the document was closed.
