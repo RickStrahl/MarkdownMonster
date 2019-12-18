@@ -1449,7 +1449,8 @@ namespace MarkdownMonster
         }
 
         /// <summary>
-        /// Activates a tab by checking from a filename
+        /// Activates a tab by checking from a filename and activating
+        /// or optionally open the a new tab.
         /// </summary>
         /// <param name="filename"></param>
         /// <returns></returns>

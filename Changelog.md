@@ -4,8 +4,14 @@
 [![Chocolatey](https://img.shields.io/chocolatey/dt/markdownmonster.svg)](https://chocolatey.org/packages/MarkdownMonster)
 [![Web Site](https://img.shields.io/badge/Markdown_Monster-WebSite-blue.svg)](https://markdownmonster.west-wind.com)
 
+### 1.20.6
+*<small>not released yet</small>* 
 
-### 1.20.2
+* **Add *Open Document in new Tab* to Context Menu for Relative Markdown Links**  
+There's a new context menu option that lets you navigate relative Markdown links by opening them in a new (or existing) editor tab.
+
+
+### 1.20.5
 *<small>December 13, 2019</small>* 
 
 * **Add Toolbar DropDown for Additional Editor Operations**  

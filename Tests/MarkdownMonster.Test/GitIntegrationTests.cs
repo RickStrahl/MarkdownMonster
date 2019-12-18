@@ -18,7 +18,7 @@ namespace MarkdownMonster.Test
         [TestMethod]
         public void OpenLocalRepoTest()
         {
-            using (var repo = new LibGit2Sharp.Repository(@"c:\\projects2010\\markdownmonster"))
+            using (var repo = new LibGit2Sharp.Repository(@"c:\\projects\\markdownmonster"))
             {
                 Assert.IsNotNull(repo);
             }
@@ -28,7 +28,7 @@ namespace MarkdownMonster.Test
         [TestMethod]
         public void ListChangesRepoTest()
         {
-            string path =  @"c:\projects2010\markdownmonster\markdownmonster";
+            string path =  @"c:\projects\markdownmonster\markdownmonster";
             var helper = new GitHelper();
             using (var repo = helper.OpenRepository(path))
             {
@@ -45,7 +45,7 @@ namespace MarkdownMonster.Test
         [TestMethod]
         public void GetGitStatusForFileTest()
         {
-            string path = @"c:\projects2010\markdownmonster\markdownmonster";
+            string path = @"c:\projects\markdownmonster\markdownmonster";
 
             var helper = new GitHelper();
             var status = helper.GetGitStatusForFile(Path.Combine(path, "MarkdownMonster.csproj"));
@@ -57,7 +57,7 @@ namespace MarkdownMonster.Test
         public void GetCommittedFileContents()
         {
 
-            string path = @"c:\projects2010\markdownmonster";
+            string path = @"c:\Projects\markdownmonster";
 
             var helper = new GitHelper();
             var fileData = helper.GetComittedFileTextContent(Path.Combine(path, "README.md"));
@@ -67,7 +67,7 @@ namespace MarkdownMonster.Test
         [TestMethod]
         public void GetGitStatusForRepo()
         {
-            string path = @"c:\projects2010\markdownmonster";
+            string path = @"c:\Projects\markdownmonster";
 
             var helper = new GitHelper();
             var statusItems = helper.GetRepositoryChanges(path,null,true);

@@ -315,13 +315,15 @@ namespace MarkdownMonster.Controls.ContextMenus
                     string val = match.Value;
                     if (match.Index <= pos.column && match.Index + val.Length > pos.column)
                     {
+                        var url = StringUtils.ExtractString(val, "](", ")");
+                        var editorSyntax = mmFileUtils.GetEditorSyntaxFromFileType(url);
+
                         MenuItem mi2;
-                        if (val.Contains("(http"))
+                        if (url.Contains("(http"))
                         {
                             mi2 = new MenuItem {Header = "Navigate Hyperlink"};
                             mi2.Click += (o, args) =>
                             {
-                                var url = StringUtils.ExtractString(val,"](",")");
                                 if (!string.IsNullOrEmpty(url))
                                 {
                                     try
@@ -330,10 +332,32 @@ namespace MarkdownMonster.Controls.ContextMenus
                                     }
                                     catch
                                     {
-                                        Model.Window.ShowStatusError("Invalid link: Couldn't navigate to link " + val);
+                                        Model.Window.ShowStatusError("Invalid link: Couldn't navigate to " + url);
                                     }
                                 }
                             }; 
+                            ContextMenu.Items.Add(mi2);
+                        }
+                        else if (!string.IsNullOrEmpty(editorSyntax))
+                        {
+                            mi2 = new MenuItem { Header = "Open Document in new Tab" };
+                            mi2.Click += (o, args) =>
+                            {
+                                if (!string.IsNullOrEmpty(url))
+                                {
+                                    if (!url.Contains(":/"))
+                                        url = Path.Combine(Path.GetDirectoryName(Model.ActiveDocument.Filename), url);
+
+                                    try
+                                    {
+                                        Model.Window.ActivateTab(url,openIfNotFound: true);
+                                    }
+                                    catch
+                                    {
+                                        Model.Window.ShowStatusError("Invalid link: Couldn't open " + url);
+                                    }
+                                }
+                            };
                             ContextMenu.Items.Add(mi2);
                         }
 
