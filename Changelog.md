@@ -8,7 +8,10 @@
 *<small>not released yet</small>* 
 
 * **Add *Open Document in new Tab* to Context Menu for Relative Markdown Links**  
-There's a new context menu option that lets you navigate relative Markdown links by opening them in a new (or existing) editor tab.
+There's a new context menu option that lets you navigate relative Markdown links by opening them in a new (or existing) editor tab. Supported file types are opened in an editor tab, everything else is opened the Windows default viewer. HTTP links are opened in the browser.
+
+* **Clickable Links in Editor**  
+Links are now clickable in the editor by Control Clicking which displays the link in the appropriate editor. Hyperlinks are opened in the browser, supported documents are opened in the editor and any others are opened in the appropriate Windows editors.
 
 
 ### 1.20.5

@@ -150,7 +150,22 @@
                         te.spellcheck.contentModified = true;
 
                     te.updateDocumentStats();
+              });
+
+            if (editorSettings.clickableLinks) {
+              editor.setOptions({
+                enableLinking: true
+              });
+
+              editor.on("linkClick",
+                function(data) {
+                  if (te.mm) {
+                    if (data && data.token && (data.token.type == "link" || data.token.type == "markup.underline"))
+                      te.mm.textbox.PreviewLinkNavigation(data.token.value, data.token.value);
+                  }
+
                 });
+            }
 
             // Notify WPF of focus change
             editor.on("blur", te.onBlur);

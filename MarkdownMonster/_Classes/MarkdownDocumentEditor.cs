@@ -1942,6 +1942,11 @@ namespace MarkdownMonster
             }
         }
 
+        //public void MarkdownEditorLinkClicked(string linkUrl)
+        //{
+        //    PreviewLinkNavigation(linkUrl,linkUrl);
+        //}
+
         /// <summary>
         /// Return keyboard bindings object as a JSON string so we can bind inside
         /// of the editor JavaScript
@@ -1965,12 +1970,16 @@ namespace MarkdownMonster
 /// http links are navigated with Shell browsers if PreviewExternal is enabled
 /// Addins can intercept and if return true handle navigation completely.
 /// </summary>
-/// <param name="url"></param>
+/// <param name="url">URL value</param>
+/// <param name="src">Full URL captured by browser and translated. Can be null.</param>
 /// <returns>true if the navigation is handled, false to continue letting app handle navigation</returns>
-public bool PreviewLinkNavigation(string url, string src)
+public bool PreviewLinkNavigation(string url, string src = null)
 {
     if (string.IsNullOrEmpty(url))
         return false;
+
+    if (string.IsNullOrEmpty(src))
+        src = url;
 
     if (AddinManager.Current.RaiseOnPreviewLinkNavigation(url, src))
         return true;
@@ -2001,11 +2010,8 @@ public bool PreviewLinkNavigation(string url, string src)
         }
 
         if (!File.Exists(urlPath))
-        {
             // relative path
-            var docPath = Path.GetDirectoryName(MarkdownDocument.Filename);
-            urlPath = Path.Combine(docPath, urlPath);
-        }
+            urlPath = Path.Combine(Path.GetDirectoryName(MarkdownDocument.Filename), urlPath);
 
         // full or relative path
         if (File.Exists(urlPath))
@@ -2024,6 +2030,10 @@ public bool PreviewLinkNavigation(string url, string src)
     }
     else
     {
+        if (!File.Exists(urlPath))
+            // relative path
+            urlPath = Path.Combine(Path.GetDirectoryName(MarkdownDocument.Filename), urlPath);
+
         Window.OpenFile(urlPath);
         return true;
     }

@@ -10,6 +10,7 @@ var editorSettings = {
   "maxWidth": 0,
   "highlightActiveLine": true,
   "wrapText": true,
+  "clickableLinks": true,
   "showLineNumbers": false,
   "showInvisibles": false,
   "showPrintMargin": false,

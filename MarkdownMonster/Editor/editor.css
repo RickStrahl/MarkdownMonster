@@ -27,7 +27,14 @@
     font-style: italic;
 }
 
-/* Search/Replace Box */
+span.ace_markup.ace_underline {
+  display: inline-block; /* makes it work in IE11 (preview) */
+  pointer-events: all;
+}
+span.ace_markup.ace_underline:hover {
+  color: steelblue;
+}
+
 .ace_button {
     color:#eee !important;    
 }
@@ -64,3 +71,4 @@
 body .ace_scrollbar-h {
   overflow-x: auto;
 }
+

@@ -231,6 +231,11 @@ namespace MarkdownMonster.Configuration
         public int WrapMargin { get; set; }
 
         /// <summary>
+        /// Determines if links embedded in the text are clickable via Ctrl-Click
+        /// </summary>
+        public bool ClickableLinks { get; set; } = true;
+
+        /// <summary>
         /// Determines whether a print margin is displayed
         /// </summary>
         public bool ShowPrintMargin { get; set; }
@@ -289,6 +294,9 @@ namespace MarkdownMonster.Configuration
         /// in milliseconds. Set to 0 to not clear.
         /// </summary>
         public int PreviewHighlightTimeout { get; set; }
+
+        
+
         #endregion
 
 

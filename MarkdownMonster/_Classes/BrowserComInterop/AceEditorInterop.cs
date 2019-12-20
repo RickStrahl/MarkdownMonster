@@ -357,6 +357,7 @@ namespace MarkdownMonster
                 config.Editor.TabSize,
                 config.Editor.UseSoftTabs,
                 config.Editor.RightToLeft,
+                config.Editor.ClickableLinks,
                 LinefeedMode = (config.Editor.LinefeedMode == Configuration.LinefeedModes.CrLf ? "windows" : "unix")
             };
 
