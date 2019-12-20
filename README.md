@@ -64,8 +64,6 @@ Markdown Monster's integrated Git features also work great for  any Git based se
 * **[Support Forum for Questions & Discussions](http://support.west-wind.com?forum=Markdown+Monster)**
 * **[License](#license)**
 
-
-
 * **[Video: Getting Started with Markdown Monster ](https://www.youtube.com/watch?v=XjFf57Ap9VE)** (old) 
 * **[Follow @MarkdownMonstr on Twitter](https://twitter.com/markdownmonstr)**
 
@@ -289,7 +287,7 @@ Lets you save images as Azure Blob storage items and embeds a link to the an upl
 * [Gist](https://github.com/RickStrahl/PasteCodeAsGist-MarkdownMonster-Addin)  
 This addin allows you to **Open from Gist** and **Save as Gist** as well as letting you create code snippets and embed them as Gists into your Markdown content.
 
-* [Pandoc Markdown Parser](https://github.com/RickStrahl/PasteCodeAsGist-MarkdownMonster-Addin)  
+* [Pandoc Markdown Parser](https://github.com/RickStrahl/Pandoc-MarkdownMonster-Addin)  
 This addin provides a PanDoc Markdown processor that can be used instead of the default MarkDig parser. This addin also provides a host of document conversion options to convert your Markdown to PDF, DOC, EPub and a few other formats using an interactive dialog.
 
 ### .NET Based Extensibility
