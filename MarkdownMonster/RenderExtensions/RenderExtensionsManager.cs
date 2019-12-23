@@ -9,7 +9,7 @@ namespace MarkdownMonster.RenderExtensions
     /// </summary>
     public class RenderExtensionsManager
     {
-
+        
         /// <summary>
         /// Global application instance of the Extensions Manager
         /// </summary>
@@ -97,10 +97,13 @@ namespace MarkdownMonster.RenderExtensions
 
         public void LoadDefaultExtensions()
         {
-            Current.RenderExtensions.Add(new MermaidRenderExtension());
-            Current.RenderExtensions.Add(new MathRenderExtension());
+            if(mmApp.Configuration.MarkdownOptions.MermaidDiagrams)
+                Current.RenderExtensions.Add(new MermaidRenderExtension());
 
-            if (mmApp.Model.Configuration.MarkdownOptions.ParseDocFx)
+            if (mmApp.Configuration.MarkdownOptions.UseMathematics)
+                Current.RenderExtensions.Add(new MathRenderExtension());
+
+            if (mmApp.Configuration.MarkdownOptions.ParseDocFx)
                 Current.RenderExtensions.Add(new DocFxRenderExtension());
         }
 

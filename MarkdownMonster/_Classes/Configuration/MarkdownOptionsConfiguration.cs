@@ -91,6 +91,13 @@ namespace MarkdownMonster
         /// </summary>
         public bool UseMathematics { get; set; } = true;
 
+
+        /// <summary>
+        /// Allows for Mermaid to be rendered via external graphics library and embedded script
+        /// https://github.com/lunet-io/markdig/blob/master/src/Markdig.Tests/Specs/DiagramsSpecs.md
+        /// </summary>
+        public bool MermaidDiagrams { get; set; } = false;
+
         /// <summary>
         /// Use Abbreviations which are linked to definitions
         /// </summary>
@@ -244,6 +251,7 @@ namespace MarkdownMonster
         /// representations.
         /// </summary>
         public MarkdownSymbolsConfiguration MarkdownSymbolsConfiguration { get; set; } = new MarkdownSymbolsConfiguration();
+
 
         #endregion
 
