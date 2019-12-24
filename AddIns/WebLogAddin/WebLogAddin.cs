@@ -481,6 +481,7 @@ namespace WeblogAddin
             var outputFile = Path.Combine(folder, StringUtils.ToCamelCase(filename) + ".md");
 
 
+
             bool isMarkdown = false;
             string body = post.Body;
             string featuredImage = null;
@@ -537,7 +538,23 @@ namespace WeblogAddin
             };
 
             string newPostMarkdown = NewWeblogPost(meta);
-            File.WriteAllText(outputFile, newPostMarkdown);
+
+            try
+            {
+                File.WriteAllText(outputFile, newPostMarkdown);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($@"Couldn't write new file at:
+{outputFile}
+
+{ex.Message}
+",
+                    "Weblog Entry File not created",
+                    MessageBoxButton.OK,
+                    MessageBoxImage.Warning);
+                return;
+            }
 
             mmApp.Configuration.LastFolder = Path.GetDirectoryName(outputFile);
 

@@ -216,7 +216,6 @@ namespace WebLogAddin.MetaWebLogApi
         private string SendImages(string html, string basePath,
                                   MetaWeblogWrapper wrapper)
         {
-
             // base folder name for uploads - just the folder name of the image
             var baseName = Path.GetFileName(basePath);
             baseName = FileUtils.SafeFilename(baseName).Replace(" ", "-");
@@ -272,6 +271,10 @@ namespace WebLogAddin.MetaWebLogApi
                                             .Replace($"]({origImageLink})", $"]({mediaResult.URL})")
                                             .Replace($"=\"{origImageLink}\"", $"=\"{mediaResult.URL}\"");
                                 }
+                            }
+                            else
+                            {
+
                             }
                         }
 						WindowUtilities.DoEvents();

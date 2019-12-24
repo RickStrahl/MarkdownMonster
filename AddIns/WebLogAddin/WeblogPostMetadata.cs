@@ -4,11 +4,8 @@ using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Text;
-using System.Text.RegularExpressions;
 using System.Xml;
 using MarkdownMonster;
-using Newtonsoft.Json;
 using WebLogAddin.MetaWebLogApi;
 using Westwind.Utilities;
 using YamlDotNet.Serialization;
@@ -257,7 +254,7 @@ namespace WeblogAddin
             meta.RawMarkdownBody = markdown;
 
 
-            post.Title = meta.Title;
+            post.Title = meta.Title?.Trim();
             if (!string.IsNullOrEmpty(meta.Categories))
             {
                 post.Categories = meta.Categories.Split(new[] {','}, StringSplitOptions.RemoveEmptyEntries);
@@ -446,7 +443,7 @@ namespace WeblogAddin
                 catch { }
             }
 
-            post.Title = meta.Title;
+            post.Title = meta.Title?.Trim();
             post.Categories = meta.Categories.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
             post.Tags = meta.Keywords.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
 
