@@ -114,8 +114,8 @@ function highlightJsBadge(opt) {
             addCodeBadge();
     }
 
-    function addCodeBadge() {
-        // first make sure the template exists - if not we embed it
+  function addCodeBadge() {
+      // first make sure the template exists - if not we embed it
         if (!document.querySelector(options.templateSelector)) {
             var node = document.createElement("div");
             node.innerHTML = getTemplate();            
@@ -178,7 +178,7 @@ function highlightJsBadge(opt) {
             var $newHud = document.createElement("div");
             $newHud.innerHTML = html;
             $newHud = $newHud.querySelector(".code-badge");
-            $newHud.style.display = "flex";
+            //$newHud.style.display = "flex";
 
             if(options.copyIconContent)
               $newHud.querySelector(".code-badge-copy-icon").innerText = options.copyIconContent;
@@ -252,9 +252,12 @@ function highlightJsBadge(opt) {
     }
 
     function getTemplate() {
-        var stringArray =
-        [
-            "<style>",
+      var stringArray =
+      [
+        "<style>",
+            "@media print {",
+            "   .code-badge { display: none !important; }",
+            "}",  
             "    pre>code.hljs {",
             "        position: relative;",
             "    }",

@@ -13,6 +13,9 @@ There's a new context menu option that lets you navigate relative Markdown links
 * **Clickable Links in Editor**  
 Links are now clickable in the editor by Control Clicking which displays the link in the appropriate editor. Hyperlinks are opened in the browser, supported documents are opened in the editor and any others are opened in the appropriate Windows editors.
 
+* **Remove Code Copy Badges in PDF/Print Views**  
+The code badges were overlaying the print content and since there's no transparency and you can easily scroll code, the badges are superfluous and would obscure content below it. Removed for PDF and Print output.
+
 
 ### 1.20.5
 *<small>December 13, 2019</small>* 

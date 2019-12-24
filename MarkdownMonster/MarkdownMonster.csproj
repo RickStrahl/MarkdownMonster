@@ -7,7 +7,7 @@
     <UseWPF>true</UseWPF>
     <TargetFramework>net472</TargetFramework>
 
-    <Version>1.20.5</Version>
+    <Version>1.20.6.8</Version>
     <AssemblyName>MarkdownMonster</AssemblyName>
     
     <Authors>Rick Strahl, West Wind Technologies</Authors>
@@ -25,7 +25,7 @@
     <Prefer32Bit>true</Prefer32Bit>
     <Description>Markdown Monster is an easy to use Markdown Editor and Weblog Publisher for Windows. It's highly optimized for content creation tasks, image embedding and provides many useful features to improve document editing and output workflow.</Description>
     <Company>West Wind Technologies</Company>
-    <Copyright>West Wind Technologies, 2016-2019</Copyright>
+    <Copyright>West Wind Technologies, 2016-2020</Copyright>
   </PropertyGroup>
 
   <PropertyGroup Condition=" '$(TargetFramework)' == 'netcoreapp3.0' ">
@@ -46,17 +46,17 @@
   <ItemGroup>
     <PackageReference Include="Dragablz" Version="0.0.3.203" />
     <PackageReference Include="FontAwesome.WPF" Version="4.7.0.9" />
-    <PackageReference Include="HtmlAgilityPack" Version="1.11.16" />
-    <PackageReference Include="LibGit2Sharp" Version="0.26.1" />
+    <PackageReference Include="HtmlAgilityPack" Version="1.11.17" />
+    <PackageReference Include="LibGit2Sharp" Version="0.26.2" />
     <PackageReference Include="LumenWorksCsvReader" Version="4.0.0" />
     <PackageReference Include="MahApps.Metro" Version="1.6.5" />
     <PackageReference Include="Markdig" Version="0.18.0" />
-    <PackageReference Include="Microsoft.ApplicationInsights" Version="2.11.0" />
+    <PackageReference Include="Microsoft.ApplicationInsights" Version="2.12.0" />
     <PackageReference Include="NHunspell" Version="1.2.5554.16953" />
-    <PackageReference Include="Westwind.Utilities" Version="3.0.30" />
+    <PackageReference Include="Westwind.Utilities" Version="3.0.32" />
     <PackageReference Include="ReverseMarkdown" Version="3.9.0" />
     <PackageReference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform" Version="2.0.1" />
-    <PackageReference Include="Mono.Cecil" Version="0.11.0" />
+    <PackageReference Include="Mono.Cecil" Version="0.11.1" />
   </ItemGroup>
   <ItemGroup>
     
