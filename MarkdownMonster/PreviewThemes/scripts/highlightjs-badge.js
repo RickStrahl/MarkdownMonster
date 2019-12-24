@@ -177,8 +177,7 @@ function highlightJsBadge(opt) {
             // insert the Hud panel
             var $newHud = document.createElement("div");
             $newHud.innerHTML = html;
-            $newHud = $newHud.querySelector(".code-badge");
-            //$newHud.style.display = "flex";
+            $newHud = $newHud.querySelector(".code-badge");          
 
             if(options.copyIconContent)
               $newHud.querySelector(".code-badge-copy-icon").innerText = options.copyIconContent;
@@ -256,7 +255,7 @@ function highlightJsBadge(opt) {
       [
         "<style>",
             "@media print {",
-            "   .code-badge { display: none !important; }",
+            "   .code-badge { display: none; }",
             "}",  
             "    pre>code.hljs {",
             "        position: relative;",
