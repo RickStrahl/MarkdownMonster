@@ -7,6 +7,8 @@ highlightJs Badge
 A copy code and language display badge
 for the highlightJs Syntax highlighter.
 
+v0.1.2
+
 by Rick Strahl, 2019
 License: MIT
 
@@ -114,7 +116,7 @@ function highlightJsBadge(opt) {
             addCodeBadge();
     }
 
-  function addCodeBadge() {
+  function addCodeBadge() {      
       // first make sure the template exists - if not we embed it
         if (!document.querySelector(options.templateSelector)) {
             var node = document.createElement("div");
@@ -133,7 +135,8 @@ function highlightJsBadge(opt) {
             var el = $codes[index];
             if (el.querySelector(".code-badge"))
                 continue; // already exists
-
+           
+            
             var lang = "";
 
             for (var i = 0; i < el.classList.length; i++) {
@@ -177,7 +180,12 @@ function highlightJsBadge(opt) {
             // insert the Hud panel
             var $newHud = document.createElement("div");
             $newHud.innerHTML = html;
-            $newHud = $newHud.querySelector(".code-badge");          
+            $newHud = $newHud.querySelector(".code-badge");        
+
+            // make <pre> tag position:relative so positioning keeps pinned right
+            // even with scroll bar scrolled
+            var $pre = el.parentElement;
+            $pre.style.position = "relative";
 
             if(options.copyIconContent)
               $newHud.querySelector(".code-badge-copy-icon").innerText = options.copyIconContent;
@@ -199,6 +207,8 @@ function highlightJsBadge(opt) {
             });
     }
 
+
+
     function copyCodeToClipboard(e) {
            
         var $origCode = e.srcElement.parentElement.parentElement.parentElement;
@@ -207,8 +217,8 @@ function highlightJsBadge(opt) {
         var $code = $origCode.cloneNode(true);
         var $elHud = $code.querySelector(".code-badge");
         $elHud.innerHTML = ""; // create text
-
-        var text = $code.innerText;
+        
+        var text = $code.textContent || $code.innerText;
         var el = document.createElement('textarea');
 
         el.value = text.trim();
@@ -256,11 +266,7 @@ function highlightJsBadge(opt) {
         "<style>",
             "@media print {",
             "   .code-badge { display: none; }",
-            "}",  
-            "    pre>code.hljs {",
-            "        position: relative;",
-            "    }",
-            "    .fa.text-success:{ color: limegreen !important}",
+            "}",          
             "    .code-badge {",
             "        display: flex;",
             "        flex-direction: row;",
@@ -306,6 +312,7 @@ function highlightJsBadge(opt) {
             "        padding: 0 7px;",
             "        margin-top:2;",
             "    }",
+            "    .fa.text-success:{ color: limegreen !important }",
             "</style>",
             "<div id=\"CodeBadgeTemplate\" style=\"display:none\">",
             "    <div class=\"code-badge\">",
@@ -341,6 +348,9 @@ if (highlightJsBadgeAutoLoad)
 
 /*
 <style>
+    "@media print {
+        .code-badge { display: none; }
+    }
     pre>code.hljs {
         position: relative;
     }

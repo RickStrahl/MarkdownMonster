@@ -4,7 +4,7 @@
 [![Chocolatey](https://img.shields.io/chocolatey/dt/markdownmonster.svg)](https://chocolatey.org/packages/MarkdownMonster)
 [![Web Site](https://img.shields.io/badge/Markdown_Monster-WebSite-blue.svg)](https://markdownmonster.west-wind.com)
 
-### 1.20.6
+### 1.20.8
 *<small>not released yet</small>* 
 
 * **Add *Open Document in new Tab* to Context Menu for Relative Markdown Links**  
@@ -16,6 +16,11 @@ Links are now clickable in the editor by Control Clicking which displays the lin
 * **Remove Code Copy Badges in PDF/Print Views**  
 The code badges were overlaying the print content and since there's no transparency and you can easily scroll code, the badges are superfluous and would obscure content below it. Removed for PDF and Print output.
 
+* **Code Badge Copy Code Linefeeds in Previewer**  
+Previously the Code Badge copying would not properly handle line feeds in code snippets. It worked fine for external preview, but for the IE preview the line breaks were lost. Fixed.
+
+* **Code Badge Scolling Fix**  
+Fix issue with the code badge positioning when the code block is scrolled. Previously the code badge failed to stay pinned to the right in the scrolled content. This fix keeps it always pinned to the right of the code block.
 
 ### 1.20.5
 *<small>December 13, 2019</small>* 
