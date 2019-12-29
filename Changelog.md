@@ -1,10 +1,10 @@
-# Markdown Monster Change Log 
+﻿# Markdown Monster Change Log 
  
 [![download](https://img.shields.io/badge/Download-Installer-blue.svg)](https://markdownmonster.west-wind.com/download.aspx)
 [![Chocolatey](https://img.shields.io/chocolatey/dt/markdownmonster.svg)](https://chocolatey.org/packages/MarkdownMonster)
 [![Web Site](https://img.shields.io/badge/Markdown_Monster-WebSite-blue.svg)](https://markdownmonster.west-wind.com)
 
-### 1.20.8
+### 1.20.7
 *<small>not released yet</small>* 
 
 * **Add *Open Document in new Tab* to Context Menu for Relative Markdown Links**  
@@ -21,6 +21,9 @@ Previously the Code Badge copying would not properly handle line feeds in code s
 
 * **Code Badge Scolling Fix**  
 Fix issue with the code badge positioning when the code block is scrolled. Previously the code badge failed to stay pinned to the right in the scrolled content. This fix keeps it always pinned to the right of the code block.
+
+* **Fix: Two Code Sync Editor Jumping**  
+Resolved another issue in two-way sync preview mode that was causing the editor to jump when editing or pasting into large blocks of text or code at the top or bottom of the editor. Finally found a solution to separating actual scroll events from explicitly navigated scroll events and refresh operations.
 
 ### 1.20.5
 *<small>December 13, 2019</small>* 

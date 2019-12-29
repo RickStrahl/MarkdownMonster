@@ -230,8 +230,11 @@
                 // or preview. Mouseup will scroll to position at end
                 // of selection
                 var sel = te.getselection();
-                if (sel && sel.length > 0)
-                    return;
+
+                if (sel && sel.length > 0) {
+                  return;
+                }
+                  
 
                 setTimeout(function () {
                     var firstRow = te.editor.renderer.getFirstVisibleRow();
@@ -247,7 +250,8 @@
                         sc.contentModified = true;  // force spell check to run
                 },
                     10);
-            }, 50);
+            }, 80);
+
             editor.session.on("changeScrollTop", changeScrollTop);
 
             return editor;
@@ -1008,7 +1012,8 @@
         if (textEditor)
             textEditor.lastError = msg;
 
-        console.log(msg, filename, lineno, colno, error);
+        if (console)
+          console.log(msg, filename, lineno, colno, error);
 
         // don't let errors trigger browser window
         return true;
