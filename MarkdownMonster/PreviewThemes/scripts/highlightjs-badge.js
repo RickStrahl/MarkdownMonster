@@ -7,9 +7,7 @@ highlightJs Badge
 A copy code and language display badge
 for the highlightJs Syntax highlighter.
 
-v0.1.2
-
-by Rick Strahl, 2019
+by Rick Strahl, 2019-2020
 License: MIT
 
 Make sure this script is loaded last in your
@@ -17,24 +15,46 @@ script loading.
 
 Usage:
 ------
-Load `highlightjs-badge` after `highlight.js`:
+Load `highlightjs-badge.js` after `highlight.js`:
 
 ```js
-<link href="vs2015.css" rel="stylesheet">
-<script src="highlight.pack.js"></script>
+<link href="highlightjs/styles/vs2015.css" rel="stylesheet">
+<script src="highlighjs/highlight.pack.js"></script>
 
-<script src="highlightjs-badge.js" async></script>  
+<script src="highlightjs-badge.js"></script>  
+<script>
+    setTimeout(function () {
+        var pres = document.querySelectorAll("pre>code");
+        for (var i = 0; i < pres.length; i++) {
+            hljs.highlightBlock(pres[i]);
+        }
+        var options = {
+            contentSelector: "#ArticleBody",
+            // Delay in ms used for `setTimeout` before badging is applied
+            // Use if you need to time highlighting and badge application
+            // since the badges need to be applied afterwards.
+            // 0 - direct execution (ie. you handle timing
+            loadDelay:0,
+
+            // CSS class(es) used to render the copy icon.
+            copyIconClass: "fa fa-copy",
+            // CSS class(es) used to render the done icon.
+            checkIconClass: "fa fa-check text-success"
+        };
+        window.highlightJsBadge(options);
+    },10);
+</script>
 ```
 
 The script contains the template and CSS so nothing
-else is needed to execute it.
+else is needed to run it.
 
 Customization:
 --------------
 This code automatically embeds styling and the template.
 
 If you want to customize you can either create a template
-in your HTML using the code at the end of this file.
+in your HTML **using the code at the end of this file**.
 
 Alternately you can customize the `getTemplate()` function
 that renders the code from a string and keep it self contained
@@ -117,7 +137,7 @@ function highlightJsBadge(opt) {
     }
 
   function addCodeBadge() {      
-      // first make sure the template exists - if not we embed it
+        // first make sure the template exists - if not we embed it
         if (!document.querySelector(options.templateSelector)) {
             var node = document.createElement("div");
             node.innerHTML = getTemplate();            
@@ -126,17 +146,15 @@ function highlightJsBadge(opt) {
             document.body.appendChild(style);
             document.body.appendChild(template);
         }
-
-        var $codes = document.querySelectorAll("pre>code.hljs");
-
+      
         var hudText = document.querySelector(options.templateSelector).innerHTML;
 
+        var $codes = document.querySelectorAll("pre>code.hljs");        
         for (var index = 0; index < $codes.length; index++) {
             var el = $codes[index];
             if (el.querySelector(".code-badge"))
                 continue; // already exists
-           
-            
+                       
             var lang = "";
 
             for (var i = 0; i < el.classList.length; i++) {
@@ -161,6 +179,7 @@ function highlightJsBadge(opt) {
             else
                 lang = "text";
 
+            // Language Name overrides so it displays nicer
             if (lang == "ps")
                 lang = "powershell";
             else if (lang == "cs")
@@ -184,17 +203,18 @@ function highlightJsBadge(opt) {
 
             // make <pre> tag position:relative so positioning keeps pinned right
             // even with scroll bar scrolled
-            var $pre = el.parentElement;
-            $pre.style.position = "relative";
+            var pre = el.parentElement;            
+            pre.classList.add("code-badge-pre")
 
             if(options.copyIconContent)
               $newHud.querySelector(".code-badge-copy-icon").innerText = options.copyIconContent;
 
-            el.insertBefore($newHud, el.firstChild);
+            pre.insertBefore($newHud, el);
         }
 
         var $content = document.querySelector(options.contentSelector);
 
+        // single copy click handler
         $content.addEventListener("click",
             function (e) {                               
                 var $clicked = e.srcElement;
@@ -208,15 +228,12 @@ function highlightJsBadge(opt) {
     }
 
 
-
     function copyCodeToClipboard(e) {
-           
+        // walk back up to <pre> tag
         var $origCode = e.srcElement.parentElement.parentElement.parentElement;
 
-        // we have to clear out the .code-badge - clone and remove
-        var $code = $origCode.cloneNode(true);
-        var $elHud = $code.querySelector(".code-badge");
-        $elHud.innerHTML = ""; // create text
+        // select the <code> tag
+        var $code = $origCode.querySelector("pre>code").cloneNode(true);
         
         var text = $code.textContent || $code.innerText;
         var el = document.createElement('textarea');
@@ -267,6 +284,9 @@ function highlightJsBadge(opt) {
             "@media print {",
             "   .code-badge { display: none; }",
             "}",          
+            "    .code-badge-pre {",
+            "        position: relative;",
+            "    }",
             "    .code-badge {",
             "        display: flex;",
             "        flex-direction: row;",
@@ -282,12 +302,7 @@ function highlightJsBadge(opt) {
             "        position: absolute;",
             "        right: 0;",
             "        top: 0;",
-            "    }",
-            "",
-            "    .code-badge.semi-active {",
-            "        opacity: .50",
-            "    }",
-            "",
+            "    }",            
             "    .code-badge.active {",
             "        opacity: 0.8;",
             "    }",
@@ -345,17 +360,17 @@ if (highlightJsBadgeAutoLoad)
 }));
 
 
+// You can embed the following into your HTML document
+// to provide your own custom styling.
 
 /*
 <style>
     "@media print {
         .code-badge { display: none; }
     }
-    pre>code.hljs {
-        position: relative;
+    .code-badge-pre {
+        position: relative; 
     }
-    .fa.text-success:{ color: limegreen !important}
-
     .code-badge {
         display: flex;
         flex-direction: row;
@@ -371,19 +386,12 @@ if (highlightJsBadgeAutoLoad)
         right: 0;
         top: 0;
     }
-
-    .code-badge.semi-active {
-        opacity: .50
-    }
-
     .code-badge.active {
         opacity: 0.8;
     }
-
     .code-badge:hover {
         opacity: .95;
     }
-
     .code-badge a,
     .code-badge a:hover {
         text-decoration: none;
@@ -400,6 +408,7 @@ if (highlightJsBadgeAutoLoad)
         padding: 0 7px;
         margin-top:2;
     }
+    .fa.text-success:{ color: limegreen !important}    
 </style>
 <div id="CodeBadgeTemplate" style="display:none">
     <div class="code-badge">
