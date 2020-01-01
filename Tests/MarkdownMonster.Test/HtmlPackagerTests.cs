@@ -22,7 +22,7 @@ namespace MarkdownMonster.Test
 
         public HtmlPackagerTests()
         {
-            InputFile = Path.Combine(Path.GetTempPath(), "_MarkdownMonster_Preview.html");
+            InputFile = Path.Combine(Path.GetTempPath(), MarkdownDocument.PREVIEW_HTML_FILENAME);
         }
 
         [TestMethod]

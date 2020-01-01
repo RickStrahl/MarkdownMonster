@@ -98,7 +98,7 @@ namespace MarkdownMonster.Utilities
                 }
                 catch { }
 
-                if(document.ToString() != "_MarkdownMonster_Preview.html" )
+                if(document.ToString() != MarkdownDocument.PREVIEW_HTML_FILENAME)
                     mmApp.Model.Window.PreviewBrowser?.PreviewMarkdown(editor, keepScrollPosition: true);
 
                 //Debug.WriteLine("FileWatcher Updating DONE: " + e.FullPath);

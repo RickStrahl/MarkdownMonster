@@ -159,7 +159,7 @@ namespace MarkdownMonster
             var tempPath = Path.GetTempPath();
 
             // Cleanup temp files
-            File.Delete(Path.Combine(tempPath, "_MarkdownMonster_Preview.html"));
+            File.Delete(Path.Combine(tempPath, MarkdownDocument.PREVIEW_HTML_FILENAME));
             FileUtils.DeleteTimedoutFiles(Path.Combine(tempPath, "mm_diff_*.*"), 1);
         }
         #endregion

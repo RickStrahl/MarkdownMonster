@@ -61,6 +61,9 @@ namespace MarkdownMonster
     {
         private const string ENCRYPTION_PREFIX = "__ENCRYPTED__";
 
+        public const string PREVIEW_HTML_FILENAME = "_MarkdownMonster_Preview.html";
+        public const string PREVIEW_HTML_SOURCE_FILENAME = "_MarkdownMonster_Source_Preview.html";
+
         /// <summary>
         /// Name of the Markdown file. If this is a new file the file is
         /// named 'untitled'
@@ -379,7 +382,7 @@ namespace MarkdownMonster
                 string file = null;
 
                 path = Path.GetTempPath();
-                file = "_MarkdownMonster_Preview.html";
+                file = MarkdownDocument.PREVIEW_HTML_FILENAME;
 
                 _htmlRenderFilename = Path.Combine(path, file);
             }
