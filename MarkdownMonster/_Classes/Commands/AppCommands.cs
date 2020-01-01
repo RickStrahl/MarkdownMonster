@@ -2291,8 +2291,9 @@ We're now shutting down the application.
             ViewHtmlSourceCommand = new CommandBase((p, e) =>
             {
                 if (Model.ActiveDocument == null) return;
-                Model.ActiveDocument.RenderHtmlToFile();
-                Model.Window.OpenTab(Model.ActiveDocument.HtmlRenderFilename);
+                var filename = Model.ActiveDocument.HtmlRenderFilename.Replace("_MarkdownMonster_Preview.html","_MarkdownMonster_Preview_Source.html");
+                Model.ActiveDocument.RenderHtmlToFile(filename: filename);
+                Model.Window.RefreshTabFromFile(filename);
             });
         }
 

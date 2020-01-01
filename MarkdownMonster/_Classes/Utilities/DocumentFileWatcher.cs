@@ -98,7 +98,8 @@ namespace MarkdownMonster.Utilities
                 }
                 catch { }
 
-                mmApp.Model.Window.PreviewBrowser?.PreviewMarkdown(editor, keepScrollPosition: true);
+                if(document.ToString() != "_MarkdownMonster_Preview.html" )
+                    mmApp.Model.Window.PreviewBrowser?.PreviewMarkdown(editor, keepScrollPosition: true);
 
                 //Debug.WriteLine("FileWatcher Updating DONE: " + e.FullPath);
 
