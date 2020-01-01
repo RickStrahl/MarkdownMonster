@@ -248,8 +248,7 @@
 
                     if (sc)
                         sc.contentModified = true;  // force spell check to run
-                },
-                    10);
+                }, 10);
             }, 80);
 
             editor.session.on("changeScrollTop", changeScrollTop);

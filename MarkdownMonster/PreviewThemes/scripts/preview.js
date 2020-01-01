@@ -105,7 +105,7 @@ var scroll = debounce(function (event) {
     // re-navigate
     var t = new Date().getTime();
   
-    if (te.codeScrolled > t - 270) 
+    if (te.codeScrolled > t - 120) 
       return;
     
     var st = window.document.documentElement.scrollTop;
@@ -206,11 +206,6 @@ function highlightCode(lineno) {
         }
 
         hljs.highlightBlock(block);
-
-        // This is better for perf but makes the preview jumpy
-        //setTimeout(function(bl) {
-        //    hljs.highlightBlock(bl);
-        //}.bind(this, block));
     }
 
     // add the code snippet syntax and code copying
@@ -288,29 +283,35 @@ function scrollToPragmaLine(lineno, headerId) {
   setTimeout(function() {
     te.codeScrolled = new Date().getTime();
 
+    if (lineno < 2) {
+      $("html").scrollTop(0);
+      return;
+    }
+
     var $el;
     if (headerId != null)
       $el = $("#" + headerId);
     if ($el.length < 1)
       $el = $("#pragma-line-" + lineno);
 
+    var lines = 10;
     if ($el.length < 1) {
       var origLine = lineno;
 
-      for (var i = 0; i < 3; i++) {
+      // try forwards with x lines
+      for (var i = 0; i < lines; i++) {
         lineno--;
         $el = $("#pragma-line-" + lineno);
         if ($el.length > 0)
           break;
       }
 
-
-      // try backwards with 3 lines
+      // try backwards with x lines
       if ($el.length < 1) {
         lineno = origLine;
 
         // try forward with 3 lines
-        for (var i = 0; i < 3; i++) {
+        for (var i = 0; i < lines; i++) {
           lineno++;
           $el = $("#pragma-line-" + lineno);
           if ($el.length > 0)
@@ -319,7 +320,6 @@ function scrollToPragmaLine(lineno, headerId) {
       }
       if ($el.length < 1)
         return;
-
     }
 
     $el.addClass("line-highlight");

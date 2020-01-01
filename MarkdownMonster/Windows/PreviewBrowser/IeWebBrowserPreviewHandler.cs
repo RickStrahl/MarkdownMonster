@@ -86,9 +86,6 @@ namespace MarkdownMonster.Windows.PreviewBrowser
                 editor = Window.GetActiveMarkdownEditor();
                 interop = new PreviewBrowserInterop(PreviewBrowserInterop.GetWindow(WebBrowser));
 
-                //ReflectionUtils.
-                //dom.documentElement.scrollTop = editor.MarkdownDocument.LastEditorLineNumber;
-
                 interop.InitializeInterop(editor);
                 interop.SetHighlightTimeout(Model.Configuration.Editor.PreviewHighlightTimeout);
 
