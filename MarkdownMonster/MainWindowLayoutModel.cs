@@ -42,7 +42,32 @@ namespace MarkdownMonster.Windows {
         }
         private bool _isEditorOpen;
 
-        
+
+        public bool IsConsolePanelVisible
+        {
+            get { return _isConsolePanelVisible; }
+            set
+            {
+                if (value == _isConsolePanelVisible) return;
+                _isConsolePanelVisible = value;
+                OnPropertyChanged(nameof(IsConsolePanelVisible));
+            }
+        }
+        private bool _isConsolePanelVisible;
+
+
+        public string ConsoleText
+        {
+            get { return _ConsoleText; }
+            set
+            {
+                if (value == _ConsoleText) return;
+                _ConsoleText = value;
+                OnPropertyChanged(nameof(ConsoleText));
+            }
+        }
+        private string _ConsoleText;
+
 
         public GridLength EditorWidth
         {

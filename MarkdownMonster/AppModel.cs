@@ -33,6 +33,7 @@ using System.Windows.Threading;
 using FontAwesome.WPF;
 using MarkdownMonster.AddIns;
 using MarkdownMonster.Annotations;
+using MarkdownMonster.Controls;
 using MarkdownMonster.Utilities;
 using MarkdownMonster.Windows;
 using Westwind.Utilities;
@@ -71,7 +72,7 @@ namespace MarkdownMonster
         /// </summary>
         public MainWindowLayoutModel WindowLayout { get; internal set; }
 
-
+        public ConsolePanelControl Console { get; }
 
 
         #region Document Open/Active State
@@ -527,7 +528,7 @@ namespace MarkdownMonster
             Commands = new AppCommands(this);
             mmApp.Model = this;
 
-
+            Console = Window.ConsolePanel;
         }
 
 #endregion

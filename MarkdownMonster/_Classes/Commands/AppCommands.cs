@@ -120,6 +120,11 @@ namespace MarkdownMonster
             ToggleFolderBrowser();
             OpenFolderBrowser();
 
+            ToggleConsolePanel();
+            ClearConsolePanel();
+
+            
+
 #if NETFULL
             Speech = new SpeechCommands(model);
 #endif
@@ -2091,6 +2096,29 @@ namespace MarkdownMonster
                 Model.WindowLayout.IsLeftSidebarVisible = true;
             }, (p, c) => Model.IsEditorActive);
         }
+
+
+        public CommandBase ToggleConsolePanelCommand { get; set; }
+
+        void ToggleConsolePanel()
+        {
+            ToggleConsolePanelCommand = new CommandBase((parameter, command) =>
+                {
+                    Model.WindowLayout.IsConsolePanelVisible = !Model.WindowLayout.IsConsolePanelVisible;
+                }, (p, c) => true);
+        }
+
+
+        public CommandBase ClearConsolePanelCommand { get; set; }
+
+        void ClearConsolePanel()
+        {
+            ClearConsolePanelCommand = new CommandBase((parameter, command) =>
+            {
+                Model.Console.Clear();
+            }, (p, c) => true);
+        }
+
 
         #endregion
 

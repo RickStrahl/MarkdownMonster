@@ -215,6 +215,8 @@
             <RowDefinition Height="Auto"  Name="MainMenuGridRow"/>
             <RowDefinition Height="Auto" Name="ToolbarGridRow"/>
             <RowDefinition Height="*" Name="MainContentGridRow" />
+            <RowDefinition Height="Auto" Name="ContentConsoleSplitterGridRow"/>
+            <RowDefinition Height="Auto" Name="ConsolePanelGridRow"/>
             <RowDefinition Height="30" Name="StatusBarGridRow"/>
         </Grid.RowDefinitions>
 
@@ -464,6 +466,13 @@
                           Header="Activate Fa_vorites"                                                                                                                       
                           Command="{Binding Commands.ShowSidebarTabCommand}" 
                           CommandParameter="Favorites" InputGestureText="Alt-V-V"/>
+
+
+                <MenuItem Name="ButtonToggleConsolePanel" 
+                          Header="Toggle Console _Panel"                         
+                          Command="{Binding Commands.ToggleConsolePanelCommand}"
+                          ToolTip="Toggles the Console Window on the bottom of the Window" 
+                />
 
                 <Separator />
 
@@ -954,11 +963,24 @@
                 </TabControl.Resources>
                 
             </controls:MetroTabControl>
-
         </Grid>
 
 
-        <StatusBar  Grid.Row ="3"  Margin="0,0,0,0" VerticalAlignment="Bottom" 
+
+        <GridSplitter Height="8"  Grid.Row="3"    Background="#333"                          
+                      VerticalAlignment="Center"                          
+                      BorderThickness="0" IsTabStop="False"                          
+                      controls:VisibilityHelper.IsCollapsed="{Binding WindowLayout.IsConsolePanelVisible, Converter={StaticResource InvertedBooleanConverter}}"
+                      HorizontalAlignment="Stretch" >
+        </GridSplitter>
+
+
+        <mmcontrols:ConsolePanelControl 
+            Grid.Row="4" x:Name="ConsolePanel" 
+            Height="Auto"
+            controls:VisibilityHelper.IsCollapsed="{Binding WindowLayout.IsConsolePanelVisible, Converter={StaticResource InvertedBooleanConverter}}" />
+
+        <StatusBar  Grid.Row ="5"  Margin="0,0,0,0" VerticalAlignment="Bottom" 
                     HorizontalAlignment="Stretch">
             <StatusBar.ItemsPanel>
                 <ItemsPanelTemplate>
