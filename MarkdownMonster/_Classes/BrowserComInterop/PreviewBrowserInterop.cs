@@ -49,6 +49,11 @@ namespace MarkdownMonster
             Invoke("scrollToPragmaLine", lineNumber,headerId);
         }
 
+        public void ScrollToHtmlBlock(string htmlText)
+        {
+            Invoke("scrollToHtmlBlock", htmlText);
+        }
+
         public int GetScrollTop()
         {
             return Invoke<int>("getScrollTop",false);

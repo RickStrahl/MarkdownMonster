@@ -22,8 +22,14 @@ Previously the Code Badge copying would not properly handle line feeds in code s
 * **Code Badge Scolling Fix**  
 Fix issue with the code badge positioning when the code block is scrolled. Previously the code badge failed to stay pinned to the right in the scrolled content. This fix keeps it always pinned to the right of the code block.
 
-* **Fix: Two Code Sync Editor Jumping**  
+* **Fix: Two-way Code Editor Preview Sync Jumpiness**  
 Resolved another issue in two-way sync preview mode that was causing the editor to jump when editing or pasting into large blocks of text or code at the top or bottom of the editor. Finally found a solution to separating actual scroll events from explicitly navigated scroll events and refresh operations.
+
+* **Fix: HTML Rendering and Preview Sync**  
+Fix preview HTML editor wonkiness (#609). Refactor HTML document sync separately from the Markdown document sync for greatly improved HTML preview sync to the editor position when editing or scrolling HTML content.
+
+* **Fix: Remove Depedendent ShimGen Exes from Distribution**   
+Removed extra EXE files from the distribution for the Roslyn compiler and set up Chocolatey to not generate ShimGen files for the remaining non-MM exe files (pingo, wkhtmltopdf, vbcscompiler).
 
 ### 1.20.5
 *<small>December 13, 2019</small>* 

@@ -342,6 +342,71 @@ function getScrollTop() {
     return st;
 }
 
+function scrollToHtmlBlock(htmlText) {
+  te.codeScrolled = new Date().getTime();
+
+  if (!htmlText)
+    return;
+  try {
+    // Normalize the HTML
+    var htmlText2 = $(htmlText)[0].outerHTML;
+    var $matched = $("#MainContent *").filter(function () {
+      var elHtml = $(this.outerHTML)[0].outerHTML;
+      return elHtml.startsWith(htmlText2);
+    });
+
+    if ($matched.length > 0)
+      $matched[0].scrollIntoView();
+  }
+  catch(ex) { }
+
+
+  //document.body.querySelector("*")
+  //var $matched = $(htmlText);
+  //if ($matched.length > 0) {
+  //  var top = $matched.offset().top;
+  //  console.log("scrollToHtmlBlock: matched!", $matched[0],top);
+  //  if (top > 100)
+  //    top = top - 100;
+  //  if (top < 0)
+  //    top = 0;
+  //  //$("html").scrollTop(top);
+
+  //  // this.scrollTo(0, 0);
+  //  //$matched[0].scrollIntoView();
+  //  // this.scrollTo(0, 0);
+
+  //  setTimeout(function () {
+  //    debugger;
+  //    $matched[0].scrollIntoView();
+  //  });
+  //}
+  //else
+  //  console.log("scrollToHtmlBlock: NOT matched!");
+}
+
+///Reference: https://stackoverflow.com/a/46087348/11197
+function getElementByTextContent(str, partial, parentNode, onlyLast) {
+  var filter = function (elem) {
+    var isLast = onlyLast ? !elem.children.length : true;
+    var contains = partial ? elem.textContent.indexOf(str) > -1 :
+      elem.textContent === str;
+    if (isLast && contains)
+      return NodeFilter.FILTER_ACCEPT;
+  };
+  filter.acceptNode = filter; // for IE
+  var treeWalker = document.createTreeWalker(
+    parentNode || document.documentElement,
+    NodeFilter.SHOW_ELEMENT, {
+      acceptNode: filter
+    },
+    false
+  );
+  var nodeList = [];
+  while (treeWalker.nextNode()) nodeList.push(treeWalker.currentNode);
+  return nodeList;
+}
+
 function status(msg,append) {
     var $el = $("#statusmessage");
     if ($el.length < 1) {

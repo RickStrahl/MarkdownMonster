@@ -1486,8 +1486,8 @@ namespace MarkdownMonster
                 GetMarkdown();
             
             //Debug.WriteLine(DateTime.Now.ToString("HH:mm:ss.ms") + "  - Preview Markdown  called");
-
             Window.PreviewBrowser.PreviewMarkdownAsync(keepScrollPosition: true, editorLineNumber: editorLineNumber);
+            
 
             var isDocumentOutlineActive = Window.SidebarContainer?.SelectedItem == Window.TabDocumentOutline;
             if (isDocumentOutlineActive)

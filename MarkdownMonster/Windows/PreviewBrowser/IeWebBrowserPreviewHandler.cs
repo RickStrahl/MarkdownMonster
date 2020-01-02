@@ -110,7 +110,10 @@ namespace MarkdownMonster.Windows.PreviewBrowser
                                     headerId = LinkHelper.UrilizeAsGfm(lineText);
                                 }
 
-                                interop.ScrollToPragmaLine(lineno, headerId);
+                                if (editor.EditorSyntax == "markdown")
+                                    interop.ScrollToPragmaLine(lineno, headerId);
+                                else if (editor.EditorSyntax == "html")
+                                    interop.ScrollToHtmlBlock(lineText);
                             }
                         }
                     }
@@ -223,6 +226,10 @@ namespace MarkdownMonster.Windows.PreviewBrowser
                         if (!doc.WriteFile(doc.HtmlRenderFilename,renderedHtml))
                             // need a way to clear browser window
                             return;
+
+                        renderedHtml = StringUtils.ExtractString(renderedHtml,
+                            "<!-- Markdown Monster Content -->",
+                            "<!-- End Markdown Monster Content -->");
                     }
                     else
                     {
@@ -315,7 +322,11 @@ namespace MarkdownMonster.Windows.PreviewBrowser
                                                     headerId = LinkHelper.UrilizeAsGfm(lineText);
                                                 }
                                             }
-                                            interop.ScrollToPragmaLine(editorLineNumber, headerId);
+
+                                            if (editor.EditorSyntax == "markdown")
+                                                interop.ScrollToPragmaLine(editorLineNumber, headerId);
+                                            else
+                                                interop.ScrollToHtmlBlock(lineText);
                                         }
                                         else
                                             interop.UpdateDocumentContent(renderedHtml,0);
