@@ -355,8 +355,11 @@ function scrollToHtmlBlock(htmlText) {
       return elHtml.startsWith(htmlText2);
     });
 
-    if ($matched.length > 0)
+    if ($matched.length > 0) {
       $matched[0].scrollIntoView();
+      $matched.addClass("line-highlight");
+      setTimeout(function () { $matched.removeClass("line-highlight"); }, te.highlightTimeout);
+    }
   }
   catch(ex) { }
 

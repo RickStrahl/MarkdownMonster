@@ -308,7 +308,7 @@ namespace MarkdownMonster.Windows.PreviewBrowser
                                             if (renderedHtml.Length < 100000)
                                                 highlightLineNo = 0; // no special handling render all code snippets
 
-                                            var lineText = editor.GetLine(editorLineNumber -1).Trim();
+                                            var lineText = editor.GetLine(editorLineNumber).Trim();
 
                                             interop.UpdateDocumentContent(renderedHtml,highlightLineNo);
 
@@ -325,12 +325,11 @@ namespace MarkdownMonster.Windows.PreviewBrowser
 
                                             if (editor.EditorSyntax == "markdown")
                                                 interop.ScrollToPragmaLine(editorLineNumber, headerId);
-                                            else
+                                            else if (editor.EditorSyntax == "html")
                                                 interop.ScrollToHtmlBlock(lineText);
                                         }
                                         else
                                             interop.UpdateDocumentContent(renderedHtml,0);
-
                                     }
                                     catch
                                     {
