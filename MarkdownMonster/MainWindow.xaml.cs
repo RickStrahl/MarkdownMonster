@@ -1713,7 +1713,7 @@ namespace MarkdownMonster
                 Model.ActiveDocument = null;
                 StatusStats.Text = null;
 
-                Model.Configuration.IsDocumentOutlineVisible = false;
+                TabDocumentOutline.Visibility = Visibility.Collapsed;
                 if (SidebarContainer.SelectedItem == TabDocumentOutline)
                     SidebarContainer.SelectedItem = TabFolderBrowser;
 
