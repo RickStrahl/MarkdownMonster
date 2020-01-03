@@ -105,7 +105,7 @@ var scroll = debounce(function (event) {
     // re-navigate
     var t = new Date().getTime();
   
-    if (te.codeScrolled > t - 120) 
+    if (te.codeScrolled > t - 250) 
       return;
     
     var st = window.document.documentElement.scrollTop;
