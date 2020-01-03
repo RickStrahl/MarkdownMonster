@@ -290,12 +290,14 @@ namespace MarkdownMonster.Configuration
         #region Preview Properties
 
         /// <summary>
-        /// Setting for the Preview HighlightRefresh timeout
-        /// in milliseconds. Set to 0 to not clear.
+        /// Determines how long the preview highlighting stays
+        /// highlighted in the Preview Editor after navigating or editing
+        /// text in the editor. Value is in milliseconds.
+        /// Set to 0 to never clear.
         /// </summary>
         public int PreviewHighlightTimeout { get; set; }
 
-        
+
 
         #endregion
 

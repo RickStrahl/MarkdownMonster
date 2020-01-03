@@ -16,8 +16,8 @@
         editor: null, // Ace Editor instance - can be a split instance
         mainEditor: null, // The main editor instance (root instance)
         editorElement: null, // Ace Editor DOM element bount to
-
-        previewRefreshTimeout: 320,
+        previewRefreshTimeout: 300,
+        previewScrollTimeout: 400,
         settings: editorSettings,
         lastError: null,
         dic: null,
@@ -228,8 +228,9 @@
             var changeScrollTop = debounce(function (e) {
                 // don't do anything if we moved without requesting
                 // a document refresh (from preview refresh)
-                if (te.isCodeScrolled(500))
+                if (te.isCodeScrolled(te.previewScrollTimeout))  // set in json file
                   return;
+
                 te.codeScrolled = 0;
 
                 // if there is a selection don't set cursor position
@@ -626,6 +627,7 @@
 
             te.lastStyle = style;
 
+            
             editor.container.style.lineHeight = style.lineHeight;
 
             var activeTheme = editor.getTheme();
@@ -846,10 +848,8 @@
                 te.editor.focus();
                 setTimeout(function () {
                     te.editor.focus();
-                },
-                    300);
-            },
-                50);
+                }, 300);
+            }, 50);
         },
         // forces Ace to lose focus
         losefocus: function (ignored) {
