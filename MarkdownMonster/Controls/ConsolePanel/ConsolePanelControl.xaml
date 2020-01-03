@@ -47,7 +47,7 @@
                           Height="Auto">
             <TextBlock Name="ConsolePanelText"
                            FontFamily="Consolas" 
-                           Height="Auto"  LineHeight="2" MinHeight="80"
+                           Height="Auto"  LineHeight="2" 
                            ScrollViewer.VerticalScrollBarVisibility="Auto"
                            Text ="{Binding WindowLayout.ConsoleText}" />
         </ScrollViewer>

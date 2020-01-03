@@ -56,19 +56,6 @@ namespace MarkdownMonster.Windows {
         private bool _isConsolePanelVisible;
 
 
-        public double ConsolePanelHeight
-        {
-            get { return _ConsolePanelHeight; }
-            set
-            {
-                if (value == _ConsolePanelHeight) return;
-                _ConsolePanelHeight = value;
-                OnPropertyChanged(nameof(ConsolePanelHeight));
-            }
-        }
-        private double _ConsolePanelHeight = 80;
-
-
 
         public string ConsoleText
         {

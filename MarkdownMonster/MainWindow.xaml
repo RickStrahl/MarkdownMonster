@@ -469,7 +469,7 @@
 
 
                 <MenuItem Name="ButtonToggleConsolePanel" 
-                          Header="Toggle Console _Panel"                         
+                          Header="Toggle _Console Output Panel"                         
                           Command="{Binding Commands.ToggleConsolePanelCommand}"
                           ToolTip="Toggles the Console Window on the bottom of the Window" 
                 />

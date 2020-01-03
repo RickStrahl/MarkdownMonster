@@ -81,6 +81,24 @@ namespace MarkdownMonster
 
 
         /// <summary>
+        /// Height of the Console Output Panel on the bottom of the main window
+        /// </summary>
+        public double ConsolePanelHeight
+        {
+            get { return _ConsolePanelHeight; }
+            set
+            {
+                if (value < 100)
+                    value = 100;
+                if (value == _ConsolePanelHeight) return;
+                _ConsolePanelHeight = value;
+                OnPropertyChanged(nameof(ConsolePanelHeight));
+            }
+        }
+        private double _ConsolePanelHeight = 100;
+
+
+        /// <summary>
         /// Determines if the tabs are visible
         /// </summary>
         public bool IsTabHeaderPanelVisible

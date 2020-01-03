@@ -2107,13 +2107,13 @@ namespace MarkdownMonster
                     Model.WindowLayout.IsConsolePanelVisible = !Model.WindowLayout.IsConsolePanelVisible;
                     if (!Model.WindowLayout.IsConsolePanelVisible)
                     {
-                        Model.WindowLayout.ConsolePanelHeight = Model.Window.ConsolePanelGridRow.Height.Value;
+                        Model.Configuration.WindowPosition.ConsolePanelHeight = Model.Window.ConsolePanelGridRow.Height.Value;
                         Model.Window.ConsolePanelGridRow.Height = new GridLength(1, GridUnitType.Auto);
                         Model.Window.ContentConsoleSplitterGridRow.Height = new GridLength(1, GridUnitType.Auto);
                     }
                     else
                     {
-                        Model.Window.ConsolePanelGridRow.Height = new GridLength(Model.WindowLayout.ConsolePanelHeight,GridUnitType.Pixel);
+                        Model.Window.ConsolePanelGridRow.Height = new GridLength(Model.Configuration.WindowPosition.ConsolePanelHeight, GridUnitType.Pixel);
                     }
                 }, (p, c) => true);
         }
