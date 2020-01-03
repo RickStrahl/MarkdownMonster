@@ -216,7 +216,7 @@
             <RowDefinition Height="Auto" Name="ToolbarGridRow"/>
             <RowDefinition Height="*" Name="MainContentGridRow" />
             <RowDefinition Height="Auto" Name="ContentConsoleSplitterGridRow"/>
-            <RowDefinition Height="Auto" Name="ConsolePanelGridRow"/>
+            <RowDefinition Height="Auto" Name="ConsolePanelGridRow" />
             <RowDefinition Height="30" Name="StatusBarGridRow"/>
         </Grid.RowDefinitions>
 
@@ -967,7 +967,7 @@
 
 
 
-        <GridSplitter Height="8"  Grid.Row="3"    Background="#333"                          
+        <GridSplitter Height="7"  Grid.Row="3"    Background="#333"                          
                       VerticalAlignment="Center"                          
                       BorderThickness="0" IsTabStop="False"                          
                       controls:VisibilityHelper.IsCollapsed="{Binding WindowLayout.IsConsolePanelVisible, Converter={StaticResource InvertedBooleanConverter}}"
@@ -979,6 +979,7 @@
             Grid.Row="4" x:Name="ConsolePanel" 
             Height="Auto"
             controls:VisibilityHelper.IsCollapsed="{Binding WindowLayout.IsConsolePanelVisible, Converter={StaticResource InvertedBooleanConverter}}" />
+
 
         <StatusBar  Grid.Row ="5"  Margin="0,0,0,0" VerticalAlignment="Bottom" 
                     HorizontalAlignment="Stretch">

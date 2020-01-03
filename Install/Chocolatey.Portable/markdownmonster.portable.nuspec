@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2015/06/nuspec.xsd">
   <metadata>
     <id>MarkdownMonster.Portable</id>
-    <version>1.20</version>
+    <version>1.20.8</version>
     <title>Markdown Monster Portable Install</title>
     <authors>Rick Strahl, West Wind Technologies</authors>
     <owners>West Wind Technologies</owners>
@@ -20,13 +20,13 @@ You can save documents to Html and PDF files. Markdown Monster can also publish 
 
 Markdown Monster can also be extended using an easy, but powerful .NET based add-in model and a few useful addins are available to provide features like storing images in Azure Blobs, a reusable Snippets manager, and more. You can also swap Markdown Parsers between Markdig and Pandoc and use another custom Markdown parser via addin integration.
 
-Markdown Monster can be downloaded and evaluated for free. This package is **unlimited and fully functional**, but a [license](http://store.west-wind.com/product/markdown_monster) is required for continued use. Although Markdown Monster is licensed software, the source code is available in the open on GitHub. Requires **.NET 4.6.2 or later**.
+Markdown Monster can be downloaded and evaluated for free. This package is **unlimited and fully functional**, but a [license](http://store.west-wind.com/product/markdown_monster) is required for continued use. Although Markdown Monster is licensed software, the source code is available in the open on GitHub. Requires **.NET 4.7.2 or later**.
 
 This is a portable installation that doesn't run an installer installer and keeps all configuration data in a self-contained folder. The full desktop Chocolatey install is also available in the [MarkdownMonster Package](https://chocolatey.org/packages/MarkdownMonster).
     </description>
     <summary>Markdown Monster is an easy to use and extensible Markdown Editor and viewer and Weblog Publisher</summary>
     <releaseNotes>https://github.com/RickStrahl/MarkdownMonster/blob/master/Changelog.md</releaseNotes>
-    <copyright>West Wind Technologies, 2016-2019</copyright>    
+    <copyright>West Wind Technologies, 2016-2020</copyright>    
     <tags>markdown text editor weblog blog publishing documentation westwind</tags>
     <bugTrackerUrl>https://github.com/rickstrahl/MarkdownMonster/issues</bugTrackerUrl>
     <docsUrl>http://markdownmonster.west-wind.com/docs</docsUrl>
