@@ -1,17 +1,20 @@
 ﻿# Markdown Monster Change Log 
- 
+
 [![download](https://img.shields.io/badge/Download-Installer-blue.svg)](https://markdownmonster.west-wind.com/download.aspx)
 [![Chocolatey](https://img.shields.io/chocolatey/dt/markdownmonster.svg)](https://chocolatey.org/packages/MarkdownMonster)
 [![Web Site](https://img.shields.io/badge/Markdown_Monster-WebSite-blue.svg)](https://markdownmonster.west-wind.com)
 
-### 1.20.7
+### 1.20.8
 *<small>not released yet</small>* 
+
+* **New Console Output Window for Addins to display Output**   
+For addin developers there's now a new `Window.ConsolePanel` that is accessible through the Addin's `Model.Console` property. You can `WriteLine()` and `Write()` to the panel, and use `Clear()`, `Hide()` or `Show()` to display status messages from processing. Writing to the Console makes it visible. This can be useful for addins that want to do things like provide progress info or for provide messages for linting etc. 
 
 * **Add *Open Document in new Tab* to Context Menu for Relative Markdown Links**  
 There's a new context menu option that lets you navigate relative Markdown links by opening them in a new (or existing) editor tab. Supported file types are opened in an editor tab, everything else is opened the Windows default viewer. HTTP links are opened in the browser.
 
 * **Clickable Links in Editor**  
-Links are now clickable in the editor by Control Clicking which displays the link in the appropriate editor. Hyperlinks are opened in the browser, supported documents are opened in the editor and any others are opened in the appropriate Windows editors.
+Links are now clickable in the text editor. Links are underlined and are control click-able,  which displays the link in the appropriate editor. Hyperlinks are opened in the browser, supported documents are opened in the editor and any others are opened in the appropriate Windows associated shell editors.
 
 * **Remove Code Copy Badges in PDF/Print Views**  
 The code badges were overlaying the print content and since there's no transparency and you can easily scroll code, the badges are superfluous and would obscure content below it. Removed for PDF and Print output.
