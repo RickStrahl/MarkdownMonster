@@ -306,6 +306,9 @@ namespace MarkdownMonster
         /// </summary>
         public void AttachPreviewBrowser()
         {
+            if (Window.PreviewBrowserContainer == null)
+                return;
+
             ((Grid) Window.PreviewBrowserContainer?.Parent)?.Children.Remove(Window.PreviewBrowserContainer);
 
             Window.Model.WindowLayout.IsPreviewVisible = mmApp.Configuration.IsPreviewVisible;
