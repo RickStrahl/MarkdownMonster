@@ -1,4 +1,5 @@
 /// <reference path="editorsettings.js"/>
+/// <reference path="editorsettings.js"/>
 /// <reference path="editorSpellcheck.js"/>
 /// <reference path="editor-helpers.js" />
 /// <reference path="scripts/ace/ace.js" />
@@ -27,6 +28,13 @@
         // prevent editor scrolling from refreshing the preview recursively
         setCodeScrolled: function (ignored) {
             te.codeScrolled = new Date().getTime();
+        },
+        // checks if code was recently scrolled and shouldn't be scrolled again (also used for context menu)
+        isCodeScrolled: function(timeout) {
+          if (!timeout)
+            timeout = 500;
+
+          return te.codeScrolled && te.codeScrolled > new Date().getTime() - timeout;
         },
         codeScrolled: 0,
         initialize: function (styleSettings) {
@@ -220,9 +228,8 @@
             var changeScrollTop = debounce(function (e) {
                 // don't do anything if we moved without requesting
                 // a document refresh (from preview refresh)
-                if (te.codeScrolled && te.codeScrolled > new Date().getTime() - 500)
-                        return;
-                
+                if (te.isCodeScrolled(500))
+                  return;
                 te.codeScrolled = 0;
 
                 // if there is a selection don't set cursor position
@@ -1057,7 +1064,7 @@
         if (!isIE)
             return false;
 
-        if (te.codeScrolled && te.codeScrolled > new Date().getTime() - 400)
+        if(te.isCodeScrolled(400))
           return false;
 
         te.setCodeScrolled(); // no refreshing
