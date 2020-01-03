@@ -137,19 +137,19 @@
 
             // always have mouse position available when drop or paste
             editor.on("mousemove",
-                function (e) {
-                    te.mousePos = e.getDocumentPosition();
-                });
+              function(e) {
+                te.mousePos = e.getDocumentPosition();
+              });
             editor.on("mouseup",
-                function () {
-                    if (te.mm)
-                        te.mm.textbox.PreviewMarkdownCallback(true);
+              function() {
+                if (te.mm)
+                  te.mm.textbox.PreviewMarkdownCallback(true);
 
-                    // spellcheck - force recheck on next cycle
-                    if (te.spellcheck)
-                        te.spellcheck.contentModified = true;
+                // spellcheck - force recheck on next cycle
+                if (te.spellcheck)
+                  te.spellcheck.contentModified = true;
 
-                    te.updateDocumentStats();
+                te.updateDocumentStats();
               });
 
             if (editorSettings.clickableLinks) {
@@ -220,10 +220,9 @@
             var changeScrollTop = debounce(function (e) {
                 // don't do anything if we moved without requesting
                 // a document refresh (from preview refresh)
-                if (te.codeScrolled &&
-                    te.codeScrolled > new Date().getTime() - 500) {
+                if (te.codeScrolled && te.codeScrolled > new Date().getTime() - 500)
                         return;
-                }
+                
                 te.codeScrolled = 0;
 
                 // if there is a selection don't set cursor position
@@ -1056,7 +1055,12 @@
     window.oncontextmenu = function (e) {
         var isIE = navigator.userAgent.indexOf("Trident") > -1 ? true : false;
         if (!isIE)
-            return;
+            return false;
+
+        if (te.codeScrolled && te.codeScrolled > new Date().getTime() - 400)
+          return false;
+
+        te.setCodeScrolled(); // no refreshing
 
         e.preventDefault();
         e.cancelBubble = true;
