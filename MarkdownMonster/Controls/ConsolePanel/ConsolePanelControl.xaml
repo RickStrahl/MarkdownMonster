@@ -21,7 +21,11 @@
                 <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition Width="Auto"/>
             </Grid.ColumnDefinitions>
-            <TextBlock FontWeight="SemiBold" FontSize="11"  Padding="4,4,2,0">Console</TextBlock>
+            <StackPanel Orientation="Horizontal" Margin="10,0,0,0">
+                <fa:ImageAwesome Icon="Terminal" Height="9" Foreground="MediumSeaGreen"   />
+                <TextBlock FontWeight="SemiBold" FontSize="11"  Padding="7,4,0,0">Console Output</TextBlock>
+            </StackPanel>
+            
 
             <Button  fa:Awesome.Content="Ban" Background="Transparent" 
                          Foreground="{DynamicResource BlueItem}" Padding="6,0,6,0" Grid.Column="1"  
@@ -43,7 +47,7 @@
                           Height="Auto">
             <TextBlock Name="ConsolePanelText"
                            FontFamily="Consolas" 
-                           Height="Auto"  LineHeight="2"
+                           Height="Auto"  LineHeight="2" MinHeight="80"
                            ScrollViewer.VerticalScrollBarVisibility="Auto"
                            Text ="{Binding WindowLayout.ConsoleText}" />
         </ScrollViewer>
