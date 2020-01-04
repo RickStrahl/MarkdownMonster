@@ -119,7 +119,8 @@
                 function (event) {
                     // up and down handling - force a preview refresh
                     if (event.keyCode === 38 || event.keyCode === 40) {
-                        previewRefresh();
+                        if(te.editor.getLength() < 1000)  // more than 1000 rows don't refresh - too slow
+                          previewRefresh();
                         te.updateDocumentStats();
                     }
                     // left right
