@@ -396,12 +396,12 @@ namespace MarkdownMonster.Windows.PreviewBrowser
             }
         }
 
-        public void ScrollToEditorLineAsync(int editorLineNumber = -1, bool updateCodeBlocks = false)
+        public void ScrollToEditorLineAsync(int editorLineNumber = -1, bool updateCodeBlocks = false, bool noScrollTimeout = false)
         {
-            Application.Current.Dispatcher.InvokeAsync(() => ScrollToEditorLine(editorLineNumber, updateCodeBlocks));
+            Application.Current.Dispatcher.InvokeAsync(() => ScrollToEditorLine(editorLineNumber, updateCodeBlocks, noScrollTimeout));
         }
 
-        public void ScrollToEditorLine(int editorLineNumber = -1, bool updateCodeBlocks = false)
+        public void ScrollToEditorLine(int editorLineNumber = -1, bool updateCodeBlocks = false, bool noScrollTimeout = false)
 
         {
             var interop = new PreviewBrowserInterop(PreviewBrowserInterop.GetWindow(WebBrowser));
@@ -417,15 +417,14 @@ namespace MarkdownMonster.Windows.PreviewBrowser
                 editorLineNumber = highlightLineNo;
             }
 
-            var lineText = editor.GetLine(editorLineNumber).Trim();
-            if (string.IsNullOrEmpty(lineText))
-                return;
-
+            string lineText = null;
             
             // TODO: We need to get Header Ids
             var headerId = string.Empty; // headers may not have pragma lines
             if (editorLineNumber > -1)
             {
+                lineText = editor.GetLine(editorLineNumber).Trim();
+
                 if (lineText.StartsWith("# ")) // it's header
                 {
                     lineText = lineText.TrimStart(new[] {' ', '#', '\t'});
@@ -434,9 +433,9 @@ namespace MarkdownMonster.Windows.PreviewBrowser
             }
 
             if (editor.EditorSyntax == "markdown")
-                interop.ScrollToPragmaLine(editorLineNumber, headerId);
+                interop.ScrollToPragmaLine(editorLineNumber, headerId, noScrollTimeout);
             else if (editor.EditorSyntax == "html")
-                interop.ScrollToHtmlBlock(lineText);
+                interop.ScrollToHtmlBlock(lineText ?? editor.GetLine(editorLineNumber) );
         }
 
         #endregion

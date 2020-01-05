@@ -1,8 +1,15 @@
 var te = window.previewer = {
-    mmEditor: null,
-    isPreviewEditorSync: false,
-    codeScrolled: new Date().getTime() + 2500,
-    highlightTimeout: 1800
+  mmEditor: null,
+  isPreviewEditorSync: false,
+  highlightTimeout: 1800,
+  codeScrolled: new Date().getTime() + 2500,
+  setCodeScrolled: function() {
+    te.codeScrolled = new Date().getTime();
+  },
+  isCodeScrolled: function() {
+    var t = new Date().getTime();
+    return te.codeScrolled > t - 250;
+  }
 };
 var isDebug = false;
 
@@ -94,6 +101,8 @@ window.ondragover = function (event) {
     return false;
 }
 
+
+
 // scroll editor to the scroll position of the preview
 var scroll = debounce(function (event) {
 
@@ -103,9 +112,7 @@ var scroll = debounce(function (event) {
     // when selecting line in editor (w/ two way sync)
     // te.codeScrolled is set in scrollToPragmaLines so that we don't
     // re-navigate
-    var t = new Date().getTime();
-  
-    if (te.codeScrolled > t - 250) 
+    if (te.isCodeScrolled())
       return;
     
     var st = window.document.documentElement.scrollTop;
@@ -281,61 +288,62 @@ function updateDocumentContent(html, lineno) {
   document.dispatchEvent(event);
 }
 
-function scrollToPragmaLine(lineno, headerId) {
+function scrollToPragmaLine(lineno, headerId, noScrollTimeout) {
+
+
   if (typeof lineno !== "number" || lineno < 0) return;
+  if (!noScrollTimeout)
+    te.setCodeScrolled();
 
-  setTimeout(function() {
-    te.codeScrolled = new Date().getTime();
+  if (lineno < 2) {
+    $("html").scrollTop(0);
+    return;
+  }
 
-    if (lineno < 2) {
-      $("html").scrollTop(0);
-      return;
+  var $el;
+  if (headerId != null)
+    $el = $("#" + headerId);
+  if (!$el || $el.length < 1)
+    $el = $("#pragma-line-" + lineno);
+
+  var lines = 10;
+  if ($el.length < 1) {
+    var origLine = lineno;
+
+    // try forwards with x lines
+    for (var i = 0; i < lines; i++) {
+      lineno--;
+      $el = $("#pragma-line-" + lineno);
+      if ($el.length > 0)
+        break;
     }
 
-    var $el;
-    if (headerId != null)
-      $el = $("#" + headerId);
-    if ($el.length < 1)
-      $el = $("#pragma-line-" + lineno);
-
-    var lines = 10;
+    // try backwards with x lines
     if ($el.length < 1) {
-      var origLine = lineno;
+      lineno = origLine;
 
-      // try forwards with x lines
+      // try forward with 3 lines
       for (var i = 0; i < lines; i++) {
-        lineno--;
+        lineno++;
         $el = $("#pragma-line-" + lineno);
         if ($el.length > 0)
           break;
       }
-
-      // try backwards with x lines
-      if ($el.length < 1) {
-        lineno = origLine;
-
-        // try forward with 3 lines
-        for (var i = 0; i < lines; i++) {
-          lineno++;
-          $el = $("#pragma-line-" + lineno);
-          if ($el.length > 0)
-            break;
-        }
-      }
-      if ($el.length < 1)
-        return;
     }
+    if ($el.length < 1)
+      return;
+  }
 
-    $el.addClass("line-highlight");
-    if (te.highlightTimeout > 0)
-      setTimeout(function() { $el.removeClass("line-highlight"); }, te.highlightTimeout);
+  $el.addClass("line-highlight");
+  if (te.highlightTimeout > 0)
+    setTimeout(function() { $el.removeClass("line-highlight"); }, te.highlightTimeout);
 
-    var scrollTop = 0;
-    if (lineno > 1)
-      scrollTop = $el.offset().top - 25; // -150
+  var scrollTop = 0;
+  if (lineno > 1)
+    scrollTop = $el.offset().top - 25; // -150
 
-    $("html").scrollTop(scrollTop);
-  },20);
+  $("html").scrollTop(scrollTop);
+
 }
 
 function getScrollTop() {
@@ -347,7 +355,7 @@ function getScrollTop() {
 }
 
 function scrollToHtmlBlock(htmlText) {
-  te.codeScrolled = new Date().getTime();
+  te.setCodeScrolled();
 
   if (!htmlText)
     return;

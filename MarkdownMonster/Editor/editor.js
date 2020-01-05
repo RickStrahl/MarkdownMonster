@@ -35,8 +35,7 @@
         // checks if code was recently scrolled and shouldn't be scrolled again (also used for context menu)
         isCodeScrolled: function(timeout) {
           if (!timeout)
-            timeout = 500;
-
+            timeout = 300;
           return te.codeScrolled && te.codeScrolled > new Date().getTime() - timeout;
         },
         codeScrolled: 0,
@@ -122,12 +121,16 @@
               if (!te.mm) return;
               te.mm.textbox.PreviewMarkdownCallback(true);
             }, 100);
-            var scrollPreviewRefresh = debounce(function(editorLine) {
+            var scrollPreviewRefresh = debounce(function(editorLine, noScrollTimeout) {
                 if (!te.mm) return;
                 if (typeof editorLine !== "number")
                   editorLine = -1;
 
-                te.mm.textbox.ScrollPreviewToEditorLineCallback(editorLine);
+                noScrollTimeout = noScrollTimeout ? true : false;
+
+                console.log("scrollPreviewRefresh - line: " + editorLine + "  noScrollRefresh: " + noScrollTimeout);
+
+                te.mm.textbox.ScrollPreviewToEditorLineCallback(editorLine,true,noScrollTimeout);
               },
               100);
             $("pre[lang]").on("keyup",
@@ -238,17 +241,12 @@
                 }
             };
 
-            // this doesn't fire
-            //te.editor.on("dragover",
-            //    function (e) {
-            //        alert('drag over');
-            //        te.mousePos = e.getDocumentPosition();
-            //    });
-
+   
             var changeScrollTop = debounce(function (e) {
+
                 // don't do anything if we moved without requesting
                 // a document refresh (from preview refresh)
-                if (te.isCodeScrolled(te.previewScrollTimeout))  // set in json file
+                if (te.isCodeScrolled(te.previewScrollTimeout)) // set in json file
                   return;
 
                 te.codeScrolled = 0;
@@ -261,7 +259,6 @@
                 if (sel && sel.length > 0) {
                   return;
                 }
-                  
 
                 setTimeout(function () {
                     var firstRow = te.editor.renderer.getFirstVisibleRow();
@@ -271,7 +268,7 @@
                       firstRow = 0;
 
                     // preview and highlight top of display
-                    scrollPreviewRefresh(firstRow);
+                    scrollPreviewRefresh(firstRow, true);
 
                     if (sc)
                         sc.contentModified = true;  // force spell check to run

@@ -9,9 +9,9 @@ namespace MarkdownMonster.Windows.PreviewBrowser
 
         void PreviewMarkdownAsync(MarkdownDocumentEditor editor=null, bool keepScrollPosition = false, string renderedHtml = null, int editorLineNumber = -1);
         
-        void ScrollToEditorLine(int editorLineNumber = -1, bool updateCodeBlocks = false);
+        void ScrollToEditorLine(int editorLineNumber = -1, bool updateCodeBlocks = false, bool noScrollContentTimeout = false);
 
-        void ScrollToEditorLineAsync(int editorLineNumber = -1, bool updateCodeBlocks = false);
+        void ScrollToEditorLineAsync(int editorLineNumber = -1, bool updateCodeBlocks = false, bool noScrollContentTimeout = false);
 
         void Navigate(string url);
 

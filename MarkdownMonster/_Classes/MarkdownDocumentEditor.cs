@@ -1480,9 +1480,8 @@ namespace MarkdownMonster
         /// </summary>
         public void PreviewMarkdownCallback(bool dontGetMarkdown = false, int editorLineNumber = -1, bool noPreviewScrolling = false)
         {
-            if (Window.PreviewBrowser == null) return;
-
-            if (EditorSyntax != "markdown" && EditorSyntax != "html")
+            if (Window.PreviewBrowser == null ||
+                (EditorSyntax != "markdown" && EditorSyntax != "html") )
                 return;
 
             if (!dontGetMarkdown)
@@ -1495,14 +1494,19 @@ namespace MarkdownMonster
             var isDocumentOutlineActive = Window.SidebarContainer?.SelectedItem == Window.TabDocumentOutline;
             if (isDocumentOutlineActive)
                 Window.UpdateDocumentOutline(editorLineNumber);
-
-            //Debug.WriteLine(DateTime.Now.ToString("HH:mm:ss.ms") +  " - No Preview Markdown  retrieve MD: " + dontGetMarkdown + " DocOutline Rendered: " +
-            //               isDocumentOutlineActive);
         }
 
-        public void ScrollPreviewToEditorLineCallback(int editorLineNumber = -1, bool updateCodeBlocks = true)
+        public void ScrollPreviewToEditorLineCallback(int editorLineNumber = -1, bool updateCodeBlocks = true, bool noScrollTimeout = false)
         {
-            Window.PreviewBrowser.ScrollToEditorLineAsync(editorLineNumber, updateCodeBlocks);
+            if (Window.PreviewBrowser == null ||
+                (EditorSyntax != "markdown" && EditorSyntax != "html") )
+                return;
+
+            Window.PreviewBrowser.ScrollToEditorLineAsync(editorLineNumber, updateCodeBlocks, noScrollTimeout);
+
+            var isDocumentOutlineActive = Window.SidebarContainer?.SelectedItem == Window.TabDocumentOutline;
+            if (isDocumentOutlineActive)
+                Window.UpdateDocumentOutline(editorLineNumber);
         }
 
         /// <summary>

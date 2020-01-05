@@ -44,9 +44,9 @@ namespace MarkdownMonster
         /// Scrolls to a pragma line retrieved from the Editor
         /// </summary>
         /// <param name="lineNumber"></param>
-        public void ScrollToPragmaLine(int lineNumber, string headerId)
+        public void ScrollToPragmaLine(int lineNumber, string headerId, bool noScrollTimeout = false)
         {
-            Invoke("scrollToPragmaLine", lineNumber,headerId);
+            Invoke("scrollToPragmaLine", lineNumber,headerId, noScrollTimeout);
         }
 
         public void ScrollToHtmlBlock(string htmlText)
