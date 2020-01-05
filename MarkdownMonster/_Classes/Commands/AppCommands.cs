@@ -2074,10 +2074,8 @@ namespace MarkdownMonster
                     if (Model.ActiveEditor == null && Model.ActiveEditor.EditorSyntax != "markdown")
                         return;
 
-                    if (!Model.Configuration.IsDocumentOutlineVisible)
-                        Model.Configuration.IsDocumentOutlineVisible = true;
-
-
+                    Model.Configuration.IsDocumentOutlineVisible = true;
+                    Model.WindowLayout.IsLeftSidebarVisible = true;
                     Model.Window.SidebarContainer.SelectedItem = Model.Window.TabDocumentOutline;
                 }
                 else if (action == "FolderBrowser")
