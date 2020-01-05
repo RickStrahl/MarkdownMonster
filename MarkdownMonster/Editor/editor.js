@@ -8,21 +8,24 @@
     var Split = ace.require("ace/split").Split;
     var allowSplitMode = true;
     var te = window.textEditor = {
-        mm: null, // Markdown Monster MarkdownDocumentEditor COM object
+      mm: null, // Markdown Monster MarkdownDocumentEditor COM object
 
-        // Editor and Split instances
-        isEditorSimple: false,  // determines if this is a support code editor (Snippets, Code etc.)
-        splitInstance: null,
-        editor: null, // Ace Editor instance - can be a split instance
-        mainEditor: null, // The main editor instance (root instance)
-        editorElement: null, // Ace Editor DOM element bount to
-        previewRefreshTimeout: 300,
-        previewScrollTimeout: 400,
-        settings: editorSettings,
-        lastError: null,
-        dic: null,
-        aff: null,
-        isDirty: false,
+      // Editor and Split instances
+      isEditorSimple: false, // determines if this is a support code editor (Snippets, Code etc.)
+      splitInstance: null,
+      editor: null, // Ace Editor instance - can be a split instance
+      mainEditor: null, // The main editor instance (root instance)
+      editorElement: null, // Ace Editor DOM element bount to
+      updateDocument: null,
+      previewRefreshTimeout: 300,
+      previewRefreshTimeoutSlow: 2200,
+      previewScrollTimeout: 400,
+      settings: editorSettings,
+      lastError: null,
+      dic: null,
+      aff: null,
+      isDirty: false,
+
         mousePos: { column: 0, row: 0 },
         spellcheck: null,
         // prevent editor scrolling from refreshing the preview recursively
@@ -97,51 +100,67 @@
 
             te.setEditorStyle(editorSettings, editor);
 
-            var updateDocument = debounce(function (force) {
+            function setUpdateDocument() {
+              te.updateDocument = debounce(function(force) {
                 if (!te.mm)
-                    return;
+                  return;
 
                 // check for dirty stats and preview
                 if (force) {
-                    previewRefresh();
-                    updateDocumentStats();
+                  previewRefresh();
+                  updateDocumentStats();
                 } else {
-                    te.isDirty = te.mm.textbox.IsDirty(true);
-                    if (te.isDirty || force)
-                        te.updateDocumentStats();
+                  te.isDirty = te.mm.textbox.IsDirty(true);
+                  if (te.isDirty || force)
+                    te.updateDocumentStats();
                 }
-            }, te.previewRefreshTimeout);
+              }, te.previewRefreshTimeout);
+            }
+            setUpdateDocument();
 
             var previewRefresh = debounce(function() {
-                te.mm.textbox.PreviewMarkdownCallback(true);
-            }, 80);
+              if (!te.mm) return;
+              te.mm.textbox.PreviewMarkdownCallback(true);
+            }, 100);
+            var scrollPreviewRefresh = debounce(function(editorLine) {
+                if (!te.mm) return;
+                if (typeof editorLine !== "number")
+                  editorLine = -1;
+
+                te.mm.textbox.ScrollPreviewToEditorLineCallback(editorLine);
+              },
+              100);
             $("pre[lang]").on("keyup",
                 function (event) {
                     // up and down handling - force a preview refresh
-                    if (event.keyCode === 38 || event.keyCode === 40) {
-                        if(te.editor.getLength() < 1000)  // more than 1000 rows don't refresh - too slow
-                          previewRefresh();
-                        te.updateDocumentStats();
+                  if (event.keyCode === 38 || event.keyCode === 40) {
+                    scrollPreviewRefresh();
+                    te.updateDocumentStats();
+                  }
+                  // left right
+                  else if (event.keyCode === 37 || event.keyCode === 39) {
+                    te.updateDocumentStats();
+                  } else if (te.editor.$keybindingId === "ace/keyboard/vim" &&
+                    (event.keyCode === 74 || event.keyCode == 75)) {
+                    if (!te.editor.state.cm.state.vim.insertMode) {
+                      scrollPreviewRefresh();
+                      updateDocumentStats();
                     }
-                    // left right
-                    else if (event.keyCode === 37 || event.keyCode === 39)
-                        te.updateDocumentStats();
-                    else if (te.editor.$keybindingId === "ace/keyboard/vim" &&
-                        (event.keyCode === 74 || event.keyCode == 75)) {
-                        if (!te.editor.state.cm.state.vim.insertMode) {
-                          previewRefresh();
-                          updateDocumentStats();
-                        }
-                    } else {
-                      
-                        // key typed into document
-                        if (event.keyCode === 13 || event.keyCode === 8 || event.keyCode === 46) {
-                            // Line feed, backspace, del should immediately spell check as errors shift
-                            if (te.spellcheck) te.spellcheck.spellCheck(true);
-                            previewRefresh();
-                        }
-                        updateDocument();
+                  } else {
+
+                    // key typed into document
+                    if (event.keyCode === 13 || event.keyCode === 8 || event.keyCode === 46) {
+                      // Line feed, backspace, del should immediately spell check as errors shift
+                      if (te.spellcheck) te.spellcheck.spellCheck(true);
                     }
+                    if (te.editor.session.getLength() > 1500 && te.previewRefreshTimeout != te.previewRefreshTimeoutSlow) {
+                      te.previewRefreshTimeout = te.previewRefreshTimeoutSlow;
+                      setUpdateDocument();
+                    }
+
+                    te.updateDocument();
+                  }
+                  
                 });
 
             // always have mouse position available when drop or paste
@@ -152,7 +171,7 @@
             editor.on("mouseup",
               function() {
                 if (te.mm)
-                  te.mm.textbox.PreviewMarkdownCallback(true);
+                  scrollPreviewRefresh();
 
                 // spellcheck - force recheck on next cycle
                 if (te.spellcheck)
@@ -252,7 +271,7 @@
                       firstRow = 0;
 
                     // preview and highlight top of display
-                    te.mm.textbox.PreviewMarkdownCallback(true, firstRow);
+                    scrollPreviewRefresh(firstRow);
 
                     if (sc)
                         sc.contentModified = true;  // force spell check to run

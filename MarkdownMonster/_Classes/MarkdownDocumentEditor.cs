@@ -1500,11 +1500,21 @@ namespace MarkdownMonster
             //               isDocumentOutlineActive);
         }
 
+        public void ScrollPreviewToEditorLineCallback(int editorLineNumber = -1, bool updateCodeBlocks = true)
+        {
+            Window.PreviewBrowser.ScrollToEditorLineAsync(editorLineNumber, updateCodeBlocks);
+        }
+
         /// <summary>
         /// ACE Editor Notification when focus is lost
         /// </summary>
         public void LostFocus()
         {
+            if (Window.PreviewBrowser == null) return;
+
+            if (EditorSyntax != "markdown" && EditorSyntax != "html")
+                return;
+
             Window.Model.IsEditorFocused = false;
         }
 

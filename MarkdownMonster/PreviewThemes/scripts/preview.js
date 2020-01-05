@@ -154,6 +154,10 @@ function highlightCode(lineno) {
     // Try to find lineno in doc - if lineno is passed
     // and render only those plus padding above and below
     var linePos = 0;
+
+
+    // special handling for more than 200 code blocks
+    // render only  what's in the viewport
     if (lineno && pres.length > 200) {
         var $el = $("#pragma-line-" + lineno);
         if ($el.length < 1) {
@@ -264,10 +268,10 @@ function updateDocumentContent(html, lineno) {
   var el = document.getElementById("MainContent");
   if (!el)
     return;
+
   el.innerHTML = html;
-
   highlightCode(lineno);
-
+  
   // Raise a previewUpdated event on the document
   var event = document.createEvent("Event");
   event.initEvent("previewUpdated", false, true);
@@ -473,7 +477,7 @@ function debounce(func, wait, immediate) {
 
 
 
-/* ES5 POLYFILLS */
+/* ES6 POLYFILLS */
 
 // String.trim() for ES5 polyfill
 if (!String.prototype.trim) {

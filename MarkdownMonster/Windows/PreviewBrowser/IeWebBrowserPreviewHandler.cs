@@ -396,6 +396,49 @@ namespace MarkdownMonster.Windows.PreviewBrowser
             }
         }
 
+        public void ScrollToEditorLineAsync(int editorLineNumber = -1, bool updateCodeBlocks = false)
+        {
+            Application.Current.Dispatcher.InvokeAsync(() => ScrollToEditorLine(editorLineNumber, updateCodeBlocks));
+        }
+
+        public void ScrollToEditorLine(int editorLineNumber = -1, bool updateCodeBlocks = false)
+
+        {
+            var interop = new PreviewBrowserInterop(PreviewBrowserInterop.GetWindow(WebBrowser));
+
+            var editor = Window.GetActiveMarkdownEditor();
+            if (editor == null)
+                return;
+
+            int highlightLineNo = editorLineNumber;
+            if (editorLineNumber < 0)
+            {
+                highlightLineNo = editor.GetLineNumber();
+                editorLineNumber = highlightLineNo;
+            }
+
+            var lineText = editor.GetLine(editorLineNumber).Trim();
+            if (string.IsNullOrEmpty(lineText))
+                return;
+
+            
+            // TODO: We need to get Header Ids
+            var headerId = string.Empty; // headers may not have pragma lines
+            if (editorLineNumber > -1)
+            {
+                if (lineText.StartsWith("# ")) // it's header
+                {
+                    lineText = lineText.TrimStart(new[] {' ', '#', '\t'});
+                    headerId = LinkHelper.UrilizeAsGfm(lineText);
+                }
+            }
+
+            if (editor.EditorSyntax == "markdown")
+                interop.ScrollToPragmaLine(editorLineNumber, headerId);
+            else if (editor.EditorSyntax == "html")
+                interop.ScrollToHtmlBlock(lineText);
+        }
+
         #endregion
 
         #region Navigation
