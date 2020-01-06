@@ -8,6 +8,15 @@
 ### 1.20.8
 *<small>not released yet</small>* 
 
+* **Major Overhaul of Editor/Preview Sync in Two-Way Sync Mode**  
+Remove a number of issues that caused editor jankiness due to recursive editor and preview syncing. The preview is now more conservative in scrolling the editor so that any two-way recursion issues have been minimized. This fixes jumpiness at the top and bottom of the document (especially in code snippets) as well as unexpected cursor movements during keyboard scrolling.
+
+* **Large Document Editing Performance Improvements**  
+Large documents (2500 lines or more) now throttle the amount of preview refreshes that occur since that can significantly affect the editor performance blocking the editor while the preview refreshes. Timeout is automatically bumped so you can continue to edit at full speed, until stopping for  several seconds (instead of the 120ms standard timeout).
+
+* **Scroll, Click and Keyboard Navigation Performance Improvements**  
+All navigation operations no longer update the preview but only scroll the preview and highlight the relevant new location in the preview. These performance improvements are quite drastic especially for very large documents. It should now be possible to edit multi-megabyte documents with the preview enabled (although the actual refreshes will still be slow).
+
 * **New Console Output Window for Addins to display Output**   
 For addin developers there's now a new `Window.ConsolePanel` that is accessible through the Addin's `Model.Console` property. You can `WriteLine()` and `Write()` to the panel, and use `Clear()`, `Hide()` or `Show()` to display status messages from processing. Writing to the Console makes it visible. This can be useful for addins that want to do things like provide progress info or for provide messages for linting etc. 
 
@@ -16,6 +25,7 @@ There's a new context menu option that lets you navigate relative Markdown links
 
 * **Clickable Links in Editor**  
 Links are now clickable in the text editor. Links are underlined and are control click-able,  which displays the link in the appropriate editor. Hyperlinks are opened in the browser, supported documents are opened in the editor and any others are opened in the appropriate Windows associated shell editors.
+
 
 * **Remove Code Copy Badges in PDF/Print Views**  
 The code badges were overlaying the print content and since there's no transparency and you can easily scroll code, the badges are superfluous and would obscure content below it. Removed for PDF and Print output.
@@ -34,6 +44,8 @@ Fix preview HTML editor wonkiness (#609). Refactor HTML document sync separately
 
 * **Fix: Remove Depedendent ShimGen Exes from Distribution**   
 Removed extra EXE files from the distribution for the Roslyn compiler and set up Chocolatey to not generate ShimGen files for the remaining non-MM exe files (pingo, wkhtmltopdf, vbcscompiler).
+
+
 
 ### 1.20.5
 *<small>December 13, 2019</small>* 
