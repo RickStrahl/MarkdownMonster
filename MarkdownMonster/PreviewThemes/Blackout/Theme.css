@@ -84,12 +84,14 @@ td, th {
 
 th {
   font-weight: bold;
-  background: #555;
+  background: #252525;
+  border: none;
 }
 
 tbody > tr:nth-child(even) {
   background: #444;
 }
+
 
 h1, h2, h3, h4, h5, h6, .byline, .content-title {
   color: #ababab;
