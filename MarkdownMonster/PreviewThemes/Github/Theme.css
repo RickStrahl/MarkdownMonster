@@ -1,5 +1,5 @@
 html, body {
-  color: #24292e;  
+  color: #24292e;
   font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol";
   font-size: 16px;
   line-height: 1.5;
@@ -21,7 +21,6 @@ strong, b {
 h1, h2, h3, h4, h5, h6, .byline, .content-title {
   margin-top: 1em;
   margin-bottom: 0.75em;
-  
   font-weight: 600;
   line-height: 1.25;
   margin-bottom: 0em;
@@ -103,7 +102,6 @@ pre {
 table {
   width: 100%;
   overflow: auto;
-  display: block;
   border-spacing: 0;
   border-collapse: collapse;
   margin: 15px 0;
@@ -136,8 +134,8 @@ ul > li > ul > li > ul > li {
 ul > li > ul > li {
   list-style: circle;
 }
-.task-list-item
-{
+
+.task-list-item {
   list-style: none;
   margin-left: -2em;
 }
@@ -221,25 +219,28 @@ p.line-highlight, h1.line-highlight, h2.line-highlight, h3.line-highlight, h4.li
 }
 
 /* DocFx Styles*/
-.CAUTION, .IMPORTANT, .INFO, .TIP, .NOTE, .WARNING
-{
+.CAUTION, .IMPORTANT, .INFO, .TIP, .NOTE, .WARNING {
   padding: 0.1px 20px;
   margin: 15px 0;
   border-radius: 4px;
 }
-.CAUTION > h5, .IMPORTANT > h5, .INFO > h5, .TIP > h5, .NOTE > h5, .WARNING > h5 {
-  color: inherit;
-}
+
+  .CAUTION > h5, .IMPORTANT > h5, .INFO > h5, .TIP > h5, .NOTE > h5, .WARNING > h5 {
+    color: inherit;
+  }
+
 .CAUTION, .IMPORTANT {
   color: #a94442;
   background-color: #f2dede;
   border-color: #ebccd1;
 }
+
 .WARNING {
   color: #8a6d3b;
   background-color: #fcf8e3;
   border-color: #faebcc;
 }
+
 .INFO, .TIP, .NOTE {
   color: #31708f;
   background-color: #d9edf7;

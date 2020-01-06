@@ -54,19 +54,6 @@ h6 {
   font-size: 1.03em;
 }
 
-table {
-  margin: 20px 0;
-}
-
-th, td {
-  padding: 5px 9px;
-  border-bottom: 1px solid #eee;
-  vertical-align: top;
-}
-
-th {
-  background: #eee
-}
 
 p {
   margin: 0.5rem 0 1rem 0;
@@ -101,8 +88,8 @@ ul > li > ul > li > ul > li {
 ul > li > ul > li {
   list-style: square;
 }
-.task-list-item
-{
+
+.task-list-item {
   list-style: none;
   margin-left: -2em;
 }
@@ -201,7 +188,6 @@ pre {
 table {
   width: 100%;
   overflow: auto;
-  display: block;
   border-spacing: 0;
   border-collapse: collapse;
   margin: 15px 0;
@@ -210,7 +196,7 @@ table {
 
 td, th {
   border: 1px solid #ddd;
-  padding: 6px 13px;
+  padding: 6px 11px;
   display: table-cell;
   vertical-align: top;
 }
@@ -267,32 +253,46 @@ code.line-highlight {
   border-radius: 3px;
 }
 
-.text-success { color: lightgreen }
-.text-info { color: lightsteelblue }
-.text-error { color: firebrick }
-.text-warning {color: gold }
+.text-success {
+  color: lightgreen
+}
+
+.text-info {
+  color: lightsteelblue
+}
+
+.text-error {
+  color: firebrick
+}
+
+.text-warning {
+  color: gold
+}
 
 
 /* DocFx Styles*/
-.CAUTION, .IMPORTANT, .INFO, .TIP, .NOTE, .WARNING
-{
+.CAUTION, .IMPORTANT, .INFO, .TIP, .NOTE, .WARNING {
   padding: 0.1px 20px;
   margin: 15px 0;
   border-radius: 4px;
 }
+
   .CAUTION > h5, .IMPORTANT > h5, .INFO > h5, .TIP > h5, .NOTE > h5, .WARNING > h5 {
     color: inherit;
   }
-  .CAUTION, .IMPORTANT {
-    color: #a94442;
-    background-color: #f2dede;
-    border-color: #ebccd1;
-  }
+
+.CAUTION, .IMPORTANT {
+  color: #a94442;
+  background-color: #f2dede;
+  border-color: #ebccd1;
+}
+
 .WARNING {
   color: #8a6d3b;
   background-color: #fcf8e3;
   border-color: #faebcc;
 }
+
 .INFO, .TIP, .NOTE {
   color: #31708f;
   background-color: #d9edf7;

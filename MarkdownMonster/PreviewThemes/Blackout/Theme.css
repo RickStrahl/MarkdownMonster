@@ -54,8 +54,7 @@ pre {
   white-space: pre;
   word-break: normal;
   word-wrap: normal;
-
-  background:#1E1E1E ;
+  background: #1E1E1E;
   color: #DCDCDC;
 }
 
@@ -70,7 +69,6 @@ pre {
 table {
   width: 100%;
   overflow: auto;
-  display: block;
   border-spacing: 0;
   border-collapse: collapse;
   margin: 15px 0;
@@ -86,6 +84,7 @@ td, th {
 
 th {
   font-weight: bold;
+  background: #555;
 }
 
 tbody > tr:nth-child(even) {
@@ -169,11 +168,12 @@ ul > li > ul > li > ul > li {
 ul > li > ul > li {
   list-style: square;
 }
-.task-list-item
-{
+
+.task-list-item {
   list-style: none;
   margin-left: -2em;
 }
+
 dt {
   font-size: 1.08em;
   font-weight: bold;
@@ -228,25 +228,28 @@ p.line-highlight, h1.line-highlight, h2.line-highlight, h3.line-highlight, h4.li
 }
 
 /* DocFx Styles*/
-.CAUTION, .IMPORTANT, .INFO, .TIP, .NOTE, .WARNING
-{
+.CAUTION, .IMPORTANT, .INFO, .TIP, .NOTE, .WARNING {
   padding: 0.1px 20px;
   margin: 15px 0;
   border-radius: 4px;
 }
-.CAUTION > h5, .IMPORTANT > h5, .INFO > h5, .TIP > h5, .NOTE > h5, .WARNING > h5 {
-  color: inherit;
-}
+
+  .CAUTION > h5, .IMPORTANT > h5, .INFO > h5, .TIP > h5, .NOTE > h5, .WARNING > h5 {
+    color: inherit;
+  }
+
 .CAUTION, .IMPORTANT {
   color: #a94442;
   background-color: #f2dede;
   border-color: #ebccd1;
 }
+
 .WARNING {
   color: #8a6d3b;
   background-color: #fcf8e3;
   border-color: #faebcc;
 }
+
 .INFO, .TIP, .NOTE {
   color: #31708f;
   background-color: #d9edf7;

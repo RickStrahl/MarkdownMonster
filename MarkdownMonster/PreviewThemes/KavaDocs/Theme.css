@@ -1,290 +1,285 @@
 /*Standard HTML styles*/
 * {
-    padding: 0;
-    margin: 0;
+  padding: 0;
+  margin: 0;
 }
 
 body::-webkit-scrollbar, ::-webkit-scrollbar {
-    height: 6px;
-    width: 6px;
+  height: 6px;
+  width: 6px;
 }
 
 a:link {
-    text-decoration: none;
+  text-decoration: none;
 }
 
 a:hover {
-    text-decoration: underline;
+  text-decoration: underline;
 }
 
 body {
-    font-size: 12pt;
-    font-family: segoe-ui_normal,Segoe UI,Segoe,Segoe WP,Helvetica Neue,Helvetica,sans-serif;
-    margin: 20px;
-    padding: 20px;
-    overflow-x: hidden;
+  font-size: 12pt;
+  font-family: segoe-ui_normal,Segoe UI,Segoe,Segoe WP,Helvetica Neue,Helvetica,sans-serif;
+  margin: 20px;
+  padding: 20px;
+  overflow-x: hidden;
 }
 
 p {
-    margin-bottom: 10px;
-    line-height: 1.5;
+  margin-bottom: 10px;
+  line-height: 1.5;
 }
-    p code {
-        font-family: Consolas, monospace;
-        padding: 1px 5px;
-        font-weight: 600;
-        border-radius: 3px;
-    }
 
-    ul, ol {
-        margin: 1.1em 0;
-      }
-      
-      li {
-        margin: 0.6em 0.2em 0.6em 1em;
-      }
-      
-      ul > li > ul > li > ul > li {
-        list-style: disc;
-      }
-      
-      ul > li > ul > li {
-        list-style: square;
-      }
-      .task-list-item
-      {
-        list-style: none;
-        margin-left: -2em;
-      }
-      /* definition lists can be toggled*/
-      dt {
-        font-size: 1.08em;
-        font-weight: bold;
-        text-decoration: underline;
-        padding-top: 0.5em;
-        cursor: pointer;
-      }
-      
-      dd {
-        margin: 0;
-        padding: 0 0 0.2em 1em;
-        display: none;
-      }
+  p code {
+    font-family: Consolas, monospace;
+    padding: 1px 5px;
+    font-weight: 600;
+    border-radius: 3px;
+  }
+
+ul, ol {
+  margin: 1.1em 0;
+}
+
+li {
+  margin: 0.6em 0.2em 0.6em 1em;
+}
+
+ul > li > ul > li > ul > li {
+  list-style: disc;
+}
+
+ul > li > ul > li {
+  list-style: square;
+}
+
+.task-list-item {
+  list-style: none;
+  margin-left: -2em;
+}
+/* definition lists can be toggled*/
+dt {
+  font-size: 1.08em;
+  font-weight: bold;
+  text-decoration: underline;
+  padding-top: 0.5em;
+  cursor: pointer;
+}
+
+dd {
+  margin: 0;
+  padding: 0 0 0.2em 1em;
+  display: none;
+}
 
 img {
-    border: 0;
+  border: 0;
 }
 
 table {
-    width: 100%;
-    overflow: auto;
-    display: block;
-    border-spacing: 0;
-    border-collapse: collapse;
-    margin: 15px 0;
+  width: 100%;
+  overflow: auto;
+  border-spacing: 0;
+  border-collapse: collapse;
+  border-color: gray;
+  margin: 15px 0;
 }
 
 
 td, th {
-    padding: 6px 13px;
-    display: table-cell;
-    vertical-align: top;
-    line-height: 1.4em;
-    text-align: left;
+  padding: 6px 13px;
+  display: table-cell;
+  vertical-align: top;
+  line-height: 1.4em;
+  text-align: left;
+  border: 1px solid #ddd;
 }
 
 th {
-    font-weight: bold;
+  font-weight: bold;
+  color: white;
+  background: #555;
 }
 
+tbody > tr:nth-child(even) {
+  background: #eee;
+}
+
+
 blockquote {
-    padding: 16px 32px 8px 24px;
-    margin: 24px 16px;
+  padding: 16px 32px 8px 24px;
+  margin: 24px 16px;
 }
 
 h1, h2, h3, h4 {
-    text-align: left;
+  text-align: left;
 }
 
 
 
 
-    pre {
-        margin-top: 25px;
-        margin-bottom: 25px;
-    }
+pre {
+  margin-top: 25px;
+  margin-bottom: 25px;
+}
 
-    pre code.hljs {
-        overflow-x: auto;
-        overflow-y: hidden;
-        padding-left: 8px;
-        padding-right: 8px;
-        line-height: 1.5em;
-    }
+  pre code.hljs {
+    overflow-x: auto;
+    overflow-y: hidden;
+    padding-left: 8px;
+    padding-right: 8px;
+    line-height: 1.5em;
+  }
 
-     h1 {
-        font-family: Roboto,"Helvetica Neue Light","Helvetica Neue",Helvetica,Arial,"Lucida Grande",sans-serif;
-        font-weight: 300;
-        font-size: 2.4em;
-        margin-top: 40px;
-        margin-bottom: 30px;
-    }
+h1 {
+  font-family: Roboto,"Helvetica Neue Light","Helvetica Neue",Helvetica,Arial,"Lucida Grande",sans-serif;
+  font-weight: 300;
+  font-size: 2.4em;
+  margin-top: 40px;
+  margin-bottom: 30px;
+}
 
-     h2 {
-        font-family: Roboto,"Helvetica Neue Light","Helvetica Neue",Helvetica,Arial,"Lucida Grande",sans-serif;
-        font-weight: 300;
-        font-size: 1.8em;
-        margin-top: 50px;
-        margin-bottom: 30px;
-    }
+h2 {
+  font-family: Roboto,"Helvetica Neue Light","Helvetica Neue",Helvetica,Arial,"Lucida Grande",sans-serif;
+  font-weight: 300;
+  font-size: 1.8em;
+  margin-top: 50px;
+  margin-bottom: 30px;
+}
 
-     h3 {
-        font-family: Roboto,"Helvetica Neue Light","Helvetica Neue",Helvetica,Arial,"Lucida Grande",sans-serif;
-        font-weight: 300;
-        font-size: 1.6em;
-        margin-top: 40px;
-        margin-bottom: 20px;
-    }
+h3 {
+  font-family: Roboto,"Helvetica Neue Light","Helvetica Neue",Helvetica,Arial,"Lucida Grande",sans-serif;
+  font-weight: 300;
+  font-size: 1.6em;
+  margin-top: 40px;
+  margin-bottom: 20px;
+}
 
-     p {
-        line-height: 1.7;
-        text-align: justify;
-    }
+p {
+  line-height: 1.7;
+  text-align: justify;
+}
 
-     li {
-        line-height: 1.7;
-    }
+li {
+  line-height: 1.7;
+}
 
-     img {
-        max-width: 100%;
-        margin-top: 20px;
-        margin-top: 20px;
-    }
+img {
+  max-width: 100%;
+  margin-top: 20px;
+  margin-top: 20px;
+}
 
 
 
 /* Special markdown features */
 .task-list-item {
-    list-style-type: none;
+  list-style-type: none;
 }
+
 .task-list-item-checkbox {
-    margin: 0 0.2em 0.25em -1.6em;
-    vertical-align: middle;
+  margin: 0 0.2em 0.25em -1.6em;
+  vertical-align: middle;
 }
+
 .task-list-item input[type="checkbox"] {
-    margin: 0 0.2em 0.25em -1.6em;
-    vertical-align: middle;
+  margin: 0 0.2em 0.25em -1.6em;
+  vertical-align: middle;
 }
 
 -webkit-scrollbar-thumb, body::-webkit-scrollbar-thumb, ::-webkit-scrollbar-thumb {
-    background-color: #6e6e6e;
-    outline: 1px solid #333;
+  background-color: #6e6e6e;
+  outline: 1px solid #333;
 }
 
 a:link, a:visited {
-    color: #034af3;
+  color: #034af3;
 }
 
 a:hover {
-    color: #1d60ff;
+  color: #1d60ff;
 }
 
 a:active {
-    color: #12eb87;
+  color: #12eb87;
 }
 
 body {
-    background-color: white;
-    color: Black;
+  background-color: white;
+  color: Black;
 }
 
 p code {
-    background-color: #f9f9f9;
-    border: 1px solid rgb(230, 230, 230);
-}
-
-table {
-    border-color: gray;
-}
-
-td, th {
-    border: 1px solid #ddd;
-}
-
-th {
-    color: white;
-    background: #555;
-}
-
-tbody>tr:nth-child(even) {
-    background: #eee;
+  background-color: #f9f9f9;
+  border: 1px solid rgb(230, 230, 230);
 }
 
 blockquote {
-    color: #333;
-    background-color: rgba(25,118,210,.05);
-    border-left: 8px solid #1e88e5;
+  color: #333;
+  background-color: rgba(25,118,210,.05);
+  border-left: 8px solid #1e88e5;
 }
 
 
 h1, h2 {
-    color: #1e88e5;
+  color: #1e88e5;
 }
 
 h3 {
-    color: #525252;
+  color: #525252;
 }
 
 
 
 li.kava-auto-link {
-    background-color: rgba(25,118,210,.05);
-    border-left: 8px solid #1e88e5;
-}
-li.kava-auto-link a:link, li.kava-auto-link a:visited {
-    color: black;
+  background-color: rgba(25,118,210,.05);
+  border-left: 8px solid #1e88e5;
 }
 
+  li.kava-auto-link a:link, li.kava-auto-link a:visited {
+    color: black;
+  }
+
 .kava-recursive-topic {
-    color: red;
+  color: red;
 }
 
 
 
 .topic-link a:link, .topic-link a:visited {
-    color: black;
+  color: black;
 }
 
 .topic-link a:hover {
-    color: rgb(8, 57, 129);
+  color: rgb(8, 57, 129);
 }
 
 .toc.show-mobile-menu .topic-link a:link, .toc.show-mobile-menu .topic-link a:visited, .toc.show-mobile-menu .topic-link a:hover {
-    color: white;
+  color: white;
 }
 
-.selected-topic>a, .selected-topic>a:visited, .selected-topic>a:link {
-    color: #1e88e5;
+.selected-topic > a, .selected-topic > a:visited, .selected-topic > a:link {
+  color: #1e88e5;
 }
 
 a.area-link, a.area-link:visited {
-    color: rgb(8, 57, 129);
+  color: rgb(8, 57, 129);
 }
 
 figure {
-    color: rgb(8, 57, 129);
+  color: rgb(8, 57, 129);
 }
 
 
 @media print {
-    pre {
-        white-space: pre-wrap;
-        word-break: normal;
-        word-wrap: normal;
-    }
+  pre {
+    white-space: pre-wrap;
+    word-break: normal;
+    word-wrap: normal;
+  }
 
     pre > code {
-        white-space: pre-wrap;
-        padding: 1em !important;
+      white-space: pre-wrap;
+      padding: 1em !important;
     }
 }
