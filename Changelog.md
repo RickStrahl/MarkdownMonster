@@ -5,7 +5,7 @@
 [![Web Site](https://img.shields.io/badge/Markdown_Monster-WebSite-blue.svg)](https://markdownmonster.west-wind.com)
 
 
-### 1.20.8
+### 1.20.10
 *<small>not released yet</small>* 
 
 * **Major Overhaul of Editor/Preview Sync in Two-Way Sync Mode**  
