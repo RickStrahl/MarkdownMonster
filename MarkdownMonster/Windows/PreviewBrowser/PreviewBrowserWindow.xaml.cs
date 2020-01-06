@@ -187,15 +187,16 @@ namespace MarkdownMonster.Windows
         }
 
         
-        public void ScrollToEditorLine(int editorLineNumber = -1, bool updateCodeBlocks = false, bool noScrollTimeout = false)
+        public void ScrollToEditorLine(int editorLineNumber = -1, bool updateCodeBlocks = false, bool noScrollTimeout = false, bool noScrollTopAdjustment = false)
         {
-            PreviewBrowser.ScrollToEditorLine(editorLineNumber, updateCodeBlocks, noScrollTimeout);
+            PreviewBrowser.ScrollToEditorLine(editorLineNumber, updateCodeBlocks, noScrollTimeout, noScrollTopAdjustment);
         }
 
-        public void ScrollToEditorLineAsync(int editorLineNumber = -1, bool updateCodeBlocks = false, bool noScrollTimeout = false)
+        public void ScrollToEditorLineAsync(int editorLineNumber = -1, bool updateCodeBlocks = false, bool noScrollTimeout = false, bool noScrollTopAdjustment = false)
         {
-            PreviewBrowser.ScrollToEditorLineAsync(editorLineNumber, updateCodeBlocks, noScrollTimeout);
+            PreviewBrowser.ScrollToEditorLineAsync(editorLineNumber, updateCodeBlocks, noScrollTimeout, noScrollTopAdjustment);
         }
+
 
         public void Navigate(string url)
         {

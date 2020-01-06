@@ -73,14 +73,14 @@ namespace MarkdownMonster.Windows.PreviewBrowser
         }
 
         
-        public void ScrollToEditorLine(int editorLineNumber = -1, bool updateCodeBlocks = false, bool noScrollTimeout = false)
+        public void ScrollToEditorLine(int editorLineNumber = -1, bool updateCodeBlocks = false, bool noScrollTimeout = false, bool noScrollTopAdjustment = false)
         {
-            PreviewBrowserHandler.ScrollToEditorLine(editorLineNumber, updateCodeBlocks, noScrollTimeout);
+            PreviewBrowserHandler.ScrollToEditorLine(editorLineNumber, updateCodeBlocks, noScrollTimeout, noScrollTopAdjustment);
         }
 
-        public void ScrollToEditorLineAsync(int editorLineNumber = -1, bool updateCodeBlocks = false, bool noScrollTimeout = false)
+        public void ScrollToEditorLineAsync(int editorLineNumber = -1, bool updateCodeBlocks = false, bool noScrollTimeout = false, bool noScrollTopAdjustment = false)
         {
-            PreviewBrowserHandler.ScrollToEditorLineAsync(editorLineNumber, updateCodeBlocks, noScrollTimeout);
+            PreviewBrowserHandler.ScrollToEditorLineAsync(editorLineNumber, updateCodeBlocks, noScrollTimeout, noScrollTopAdjustment);
         }
 
         public void Navigate(string url)

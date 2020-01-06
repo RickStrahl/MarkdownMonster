@@ -396,12 +396,12 @@ namespace MarkdownMonster.Windows.PreviewBrowser
             }
         }
 
-        public void ScrollToEditorLineAsync(int editorLineNumber = -1, bool updateCodeBlocks = false, bool noScrollTimeout = false)
+        public void ScrollToEditorLineAsync(int editorLineNumber = -1, bool updateCodeBlocks = false, bool noScrollTimeout = false, bool noScrollTopAdjustment = false)
         {
-            Application.Current.Dispatcher.InvokeAsync(() => ScrollToEditorLine(editorLineNumber, updateCodeBlocks, noScrollTimeout));
+            Application.Current.Dispatcher.InvokeAsync(() => ScrollToEditorLine(editorLineNumber, updateCodeBlocks, noScrollTimeout, noScrollTopAdjustment));
         }
 
-        public void ScrollToEditorLine(int editorLineNumber = -1, bool updateCodeBlocks = false, bool noScrollTimeout = false)
+        public void ScrollToEditorLine(int editorLineNumber = -1, bool updateCodeBlocks = false, bool noScrollTimeout = false, bool noScrollTopAdjustment = false)
 
         {
             var interop = new PreviewBrowserInterop(PreviewBrowserInterop.GetWindow(WebBrowser));
@@ -410,12 +410,9 @@ namespace MarkdownMonster.Windows.PreviewBrowser
             if (editor == null)
                 return;
 
-            int highlightLineNo = editorLineNumber;
             if (editorLineNumber < 0)
-            {
-                highlightLineNo = editor.GetLineNumber();
-                editorLineNumber = highlightLineNo;
-            }
+                editorLineNumber = editor.GetLineNumber();
+            
 
             string lineText = null;
             
@@ -425,7 +422,7 @@ namespace MarkdownMonster.Windows.PreviewBrowser
             {
                 lineText = editor.GetLine(editorLineNumber).Trim();
 
-                if (lineText.StartsWith("# ")) // it's header
+                if (lineText.StartsWith("#") && lineText.Contains("# ")) // it's header
                 {
                     lineText = lineText.TrimStart(new[] {' ', '#', '\t'});
                     headerId = LinkHelper.UrilizeAsGfm(lineText);
@@ -433,7 +430,7 @@ namespace MarkdownMonster.Windows.PreviewBrowser
             }
 
             if (editor.EditorSyntax == "markdown")
-                interop.ScrollToPragmaLine(editorLineNumber, headerId, noScrollTimeout);
+                interop.ScrollToPragmaLine(editorLineNumber, headerId, noScrollTimeout, noScrollTopAdjustment);
             else if (editor.EditorSyntax == "html")
                 interop.ScrollToHtmlBlock(lineText ?? editor.GetLine(editorLineNumber) );
         }

@@ -121,23 +121,23 @@
               if (!te.mm) return;
               te.mm.textbox.PreviewMarkdownCallback(true);
             }, 100);
-            var scrollPreviewRefresh = debounce(function(editorLine, noScrollTimeout) {
+            var scrollPreviewRefresh = debounce(function(editorLine, noScrollTimeout, noScrollTopAdjustment) {
                 if (!te.mm) return;
                 if (typeof editorLine !== "number")
                   editorLine = -1;
 
                 noScrollTimeout = noScrollTimeout ? true : false;
+                if (!noScrollTimeout)
+                  te.setCodeScrolled();
 
-                console.log("scrollPreviewRefresh - line: " + editorLine + "  noScrollRefresh: " + noScrollTimeout);
-
-                te.mm.textbox.ScrollPreviewToEditorLineCallback(editorLine,true,noScrollTimeout);
+                te.mm.textbox.ScrollPreviewToEditorLineCallback(editorLine,true,noScrollTimeout, noScrollTopAdjustment);
               },
               100);
             $("pre[lang]").on("keyup",
                 function (event) {
                     // up and down handling - force a preview refresh
                   if (event.keyCode === 38 || event.keyCode === 40) {
-                    scrollPreviewRefresh();
+                    scrollPreviewRefresh(-1, false, true);  // noScrollTopAdjustment
                     te.updateDocumentStats();
                   }
                   // left right
@@ -156,7 +156,7 @@
                       // Line feed, backspace, del should immediately spell check as errors shift
                       if (te.spellcheck) te.spellcheck.spellCheck(true);
                     }
-                    if (te.editor.session.getLength() > 1500 && te.previewRefreshTimeout != te.previewRefreshTimeoutSlow) {
+                    if (te.editor.session.getLength() > 2000 && te.previewRefreshTimeout != te.previewRefreshTimeoutSlow) {
                       te.previewRefreshTimeout = te.previewRefreshTimeoutSlow;
                       setUpdateDocument();
                     }
@@ -165,6 +165,44 @@
                   }
                   
                 });
+
+            
+
+   
+            var changeScrollTop = debounce(function (e) {
+
+              // don't do anything if we moved without requesting
+              // a document refresh (from preview refresh)
+              if (te.isCodeScrolled(te.previewScrollTimeout)) // set in json file
+                return;
+
+              te.codeScrolled = 0;
+
+              // if there is a selection don't set cursor position
+              // or preview. Mouseup will scroll to position at end
+              // of selection
+              var sel = te.getselection();
+
+              if (sel && sel.length > 0) {
+                return;
+              }
+
+              setTimeout(function () {
+                var firstRow = te.editor.renderer.getFirstVisibleRow();
+                if (firstRow > 2)
+                  firstRow += 3;
+                else
+                  firstRow = 0;
+
+                // preview and highlight top of display
+                scrollPreviewRefresh(firstRow);
+
+                if (sc)
+                  sc.contentModified = true;  // force spell check to run
+              }, 10);
+            }, 80);
+            editor.session.on("changeScrollTop", changeScrollTop);
+
 
             // always have mouse position available when drop or paste
             editor.on("mousemove",
@@ -240,42 +278,6 @@
                     return false;
                 }
             };
-
-   
-            var changeScrollTop = debounce(function (e) {
-
-                // don't do anything if we moved without requesting
-                // a document refresh (from preview refresh)
-                if (te.isCodeScrolled(te.previewScrollTimeout)) // set in json file
-                  return;
-
-                te.codeScrolled = 0;
-
-                // if there is a selection don't set cursor position
-                // or preview. Mouseup will scroll to position at end
-                // of selection
-                var sel = te.getselection();
-
-                if (sel && sel.length > 0) {
-                  return;
-                }
-
-                setTimeout(function () {
-                    var firstRow = te.editor.renderer.getFirstVisibleRow();
-                    if (firstRow > 2)
-                      firstRow += 3;
-                    else
-                      firstRow = 0;
-
-                    // preview and highlight top of display
-                    scrollPreviewRefresh(firstRow, true);
-
-                    if (sc)
-                        sc.contentModified = true;  // force spell check to run
-                }, 10);
-            }, 80);
-
-            editor.session.on("changeScrollTop", changeScrollTop);
 
             return editor;
         },

@@ -1496,13 +1496,13 @@ namespace MarkdownMonster
                 Window.UpdateDocumentOutline(editorLineNumber);
         }
 
-        public void ScrollPreviewToEditorLineCallback(int editorLineNumber = -1, bool updateCodeBlocks = true, bool noScrollTimeout = false)
+        public void ScrollPreviewToEditorLineCallback(int editorLineNumber = -1, bool updateCodeBlocks = true, bool noScrollTimeout = false, bool noScrollTopAdjustment = false)
         {
             if (Window.PreviewBrowser == null ||
                 (EditorSyntax != "markdown" && EditorSyntax != "html") )
                 return;
 
-            Window.PreviewBrowser.ScrollToEditorLineAsync(editorLineNumber, updateCodeBlocks, noScrollTimeout);
+            Window.PreviewBrowser.ScrollToEditorLineAsync(editorLineNumber, updateCodeBlocks, noScrollTimeout, noScrollTopAdjustment);
 
             var isDocumentOutlineActive = Window.SidebarContainer?.SelectedItem == Window.TabDocumentOutline;
             if (isDocumentOutlineActive)
