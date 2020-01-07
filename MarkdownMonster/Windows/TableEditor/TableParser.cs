@@ -358,12 +358,15 @@ namespace MarkdownMonster.Windows
         {
             var data = new ObservableCollection<ObservableCollection<CellContent>>();
             var lines = StringUtils.GetLines(tableMarkdown.Trim());
-            foreach (var row in lines)
+            for (var index = 0; index < lines.Length; index++)
             {
-                if (row.Length == 0)
+                var row = lines[index];
+                if (row.Length == 0 )
                     continue;
 
-                if (row.StartsWith("|--") || row.StartsWith("| --") ||
+                // check for aligned headers
+                if (data.Count > 0 &&   // header row must exist
+                    row.StartsWith("|--") || row.StartsWith("| --") ||
                     row.StartsWith("|:-") || row.StartsWith("| :-") ||
                     row.StartsWith("--"))
                 {
