@@ -126,7 +126,9 @@
                 if (typeof editorLine !== "number")
                   editorLine = -1;
 
+                // by default there is a scroll timeout so we don't recursively scroll in two-way mode
                 noScrollTimeout = noScrollTimeout ? true : false;
+
                 if (!noScrollTimeout)
                   te.setCodeScrolled();
 
@@ -137,7 +139,7 @@
                 function (event) {
                     // up and down handling - force a preview refresh
                   if (event.keyCode === 38 || event.keyCode === 40) {
-                    scrollPreviewRefresh(-1, false, true);  // noScrollTopAdjustment
+                    scrollPreviewRefresh(-1, false, false);  // noScrollTopAdjustment
                     te.updateDocumentStats();
                   }
                   // left right

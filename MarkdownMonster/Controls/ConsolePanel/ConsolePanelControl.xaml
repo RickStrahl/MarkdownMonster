@@ -42,12 +42,12 @@
         </Grid>
 
         <ScrollViewer Name="ConsolePanelScroll" 
-                          Grid.Row="1" Padding="15,5,0,5"
+                          Grid.Row="1" Padding="15,5,0,1"
                           CanContentScroll="True"
                           Height="Auto">
             <TextBlock Name="ConsolePanelText"
                            FontFamily="Consolas" 
-                           Height="Auto"  LineHeight="2" 
+                           Height="Auto"  
                            ScrollViewer.VerticalScrollBarVisibility="Auto"
                            Text ="{Binding WindowLayout.ConsoleText}" />
         </ScrollViewer>

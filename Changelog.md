@@ -6,7 +6,7 @@
 
 
 ### 1.20.10
-*<small>not released yet</small>* 
+*<small>January 7th, 2020</small>* 
 
 * **Major Overhaul of Editor/Preview Sync in Two-Way Sync Mode**  
 Remove a number of issues that caused editor jankiness due to recursive editor and preview syncing. The preview is now more conservative in scrolling the editor so that any two-way recursion issues have been minimized. This fixes jumpiness at the top and bottom of the document (especially in code snippets) as well as unexpected cursor movements during keyboard scrolling.
@@ -25,7 +25,6 @@ There's a new context menu option that lets you navigate relative Markdown links
 
 * **Clickable Links in Editor**  
 Links are now clickable in the text editor. Links are underlined and are control click-able,  which displays the link in the appropriate editor. Hyperlinks are opened in the browser, supported documents are opened in the editor and any others are opened in the appropriate Windows associated shell editors.
-
 
 * **Remove Code Copy Badges in PDF/Print Views**  
 The code badges were overlaying the print content and since there's no transparency and you can easily scroll code, the badges are superfluous and would obscure content below it. Removed for PDF and Print output.
