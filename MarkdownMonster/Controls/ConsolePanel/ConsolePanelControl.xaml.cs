@@ -48,8 +48,7 @@ namespace MarkdownMonster.Controls
         public void Write(string text, Brush color = null)
         {
             if (!Model.WindowLayout.IsConsolePanelVisible)
-                Model.WindowLayout.IsConsolePanelVisible = true;
-
+                Show();
 
             Model.WindowLayout.ConsoleText += text;
             ConsolePanelScroll.ScrollToVerticalOffset(99999999);
@@ -69,6 +68,8 @@ namespace MarkdownMonster.Controls
         public void Show()
         {
             Model.WindowLayout.IsConsolePanelVisible = true;
+            Model.Window.ConsolePanelGridRow.Height = new GridLength(Model.Configuration.WindowPosition.ConsolePanelHeight, GridUnitType.Pixel);
+            Model.Window.ContentConsoleSplitterGridRow.Height = new GridLength(1, GridUnitType.Auto);
         }
 
 
@@ -78,6 +79,9 @@ namespace MarkdownMonster.Controls
         public void Hide()
         {
             Model.WindowLayout.IsConsolePanelVisible = false;
+            Model.Configuration.WindowPosition.ConsolePanelHeight = Model.Window.ConsolePanelGridRow.Height.Value;
+            Model.Window.ConsolePanelGridRow.Height = new GridLength(1, GridUnitType.Auto);
+            Model.Window.ContentConsoleSplitterGridRow.Height = new GridLength(1, GridUnitType.Auto);
         }
 
     }

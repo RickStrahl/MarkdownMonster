@@ -23,13 +23,12 @@ using Westwind.Utilities;
 
 namespace MarkdownMonster
 {
-    public class
-        AppCommands
+    public class AppCommands
     {
         AppModel Model;
 
-        public SpeechCommands Speech { get;  }
-        public GitCommands Git { get;  }
+        public SpeechCommands Speech { get; }
+        public GitCommands Git { get; }
 
         public AppCommands(AppModel model)
         {
@@ -123,7 +122,7 @@ namespace MarkdownMonster
             ToggleConsolePanel();
             ClearConsolePanel();
 
-            
+
 
 #if NETFULL
             Speech = new SpeechCommands(model);
@@ -243,7 +242,7 @@ namespace MarkdownMonster
                     if (doc != null)
                     {
                         var urlTab = Model.Window.OpenTab("untitled");
-                        ((MarkdownDocumentEditor) urlTab.Tag).MarkdownDocument = doc;
+                        ((MarkdownDocumentEditor)urlTab.Tag).MarkdownDocument = doc;
                         Model.Window.PreviewMarkdownAsync();
                     }
 
@@ -485,7 +484,7 @@ namespace MarkdownMonster
                     doc.MarkdownDocument.Password = null;
                 else
                 {
-                    var pwdDialog = new FilePasswordDialog(doc.MarkdownDocument, false) {Owner = Model.Window};
+                    var pwdDialog = new FilePasswordDialog(doc.MarkdownDocument, false) { Owner = Model.Window };
                     bool? pwdResult = pwdDialog.ShowDialog();
                 }
 
@@ -503,7 +502,7 @@ namespace MarkdownMonster
                     Model.Configuration.LastFolder = Path.GetDirectoryName(sd.FileName);
                 }
 
-                
+
                 Model.Window.SetWindowTitle();
                 Model.Window.PreviewMarkdown(doc, keepScrollPosition: true);
             }, (s, e) => { return Model.IsEditorActive; });
@@ -732,7 +731,7 @@ namespace MarkdownMonster
             // PDF GENERATION PREVIEW
             GeneratePdfCommand = new CommandBase((s, e) =>
             {
-                var form = new GeneratePdfWindow() {Owner = mmApp.Model.Window};
+                var form = new GeneratePdfWindow() { Owner = mmApp.Model.Window };
                 form.Show();
             }, (s, e) =>
             {
@@ -826,7 +825,7 @@ namespace MarkdownMonster
                     headers = new List<DragablzItem>();
                     foreach (DragablzItem tab in Model.Window.TabControl.Items)
                     {
-                        ((List<DragablzItem>) headers).Add(tab);
+                        ((List<DragablzItem>)headers).Add(tab);
                     }
                 }
 
@@ -1517,7 +1516,7 @@ namespace MarkdownMonster
                 var display = Path.GetFileNameWithoutExtension(file).Replace("-", " ").Replace("_", " ");
                 display = StringUtils.FromCamelCase(display);
 
-                var favorite = fav.AddFavorite(null, new FavoriteItem {File = file, Title = display});
+                var favorite = fav.AddFavorite(null, new FavoriteItem { File = file, Title = display });
                 fav.SaveFavorites();
 
                 fav.EditedFavorite = favorite;
@@ -1674,7 +1673,7 @@ namespace MarkdownMonster
         {
             AddinManagerCommand = new CommandBase((parameter, command) =>
             {
-                var form = new AddinManagerWindow {Owner = Model.Window};
+                var form = new AddinManagerWindow { Owner = Model.Window };
                 form.Show();
             });
         }
@@ -1692,7 +1691,7 @@ namespace MarkdownMonster
                 {
                     path = Model.ActiveProject?.Filename;
                     if (string.IsNullOrEmpty(path))
-                       path = Path.GetDirectoryName(Model.ActiveDocument?.Filename);
+                        path = Path.GetDirectoryName(Model.ActiveDocument?.Filename);
                 }
 
                 var searchControl = Model.Window.OpenSearchPane();
@@ -2104,15 +2103,9 @@ namespace MarkdownMonster
                 {
                     Model.WindowLayout.IsConsolePanelVisible = !Model.WindowLayout.IsConsolePanelVisible;
                     if (!Model.WindowLayout.IsConsolePanelVisible)
-                    {
-                        Model.Configuration.WindowPosition.ConsolePanelHeight = Model.Window.ConsolePanelGridRow.Height.Value;
-                        Model.Window.ConsolePanelGridRow.Height = new GridLength(1, GridUnitType.Auto);
-                        Model.Window.ContentConsoleSplitterGridRow.Height = new GridLength(1, GridUnitType.Auto);
-                    }
+                        Model.Window.ConsolePanel.Hide();
                     else
-                    {
-                        Model.Window.ConsolePanelGridRow.Height = new GridLength(Model.Configuration.WindowPosition.ConsolePanelHeight, GridUnitType.Pixel);
-                    }
+                        Model.Window.ConsolePanel.Show();
                 }, (p, c) => true);
         }
 
@@ -2140,7 +2133,7 @@ namespace MarkdownMonster
             SettingsVisualCommand = new CommandBase((parameter, command) =>
             {
                 if (mmApp.OpenWindows.ConfigurationEditor == null || !mmApp.OpenWindows.ConfigurationEditor.IsLoaded)
-                    mmApp.OpenWindows.ConfigurationEditor = new ConfigurationEditorWindow() {Owner = Model.Window};
+                    mmApp.OpenWindows.ConfigurationEditor = new ConfigurationEditorWindow() { Owner = Model.Window };
                 mmApp.OpenWindows.ConfigurationEditor.Show();
             }, (p, c) => true);
         }
@@ -2182,7 +2175,7 @@ namespace MarkdownMonster
                         Model.Window.Dispatcher.InvokeAsync(() =>
                         {
                             Model.ActiveEditor.AceEditor.FindText(searchFor);
-                        },DispatcherPriority.ApplicationIdle);
+                        }, DispatcherPriority.ApplicationIdle);
                     }
                 }
                 catch
@@ -2223,7 +2216,7 @@ We're now shutting down the application.
         void SwitchTheme()
         {
 
-            
+
             SwitchThemeCommand = new CommandBase((parameter, command) =>
             {
                 var window = mmApp.Model.Window;
@@ -2239,7 +2232,7 @@ We're now shutting down the application.
                 }
                 else
                     selectedTheme = (Themes)Enum.Parse(typeof(Themes), text);
-                
+
                 var oldVal = mmApp.Configuration.ApplicationTheme;
 
                 if (oldVal != selectedTheme &&
@@ -2280,7 +2273,7 @@ We're now shutting down the application.
             {
                 if (Model.ActiveEditor?.MarkdownDocument == null)
                 {
-                    if(!string.IsNullOrEmpty(Model.ActiveTabFilename))
+                    if (!string.IsNullOrEmpty(Model.ActiveTabFilename))
                         mmFileUtils.ShowExternalBrowser(Model.ActiveTabFilename);
 
                     return;
@@ -2299,7 +2292,7 @@ We're now shutting down the application.
             ViewHtmlSourceCommand = new CommandBase((p, e) =>
             {
                 if (Model.ActiveDocument == null) return;
-                var filename = Model.ActiveDocument.HtmlRenderFilename.Replace(MarkdownDocument.PREVIEW_HTML_FILENAME,MarkdownDocument.PREVIEW_HTML_SOURCE_FILENAME);
+                var filename = Model.ActiveDocument.HtmlRenderFilename.Replace(MarkdownDocument.PREVIEW_HTML_FILENAME, MarkdownDocument.PREVIEW_HTML_SOURCE_FILENAME);
                 Model.ActiveDocument.RenderHtmlToFile(filename: filename);
                 Model.Window.RefreshTabFromFile(filename);
             });
