@@ -18,7 +18,8 @@
         /// <param name="args"></param>
         public void AfterMarkdownRendered(ModifyHtmlAndHeadersArguments args)
         {
-            if (args.Html.Contains(" class=\"math\"") || args.Markdown.Contains("useMath: true"))
+            if (mmApp.Configuration.MarkdownOptions.UseMathematics &&
+                (args.Html.Contains(" class=\"math\"") || args.Markdown.Contains("useMath: true")))
                 args.HeadersToEmbed = MathJaxScript;
         }
 
@@ -54,7 +55,7 @@
     // refresh when the document is refreshed via code
     $(document).on('previewUpdated',function() {
         setTimeout(function() {
-                    MathJax.Hub.Queue(['Typeset',MathJax.Hub,'#MainContent']);
+            MathJax.Hub.Queue(['Typeset',MathJax.Hub,'#MainContent']);
         },10);
     });
 </script>
