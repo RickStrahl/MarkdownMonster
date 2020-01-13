@@ -28,10 +28,8 @@
     <PackageReference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform" Version="2.0.1">
       <IncludeAssets>compile</IncludeAssets>
     </PackageReference>
-    
-    
-    <PackageReference Include="System.CodeDom" Version="4.5.0">
-    <IncludeAssets>compile</IncludeAssets>
+    <PackageReference Include="Westwind.Scripting" Version="0.2.0">
+      <IncludeAssets>compile</IncludeAssets>
     </PackageReference>
 
     <PackageReference Include="Westwind.RazorHosting" Version="3.3.9" />

@@ -56,7 +56,7 @@ namespace SnippetsAddin
                     RazorHost.AddAssemblyFromType(typeof(MainWindow)); // MarkdownMonster.exe
                     RazorHost.AddAssemblyFromType(typeof(StringUtils)); // Westwind.Utilities
                     RazorHost.AddAssemblyFromType(typeof(DbConnection)); // System.Data
-                    RazorHost.AddAssemblyFromType(typeof(Graphics)); // System.Data
+                    RazorHost.AddAssemblyFromType(typeof(Graphics)); // System.Drawing
 
                     RazorHost.ReferencedNamespaces.Add("MarkdownMonster");
                     RazorHost.ReferencedNamespaces.Add("Westwind.Utilities");
@@ -164,10 +164,38 @@ namespace SnippetsAddin
             snippet = "@\"" + snippet + "\"";
 
 
-            string code = "dynamic Model = Parameters[0];\r\n" +
+            string code = "dynamic Model = parameters[0];\r\n" +
                           "return " + snippet + ";";
 
-            var scriptCompiler = new ScriptRunnerRoslyn();
+            //var scriptCompiler = new ScriptRunnerRoslyn();
+            var scriptCompiler = new CSharpScriptExecution() {CompilerMode = ScriptCompilerModes.Roslyn};
+            scriptCompiler.AddDefaultReferencesAndNamespaces();
+
+            scriptCompiler.AddAssemblies("System.dll",
+                "System.Core.dll",
+                "System.Drawing.dll",
+                "Microsoft.CSharp.dll",
+                "System.Data.dll",
+                "MarkdownMonster.exe",
+                "Westwind.Utilities.dll",
+                "System.Configuration.dll",
+                "Newtonsoft.Json.dll");
+
+            scriptCompiler.AddNamespaces("System",
+                "System.IO",
+                "System.Reflection",
+                "System.Text",
+                "System.Drawing",
+                "System.Diagnostics",
+                "System.Data",
+                "System.Data.SqlClient",
+                "System.Linq",
+                "System.Collections.Generic",
+                "Newtonsoft.Json",
+                "Newtonsoft.Json.Linq",
+                "MarkdownMonster",
+                "Westwind.Utilities");
+
             string result = scriptCompiler.ExecuteCode(code, model) as string;
 
             if (result == null)

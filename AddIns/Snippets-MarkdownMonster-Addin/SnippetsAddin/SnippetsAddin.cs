@@ -94,7 +94,7 @@ namespace SnippetsAddin
 
             if (requiresCompiler)
             {
-                ScriptRunnerRoslyn.WarmupRoslyn();
+                RoslynLifetimeManager.WarmupRoslyn();
             }
         }
 
@@ -133,7 +133,7 @@ namespace SnippetsAddin
         public override void OnApplicationShutdown()
         {
             // if Roslyn is running shut it down
-            ScriptRunnerRoslyn.ShutdownRoslyn();
+            RoslynLifetimeManager.ShutdownRoslyn();
             snippetsWindow?.Close();
         }
 
