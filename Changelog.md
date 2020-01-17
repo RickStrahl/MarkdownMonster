@@ -4,6 +4,20 @@
 [![Chocolatey](https://img.shields.io/chocolatey/dt/markdownmonster.svg)](https://chocolatey.org/packages/MarkdownMonster)
 [![Web Site](https://img.shields.io/badge/Markdown_Monster-WebSite-blue.svg)](https://markdownmonster.west-wind.com)
 
+### 1.20.15
+*<small>not released yet</small>* 
+
+* **Additional Document Editing and Syncing Performance Improvements**
+Made a few additional tweaks to the document syncing and scroll functionality which improves editor performance for plain editing and provides more reliable preview sync updates for code blocks and other large block objects in the markdown text.
+
+* **Addins: Added Script Component to the main Markdown Monster Project**   
+The scripting library used in the Snippets and Commander addins has been moved into the main Markdown Monster property, which now makes it available to all Addin projects. This was done to consolidate the code used in both Snippets and Commander to use the same exact C# scripting engine and compiler runtimes.
+
+* **Fix: Console Sizing Issue**  
+Fixed issue with the new Console window not sizing properly when writing to it without resizing the window first.   
+
+* **Fix: Table Header Parsing**  
+Fixed issue with table editing when selecting an existing table and importing into the table editor for re-editing or re-formatting. Fixed various edge case scenarios that previously crashed the importer.
 
 ### 1.20.10
 *<small>January 7th, 2020</small>* 
