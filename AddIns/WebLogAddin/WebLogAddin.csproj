@@ -26,7 +26,7 @@
     <PackageReference Include="HtmlAgilityPack" Version="1.11.17">
       <IncludeAssets>compile</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Westwind.Utilities" Version="3.0.32">
+    <PackageReference Include="Westwind.Utilities" Version="3.0.34">
       <IncludeAssets>compile</IncludeAssets>
     </PackageReference>
 

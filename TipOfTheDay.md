@@ -38,6 +38,11 @@ Here are a few useful Markdown Monster shortcuts to remember:
 * Alt-G - Open Git Window
 * Alt-Z - Toggle Word Wrap
 
+### Markdown Link Spaces
+When embedding images into Markdown it's best not to use spaces in image file names. Same for links. While MM can handle the spacing with encoded URLs, they are ugly and can cause problems when you move links around.
+
+Better to use CamelCase or SnakeCase if you have long names.
+
 ## Open from Url
 Did you know that Markdown Monster can open Markdown documents from a Url?
 
