@@ -5,7 +5,7 @@
 [![Web Site](https://img.shields.io/badge/Markdown_Monster-WebSite-blue.svg)](https://markdownmonster.west-wind.com)
 
 ### 1.20.15
-*<small>not released yet</small>* 
+*<small>January 17th, 2020</small>* 
 
 * **Additional Document Editing and Syncing Performance Improvements**
 Made a few additional tweaks to the document syncing and scroll functionality which improves editor performance for plain editing and provides more reliable preview sync updates for code blocks and other large block objects in the markdown text.
