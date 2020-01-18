@@ -776,7 +776,14 @@ namespace MarkdownMonster
             else if (action.StartsWith("html|"))
             {
                 action = action.Substring(5);
-                html = wrapValue(input, $"<{action}>", $"</{action}>", stripSpaces: true);
+
+                if (action.Contains("{0}"))
+                    // html|<b><i>{0}</i></b>   // {0} is text selection
+                    html = action.Replace("{0}", input);
+                else
+                    // html|cite  (html keyword)
+                    html = wrapValue(input, $"<{action}>", $"</{action}>", stripSpaces: true);
+
                 cursorMovement = (action.Length + 3) * -1;
             }
             else
