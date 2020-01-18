@@ -774,7 +774,37 @@
                                             <StackPanel Orientation="Horizontal" >
                                                 <fa:ImageAwesome Icon="Pencil" Foreground="Silver" Height="16" Width="16" Margin="0,0,10,0" />
                                                 <TextBlock>Mark Text</TextBlock>
+                                            </StackPanel>
+                                        </MenuItem.Header>
+                                    </MenuItem>
 
+                                    <MenuItem Command="{Binding Commands.ToolbarInsertMarkdownCommand }" 
+                                              CommandParameter="bolditalic" FontWeight="Light">
+                                        <MenuItem.Header>
+                                            <StackPanel Orientation="Horizontal" >
+                                                <fa:ImageAwesome Icon="Bolt" Foreground="Silver" Height="16" Width="16" Margin="0,0,10,0" />
+                                                <TextBlock>Bold and Italic</TextBlock>
+                                            </StackPanel>
+                                        </MenuItem.Header>
+                                    </MenuItem>
+
+                                    <MenuItem Command="{Binding Commands.ToolbarInsertMarkdownCommand }" 
+                                              CommandParameter="uppercase" FontWeight="Light">
+                                        <MenuItem.Header>
+                                            <StackPanel Orientation="Horizontal" >
+                                                <fa:ImageAwesome Icon="CaretUp" Foreground="Silver" Height="16" Width="16" Margin="0,0,10,0" />
+                                                <TextBlock>Make Text Uppercase</TextBlock>
+                                            </StackPanel>
+                                        </MenuItem.Header>
+                                    </MenuItem>
+
+                                    <MenuItem 
+                                              Command="{Binding Commands.ToolbarInsertMarkdownCommand }" 
+                                              CommandParameter="lowercase" FontWeight="Light">
+                                        <MenuItem.Header>
+                                            <StackPanel Orientation="Horizontal" >
+                                                <fa:ImageAwesome Icon="CaretDown" Foreground="Silver" Height="16" Width="16" Margin="0,0,10,0" />
+                                                <TextBlock>Make Text Lowercase</TextBlock>
                                             </StackPanel>
                                         </MenuItem.Header>
                                     </MenuItem>

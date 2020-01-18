@@ -770,9 +770,22 @@ namespace MarkdownMonster
                            $"```{mmApp.NewLine}";
                 }
             }
+            else if (action == "uppercase")
+            {
+                html = input?.ToUpper();
+            }
+            else if (action == "lowercase")
+            {
+                html = input?.ToLower();
+            }
+            else if (action == "bolditalic")
+            {
+                html = "<b><i>" + input + "</i></b>";
+            }
             // Custom HTML commands like
             // html|mark   html|small   html|custom
             // creates wrapped element with start/end tag wrapped around selected text
+            // https://markdownmonster.west-wind.com/docs/_5im10bjpw.htm#template-content
             else if (action.StartsWith("html|"))
             {
                 action = action.Substring(5);
@@ -793,7 +806,6 @@ namespace MarkdownMonster
                 if (!string.IsNullOrEmpty(addinAction))
                     html = addinAction;
             }
-
 
             if (string.IsNullOrEmpty(input))
                 result.CursorMovement = cursorMovement;
