@@ -1750,12 +1750,17 @@ namespace MarkdownMonster
                 // zooming
                 else if (key == "ZoomEditorUp")
                 {
-                    mmApp.Configuration.Editor.ZoomLevel += 2;
+                    mmApp.Configuration.Editor.ZoomLevel += 10;
+                    if (mmApp.Configuration.Editor.ZoomLevel > 500)
+                        mmApp.Configuration.Editor.ZoomLevel = 500;
                     RestyleEditor();
                 }
                 else if (key == "ZoomEditorDown")
                 {
-                    mmApp.Configuration.Editor.ZoomLevel -= 2;
+                    mmApp.Configuration.Editor.ZoomLevel -= 10;
+
+                    if (mmApp.Configuration.Editor.ZoomLevel < 30)
+                        mmApp.Configuration.Editor.ZoomLevel = 30;
                     RestyleEditor();
                 }
             }, System.Windows.Threading.DispatcherPriority.Background);

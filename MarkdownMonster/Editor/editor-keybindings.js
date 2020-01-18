@@ -42,9 +42,8 @@ te.keyBindings = {
     setTimeout(function() { te.editor.focus(); }, 20);
   },
     reloadEditor: function () {
-        console.log('reload editor function claled');
-        te.editor.blur(); // HACK: avoid letter o insertion into document IE bug
-    te.keyboardCommand("ReloadEditor");
+        te.editor.blur(); // HACK: avoid letter internal F5 insertion into document IE bug
+        te.keyboardCommand("ReloadEditor");
     setTimeout(function() { te.editor.focus(); }, 20);
     },
     showHelp: function() { te.keyboardCommand("ShowHelp") },
@@ -74,11 +73,15 @@ te.keyBindings = {
 
   // take over Zoom keys and manually zoom
   zoomEditorDown: function() {
+    te.editor.blur(); // HACK: avoid key getting into IE
     te.keyboardCommand("ZoomEditorDown");
+    setTimeout(function() { te.editor.focus(); }, 20);
     return null;
   },
   zoomEditorUp: function() {
+    te.editor.blur(); // HACK: avoid key getting into IE
     te.keyboardCommand("ZoomEditorUp");
+    setTimeout(function() { te.editor.focus(); }, 120);
     return null;
   },
 

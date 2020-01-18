@@ -271,11 +271,18 @@ namespace MarkdownMonster.Utilities
                 },
                 new AppKeyBinding
                 {
+                    Id="ZoomEditorUp",
                     Key = "Ctrl+=",
                     CommandName = "ZoomEditorUp",
                     HasJavaScriptHandler= true
                 },
-
+                new AppKeyBinding
+                {
+                    Id="ZoomEditorUp2",
+                    Key = "Ctrl++",
+                    CommandName = "ZoomEditorUp",
+                    HasJavaScriptHandler= true
+                },
 
                 new AppKeyBinding
                 {
