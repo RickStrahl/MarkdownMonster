@@ -10,6 +10,9 @@
 * **[Updated Editor Key Binding Configuration](http://markdownmonster.west-wind.com/docs/_59l0izpoe.htm#editor-commands)**  
 Refactored the command binding logic to make it easier to create custom bindings to currently unmapped editor operations. Also allow for key mappings to custom created template expansions through simple key mappings. (note: this may break some existing key bindings. To reset: delete `MarkdownMonster-KeyBindings.json` in config folder)
 
+* **Add KeyBindings Button to Configuration Form**  
+Added a button that opens the `MarkdownMonster-KeyBindings.json` file in the editor for editing. Note: Changes to this file require a restart in order to be applied.
+
 * **Fix: Ctrl-+ Zooming Size Issues**  
 Fixed issue where Ctrl-+ zooming would use native browser zooming while Ctrl+- would use the application zooming resulting in mis-sized zoom control and huge browser controls on repeated zooming. Fixed.
 
