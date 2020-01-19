@@ -6,7 +6,7 @@ namespace MarkdownMonster.Utilities
     /// <summary>
     /// Holds a specific key binding combination
     /// </summary>
-    [DebuggerDisplay("{Key} - {CommandName}")]
+    [DebuggerDisplay("{Key} - {CommandName} - {Id} - {Command}")]
     public class AppKeyBinding
     {
         
@@ -47,7 +47,7 @@ namespace MarkdownMonster.Utilities
 
         private CommandBase _command;
 
-        [JsonIgnore] public object CommandParameter { get; set; }
+        public object CommandParameter { get; set; }
 
         [JsonIgnore] public bool HasJavaScriptHandler { get; set; }
     }

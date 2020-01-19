@@ -360,9 +360,9 @@
         refresh: function (ignored) {
             te.editor.resize(true); //force a redraw
         },
-        keyboardCommand: function (key) {
+        keyboardCommand: function (key, action) {
             if (te.mm)
-                te.mm.textbox.keyboardCommand(key);
+                te.mm.textbox.keyboardCommand(key, action);
         },
         editorSelectionOperation: function (action, text) {
             if (te.mm)

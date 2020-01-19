@@ -1627,10 +1627,10 @@ namespace MarkdownMonster
         ///
         /// ctrl-s,ctrl-n, ctrl-o, cltr-i,ctrl-b,ctrl-l,ctrl-k,alt-c,ctrl-shift-v,ctrl-shift-c,ctlr-shift-down,ctrl-shift-up
         /// </summary>
-        /// <param name="key"></param>
-        public void KeyboardCommand(string key)
+        /// <param name="key">Key for operation to process</param>
+        /// <param name="action">Optional parameter - used for editor operations</param>
+        public void KeyboardCommand(string key, string action = null)
         {
-
             // run this one sync immediately to avoid Browser default Open File popup!
             if (key == "OpenDocument")
             {
@@ -1641,6 +1641,11 @@ namespace MarkdownMonster
             // invoke out of sync in order to force out of scope of the editor - affects weird key behavior otherwise
             Window.Dispatcher.InvokeAsync(() =>
             {
+                if (key == "EditorCommand")
+                {
+                    //Window.Model.Commands.ToolbarInsertMarkdownCommand.Execute(action);
+                    ProcessEditorUpdateCommand(action);
+                }
                 if (key == "SaveDocument")
                 {
                     Window.Model.Commands.SaveCommand.Execute(Window);
@@ -1653,37 +1658,6 @@ namespace MarkdownMonster
                 else if (key == "PrintPreview")
                 {
                     Window.Model.Commands.PrintPreviewCommand.Execute(Window.ButtonPrintPreview);
-                }
-                else if (key == "InsertSoftbreak")
-                    Window.Model.Commands.ToolbarInsertMarkdownCommand.Execute("softbreak");
-                else if (key == "InsertBold")
-                {
-                    Window.Model.Commands.ToolbarInsertMarkdownCommand.Execute("bold");
-                }
-
-                else if (key == "InsertItalic")
-                {
-                    Window.Model.Commands.ToolbarInsertMarkdownCommand.Execute("italic");
-                }
-                else if (key == "InsertInlineCode")
-                {
-                    Window.Model.Commands.ToolbarInsertMarkdownCommand.Execute("inlinecode");
-                }
-                else if (key == "InsertList")
-                {
-                    Window.Model.Commands.ToolbarInsertMarkdownCommand.Execute("list");
-                }
-                else if (key == "InsertEmoji")
-                {
-                    Window.Model.Commands.ToolbarInsertMarkdownCommand.Execute("emoji");
-                }
-                else if (key == "InsertHyperlink")
-                {
-                    Window.Model.Commands.ToolbarInsertMarkdownCommand.Execute("href");
-                }
-                else if (key == "InsertImage")
-                {
-                    Window.Model.Commands.ToolbarInsertMarkdownCommand.Execute("image");
                 }
                 else if (key == "InsertCodeblock")
                 {
@@ -1769,18 +1743,28 @@ namespace MarkdownMonster
                 // zooming
                 else if (key == "ZoomEditorUp")
                 {
-                    mmApp.Configuration.Editor.ZoomLevel += 10;
-                    if (mmApp.Configuration.Editor.ZoomLevel > 500)
-                        mmApp.Configuration.Editor.ZoomLevel = 500;
+                    mmApp.Configuration.Editor.ZoomLevel =  Convert.ToInt32(mmApp.Configuration.Editor.ZoomLevel * 1.10M);
+                    if (mmApp.Configuration.Editor.ZoomLevel >= 98 && mmApp.Configuration.Editor.ZoomLevel <= 102)
+                        mmApp.Configuration.Editor.ZoomLevel = 100;
+
+                    if (mmApp.Configuration.Editor.ZoomLevel > 400)
+                        mmApp.Configuration.Editor.ZoomLevel = 400;
                     RestyleEditor();
                 }
                 else if (key == "ZoomEditorDown")
                 {
-                    mmApp.Configuration.Editor.ZoomLevel -= 10;
+                    mmApp.Configuration.Editor.ZoomLevel =  Convert.ToInt32( mmApp.Configuration.Editor.ZoomLevel * 0.90M);
+
+                    if (mmApp.Configuration.Editor.ZoomLevel >= 97 && mmApp.Configuration.Editor.ZoomLevel <= 102)
+                        mmApp.Configuration.Editor.ZoomLevel = 100;
 
                     if (mmApp.Configuration.Editor.ZoomLevel < 30)
                         mmApp.Configuration.Editor.ZoomLevel = 30;
                     RestyleEditor();
+                }
+                else if (key.StartsWith("html|"))
+                {
+
                 }
             }, System.Windows.Threading.DispatcherPriority.Background);
         }

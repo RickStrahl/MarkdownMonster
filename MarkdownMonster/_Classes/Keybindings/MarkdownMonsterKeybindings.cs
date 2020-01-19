@@ -111,14 +111,7 @@ namespace MarkdownMonster.Utilities
                     CommandName = "PrintPreview",
                     Command = model.Commands.PrintPreviewCommand
                 },
-                new AppKeyBinding
-                {
-                    Key = "Ctrl+Q",
-                    CommandName = "InsertQuote",
-                    Command = model.Commands.ToolbarInsertMarkdownCommand,
-                    CommandParameter = "quote"
-                },
-                new AppKeyBinding
+            new AppKeyBinding
                 {
                     Key = "Ctrl+F4",
                     CommandName = "CloseActiveDocument",
@@ -172,48 +165,86 @@ namespace MarkdownMonster.Utilities
                 //JavaScript Editor Only Commands
                 new AppKeyBinding
                 {
-                    Key = "Shift+Enter",
-                    CommandName = "InsertSoftbreak",
-                    HasJavaScriptHandler= true
+                    Id = "EditorCommand_Softbreak",
+                    CommandName = "EditorCommand",
+                    CommandParameter = "softbreak",
+                    HasJavaScriptHandler= true,
+                    Key = "Shift+Enter"
                 },
                 new AppKeyBinding
                 {
+                    Id="EditorCommand_Bold",
                     Key = "Ctrl+B",
-                    CommandName = "InsertBold",
+                    CommandName = "EditorCommand",
+                    CommandParameter = "bold",
                     HasJavaScriptHandler= true
                 },
                 new AppKeyBinding
                 {
+                    Id="EditorCommand_Italic",
                     Key = "Ctrl+I",
-                    CommandName = "InsertItalic",
+                    CommandName = "EditorCommand",
+                    CommandParameter = "italic",
                     HasJavaScriptHandler= true
                 },
                 new AppKeyBinding
                 {
+                    Id="EditorCommand_Href",
                     Key = "Ctrl+K",
-                    CommandName = "InsertHyperlink",
+                    CommandName = "EditorCommand",
+                    CommandParameter = "href",
                     HasJavaScriptHandler= true
                 },
                 new AppKeyBinding
                 {
+                    Id="EditorCommand_List",
                     Key = "Ctrl+L",
-                    CommandName = "InsertList",
+                    CommandName = "EditorCommand",
+                    CommandParameter = "list",
                     HasJavaScriptHandler= true
                 },
                 new AppKeyBinding
                 {
+                    Id = "EditorCommand_Emoji",
                     Key = "Ctrl+J",
-                    CommandName = "InsertEmoji",
+                    CommandName = "EditorCommand",
+                    CommandParameter = "emoji",
                     HasJavaScriptHandler= true
                 },
-
-
                 new AppKeyBinding
                 {
+                    Id = "EditorCommand_Image",
+                    CommandName = "EditorCommand",
+                    CommandParameter = "image",
                     Key = "Alt+I",
-                    CommandName = "InsertImage",
                     HasJavaScriptHandler= true
                 },
+                new AppKeyBinding
+                {
+                    Id="EditorCommand_Quote",
+                    CommandName = "EditorCommand",
+                    CommandParameter = "quote",
+                    HasJavaScriptHandler= true,
+                    Key = "Ctrl+Q"
+                },
+                new AppKeyBinding
+                {
+                    Id = "EditorCommand_Code",
+                    CommandName = "EditorCommand",
+                    CommandParameter = "code",
+                    HasJavaScriptHandler= true,
+                    Key = "Alt+C",
+                },
+                new AppKeyBinding
+                {
+                    Id = "EditorCommand_InlineCode",
+                    CommandName = "EditorCommand",
+                    CommandParameter = "inlinecode",
+                    HasJavaScriptHandler= true,
+                    Key = "Ctrl+`"
+                },
+
+
                 new AppKeyBinding
                 {
                     Key = "F3",
@@ -232,18 +263,7 @@ namespace MarkdownMonster.Utilities
                     CommandName = "TogglePreviewBrowser",
                     HasJavaScriptHandler= false
                 },
-                new AppKeyBinding
-                {
-                    Key = "Alt+C",
-                    CommandName = "InsertCodeblock",
-                    HasJavaScriptHandler= true
-                },
-                new AppKeyBinding
-                {
-                    Key = "Ctrl+`",
-                    CommandName = "InsertInlineCode",
-                    HasJavaScriptHandler= true
-                },
+               
                 new AppKeyBinding
                 {
                     Key = "Shift+Del",

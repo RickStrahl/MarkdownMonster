@@ -743,7 +743,6 @@ namespace MarkdownMonster
             {
                 icon = ImageAwesome.CreateImageSource(iconId, ToolbarEdit.Foreground);
             }
-
             AddEditToolbarIcon(icon, markdownActionCommand, toolbar, command);
         }
 
@@ -761,20 +760,24 @@ namespace MarkdownMonster
             if (toolbar == null) toolbar = ToolbarEdit;
             if (command == null) command = Model.Commands.ToolbarInsertMarkdownCommand;
 
-            var tb = new Button() {Command = command, CommandParameter = markdownActionCommand};
+            var tb = new Button() { Command = command, CommandParameter = markdownActionCommand };
             if (icon == null)
                 icon = ImageAwesome.CreateImageSource(FontAwesomeIcon.QuestionCircle, ToolbarEdit.Foreground);
 
             tb.Content = new Image()
             {
-                Source = icon, Height = 16, Margin = new Thickness(5, 0, 5, 0), ToolTip = markdownActionCommand
+                Source = icon,
+                Height = 16,
+                Margin = new Thickness(5, 0, 5, 0),
+                ToolTip = markdownActionCommand
             };
 
             var idx = toolbar.Items.IndexOf(ButtonEmoji);
             if (idx > -1)
-                toolbar.Items.Insert(idx + 1,tb);
+                toolbar.Items.Insert(idx + 1, tb);
             else
                 toolbar.Items.Add(tb);
+
         }
 
         private TabItem OpenRecentDocuments()

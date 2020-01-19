@@ -95,7 +95,15 @@ namespace MarkdownMonster.Utilities
             {
                 var keyBinding = KeyBindings.FirstOrDefault(binding => binding.Id == kb.Id);
                 if (keyBinding == null)
+                {
+                    if (kb.CommandName == "EditorCommand")
+                    {
+                        keyBinding = kb;
+                        keyBinding.HasJavaScriptHandler = true;
+                        KeyBindings.Add(keyBinding);
+                    }
                     continue;
+                }
 
                 keyBinding.Key = kb.Key;
                 if (keyBinding.Command != null)
@@ -178,24 +186,3 @@ namespace MarkdownMonster.Utilities
 
     }
 }
-
-//<Window.InputBindings>
-  //      <KeyBinding Modifiers = "Alt+Shift"
-  //                  Key="Return"
-  //                  Command="{Binding Commands.DistractionFreeModeCommand}" CommandParameter="Toggle" />
-  //      <KeyBinding Key = "F11" Command="{Binding Commands.PresentationModeCommand}" CommandParameter="Toggle" />
-  //      <KeyBinding Modifiers = "Ctrl" Key="P" Command="{Binding Commands.PrintPreviewCommand}" />
-
-//      <KeyBinding Modifiers = "Ctrl+Shift" Key="S" Command="{Binding Commands.SaveAsCommand}" />
-//      <KeyBinding Modifiers = "Alt+Shift" Key="S" Command="{Binding Commands.SaveAllCommand}" />
-//      <KeyBinding Modifiers = "Ctrl" Key="N" Command="{Binding Commands.NewDocumentCommand }"  />
-//      <KeyBinding Modifiers = "Ctrl" Key="O" Command="{Binding Commands.OpenDocumentCommand }"    />
-//      <KeyBinding Modifiers = "Ctrl" Key="Q" Command="{Binding Commands.ToolbarInsertMarkdownCommand }"  CommandParameter="quote"  />
-//      <KeyBinding Modifiers = "Ctrl" Key="W" Command="{Binding  Commands.CloseActiveDocumentCommand}" />
-//      <KeyBinding Modifiers = "Ctrl" Key="F4" Command="{Binding Commands.CloseActiveDocumentCommand}" />
-//      <KeyBinding Modifiers = "Alt" Key="Z" Command="{Binding Commands.WordWrapCommand}" />
-//      <KeyBinding Key = "F1" Command="{Binding Commands.HelpCommand}" />
-
-//      <!-- Commands that are handled in the Markdown Editor because they are not working here -->
-//      <!--<KeyBinding Modifiers = "Ctrl+Shift" Key="Z" Command="{Binding Commands.RemoveMarkdownFormattingCommand}" />-->        
-//  </Window.InputBindings>

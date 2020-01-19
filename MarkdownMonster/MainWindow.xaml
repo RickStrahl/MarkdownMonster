@@ -733,17 +733,21 @@
                                 Command="{Binding Commands.ToolbarInsertMarkdownCommand }" 
                                 CommandParameter="emoji"
                                 fa:Awesome.Content="SmileOutline"                                                           
-                                TextElement.FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome"                                 
+                                TextElement.FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome"        
+                                
                         />
 
-                        <Button Name="ButtonMoreMarkdown" Margin="7,0" ToolTip="More Markup Operations" 
+                        <Button Name="ButtonMoreMarkdown" Margin="7,0" 
+                                ToolTip="More Markup Operations" 
                                 fa:Awesome.Content="CaretDown"                                                      
                         >
                             <i:Interaction.Behaviors>
                                 <local:DropDownButtonBehavior />
                             </i:Interaction.Behaviors>
+
                             <Button.ContextMenu>
                                 <ContextMenu>
+
                                     <MenuItem ToolTip="Make text small" 
                                               Command="{Binding Commands.ToolbarInsertMarkdownCommand }" 
                                               CommandParameter="small">
@@ -755,7 +759,7 @@
                                         </MenuItem.Header>
                                     </MenuItem>
 
-                                    <MenuItem ToolTip="Underline selected text" 
+                                    <MenuItem ToolTip="Underline Selected Text" 
                                             Command="{Binding Commands.ToolbarInsertMarkdownCommand }" 
                                             CommandParameter="underline">
                                         <MenuItem.Header>
@@ -793,7 +797,7 @@
                                         <MenuItem.Header>
                                             <StackPanel Orientation="Horizontal" >
                                                 <fa:ImageAwesome Icon="CaretUp" Foreground="Silver" Height="16" Width="16" Margin="0,0,10,0" />
-                                                <TextBlock>Make Text Uppercase</TextBlock>
+                                                <TextBlock>Uppercase</TextBlock>
                                             </StackPanel>
                                         </MenuItem.Header>
                                     </MenuItem>
@@ -804,7 +808,7 @@
                                         <MenuItem.Header>
                                             <StackPanel Orientation="Horizontal" >
                                                 <fa:ImageAwesome Icon="CaretDown" Foreground="Silver" Height="16" Width="16" Margin="0,0,10,0" />
-                                                <TextBlock>Make Text Lowercase</TextBlock>
+                                                <TextBlock>Lowercase</TextBlock>
                                             </StackPanel>
                                         </MenuItem.Header>
                                     </MenuItem>
@@ -819,10 +823,6 @@
                                             </StackPanel>
                                         </MenuItem.Header>
                                     </MenuItem>
-                                    
-                                    
-
-
                                 </ContextMenu>
                             </Button.ContextMenu>
                         </Button>

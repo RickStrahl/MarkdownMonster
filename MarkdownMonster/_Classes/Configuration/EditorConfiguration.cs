@@ -283,7 +283,7 @@ namespace MarkdownMonster.Configuration
         /// FontAwesomeIconId  /  MarkupMarkdown() action name
         /// https://github.com/RickStrahl/MarkdownMonster/blob/master/MarkdownMonster/_Classes/MarkdownDocumentEditor.cs#L508
         /// </summary>
-        public Dictionary<string, string> AdditionalToolbarIcons = new Dictionary<string, string>();
+        public Dictionary<string, string> AdditionalToolbarIcons {get; set; }= new Dictionary<string, string>();
 
         #endregion
 
