@@ -4,6 +4,15 @@
 [![Chocolatey](https://img.shields.io/chocolatey/dt/markdownmonster.svg)](https://chocolatey.org/packages/MarkdownMonster)
 [![Web Site](https://img.shields.io/badge/Markdown_Monster-WebSite-blue.svg)](https://markdownmonster.west-wind.com)
 
+### 1.20.16
+*<small>not released yet</small>* 
+
+* **[Updated Editor Key Binding Configuration](http://markdownmonster.west-wind.com/docs/_59l0izpoe.htm#editor-commands)**  
+Refactored the command binding logic to make it easier to create custom bindings to currently unmapped editor operations. Also allow for key mappings to custom created template expansions through simple key mappings. (note: this may break some existing key bindings. To reset: delete `MarkdownMonster-KeyBindings.json` in config folder)
+
+* **Fix: Ctrl-+ Zooming Size Issues**  
+Fixed issue where Ctrl-+ zooming would use native browser zooming while Ctrl+- would use the application zooming resulting in mis-sized zoom control and huge browser controls on repeated zooming. Fixed.
+
 ### 1.20.15
 *<small>January 17th, 2020</small>* 
 
@@ -45,6 +54,7 @@ Links are now clickable in the text editor. Links are underlined and are control
 
 * **Remove Code Copy Badges in PDF/Print Views**  
 The code badges were overlaying the print content and since there's no transparency and you can easily scroll code, the badges are superfluous and would obscure content below it. Removed for PDF and Print output.
+
 
 * **Code Badge Copy Code Linefeeds in Previewer**  
 Previously the Code Badge copying would not properly handle line feeds in code snippets. It worked fine for external preview, but for the IE preview the line breaks were lost. Fixed.
