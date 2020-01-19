@@ -152,7 +152,8 @@ namespace MarkdownMonster.Windows
 
         private void OpenFromUrl_Loaded(object sender, RoutedEventArgs e)
         {
-            string clip = Clipboard.GetText(TextDataFormat.Text);
+            string clip = ClipboardHelper.GetText();
+
             if (string.IsNullOrEmpty(GitUrl) &&
                 clip.StartsWith("http://") || clip.StartsWith("https://"))
             {
