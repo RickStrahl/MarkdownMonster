@@ -161,5 +161,12 @@ namespace MarkdownMonster.Windows.ConfigurationEditor
             var file = Path.Combine( mmApp.Configuration.CommonFolder,"MarkdownMonster.json");
             ShellUtils.OpenFileInExplorer(file);
         }
+
+        private void ButtonEditKeyBindings_Click(object sender, RoutedEventArgs e)
+        {
+
+            Model.AppModel.Window.OpenFile(Path.Combine(Model.AppModel.Configuration.CommonFolder, "MarkdownMonster-KeyBindings.json"));
+            Close();
+        }
     }
 }
