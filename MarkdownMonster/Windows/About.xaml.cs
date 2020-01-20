@@ -33,7 +33,7 @@ namespace MarkdownMonster.Windows
             if (App.IsPortableMode)
                 PortableMode.Content = "Portable mode";
 
-            if (UnlockKey.IsRegistered())
+            if (UnlockKey.IsAppRegistered())
             {
                 PanelFreeNotice.Visibility = System.Windows.Visibility.Hidden;
                 LabelRegistered.Visibility = System.Windows.Visibility.Visible;

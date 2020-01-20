@@ -103,7 +103,7 @@ namespace SnippetsAddin
             if (snippetsWindow == null || !snippetsWindow.IsLoaded)
             {
 
-                if (!UnlockKey.UnlockedPremium)
+                if (!UnlockKey.IsUnlockedPremium)
                 {
                     UnlockKey.ShowPremiumDialog("Snippet Template Expansion",
                         "https://github.com/RickStrahl/Snippets-MarkdownMonster-Addin");

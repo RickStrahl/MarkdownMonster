@@ -412,7 +412,7 @@ namespace MarkdownMonster
             {
                 bool isEncrypted = parameter != null && parameter.ToString() == "Secure";
 
-                if (!UnlockKey.Unlocked && isEncrypted)
+                if (!UnlockKey.IsUnlocked && isEncrypted)
                 {
                     UnlockKey.ShowPremiumDialog("Encrypted File Saving",
                         "https://markdownmonster.west-wind.com/docs/_5fd0qopxq.htm");

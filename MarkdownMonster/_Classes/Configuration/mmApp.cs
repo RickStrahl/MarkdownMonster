@@ -254,7 +254,7 @@ namespace MarkdownMonster
 
                     AppRunTelemetry =
                         AppInsights.StartOperation<RequestTelemetry>(
-                            $"{GetVersion()} - {Configuration.ApplicationUpdates.AccessCount + 1} - {(UnlockKey.IsRegistered() ? "registered" : "unregistered")}");
+                            $"{GetVersion()} - {Configuration.ApplicationUpdates.AccessCount + 1} - {(UnlockKey.IsAppRegistered() ? "registered" : "unregistered")}");
                     AppRunTelemetry.Telemetry.Start();
                 }
             }
@@ -287,7 +287,7 @@ namespace MarkdownMonster
                 }
 
                 t.Properties.Add("usage", Configuration.ApplicationUpdates.AccessCount.ToString());
-                t.Properties.Add("registered", UnlockKey.IsRegistered().ToString());
+                t.Properties.Add("registered", UnlockKey.IsAppRegistered().ToString());
                 t.Properties.Add("version", GetVersion());
                 t.Properties.Add("dotnetversion", MarkdownMonster.Utilities.mmWindowsUtils.GetDotnetVersion());
                 t.Properties.Add("culture", CultureInfo.CurrentUICulture.IetfLanguageTag);
@@ -349,7 +349,7 @@ namespace MarkdownMonster
                             {"winversion", winVersion},
                             {"dotnetversion", MarkdownMonster.Utilities.mmWindowsUtils.GetDotnetVersion()},
                             {"usage", Configuration.ApplicationUpdates.AccessCount.ToString()},
-                            {"registered", UnlockKey.IsRegistered().ToString()},
+                            {"registered", UnlockKey.IsAppRegistered().ToString()},
                             {"culture", CultureInfo.CurrentCulture.IetfLanguageTag},
                             {"uiculture", CultureInfo.CurrentUICulture.IetfLanguageTag},
                             {"seconds", secs.ToString() },
@@ -364,7 +364,7 @@ namespace MarkdownMonster
                     {
                         {"msg", msg},
                         {"usage", Configuration.ApplicationUpdates.AccessCount.ToString()},
-                        {"registered", UnlockKey.IsRegistered().ToString()},
+                        {"registered", UnlockKey.IsAppRegistered().ToString()},
                         {"version", GetVersion()},
                         {"culture", CultureInfo.CurrentCulture.IetfLanguageTag},
                         {"uiculture", CultureInfo.CurrentUICulture.IetfLanguageTag},

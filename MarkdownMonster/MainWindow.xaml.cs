@@ -606,7 +606,7 @@ namespace MarkdownMonster
                     displayCount = 5;
 
                 if (!isNewVersion && mmApp.Configuration.ApplicationUpdates.AccessCount % displayCount == 0 &&
-                    !UnlockKey.IsRegistered())
+                    !UnlockKey.IsAppRegistered())
                 {
                     // bring the window back
                     Top += 10000;
@@ -1721,7 +1721,7 @@ namespace MarkdownMonster
                     SidebarContainer.SelectedItem = TabFolderBrowser;
 
                 Title = "Markdown Monster" +
-                        (UnlockKey.Unlocked ? "" : " (unregistered)");
+                        (UnlockKey.IsUnlocked ? "" : " (unregistered)");
                 Model.Window.Focus();
             }
 
@@ -2097,7 +2097,7 @@ namespace MarkdownMonster
 
             Title = title +
                     "  - Markdown Monster" +
-                    (UnlockKey.Unlocked ? "" : " (unregistered)");
+                    (UnlockKey.IsUnlocked ? "" : " (unregistered)");
         }
 
         /// <summary>

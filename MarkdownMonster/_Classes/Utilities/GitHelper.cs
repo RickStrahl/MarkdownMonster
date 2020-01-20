@@ -170,8 +170,9 @@ namespace MarkdownMonster.Utilities
         /// Clones a repository using the Command Line Tooling.
         /// Provides built-in authentication UI.
         /// </summary>
-        /// <param name="gitUrl"></param>
-        /// <param name="localPath"></param>
+        /// <param name="gitUrl">Github HTTP Url to retrieve content from</param>
+        /// <param name="localPath">Local path where to clone to</param>
+        /// <param name="progress">Callback method fired to indicate progress</param>
         /// <param name="depth">Depth of the Git revision history (shallow copy)</param>
         /// <returns></returns>
         public GitCommandResult CloneRepositoryCommandLine(string gitUrl, string localPath,
@@ -931,10 +932,11 @@ namespace MarkdownMonster.Utilities
         #endregion
 
         #region Git Locations and Installation
+
         /// <summary>
         /// Checks to see if Git is installed on the local machine
         /// </summary>
-        /// <returns></returns>
+        /// <returns>Folder for where the Git Executable lives</returns>
         public static string FindGitExecutable()
         {
             string exe = Path.Combine(Environment.GetEnvironmentVariable("Program6432"), "Git\\bin\\git.exe");
@@ -952,7 +954,7 @@ namespace MarkdownMonster.Utilities
         /// <summary>
         /// Determines whether Git is installed
         /// </summary>
-        /// <returns></returns>
+        /// <returns>true or false</returns>
         public static bool IsGitInstalled()
         {
             return FindGitExecutable() != null;

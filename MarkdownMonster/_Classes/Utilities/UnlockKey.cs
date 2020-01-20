@@ -26,14 +26,14 @@ namespace MarkdownMonster
         /// <summary>
         /// Determines whether the app is unlocked
         /// </summary>
-        internal static bool Unlocked
+        internal static bool IsUnlocked
         {
             get
             {
                 if (RegisteredCalled)
                     return _unlocked;
 
-                return IsRegistered();
+                return IsAppRegistered();
             }
         }
         static bool _unlocked = false;
@@ -43,10 +43,10 @@ namespace MarkdownMonster
         /// Special Unlock check for Premium features.
         /// Premium features will work 2 out of 3 time when not registered
         /// </summary>
-        public static bool UnlockedPremium {
+        public static bool IsUnlockedPremium {
             get
             {
-                if (Unlocked)
+                if (IsUnlocked)
                     return true;
 
                 return DateTime.Now.Ticks % 2 != 0;
@@ -64,7 +64,7 @@ namespace MarkdownMonster
                 if (RegisteredCalled)
                     return _regType;
 
-                IsRegistered();
+                IsAppRegistered();
                 return _regType;
             }
         }
@@ -79,7 +79,7 @@ namespace MarkdownMonster
         /// Figures out if this copy is registered
         /// </summary>
         /// <returns></returns>
-        internal static bool IsRegistered()
+        internal static bool IsAppRegistered()
         {
             lock (LockKey)
             {
@@ -156,7 +156,7 @@ namespace MarkdownMonster
             if (regDialog != null)
                 return; // already up
 
-            if (!Unlocked && mmApp.Configuration.ApplicationUpdates.AccessCount > 50)
+            if (!IsUnlocked && mmApp.Configuration.ApplicationUpdates.AccessCount > 50)
             {               
                 timer = new System.Timers.Timer(25 * 1000 * 60); // 25 minutes
                 timer.Elapsed += (s, ev) =>

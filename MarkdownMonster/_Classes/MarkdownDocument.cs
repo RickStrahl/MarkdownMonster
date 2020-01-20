@@ -998,7 +998,7 @@ namespace MarkdownMonster
             OnMarkdownRendered(ref html, ref markdown);
 
             if (!noBanner && !string.IsNullOrEmpty(html) &&
-                !UnlockKey.Unlocked &&
+                !UnlockKey.IsUnlocked &&
                 mmApp.Configuration.ApplicationUpdates.AccessCount > 20)
             {
                 html += @"

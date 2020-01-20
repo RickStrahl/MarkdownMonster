@@ -16,7 +16,7 @@ namespace MarkdownMonster.Windows
 
             DataContext = this;
 
-            if (UnlockKey.IsRegistered())
+            if (UnlockKey.IsAppRegistered())
             {
                 LabelIsRegistered.Text = "This copy is already registered. Only enter key to clear or reset.";
                 LabelIsRegistered.FontWeight = FontWeights.DemiBold;

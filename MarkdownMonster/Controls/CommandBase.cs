@@ -68,7 +68,7 @@ namespace MarkdownMonster
 
         public bool PreviewExecute(object parameter)
         {
-            if (!string.IsNullOrEmpty(PremiumFeatureName) && !UnlockKey.UnlockedPremium)
+            if (!string.IsNullOrEmpty(PremiumFeatureName) && !UnlockKey.IsUnlockedPremium)
             {
                 UnlockKey.ShowPremiumDialog(PremiumFeatureName, PremiumFeatureLink);
                 return false;
