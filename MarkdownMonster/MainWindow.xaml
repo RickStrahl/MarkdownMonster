@@ -272,6 +272,11 @@
                     <MenuItem Name="ButtonSaveAsProject" 
                               Header="Save Project _As"
                               Command="{Binding Commands.SaveProjectCommand}" />
+                    <MenuItem Name="ButtonEditProjectFile" 
+                              Header="_Edit Project File"
+                              Command="{Binding Commands.SaveProjectCommand}" 
+                              CommandParameter="Edit_Project" 
+                              IsEnabled="{Binding ActiveProject.IsEmpty,Converter={StaticResource InvertedBooleanConverter}}" />
                     <Separator />
                     <MenuItem Name="ButtonCloseProject" Header="_Close Project" 
                               Command="{Binding Commands.CloseProjectCommand}" />

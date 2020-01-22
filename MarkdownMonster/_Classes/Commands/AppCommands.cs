@@ -760,6 +760,11 @@ namespace MarkdownMonster
             SaveProjectCommand = new CommandBase((parameter, command) =>
             {
                 var filename = parameter as string;
+                if (filename == "Edit_Project")
+                {
+                    EditProject();
+                    return;
+                }
 
                 WindowUtilities.DoEvents();
 
@@ -876,6 +881,23 @@ namespace MarkdownMonster
                 // force window title to update
                 Model.Window.SetWindowTitle();
             }, (p, c) => true);
+        }
+
+        private void EditProject()
+        {
+            if (Model.ActiveProject == null)
+                return;
+
+            if (string.IsNullOrEmpty(Model.ActiveProject.Filename))
+            {
+                Model.Window.ShowStatusError(
+                    "Can't modify project settings on an unsaved project. Please save the project first.");
+                return;
+            }
+
+            Model.ActiveProject.Save();
+
+            Model.Window.OpenTab(Model.ActiveProject.Filename);
         }
 
 

@@ -77,6 +77,22 @@ namespace MarkdownMonster
             }
         }
 
+        public string PreviewWebRootPath
+        {
+            get
+            {
+                if (_PreviewWebRootPath == null)
+                    return ProjectPath;
+
+                return _PreviewWebRootPath;
+            }
+            set
+            {
+                _PreviewWebRootPath = value;
+            }
+        }
+        private string _PreviewWebRootPath;
+
         [JsonIgnore]
         public bool IsEmpty
         {

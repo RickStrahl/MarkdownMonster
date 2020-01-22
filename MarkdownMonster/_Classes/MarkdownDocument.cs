@@ -1137,7 +1137,14 @@ namespace MarkdownMonster
         /// webRootPath: c:\temp\post\Topic\
         /// </summary>
         public string GetPreviewWebRootPathFromDocument()
-        {            
+        {
+            // First check if the project has PreviewWebRootPath
+            if (!string.IsNullOrEmpty(mmApp.Model.ActiveProject?.PreviewWebRootPath))
+            {
+                PreviewWebRootPath = mmApp.Model.ActiveProject?.PreviewWebRootPath;
+            }
+
+            // Then check the YAML for `previewWebRootPath: c:\temp\wwwroot`
             if (CurrentText != null && CurrentText.StartsWith("---"))
             {
                 var yaml = StringUtils.ExtractString(CurrentText, "---", "---");
@@ -1149,11 +1156,7 @@ namespace MarkdownMonster
                 }
             }
 
-            if (PreviewWebRootPath == null && mmApp.Model.ActiveProject != null)
-            {
-                PreviewWebRootPath = mmApp.Model.ActiveProject.ProjectPath;
-            }
-
+           
             return null;
         }
 

@@ -460,6 +460,20 @@ namespace MarkdownMonster
                 }
             }
 
+            var ext = Path.GetExtension(MarkdownDocument.Filename);
+            if (string.Equals(ext, ".mdproj", StringComparison.OrdinalIgnoreCase) &&
+                mmApp.Model.ActiveProject != null &&
+                string.Equals(mmApp.Model.ActiveProject.Filename,MarkdownDocument.Filename, StringComparison.OrdinalIgnoreCase))
+            {
+                // Updated project changeable properties...
+                var savedProject =
+                    JsonSerializationUtils.DeserializeFromFile(mmApp.Model.ActiveProject.Filename,
+                        typeof(MarkdownMonsterProject)) as MarkdownMonsterProject;
+
+                var curProject = mmApp.Model.ActiveProject;
+                curProject.PreviewWebRootPath = savedProject.PreviewWebRootPath;
+            }
+
             return true;
         }
 
