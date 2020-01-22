@@ -2305,7 +2305,7 @@ We're now shutting down the application.
         {
             RefreshPreviewCommand = new CommandBase((parameter, command) =>
             {
-                Model.Window.PreviewBrowser.Refresh(true);
+                Model.Window.PreviewBrowser?.Refresh(true);
             });
         }
 

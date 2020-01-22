@@ -348,7 +348,7 @@
                 <MenuItem Header="Previous Spellcheck Error" Command="{Binding Commands.SpellCheckPreviousCommand}" InputGestureText="Shift-F7" />
                 <Separator />
                     <MenuItem Name="ButtonAutoSaveDocuments" 
-                          Header="Auto Save Document"                          
+                          Header="_Auto Save Document"                          
                           IsCheckable="True"
                           IsEnabled="{Binding IsEditorActive}"
                           IsChecked="{Binding ActiveDocument.AutoSaveDocument}" />
@@ -359,7 +359,8 @@
                           IsChecked="{Binding ActiveDocument.AutoSaveBackup}" />
                 <Separator />
                 <MenuItem Name="ButtonAllowScriptTags" 
-                          Header="Allow Script in Markdown"                          
+                          Header="Allow Script _Tags in Markdown"     
+                          Click="Button_Handler"
                           IsCheckable="True"
                           IsChecked="{Binding Configuration.MarkdownOptions.AllowRenderScriptTags}" />
 

@@ -19,6 +19,7 @@
         public void AfterMarkdownRendered(ModifyHtmlAndHeadersArguments args)
         {
             if (mmApp.Configuration.MarkdownOptions.UseMathematics &&
+                mmApp.Configuration.MarkdownOptions.AllowRenderScriptTags &&
                 (args.Html.Contains(" class=\"math\"") || args.Markdown.Contains("useMath: true")))
                 args.HeadersToEmbed = MathJaxScript;
         }

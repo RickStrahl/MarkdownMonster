@@ -2650,6 +2650,11 @@ namespace MarkdownMonster
                     mmApp.Configuration.StatusMessageTimeout);
                 ShellUtils.OpenFileInExplorer(filename);
             }
+            else if (button == ButtonAllowScriptTags)
+            {
+                // force preview to refresh
+                Model.Commands.RefreshPreviewCommand.Execute(null);
+            }
         }
 
         #endregion
