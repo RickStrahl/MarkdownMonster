@@ -1,4 +1,4 @@
-# Markdown Monster Change Log 
+﻿# Markdown Monster Change Log 
 
 [![download](https://img.shields.io/badge/Download-Installer-blue.svg)](https://markdownmonster.west-wind.com/download.aspx)
 [![Chocolatey](https://img.shields.io/chocolatey/dt/markdownmonster.svg)](https://chocolatey.org/packages/MarkdownMonster)
@@ -12,6 +12,12 @@ Refactored the command binding logic to make it easier to create custom bindings
 
 * **Add KeyBindings Button to Configuration Form**  
 Added a button that opens the `MarkdownMonster-KeyBindings.json` file in the editor for editing. Note: Changes to this file require a restart in order to be applied.
+
+* **[PreviewWebRootPath in Project](http://markdownmonster.west-wind.com/docs/_5fz0ozkln.htm)**  
+Added a new project property which provides a WebRoot Path for translating site relative URLs that start with `/` when the preview HTML is rendered. This allows finding related resources from some site generators or simply when working on deeply nested projects where the rootpath may be buried many levels below the current document. This change is in addition to the `previewWebRootPath` YAML header that already existed, and now is complimented by a `PreviewWebRootPath` project setting that applies to any file rendered while a project is open.
+
+* **Fix: Edit->Allow Script Tags in Markdown Preview Updating**  
+Fix behavior of the `Editor.MarkdownOptions.AllowScriptTags` flag when switched to immediately turn off script rendering and refresh the preview immediately. Use this flag if your preview is jittery due to rendering of script elements in your page (ie. Gists, Math expressions, Embbedded media scripts). These scripts can cause the preview to jump around alot as elements are dynamically inserted. By temporarily disabling script tags, the editor and preview are smooth while not rendering the executing the embedded script. You can now toggle with `Alt-E-T`
 
 * **Fix: Ctrl-+ Zooming Size Issues**  
 Fixed issue where Ctrl-+ zooming would use native browser zooming while Ctrl+- would use the application zooming resulting in mis-sized zoom control and huge browser controls on repeated zooming. Fixed.
