@@ -1148,6 +1148,12 @@ namespace MarkdownMonster
                         return null;
                 }
             }
+
+            if (PreviewWebRootPath == null && mmApp.Model.ActiveProject != null)
+            {
+                PreviewWebRootPath = mmApp.Model.ActiveProject.ProjectPath;
+            }
+
             return null;
         }
 
