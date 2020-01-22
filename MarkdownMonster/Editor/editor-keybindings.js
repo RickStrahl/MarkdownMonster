@@ -35,6 +35,8 @@ te.keyBindings = {
     te.keyboardCommand("EditorCommand", cmd.hint);
     return null;
   },
+  // donothing
+  doNothing: function () {  return null; },
   // this one requires explicit handling in WPF
   insertCodeBlock: function() {
     te.keyboardCommand("InsertCodeBlock");
@@ -79,7 +81,6 @@ te.keyBindings = {
     te.keyboardCommand("ZoomEditorUp");
     return null;
   },
-
 
 
   // remove markdown formatting

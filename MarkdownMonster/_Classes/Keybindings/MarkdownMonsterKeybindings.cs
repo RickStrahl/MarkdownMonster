@@ -350,6 +350,14 @@ namespace MarkdownMonster.Utilities
                     CommandName = "PreviousSpellCheckError",
                     HasJavaScriptHandler = true
                 },
+                // fix odd Alt-E handling in the editor, do nothing
+                new AppKeyBinding
+                {
+                    Id="AltEDefaultBinding",
+                    Key="Alt+E",
+                    CommandName = "DoNothing",
+                    HasJavaScriptHandler = true
+                },
 
 
                 new AppKeyBinding
@@ -380,6 +388,7 @@ namespace MarkdownMonster.Utilities
                     CommandName = "SidebarTabActivationCommand",
                     CommandParameter = "4"
                 },
+                
 
 
             };
