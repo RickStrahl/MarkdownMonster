@@ -97,6 +97,7 @@ namespace MarkdownMonster
             ViewInExternalBrowser();
             ViewHtmlSource();
             RefreshPreview();
+            RefreshBrowserContent();
 
 
             // Miscellaneous
@@ -1177,6 +1178,11 @@ namespace MarkdownMonster
                     window.PreviewMarkdown(editor);
             }, null);
         }
+
+
+        
+
+
 
         public CommandBase WordWrapCommand { get; set; }
 
@@ -2330,6 +2336,25 @@ We're now shutting down the application.
                 Model.Window.PreviewBrowser?.Refresh(true);
             });
         }
+
+
+        public CommandBase RefreshBrowserContentCommand { get; set; }
+
+        void RefreshBrowserContent()
+        {
+            RefreshBrowserContentCommand = new CommandBase((parameter, command) =>
+            {
+                    var mode = Model.Configuration.PreviewSyncMode;
+                    Model.Configuration.PreviewSyncMode = MarkdownMonster.PreviewSyncMode.EditorToPreview;
+                    Model.ActiveEditor.SetEditorFocus();
+                    Model.ActiveEditor.PreviewMarkdownCallback();
+                    Model.Configuration.PreviewSyncMode = mode;
+                    
+
+            }, (p, c) => true);
+        }
+
+
 
 
         public CommandBase PrintPreviewCommand { get; set; }

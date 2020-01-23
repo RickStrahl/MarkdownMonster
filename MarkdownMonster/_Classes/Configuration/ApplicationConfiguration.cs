@@ -994,6 +994,7 @@ namespace MarkdownMonster
     {
         EditorToPreview,
         PreviewToEditor,
+        NavigationOnly,
         EditorAndPreview,
         None
     }

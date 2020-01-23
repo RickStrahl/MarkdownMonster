@@ -295,9 +295,9 @@ namespace MarkdownMonster.Windows.PreviewBrowser
                                     try
                                     {
                                         // scroll preview to selected line
-                                        if (mmApp.Configuration.PreviewSyncMode ==
-                                            PreviewSyncMode.EditorAndPreview ||
-                                            mmApp.Configuration.PreviewSyncMode == PreviewSyncMode.EditorToPreview)
+                                        if (mmApp.Configuration.PreviewSyncMode == PreviewSyncMode.EditorAndPreview ||
+                                            mmApp.Configuration.PreviewSyncMode == PreviewSyncMode.EditorToPreview ||
+                                            mmApp.Configuration.PreviewSyncMode == PreviewSyncMode.NavigationOnly)
                                         {
                                             int highlightLineNo = editorLineNumber;
                                                 if (editorLineNumber < 0)
@@ -310,7 +310,8 @@ namespace MarkdownMonster.Windows.PreviewBrowser
 
                                             var lineText = editor.GetLine(editorLineNumber).Trim();
 
-                                            interop.UpdateDocumentContent(renderedHtml,highlightLineNo);
+                                            if (mmApp.Configuration.PreviewSyncMode != PreviewSyncMode.NavigationOnly)
+                                              interop.UpdateDocumentContent(renderedHtml,highlightLineNo);
 
                                             // TODO: We need to get Header Ids
                                             var headerId = string.Empty; // headers may not have pragma lines

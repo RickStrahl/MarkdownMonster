@@ -379,30 +379,6 @@ function scrollToHtmlBlock(htmlText) {
     }
   }
   catch(ex) { }
-
-
-  //document.body.querySelector("*")
-  //var $matched = $(htmlText);
-  //if ($matched.length > 0) {
-  //  var top = $matched.offset().top;
-  //  console.log("scrollToHtmlBlock: matched!", $matched[0],top);
-  //  if (top > 100)
-  //    top = top - 100;
-  //  if (top < 0)
-  //    top = 0;
-  //  //$("html").scrollTop(top);
-
-  //  // this.scrollTo(0, 0);
-  //  //$matched[0].scrollIntoView();
-  //  // this.scrollTo(0, 0);
-
-  //  setTimeout(function () {
-  //    debugger;
-  //    $matched[0].scrollIntoView();
-  //  });
-  //}
-  //else
-  //  console.log("scrollToHtmlBlock: NOT matched!");
 }
 
 ///Reference: https://stackoverflow.com/a/46087348/11197
