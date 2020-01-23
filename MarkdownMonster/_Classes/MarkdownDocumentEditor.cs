@@ -1355,8 +1355,8 @@ namespace MarkdownMonster
                 return new AcePosition { row = -1, column = -1 };
             var pt = new AcePosition()
             {
-                row = (int) AceEditor.Get(pos,"row"),
-                column = (int) AceEditor.Get(pos,"column")
+                row = Convert.ToInt32(AceEditor.Get(pos,"row")),
+                column = Convert.ToInt32(AceEditor.Get(pos,"column"))
             };
             return pt;
         }
@@ -1521,7 +1521,7 @@ namespace MarkdownMonster
                 GetMarkdown();
             
             //Debug.WriteLine(DateTime.Now.ToString("HH:mm:ss.ms") + "  - Preview Markdown  called");
-            Window.PreviewBrowser.PreviewMarkdownAsync(keepScrollPosition: true, editorLineNumber: editorLineNumber);
+            Window.PreviewBrowser.PreviewMarkdownAsync(keepScrollPosition: !noPreviewScrolling, editorLineNumber: editorLineNumber);
             
 
             var isDocumentOutlineActive = Window.SidebarContainer?.SelectedItem == Window.TabDocumentOutline;
