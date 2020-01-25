@@ -1411,7 +1411,7 @@ namespace MarkdownMonster
             try
             {
                 object st = AceEditor.GetScrollTop();
-                int scrollTop = (int)st;
+                int scrollTop = Convert.ToInt32(st);
                 return scrollTop;
             }
             catch

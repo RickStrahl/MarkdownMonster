@@ -202,7 +202,7 @@ namespace MarkdownMonster
 
         public int GetLineNumber()
         {
-            return (int) Invoke("getLineNumber", false);
+            return Convert.ToInt32( Invoke("getLineNumber", false) );
         }
 
         public void MoveCursorLeft(int count)
