@@ -7,12 +7,12 @@
 
 
 # Remove unused Roslyn Executables
-Remove-item ".\Distribution\roslyn\csc.exe" -Force
 Remove-item ".\Distribution\roslyn\csi.exe" -Force
 Remove-item ".\Distribution\roslyn\vbc.exe" -Force
 
 # Keep ShimGen from generating shims for dependent exe's
 out-file -filepath ".\Distribution\roslyn\VBCSCompiler.exe.ignore"  -inputobject ""
+out-file -filepath ".\Distribution\roslyn\csc.exe.ignore"  -inputobject ""
 
 out-file -filepath ".\Distribution\pingo.exe.ignore"  -inputobject ""
 out-file -filepath ".\Distribution\wkhtmltopdf.exe.ignore"  -inputobject ""
