@@ -343,6 +343,12 @@
                               Command="{Binding Commands.Speech.CancelSpeakCommand}"
                               ToolTip="Stops any active speaking operation." />
                 </MenuItem>
+                <Separator/>
+
+                <MenuItem Header="_Refresh Preview"  Command="{Binding Commands.RefreshBrowserContentCommand}" 
+                          ToolTip="Refreshes the preview browser by re-rendering the content when using non-auto-update sync modes."
+                          InputGestureText="Alt-E-R"
+                          />
                 
                 <Separator />
                 

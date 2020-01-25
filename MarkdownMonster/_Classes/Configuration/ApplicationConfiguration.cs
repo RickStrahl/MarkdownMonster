@@ -992,10 +992,10 @@ namespace MarkdownMonster
 
     public enum PreviewSyncMode
     {
+        EditorAndPreview,
         EditorToPreview,
         PreviewToEditor,
         NavigationOnly,
-        EditorAndPreview,
         None
     }
 

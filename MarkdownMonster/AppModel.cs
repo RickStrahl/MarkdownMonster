@@ -404,6 +404,8 @@ namespace MarkdownMonster
                             item.Icon = FontAwesomeIcon.Exchange;
                         else if (e == PreviewSyncMode.None)
                             item.Icon = FontAwesomeIcon.Ban;
+                        else if (e == PreviewSyncMode.NavigationOnly)
+                            item.Icon = FontAwesomeIcon.Compass;
                         else
                             item.Icon = FontAwesomeIcon.ArrowCircleRight;
 
