@@ -111,6 +111,12 @@ namespace MarkdownMonster.Utilities
                     CommandName = "PrintPreview",
                     Command = model.Commands.PrintPreviewCommand
                 },
+                new AppKeyBinding
+                {
+                    Key = "Ctrl+Shift+R",
+                    CommandName = "RefreshBrowserContentCommand",
+                    Command = model.Commands.RefreshBrowserContentCommand
+                },
             new AppKeyBinding
                 {
                     Key = "Ctrl+F4",

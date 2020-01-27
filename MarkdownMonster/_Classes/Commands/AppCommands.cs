@@ -2344,13 +2344,14 @@ We're now shutting down the application.
         {
             RefreshBrowserContentCommand = new CommandBase((parameter, command) =>
             {
-                    var mode = Model.Configuration.PreviewSyncMode;
-                    Model.Configuration.PreviewSyncMode = MarkdownMonster.PreviewSyncMode.EditorToPreview;
-                    Model.ActiveEditor.SetEditorFocus();
-                    Model.ActiveEditor.PreviewMarkdownCallback();
-                    Model.Configuration.PreviewSyncMode = mode;
-                    
+                if (Model.ActiveEditor == null)
+                    return;
 
+                var mode = Model.Configuration.PreviewSyncMode;
+                Model.Configuration.PreviewSyncMode = MarkdownMonster.PreviewSyncMode.EditorToPreview;
+                Model.ActiveEditor.SetEditorFocus();
+                Model.ActiveEditor.PreviewMarkdownCallback();
+                Model.Configuration.PreviewSyncMode = mode;
             }, (p, c) => true);
         }
 
