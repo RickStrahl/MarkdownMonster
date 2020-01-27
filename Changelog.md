@@ -8,7 +8,7 @@
 ### 1.21.1
 *<small>not released yet</small>* 
 
-* **Additional Site Relative Root Path `/` Overrides**  
+* **[Additional Site Relative Root Path `/` Overrides](https://markdownmonster.west-wind.com/docs/_5fz0ozkln.htm)**  
 Added additional site overrides for root `/` path resolution in the previewer. The new additions are support for looking up the folder hierarchy for a `.markdownmonster` or `_toc.json` file, or any `.mdproj` file. These overrides happen after checks for YAML `previewWebRootPath` header, and the `PreviewWebRootPath` in an open project file.
 
 
