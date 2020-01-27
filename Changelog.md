@@ -4,6 +4,15 @@
 [![Chocolatey](https://img.shields.io/chocolatey/dt/markdownmonster.svg)](https://chocolatey.org/packages/MarkdownMonster)
 [![Web Site](https://img.shields.io/badge/Markdown_Monster-WebSite-blue.svg)](https://markdownmonster.west-wind.com)
 
+
+### 1.21.1
+*<small>not released yet</small>* 
+
+* **Additional Site Relative Root Path `/` Overrides**  
+Added additional site overrides for root `/` path resolution in the previewer. The new additions are support for looking up the folder hierarchy for a `.markdownmonster` or `_toc.json` file, or any `.mdproj` file. These overrides happen after checks for YAML `previewWebRootPath` header, and the `PreviewWebRootPath` in an open project file.
+
+
+
 ### 1.21
 *<small>January 27th, 2020</small>* 
 

@@ -77,6 +77,7 @@ namespace MarkdownMonster
             }
         }
 
+        [JsonIgnore]
         public string PreviewWebRootPath
         {
             get
@@ -92,6 +93,7 @@ namespace MarkdownMonster
             }
         }
         private string _PreviewWebRootPath;
+
 
         [JsonIgnore]
         public bool IsEmpty
