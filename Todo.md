@@ -4,7 +4,9 @@
 
 ### Immediate
 * [ ] Addin Enabled/Disabled
-* [x] ~~Format Table (without dialog)~~
+* [ ] Large, Large Document Performance  
+*  Add ability to have a 'Navigation Only' refresh (no refresh, but navigation works so doc doesn't have to reload)
+*  Menu option/hotkey to manually do a 'Preview Refresh'
 
 ### Mid Term
 * [ ] Search for Blog Posts in Weblog Posts folder (walk tree and show titles)

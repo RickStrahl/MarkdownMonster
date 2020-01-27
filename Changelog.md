@@ -4,8 +4,35 @@
 [![Chocolatey](https://img.shields.io/chocolatey/dt/markdownmonster.svg)](https://chocolatey.org/packages/MarkdownMonster)
 [![Web Site](https://img.shields.io/badge/Markdown_Monster-WebSite-blue.svg)](https://markdownmonster.west-wind.com)
 
-### 1.20.16
-*<small>not released yet</small>* 
+### 1.21
+*<small>January 27th, 2020</small>* 
+
+* **Major Overhaul of Editor/Preview Sync in Two-Way Sync Mode**  
+Remove a number of issues that caused editor jankiness due to recursive editor and preview syncing. The preview is now more conservative in scrolling the editor so that any two-way recursion issues have been minimized. This fixes jumpiness at the top and bottom of the document (especially in code snippets) as well as unexpected cursor movements during keyboard scrolling. Made a few additional tweaks to the document syncing and scroll functionality which improves editor performance for plain editing and provides more reliable preview sync updates for code blocks and other large block objects in the markdown text.
+
+* **Scroll, Click and Keyboard Navigation Performance Improvements**  
+All navigation operations no longer update the preview but only scroll the preview and highlight the relevant new location in the preview which improves navigation performance especially in very large documents. It's now to edit multi-megabyte documents with the preview enabled (although the actual refreshes will still be slow).
+
+* **Large Document Editing Performance Improvements**  
+Large documents (2500 lines or more) now throttle the amount of preview refreshes that occur since that can significantly affect the editor performance blocking the editor while the preview refreshes. Timeout is automatically bumped so you can continue to edit at full speed, until stopping for several seconds (instead of the 120ms default timeout on 'normal' sized documents).
+
+* **[Navigation Only Preview](https://markdownmonster.west-wind.com/docs/_5ch1bv9en.htm)**  
+Added a new preview **NavigationOnly** preview sync mode, which does not implicitly update the preview on changes, but still allows navigation of the preview as you move through the editor. In this mode, Refresh operations are explict using a new explicit **Refresh Preview (Ctrl-Shift-R)** option on the **Edit** menu. This allows you to edit your very large documents without preview refreshes slowing down editing, and only explicitly refreshing the document to see your changes, all while still being able to navigate the document and scroll the preview.
+
+* **New Console Output Window for Addins to display Output**   
+For addin developers there's now a new `Window.ConsolePanel` that is accessible through the Addin's `Model.Console` property. You can `WriteLine()` and `Write()` to the panel, and use `Clear()`, `Hide()` or `Show()` to display status messages from processing. Writing to the Console makes it visible. This can be useful for addins that want to do things like provide progress info or for provide messages for linting etc. 
+
+* **Add *Open Document in new Tab* to Context Menu for Relative Markdown File Links**  
+There's a new context menu option that lets you navigate relative Markdown file links in the editor by opening them in a new (or existing) editor tab. Supported file types are opened in an editor tab, everything else is opened the Windows default viewer. HTTP links are opened in the browser.
+
+* **Clickable Links in Editor**  
+Links are now clickable in the text editor. Links are underlined and are control click-able,  which displays the link in the appropriate editor. Hyperlinks are opened in the browser, supported documents are opened in the editor and any others are opened in the appropriate Windows associated shell editors.
+
+* **[PreviewWebRootPath in Project](http://markdownmonster.west-wind.com/docs/_5fz0ozkln.htm)**  
+Added a new project property which provides a WebRoot Path for translating site relative URLs that start with `/` when the preview HTML is rendered. This allows finding related resources from some site generators or simply when working on deeply nested projects where the rootpath may be buried many levels below the current document. This change is in addition to the `previewWebRootPath` YAML header that already existed, and now is complimented by a `PreviewWebRootPath` project setting that applies to any file rendered while a project is open.
+
+* **Switch to 64-bit version of wkhtmltopdf**  
+Switched our PDF generation helper to use the 64 bit version of wkhtmltopdf in order to support conversion of larger documents. Previously PDF conversions of very large documents would fail due to out of memory errors - this update should help with that.
 
 * **[Updated Editor Key Binding Configuration](http://markdownmonster.west-wind.com/docs/_59l0izpoe.htm#editor-commands)**  
 Refactored the command binding logic to make it easier to create custom bindings to currently unmapped editor operations. Also allow for key mappings to custom created template expansions through simple key mappings. (note: this may break some existing key bindings. To reset: delete `MarkdownMonster-KeyBindings.json` in config folder)
@@ -13,83 +40,44 @@ Refactored the command binding logic to make it easier to create custom bindings
 * **Add KeyBindings Button to Configuration Form**  
 Added a button that opens the `MarkdownMonster-KeyBindings.json` file in the editor for editing. Note: Changes to this file require a restart in order to be applied.
 
-* **[PreviewWebRootPath in Project](http://markdownmonster.west-wind.com/docs/_5fz0ozkln.htm)**  
-Added a new project property which provides a WebRoot Path for translating site relative URLs that start with `/` when the preview HTML is rendered. This allows finding related resources from some site generators or simply when working on deeply nested projects where the rootpath may be buried many levels below the current document. This change is in addition to the `previewWebRootPath` YAML header that already existed, and now is complimented by a `PreviewWebRootPath` project setting that applies to any file rendered while a project is open.
-
-* **Fix: Edit->Allow Script Tags in Markdown Preview Updating**  
-Fix behavior of the `Editor.MarkdownOptions.AllowScriptTags` flag when switched to immediately turn off script rendering and refresh the preview immediately. Use this flag if your preview is jittery due to rendering of script elements in your page (ie. Gists, Math expressions, Embbedded media scripts). These scripts can cause the preview to jump around alot as elements are dynamically inserted. By temporarily disabling script tags, the editor and preview are smooth while not rendering the executing the embedded script. You can now toggle with `Alt-E-T`
-
-* **Fix: Ctrl-+ Zooming Size Issues**  
-Fixed issue where Ctrl-+ zooming would use native browser zooming while Ctrl+- would use the application zooming resulting in mis-sized zoom control and huge browser controls on repeated zooming. Fixed.
-
-### 1.20.15
-*<small>January 17th, 2020</small>* 
-
-* **Additional Document Editing and Syncing Performance Improvements**
-Made a few additional tweaks to the document syncing and scroll functionality which improves editor performance for plain editing and provides more reliable preview sync updates for code blocks and other large block objects in the markdown text.
-
-* **Addins: Added Script Component to the main Markdown Monster Project**   
-The scripting library used in the Snippets and Commander addins has been moved into the main Markdown Monster property, which now makes it available to all Addin projects. This was done to consolidate the code used in both Snippets and Commander to use the same exact C# scripting engine and compiler runtimes.
-
-* **Fix: Don't render Math Script Expansion Math Expansion is turned off**  
-Fixed issue where math code was still expanded even if `MarkdownOptions.UseMathematics` was still enabled.
-
-* **Fix: Console Sizing Issue**  
-Fixed issue with the new Console window not sizing properly when writing to it without resizing the window first.   
-
-* **Fix: Table Header Parsing**  
-Fixed issue with table editing when selecting an existing table and importing into the table editor for re-editing or re-formatting. Fixed various edge case scenarios that previously crashed the importer.
-
-### 1.20.10
-*<small>January 7th, 2020</small>* 
-
-* **Major Overhaul of Editor/Preview Sync in Two-Way Sync Mode**  
-Remove a number of issues that caused editor jankiness due to recursive editor and preview syncing. The preview is now more conservative in scrolling the editor so that any two-way recursion issues have been minimized. This fixes jumpiness at the top and bottom of the document (especially in code snippets) as well as unexpected cursor movements during keyboard scrolling.
-
-* **Large Document Editing Performance Improvements**  
-Large documents (2500 lines or more) now throttle the amount of preview refreshes that occur since that can significantly affect the editor performance blocking the editor while the preview refreshes. Timeout is automatically bumped so you can continue to edit at full speed, until stopping for  several seconds (instead of the 120ms standard timeout).
-
-* **Scroll, Click and Keyboard Navigation Performance Improvements**  
-All navigation operations no longer update the preview but only scroll the preview and highlight the relevant new location in the preview. These performance improvements are quite drastic especially for very large documents. It should now be possible to edit multi-megabyte documents with the preview enabled (although the actual refreshes will still be slow).
-
-* **New Console Output Window for Addins to display Output**   
-For addin developers there's now a new `Window.ConsolePanel` that is accessible through the Addin's `Model.Console` property. You can `WriteLine()` and `Write()` to the panel, and use `Clear()`, `Hide()` or `Show()` to display status messages from processing. Writing to the Console makes it visible. This can be useful for addins that want to do things like provide progress info or for provide messages for linting etc. 
-
-* **Add *Open Document in new Tab* to Context Menu for Relative Markdown Links**  
-There's a new context menu option that lets you navigate relative Markdown links by opening them in a new (or existing) editor tab. Supported file types are opened in an editor tab, everything else is opened the Windows default viewer. HTTP links are opened in the browser.
-
-* **Clickable Links in Editor**  
-Links are now clickable in the text editor. Links are underlined and are control click-able,  which displays the link in the appropriate editor. Hyperlinks are opened in the browser, supported documents are opened in the editor and any others are opened in the appropriate Windows associated shell editors.
-
-* **Remove Code Copy Badges in PDF/Print Views**  
-The code badges were overlaying the print content and since there's no transparency and you can easily scroll code, the badges are superfluous and would obscure content below it. Removed for PDF and Print output.
-
-
-* **Code Badge Copy Code Linefeeds in Previewer**  
-Previously the Code Badge copying would not properly handle line feeds in code snippets. It worked fine for external preview, but for the IE preview the line breaks were lost. Fixed.
-
-* **Code Badge Scolling Fix**  
-Fix issue with the code badge positioning when the code block is scrolled. Previously the code badge failed to stay pinned to the right in the scrolled content. This fix keeps it always pinned to the right of the code block.
-
-* **Fix: Two-way Code Editor Preview Sync Jumpiness**  
-Resolved another issue in two-way sync preview mode that was causing the editor to jump when editing or pasting into large blocks of text or code at the top or bottom of the editor. Finally found a solution to separating actual scroll events from explicitly navigated scroll events and refresh operations.
-
-* **Fix: HTML Rendering and Preview Sync**  
-Fix preview HTML editor wonkiness (#609). Refactor HTML document sync separately from the Markdown document sync for greatly improved HTML preview sync to the editor position when editing or scrolling HTML content.
-
-* **Fix: Remove Depedendent ShimGen Exes from Distribution**   
-Removed extra EXE files from the distribution for the Roslyn compiler and set up Chocolatey to not generate ShimGen files for the remaining non-MM exe files (pingo, wkhtmltopdf, vbcscompiler).
-
-
-
-### 1.20.5
-*<small>December 13, 2019</small>* 
 
 * **Add Toolbar DropDown for Additional Editor Operations**  
 The main toolbar now has a new dropdown at the end of the editor operations, that provide additional editor insertion operations that are less common but were not discoverable before. Added operations: `<small>`, `<mark>` and `<u>` (underscore) as well as inserting a Page Break (for PDF generation or printing).
 
+* **Addins: Added `Westwind.Scripting` Component to the main Markdown Monster Project**   
+The scripting library used in the Snippets and Commander addins has been moved into the main Markdown Monster property, which now makes it available to the main project and all addin projects. This was done to consolidate the 'dynamic scripting' code used in both **Snippets** and **Commander** Addins, which now use the same shared scripting library for dynamic code execution using the same exact Roslyn C# compiler and runtimes.
+
+* **Fix: HTML Rendering and Preview Sync**  
+Fix preview HTML editor wonkiness (#609). Refactor HTML document sync separately from the Markdown document sync for greatly improved HTML preview sync to the editor position when editing or scrolling HTML content.
+
+
+* **Fix: Two-way Code Editor Preview Sync Jumpiness**  
+Resolved issue in two-way sync preview mode that was causing the editor to jump when editing or pasting into large blocks of text or code at the top or bottom of the editor. Finally found a solution to separating actual scroll events from explicitly navigated scroll events and refresh operations.
+
+* **Fix: Ctrl-+ Zooming Size Issues**  
+Fixed issue where Ctrl-+ zooming would use native browser zooming while Ctrl+- would use the application zooming resulting in missized zoom control and huge browser controls on repeated zooming. Fixed.
+
 * **Fix: Document Outline not closing when closing last document**  
 Fix Document Outline issue when closing the last document where the Outline stayed active after the document was closed.
+
+* **Fix: Code Badge Copy Code Linefeeds in Previewer**  
+Previously the Code Badge copying would not properly handle line feeds in code snippets. It worked fine for external preview, but for the IE preview the line breaks were lost. Also remove code badges in Print CSS display mode so when printing to PDF the badges don't render. Removed for PDF and Print output.
+
+* **Fix: Code Badge Horizontal Scolling**  
+Fix issue with the code badge positioning when the code block is scrolled. Previously the code badge failed to stay pinned to the right in the scrolled content. This fix keeps it always pinned to the right of the code block.
+
+* **Fix: Remove Depedendent ShimGen Exes from Chocolatey Distribution**   
+Removed extra EXE files from the distribution for the Roslyn compiler and set up Chocolatey to not generate ShimGen files for the remaining non-MM exe files (pingo, wkhtmltopdf, vbcscompiler).
+
+* **Fix: Edit->Allow Script Tags in Markdown Preview Updating**  
+Fix behavior of the `Editor.MarkdownOptions.AllowScriptTags` flag when switched to immediately turn off script rendering and refresh the preview immediately. Use this flag if your preview is jittery due to rendering of script elements in your page (ie. Gists, Math expressions, Embbedded media scripts). These scripts can cause the preview to jump around alot as elements are dynamically inserted. By temporarily disabling script tags, the editor and preview are smooth while not rendering the executing the embedded script. You can now toggle with `Alt-E-T`
+
+* **Fix: Don't render Math Script Expansion Math Expansion is turned off**  
+Fixed issue where math code was still expanded even if `MarkdownOptions.UseMathematics` was still enabled.
+
+* **Fix: Table Header Parsing**  
+Fixed issue with table editing when selecting an existing table and importing into the table editor for re-editing or re-formatting. Fixed various edge case scenarios that previously crashed the importer.
+
 
 ### 1.20
 *<small>November 8th, 2019</small>* 
