@@ -1132,16 +1132,27 @@ namespace MarkdownMonster
             ExtraHtmlHeaders += ExtraHtmlHeaders + extraHeaderText + "\r\n";
         }
 
+        #endregion
+
+        #region PreviewWebRootPath Processing
+
         /// <summary>
         /// Sets the PreviewWebRootPath from content in the YAML of the document:
         /// webRootPath: c:\temp\post\Topic\
         /// </summary>
-        public string GetPreviewWebRootPathFromDocument()
+        public string GetPreviewWebRootPath()
         {
+
+            PreviewWebRootPath = null;
+
+            if(IsUntitled)
+                return null;
+            
             // First check if the project has PreviewWebRootPath
             if (!string.IsNullOrEmpty(mmApp.Model.ActiveProject?.PreviewWebRootPath))
             {
                 PreviewWebRootPath = mmApp.Model.ActiveProject?.PreviewWebRootPath?.TrimEnd('\\','/');
+                return PreviewWebRootPath;
             }
 
             // Then check the YAML for `previewWebRootPath: c:\temp\wwwroot`
@@ -1151,12 +1162,48 @@ namespace MarkdownMonster
                 if (!string.IsNullOrEmpty(yaml))
                 {
                     PreviewWebRootPath = StringUtils.ExtractString(CurrentText, "\npreviewWebRootPath:", "\n", true, false, false)?.TrimEnd('\\','/');
+                    return PreviewWebRootPath;
                 }
             }
 
-           
+            PreviewWebRootPath = GetWebRootPathFromMarkerFiles(Path.GetDirectoryName(Filename));
+            
+            return PreviewWebRootPath;
+        }
+
+        private string GetWebRootPathFromMarkerFiles(string basePath)
+        {
+            if (string.IsNullOrEmpty(basePath))
+                return basePath;
+
+            string projectFileFallback = null;
+            var files = Directory.GetFiles(basePath);
+            foreach (var file in files)
+            {
+                var filename = Path.GetFileName(file);
+                if (filename.Equals(".markdownmonster", StringComparison.OrdinalIgnoreCase) ||
+                    filename.Equals("_toc.json", StringComparison.OrdinalIgnoreCase))
+                    return basePath;
+
+                // check for a '.mdProj' file - if found use that path
+                var ext = Path.GetExtension(file);
+                if (ext.Equals(".mdproj", StringComparison.OrdinalIgnoreCase))
+                    projectFileFallback = basePath;
+            }
+
+            var parentPath = Directory.GetParent(basePath);
+            if (parentPath != null)
+            {
+                var wrPath = GetWebRootPathFromMarkerFiles(parentPath.FullName);
+                if (!string.IsNullOrEmpty(wrPath))
+                    return wrPath;
+            }
+            if (projectFileFallback != null)
+                return projectFileFallback;
+
             return null;
         }
+
 
         #endregion
 

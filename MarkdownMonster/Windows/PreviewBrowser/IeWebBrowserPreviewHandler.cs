@@ -235,7 +235,7 @@ namespace MarkdownMonster.Windows.PreviewBrowser
                     {
                         // Fix up `\` or `~\` Web RootPaths via `webRootPath: <path>` in YAML header
                         // Specify a physical or relative path that `\` or `~\` maps to
-                        doc.GetPreviewWebRootPathFromDocument();
+                        doc.GetPreviewWebRootPath();
 
                         bool usePragma = !showInBrowser && mmApp.Configuration.PreviewSyncMode != PreviewSyncMode.None;
                         if (string.IsNullOrEmpty(renderedHtml))
