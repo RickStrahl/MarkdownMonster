@@ -82,9 +82,10 @@ namespace MarkdownMonster
 
 
         /// <summary>
-        /// Allows displaying mathematic formulas
+        /// Allows displaying mathematic formulas.
         /// https://github.com/lunet-io/markdig/blob/master/src/Markdig.Tests/Specs/MathSpecs.md
-        ///
+        /// 
+        /// Note: Also requires that 'Edit->Allow Script Tags in Markdown' is enabled.
         /// <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
         /// <script type="text/javascript" src="http://code.jquery.com/jquery-1.8.0.min.js"></script>
         /// <script type="text/javascript" src="http://js2math.github.com/JsMath/jsmath.tablet.js"></script>
