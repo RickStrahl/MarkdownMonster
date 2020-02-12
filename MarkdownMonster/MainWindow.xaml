@@ -541,7 +541,6 @@
                             <TextBlock>Toggle Centered Layout at</TextBlock>
                             <TextBox Text="{Binding Configuration.Editor.CenteredModeMaxWidth}" 
                                      Padding="0,-2" Margin="4,-1,1,0" 
-                                     Background="#222"
                                      BorderThickness="0" FontSize="13"
                                      Height="22" MinHeight="22" 
                                      LostFocus="Refresh_Styling">
