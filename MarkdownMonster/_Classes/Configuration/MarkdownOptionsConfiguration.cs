@@ -96,6 +96,8 @@ namespace MarkdownMonster
         /// <summary>
         /// Allows for Mermaid to be rendered via external graphics library and embedded script
         /// https://github.com/lunet-io/markdig/blob/master/src/Markdig.Tests/Specs/DiagramsSpecs.md
+        ///
+        /// Note: Also requires that 'Edit->Allow Script Tags in Markdown' is enabled.
         /// </summary>
         public bool MermaidDiagrams { get; set; } = false;
 
