@@ -1679,7 +1679,7 @@ namespace MarkdownMonster
 
             if (doc.IsDirty && !dontPromptForSave)
             {
-                var res = MessageBox.Show(Path.GetFileName(doc.Filename) + "\r\n\r\nhas been modified.\r\n" +
+                var res = MessageBox.Show(this, Path.GetFileName(doc.Filename) + "\r\n\r\nhas been modified.\r\n" +
                                           "Do you want to save changes?",
                     "Save Document",
                     MessageBoxButton.YesNoCancel, MessageBoxImage.Question, MessageBoxResult.Cancel);
