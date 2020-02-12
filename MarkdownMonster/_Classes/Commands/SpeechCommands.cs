@@ -100,7 +100,7 @@ namespace MarkdownMonster
             _synth.SetOutputToDefaultAudioDevice();
 
             // Create a prompt from a string.
-            Prompt speak = new Prompt(text);
+            var speak = new Prompt(text);
 
             // Speak the contents of the prompt synchronously.
             _synth.SpeakAsync(speak);
