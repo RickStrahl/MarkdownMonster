@@ -266,6 +266,8 @@ namespace MarkdownMonster
                 var fs = new FileSaver();
                 url = fs.ParseMarkdownUrl(url);
 
+                Model.Window.ShowStatusProgress("Opening document from " + url);
+
                 string markdown;
                 try
                 {
@@ -289,7 +291,6 @@ namespace MarkdownMonster
                     var uri = new Uri(url);
                     string basePath =
                         $"{uri.Scheme}://{uri.Authority}{string.Join("", uri.Segments.Take(uri.Segments.Length - 1))}";
-
 
                     var reg = new Regex("!\\[.*?]\\(.*?\\)");
 
@@ -329,10 +330,23 @@ namespace MarkdownMonster
 
                 var tab = Model.Window.OpenTab("untitled");
                 var editor = tab.Tag as MarkdownDocumentEditor;
-                editor.SetMarkdown(markdown);
-                Model.Window.PreviewMarkdownAsync();
+
+                // have to know that the document has loaded before we can set Markdown
+                editor.TabLoadingCompleted = OnEditorOnTabLoadingCompleted;
+
+                void OnEditorOnTabLoadingCompleted(MarkdownDocumentEditor ed)
+                {
+                    ed.SetMarkdown(markdown);
+                    ed.SetDirty(true);
+                    Model.Window.PreviewMarkdownAsync();
+                    ed.TabLoadingCompleted = null;
+                }
+
+                Model.Window.ShowStatus();
             });
         }
+
+
 
 
         public CommandBase OpenRecentDocumentCommand { get; set; }

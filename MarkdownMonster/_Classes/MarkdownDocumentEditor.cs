@@ -184,6 +184,13 @@ namespace MarkdownMonster
         /// with the document for rendering or other purposes.
         /// </summary>
         public Dictionary<string, object> Properties { get; } = new Dictionary<string, object>();
+
+        /// <summary>
+        /// Optional event you can hook if you need to know when the tab and the document
+        /// inside of it have completely loaded. Useful for operations that might have to
+        /// set and manipulate content after initial loading
+        /// </summary>
+        public Action<MarkdownDocumentEditor> TabLoadingCompleted {get; set;  }
         #endregion
 
 
@@ -240,7 +247,6 @@ namespace MarkdownMonster
                     var jsonStyle = AceEditorInterop.GetJsonStyleInfo();
                     var inst = WebBrowser.InvokeScript("initializeinterop",this,jsonStyle);
                     AceEditor = new AceEditorInterop(inst);
-
                 }
                 catch (Exception ex)
                 {
@@ -257,7 +263,7 @@ namespace MarkdownMonster
                         mmApp.Configuration.Editor.Dictionary);
                 else
                     // always disable for non-markdown text
-                    AceEditor?.EnableSpellChecking(true, mmApp.Configuration.Editor.Dictionary);
+                    AceEditor?.EnableSpellChecking(false, mmApp.Configuration.Editor.Dictionary);
 
 
                 if (!NoInitialFocus)
@@ -268,6 +274,9 @@ namespace MarkdownMonster
                         DispatcherPriority.ApplicationIdle);
 
                 WebBrowser.Visibility = Visibility.Visible;
+
+                // Fire Event when loading is complete
+                TabLoadingCompleted?.Invoke(this);
             }
 
             SetMarkdown();
