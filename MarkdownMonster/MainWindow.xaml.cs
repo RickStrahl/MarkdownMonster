@@ -155,6 +155,8 @@ namespace MarkdownMonster
         public KeyBindingsManager KeyBindings { get; set; }
 
 
+       
+
         public MainWindow()
         {
             InitializeComponent();
@@ -2652,6 +2654,28 @@ namespace MarkdownMonster
             }
             else if (button == ButtonAllowScriptTags)
             {
+                if (!Model.Configuration.MarkdownOptions.AllowRenderScriptTags &&
+                    (Model.Configuration.MarkdownOptions.UseMathematics ||  Model.Configuration.MarkdownOptions.MermaidDiagrams) )
+                {
+                    if (MessageBox.Show(@"Disabling this option also disables:
+
+  • Mathematics 
+  • Mermaid Diagrams
+
+as these options require JavaScript scripts in order to work.
+
+Do you want to continue anyway?", "Disable Markdown Script Rendering",
+                            MessageBoxButton.YesNo,
+                            MessageBoxImage.Question,
+                            MessageBoxResult.Yes) == MessageBoxResult.No)
+                        Model.Configuration.MarkdownOptions.AllowRenderScriptTags = true;
+                    else
+                    {
+                        Model.Configuration.MarkdownOptions.UseMathematics = false;
+                        Model.Configuration.MarkdownOptions.MermaidDiagrams = false;
+                    }
+                }
+
                 // force preview to refresh
                 Model.Commands.RefreshPreviewCommand.Execute(null);
             }
