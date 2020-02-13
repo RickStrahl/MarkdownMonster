@@ -20,9 +20,10 @@ namespace SnippetsAddin
         
         public SnippetsWindow(SnippetsAddin addin)
         {
+            Owner = mmApp.Model.Window;
+
             InitializeComponent();
             mmApp.SetThemeWindowOverride(this);
-
 
             Model = new SnippetsAddinModel()
             {
@@ -59,17 +60,15 @@ namespace SnippetsAddin
         private void SnippetsWindow_Loaded(object sender, RoutedEventArgs e)
         {
             var winPos = SnippetsAddinConfiguration.Current.WindowPosition;
-            if (!winPos.CenterInMainWindow)
+            if (!winPos.CenterInMainWindow && winPos.Height != 0 && winPos.Width != 0)
             {
-                WindowStartupLocation = WindowStartupLocation.Manual;
                 Top = winPos.Top;
                 Left = winPos.Left;
                 Height = winPos.Height;
                 Width = winPos.Width;
+                WindowUtilities.EnsureWindowIsVisible(this);
             }
-            WindowUtilities.EnsureWindowIsVisible(this);
-
-
+            
             string initialValue = null;
             if (Model.Configuration.Snippets.Count > 0)
             {

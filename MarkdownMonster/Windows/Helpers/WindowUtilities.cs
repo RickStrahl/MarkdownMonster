@@ -600,7 +600,7 @@ namespace MarkdownMonster.Windows
 
         public double Height {get; set; }
 
-        public bool CenterInMainWindow { get; set; } = true;
+        public bool CenterInMainWindow { get; set; } = false;
     }
 
 }
