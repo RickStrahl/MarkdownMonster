@@ -1,4 +1,4 @@
-﻿# Markdown Monster ToDo List
+# Markdown Monster ToDo List
 
 ### Bugs
 
@@ -7,6 +7,8 @@
 * [ ] Large, Large Document Performance  
 *  Add ability to have a 'Navigation Only' refresh (no refresh, but navigation works so doc doesn't have to reload)
 *  Menu option/hotkey to manually do a 'Preview Refresh'
+*  Command Line to create HTML and PDF from Markdown Files
+*  Add a CLI?
 
 ### Mid Term
 * [ ] Search for Blog Posts in Weblog Posts folder (walk tree and show titles)

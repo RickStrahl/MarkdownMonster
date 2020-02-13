@@ -661,74 +661,6 @@ namespace MarkdownMonster
         }
 
 
-
-        void RestoreSettings()
-        {
-            var conf = mmApp.Configuration;
-
-            if (conf.WindowPosition.Width != 0)
-            {
-                Left = conf.WindowPosition.Left;
-                Top = conf.WindowPosition.Top;
-                Width = conf.WindowPosition.Width;
-                Height = conf.WindowPosition.Height;
-            }
-
-            if (conf.WindowPosition.WindowState == WindowState.Maximized)
-                Dispatcher.InvokeAsync(() => WindowState = WindowState.Maximized, DispatcherPriority.ApplicationIdle);
-
-
-            if (mmApp.Configuration.RememberLastDocumentsLength > 0 && mmApp.Configuration.UseSingleWindow)
-            {
-                //var selectedDoc = conf.RecentDocuments.FirstOrDefault();
-                TabItem selectedTab = null;
-
-                string firstDoc = conf.RecentDocuments.FirstOrDefault();
-
-
-                if (!App.ForceNewWindow)
-                    selectedTab = OpenRecentDocuments();
-
-                TabControl.SelectedIndex = -1;
-                TabControl.SelectedItem = null;
-                if (selectedTab == null)
-                    TabControl.SelectedIndex = 0;
-                else
-                    TabControl.SelectedItem = selectedTab;
-
-                BindTabHeaders();
-            }
-
-            Model.IsPreviewBrowserVisible = mmApp.Configuration.IsPreviewVisible;
-
-            ShowFolderBrowser(!mmApp.Configuration.FolderBrowser.Visible);
-
-            // force background so we have a little more contrast
-            if (mmApp.Configuration.ApplicationTheme == Themes.Light)
-            {
-                ContentGrid.Background = (SolidColorBrush) new BrushConverter().ConvertFromString("#eee");
-                ToolbarPanelMain.Background = (SolidColorBrush) new BrushConverter().ConvertFromString("#D5DAE8");
-            }
-            else
-                ContentGrid.Background = (SolidColorBrush) new BrushConverter().ConvertFromString("#333");
-
-
-            //Button Name = "ButtonLink" Margin = "7,0" ToolTip = "Insert link (Ctrl+K)"
-            //Command = "{Binding Commands.ToolbarInsertMarkdownCommand }"
-            //CommandParameter = "href"
-            //fa: Awesome.Content = "ExternalLink"
-
-
-            //TextElement.FontFamily = "pack://application:,,,/FontAwesome.WPF;component/#FontAwesome"
-            //                         />
-            foreach (var buttonItem in Model.Configuration.Editor.AdditionalToolbarIcons)
-            {
-                AddEditToolbarIcon(buttonItem.Key, buttonItem.Value);
-            }
-
-        }
-
-
         /// <summary>
         /// Adds a fontawesome icon to the editor toolbar (or any toolbar you specify explicitly).
         /// Specify the FontAwesome Icon image name (FontAwesome.Wpf proper Case Syntax) 
@@ -826,6 +758,72 @@ namespace MarkdownMonster
             return selectedTab;
         }
 
+
+        void RestoreSettings()
+        {
+            var conf = mmApp.Configuration;
+
+            if (conf.WindowPosition.Width != 0)
+            {
+                Left = conf.WindowPosition.Left;
+                Top = conf.WindowPosition.Top;
+                Width = conf.WindowPosition.Width;
+                Height = conf.WindowPosition.Height;
+            }
+
+            if (conf.WindowPosition.WindowState == WindowState.Maximized)
+                Dispatcher.InvokeAsync(() => WindowState = WindowState.Maximized, DispatcherPriority.ApplicationIdle);
+
+
+            if (mmApp.Configuration.RememberLastDocumentsLength > 0 && mmApp.Configuration.UseSingleWindow)
+            {
+                //var selectedDoc = conf.RecentDocuments.FirstOrDefault();
+                TabItem selectedTab = null;
+
+                string firstDoc = conf.RecentDocuments.FirstOrDefault();
+
+
+                if (!App.ForceNewWindow)
+                    selectedTab = OpenRecentDocuments();
+
+                TabControl.SelectedIndex = -1;
+                TabControl.SelectedItem = null;
+                if (selectedTab == null)
+                    TabControl.SelectedIndex = 0;
+                else
+                    TabControl.SelectedItem = selectedTab;
+
+                BindTabHeaders();
+            }
+
+            Model.IsPreviewBrowserVisible = mmApp.Configuration.IsPreviewVisible;
+
+            ShowFolderBrowser(!mmApp.Configuration.FolderBrowser.Visible);
+
+            // force background so we have a little more contrast
+            if (mmApp.Configuration.ApplicationTheme == Themes.Light)
+            {
+                ContentGrid.Background = (SolidColorBrush) new BrushConverter().ConvertFromString("#eee");
+                ToolbarPanelMain.Background = (SolidColorBrush) new BrushConverter().ConvertFromString("#D5DAE8");
+            }
+            else
+                ContentGrid.Background = (SolidColorBrush) new BrushConverter().ConvertFromString("#333");
+
+
+            //Button Name = "ButtonLink" Margin = "7,0" ToolTip = "Insert link (Ctrl+K)"
+            //Command = "{Binding Commands.ToolbarInsertMarkdownCommand }"
+            //CommandParameter = "href"
+            //fa: Awesome.Content = "ExternalLink"
+
+
+            //TextElement.FontFamily = "pack://application:,,,/FontAwesome.WPF;component/#FontAwesome"
+            //                         />
+            foreach (var buttonItem in Model.Configuration.Editor.AdditionalToolbarIcons)
+            {
+                AddEditToolbarIcon(buttonItem.Key, buttonItem.Value);
+            }
+
+        }
 
         /// <summary>
         /// Save active settings of the UI that are persisted in the configuration
