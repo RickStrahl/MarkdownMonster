@@ -1,14 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.Globalization;
-using System.Linq;
 using System.Reflection;
 using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Forms;
@@ -17,7 +13,6 @@ using System.Windows.Interop;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Threading;
-using MarkdownMonster.Annotations;
 using PixelFormat = System.Drawing.Imaging.PixelFormat;
 using Point = System.Drawing.Point;
 
@@ -28,7 +23,6 @@ namespace MarkdownMonster.Windows
     /// </summary>
     public class WindowUtilities
     {
-
 
         static readonly FieldInfo DisableProcessCountField =
             typeof(Dispatcher).GetField("_disableProcessingCount", BindingFlags.Instance | BindingFlags.NonPublic);
@@ -144,7 +138,7 @@ namespace MarkdownMonster.Windows
         /// <param name="item">Item to find</param>
         /// <param name="treeItem">Parent item to start search from</param>
         /// <returns></returns>
-        public static TreeViewItem GetNestedTreeviewItem(object item, [NotNull] ItemsControl treeItem)
+        public static TreeViewItem GetNestedTreeviewItem(object item, ItemsControl treeItem)
         {
             var titem = treeItem
                 .ItemContainerGenerator
@@ -482,6 +476,79 @@ namespace MarkdownMonster.Windows
 
         #endregion
 
+        #region Window Placement
+
+        /// <summary>
+        ///  Centers a WPF window on the screen. Considers DPI settings
+        /// </summary>
+        /// <param name="window"></param>
+        public static void CenterWindow(Window window)
+        {
+            var hwnd = WindowToHwnd(window);
+
+            var screen = Screen.FromHandle(hwnd);
+            var ratio = Convert.ToDouble(GetDpiRatio(hwnd));
+            var windowWidth = screen.Bounds.Width / ratio;
+            var windowHeight = screen.Bounds.Height / ratio;
+
+            
+            var offsetWidth = (windowWidth - window.Width) /  2 + (screen.Bounds.X * ratio);
+            var offsetHeight = (windowHeight -  window.Height) / 2 + (screen.Bounds.Y * ratio);
+
+            window.Left = Convert.ToDouble(offsetWidth);
+            window.Top = Convert.ToDouble(offsetHeight);
+        }
+
+        /// <summary>
+        /// Ensures that the window rendered is visible and fitting
+        /// on the currently active screen.
+        /// </summary>
+        /// <param name="window"></param>
+        public static void EnsureWindowIsVisible(Window window)
+        {
+            var hwnd = WindowToHwnd(window);
+            var screen = Screen.FromHandle(hwnd);
+            var ratio = Convert.ToDouble(GetDpiRatio(hwnd));
+
+            var screenWidth = screen.Bounds.Width / ratio;
+            var screenHeight = screen.Bounds.Height / ratio;
+            var screenX = screen.Bounds.X / ratio;
+            var screenY = screen.Bounds.Y / ratio;
+
+            var windowLeftAbsolute = window.Left + screenX; // absolute Left
+            var windowTopAbsolute = window.Top + screenY; // absolute Top
+
+            if (window.Left + window.Width  > screenWidth)
+                //if (window.Left + window.Width - screenX > screenWidth)
+            {
+                // move window into visible space
+                window.Left = screenX + screenWidth - window.Width;
+                windowLeftAbsolute = window.Left;
+            }
+            if (windowLeftAbsolute < screenX)
+            {
+                window.Left = 20 + screenX;
+                if (window.Width + 20 > screenWidth)
+                    window.Width = screenWidth - 40;
+            }
+
+
+            if (window.Top + window.Height > screenHeight - 40)
+            {
+                window.Top = screenY + screenHeight - window.Height - 40;
+                windowTopAbsolute = window.Top;
+
+            }
+            if (windowTopAbsolute < screenY)
+            {
+                window.Top = 20 + screenY;
+                if (window.Height + 20 > screenHeight)
+                    window.Height = screenHeight - 60;
+            }
+        }
+        #endregion
+
+        #region Conversions and screen sizes
 
         /// <summary>
         /// Returns the active screen's size in pixels
@@ -494,26 +561,18 @@ namespace MarkdownMonster.Windows
             return screen.Bounds;
         }
 
+
         /// <summary>
-        ///  Centers a window in the 
+        /// Returns IntPtr for an HWND from  WPF Window object
         /// </summary>
         /// <param name="window"></param>
-        public static void CenterWindow(MainWindow window)
+        /// <returns></returns>
+        public static IntPtr WindowToHwnd(Window window)
         {
-            var screen = Screen.FromHandle(window.Hwnd);
-
-            var ratio = Convert.ToDouble(GetDpiRatio(window.Hwnd));
-            var windowWidth = (double) (screen.Bounds.Width * ratio);
-            var windowHeight = (double) (screen.Bounds.Height * ratio);
-
-            
-            var offsetWidth = (windowWidth - window.Width) /  2 + (screen.Bounds.X * ratio);
-            var offsetHeight = (windowHeight -  window.Height) / 2 + (screen.Bounds.Y * ratio);
-
-            window.Left = Convert.ToDouble(offsetWidth);
-            window.Top = Convert.ToDouble(offsetHeight);
-            
+            return new WindowInteropHelper(window).EnsureHandle();
         }
+
+        #endregion
     }
 
     public enum ProcessDpiAwareness
@@ -529,6 +588,19 @@ namespace MarkdownMonster.Windows
         Effective = 0,
         Angular = 1,
         Raw = 2,
+    }
+
+    [DebuggerDisplay("L:{Left} T:{Top}  {Width}x{Height} - C:{CenteredInMainWindow}")]
+    public class WindowPosition
+    {
+        public double Left {get; set; }
+        public double Top {get; set; }
+
+        public double Width {get; set; }
+
+        public double Height {get; set; }
+
+        public bool CenterInMainWindow { get; set; } = true;
     }
 
 }
