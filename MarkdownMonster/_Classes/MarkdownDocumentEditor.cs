@@ -277,7 +277,7 @@ namespace MarkdownMonster
                 WebBrowser.Visibility = Visibility.Visible;
 
                 // Fire Event when loading is complete
-                TabLoadingCompleted?.Invoke(this);
+                Window.Dispatcher.InvokeAsync(() => TabLoadingCompleted?.Invoke(this), DispatcherPriority.ApplicationIdle);
             }
 
             SetMarkdown();

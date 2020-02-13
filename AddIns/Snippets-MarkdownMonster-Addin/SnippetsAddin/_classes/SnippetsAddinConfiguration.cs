@@ -20,21 +20,6 @@ namespace SnippetsAddin
             Current = new SnippetsAddinConfiguration();
             Current.Initialize();
         }
-
-
-        public ObservableCollection<Snippet> Snippets
-        {
-            get { return _snippets; }
-            set
-            {
-                if (Equals(value, _snippets)) return;
-                _snippets = value;
-                OnPropertyChanged();
-            }
-        }
-        private ObservableCollection<Snippet> _snippets = new ObservableCollection<Snippet>();
-
-
         public WindowPosition WindowPosition { get; set; } = new WindowPosition();
 
 
@@ -52,6 +37,20 @@ namespace SnippetsAddin
             }
         }
         private string _keyboardShortcut = string.Empty;
+
+
+        public ObservableCollection<Snippet> Snippets
+        {
+            get { return _snippets; }
+            set
+            {
+                if (Equals(value, _snippets)) return;
+                _snippets = value;
+                OnPropertyChanged();
+            }
+        }
+        private ObservableCollection<Snippet> _snippets = new ObservableCollection<Snippet>();
+
 
         #region INotifyPropertyChanged
         public event PropertyChangedEventHandler PropertyChanged;

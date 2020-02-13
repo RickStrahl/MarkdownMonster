@@ -1,5 +1,8 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.ObjectModel;
+using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -94,6 +97,11 @@ namespace SnippetsAddin
 
 
         private void SnippetsWindow_Unloaded(object sender, RoutedEventArgs e)
+        {
+            SaveSettings();
+        }
+
+        public void SaveSettings()
         {
             var winPos = SnippetsAddinConfiguration.Current.WindowPosition; 
             if (!winPos.CenterInMainWindow)
@@ -198,6 +206,15 @@ namespace SnippetsAddin
             ShellUtils.GoUrl("https://github.com/RickStrahl/Snippets-MarkdownMonster-Addin");
         }
 
+        private void ToolButtonConfiguration_Click(object sender, RoutedEventArgs e)
+        {
+            SaveSettings();
+            Close();
+
+            var tab = Model.Window.OpenFile(Path.Combine(mmApp.Configuration.CommonFolder, "SnippetsAddin.json"));
+        }
+
+
         private void AddFirstTimeSnippets()
         {
             Model.Configuration.Snippets = JsonConvert.DeserializeObject<ObservableCollection<Snippet>>(InitialSnippetJson);
@@ -245,6 +262,5 @@ namespace SnippetsAddin
       ""CompiledId"": null
     }
   ]";
-        
     }
 }

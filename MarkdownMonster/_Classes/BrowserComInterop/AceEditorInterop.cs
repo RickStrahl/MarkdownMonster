@@ -160,7 +160,7 @@ namespace MarkdownMonster
         /// <param name="noRefresh"></param>
         public void GotoBottom(bool noRefresh = false, bool noSelection = false)
         {
-            Invoke("gotoBottom",  noRefresh);
+            Invoke("gotoBottom",  noRefresh, noSelection );
         }
 
 

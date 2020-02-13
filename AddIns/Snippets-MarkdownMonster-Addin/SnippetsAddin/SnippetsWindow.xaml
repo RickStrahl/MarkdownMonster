@@ -101,6 +101,18 @@
 
                 </ToolBar>
                 <ToolBar>
+                    <Button Name="ToolButtonConfiguration" Click="ToolButtonConfiguration_Click">
+                        <StackPanel Orientation="Horizontal">
+                            <fa:FontAwesome Icon="Gear"  Foreground="SteelBlue"
+                                            FontSize="15"                                                                                        
+                                            FontWeight="Normal" FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" 
+                                            Margin="5,2,10,0">
+
+                            </fa:FontAwesome>
+
+                            <TextBlock>Config</TextBlock>
+                        </StackPanel>
+                    </Button>
                     <Button Name="ToolButtonInfo" Click="ToolButtonMoreInfo_Click">
                         <StackPanel Orientation="Horizontal">
                             <fa:FontAwesome Icon="InfoCircle"  Foreground="SteelBlue"
