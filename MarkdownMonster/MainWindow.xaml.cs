@@ -769,6 +769,7 @@ namespace MarkdownMonster
                 Top = conf.WindowPosition.Top;
                 Width = conf.WindowPosition.Width;
                 Height = conf.WindowPosition.Height;
+                WindowUtilities.EnsureWindowIsVisible(this);
             }
 
             if (conf.WindowPosition.WindowState == WindowState.Maximized)
