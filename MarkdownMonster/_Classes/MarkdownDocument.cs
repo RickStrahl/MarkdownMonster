@@ -33,6 +33,7 @@
 
 using System;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.IO;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
@@ -57,6 +58,7 @@ namespace MarkdownMonster
     /// [ComVisible] is important as we access this from JavaScript
     /// </summary>
     [ComVisible(true)]
+    [DebuggerDisplay("{Filename}")]
     public class MarkdownDocument : INotifyPropertyChanged
     {
         private const string ENCRYPTION_PREFIX = "__ENCRYPTED__";

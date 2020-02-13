@@ -111,10 +111,6 @@ namespace SnippetsAddin
                 }
 
                 snippetsWindow = new SnippetsWindow(this);
-
-                snippetsWindow.Top = Model.Window.Top;
-                snippetsWindow.Left = Model.Window.Left + Model.Window.Width -
-                                      Model.Configuration.WindowPosition.SplitterPosition;
             }
             snippetsWindow.Show();
             snippetsWindow.Activate();

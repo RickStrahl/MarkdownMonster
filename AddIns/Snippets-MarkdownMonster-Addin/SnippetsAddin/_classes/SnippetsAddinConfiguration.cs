@@ -5,9 +5,12 @@ using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Windows.Shapes;
 using MarkdownMonster;
+using MarkdownMonster.Utilities;
 using SnippetsAddin.Annotations;
 using Westwind.Utilities.Configuration;
+using Path = System.IO.Path;
 
 namespace SnippetsAddin
 {
@@ -35,7 +38,10 @@ namespace SnippetsAddin
         }
         private ObservableCollection<Snippet> _snippets = new ObservableCollection<Snippet>();
 
-        
+
+        public WindowPosition WindowPosition { get; set; } = new WindowPosition();
+
+
         /// <summary>
         /// Optional Keyboard shortcut used to open the Snippets Window
         /// </summary>
@@ -81,4 +87,6 @@ namespace SnippetsAddin
         }
         #endregion
     }
+
+   
 }

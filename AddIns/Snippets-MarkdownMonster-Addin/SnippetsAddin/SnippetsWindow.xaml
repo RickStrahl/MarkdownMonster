@@ -12,12 +12,11 @@
         WindowStyle="SingleBorderWindow" ResizeMode="CanResizeWithGrip"
         WindowStartupLocation="CenterOwner"         
         IsMinButtonEnabled="False" IsMaxRestoreButtonEnabled="False"                       
-        Width="900" Height="700" MinHeight="500"  MinWidth="700"                     
+        Width="800" Height="650" MinHeight="500"  MinWidth="700"                     
         Icon="icon.png"
         TitlebarHeight="35"
-         WindowTransitionsEnabled="False"                       
-                       >
-    
+        WindowTransitionsEnabled="False"                       
+    >
     <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="250" />

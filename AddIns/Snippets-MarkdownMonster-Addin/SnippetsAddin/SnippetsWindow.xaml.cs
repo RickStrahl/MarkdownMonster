@@ -4,6 +4,8 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using MarkdownMonster;
+using MarkdownMonster.Utilities;
+using MarkdownMonster.Windows;
 using Newtonsoft.Json;
 using Westwind.Utilities;
 
@@ -48,7 +50,7 @@ namespace SnippetsAddin
 
             WebBrowserSnippet.Visibility = Visibility.Hidden;
 
-            DataContext = Model;            
+            DataContext = Model;
         }
 
 
@@ -56,6 +58,18 @@ namespace SnippetsAddin
 
         private void SnippetsWindow_Loaded(object sender, RoutedEventArgs e)
         {
+            var winPos = SnippetsAddinConfiguration.Current.WindowPosition;
+            if (!winPos.CenterInMainWindow)
+            {
+                WindowStartupLocation = WindowStartupLocation.Manual;
+                Top = winPos.Top;
+                Left = winPos.Left;
+                Height = winPos.Height;
+                Width = winPos.Width;
+            }
+            WindowUtilities.EnsureWindowIsVisible(this);
+
+
             string initialValue = null;
             if (Model.Configuration.Snippets.Count > 0)
             {
@@ -82,6 +96,15 @@ namespace SnippetsAddin
 
         private void SnippetsWindow_Unloaded(object sender, RoutedEventArgs e)
         {
+            var winPos = SnippetsAddinConfiguration.Current.WindowPosition; 
+            if (!winPos.CenterInMainWindow)
+            {
+                winPos.Left = Left;
+                winPos.Top = Top;
+                winPos.Height = Height;
+                winPos.Width = Width;
+            }
+
             SnippetsAddinConfiguration.Current.Write();
         }
 
