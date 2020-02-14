@@ -49,7 +49,7 @@
                            FontFamily="Consolas" 
                            Height="Auto"  
                            ScrollViewer.VerticalScrollBarVisibility="Auto"
-                           Text ="{Binding WindowLayout.ConsoleText}" />
+                           />
         </ScrollViewer>
     </Grid>
 
