@@ -562,14 +562,32 @@ namespace MarkdownMonster.AddIns
 
         #region UI Shell Operations
 
+
+        // TODO: remove in the future
+        [Obsolete("Please use the alternate version of this method that uses the enum parameter.")]
+        public bool AddMenuItem(MenuItem mitem, string menuItemNameForInsertionAfter = null,
+            string menuItemTextForInsertionAfter = null,
+            int mode = 0)
+        {
+            var addMode = AddMenuItemModes.AddAfter;
+            if (mode == 1)
+                addMode = AddMenuItemModes.AddBefore;
+            if (mode == 2)
+                addMode = AddMenuItemModes.Replace;
+
+            return AddMenuItem(mitem, menuItemNameForInsertionAfter, menuItemTextForInsertionAfter, addMode);
+        }
+
+
         /// <summary>
         /// Allows insertion of a menu item 
         /// </summary>
         /// <param name="mitem">The menu item to insert</param>
         /// <param name="menuItemNameForInsertionAfter">Name of the main menuitem element to insert before or after - find in MainWindow.xaml or with Debug Tools</param>
         /// <param name="menuItemTextForInsertionAfter">Text of the menuitem element to insert bfore or after (use if there's is no explicit Name for the item)</param>
-        /// <param name="mode">0 - insert after, 1 - insert before, 2 - replace</param>
-        public bool AddMenuItem(MenuItem mitem, string menuItemNameForInsertionAfter = null, string menuItemTextForInsertionAfter = null, int mode = 0)
+        /// <param name="addMode">Determines where the item is to be inserted</param>
+        public bool AddMenuItem(MenuItem mitem, string menuItemNameForInsertionAfter = null, string menuItemTextForInsertionAfter = null,
+                                AddMenuItemModes addMode = AddMenuItemModes.AddAfter)
         {
             // find the menu item to in
             var menuItem = GetChildMenuItem(Model.Window.MainMenu, menuItemNameForInsertionAfter, menuItemTextForInsertionAfter);
@@ -581,11 +599,11 @@ namespace MarkdownMonster.AddIns
                 return false;
 
             int idx;
-            if (mode == 1)
+            if (addMode == AddMenuItemModes.AddBefore)
             {
                 idx = parent.Items.IndexOf(menuItem);
             }
-            else if (mode == 2)
+            else if (addMode == AddMenuItemModes.Replace)
             {
                 idx = parent.Items.IndexOf(menuItem);
                 parent.Items[idx] = mitem;                
@@ -651,5 +669,12 @@ namespace MarkdownMonster.AddIns
 
 
       
-    }    
+    }
+
+    public enum AddMenuItemModes
+    {
+        AddAfter = 0,
+        AddBefore = 1,
+        Replace = 2
+    }
 }

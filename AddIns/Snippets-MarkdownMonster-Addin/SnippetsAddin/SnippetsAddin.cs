@@ -43,7 +43,7 @@ namespace SnippetsAddin
             //menuItem.ExecuteConfiguration = null;
 
             // Must add the menu to the collection to display menu and toolbar items
-            this.MenuItems.Add(menuItem);
+            MenuItems.Add(menuItem);
         }
 
         public override void OnWindowLoaded()
