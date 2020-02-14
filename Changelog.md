@@ -5,12 +5,29 @@
 [![Web Site](https://img.shields.io/badge/Markdown_Monster-WebSite-blue.svg)](https://markdownmonster.west-wind.com)
 
 
-### 1.21.1
+### 1.21.2
 *<small>not released yet</small>* 
 
 * **[Additional Site Relative Root Path `/` Overrides](https://markdownmonster.west-wind.com/docs/_5fz0ozkln.htm)**  
 Added additional site overrides for root `/` path resolution in the previewer. The new additions look up the folder hierarchy for a `.markdownmonster` or `_toc.json` file, or any `<yourProject>.mdproj` file. These overrides happen in addition, after the exisiting checks for YAML `previewWebRootPath` header, and the `PreviewWebRootPath` in an open project file.
 
+* **Improve Windows Placement on Application Startup**  
+MM now will check if MM is rendering off screen when starting up. It's possible to get MM to start in 'negative' space if you size down from a large 4k display to a 1080p display for example, and MM will move the window into the viewable ViewPort area if it's hidden or even partially offscreen. 
+
+* **Snippets Addin Window Placement**  
+The Snippets addin now by default remembers its last window position and ensures that - like the main form - it's visible on the desktop. Initial startup will launch centered in the main app window.
+
+* **Support for Colors in the MM Console**  
+The new Markdown Monster Console that was recently added for addin developers, now implements coloring of console output. The parameters were there previously but didn't do anything.
+
+* **Fix: Save Dialog on Shutdown on wrong Screen**  
+Fix issue where the Save dialog with changed content will pop up on the wrong monitor during shutdown by forcing the owner before the main window gets released.
+
+* **Fix: Open from URL**  
+Fixed timing issue with Open From Url that caused open operation to not show a document. Fixed with new EditorDocument.TabLoadingCompleted event also available to addins to manipulate the document after startup.
+
+* **Fix: UseMathematics and AllowMarkdownScriptTags**  
+Add additional notes to the Configuration for `UseMathematics` and `MermaidDiagrams`  that point out that script execution has to be enabled in order to work.
 
 
 ### 1.21

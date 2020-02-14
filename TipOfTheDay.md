@@ -57,6 +57,10 @@ Did you know that in Markdown Monster you can drag a tab into the Favorites side
 
 Simply grab the tab and drag it into the Favorites sidebar at the position you want.
 
+## Star the GitHub Repo
+Do you use Markdown Monster? Like using it? If you do please consider starring the Github repo to show your support. 
+
+Stars help project visibility, bring more interaction, feature discussions & yes even bug reports all of which make MM better.
 
 
 ## Open Markdown Monster from the Command Line
