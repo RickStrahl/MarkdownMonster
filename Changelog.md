@@ -4,7 +4,6 @@
 [![Chocolatey](https://img.shields.io/chocolatey/dt/markdownmonster.svg)](https://chocolatey.org/packages/MarkdownMonster)
 [![Web Site](https://img.shields.io/badge/Markdown_Monster-WebSite-blue.svg)](https://markdownmonster.west-wind.com)
 
-
 ### 1.21.2
 *<small>not released yet</small>* 
 
@@ -20,14 +19,20 @@ The Snippets addin now by default remembers its last window position and ensures
 * **Support for Colors in the MM Console**  
 The new Markdown Monster Console that was recently added for addin developers, now implements coloring of console output. The parameters were there previously but didn't do anything.
 
+* **Color Emoji Fonts in Preview Themes**  
+Added specific emoji fonts for the preview themes so emojis now show in color instead of the default black and white.
+
 * **Fix: Save Dialog on Shutdown on wrong Screen**  
 Fix issue where the Save dialog with changed content will pop up on the wrong monitor during shutdown by forcing the owner before the main window gets released.
 
 * **Fix: Open from URL**  
-Fixed timing issue with Open From Url that caused open operation to not show a document. Fixed with new EditorDocument.TabLoadingCompleted event also available to addins to manipulate the document after startup.
+Fixed timing issue with Open From URL that caused open operation to not show a document. Fixed with new `EditorDocument.TabLoadingCompleted` event also available to addins to manipulate the document after startup.
 
 * **Fix: UseMathematics and AllowMarkdownScriptTags**  
 Add additional notes to the Configuration for `UseMathematics` and `MermaidDiagrams`  that point out that script execution has to be enabled in order to work.
+
+* **Fix: Empty Context Menu on Various Window Controls**  
+Fixed bug related to an empty context menu popping up on right clicking in various areas of the main form.
 
 
 ### 1.21

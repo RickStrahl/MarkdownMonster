@@ -36,10 +36,7 @@
 
         
     </Window.Resources>
-    <!--<Window.ContextMenu>
-        <ContextMenu Name="EditorContextMenu" MinWidth="175">
-        </ContextMenu>
-    </Window.ContextMenu>-->
+
 
     <controls:MetroWindow.LeftWindowCommands>
         <controls:WindowCommands>

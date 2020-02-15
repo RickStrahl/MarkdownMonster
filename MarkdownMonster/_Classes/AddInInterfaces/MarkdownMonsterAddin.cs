@@ -563,20 +563,6 @@ namespace MarkdownMonster.AddIns
         #region UI Shell Operations
 
 
-        // TODO: remove in the future
-        [Obsolete("Please use the alternate version of this method that uses the enum parameter.")]
-        public bool AddMenuItem(MenuItem mitem, string menuItemNameForInsertionAfter = null,
-            string menuItemTextForInsertionAfter = null,
-            int mode = 0)
-        {
-            var addMode = AddMenuItemModes.AddAfter;
-            if (mode == 1)
-                addMode = AddMenuItemModes.AddBefore;
-            if (mode == 2)
-                addMode = AddMenuItemModes.Replace;
-
-            return AddMenuItem(mitem, menuItemNameForInsertionAfter, menuItemTextForInsertionAfter, addMode);
-        }
 
 
         /// <summary>
@@ -620,6 +606,22 @@ namespace MarkdownMonster.AddIns
             return true;
         }
 
+        
+        // TODO: remove in the future
+        [Obsolete("Please use the alternate version of this method that uses the enum parameter.")]
+        public bool AddMenuItem(MenuItem mitem, string menuItemNameForInsertionAfter = null,
+            string menuItemTextForInsertionAfter = null,
+            int mode = 0)
+        {
+            var addMode = AddMenuItemModes.AddAfter;
+            if (mode == 1)
+                addMode = AddMenuItemModes.AddBefore;
+            if (mode == 2)
+                addMode = AddMenuItemModes.Replace;
+
+            return AddMenuItem(mitem, menuItemNameForInsertionAfter, menuItemTextForInsertionAfter, addMode);
+        }
+
         /// <summary>
         /// Use this to find a menu item either by control name or by 
         /// caption text.
@@ -634,26 +636,26 @@ namespace MarkdownMonster.AddIns
         public MenuItem GetChildMenuItem(ItemsControl mitem, string menuItemName = null, string menuItemText = null)        
         {
             foreach (var control in mitem.Items)
-            {                
+            {
                 var menuItem = control as MenuItem;
                 if (menuItem == null)
                     continue;
 
-
                 if (!string.IsNullOrEmpty(menuItemName) && menuItemName == menuItem.Name)
                     return menuItem;
 
-                if (!string.IsNullOrEmpty(menuItemText) && menuItemName == menuItem.Header?.ToString())
+                var header = menuItem.Header?.ToString();
+                var cleanHeader = header?.Replace("_", "");
+                if (!string.IsNullOrEmpty(menuItemText) &&
+                    (menuItemName == header || menuItemName == cleanHeader))
                     return menuItem;
 
-                if (menuItem.Items != null)
-                {
-                    menuItem = GetChildMenuItem(menuItem, menuItemName, menuItemText);
-                    if (menuItem != null)
-                        return menuItem;
-                }
+                menuItem = GetChildMenuItem(menuItem, menuItemName, menuItemText);
+                if (menuItem != null)
+                    return menuItem;
             }
 
+            mmApp.Log("Couldn't add menu item: " + menuItemName + " " + menuItemText, logLevel: LogLevels.Warning);
             return null;
         }
         #endregion
