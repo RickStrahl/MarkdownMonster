@@ -27,7 +27,7 @@ namespace MarkdownMonster.Controls.ContextMenus
         public EditorContextMenu()
         {
             Model = mmApp.Model;
-            ContextMenu = Model.Window.EditorContextMenu;
+            ContextMenu = new ContextMenu();
             ContextMenu.Closed += ContextMenu_Closed;
         }
 
