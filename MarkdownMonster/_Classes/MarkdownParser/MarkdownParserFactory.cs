@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using MarkdownMonster.AddIns;
+using Westwind.Utilities;
 
 namespace MarkdownMonster
 {
@@ -9,7 +10,7 @@ namespace MarkdownMonster
     /// </summary>
     public static class MarkdownParserFactory
     {
-        public static string DefaultMarkdownParserName { get;  } = "MarkDig";
+        public static string DefaultMarkdownParserName { get; } = "MarkDig";
 
         /// <summary>
         /// Use a cached instance of the Markdown Parser to keep alive
@@ -24,8 +25,8 @@ namespace MarkdownMonster
         /// <param name="parserAddinId">optional addin id that checks for a registered Markdown parser</param>
         /// <returns>Mardown Parser Interface</returns>
         public static IMarkdownParser GetParser(bool usePragmaLines = false,
-                                                bool forceLoad = false,
-                                                string parserAddinId = null)
+            bool forceLoad = false,
+            string parserAddinId = null)
         {
             if (!forceLoad && CurrentParser != null)
                 return CurrentParser;
@@ -34,12 +35,18 @@ namespace MarkdownMonster
 
             if (!string.IsNullOrEmpty(parserAddinId) && parserAddinId != DefaultMarkdownParserName)
             {
-                var addin = AddinManager.Current.AddIns.FirstOrDefault(a => a.Name == parserAddinId || a.Id == parserAddinId);
+                var addin = AddinManager.Current.AddIns.FirstOrDefault(a =>
+                    a.Name == parserAddinId || a.Id == parserAddinId);
                 if (addin != null)
                     parser = addin.GetMarkdownParser(usePragmaLines, forceLoad);
+                else if (parserAddinId == "DocFx")
+                {
+                    parser = new MarkdownParserDocFxMarkdig(usePragmaLines: usePragmaLines);
+                }
+
             }
-            
-            CurrentParser = parser ?? (parser = new MarkdownParserMarkdig(usePragmaLines: usePragmaLines));
+
+            CurrentParser = parser ?? new MarkdownParserMarkdig(usePragmaLines: usePragmaLines);
 
             return CurrentParser;
         }
@@ -50,23 +57,17 @@ namespace MarkdownMonster
         /// </summary>
         /// <returns></returns>
         public static List<string> GetParserNames()
-        {            
-            var parserStrings = new List<string>()
-            {
-                DefaultMarkdownParserName                
-            };
+        {
+            var parserStrings = new List<string>() {DefaultMarkdownParserName, "DocFx"};
 
             foreach (var addin in AddinManager.Current.AddIns)
             {
-                var parser = addin.GetMarkdownParser(false,false);
+                var parser = addin.GetMarkdownParser(false, false);
                 if (parser != null)
                     parserStrings.Add(addin.Name ?? addin.Id);
             }
 
             return parserStrings;
         }
-        
     }
-
-    
 }

@@ -1164,7 +1164,8 @@ namespace MarkdownMonster
                 if (!string.IsNullOrEmpty(yaml))
                 {
                     PreviewWebRootPath = StringUtils.ExtractString(CurrentText, "\npreviewWebRootPath:", "\n", true, false, false)?.TrimEnd('\\','/');
-                    return PreviewWebRootPath;
+                    if (!string.IsNullOrEmpty(PreviewWebRootPath))
+                        return PreviewWebRootPath;
                 }
             }
 

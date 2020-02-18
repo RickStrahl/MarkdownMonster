@@ -26,12 +26,15 @@ namespace MarkdownMonster.RenderExtensions
 
         public void BeforeMarkdownRendered(ModifyMarkdownArguments args)
         {
+            if(mmApp.Configuration.MarkdownOptions.MarkdownParserName.Contains("DocFx"))
+                return;
+
             ParseDocFxIncludeFiles(args);
             ParseNoteTipWarningImportant(args);
         }
 
 
-        private static Regex includeFileRegEx = new Regex(@"\[\!include.*?\[.*?\]\(.*?\)\]", RegexOptions.IgnoreCase);
+        private static Regex includeFileRegEx = new Regex(@"\[\![include|INCLUDE|code-|CODE-].*?\[.*?\]\(.*?\)\]", RegexOptions.IgnoreCase);
 
 
         /// <summary>
@@ -56,9 +59,13 @@ namespace MarkdownMonster.RenderExtensions
                 if (string.IsNullOrEmpty(file))
                     continue;
 
-                if (file.StartsWith("~"))
-                    file = mmApp.Model.Window.FolderBrowser.FolderPath + file.Substring(1);
+                bool isCode = value.StartsWith("[!code-");
+                string syntax = isCode ? StringUtils.ExtractString(value, "[!code-", "[]") : null;
 
+                if (file.StartsWith("~/"))
+                    file = Path.Combine(args.MarkdownDocument.PreviewWebRootPath, file.Substring(2));
+                if (file.StartsWith("~") || file.StartsWith("/"))
+                    file = Path.Combine(args.MarkdownDocument.PreviewWebRootPath, file.Substring(1));
 
                 string filePath;
                 if (file.Contains(@":\"))
@@ -80,11 +87,22 @@ namespace MarkdownMonster.RenderExtensions
                 string includeFile = Path.Combine(filePath, file);
                 includeFile = FileUtils.NormalizePath(includeFile);
                 if (!File.Exists(includeFile))
+                {
+                    // escape the embedded link ([] so it doesn't expand
+                    args.Markdown = args.Markdown.Replace("[]", "&#91;&#93;");
                     continue;
+                }
+                    
 
                 var markdownDocument = new MarkdownDocument();
                 markdownDocument.Load(includeFile);
+                if (isCode)
+                    markdownDocument.CurrentText =
+                        $"```{syntax}\n{markdownDocument.CurrentText.Trim()}\n```";
+                
                 string includeContent = markdownDocument.RenderHtml();
+
+               
 
                 args.Markdown = args.Markdown.Replace(value, includeContent);
             }
@@ -100,7 +118,7 @@ namespace MarkdownMonster.RenderExtensions
         > [!WARNING]
         > warning content
 
-        */
+        */  
         private static Regex TipNoteWarningImportantFileRegEx = new Regex(@">\s\[\![A-Z]*][\s\S]*?(\n{2}|\Z)", RegexOptions.Multiline);
 
 
@@ -135,11 +153,13 @@ namespace MarkdownMonster.RenderExtensions
                         {
                             string icon = "fa-info-circle";
                             var word = StringUtils.ExtractString(line, "> [!", "]");
+                            var cssClass = word.ToLower();
                             switch (word)
                             {
                                 case "NOTE":
+                                    cssClass = "info";
+                                    break;
                                 case "TIP":
-                                    icon = "fa-info-circle";
                                     break;
                                 case "WARNING":
                                 case "CAUTION":
@@ -150,7 +170,7 @@ namespace MarkdownMonster.RenderExtensions
 
                             icon = $"<i class='fa {icon}'></i>&nbsp;";
 
-                            sb.AppendLine("<div class=\"" + word + "\">");
+                            sb.AppendLine("<div class=\"" + word + " alert alert-" + cssClass + "\">");
                             sb.AppendLine($"<h5>{icon}{word}</h5>");
                             sb.AppendLine();
                         }

@@ -16,11 +16,23 @@ MM now will check if MM is rendering off screen when starting up. It's possible 
 * **Snippets Addin Window Placement**  
 The Snippets addin now by default remembers its last window position and ensures that - like the main form - it's visible on the desktop. Initial startup will launch centered in the main app window.
 
-* **Support for Colors in the MM Console**  
-The new Markdown Monster Console that was recently added for addin developers, now implements coloring of console output. The parameters were there previously but didn't do anything.
-
 * **Color Emoji Fonts in Preview Themes**  
 Added specific emoji fonts for the preview themes so emojis now show in color instead of the default black and white.
+
+* **Additional Paper Size Options for PDF Output**  
+Added additional paper sizes to PDF output: Legal, Tabloid, A3, A5.
+
+* **Improved DocFx Handling in Default Markdown Parser**  
+Enhanced support for `[!include]` and `[!lang-javascript]` syntax to support the recently added PreviewWebRootPath sniffing, so paths to `/` and `~/` can be resolved. Also improved display of Info/Warning/Note etc.
+
+* **Preview: Added dedicated DocFx Markdown Parser**  
+Added the official DocFx parser as a markdown parser you can use to render documents. You can now pick that parser (which also uses Markdig as MM) to render DocFx documents. Rendering features for DocFx features are still limited and there are also problems with this parser. Adding for preliminary experimentation with DocFx content. Feedback welcome.
+
+* **Markdown Rendering Error Display**  
+Markdown rendering errors will now display an error page, rather than displaying either a blank page or not clearing the previous page. The error page shows the active Markdown Parser and a detailed code trace.
+
+* **Support for Colors in the MM Console**  
+The new Markdown Monster Console that was recently added for addin developers, now implements coloring of console output. The parameters were there previously but didn't do anything.
 
 * **Fix: Save Dialog on Shutdown on wrong Screen**  
 Fix issue where the Save dialog with changed content will pop up on the wrong monitor during shutdown by forcing the owner before the main window gets released.

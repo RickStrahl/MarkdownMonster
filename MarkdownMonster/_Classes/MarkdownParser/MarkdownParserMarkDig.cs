@@ -66,24 +66,59 @@ namespace MarkdownMonster
         /// <returns></returns>        
         public override string Parse(string markdown)
         {
-            if (string.IsNullOrEmpty(markdown))
-                return string.Empty;
+            try
+            {
+                if (string.IsNullOrEmpty(markdown))
+                    return string.Empty;
 
-            var htmlWriter = new StringWriter();
-            var renderer = CreateRenderer(htmlWriter);
+                var htmlWriter = new StringWriter();
+                var renderer = CreateRenderer(htmlWriter);
 
-            Markdown.Convert(markdown, renderer, Pipeline);
-            var html = htmlWriter.ToString();
+                Markdown.Convert(markdown, renderer, Pipeline);
+                var html = htmlWriter.ToString();
 
-            html = ParseFontAwesomeIcons(html);
+                html = ParseFontAwesomeIcons(html);
 
-            if (mmApp.Configuration.MarkdownOptions.RenderLinksAsExternal)
-                html = ParseExternalLinks(html);
+                if (mmApp.Configuration.MarkdownOptions.RenderLinksAsExternal)
+                    html = ParseExternalLinks(html);
 
-            if (!mmApp.Configuration.MarkdownOptions.AllowRenderScriptTags)
-                html = HtmlUtils.SanitizeHtml(html);
+                if (!mmApp.Configuration.MarkdownOptions.AllowRenderScriptTags)
+                    html = HtmlUtils.SanitizeHtml(html);
 
-            return html;
+                return html;
+            }
+            catch (Exception ex)
+            {
+                if (markdown.Length > 10000)
+                    markdown = markdown.Substring(0, 10000);
+
+                mmApp.Log("Unable to render Markdown Document\n" + markdown, ex, logLevel: LogLevels.Warning);
+                var html = $@"
+<h1><i class='fa fa-warning text-error'></i> Unable to render Markdown Document</h1>
+
+<p>
+   An error occurred trying to parse the Markdown document to HTML.
+</p>
+
+<h4>Error</h4>
+<b>{ex.Message}</b>
+
+<p>
+    <a id='hrefShow' href='#0' style='font-size: 0.8em; font-weight: normal'>more info...</a>
+</p>
+
+<div id='detail' style='display:none'>
+<h3>Error Detail</h3>
+
+<pre><code class='hljs language-text'>{System.Net.WebUtility.HtmlEncode(StringUtils.NormalizeIndentation(ex.StackTrace))}</code></pre>
+</div>
+
+<script>
+$('#hrefShow').click(function () {{ $('#detail').show(); }});
+</script>
+";
+                return html;
+            }
         }
 
         /// <summary>
@@ -99,7 +134,9 @@ namespace MarkdownMonster
         /// <returns></returns>
         protected virtual MarkdownPipelineBuilder BuildPipeline(MarkdownOptionsConfiguration options, MarkdownPipelineBuilder builder)
         {
-            
+
+            builder = builder.UseEmphasisExtras();
+
             if(options.UseMathematics)
                 builder = builder.UseMathematics();                
 
@@ -148,7 +185,6 @@ namespace MarkdownMonster
             if(options.NoHtml)
                 builder = builder.DisableHtml();
 
-            builder = builder.UseEmphasisExtras();
                 
             if (UsePragmaLines)
                 builder = builder.UsePragmaLines();
@@ -201,4 +237,5 @@ namespace MarkdownMonster
             return new HtmlRenderer(writer);
         }
     }
+
 }

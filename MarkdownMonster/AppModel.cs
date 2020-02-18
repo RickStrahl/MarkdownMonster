@@ -28,6 +28,7 @@ using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Threading;
 using FontAwesome.WPF;
@@ -505,14 +506,14 @@ namespace MarkdownMonster
         /// Returns the width of the column containing
         /// the Markdown Parser selection combo box
         /// </summary>
-        public int MarkdownParserColumnWidth
+        public GridLength MarkdownParserColumnWidth
         {
             get
             {
                 if (MarkdownParserFactory.GetParserNames().Count > 1)
-                    return 180;
+                    return GridLengthHelper.Auto;
 
-                return 0;
+                return GridLengthHelper.Zero;
             }
         }
 

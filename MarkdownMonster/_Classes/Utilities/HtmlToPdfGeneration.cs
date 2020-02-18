@@ -311,8 +311,12 @@ namespace MarkdownMonster
 	public enum PdfPageSizes
 	{
 		Letter,
-		A4,
-	}
+        Legal,
+        Tabloid,
+        A3,
+        A4,
+        A5
+    }
 
 	public enum PdfPageOrientation
 	{

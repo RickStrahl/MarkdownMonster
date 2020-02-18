@@ -22,6 +22,9 @@ namespace MarkdownMonster
 
         public static object GetWindow(WebBrowser browser)
         {
+            if ( browser.Document == null)
+                return null;
+
             return ReflectionUtils.GetPropertyCom(browser.Document, "parentWindow");
         }
 

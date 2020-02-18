@@ -298,8 +298,38 @@ code.line-highlight {
   color: #31708f;
   background-color: #d9edf7;
   border-color: #bce8f1;
+  
 }
 
+.NOTE h5:before, .TIP h5:before {
+  content: "\f05a";
+  font-family: FontAwesome;
+  padding-right: 6px;
+}
+.WARNING h5:before, .CAUTION h5:before {
+  content: "\f071";
+  font-family: FontAwesome;
+  padding-right: 6px;
+}
+
+.IMPORTANT h5:before {
+  content: "\f06a";
+  font-family: FontAwesome;
+  padding-right: 6px;
+}
+
+
+.alert h5:before {
+  position: relative;
+  top: 1px;
+  display: inline-block;
+  font-family: FontAwesome;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  margin-right: 5px;
+  font-weight: normal;
+}
 
 
 @media(min-width: 1080px) {
@@ -307,6 +337,11 @@ code.line-highlight {
     font-size: 1.1em;
   }
 }
+.alert-warning h5:before {
+  content: "\e127";
+}
+
+
 
 /* for PDF generation and print output */
 @media print {

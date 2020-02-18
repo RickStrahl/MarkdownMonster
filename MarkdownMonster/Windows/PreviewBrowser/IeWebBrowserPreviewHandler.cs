@@ -233,7 +233,7 @@ namespace MarkdownMonster.Windows.PreviewBrowser
                     }
                     else
                     {
-                        // Fix up `\` or `~\` Web RootPaths via `webRootPath: <path>` in YAML header
+                        // Fix up `/` or `~/` Web RootPaths via `webRootPath: <path>` in YAML header
                         // Specify a physical or relative path that `\` or `~\` maps to
                         doc.GetPreviewWebRootPath();
 
@@ -405,7 +405,11 @@ namespace MarkdownMonster.Windows.PreviewBrowser
         public void ScrollToEditorLine(int editorLineNumber = -1, bool updateCodeBlocks = false, bool noScrollTimeout = false, bool noScrollTopAdjustment = false)
 
         {
-            var interop = new PreviewBrowserInterop(PreviewBrowserInterop.GetWindow(WebBrowser));
+            var doc = PreviewBrowserInterop.GetWindow(WebBrowser);
+            if (doc == null)
+                return;
+
+            var interop = new PreviewBrowserInterop(doc);
 
             var editor = Window.GetActiveMarkdownEditor();
             if (editor == null)

@@ -156,11 +156,17 @@ function highlightJsBadge(opt) {
                 continue; // already exists
                        
             var lang = "";
-
+            
             for (var i = 0; i < el.classList.length; i++) {
+                var cl = el.classList[i];
                 // class="hljs language-csharp"
-                if (el.classList[i].substr(0, 9) === 'language-') {
+                if (cl.substr(0, 9) === 'language-') {
                     lang = el.classList[i].replace('language-', '');
+                    break;
+                }
+                // class="hljs lang-cs"  // docFx
+                else if (cl.substr(0, 5) === 'lang-') {
+                    lang = el.classList[i].replace('lang-', '');
                     break;
                 }
                 // class="kotlin hljs"   (auto detected)
@@ -231,25 +237,30 @@ function highlightJsBadge(opt) {
     function copyCodeToClipboard(e) {
         // walk back up to <pre> tag
         var $origCode = e.srcElement.parentElement.parentElement.parentElement;
-
-        // select the <code> tag
-        var $code = $origCode.querySelector("pre>code").cloneNode(true);
-        
+    
+        // select the <code> tag and grab text
+        var $code = $origCode.querySelector("pre>code");
         var text = $code.textContent || $code.innerText;
+        
+        // Create a textblock and assign the text and add to document
         var el = document.createElement('textarea');
-
         el.value = text.trim();
         document.body.appendChild(el);
         el.style.display = "block";
-
+    
+        // select the entire textblock
         if (window.document.documentMode)
             el.setSelectionRange(0, el.value.length);
         else
             el.select();
         
+        // copy to clipboard
         document.execCommand('copy');
+        
+        // clean up element
         document.body.removeChild(el);
         
+        // show the check icon (copied) briefly
         swapIcons($origCode);     
     }
 
@@ -294,7 +305,7 @@ function highlightJsBadge(opt) {
             "        background: transparent;",
             "        background: #333;",
             "        color: white;",
-            "        font-size: 0.8em;",
+            "        font-size: 0.875em;",
             "        opacity: 0.5;",
             "        transition: opacity linear 0.5s;",
             "        border-radius: 0 0 0 7px;",
@@ -378,7 +389,7 @@ if (highlightJsBadgeAutoLoad)
         background: transparent;
         background: #333;
         color: white;
-        font-size: 0.8em;
+        font-size: 0.875em;
         opacity: 0.5;
         border-radius: 0 0 0 7px;
         padding: 5px 8px 5px 8px;
