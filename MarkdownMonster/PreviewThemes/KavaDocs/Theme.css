@@ -271,6 +271,58 @@ figure {
 }
 
 
+/* DocFx Styles*/
+.CAUTION, .IMPORTANT, .INFO, .TIP, .NOTE, .WARNING {
+  padding: 0.1px 20px;
+  margin: 15px 0;
+  border-radius: 4px;
+}
+
+.CAUTION > h5, .IMPORTANT > h5, .INFO > h5, .TIP > h5, .NOTE > h5, .WARNING > h5 {
+  color: inherit;
+}
+
+.CAUTION, .IMPORTANT {
+  color: #a94442;
+  background-color: #f2dede;
+  border-color: #ebccd1;
+}
+
+.WARNING {
+  color: #8a6d3b;
+  background-color: #fcf8e3;
+  border-color: #faebcc;
+}
+
+.INFO, .TIP, .NOTE {
+  color: #31708f;
+  background-color: #d9edf7;
+  border-color: #bce8f1;
+}
+
+.NOTE h5:before, .TIP h5:before {
+  content: "\f05a";
+  font-family: FontAwesome;
+  padding-right: 6px;
+}
+
+.WARNING h5:before, .CAUTION h5:before {
+  content: "\f071";
+  font-family: FontAwesome;
+  padding-right: 6px;
+}
+
+.IMPORTANT h5:before {
+  content: "\f06a";
+  font-family: FontAwesome;
+  padding-right: 6px;
+}
+
+xref {
+  display: block;
+}
+
+
 @media print {
   pre {
     white-space: pre-wrap;

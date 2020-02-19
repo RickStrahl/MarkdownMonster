@@ -16,7 +16,7 @@ namespace MarkdownMonster
 
 	/// <summary>
 	/// Class wrapper around the WkPdfToHtml Engine
-	/// https://wkhtmltopdf.org	
+	/// https://wkhtmltopdf.org/usage/wkhtmltopdf.txt
 	/// </summary>
 	public class HtmlToPdfGeneration : INotifyPropertyChanged
 	{
@@ -124,10 +124,11 @@ namespace MarkdownMonster
 		    sb.Append("--enable-internal-links ");
 		    sb.Append("--keep-relative-links ");
 		    sb.Append("--print-media-type ");
+            sb.Append("--encoding \"UTF-8\" ");
 
             sb.Append($"--footer-font-size {FooterFontSize} ");
 			if (ShowFooterLine)
-				sb.Append("--footer-line");
+				sb.Append("--footer-line ");
 
 			// precedence: Html, text, page numbers
 			if (!string.IsNullOrEmpty(FooterHtmlUrl))
@@ -312,10 +313,8 @@ namespace MarkdownMonster
 	{
 		Letter,
         Legal,
-        Tabloid,
-        A3,
         A4,
-        A5
+        B4
     }
 
 	public enum PdfPageOrientation
