@@ -5,7 +5,7 @@
 [![Web Site](https://img.shields.io/badge/Markdown_Monster-WebSite-blue.svg)](https://markdownmonster.west-wind.com)
 
 ### 1.21.2
-*<small>not released yet</small>* 
+*<small>February 19th, 2020</small>* 
 
 * **[Additional Site Relative Root Path `/` Overrides](https://markdownmonster.west-wind.com/docs/_5fz0ozkln.htm)**  
 Added additional site overrides for root `/` path resolution in the previewer. The new additions look up the folder hierarchy for a `.markdownmonster`, `_toc.json` or `docfx.json` file, or any `<yourProject>.mdproj` file. These overrides happen after the exisiting checks for YAML `previewWebRootPath` header, and the `PreviewWebRootPath` in an open project file.
@@ -17,7 +17,7 @@ Added specific emoji fonts for the preview themes so emojis now show in color in
 * **Additional Paper Size Options for PDF Output**  
 Added additional paper sizes for PDF output: Letter, Legal, A4, B3.
 
-* **Improved DocFx Handling in Default Markdown Parser**  
+* **[Improved DocFx Handling in Default Markdown Parser](https://markdownmonster.west-wind.com/docs/_5750qtgr2.htm)**  
 Enhanced support for `[!include]` and `[!lang-javascript]` syntax to support the recently added PreviewWebRootPath sniffing, so paths to `/` and `~/` can be resolved. Also improved display of Info/Warning/Note etc.
 
 * **Preview: Added dedicated DocFx Markdown Parser**  
