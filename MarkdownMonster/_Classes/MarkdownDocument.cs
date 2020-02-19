@@ -512,7 +512,7 @@ namespace MarkdownMonster
         
         
 
-        private void OnBeforeDocumentRendered(ref string  markdown)
+        public void OnBeforeDocumentRendered(ref string  markdown)
         {
             var args = new ModifyMarkdownArguments(markdown, this);
             RenderExtensionsManager.Current.ProcessAllBeforeMarkdownRenderedHooks(args);
@@ -530,7 +530,7 @@ namespace MarkdownMonster
         /// </summary>
         /// <param name="html">rendered HTML from the Markdown. Html Fragment.</param>
         /// <param name="markdown">original Markdown document text passed in for reference - shouldn't be changed</param>
-        private void OnMarkdownRendered(ref string html, ref string markdown)
+        public void OnMarkdownRendered(ref string html, ref string markdown)
         {
             var args = new ModifyHtmlAndHeadersArguments(html, markdown, this);
 
@@ -550,7 +550,7 @@ namespace MarkdownMonster
         /// </summary>
         /// <param name="html">rendered HTML from the Markdown. Html Fragment.</param>
         /// <param name="markdown">original Markdown document text passed in for reference - shouldn't be changed</param>
-        private void OnDocumentRendered(ref string html, ref string markdown)
+        public void OnDocumentRendered(ref string html, ref string markdown)
         {
             var args = new ModifyHtmlArguments(html, markdown, this);
             RenderExtensionsManager.Current.ProcessAllAfterDocumentRenderedHooks(args);
@@ -1185,7 +1185,8 @@ namespace MarkdownMonster
             {
                 var filename = Path.GetFileName(file);
                 if (filename.Equals(".markdownmonster", StringComparison.OrdinalIgnoreCase) ||
-                    filename.Equals("_toc.json", StringComparison.OrdinalIgnoreCase))
+                    filename.Equals("_toc.json", StringComparison.OrdinalIgnoreCase) ||
+                    filename.Equals("docfx.json",StringComparison.OrdinalIgnoreCase))
                     return basePath;
 
                 // check for a '.mdProj' file - if found use that path

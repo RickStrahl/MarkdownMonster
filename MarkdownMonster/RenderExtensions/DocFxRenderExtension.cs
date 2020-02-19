@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
@@ -31,11 +32,12 @@ namespace MarkdownMonster.RenderExtensions
 
             ParseDocFxIncludeFiles(args);
             ParseNoteTipWarningImportant(args);
+            ParseXrefTags(args);
         }
 
 
         private static Regex includeFileRegEx = new Regex(@"\[\![include|INCLUDE|code-|CODE-].*?\[.*?\]\(.*?\)\]", RegexOptions.IgnoreCase);
-
+        private Stack<string> nestedDocs = new Stack<string>();
 
         /// <summary>
         /// Parses DocFx include files in the format of:
@@ -46,7 +48,7 @@ namespace MarkdownMonster.RenderExtensions
         /// as it will embed the file content as is.
         /// </summary>
         /// <returns></returns>
-        protected void ParseDocFxIncludeFiles(ModifyMarkdownArguments args)
+        public void ParseDocFxIncludeFiles(ModifyMarkdownArguments args)
         {
             var matches = includeFileRegEx.Matches(args.Markdown);
 
@@ -62,24 +64,29 @@ namespace MarkdownMonster.RenderExtensions
                 bool isCode = value.StartsWith("[!code-");
                 string syntax = isCode ? StringUtils.ExtractString(value, "[!code-", "[]") : null;
 
-                if (file.StartsWith("~/"))
-                    file = Path.Combine(args.MarkdownDocument.PreviewWebRootPath, file.Substring(2));
-                if (file.StartsWith("~") || file.StartsWith("/"))
-                    file = Path.Combine(args.MarkdownDocument.PreviewWebRootPath, file.Substring(1));
-
                 string filePath;
-                if (file.Contains(@":\"))
+                bool hasPreviewWebPath = !string.IsNullOrEmpty(args.MarkdownDocument.PreviewWebRootPath);
+                // Fix up paths
+                 if (hasPreviewWebPath && file.StartsWith("~/"))
+                        file = Path.Combine(args.MarkdownDocument.PreviewWebRootPath, file.Substring(2));
+                else if (hasPreviewWebPath && file.StartsWith("~") || file.StartsWith("/"))
+                        file = Path.Combine(args.MarkdownDocument.PreviewWebRootPath, file.Substring(1));
+                if (file.Contains(@":\") || file.Contains(":/"))
                 {
                     filePath = file;
                 }
                 else
                 {
-                    filePath = mmApp.Model.ActiveDocument?.Filename;
+                    var lastDoc = nestedDocs.LastOrDefault();
+                    if (string.IsNullOrEmpty(lastDoc))
+                    {
+                        filePath = mmApp.Model.ActiveDocument?.Filename;
+                        filePath = Path.GetDirectoryName(filePath);
+                    }
+                    else
+                        filePath = Path.GetDirectoryName(lastDoc);
+                    
                     if (string.IsNullOrEmpty(filePath))
-                        continue;
-
-                    filePath = Path.GetDirectoryName(filePath);
-                    if (filePath == null)
                         continue;
                 }
 
@@ -92,19 +99,22 @@ namespace MarkdownMonster.RenderExtensions
                     args.Markdown = args.Markdown.Replace("[]", "&#91;&#93;");
                     continue;
                 }
-                    
 
-                var markdownDocument = new MarkdownDocument();
-                markdownDocument.Load(includeFile);
+                var includedContent = File.ReadAllText(includeFile);
                 if (isCode)
-                    markdownDocument.CurrentText =
-                        $"```{syntax}\n{markdownDocument.CurrentText.Trim()}\n```";
+                    includedContent =  $"```{syntax}\n{includedContent.Trim()}\n```";
+
+                nestedDocs.Push(includeFile);
+
+                // We need to process nested content
+                var markdownDocument = new MarkdownDocument();
+                markdownDocument.PreviewWebRootPath = args.MarkdownDocument.PreviewWebRootPath;
+                markdownDocument.CurrentText = includedContent;
+                markdownDocument.OnBeforeDocumentRendered(ref includedContent); 
                 
-                string includeContent = markdownDocument.RenderHtml();
+                args.Markdown = args.Markdown.Replace(value, includedContent);
 
-               
-
-                args.Markdown = args.Markdown.Replace(value, includeContent);
+                nestedDocs.Pop();
             }
         }
 
@@ -118,7 +128,7 @@ namespace MarkdownMonster.RenderExtensions
         > [!WARNING]
         > warning content
 
-        */  
+        */
         private static Regex TipNoteWarningImportantFileRegEx = new Regex(@">\s\[\![A-Z]*][\s\S]*?(\n{2}|\Z)", RegexOptions.Multiline);
 
 
@@ -151,27 +161,10 @@ namespace MarkdownMonster.RenderExtensions
                         // note header
                         if (line.TrimStart().StartsWith("> [!"))
                         {
-                            string icon = "fa-info-circle";
                             var word = StringUtils.ExtractString(line, "> [!", "]");
-                            var cssClass = word.ToLower();
-                            switch (word)
-                            {
-                                case "NOTE":
-                                    cssClass = "info";
-                                    break;
-                                case "TIP":
-                                    break;
-                                case "WARNING":
-                                case "CAUTION":
-                                case "IMPORTANT":
-                                    icon = "fa-warning";
-                                    break;
-                            }
 
-                            icon = $"<i class='fa {icon}'></i>&nbsp;";
-
-                            sb.AppendLine("<div class=\"" + word + " alert alert-" + cssClass + "\">");
-                            sb.AppendLine($"<h5>{icon}{word}</h5>");
+                            sb.AppendLine("<div class=\"" + word + "\">");
+                            sb.AppendLine($"<h5>{word}</h5>");
                             sb.AppendLine();
                         }
                         else
@@ -188,6 +181,76 @@ namespace MarkdownMonster.RenderExtensions
 
                 args.Markdown = args.Markdown.Replace(value, sb.ToString());
             }
+        }
+
+        private static Regex XRefRegEx = new Regex(@"<xref:.*?(/>|>)");
+
+        public void ParseXrefTags(ModifyMarkdownArguments args)
+        {
+            var matches = XRefRegEx.Matches(args.Markdown);
+            foreach (Match match in matches)
+            {
+                string value = match.Value.Trim();
+
+                var link = StringUtils.ExtractString(value, "<xref:", ">")?.TrimEnd('/');
+                if (link == null)
+                    return;
+                string title = null;
+
+
+                var filePath = FixUpRootPath(args, link);
+                if (File.Exists(filePath))
+                {
+                    string fileContent = File.ReadAllText(filePath);
+                    title = StringUtils.GetLines(fileContent)
+                        .FirstOrDefault(l => l.StartsWith("# ") || l.StartsWith("## ") || l.StartsWith("### "));
+                }
+                else if (File.Exists(Path.ChangeExtension(filePath, "md")))
+                {
+                    string fileContent = File.ReadAllText(Path.ChangeExtension(filePath,"md"));
+                    title = StringUtils.GetLines(fileContent)
+                        .FirstOrDefault(l => l.StartsWith("# ") || l.StartsWith("## ") || l.StartsWith("### "));
+                }
+
+                if (string.IsNullOrEmpty(title))
+                    title = link;
+                else
+                    title = title.TrimStart('#',' ','\t');
+
+                var html = $"<a href=\"{link}\">{WebUtility.HtmlEncode(title)}</a>";
+
+                args.Markdown = args.Markdown.Replace(value, html);
+            }
+        }
+
+
+        public string FixUpRootPath(ModifyMarkdownArguments args,string link)
+        {
+            if(string.IsNullOrEmpty(link))
+                return link;
+
+            var filePath = link;
+            if (filePath.StartsWith("~/") || filePath.StartsWith("/"))
+            {
+                filePath = StringUtils.ReplaceStringInstance(filePath, "~/", "",1,false);
+                if (filePath.StartsWith("/"))
+                    filePath = filePath.Substring(1);
+
+                filePath = args.MarkdownDocument.PreviewWebRootPath + "\\" + filePath;
+            }
+            else
+            {
+                var path = Path.GetDirectoryName(args.MarkdownDocument.Filename);
+                if (!string.IsNullOrEmpty(path))
+                    filePath = Path.Combine(path, filePath);
+                else 
+                    filePath = args.MarkdownDocument.PreviewWebRootPath + "\\" + filePath;
+            }
+
+
+            filePath = FileUtils.NormalizePath(filePath);
+
+            return filePath;
         }
     }
 }

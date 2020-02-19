@@ -214,7 +214,6 @@ namespace MarkdownMonster.Windows.PreviewBrowser
                         else
                         {
                             Window.ShowPreviewBrowser(false, false);
-                            
                         }
                     }
 

@@ -82,5 +82,36 @@ Before Text
         }
 
 
+        [TestMethod]
+        public void XrefTagTest()
+        {
+            string markdown = @"
+Before Text
+
+<xref:subfolder/page>
+
+
+<xref:subfolder/page2/>
+
+> [!TIP]
+> This is a tip that is
+> shown on two lines
+>
+> More text here";
+
+            var ext = new DocFxRenderExtension();
+
+            markdown = StringUtils.NormalizeLineFeeds(markdown, LineFeedTypes.Lf);
+
+            var args = new ModifyMarkdownArguments {Markdown = markdown};
+            ext.ParseXrefTags(args);
+
+            var result = args.Markdown.TrimEnd();
+            Assert.AreNotEqual(markdown, result);
+            Assert.IsTrue(result.Contains("href=\"subfolder/page\"") &&
+                          result.Contains("href=\"subfolder/page2\""));
+            Console.WriteLine(result);
+        }
+
     }
 }

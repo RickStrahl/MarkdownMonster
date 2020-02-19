@@ -96,7 +96,17 @@ namespace MarkdownMonster
                 logError: Log("error"),
                 readFile: ReadFile);
 
-            string filePath = "test.md";
+
+            // Fake root path to what MM sees as the root path (.markdown, project file, project open etc.)
+            string filePath =mmApp.Model.ActiveDocument?.Filename; 
+            if (string.IsNullOrEmpty(filePath) || filePath.Equals("untitled",StringComparison.OrdinalIgnoreCase))
+            {
+                filePath = mmApp.Model.ActiveDocument?.PreviewWebRootPath;
+                if (string.IsNullOrEmpty(filePath))
+                    filePath = "preview.md";
+                else
+                    filePath += "\\preview";
+            }
             files.Add(filePath, markdown);
 
 
@@ -188,7 +198,6 @@ $('#hrefShow').click(function () {{ $('#detail').show(); }});
             if (!mmApp.Configuration.MarkdownOptions.AllowRenderScriptTags)
                 html = HtmlUtils.SanitizeHtml(html);
 
-            Debug.WriteLine(html);
 
             return html;
 
@@ -198,26 +207,45 @@ $('#hrefShow').click(function () {{ $('#detail').show(); }});
                 return (code, message, origin, line) => actualErrors.Add(code);
             }
 
+
+            // Handler to fix up file paths for nested/included documents
             (string content, object file) ReadFile(string path, object relativeTo, MarkdownObject origin)
             {
 
                 string key;
-                var relativePath = relativeTo as string;
-                if(string.IsNullOrEmpty(relativePath))
+                var relativeDocumentPath = relativeTo as string;
+
+                var rootPath = mmApp.Model.ActiveDocument?.PreviewWebRootPath;
+                if(rootPath == null)
+                    rootPath = Path.GetDirectoryName( files.FirstOrDefault().Key);
+                var parentDocPath = relativeTo as string;
+                if (!string.IsNullOrEmpty(parentDocPath))
+                    parentDocPath = Path.GetDirectoryName(parentDocPath);
+
+
+                //fully qualified path
+                if(path.Contains(":/") || path.Contains(":\\"))
                     key = path;
-                else
-                    key = Path.Combine(Path.GetDirectoryName(relativePath), path).Replace('\\', '/');
-            
-                
-                if (path.StartsWith("~/"))
+                else if (!string.IsNullOrEmpty(rootPath) && path.StartsWith("~/"))
                 {
                    path = path.Substring(2);
-                   key = path;
-               }
+                   key = Path.Combine(rootPath, path).Replace('\\', '/');
+                }
+                // Site relative  path
+                else if (!string.IsNullOrEmpty(rootPath) && path.StartsWith("/"))
+                {
+                    path = path.Substring(1);
+                    key = Path.Combine(rootPath, path).Replace('\\', '/');
+                }
+                // Site relative path
+                else if(!string.IsNullOrEmpty(parentDocPath))
+                    key = Path.GetFullPath(Path.Combine(parentDocPath, path));
+                else
+                    key = path;
 
-               actualDependencies.Add(path);
+                actualDependencies.Add(key);
 
-               files.TryGetValue(key, out var value);
+                files.TryGetValue(key, out var value);
                if (value == null)
                {
                    try
