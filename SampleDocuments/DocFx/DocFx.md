@@ -1,35 +1,24 @@
 ﻿
 > [!WARNING]
-> This is some Note Text
+> This is some Note Text  
 > that spreads across two lines
 
 > [!NOTE]
 > Singe line note.
 
-Some other text
-
-> [!WARNING]
-> asdaksldj alksdjalksdj laksdjalskd
-> asdkljasdlkjasdkljasd
-
-
+A block of text between note boxes.
 
 > [!TIP]
-> asdaksldj alksdjalksdj laksdjalskd
-> asdkljasdlkjasdkljasd
+> Tipping my hat to the clown
 
 > [!IMPORTANT]
-> asdaksldj alksdjalksdj laksdjalskd
-> asdkljasdlkjasdkljasd
+> Don't forget to screw on your hat!
 
 More text here
 
 ```cs
-int x = 1
-```
-
-```js
-var x = 1
+int x = 1;
+x++;
 ```
 
 ### Include Markdown Document
@@ -41,6 +30,6 @@ var x = 1
 [!code-csharp[](~/includeCode.cs)]
 
 
-### Loading a nested Content Page with nested Document and nested Code
+### Loading nested Content Page with Nested Content
 
 [!include[](~/Content/DocFxContent.md)] 

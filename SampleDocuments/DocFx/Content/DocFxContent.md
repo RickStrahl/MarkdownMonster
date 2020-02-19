@@ -1,7 +1,4 @@
-﻿
-<xref:include.md>
-
-----
+﻿----
 
 This is  some insertion text with some notes.
 
