@@ -23,7 +23,7 @@
     markers: [],
     excludedWords:
       "body,html,xml,div,span,td,th,tr,thead,tbody,blockquote,src,href,ul,ol,li,png,gif,jpg,js,css,htm,html,topiclink,lang,img,&nbsp;,http,https," +
-      "www,com,---,--",
+      "www,com,br,nbsp,---,--",
     clearMarkers: function() {
         for (var i in sc.markers) {
             te.editor.session.removeMarker(sc.markers[i]);
@@ -303,12 +303,14 @@
     for (var wordIndex in words) {
       var word = words[wordIndex] + "";
 
+      // if empty or all upper case
       if (!word) {
         i += 1;
         continue;
       }
 
-        if (word && (word === skipWord || word.indexOf("--") > -1)) {
+      // skip words: Known words to skip, anything with -- and all uppercase words
+      if (word === skipWord || word.indexOf("--") > -1 || word === word.toUpperCase()) {
           i += word.length + 1;
           continue;
       }
@@ -318,7 +320,7 @@
 
       // only use words without special characters
       if (word.length > 1 &&
-        sc.excludedWords.indexOf("," + word + ",") == -1) {
+        sc.excludedWords.indexOf("," + word + ",") === -1) {
 
         if (word[0] === "'") {
           word = word.substr(1);
@@ -329,9 +331,13 @@
           endCharoffset++;
         }
 
-        var isOk = te.checkSpelling(word);
-        if (!isOk) {
-          bads[bads.length] = [i + beginCharoffset, i + words[wordIndex].length - endCharoffset, word];
+        // check for camel case and don't process that
+        var camelCaseText = word.substr(1);
+        if (camelCaseText.toLowerCase() === camelCaseText) {
+          var isOk = te.checkSpelling(word);
+          if (!isOk) {
+            bads[bads.length] = [i + beginCharoffset, i + words[wordIndex].length - endCharoffset, word];
+          }
         }
       }
       i += word.length + 1;
