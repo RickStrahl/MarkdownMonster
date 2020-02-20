@@ -1,6 +1,6 @@
 html, body {
   color: #24292e;
-  font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol";
+  font-family: -apple-system,BlinkMacSystemFont,"Segoe UI Emoji", "Segoe UI",Helvetica,Arial,sans-serif,"Apple Color Emoji";
   font-size: 16px;
   line-height: 1.5;
   -webkit-font-smoothing: antialiased;
