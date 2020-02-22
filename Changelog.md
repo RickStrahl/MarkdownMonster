@@ -5,8 +5,6 @@
 [![Web Site](https://img.shields.io/badge/Markdown_Monster-WebSite-blue.svg)](https://markdownmonster.west-wind.com)
 
 
-:smile:
-
 ### 1.21.2
 *<small>February 19th, 2020</small>* 
 
