@@ -113,6 +113,15 @@ namespace MarkdownMonster.Controls.ContextMenus
             };
             contextMenu.Items.Add(mi);
 
+            mi = new MenuItem
+            {
+                Header = "Close Documents to _Right",
+                Name = "MenuCloseDocumentsToRight",
+                Command = Model.Commands.CloseDocumentsToRightCommand,
+                CommandParameter="AllBut"
+            };
+            contextMenu.Items.Add(mi);
+
             contextMenu.Items.Add(new Separator());
 
 

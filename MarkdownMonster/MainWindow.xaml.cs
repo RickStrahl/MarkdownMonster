@@ -924,8 +924,7 @@ namespace MarkdownMonster
 
                         doc.LastEditorLineNumber = editor.GetLineNumber();
                         if (doc.LastEditorLineNumber < 1)
-                            doc.LastEditorLineNumber =
-                                editor.InitialLineNumber; // if document wasn't accessed line is never set
+                            doc.LastEditorLineNumber = editor.InitialLineNumber; // if document wasn't accessed line is never set
                         if (doc.LastEditorLineNumber < 0)
                             doc.LastEditorLineNumber = 0;
 

@@ -38,6 +38,11 @@ Here are a few useful Markdown Monster shortcuts to remember:
 * Alt-G - Open Git Window
 * Alt-Z - Toggle Word Wrap
 
+### Addins
+Did you know you can create Markdown Monster Add-ins using .NET Code? Addins can interact with or create docs, modify & inject content & override Markdown rendering. You can interact w/ UI, create menu items, UI components and windows.
+
+Find out more: https://markdownmonster.west-wind.com/docs/_4ne0s0qo…
+
 ### Markdown Link Spaces
 When embedding images into Markdown it's best not to use spaces in image file names. Same for links. While MM can handle the spacing with encoded URLs, they are ugly and can cause problems when you move links around.
 
@@ -88,7 +93,7 @@ Did you know that in Markdown Monster you can click on Markdown links in the Pre
 ## Edit Images
 Did you know you can bring up your favorite image editor directly from your Markdown Document in Markdown Monster?
 
-Right click on an image link in the editor and choose 'Edit Image' to open the image in your selected editor. The editor can be configured in Settings and find common editors by default.
+Right click on an image link in the editor and choose 'Edit Image' to open the image in your selected editor. The editor can be configured in Settings and finds common editors by default.
 
 ## Convert to Word Document
 Did you know you can use the PanDoc addin to easily create a Word document from your Markdown files? Use the Addin Manager to add the PanDoc addin then use Convert Markdown Document and select the Docx export. 

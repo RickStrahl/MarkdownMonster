@@ -73,6 +73,7 @@ namespace MarkdownMonster
             ToolbarInsertMarkdown();
             CloseActiveDocument();
             CloseAllDocuments();
+            CloseDocumentsToRight();
             OpenInNewWindow();
             ShowActiveTabsList();
             CopyAsHtml();
@@ -1258,6 +1259,41 @@ namespace MarkdownMonster
             }, (p, c) => Model.IsEditorActive);
         }
 
+
+
+        public CommandBase CloseDocumentsToRightCommand { get; set; }
+
+        void CloseDocumentsToRight()
+        {
+            CloseDocumentsToRightCommand = new CommandBase((parameter, command) =>
+            {
+                var current = Model.Window.TabControl.SelectedItem as TabItem;
+                if (current == null)
+                    return;
+
+                var ditems = Model.Window.GetDragablzItems();
+                var headers = Model.Window.TabControl.HeaderItemsOrganiser.Sort(ditems).ToList();
+
+                bool thisTabFound = false;
+                foreach (var dragItem in headers)
+                {
+                    var tab = dragItem.Content as TabItem;
+                    if (current == tab)
+                    {
+                        thisTabFound = true;
+                        continue;
+                    }
+
+                    if (thisTabFound)
+                        Model.Window.CloseTab(tab);
+                }
+
+                Model.Window.BindTabHeaders();
+            }, (p, c) => true);
+        }
+
+
+
         public CommandBase OpenInNewWindowCommand { get; set; }
 
         void OpenInNewWindow()
@@ -1338,16 +1374,22 @@ namespace MarkdownMonster
 
                 mi.Items.Add(new MenuItem
                 {
-                    Header = "C_lose All Documents",
+                    Header = "Close _All Documents",
                     Command = Model.Commands.CloseAllDocumentsCommand,
                     CommandParameter = "All"
                 });
 
                 mi.Items.Add(new MenuItem
                 {
-                    Header = "Close All _But This Document",
+                    Header = "Close All _Other Documents",
                     Command = Model.Commands.CloseAllDocumentsCommand,
                     CommandParameter = "AllBut"
+                });
+
+                mi.Items.Add(new MenuItem
+                {
+                    Header = "Close All To _Right ",
+                    Command = Model.Commands.CloseDocumentsToRightCommand,
                 });
 
                 mi.Items.Add(new Separator());

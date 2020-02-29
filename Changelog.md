@@ -1,9 +1,14 @@
-﻿# Markdown Monster Change Log 
+# Markdown Monster Change Log 
 
 [![download](https://img.shields.io/badge/Download-Installer-blue.svg)](https://markdownmonster.west-wind.com/download.aspx)
 [![Chocolatey](https://img.shields.io/chocolatey/dt/markdownmonster.svg)](https://chocolatey.org/packages/MarkdownMonster)
 [![Web Site](https://img.shields.io/badge/Markdown_Monster-WebSite-blue.svg)](https://markdownmonster.west-wind.com)
 
+### 1.21.5
+*<small>not release yet</small>* 
+
+* **Close Tabs To Right**  
+Added option to the Tab Context and Window Menu to close tabs to the right of the currently active tab.
 
 ### 1.21.2
 *<small>February 19th, 2020</small>* 
