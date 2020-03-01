@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Security;
 using System.Text;
 using System.Windows.Controls;
 using System.Windows.Media;
@@ -16,12 +17,16 @@ namespace MarkdownMonster
         /// </summary>        
         static readonly string ProKey;
         static readonly string RegisterFile;
+        static readonly string RegisterFileInstall;
 
         static UnlockKey()
         {
+            RegisterFileInstall = Path.Combine( App.InitialStartDirectory,"Registered.key");
             RegisterFile = Path.Combine( mmApp.Configuration.CommonFolder,"Registered.key");
             ProKey = Encoding.UTF8.GetString(Convert.FromBase64String(mmApp.Signature));
         }
+
+        
 
         /// <summary>
         /// Determines whether the app is unlocked
@@ -88,10 +93,19 @@ namespace MarkdownMonster
                 _unlocked = false;
                 _regType = RegTypes.Free;
 
-                if (!File.Exists(RegisterFile))
+                string key = null;
+                if (File.Exists(RegisterFileInstall))
+                    key= File.ReadAllText(RegisterFileInstall);
+
+                if (string.IsNullOrEmpty(key))
+                {
+                    if (File.Exists(RegisterFile))
+                        key = File.ReadAllText(RegisterFile);
+                }
+
+                if (string.IsNullOrEmpty(key))
                     return false;
 
-                string key = File.ReadAllText(RegisterFile);
                 var encodedKey = EncodeKey(ProKey);
 
                 if (key == encodedKey )
@@ -123,7 +137,18 @@ namespace MarkdownMonster
 
                 _unlocked = true;
                 key = EncodeKey(key);
-                File.WriteAllText(RegisterFile, key);
+
+                try
+                {
+                    // this can fail due to permissions in the install folder
+                    File.WriteAllText(RegisterFileInstall, key);
+                }
+                catch
+                {
+                    // write in the common folder
+                    File.WriteAllText(RegisterFile, key);
+                }
+                
                 
                 _regType = RegTypes.Professional;
             }
