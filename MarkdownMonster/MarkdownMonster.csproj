@@ -7,7 +7,7 @@
     <UseWPF>true</UseWPF>
     <TargetFramework>net472</TargetFramework>
 
-    <Version>1.21.2.2</Version>
+    <Version>1.21.3</Version>
     <AssemblyName>MarkdownMonster</AssemblyName>
     
     <Authors>Rick Strahl, West Wind Technologies</Authors>

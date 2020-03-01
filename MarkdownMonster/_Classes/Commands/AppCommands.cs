@@ -13,6 +13,7 @@ using Dragablz;
 using FontAwesome.WPF;
 using Markdig;
 using MarkdownMonster.AddIns;
+using MarkdownMonster.Controls.ContextMenus;
 using MarkdownMonster.Favorites;
 using MarkdownMonster.Utilities;
 using MarkdownMonster.Windows;
@@ -1289,7 +1290,7 @@ namespace MarkdownMonster
                 }
 
                 Model.Window.BindTabHeaders();
-            }, (p, c) => true);
+            }, (p, c) => Model.IsEditorActive);
         }
 
 
@@ -1352,68 +1353,18 @@ namespace MarkdownMonster
 
 
         public CommandBase WindowMenuCommand { get; set; }
-        private bool _firstWindowMenu = true;
+     
 
         void ShowActiveTabsList()
         {
             WindowMenuCommand = new CommandBase((parameter, command) =>
             {
-                var mi = Model.Window.MainMenuWindow;
-                mi.Items.Clear();
-
-                if (_firstWindowMenu)
-                {
-                    _firstWindowMenu = false;
-                    mi.ContextMenuClosing += (m, e) => { mi.Visibility = Visibility.Collapsed; };
-                }
-
-                mi.Items.Add(new MenuItem
-                {
-                    Header = "_Close Document", Command = Model.Commands.CloseActiveDocumentCommand
-                });
-
-                mi.Items.Add(new MenuItem
-                {
-                    Header = "Close _All Documents",
-                    Command = Model.Commands.CloseAllDocumentsCommand,
-                    CommandParameter = "All"
-                });
-
-                mi.Items.Add(new MenuItem
-                {
-                    Header = "Close All _Other Documents",
-                    Command = Model.Commands.CloseAllDocumentsCommand,
-                    CommandParameter = "AllBut"
-                });
-
-                mi.Items.Add(new MenuItem
-                {
-                    Header = "Close All To _Right ",
-                    Command = Model.Commands.CloseDocumentsToRightCommand,
-                });
-
-                mi.Items.Add(new Separator());
-
-                mi.Items.Add(new MenuItem
-                {
-                    Header = "Open Document in New Window", Command = Model.Commands.OpenInNewWindowCommand,
-                });
-
-
-                var menuItems = Model.Window.GenerateContextMenuItemsFromOpenTabs();
-                if (menuItems.Count < 1)
-                    return;
-
-                mi.Items.Add(new Separator());
-                foreach (var menu in menuItems)
-                {
-                    mi.Items.Add(menu);
-                }
-
-                mi.IsSubmenuOpen = true;
-                mi.Focus();
+                var wmMenuContextMenu = new WindowMenuContextMenu();
+                wmMenuContextMenu.CreateWindowMenuContextMenu();
             });
         }
+
+       
 
         public CommandBase SetDictionaryCommand { get; set; }
 

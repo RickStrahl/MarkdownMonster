@@ -5,7 +5,7 @@
 [![Web Site](https://img.shields.io/badge/Markdown_Monster-WebSite-blue.svg)](https://markdownmonster.west-wind.com)
 
 ### 1.21.5
-*<small>not release yet</small>* 
+*<small>not released yet</small>* 
 
 * **Close Tabs To Right**  
 Added option to the Tab Context and Window Menu to close tabs to the right of the currently active tab.
