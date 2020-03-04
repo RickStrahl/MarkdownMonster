@@ -2625,7 +2625,7 @@ var MarkdownHighlightRules = function() {
         next  : "blockquote"
     }, { // HR * - _
         token : "constant",
-        regex : "^ {0,2}(?:(?: ?\\* ?){3,}|(?: ?\\- ?){3,}|(?: ?\\_ ?){3,})\\s*$",
+        regex : "^ {0,3}(?:(?:\\* ?){3,}|(?:\\- ?){3,}|(?:\\_ ?){3,})\\s*$",
         next: "allowBlock"
     }, { // list
         token : "markup.list",
@@ -2656,15 +2656,10 @@ var MarkdownHighlightRules = function() {
                     '((?:[^\\)\\s\\\\]|\\\\.|\\s(?=[^"]))*)' +        // href or image
                     '(\\s*"' +  escaped('"') + '"\\s*)?' +            // "title"
                     "(\\))"                                           // )
-            }, 
-          { // strong emphasis ***
-            token : "string.strong.emphasis",
-            regex : "([*]{3}|[_]{3}(?=\\S))(.*?\\S[*_]*)(\\1)"
-            },
-          { // strong ** __
-            token: "string.strong",
-            regex: "([*]{2}|[_]{2}(?=\\S))(.*?\\S[*_]*)(\\1)"
-          },{ // emphasis * _
+        }, { // strong ** __
+            token : "string.strong",
+            regex : "([*]{2}|[_]{2}(?=\\S))(.*?\\S[*_]*)(\\1)"
+        }, { // emphasis * _
             token : "string.emphasis",
             regex : "([*]|[_](?=\\S))(.*?\\S[*_]*)(\\1)"
         }, { //
@@ -3191,3 +3186,4 @@ exports.Mode = Mode;
                         }
                     });
                 })();
+            
