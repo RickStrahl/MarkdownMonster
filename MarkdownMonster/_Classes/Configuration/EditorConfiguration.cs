@@ -255,20 +255,24 @@ namespace MarkdownMonster.Configuration
         public string KeyboardHandler { get; set; }
 
         /// <summary>
-        /// When true causes editor to run in RTL mode otherwise LTR
+        /// When checked allows the renderer to use RTL (Right To Left)
+        /// processing of Markdown text that uses RTL characters. Also
+        /// enabled RTL/LTR per paragraph switching in the editor.
+        ///
+        /// Defaults to off as it adds a bit of processing overhead.
         /// </summary>
-        public bool RightToLeft
+        public bool EnableRightToLeft
         {
-            get => _rightToLeft;
+            get => _enableRightToLeft;
             set
             {
-                if (value == _rightToLeft) return;
-                _rightToLeft = value;
+                if (value == _enableRightToLeft) return;
+                _enableRightToLeft = value;
                 OnPropertyChanged();
             }
         }
 
-        private bool _rightToLeft;
+        private bool _enableRightToLeft;
 
 
         /// <summary>

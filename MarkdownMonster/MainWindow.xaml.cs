@@ -3017,6 +3017,9 @@ Do you want to continue anyway?", "Disable Markdown Script Rendering",
 
             string enc = StatusEncoding.SelectedValue as string;
 
+            if (enc == null)
+                return;
+            
             if (enc == "UTF-16 LE")
                 Model.ActiveDocument.Encoding = Encoding.Unicode;
             else if (enc == "UTF-16 BE")

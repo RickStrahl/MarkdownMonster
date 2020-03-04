@@ -356,7 +356,7 @@ namespace MarkdownMonster
                 config.Editor.EnableBulletAutoCompletion,
                 config.Editor.TabSize,
                 config.Editor.UseSoftTabs,
-                config.Editor.RightToLeft,
+                RightToLeft = config.Editor.EnableRightToLeft,
                 config.Editor.ClickableLinks,
                 LinefeedMode = (config.Editor.LinefeedMode == Configuration.LinefeedModes.CrLf ? "windows" : "unix")
             };

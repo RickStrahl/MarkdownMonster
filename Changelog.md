@@ -1,4 +1,4 @@
-# Markdown Monster Change Log 
+# Markdown Monster Change Log
 
 [![download](https://img.shields.io/badge/Download-Installer-blue.svg)](https://markdownmonster.west-wind.com/download.aspx)
 [![Chocolatey](https://img.shields.io/chocolatey/dt/markdownmonster.svg)](https://chocolatey.org/packages/MarkdownMonster)
@@ -10,12 +10,18 @@
 * **Close Tabs To Right**  
 Added option to the Tab Context and Window Menu to close tabs to the right of the currently active tab.
 
+* **Update Registration File Storage for better Shared Drive Operation**  
+Modify storage location of `Registered.key` to be stored in the install folder if permissions allow with a backup in the common folder. Install folder storage gives each machine accessing a potentially shared configuration its own machine specific registation file which fixes an issue where shared configurations using DropBox, OneDrive etc. would override the machine specific registration files, resulting in installations as showing not registered.
+
+* **Folder Browser Drag and Drop Improvements**  
+You can now drag and drop files from the folder browser into external applications using the standard Windows file dragging protocol. You can also drag open document tabs as files into other applications using the same mechanims. Files dragged from the folder browser into the editor surface either open the document, or embed an image as relative links or ask to save for external paths.
+‫
 ### 1.21.2
+
 *<small>February 19th, 2020</small>* 
 
 * **[Additional Site Relative Root Path `/` Overrides](https://markdownmonster.west-wind.com/docs/_5fz0ozkln.htm)**  
 Added additional site overrides for root `/` path resolution in the previewer. The new additions look up the folder hierarchy for a `.markdownmonster`, `_toc.json` or `docfx.json` file, or any `<yourProject>.mdproj` file. These overrides happen after the exisiting checks for YAML `previewWebRootPath` header, and the `PreviewWebRootPath` in an open project file.
-
 
 * **Color Emoji Fonts in Preview Themes**  
 Added specific emoji fonts for the preview themes so emojis now show in color instead of the default black and white.

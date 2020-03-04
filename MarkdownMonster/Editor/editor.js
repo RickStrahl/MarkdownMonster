@@ -4,8 +4,11 @@
 /// <reference path="editor-helpers.js" />
 /// <reference path="scripts/ace/ace.js" />
 
+
 (function () {
     var Split = ace.require("ace/split").Split;
+    ace.require("ace/ext/rtl");
+
     var allowSplitMode = true;
     var te = window.textEditor = {
       mm: null, // Markdown Monster MarkdownDocumentEditor COM object
@@ -631,7 +634,8 @@
             te.editor.getSession().setMode("ace/mode/" + lang);
         },
         setRightToLeft: function (onOff) {
-            te.editor.session.$bidiHandler.setRtlDirection(te.editor, onOff);
+          te.editor.setOption("rtlText",onOff);
+          //te.editor.session.$bidiHandler.setRtlDirection(te.editor,onOff);
         },
         lastStyle: null,
         setEditorStyle: function (styleJson, editor) {
@@ -660,7 +664,7 @@
                 fontFamily: style.font,
                 fontSize: style.fontSize
             });
-            //setRightToLeft(style.RightToLeft);
+            te.setRightToLeft(style.rightToLeft);
 
             var session = editor.getSession();
 
@@ -674,8 +678,6 @@
 
             editor.renderer.setShowGutter(style.showLineNumbers);
             editor.renderer.setShowInvisibles(style.showInvisibles);
-
-
 
             // these value are used in Resize to keep the editor size
             // limited to a max-width

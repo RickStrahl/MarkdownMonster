@@ -185,7 +185,9 @@ $('#hrefShow').click(function () {{ $('#detail').show(); }});
             if(options.NoHtml)
                 builder = builder.DisableHtml();
 
-                
+            if (mmApp.Configuration.Editor.EnableRightToLeft)
+                builder.UseGlobalization();
+
             if (UsePragmaLines)
                 builder = builder.UsePragmaLines();
             
