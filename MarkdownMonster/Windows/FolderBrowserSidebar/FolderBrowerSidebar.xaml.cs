@@ -1103,7 +1103,8 @@ namespace MarkdownMonster.Windows
                     if (treeView == null || treeViewItem == null)
                         return;
 
-                    var dragData = new DataObject(DataFormats.UnicodeText, selected.FullPath);
+                    var files = new[] {selected.FullPath};
+                    var dragData = new DataObject(DataFormats.FileDrop, files);
 
                     DragDrop.DoDragDrop(treeViewItem, dragData, DragDropEffects.All);
                 }

@@ -37,6 +37,7 @@ Remove-Item ${target}\*.vshost.*
 Remove-Item ${target}\*.user
 Remove-Item ${target}\*.dll.config
 Remove-Item ${target}\*.xml -Exclude MarkdownMonster.xml
+Remove-Item ${target}\registered.key
 
 if ([System.IO.Directory]::Exists($target + "\.vs")) {
     Remove-Item ${target}\.vs -Recurse -Force
