@@ -5,19 +5,21 @@
 [![Web Site](https://img.shields.io/badge/Markdown_Monster-WebSite-blue.svg)](https://markdownmonster.west-wind.com)
 
 ### 1.21.5
-*<small>not released yet</small>* 
+*<small>March 5th, 2019</small>* 
 
 * **Close Tabs To Right**  
 Added option to the Tab Context and Window Menu to close tabs to the right of the currently active tab.
 
-* **Update Registration File Storage for better Shared Drive Operation**  
-Modify storage location of `Registered.key` to be stored in the install folder if permissions allow with a backup in the common folder. Install folder storage gives each machine accessing a potentially shared configuration its own machine specific registation file which fixes an issue where shared configurations using DropBox, OneDrive etc. would override the machine specific registration files, resulting in installations as showing not registered.
-
 * **Folder Browser Drag and Drop Improvements**  
 You can now drag and drop files from the folder browser into external applications using the standard Windows file dragging protocol. You can also drag open document tabs as files into other applications using the same mechanims. Files dragged from the folder browser into the editor surface either open the document, or embed an image as relative links or ask to save for external paths.
-‫
-### 1.21.2
 
+* **Initial Support for RTL Text (experimental)**  
+There is initial support for paragraph based RTL editing by setting the **Enable Right To Left** Editor Setting, and using `Alt-Shift-R` and `Alt-Shift-L` to toggle between RTL and LTR modes respectively. This is still rough and under consideration but if you want to play with this please check out [this issue on Github](https://github.com/RickStrahl/MarkdownMonster/issues/646).
+
+* **Update Registration File Storage for better Shared Drive Operation**  
+Modify storage location of `Registered.key` to be stored in the install folder if permissions allow with a backup in the common folder. Install folder storage gives each machine accessing a potentially shared configuration its own machine specific registration file which fixes an issue where shared configurations using DropBox, OneDrive etc. would override the machine specific registration files, resulting in installations as showing not registered.
+
+### 1.21.2
 *<small>February 19th, 2020</small>* 
 
 * **[Additional Site Relative Root Path `/` Overrides](https://markdownmonster.west-wind.com/docs/_5fz0ozkln.htm)**  
