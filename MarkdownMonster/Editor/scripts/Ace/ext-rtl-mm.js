@@ -3,14 +3,14 @@ define("ace/ext/rtl",["require","exports","module","ace/editor","ace/config"], f
 
 var commands = [{
     name: "leftToRight",
-    bindKey: { win: "Ctrl-Alt-Shift-L", mac: "Command-Alt-Shift-L" },
+    bindKey: { win: "Alt-Shift-L", mac: "ِCommand-Alt-Shift-L" },
     exec: function(editor) {
         editor.session.$bidiHandler.setRtlDirection(editor, false);
     },
     readOnly: true
 }, {
     name: "rightToLeft",
-    bindKey: { win: "Ctrl-Alt-Shift-R",  mac: "Command-Alt-Shift-R" },
+    bindKey: { win: "Alt-Shift-R",  mac: "Command-Alt-Shift-R" },
     exec: function(editor) {
         editor.session.$bidiHandler.setRtlDirection(editor, true);
     },
@@ -20,7 +20,7 @@ var commands = [{
 var Editor = require("../editor").Editor;
 require("../config").defineOptions(Editor.prototype, "editor", {
     rtlText: {
-        set: function(val) {
+        set: function(val) {            
             if (val) {
                 this.on("change", onChange);
                 this.on("changeSelection", onChangeSelection);

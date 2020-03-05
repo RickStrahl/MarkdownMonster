@@ -1162,6 +1162,7 @@ function initializeinteropSimple(textbox) {
 
 
 // Standalone testing - uncomment this
-//setTimeout(function() {
+// setTimeout(function() {
 //    window.textEditor.initialize(null);
-//},400);
+//    te.editor.setOption("rtlText",true);   
+// },400);
