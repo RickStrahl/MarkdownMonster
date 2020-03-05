@@ -97,6 +97,8 @@ namespace MarkdownMonster.RenderExtensions
 
         public void LoadDefaultExtensions()
         {
+            Current.RenderExtensions.Add(new RightToLeftRenderExtension());
+
             if(mmApp.Configuration.MarkdownOptions.MermaidDiagrams)
                 Current.RenderExtensions.Add(new MermaidRenderExtension());
 
@@ -105,6 +107,8 @@ namespace MarkdownMonster.RenderExtensions
 
             if (mmApp.Configuration.MarkdownOptions.ParseDocFx)
                 Current.RenderExtensions.Add(new DocFxRenderExtension());
+
+            
         }
 
     }
