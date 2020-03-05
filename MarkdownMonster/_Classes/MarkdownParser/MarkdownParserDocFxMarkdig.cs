@@ -98,8 +98,8 @@ namespace MarkdownMonster
 
 
             // Fake root path to what MM sees as the root path (.markdown, project file, project open etc.)
-            string filePath =mmApp.Model.ActiveDocument?.Filename; 
-            if (string.IsNullOrEmpty(filePath) || filePath.Equals("untitled",StringComparison.OrdinalIgnoreCase))
+            string filePath = mmApp.Model.ActiveDocument?.Filename;
+            if (string.IsNullOrEmpty(filePath) || filePath.Equals("untitled", StringComparison.OrdinalIgnoreCase))
             {
                 filePath = mmApp.Model.ActiveDocument?.PreviewWebRootPath;
                 if (string.IsNullOrEmpty(filePath))
@@ -107,6 +107,7 @@ namespace MarkdownMonster
                 else
                     filePath += "\\preview";
             }
+
             files.Add(filePath, markdown);
 
 
@@ -130,67 +131,30 @@ namespace MarkdownMonster
                 .UseTripleColon(context)
                 .UseNoloc();
 
-                   
 
-                builder = RemoveUnusedExtensions(builder);
-                builder = builder
-                    .UseYamlFrontMatter()
-                    .UseLineNumber();
 
-                if(options.NoHtml)
-                    builder = builder.DisableHtml();
+            builder = RemoveUnusedExtensions(builder);
+            builder = builder
+                .UseYamlFrontMatter()
+                .UseLineNumber();
 
-                if (UsePragmaLines)
-                    builder = builder.UsePragmaLines();
+            if (options.NoHtml)
+                builder = builder.DisableHtml();
+
+            if (UsePragmaLines)
+                builder = builder.UsePragmaLines();
 
             var pipeline = builder.Build();
 
             string html;
-            try
+
+            using (InclusionContext.PushFile(filePath))
             {
-                using (InclusionContext.PushFile(filePath))
-                {
-                    html = Markdown.ToHtml(markdown, pipeline);
-                }
-
-                html = ParseFontAwesomeIcons(html);
+                html = Markdown.ToHtml(markdown, pipeline);
             }
-            catch (Exception ex)
-            {
-                if (markdown.Length > 10000)
-                    markdown = markdown.Substring(0, 10000);
 
-                mmApp.Log("Unable to render Markdown Document (docFx)\n" + markdown, ex, logLevel: LogLevels.Warning);
-                html = $@"
-<h1><i class='fa fa-warning text-error'></i> Unable to render Markdown Document</h1>
+            html = ParseFontAwesomeIcons(html);
 
-<p>
-   An error occurred trying to parse the Markdown document to HTML:
-</p>
-
-<b style='font-size: 1.2em'>{ex.Message}</b>
-
-<p>
-    <a id='hrefShow' href='#0' style='font-size: 0.8em; font-weight: normal'>more info...</a>
-</p>
-
-<div id='detail' style='display:none'>
-
-
-<p style='margin-top: 2em'>
-    <b>Markdown Parser</b>: {options.MarkdownParserName}
-</p>
-
-
-<pre style='padding: 8px; background: #eee; color: #333' >{System.Net.WebUtility.HtmlEncode(StringUtils.NormalizeIndentation(ex.StackTrace))}</pre>
-</div>
-
-<script>
-$('#hrefShow').click(function () {{ $('#detail').show(); }});
-</script>
-";
-                return html;
-            }
 
             if (mmApp.Configuration.MarkdownOptions.RenderLinksAsExternal)
                 html = ParseExternalLinks(html);
@@ -201,7 +165,7 @@ $('#hrefShow').click(function () {{ $('#detail').show(); }});
 
             return html;
 
-            
+
             MarkdownContext.LogActionDelegate Log(string level)
             {
                 return (code, message, origin, line) => actualErrors.Add(code);
@@ -216,20 +180,20 @@ $('#hrefShow').click(function () {{ $('#detail').show(); }});
                 var relativeDocumentPath = relativeTo as string;
 
                 var rootPath = mmApp.Model.ActiveDocument?.PreviewWebRootPath;
-                if(rootPath == null)
-                    rootPath = Path.GetDirectoryName( files.FirstOrDefault().Key);
+                if (rootPath == null)
+                    rootPath = Path.GetDirectoryName(files.FirstOrDefault().Key);
                 var parentDocPath = relativeTo as string;
                 if (!string.IsNullOrEmpty(parentDocPath))
                     parentDocPath = Path.GetDirectoryName(parentDocPath);
 
 
                 //fully qualified path
-                if(path.Contains(":/") || path.Contains(":\\"))
+                if (path.Contains(":/") || path.Contains(":\\"))
                     key = path;
                 else if (!string.IsNullOrEmpty(rootPath) && path.StartsWith("~/"))
                 {
-                   path = path.Substring(2);
-                   key = Path.Combine(rootPath, path).Replace('\\', '/');
+                    path = path.Substring(2);
+                    key = Path.Combine(rootPath, path).Replace('\\', '/');
                 }
                 // Site relative  path
                 else if (!string.IsNullOrEmpty(rootPath) && path.StartsWith("/"))
@@ -238,7 +202,7 @@ $('#hrefShow').click(function () {{ $('#detail').show(); }});
                     key = Path.Combine(rootPath, path).Replace('\\', '/');
                 }
                 // Site relative path
-                else if(!string.IsNullOrEmpty(parentDocPath))
+                else if (!string.IsNullOrEmpty(parentDocPath))
                     key = Path.GetFullPath(Path.Combine(parentDocPath, path));
                 else
                     key = path;
@@ -246,18 +210,21 @@ $('#hrefShow').click(function () {{ $('#detail').show(); }});
                 actualDependencies.Add(key);
 
                 files.TryGetValue(key, out var value);
-               if (value == null)
-               {
-                   try
-                   {
-                       value = File.ReadAllText(key)?.Trim();
-                   }catch { }
-               }
+                if (value == null)
+                {
+                    try
+                    {
+                        value = File.ReadAllText(key)?.Trim();
+                    }
+                    catch
+                    {
+                    }
+                }
 
-               if (value == null)
-                   return (null, null);
+                if (value == null)
+                    return (null, null);
 
-               return (value, key as object);
+                return (value, key as object);
             }
         }
 

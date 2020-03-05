@@ -966,44 +966,46 @@ namespace MarkdownMonster
             bool usePragmaLines = false,
             bool noBanner = false)
         {
-            if (string.IsNullOrEmpty(markdown))
-                markdown = CurrentText;
-
-            if (string.IsNullOrEmpty(markdown))
-                return markdown;
-             
-            markdown = StringUtils.NormalizeLineFeeds(markdown, LineFeedTypes.Lf);
-
-            OnBeforeDocumentRendered(ref markdown);
-
-            var parser = MarkdownParserFactory.GetParser(usePragmaLines: usePragmaLines,
-                forceLoad: true,
-                parserAddinId: mmApp.Configuration.MarkdownOptions.MarkdownParserName);
-
-
-            if (!string.IsNullOrEmpty(PreviewWebRootPath))
+            try
             {
-                var path = FileUtils.AddTrailingSlash(PreviewWebRootPath).Replace("\\", "/");
-                markdown = markdown.Replace("](~/", "](" + path);
-                markdown = markdown.Replace("](/", "](" + path);
-            }
+                if (string.IsNullOrEmpty(markdown))
+                    markdown = CurrentText;
 
-            // allow override of RenderScriptTags if set
-            var oldAllowScripts = mmApp.Configuration.MarkdownOptions.AllowRenderScriptTags;
-            if (ProcessScripts)
-                mmApp.Configuration.MarkdownOptions.AllowRenderScriptTags = true;
+                if (string.IsNullOrEmpty(markdown))
+                    return markdown;
 
-            var html = parser.Parse(markdown);
+                markdown = StringUtils.NormalizeLineFeeds(markdown, LineFeedTypes.Lf);
 
-            mmApp.Configuration.MarkdownOptions.AllowRenderScriptTags = oldAllowScripts;
+                OnBeforeDocumentRendered(ref markdown);
 
-            OnMarkdownRendered(ref html, ref markdown);
+                var parser = MarkdownParserFactory.GetParser(usePragmaLines: usePragmaLines,
+                    forceLoad: true,
+                    parserAddinId: mmApp.Configuration.MarkdownOptions.MarkdownParserName);
 
-            if (!noBanner && !string.IsNullOrEmpty(html) &&
-                !UnlockKey.IsUnlocked &&
-                mmApp.Configuration.ApplicationUpdates.AccessCount > 20)
-            {
-                html += @"
+
+                if (!string.IsNullOrEmpty(PreviewWebRootPath))
+                {
+                    var path = FileUtils.AddTrailingSlash(PreviewWebRootPath).Replace("\\", "/");
+                    markdown = markdown.Replace("](~/", "](" + path);
+                    markdown = markdown.Replace("](/", "](" + path);
+                }
+
+                // allow override of RenderScriptTags if set
+                var oldAllowScripts = mmApp.Configuration.MarkdownOptions.AllowRenderScriptTags;
+                if (ProcessScripts)
+                    mmApp.Configuration.MarkdownOptions.AllowRenderScriptTags = true;
+
+                var html = parser.Parse(markdown);
+
+                mmApp.Configuration.MarkdownOptions.AllowRenderScriptTags = oldAllowScripts;
+
+                OnMarkdownRendered(ref html, ref markdown);
+
+                if (!noBanner && !string.IsNullOrEmpty(html) &&
+                    !UnlockKey.IsUnlocked &&
+                    mmApp.Configuration.ApplicationUpdates.AccessCount > 20)
+                {
+                    html += @"
 <div style=""margin-top: 30px;margin-bottom: 10px;font-size: 0.8em;border-top: 1px solid #eee;padding-top: 8px;cursor: pointer;""
      title=""This message doesn't display in the registered version of Markdown Monster."" onclick=""window.open('https://markdownmonster.west-wind.com')"">
     <img src=""https://markdownmonster.west-wind.com/favicon.png""
@@ -1013,10 +1015,44 @@ namespace MarkdownMonster
        target=""top"">Markdown Monster</a>
 </div>
 ";
+                }
+
+                return html;
+            }
+            catch (Exception ex)
+            {
+                if (markdown.Length > 10000)
+                    markdown = markdown.Substring(0, 10000);
+
+                mmApp.Log("Unable to render Markdown Document\n" + markdown, ex, logLevel: LogLevels.Warning);
+                var html = $@"
+<h1><i class='fa fa-warning text-error'></i> Unable to render Markdown Document</h1>
+
+<p>
+   An error occurred trying to parse the Markdown document to HTML.
+</p>
+
+<h4>Error</h4>
+<b>{ex.Message}</b>
+
+<p>
+    <a id='hrefShow' href='#0' style='font-size: 0.8em; font-weight: normal'>more info...</a>
+</p>
+
+<div id='detail' style='display:none'>
+<h3>Error Detail</h3>
+
+<pre><code class='hljs language-text'>{System.Net.WebUtility.HtmlEncode(StringUtils.NormalizeIndentation(ex.StackTrace))}</code></pre>
+</div>
+
+<script>
+$('#hrefShow').click(function () {{ $('#detail').show(); }});
+</script>
+";
+                return html;
             }
 
 
-            return html;
         }
 
         /// <summary>
