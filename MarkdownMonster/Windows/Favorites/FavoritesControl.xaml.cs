@@ -235,7 +235,7 @@ namespace MarkdownMonster.Windows
                         return;
 
                     var dragData = new DataObject(DataFormats.UnicodeText, selected.File + "|" + selected.Title);
-                    DragDrop.DoDragDrop(treeViewItem, dragData, DragDropEffects.All);
+                    DragDrop.DoDragDrop(treeViewItem, dragData, DragDropEffects.Copy);
                     IsDragging = true;
                 }
             }

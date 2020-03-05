@@ -1106,7 +1106,7 @@ namespace MarkdownMonster.Windows
                     var files = new[] {selected.FullPath};
                     var dragData = new DataObject(DataFormats.FileDrop, files);
 
-                    DragDrop.DoDragDrop(treeViewItem, dragData, DragDropEffects.All);
+                    DragDrop.DoDragDrop(treeViewItem, dragData, DragDropEffects.Copy);
                 }
             }
         }
