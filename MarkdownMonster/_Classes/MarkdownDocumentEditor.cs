@@ -1794,11 +1794,27 @@ namespace MarkdownMonster
         }
 
 
+        /// <summary>
+        /// Finds and replaces text in the editor if found
+        /// </summary>
+        /// <param name="search"></param>
+        /// <param name="replace"></param>
         public void FindAndReplaceText(string search, string replace)
         {
             AceEditor?.FindAndReplaceText(search, replace);
         }
 
+        /// <summary>
+        /// Handles copying from the current selection. Explict 
+        /// to always force content to \r\n to avoid potential failures
+        /// with \n to editors that don't support \n only.
+        /// </summary>
+        public void CopyOperation()
+        {
+            var text = GetSelection();
+            text =StringUtils.NormalizeLineFeeds(text, LineFeedTypes.CrLf);
+            ClipboardHelper.SetText(text,true);
+        }
 
         /// <summary>
         /// Handle pasting and handle images

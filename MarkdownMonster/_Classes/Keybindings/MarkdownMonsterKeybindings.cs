@@ -347,6 +347,13 @@ namespace MarkdownMonster.Utilities
                 },
                 new AppKeyBinding
                 {
+                    Key = "Ctrl+C",
+                    CommandName = "Copy",
+                    //Command = model.Commands.CopyToClipboardCommand,
+                    HasJavaScriptHandler= true
+                },
+                new AppKeyBinding
+                {
                     Key="F7",
                     CommandName = "NextSpellCheckError",
                     HasJavaScriptHandler = true

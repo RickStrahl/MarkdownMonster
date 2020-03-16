@@ -95,6 +95,9 @@ te.keyBindings = {
     te.mm.textbox.PasteOperation();
     //setTimeout(function() { alert('test'); }, 1000);
   },
+  copy: function() {
+    te.mm.textbox.CopyOperation();
+  },
   nextSpellCheckError: function () {
     var pos = te.getCursorPosition();
     var markers = te.editor.session.getMarkers(true);
