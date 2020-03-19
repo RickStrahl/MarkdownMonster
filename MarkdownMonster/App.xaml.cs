@@ -89,8 +89,7 @@ namespace MarkdownMonster
             CommandArgs = Environment.GetCommandLineArgs().Skip(1).ToArray();
             if (CommandArgs.Length > 0)
             {
-                var processor = new CommandLineProcessor(this);
-                processor.HandleCommandLineArguments();
+                MainAppCommandLineProcessor.HandleCommandLineArguments(this);
             }
 
 

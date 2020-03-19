@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "mmcli": {
+      "commandName": "Project",
+      "commandLineArgs": "version"
+    }
+  }
+}

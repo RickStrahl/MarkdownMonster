@@ -1,7 +1,8 @@
 {
   "profiles": {
     "MarkdownMonster": {
-      "commandName": "Project"
+      "commandName": "Project",
+      "commandLineArgs": "markdowntohtml \"C:\\Users\\rstrahl\\Dropbox\\Markdown Monster Weblog Posts\\2020-03\\Response-Rewriting-in-ASP-NET-Core-3x\\ContentInjecttionWithResponseRewritingInAspNetCore31.md\" \"c:\\temp\\htmlExport\\exported.html\" packagedhtml"
     }
   }
 }

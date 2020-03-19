@@ -123,7 +123,7 @@ namespace MarkdownMonster
         /// <summary>
         /// Writes out the registration information
         /// </summary>
-        internal static bool Register(string key)
+        public static bool Register(string key)
         {
             lock (LockKey)
             {
