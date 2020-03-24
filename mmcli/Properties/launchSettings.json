@@ -1,8 +1,14 @@
 {
   "profiles": {
-    "mmcli": {
+    "mmcli-htmltomarkdown": {
       "commandName": "Project",
-      "commandLineArgs": "version"
+      "commandLineArgs": "htmltomarkdown -i \"C:\\Users\\rstrahl\\Dropbox\\Markdown Monster Weblog Posts\\2020-03\\Response-Rewriting-in-ASP-NET-Core-3x\\ContentInjecttionWithResponseRewritingInAspNetCore31.html\" -o \"C:\\Users\\rstrahl\\Dropbox\\Markdown Monster Weblog Posts\\2020-03\\Response-Rewriting-in-ASP-NET-Core-3x\\__ContentInjecttionWithResponseRewritingInAspNetCore31.md\" --rendermode packagedhtml --theme Blackout --open"
+    },
+    "mmcli-markdowntohtml-fragment": {
+      "commandName": "Project",
+      "commandLineArgs": "markdowntohtml -i \"C:\\Users\\rstrahl\\Dropbox\\Markdown Monster Weblog Posts\\2020-03\\Response-Rewriting-in-ASP-NET-Core-3x\\ContentInjecttionWithResponseRewritingInAspNetCore31.md\" -o \"C:\\Users\\rstrahl\\Dropbox\\Markdown Monster Weblog Posts\\2020-03\\Response-Rewriting-in-ASP-NET-Core-3x\\ContentInjecttionWithResponseRewritingInAspNetCore31.html\" --rendermode fragment --open"
     }
+
+
   }
 }

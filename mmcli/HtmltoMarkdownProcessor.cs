@@ -1,20 +1,33 @@
 ﻿using System;
 using System.IO;
+using System.Text;
 using MarkdownMonster;
 using Microsoft.Win32;
+using mmcli.CommandLine;
 using Westwind.HtmlPackager;
 using Westwind.Utilities;
 
 namespace mmcli
 {
-    public class HtmltoMarkdownCommandline
+    public class HtmltoMarkdownProcessor
     {
         public CommandLineProcessor Processor { get; }
 
-        public HtmltoMarkdownCommandline(CommandLineProcessor processor)
+        public HtmlConversionCommandLineParser Arguments { get; }
+
+        public HtmltoMarkdownProcessor(CommandLineProcessor processor,
+                                       HtmlConversionCommandLineParser arguments = null)
         {
             Processor = processor;
+            if (arguments != null)
+                Arguments = arguments;
+            else
+            {
+                Arguments = new HtmlConversionCommandLineParser();
+                Arguments.Parse();
+            }
         }
+
 
         /// <summary>
         ///
@@ -23,15 +36,17 @@ namespace mmcli
         /// <param name="inputFile"></param>
         /// <param name="outputFile"></param>
         /// <param name="openOutputFile"></param>
-        public void HtmlToMarkdown(string inputFile = null, string outputFile= null, bool openOutputFile = false)
+        public void HtmlToMarkdown()
         {
             Processor.ConsoleHeader();
+            string inputFile = Arguments.InputFile;
+            string outputFile = Arguments.OutputFile;
 
             if (string.IsNullOrEmpty(inputFile) || !File.Exists(inputFile))
             {
                 var fd = new OpenFileDialog
                 {
-                    DefaultExt = ".md",
+                    DefaultExt = ".html",
                     Filter = "HTML files (*.html, *.htm)|*.html;*.htm|" +
                              "All files (*.*)|*.*",
                     CheckFileExists = true,
@@ -45,7 +60,7 @@ namespace mmcli
                 inputFile = fd.FileName;
             }
 
-            if (string.IsNullOrEmpty(outputFile) || !File.Exists(outputFile))
+            if (string.IsNullOrEmpty(outputFile))
             {
                 var fd = new SaveFileDialog
                 {
@@ -64,16 +79,16 @@ namespace mmcli
                 outputFile = fd.FileName;
             }
 
-            string html = null;
-            string md = null;
+            
+            string md;
             try
             {
-                html = File.ReadAllText(inputFile);
+                var html = File.ReadAllText(inputFile);
                 md = MarkdownUtilities.HtmlToMarkdown(html, true);
             }
-            catch (Exception e)
+            catch 
             {
-                Console.WriteLine("Failed: Couldn't read input file.");
+                ConsoleHelper.WriteError("Failed: Couldn't read input file.");
                 Processor.ConsoleFooter();
                 return;
             }
@@ -85,15 +100,18 @@ namespace mmcli
                 {
                     File.WriteAllText(outputFile, md);
                 }
-                catch (Exception ex)
+                catch 
                 {
-                    Console.WriteLine("Failed: Couldn't write output file.");
+                    ConsoleHelper.WriteError("Failed: Couldn't write output file.");
                     Processor.ConsoleFooter();
                     return;
                 }
 
-                if (openOutputFile)
+                if (Arguments.OpenOutputFile)
                     ShellUtils.ExecuteProcess("markdownmonster.exe", $"'{outputFile}'");
+
+
+                ConsoleHelper.WriteSuccess($"Created Markdown file: {outputFile}");
 
                 Processor.ConsoleFooter();
             }
@@ -107,15 +125,18 @@ namespace mmcli
         /// <param name="outputFile"></param>
         /// <param name="openOutputFile"></param>
         /// <param name="fileMode">html,packagedhtml,zip</param>
-        public void MarkdownToHtml(string inputFile = null, string outputFile = null, bool openOutputFile = false, string renderMode = "html")
+        public void MarkdownToHtml()
         {
             Processor.ConsoleHeader();
+
+            string inputFile = Arguments.InputFile;
+            string outputFile = Arguments.OutputFile;
 
             if (string.IsNullOrEmpty(inputFile) || !File.Exists(inputFile))
             {
                 var fd = new OpenFileDialog
                 {
-                    DefaultExt = ".html",
+                    DefaultExt = ".md",
                     Filter = "Markdown files (*.md,*.markdown)|*.md;*.markdown|" +
                              "All files (*.*)|*.*",
                     CheckFileExists = true,
@@ -133,7 +154,7 @@ namespace mmcli
             {
                 var fd = new SaveFileDialog
                 {
-                    DefaultExt = ".md",
+                    DefaultExt = ".html",
                     Filter = "HTML files (*.html,*.htm)|*.html;*.htm|" +
                              "All files (*.*)|*.*",
                     CheckFileExists = false,
@@ -148,10 +169,11 @@ namespace mmcli
                 outputFile = fd.FileName;
             }
 
-            string html = null;
-            string md = null;
+            string html;
             var doc = new MarkdownDocument();
-
+            if (!string.IsNullOrEmpty(Arguments.Theme))
+                mmApp.Configuration.PreviewTheme = Arguments.Theme;
+            
             try
             {
                 if (!doc.Load(inputFile))
@@ -159,19 +181,40 @@ namespace mmcli
             }
             catch
             {
-                ConsoleHelper.WriteLine("Failed: Couldn't read input file.",ConsoleColor.Red);
+                ConsoleHelper.WriteError("Failed: Couldn't read input file.");
                 Processor.ConsoleFooter();
                 return;
             }
 
             try
             {
-                if (doc.RenderHtmlToFile(filename: outputFile) == null)
-                    throw new AccessViolationException();
+                string renderMode = Arguments.HtmlRenderMode?.ToLower();
 
+                if (renderMode == "fragment" || renderMode == "raw")
+                {
+                    try
+                    {
+                        var parser = new MarkdownParserMarkdig();
+                        html = parser.Parse(doc.CurrentText);
+
+                        File.WriteAllText(outputFile, html, new UTF8Encoding(false));
+                    }
+                    catch
+                    {
+                        ConsoleHelper.WriteError("Failed: Couldn't convert Markdown document or generate output file.");
+                        Processor.ConsoleFooter();
+                        return;
+                    }
+                }
+                else
+                {
+                    if (doc.RenderHtmlToFile(filename: outputFile) == null)
+                        throw new AccessViolationException();
+                }
+                
                 if (renderMode == "packagedhtml")
                 {
-                    var packager = new HtmlPackager();
+                    var packager = new Westwind.HtmlPackager.HtmlPackager();
                     string outputHtml = packager.PackageHtml(outputFile);
                     try
                     {
@@ -179,22 +222,22 @@ namespace mmcli
                     }
                     catch
                     {
-                        ConsoleHelper.WriteLine("Failed: Couldn't write output file.",ConsoleColor.Red);
+                        ConsoleHelper.WriteError("Failed: Couldn't write output file.");
                         Processor.ConsoleFooter();
                         return;
                     }
                 }
                 else if (renderMode == "htmlfiles")
                 {
-                    var packager = new HtmlPackager();
+                    var packager = new Westwind.HtmlPackager.HtmlPackager();
                     if (!packager.PackageHtmlToFolder(outputFile, outputFile))
                         ConsoleHelper.WriteLine("Failed: Create output folder.",ConsoleColor.Red);
                 }
                 else if (renderMode == "zip")
                 {
-                    var packager = new HtmlPackager();
+                    var packager = new Westwind.HtmlPackager.HtmlPackager();
                     if (!packager.PackageHtmlToZipFile(Path.ChangeExtension(outputFile,"html"), Path.ChangeExtension(outputFile,"zip")))
-                        ConsoleHelper.WriteLine("Failed: Couldn't create Packaged HTML Zip files.",ConsoleColor.Red);
+                        ConsoleHelper.WriteError("Failed: Couldn't create Packaged HTML Zip files.");
 
                     try
                     {
@@ -204,18 +247,18 @@ namespace mmcli
 
             }
 
-            catch (Exception ex)
+            catch
             {
-                ConsoleHelper.WriteLine("Failed: Couldn't write output file.",ConsoleColor.Red);
+                ConsoleHelper.WriteError("Failed: Couldn't write output file.");
                 Processor.ConsoleFooter();
                 return;
             }
 
-            if (openOutputFile)
+            if (Arguments.OpenOutputFile)
                 ShellUtils.GoUrl($"{outputFile}");
 
-            ConsoleHelper.WriteLine($"Created file: {outputFile}", ConsoleColor.Green);
-            ConsoleHelper.WriteLine($" Output Mode: {renderMode}", ConsoleColor.Green);
+            ConsoleHelper.WriteSuccess($"Created file: {outputFile}");
+            ConsoleHelper.WriteSuccess($" Output Mode: {Arguments.HtmlRenderMode}");
 
             Processor.ConsoleFooter();
         }

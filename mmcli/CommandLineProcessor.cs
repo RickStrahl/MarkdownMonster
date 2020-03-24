@@ -9,6 +9,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using MarkdownMonster;
+using mmcli.CommandLine;
 using Westwind.Utilities;
 
 namespace mmcli
@@ -38,7 +39,7 @@ namespace mmcli
                 arg0 = "-";
 
 
-            HtmltoMarkdownCommandline converter;
+            HtmltoMarkdownProcessor converter;
             switch (arg0)
             {
                 case "version":
@@ -163,13 +164,13 @@ namespace mmcli
                         Environment.CommandLine.Contains("-open", StringComparison.OrdinalIgnoreCase) ||
                         string.IsNullOrEmpty(outputFile);
 
-                    converter = new HtmltoMarkdownCommandline(this);
-                    converter.MarkdownToHtml(inputFile, outputFile,openOutputFile,renderMode = renderMode);
+                    converter = new HtmltoMarkdownProcessor(this);
+                    converter.MarkdownToHtml();
                     break;
                 }
                 case "htmltomarkdown":
                 {
-                    converter = new HtmltoMarkdownCommandline(this);
+                    converter = new HtmltoMarkdownProcessor(this);
 
                     int parmCount = CommandArgs.Length;
                     string inputFile = parmCount > 0 ? CommandArgs[1] : null;
@@ -183,9 +184,17 @@ namespace mmcli
                         Environment.CommandLine.Contains("-open", StringComparison.OrdinalIgnoreCase) ||
                         string.IsNullOrEmpty(outputFile);
 
-                    converter.HtmlToMarkdown(inputFile, outputFile, openOutputFile);
+                    converter.HtmlToMarkdown();
                     break;
                 }
+
+                case "markdowntopdf":
+                {
+                    MarkdownToPdfProcessor pdfProcessor = new MarkdownToPdfProcessor(this);
+                    pdfProcessor.MarkdownToPdf();
+                    break;
+                }
+
             }
         }
 
@@ -243,6 +252,17 @@ namespace mmcli
             Console.ForegroundColor = color;
             Console.WriteLine(text);
             Console.ForegroundColor = oldColor;
+        }
+
+        public static void WriteSuccess(string text)
+        {
+            WriteLine(text, ConsoleColor.Green);
+        }
+
+
+        public static void WriteError(string text)
+        {
+            WriteLine(text, ConsoleColor.Red);
         }
 
     }

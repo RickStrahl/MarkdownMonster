@@ -124,11 +124,6 @@ namespace MarkdownMonster.Windows
 
 			        TextMessage.Text = "Failed to create PDF document.\r\n\r\n" + PdfGenerator.ErrorMessage;
 			    }
-
-
-                //MessageBox.Show("Failed to create PDF document.\r\n\r\n" + PdfGenerator.ErrorMessage,
-                //	"PDF Generator Error", MessageBoxButton.OK, MessageBoxImage.Warning);
-
                 StatusBar.ShowStatusError("PDF document was not created.");
 
 				return;
