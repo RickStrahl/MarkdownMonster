@@ -1,5 +1,9 @@
 {
   "profiles": {
+    "mmcli-noargs": {
+      "commandName": "Project",
+      "commandLineArgs": ""
+    },
     "mmcli-htmltomarkdown": {
       "commandName": "Project",
       "commandLineArgs": "htmltomarkdown -i \"C:\\Users\\rstrahl\\Dropbox\\Markdown Monster Weblog Posts\\2020-03\\Response-Rewriting-in-ASP-NET-Core-3x\\ContentInjecttionWithResponseRewritingInAspNetCore31.html\" -o \"C:\\Users\\rstrahl\\Dropbox\\Markdown Monster Weblog Posts\\2020-03\\Response-Rewriting-in-ASP-NET-Core-3x\\__ContentInjecttionWithResponseRewritingInAspNetCore31.md\" --rendermode packagedhtml --theme Blackout --open"

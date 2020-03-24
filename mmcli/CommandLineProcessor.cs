@@ -32,16 +32,26 @@ namespace mmcli
 
         public void HandleCommandLineArguments()
         {
-            
+            string arg0;
+            if (CommandArgs.Length < 1)
+                arg0 = "help";
+            else
+            {
+                arg0 = CommandArgs[0].ToLower().TrimStart('-');
 
-            var arg0 = CommandArgs[0].ToLower().TrimStart('-');
-            if (CommandArgs[0] == "-")
-                arg0 = "-";
+                if (CommandArgs[0] == "-")
+                    arg0 = "-";
+            }
 
+            if (string.IsNullOrEmpty(arg0) || arg0 == "--help" || arg0 == "/?")
+                arg0 = "help";
 
             HtmltoMarkdownProcessor converter;
             switch (arg0)
             {
+                case "help":
+                    ShowHelp();
+                    break;
                 case "version":
                     // just display the header
                     ConsoleHeader();
@@ -198,7 +208,42 @@ namespace mmcli
             }
         }
 
+        private void ShowHelp()
+        {
+            ConsoleHeader();
 
+            string help = @"
+mmcli version
+
+mmcli reset
+
+mmcli uninstall
+
+mmcli setportable
+
+mmcli unsetportable
+
+mmcli register <registrationKey>
+
+mmcli markdowntohtml -i ""<markdownFile>"" -o ""<htmlFile>"" 
+      --rendermode [html|fragment|packagedhtml|zip] 
+      --theme [<anyAvailableTheme>]
+      -open
+
+mmcli htmltomarkdown -i ""<inputHtmlFile>"" -o ""<outputMarkdownFile>"" -open
+
+mmcli markdowntopdf  -i ""<inputMarkdownFile>"" -o ""outputPdfFile"" -open 
+      --theme <themeName>  
+      --orientation [Portrait|Landscape]
+      --page-size [Letter|Legal|A4|B4]
+
+
+For more detailed information please go to:";
+            Console.WriteLine(help);
+            ConsoleHelper.WriteLine("https://markdownmonster.west-wind.com/docs/_5fp0xp68p.htm", ConsoleColor.DarkCyan);
+
+            ConsoleFooter();
+        }
 
 
         /// <summary>
@@ -206,15 +251,16 @@ namespace mmcli
         /// </summary>
         public void ConsoleHeader()
         {
-            var arg0 = CommandArgs[0].ToLower().TrimStart('-');
-            //Console.Clear();
-            Console.WriteLine(" ");
+            string arg0 = "help";
+            if (CommandArgs.Length > 0)
+                arg0 = CommandArgs[0].ToLower().TrimStart('-');
+            
             var title = "Markdown Monster Console v" + typeof(MarkdownMonster.mmApp).Assembly.GetName().Version.ToString(3);
             Console.WriteLine(StringUtils.Replicate("-", title.Length));
             ConsoleHelper.WriteLine(title,ConsoleColor.Yellow);
             Console.WriteLine(StringUtils.Replicate("-", title.Length));
-            Console.WriteLine("Command: " + arg0);
-            Console.WriteLine();
+            Console.Write("Command: ");
+            ConsoleHelper.WriteLine(arg0,ConsoleColor.Cyan);
         }
 
         /// <summary>
@@ -254,11 +300,28 @@ namespace mmcli
             Console.ForegroundColor = oldColor;
         }
 
+        public static void Write(string text, ConsoleColor color = ConsoleColor.White)
+        {
+            var oldColor = Console.ForegroundColor;
+            Console.ForegroundColor = color;
+            Console.Write(text);
+            Console.ForegroundColor = oldColor;
+        }
+
         public static void WriteSuccess(string text)
         {
             WriteLine(text, ConsoleColor.Green);
         }
 
+        public static void WriteInfo(string text)
+        {
+            WriteLine(text, ConsoleColor.DarkCyan);
+        }
+
+        public static void WriteWarning(string text)
+        {
+            WriteLine(text, ConsoleColor.Yellow);
+        }
 
         public static void WriteError(string text)
         {

@@ -4,11 +4,17 @@
 "Signing binaries..."
 & ".\signtool.exe" sign /v /n "West Wind Technologies" /sm /s MY /tr "http://timestamp.digicert.com" /td SHA256 /fd SHA256 ".\Distribution\MarkdownMonster.exe"
 & ".\signtool.exe" sign /v /n "West Wind Technologies" /sm /s MY /tr "http://timestamp.digicert.com" /td SHA256 /fd SHA256 ".\Distribution\mm.exe"
+& ".\signtool.exe" sign /v /n "West Wind Technologies" /sm /s MY /tr "http://timestamp.digicert.com" /td SHA256 /fd SHA256 ".\Distribution\mmcli.exe"
 
 
 # Remove unused Roslyn Executables
 Remove-item ".\Distribution\roslyn\csi.exe" -Force
 Remove-item ".\Distribution\roslyn\vbc.exe" -Force
+
+# 
+out-file -filepath ".\Distribution\mmcli.exe.ignore"  -inputobject ""
+out-file -filepath ".\Distribution\mm.exe.ignore"  -inputobject ""
+out-file -filepath ".\Distribution\MarkdownMonster.exe.ignore"  -inputobject ""
 
 # Keep ShimGen from generating shims for dependent exe's
 out-file -filepath ".\Distribution\roslyn\VBCSCompiler.exe.ignore"  -inputobject ""

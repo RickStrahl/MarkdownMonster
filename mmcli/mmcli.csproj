@@ -2,11 +2,17 @@
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
+    <Version>1.21</Version>
     <TargetFramework>net472</TargetFramework>
+    <ApplicationIcon>MarkdownMonster.ico</ApplicationIcon>
   </PropertyGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\MarkdownMonster\MarkdownMonster.csproj" />
   </ItemGroup>
+
+  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+    <Exec Command="copy $(TargetPath) $(SolutionDir)\MarkdownMonster\mmcli.exe" />
+  </Target>
 
 </Project>

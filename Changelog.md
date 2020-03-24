@@ -7,10 +7,10 @@
 ### 1.21.10
 *<small>March 24th, 2020</small>* 
 
-* **New Markdown Monster CLI and Refactoring of Command Line Switches**  
+* **[New Markdown Monster CLI and Refactoring of Command Line Switches](https://markdownmonster.west-wind.com/docs/_5fp0xp68p.htm#cli-commands)**  
 Refactored existing command line options into two categories: Startup switches that affect Markdown Monster UI operation and operational tasks like registering, uninstalling, converting documents that don't use the UI. Added a new `mmcli.exe` that handles command line operations.
 
-* **New MarkdownToHtml, MarkdownToPdf and HtmlToMarkdown Command Line Commands**  
+* **[New MarkdownToHtml, MarkdownToPdf and HtmlToMarkdown Command Line Commands](https://markdownmonster.west-wind.com/docs/_5fp0xp68p.htm#cli-commands)**  
 Added additional commands to the command line handler for converting documents between Markdown and HTML and PDF as well as converting documents from HTML to Markdown. Uses `mmcli.exe`.
 
 * **Remember common settings in Link Dialog**  

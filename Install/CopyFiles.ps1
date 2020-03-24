@@ -29,8 +29,6 @@ else {
     robocopy ${source}\runtimes\win7 ${target}\runtimes\win7 /MIR
 }
 
-Copy-Item ${cur}\mm.exe ${target}\mm.exe
-Copy-Item ${cur}\mm.exe ${target}\mmcli.exe
 Copy-Item ${cur}\license.md ${target}\license.md
 
 # Cleanup output
