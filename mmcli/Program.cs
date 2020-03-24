@@ -1,4 +1,5 @@
 ﻿using System;
+using mmcli.CommandLine;
 
 namespace mmcli
 {

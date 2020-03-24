@@ -59,7 +59,7 @@ namespace mmcli.CommandLine
 
         public override void Parse()
         {
-            Action = (ParseStringParameterSwitch("--action") ?? Args[0])?.ToLower();
+            Action = (ParseStringParameterSwitch("--action") ?? Arguments[0])?.ToLower();
 
             InputFile = ParseStringParameterSwitch("--input") ?? ParseStringParameterSwitch("-i");
             OutputFile = ParseStringParameterSwitch("-output") ?? ParseStringParameterSwitch("-o");

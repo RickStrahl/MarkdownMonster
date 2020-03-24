@@ -12,7 +12,7 @@ using MarkdownMonster;
 using mmcli.CommandLine;
 using Westwind.Utilities;
 
-namespace mmcli
+namespace mmcli.CommandLine
 {
     /// <summary>
     /// This class has handles the 'console' like command line
@@ -26,8 +26,6 @@ namespace mmcli
         {
             CommandArgs =Environment.GetCommandLineArgs().Skip(1).ToArray(); 
         }
-
-        
 
 
         public void HandleCommandLineArguments()
@@ -226,14 +224,14 @@ mmcli unsetportable
 mmcli register <registrationKey>
 
 mmcli markdowntohtml -i ""<markdownFile>"" -o ""<htmlFile>"" 
-      --rendermode [html|fragment|packagedhtml|zip] 
+      --rendermode [html*|fragment|packagedhtml|zip] 
       --theme [<anyAvailableTheme>]
       -open
 
 mmcli htmltomarkdown -i ""<inputHtmlFile>"" -o ""<outputMarkdownFile>"" -open
 
 mmcli markdowntopdf  -i ""<inputMarkdownFile>"" -o ""outputPdfFile"" -open 
-      --theme <themeName>  
+      --theme [<anyAvailableTheme>] 
       --orientation [Portrait|Landscape]
       --page-size [Letter|Legal|A4|B4]
 
@@ -256,9 +254,7 @@ For more detailed information please go to:";
                 arg0 = CommandArgs[0].ToLower().TrimStart('-');
             
             var title = "Markdown Monster Console v" + typeof(MarkdownMonster.mmApp).Assembly.GetName().Version.ToString(3);
-            Console.WriteLine(StringUtils.Replicate("-", title.Length));
-            ConsoleHelper.WriteLine(title,ConsoleColor.Yellow);
-            Console.WriteLine(StringUtils.Replicate("-", title.Length));
+            ConsoleHelper.WriteWrappedHeader(title);
             Console.Write("Command: ");
             ConsoleHelper.WriteLine(arg0,ConsoleColor.Cyan);
         }
@@ -288,45 +284,5 @@ For more detailed information please go to:";
 
             ConsoleFooter();
         }
-    }
-
-    public static class ConsoleHelper
-    {
-        public static void WriteLine(string text, ConsoleColor color = ConsoleColor.White)
-        {
-            var oldColor = Console.ForegroundColor;
-            Console.ForegroundColor = color;
-            Console.WriteLine(text);
-            Console.ForegroundColor = oldColor;
-        }
-
-        public static void Write(string text, ConsoleColor color = ConsoleColor.White)
-        {
-            var oldColor = Console.ForegroundColor;
-            Console.ForegroundColor = color;
-            Console.Write(text);
-            Console.ForegroundColor = oldColor;
-        }
-
-        public static void WriteSuccess(string text)
-        {
-            WriteLine(text, ConsoleColor.Green);
-        }
-
-        public static void WriteInfo(string text)
-        {
-            WriteLine(text, ConsoleColor.DarkCyan);
-        }
-
-        public static void WriteWarning(string text)
-        {
-            WriteLine(text, ConsoleColor.Yellow);
-        }
-
-        public static void WriteError(string text)
-        {
-            WriteLine(text, ConsoleColor.Red);
-        }
-
     }
 }

@@ -14,9 +14,11 @@ namespace mmcli.CommandLine
     public abstract class CommandLineParser
     {
         /// <summary>
-        /// The Command Line arguments string array
+        /// The Command Line arguments string array.
+        /// Note unlike Environment.GetCommandLineArguments() this
+        /// holds only the arguments and not the executable
         /// </summary>
-        public string[] Args { get; set; }
+        public string[] Arguments { get; set; }
 
         /// <summary>
         /// The full command line including the executable
@@ -27,7 +29,7 @@ namespace mmcli.CommandLine
         /// The first argument (if any). Useful for a 
         /// command/action parameter
         /// </summary>
-        public string FirstParm { get; set; }
+        public string FirstParameter { get; set; }
 
         public CommandLineParser(string[] args = null, string cmdLine = null)
         {
@@ -43,17 +45,17 @@ namespace mmcli.CommandLine
 
             if (argList.Count > 1)
             {
-                FirstParm = argList[1];
+                FirstParameter = argList[1];
 
                 // argument array contains startup exe - remove
                 argList.RemoveAt(0);
-                Args = argList.ToArray();
+                Arguments = argList.ToArray();
             }
             else
             {
-                FirstParm = string.Empty;
+                FirstParameter = string.Empty;
                 // empty array - not null to match args array
-                Args = new string[0];
+                Arguments = new string[0];
             }
         }
 
