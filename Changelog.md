@@ -4,14 +4,17 @@
 [![Chocolatey](https://img.shields.io/chocolatey/dt/markdownmonster.svg)](https://chocolatey.org/packages/MarkdownMonster)
 [![Web Site](https://img.shields.io/badge/Markdown_Monster-WebSite-blue.svg)](https://markdownmonster.west-wind.com)
 
-### 1.21.8
-*<small>not released yet</small>* 
+### 1.21.10
+*<small>March 24th, 2020</small>* 
 
 * **New Markdown Monster CLI and Refactoring of Command Line Switches**  
 Refactored existing command line options into two categories: Startup switches that affect Markdown Monster UI operation and operational tasks like registering, uninstalling, converting documents that don't use the UI. Added a new `mmcli.exe` that handles command line operations.
 
 * **New MarkdownToHtml, MarkdownToPdf and HtmlToMarkdown Command Line Commands**  
 Added additional commands to the command line handler for converting documents between Markdown and HTML and PDF as well as converting documents from HTML to Markdown. Uses `mmcli.exe`.
+
+* **Remember common settings in Link Dialog**  
+The link dialog now remembers the last folder used to select a file, for the 'Open in New Window' and 'Use Link References' and checkboxes. These values are stored in the configuration and saved across shutdowns.
 
 * **Fix up Copy to Clipboard with CR/LF**  
 Fix up Ctrl-C copy behavior for text to force CR/LF to the clipboard  even if the editor is running LF only mode. This fixes issues for editors that don't support LF only and paste single lines of text.
@@ -51,7 +54,6 @@ Added the official DocFx parser as a markdown parser you can use to render docum
 
 * **Markdown Rendering Error Display**  
 Markdown rendering errors will now display an error page, rather than displaying either a blank page or not clearing the previous page. The error page shows the active Markdown Parser and a detailed code trace for potential debugging.
-
 
 * **Improve Windows Placement on Application Startup**  
 MM now will check if MM is rendering off screen when starting up. It's possible to get MM to start in 'negative' space if you size down from a large 4k display to a 1080p display for example, and MM will move the window into the viewable ViewPort area if it's hidden or even partially offscreen. 
