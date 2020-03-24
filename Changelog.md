@@ -4,14 +4,17 @@
 [![Chocolatey](https://img.shields.io/chocolatey/dt/markdownmonster.svg)](https://chocolatey.org/packages/MarkdownMonster)
 [![Web Site](https://img.shields.io/badge/Markdown_Monster-WebSite-blue.svg)](https://markdownmonster.west-wind.com)
 
-### 1.21.6
+### 1.21.8
 *<small>not released yet</small>* 
 
-* **New Markdown Monster CLI**  
+* **New Markdown Monster CLI and Refactoring of Command Line Switches**  
 Refactored existing command line options into two categories: Startup switches that affect Markdown Monster UI operation and operational tasks like registering, uninstalling, converting documents that don't use the UI. Added a new `mmcli.exe` that handles command line operations.
 
+* **New MarkdownToHtml, MarkdownToPdf and HtmlToMarkdown Command Line Commands**  
+Added additional commands to the command line handler for converting documents between Markdown and HTML and PDF as well as converting documents from HTML to Markdown. Uses `mmcli.exe`.
+
 * **Fix up Copy to Clipboard with CR/LF**  
-Fix up Ctrl-C copy behavior to force CR/LF to clipboard  even if the editor is running LF only mode. This fixes issues for editors that don't support LF only and paste single lines of text.
+Fix up Ctrl-C copy behavior for text to force CR/LF to the clipboard  even if the editor is running LF only mode. This fixes issues for editors that don't support LF only and paste single lines of text.
 
 ### 1.21.5
 *<small>March 5th, 2019</small>* 

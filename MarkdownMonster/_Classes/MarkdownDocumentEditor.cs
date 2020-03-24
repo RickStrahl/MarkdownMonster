@@ -2019,6 +2019,9 @@ namespace MarkdownMonster
         /// <returns></returns>
         public string GetKeyBindingsJson()
         {
+            if (mmApp.Model.Window?.KeyBindings == null)
+                return null;
+
             return JsonSerializationUtils.Serialize(
                 mmApp.Model.Window.KeyBindings.KeyBindings.Where(kb => kb.HasJavaScriptHandler));
         }

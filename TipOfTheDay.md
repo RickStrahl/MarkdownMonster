@@ -81,11 +81,10 @@ to open a file from the current folder? You can specify multiple files, use full
 
 https://markdownmonster.west-wind.com/docs/_4x313dneu.htm
 
-## Quickliy Open the Folder Browser
+## Quickly Open the Folder Browser
 Did you know you can quickly open the active file's folder in the Folder Browser by clicking the location icon in the Folder Browser toolbar, or `Show in Folder Browser` in the tab context menu?
 
 It's a quick way to navigate and work with files in the current folder.
-
 
 ## Open Markdown Files from Preview HTML Links
 Did you know that in Markdown Monster you can click on Markdown links in the Previewer to open related Markdown documents in the Editor? MM  intercepts relative or local file Markdown links and opens the appropriate Markdown document in the editor. 
@@ -158,9 +157,6 @@ Images are auto-compressed to reduce image size.
 
 ## Build your own Markdown Monster Add-ins
 Did you know that Markdown Monster has an add-in extension model? You can easily create an add-in that adds custom functionality to Markdown Monster. You can add a button and window using your own UI and/or simply interact with the active document, hook events such when documents are loaded or saved, and modify selected text inside of a document. It's easy to do using the .NET Add-in model.
-
-## Embed Font-Awesome Icons
-Did you know you can use @icon-FontAwesomeIconName to embed FontAwesome icons into your content in Markdown Monster? If your target site for HTML supports Font Awesome this syntax is a quick way to embed icons.
 
 ## Html Editing
 Did you know that Markdown Monster can also edit HTML files with live preview? Open an HTML document and MM will preview it and update the preview as you edit it.
