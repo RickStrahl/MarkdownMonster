@@ -155,21 +155,6 @@ namespace MarkdownMonster
 
 
         /// <summary>
-        /// Determines whether links are embedded as reference links
-        /// at the bottom of the current document rather than explicit links
-        /// </summary>
-        public bool UseReferenceLinks
-        {
-            get => _useReferenceLinks;
-            set
-            {
-                if (value == _useReferenceLinks) return;
-                _useReferenceLinks = value;
-                OnPropertyChanged();
-            }
-        }
-
-        /// <summary>
         /// Determines whether the full path for the open
         /// document is displayed in the Main Window's
         /// title bar.
@@ -573,11 +558,6 @@ namespace MarkdownMonster
 
 
         /// <summary>
-        /// Remembers last Is link External setting when embedding links
-        /// </summary>
-        public bool LastLinkExternal { get; set; }
-
-        /// <summary>
         /// Disables all addins from loading
         /// </summary>
         public bool DisableAddins { get; set; }
@@ -613,13 +593,46 @@ namespace MarkdownMonster
 
         #endregion
 
+        
+        # region Link Dialog
+
+
+        /// <summary>
+        /// Remembers last Is link External setting when embedding links
+        /// </summary>
+        public bool LastLinkExternal { get; set; }
+
+
+        /// <summary>
+        /// Determines whether links are embedded as reference links
+        /// at the bottom of the current document rather than explicit links
+        /// </summary>
+        public bool LastUseReferenceLinks
+        {
+            get => _useReferenceLinks;
+            set
+            {
+                if (value == _useReferenceLinks) return;
+                _useReferenceLinks = value;
+                OnPropertyChanged();
+            }
+        }
+
+
+        /// <summary>
+        /// Remember the last folder used for linking a file in the
+        /// the editor.
+        /// </summary>
+        public string LastLinkFolder {get; set;}
+
+        #endregion
+
 
         #region Folder Locations
         /// <summary>
         /// Last folder used when opening a document
         /// </summary>
         public string LastFolder { get; set; }
-
 
 
 	    /// <summary>

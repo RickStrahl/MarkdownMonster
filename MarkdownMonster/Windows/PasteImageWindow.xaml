@@ -30,13 +30,13 @@
             <StackPanel Orientation="Horizontal">
                 <ToolBar FontWeight="Normal" Padding="0,2,0,2" >
                   
-                    <Button Name="ButtonOk"  IsDefault="True"  Click="Button_Click"  
+                    <Button Name="ButtonOk"  IsDefault="True"  Click="Button_Click"
                             Visibility="{Binding IsFileImage, Converter={StaticResource BooleanToVisibilityConverter}}" >
                         <StackPanel Orientation="Horizontal">
                             <fa:FontAwesome Margin="5,2,5,0" Icon="CheckCircleOutline"                                             
                                             FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" 
                                             Foreground="#1F9B3C" />
-                            <TextBlock>Embed Image</TextBlock>
+                            <TextBlock  FontWeight="SemiBold" >Embed Image</TextBlock>
                         </StackPanel>
                     </Button>
 

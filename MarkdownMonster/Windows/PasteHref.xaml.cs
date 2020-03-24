@@ -80,8 +80,7 @@ namespace MarkdownMonster.Windows
             Activated += PasteHref_Activated;
 
             IsExternal = mmApp.Configuration.LastLinkExternal;
-            IsLinkReference = mmApp.Configuration.UseReferenceLinks;
-
+            IsLinkReference = mmApp.Configuration.LastUseReferenceLinks;
         }
 
      
@@ -153,10 +152,7 @@ namespace MarkdownMonster.Windows
                 Title = "Embed a local relative link"
             };
 
-            if (!string.IsNullOrEmpty(MarkdownFile))
-                fd.InitialDirectory = System.IO.Path.GetDirectoryName(MarkdownFile);
-            else
-                fd.InitialDirectory = mmApp.Configuration.LastFolder;
+            fd.InitialDirectory = mmApp.Configuration.LastLinkFolder;
 
             var res = fd.ShowDialog();
             if (res == null || !res.Value)
@@ -186,12 +182,14 @@ namespace MarkdownMonster.Windows
                 // is it a physical path?
                 if (Link.Contains(":\\"))
                     Link = "file:///" + Link;
-
             }
 
             Link = StringUtils.UrlEncode(Link);
 
-            mmApp.Configuration.LastFolder = System.IO.Path.GetDirectoryName(fd.FileName);
+            mmApp.Configuration.LastLinkFolder = System.IO.Path.GetDirectoryName(fd.FileName);
+            mmApp.Configuration.LastLinkExternal = IsExternal;
+            mmApp.Configuration.LastUseReferenceLinks = IsLinkReference;
+
             TextLink.Focus();
         }
 

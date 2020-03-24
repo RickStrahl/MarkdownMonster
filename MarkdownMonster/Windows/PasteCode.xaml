@@ -90,7 +90,7 @@
                  LostFocus="TextCodeLanguage_LostFocus">
         </ComboBox>
 
-        <StackPanel Grid.Row="4" Orientation="Horizontal">
+        <StackPanel Grid.Row="4" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,40,0,0">
             <Button Name="ButtonOk" Margin="0,30,0,20" Height="40" FontSize="15" Width="150" 
                     HorizontalAlignment="Left"  
                     Click="Button_Click"   >

@@ -21,7 +21,7 @@
         WindowStartupLocation="CenterOwner"
         ShowInTaskbar="False"
         IsMinButtonEnabled="False" IsMaxRestoreButtonEnabled="False"                       
-        Width="800" Height="768" MinHeight="768" MinWidth="600">
+        Width="800" Height="780" MinHeight="768" MinWidth="600">
     <Window.Resources>
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
         <windows:StringComparisonToBooleanConverter x:Key="StringComparisonToBooleanConverter" />
@@ -111,7 +111,7 @@
 	                         ItemsSource="{Binding MetadataCustomFields}"
 	                         Visibility="{Binding MetadataHasCustomFields,Converter={StaticResource BooleanToVisibilityConverter}}">
 		                <ListBox.ItemTemplate>
-			                <DataTemplate>
+                            <DataTemplate>
 				                <Grid Name="GridCustomFields" >
 									<Grid.ColumnDefinitions>
 										<ColumnDefinition Width="150"/>
@@ -119,13 +119,13 @@
 										<ColumnDefinition Width="100" />
 									</Grid.ColumnDefinitions>
 
-									<TextBox Text="{Binding Key}"  BorderThickness="0" />
+									<TextBox Text="{Binding Key}"  BorderThickness="0" controls:TextBoxHelper.SelectAllOnFocus="True" />
 					                <TextBox Grid.Column="1" Padding="5,0,5,0"  BorderThickness="0"
-					                         Text="{Binding Value}" />
+					                         Text="{Binding Value}"  controls:TextBoxHelper.SelectAllOnFocus="True" />
 					                <TextBox Grid.Column="2" Text="{Binding Id}" BorderThickness="0" />
 				                </Grid>
 			                </DataTemplate>
-		                </ListBox.ItemTemplate>
+                        </ListBox.ItemTemplate>
 	                </ListBox>
 
 					<Grid Name="PostToWeblogSiteGrid">
@@ -181,7 +181,7 @@
 					
 
 
-					<StackPanel Orientation="Horizontal">
+					<StackPanel Orientation="Horizontal"  HorizontalAlignment="Right" Margin="0,25">
                         <Button  Grid.Column="0" Margin="0,10" Height="40" Width="175"  HorizontalAlignment="Left" Click="ButtonPostBlog_Click" >
                             <StackPanel Orientation="Horizontal">
                                 <fa:FontAwesome Icon="Upload" FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" Foreground="#FF0E7E28" FontSize="20" />
@@ -190,7 +190,7 @@
                        </Button>
                          
                         
-                        <Button Grid.Column="1" Margin="10,20" Height="40" Width="175"  HorizontalAlignment="Left" Click="ButtonSaveMeta_Click" >
+                        <Button Grid.Column="1" Margin="10,20,0,20" Height="40" Width="175"  HorizontalAlignment="Left" Click="ButtonSaveMeta_Click" >
                             <StackPanel Orientation="Horizontal">
                                 <fa:FontAwesome Icon="Check" FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" Foreground="#FF0E7E28" FontSize="20" />
                                 <TextBlock Margin="10,0,0,0" FontSize="14">Save Metadata</TextBlock>
@@ -227,7 +227,7 @@
                            />
 
                     
-                    <Button Margin="0,30" Height="36" Width="175" HorizontalAlignment="Left" 
+                    <Button Margin="0,40" Height="45" Width="180" HorizontalAlignment="Right" 
                         Click="ButtonNewPost_Click" IsDefault="True">
                         <StackPanel Orientation="Horizontal">
                             <fa:FontAwesome Icon="Check" FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" Foreground="#FF0E7E28" FontSize="20" />
@@ -500,7 +500,7 @@
                     </TextBlock>
 
 
-                    <Button Margin="0,20" Height="40" Width="155"  HorizontalAlignment="Left" 
+                    <Button Margin="0,20" Height="45" Width="170"  HorizontalAlignment="Right" 
                             Name="ButtonSaveWebLogInfo" Click="ButtonSaveWebLogInfo_Click" >
                         <StackPanel Orientation="Horizontal">
                             <fa:FontAwesome Icon="Check" FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" Foreground="#FF0E7E28" FontSize="20" />

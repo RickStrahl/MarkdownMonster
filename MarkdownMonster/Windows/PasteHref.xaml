@@ -15,7 +15,7 @@
         WindowStyle="SingleBorderWindow" ResizeMode="NoResize"                      
         WindowStartupLocation="CenterOwner"         
         IsMinButtonEnabled="False" IsMaxRestoreButtonEnabled="False"                       
-        Width="603.57" Height="330">
+        Width="620" Height="330">
 
     <Window.InputBindings>
         <KeyBinding Key="F1" Command="{Binding AppModel.Commands.HelpCommand}" CommandParameter="_4xs10gaui.htm"/>
@@ -49,15 +49,18 @@
                       Click="Checkbox_Handler">Link as a reference</CheckBox>
         </StackPanel>
 
-        <StackPanel Orientation="Horizontal" Margin="0 10">
-            <Button Name="ButtonOk" Margin="0,20" Height="40"  Width="130" HorizontalAlignment="Left"   IsDefault="True" Click="Button_Click"  >
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right"  Margin="0,15">
+            
+            
+
+            <Button Name="ButtonOk" Margin="0,20" Height="40"  Width="120" HorizontalAlignment="Left"   IsDefault="True" Click="Button_Click"  >
                 <StackPanel Orientation="Horizontal">
                     <fa:FontAwesome  Icon="Upload"  FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" Foreground="#FF0E7E28" FontSize="20" />
                     <TextBlock Margin="10,0,0,0" >Paste Link</TextBlock>
                 </StackPanel>
             </Button>
 
-            <Button Name="ButtonCancel" Margin="10,20" Height="40" Width="130" HorizontalAlignment="Left" IsCancel="True" Click="Button_Click" >
+            <Button Name="ButtonCancel" Margin="10,20,0,20" Height="40" Width="120" HorizontalAlignment="Left" IsCancel="True" Click="Button_Click" >
                 <StackPanel Orientation="Horizontal">
                     <fa:FontAwesome Icon="Remove" FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" Foreground="DarkRed"  FontSize="20"/>
                     <TextBlock Margin="10,0,0,0">Cancel</TextBlock>

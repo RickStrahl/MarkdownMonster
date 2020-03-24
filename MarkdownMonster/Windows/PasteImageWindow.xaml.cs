@@ -356,6 +356,7 @@ namespace MarkdownMonster.Windows
 
                     string relPath = Path.GetDirectoryName(sd.FileName);
                     Document.LastImageFolder = relPath;
+                    
 
                     if (documentFolder != null)
                     {
