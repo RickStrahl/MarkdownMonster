@@ -10,7 +10,7 @@ else {
     $source="$PSScriptRoot\..\MarkdownMonster\bin\Release\netcoreapp3.0\win-x86"
 }    
 $target="$PSScriptRoot\Distribution"
-edpnotify.exe
+# edpnotify.exe
 
 # delete the Distribution folder
 remove-item -recurse -force ${target}
@@ -30,6 +30,7 @@ else {
 }
 
 Copy-Item ${cur}\mm.exe ${target}\mm.exe
+Copy-Item ${cur}\mm.exe ${target}\mmcli.exe
 Copy-Item ${cur}\license.md ${target}\license.md
 
 # Cleanup output
