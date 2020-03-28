@@ -456,6 +456,8 @@
                 while (row < lines.length && pos + lines[row].length < offset) {
                     pos += lines[row].length;
                     pos++; // for the newline
+                    if (te.settings.linefeedMode == "windows")
+                        pos++;
                     row++;
                 }
                 col = offset - pos;
