@@ -10,6 +10,8 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using MarkdownMonster.Annotations;
+using MarkdownMonster.Configuration;
+using Westwind.Utilities;
 
 namespace MarkdownMonster
 {
@@ -298,7 +300,26 @@ namespace MarkdownMonster
 		{
 			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
 		}
-	}
+
+        /// <summary>
+        /// Sets the configuration settings from the MM configuration
+        /// object.
+        /// </summary>
+        /// <param name="config"></param>
+        public void SetFromConfiguration(PdfOutputConfiguration config)
+        {
+            DataUtils.CopyObjectData(config, this);
+        }
+
+        /// <summary>
+        /// Updates the MM PDF output Configuration object from current values.
+        /// Updates the config object with the values from the dialog.
+        /// </summary>
+        public void SetConfiguration(PdfOutputConfiguration config)
+        {
+            DataUtils.CopyObjectData(this, config);
+        }
+    }
 
 	public class PdfPageMargins
 	{

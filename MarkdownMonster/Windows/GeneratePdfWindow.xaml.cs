@@ -55,6 +55,7 @@ namespace MarkdownMonster.Windows
 		{
 			InitializeComponent();
 			Loaded += GeneratePdfWindow_Loaded;
+            Unloaded += GeneratePdfWindow_Unloaded;
 
 		    mmApp.SetThemeWindowOverride(this);
 
@@ -64,11 +65,17 @@ namespace MarkdownMonster.Windows
             initialHeight = Height;
 
 		    StatusBar = new StatusBarHelper(StatusText, StatusIcon);
-		}
 
-	    
+            PdfGenerator.SetFromConfiguration(mmApp.Configuration.PdfOutputWindow);
+        }
 
-	    private void GeneratePdfWindow_Loaded(object sender, RoutedEventArgs e)
+        private void GeneratePdfWindow_Unloaded(object sender, RoutedEventArgs e)
+        {
+            // save the settings to configuration
+            PdfGenerator.SetConfiguration(mmApp.Configuration.PdfOutputWindow);
+        }
+
+        private void GeneratePdfWindow_Loaded(object sender, RoutedEventArgs e)
 		{
 			TextPageSize.ItemsSource = Enum.GetValues(typeof(PdfPageSizes));
 			TextPageOrientation.ItemsSource = Enum.GetValues(typeof(PdfPageOrientation));

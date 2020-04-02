@@ -4,6 +4,19 @@
 [![Chocolatey](https://img.shields.io/chocolatey/dt/markdownmonster.svg)](https://chocolatey.org/packages/MarkdownMonster)
 [![Web Site](https://img.shields.io/badge/Markdown_Monster-WebSite-blue.svg)](https://markdownmonster.west-wind.com)
 
+
+
+### 1.21.11
+*<small>not released yet</small>* 
+
+* **Remember PDF Export Settings**  
+The PDF export window now remembers its settings so the next time the window is opened the existing settings are preserved.
+
+* **Don't allow usage of non-fixed Width Fonts**  
+Changed behavior of Editor Font assignment so that only fixed-width fonts are allowed. The editor used in MM doesn't support propportional fonts, so a fixed-width font has to be used in order for the editor to track correctly. Also updated the description for the Options setting window.
+
+
+
 ### 1.21.10
 *<small>March 24th, 2020</small>* 
 

@@ -255,6 +255,8 @@ namespace MarkdownMonster
             WindowPosition = new WindowPositionConfiguration();
             FolderBrowser = new FolderBrowserConfiguration();
             ApplicationUpdates = new ApplicationUpdatesConfiguration();
+            PdfOutputWindow = new  PdfOutputConfiguration();
+
             OpenDocuments = new List<OpenFileDocument>();
 
 
@@ -485,6 +487,7 @@ namespace MarkdownMonster
         /// </summary>
         public GitConfiguration Git { get; set; }
 
+        public PdfOutputConfiguration PdfOutputWindow { get; set; }
 
         #endregion
 
@@ -655,7 +658,6 @@ namespace MarkdownMonster
         internal string InternalCommonFolder { get; set; }
 
         internal string AddinsFolder => Path.Combine(CommonFolder, "Addins");
-    
 
         #endregion
 
