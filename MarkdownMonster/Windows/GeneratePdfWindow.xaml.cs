@@ -159,7 +159,9 @@ namespace MarkdownMonster.Windows
 		    }
 
 			string initialFolder = null;
-			if (!string.IsNullOrEmpty(document.Filename) && document.Filename != "untitled")
+            if (!string.IsNullOrEmpty(Model.Configuration.PdfOutputWindow.LastOutputPath))
+                initialFolder = Model.Configuration.PdfOutputWindow.LastOutputPath;
+            else if (!string.IsNullOrEmpty(document.Filename) && document.Filename != "untitled")
 				initialFolder = System.IO.Path.GetDirectoryName(document.Filename);
 
 		    string filename = System.IO.Path.ChangeExtension(System.IO.Path.GetFileName(mmApp.Model.ActiveDocument.Filename), "pdf");
@@ -183,8 +185,9 @@ namespace MarkdownMonster.Windows
 				return false;
 			}
 
-			OutputFile = sd.FileName;
-
+            OutputFile = sd.FileName;
+            Model.Configuration.PdfOutputWindow.LastOutputPath = System.IO.Path.GetDirectoryName(sd.FileName);
+			
 			return true;
 		}
 

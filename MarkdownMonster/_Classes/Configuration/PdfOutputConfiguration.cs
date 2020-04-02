@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using MarkdownMonster.Annotations;
+using Newtonsoft.Json;
 
 namespace MarkdownMonster.Configuration
 {
@@ -19,28 +20,40 @@ namespace MarkdownMonster.Configuration
         /// </summary>
         public PdfPageSizes PageSize { get; set; } = PdfPageSizes.Letter;
 
+        /// <summary>
+        /// Page orientation
+        /// </summary>
         public PdfPageOrientation Orientation { get; set; } = PdfPageOrientation.Portrait;
 
+        /// <summary>
+        /// Text used for footers
+        /// </summary>
         public string FooterText { get; set; } = "Page [page] of [topage]";
 
+
+        /// <summary>
+        /// Dots per inch used for images embedded in PDF
+        /// </summary>
         public int ImageDpi { get; set; } = 300;
 
+
+        /// <summary>
+        /// Set to true if table of contents should be embedded into the PDF
+        /// </summary>
         public bool GenerateTableOfContents { get; set; } = true;
-        
+
+        /// <summary>
+        /// If true opens the PDF in the configured Windows Viewer
+        /// </summary>
         public bool DisplayPdfAfterGeneration { get; set; } = true;
 
+        public PdfPageMargins Margins { get; set; } = new PdfPageMargins();
         
-        #region INotifyPropertyChanged
 
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        
-        [NotifyPropertyChangedInvocator]
-        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
-
-        #endregion
+        /// <summary>
+        /// Location of the last saved file
+        /// </summary>
+        [JsonIgnore]
+        public string LastOutputPath {get; set; }
     }
 }
