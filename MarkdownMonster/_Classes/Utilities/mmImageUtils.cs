@@ -6,6 +6,8 @@ using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
 using System.IO;
+using System.Linq;
+using System.Windows.Forms;
 
 namespace MarkdownMonster.Utilities
 {
@@ -133,6 +135,36 @@ namespace MarkdownMonster.Utilities
                 return "image/tiff";
 
             return "application/image";
+        }
+
+        /// <summary>
+        /// Checks to see if a font is a FixedWidth Font
+        /// </summary>
+        /// <param name="fontName"></param>
+        /// <returns></returns>
+        public static bool IsFixedWidthFont(string fontName){
+
+            var fonts = System.Drawing.FontFamily.Families;
+            var family = fonts.Where(fnt => fnt.Name.Equals(fontName, StringComparison.OrdinalIgnoreCase)).FirstOrDefault();
+            if (family == null)
+                return false;
+
+            var f = new Form();
+            var g = f.CreateGraphics();
+            var font = new Font(family, 12);
+
+            char[] charSizes = new char[] { 'i', 'a', 'Z', '%', '#', 'a', 'B', 'l', 'm', ',', '.' };
+            float charWidth = g.MeasureString("I", font).Width;
+
+            bool fixedWidth = true;
+
+            foreach (char c in charSizes)
+            {
+                if (g.MeasureString(c.ToString(), font).Width != charWidth)
+                    fixedWidth = false;
+            }
+
+            return fixedWidth;
         }
     }
 }

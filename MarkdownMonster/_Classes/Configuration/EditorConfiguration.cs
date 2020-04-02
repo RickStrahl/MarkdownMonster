@@ -3,6 +3,7 @@ using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows.Documents;
 using MarkdownMonster.Annotations;
+using MarkdownMonster.Utilities;
 using Westwind.Utilities;
 
 namespace MarkdownMonster.Configuration
@@ -28,10 +29,23 @@ namespace MarkdownMonster.Configuration
         }
 
         #region Font, Sizing and Padding
+
         /// <summary>
-        /// The font used in the editor. Must be a proportional font
+        /// The font used in the editor. Must be a fixed width font like Consolas, Courier New, Lucida Console etc.
         /// </summary>
-        public string Font { get; set; }
+        public string Font
+        {
+            get => _font;
+            set
+            {
+                if (value == _font) return;
+
+                if (mmImageUtils.IsFixedWidthFont(value))
+                    _font = value;
+
+                OnPropertyChanged(nameof(EditorConfiguration.Font));
+            }
+        }
 
         /// <summary>
         /// Font size for the editor.
@@ -273,6 +287,7 @@ namespace MarkdownMonster.Configuration
         }
 
         private bool _enableRightToLeft;
+        private string _font;
 
 
         /// <summary>
