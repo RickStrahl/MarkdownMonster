@@ -50,6 +50,7 @@
 
   <ItemGroup>
     <PackageReference Include="Dragablz" Version="0.0.3.203" />
+    <PackageReference Include="Emoji.Wpf" Version="0.0.19-experimental" />
     <PackageReference Include="FontAwesome.WPF" Version="4.7.0.9" />
     <PackageReference Include="HtmlAgilityPack" Version="1.11.23" />
     <PackageReference Include="LibGit2Sharp" Version="0.26.2" />

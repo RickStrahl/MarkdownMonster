@@ -5,6 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MarkdownMonster.Windows"  
         xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
+        xmlns:emoji="clr-namespace:Emoji.Wpf;assembly=Emoji.Wpf"
         mc:Ignorable="d"
         WindowStyle="ToolWindow" ShowMinButton="False" ShowMaxRestoreButton="False"                      
         WindowStartupLocation="Manual"  
@@ -46,10 +47,10 @@
             </ItemsControl.ItemsPanel>
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
-                    <TextBlock Text="{Binding Value}" Margin="8" Height="24" Width="24" FontSize="18"
+                    <emoji:TextBlock Text="{Binding Value}" Margin="8" Height="24" Width="24" FontSize="18"
                                ToolTip="{Binding Key}"
                                Opacity="0.70">
-                        <TextBlock.Style>
+                        <emoji:TextBlock.Style>
                             <Style>
                             <Style.Triggers>
                                     <Trigger Property="TextBlock.IsMouseOver" Value="True">
@@ -66,8 +67,8 @@
                                     </Trigger>
                             </Style.Triggers>
                             </Style>
-                        </TextBlock.Style>
-                    </TextBlock>
+                        </emoji:TextBlock.Style>
+                    </emoji:TextBlock>
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
         </ListBox>
