@@ -100,7 +100,7 @@ namespace MarkdownMonster
         /// Bridge layer will be used instead going forward
         /// </summary>
         public AceEditorInterop AceEditor { get; set; }
-
+        private EmojiWindow _emojiWindow;
 
         public string EditorSyntax
         {
@@ -205,6 +205,8 @@ namespace MarkdownMonster
             Window = mmApp.Model.Window;
 
             EditorPreviewPane = new EditorAndPreviewPane();
+            _emojiWindow = new EmojiWindow();
+            _emojiWindow.Owner = Window;
 
             WebBrowser = EditorPreviewPane.EditorWebBrowser;
             WebBrowser.Visibility = Visibility.Hidden;
@@ -672,12 +674,11 @@ namespace MarkdownMonster
 
             else if (action == "emoji")
             {
-                var form = new EmojiWindow();
-                form.Owner = Window;
-                form.ShowDialog();
+                _emojiWindow.Cancelled = false;
+                _emojiWindow.ShowDialog();
 
-                if (!form.Cancelled)
-                    html = form.EmojiString;
+                if (!_emojiWindow.Cancelled)
+                    html = _emojiWindow.EmojiString;
             }
             else if (action == "href")
             {

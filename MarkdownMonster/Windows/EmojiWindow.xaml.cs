@@ -79,9 +79,6 @@ namespace MarkdownMonster.Windows
             // hard code so it works both with mouse and keyboard
             Left = window.Left + pos.X - 10;
             Top = window.Top + pos.Y + window.ButtonEmoji.Height;
-
-            TextSearchText.Focus();
-            ListEmojis.SelectedItem = Emojis.FirstOrDefault(kv => kv.Key == ":smile:");
         }
 
         private void ListBox_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e)
@@ -1017,6 +1014,16 @@ namespace MarkdownMonster.Windows
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
-        
+        private void EmojiWindow_Closing(object sender, CancelEventArgs e)
+        {
+            e.Cancel = true;
+            this.Hide();
+        }
+
+        private void EmojiWindow_Activated(object sender, System.EventArgs e)
+        {
+            ListEmojis.SelectedItem = Emojis.FirstOrDefault(kv => kv.Key == ":smile:");
+            TextSearchText.Focus();
+        }
     }
 }

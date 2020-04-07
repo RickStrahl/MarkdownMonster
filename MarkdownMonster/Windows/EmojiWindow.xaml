@@ -13,7 +13,7 @@
         KeyDown="EmojiWindow_KeyDown"       
         Icon="../assets/MarkdownMonster_Icon_256.png"
         Title="Pick an Emoji" TitleCharacterCasing="Normal"
-        Height="680" Width="835">
+        Height="680" Width="835" Closing="EmojiWindow_Closing" Activated="EmojiWindow_Activated">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
