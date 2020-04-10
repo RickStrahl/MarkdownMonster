@@ -417,6 +417,13 @@ namespace MarkdownMonster.Controls.ContextMenus
 
         static readonly Regex ImageRegex = new Regex(@"!\[.*?\]\((.*?)\)", RegexOptions.IgnoreCase);
 
+        /// <summary>
+        /// Adds menu options for image editing, embedding and a few other
+        /// image operations conditionally.
+        /// </summary>
+        /// <param name="line"></param>
+        /// <param name="pos"></param>
+        /// <returns></returns>
         private bool CheckForImageLink(string line, AcePosition pos)
         {
             // Check for images ![](imageUrl)
@@ -484,37 +491,37 @@ namespace MarkdownMonster.Controls.ContextMenus
                                          !doc.Filename.Equals("untitled", StringComparison.OrdinalIgnoreCase))
                                     sd.InitialDirectory = Path.GetDirectoryName(doc.Filename);
                                 else
-                                    sd.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyPictures);
+                                    sd.InitialDirectory =
+                                        Environment.GetFolderPath(Environment.SpecialFolder.MyPictures);
 
                                 sd.ShowDialog();
-
 
                                 if (string.IsNullOrEmpty(sd.FileName))
                                     return;
 
-                                
-                                    try
-                                    {
-                                        var wc = new WebClient();
-                                        await wc.DownloadFileTaskAsync(new Uri(imageLink), sd.FileName);
+                                try
+                                {
+                                    var wc = new WebClient();
+                                    await wc.DownloadFileTaskAsync(new Uri(imageLink), sd.FileName);
 
-                                        string filename;
-                                        if (doc.Filename.Equals("untitled", StringComparison.OrdinalIgnoreCase))
-                                            filename = doc.LastImageFolder;  // let doc figure out the path
-                                        else
-                                            filename = FileUtils.GetRelativePath(sd.FileName, Path.GetDirectoryName(doc.Filename));
+                                    string filename;
+                                    if (doc.Filename.Equals("untitled", StringComparison.OrdinalIgnoreCase))
+                                        filename = doc.LastImageFolder; // let doc figure out the path
+                                    else
+                                        filename = FileUtils.GetRelativePath(sd.FileName,
+                                            Path.GetDirectoryName(doc.Filename));
 
-                                        // group hold just the filename
-                                        var group = match.Groups[1];
-                                        editor.SetSelectionRange(pos.row, group.Index, pos.row,
-                                            group.Index +group.Value.Length);
-                                        editor.SetSelection(WebUtility.UrlEncode(filename));
-                                    }
-                                    catch(Exception ex)
-                                    {
-                                        Model.Window.ShowStatusError($"Image failed to download: {ex.Message}");
-                                    }
-                                
+                                    // group hold just the filename
+                                    var group = match.Groups[1];
+                                    editor.SetSelectionRange(pos.row, group.Index, pos.row,
+                                        group.Index + group.Value.Length);
+                                    editor.SetSelection(WebUtility.UrlEncode(filename));
+                                }
+                                catch (Exception ex)
+                                {
+                                    Model.Window.ShowStatusError($"Image failed to download: {ex.Message}");
+                                }
+
 
                             };
                             ContextMenu.Items.Add(mi);

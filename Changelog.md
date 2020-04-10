@@ -6,7 +6,7 @@
 
 
 
-### 1.21.11
+### 1.21.12<b><i></i></b>
 *<small>not released yet</small>* 
 
 * **Remember PDF Export Settings**  
@@ -15,6 +15,14 @@ The PDF export window now remembers its settings so the next time the window is 
 * **Don't allow usage of non-fixed Width Fonts**  
 Changed behavior of Editor Font assignment so that only fixed-width fonts are allowed. The editor used in MM doesn't support propportional fonts, so a fixed-width font has to be used in order for the editor to track correctly. Also updated the description for the Options setting window.
 
+* **Download and Embed Web Image Link as Local File**  
+New context menu option for image links in the editor allows to convert a Web image URL into a local image by downloading and saving the file to the local disk and re-linking the new relative (if possible) path.
+
+* **Show Linefeed Mode in Statusbar**  
+The statusbar now shows the active Linefeed mode. You can click on the mode and jump to setting the global setting to edit in the visual Settings Editor.
+
+* **Statusbar re-arrangements**  
+Move around some of the toolbar status items by grouping like items together and making common things a little more visible.
 
 
 ### 1.21.10

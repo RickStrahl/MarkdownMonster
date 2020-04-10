@@ -6,9 +6,9 @@
 * [ ] Addin Enabled/Disabled
 * [ ] Large, Large Document Performance  
 * [x] ~~Add ability to have a 'Navigation Only' refresh (no refresh, but navigation works so doc doesn't have to reload)~~
-* [ ] Menu option/hotkey to manually do a 'Preview Refresh' 
-* [ ] Command Line to create HTML and PDF from Markdown Files
-* [ ] Add a CLI?
+* [x] Menu option/hotkey to manually do a 'Preview Refresh' 
+* [x] ~~Command Line to create HTML and PDF from Markdown Files~~
+* [x] ~~Add a CLI?~~
 
 ### Mid Term
 * [ ] Search for Blog Posts in Weblog Posts folder (walk tree and show titles)
@@ -25,7 +25,7 @@
 * [ ] Switch to using CEFSharp (Chromium) instead of IE WebBrowser Control 
     * Turns out this is too slow for the editor at least
     * Lots of overhead even with optimizations enabled (noticable typing lag)
-    * Reexamime - CefSharp is supposedly working on perf improvements
+    * Re-examime - CefSharp is supposedly working on perf improvements
     * Perhaps look into using the WindowsFormsHost to use the WinForms version
       which doesn't use bitmap proxy rendering.
     * Very different and more limited Interop between WPF and Javascript
@@ -34,14 +34,10 @@
 ### Markus's List of issues
 
 #### Enhancements
-    
-
 * [ ] Commit/push all changes in the folder to Git
 * [ ] Undocking tabs? :smiley:
 
 #### Bugs 
-* [ ] It's not particularly happy on very large topics (such as the "Understanding Layout" one I have)
-* [x] Creating new files with ctrl-N is still kind of a pain and the behavior is quite unpredictable
 
 ### Table Editor
 * [ ] Alignment in tables would be nice

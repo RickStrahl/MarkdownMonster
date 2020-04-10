@@ -1,4 +1,4 @@
-<!-- Start Document Outline -->
+﻿<!-- Start Document Outline -->
 
 * [Markdown Monster Tip of the Day](#markdown-monster-tip-of-the-day)
 	* [Markdown Monster Shortcut Keys](#markdown-monster-shortcut-keys)
@@ -56,6 +56,9 @@ Use the *File -> Open -> Open from Url*.
 MM understands and fixes up common Urls from Github, BitBucket, Gists, Microsoft Docs and a few other places.
 
 https://markdownmonster.west-wind.com #markdown
+  
+## Drag Tabs into other Editors?
+Did you know that you can grab a Markdown Monster Tab and drag into another application that accepts files? You can drag your document into VS Code or Visual Studio for example and open it there.
 
 ## Favorites Tab Dragging
 Did you know that in Markdown Monster you can drag a tab into the Favorites sidebar? Favorites let you bookmark and organize common files and folders in a convenient list, and now you can more easily add Favorites by simply dragging an open tab into the Favorites sidebar. 
