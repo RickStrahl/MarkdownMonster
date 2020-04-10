@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Net;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Web;
@@ -11,6 +12,7 @@ using System.Windows.Threading;
 using Markdig.Parsers;
 using MarkdownMonster.Windows;
 using MarkdownMonster.Windows.DocumentOutlineSidebar;
+using Microsoft.Win32;
 using Westwind.Utilities;
 
 namespace MarkdownMonster.Controls.ContextMenus
@@ -413,7 +415,7 @@ namespace MarkdownMonster.Controls.ContextMenus
             return false;
         }
 
-        static readonly Regex ImageRegex = new Regex(@"!\[.*?\]\(.*?\)", RegexOptions.IgnoreCase);
+        static readonly Regex ImageRegex = new Regex(@"!\[.*?\]\((.*?)\)", RegexOptions.IgnoreCase);
 
         private bool CheckForImageLink(string line, AcePosition pos)
         {
@@ -424,20 +426,24 @@ namespace MarkdownMonster.Controls.ContextMenus
                 foreach (Match match in matches)
                 {
                     string val = match.Value;
+                    var imageLink = HttpUtility.UrlDecode(match.Groups[1].Value);
+                    
+                    
                     if (match.Index <= pos.column && match.Index + val.Length > pos.column)
                     {
-                        var mi = new MenuItem
+                        bool isWebLink = imageLink.StartsWith("http");
+
+                        if (!isWebLink)
                         {
-                            Header = "Edit in Image Editor"
-                        };
-                        mi.Click += (o, args) =>
-                        {
-                            var image = HttpUtility.UrlDecode(StringUtils.ExtractString(val, "(", ")"));
-                            image = mmFileUtils.NormalizeFilenameWithBasePath(image,
-                                Path.GetDirectoryName(Model.ActiveDocument.Filename));
-                            mmFileUtils.OpenImageInImageEditor(image);
-                        };
-                        ContextMenu.Items.Add(mi);
+                            var mi = new MenuItem {Header = "Edit in Image Editor"};
+                            mi.Click += (o, args) =>
+                            {
+                                imageLink = mmFileUtils.NormalizeFilenameWithBasePath(imageLink,
+                                    Path.GetDirectoryName(Model.ActiveDocument.Filename));
+                                mmFileUtils.OpenImageInImageEditor(imageLink);
+                            };
+                            ContextMenu.Items.Add(mi);
+                        }
 
                         var mi2 = new MenuItem
                         {
@@ -450,6 +456,70 @@ namespace MarkdownMonster.Controls.ContextMenus
                             Model.ActiveEditor.EditorSelectionOperation("image", val);
                         };
                         ContextMenu.Items.Add(mi2);
+
+                        if (isWebLink)
+                        {
+                            var mi = new MenuItem {Header = "Download and embed as Local Image"};
+                            mi.Click += async (o, args) =>
+                            {
+                                var sd = new SaveFileDialog
+                                {
+                                    Filter = "Image files (*.png;*.jpg;*.gif;)|*.png;*.jpg;*.jpeg;*.gif|" +
+                                             "All Files (*.*)|*.*",
+                                    FilterIndex = 1,
+                                    Title = "Save Image from URL as",
+                                    CheckFileExists = false,
+                                    OverwritePrompt = true,
+                                    CheckPathExists = true,
+                                    RestoreDirectory = true,
+                                    ValidateNames = true,
+                                    FileName = Path.GetFileName(imageLink)
+                                };
+                                var doc = Model.ActiveDocument;
+                                var editor = Model.ActiveEditor;
+
+                                if (!string.IsNullOrEmpty(doc.LastImageFolder))
+                                    sd.InitialDirectory = doc.LastImageFolder;
+                                else if (!string.IsNullOrEmpty(doc.Filename) &&
+                                         !doc.Filename.Equals("untitled", StringComparison.OrdinalIgnoreCase))
+                                    sd.InitialDirectory = Path.GetDirectoryName(doc.Filename);
+                                else
+                                    sd.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyPictures);
+
+                                sd.ShowDialog();
+
+
+                                if (string.IsNullOrEmpty(sd.FileName))
+                                    return;
+
+                                
+                                    try
+                                    {
+                                        var wc = new WebClient();
+                                        await wc.DownloadFileTaskAsync(new Uri(imageLink), sd.FileName);
+
+                                        string filename;
+                                        if (doc.Filename.Equals("untitled", StringComparison.OrdinalIgnoreCase))
+                                            filename = doc.LastImageFolder;  // let doc figure out the path
+                                        else
+                                            filename = FileUtils.GetRelativePath(sd.FileName, Path.GetDirectoryName(doc.Filename));
+
+                                        // group hold just the filename
+                                        var group = match.Groups[1];
+                                        editor.SetSelectionRange(pos.row, group.Index, pos.row,
+                                            group.Index +group.Value.Length);
+                                        editor.SetSelection(WebUtility.UrlEncode(filename));
+                                    }
+                                    catch(Exception ex)
+                                    {
+                                        Model.Window.ShowStatusError($"Image failed to download: {ex.Message}");
+                                    }
+                                
+
+                            };
+                            ContextMenu.Items.Add(mi);
+                        }
+
 
                         return true;
                     }
