@@ -6,8 +6,8 @@
 
 
 
-### 1.21.12<b><i></i></b>
-*<small>not released yet</small>* 
+### 1.21.12
+*<small>April 10th, 2020</small>* 
 
 * **Remember PDF Export Settings**  
 The PDF export window now remembers its settings so the next time the window is opened the existing settings are preserved.
