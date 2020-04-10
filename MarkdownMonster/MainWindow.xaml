@@ -1100,7 +1100,7 @@
 
             <StatusBarItem Grid.Column="5">
                 <ComboBox  Name="StatusEncoding" x:FieldModifier="public"
-                           HorizontalAlignment="Right"  Width="130" ToolTip="Document Encoding"  
+                           HorizontalAlignment="Right"  Width="Auto" ToolTip="Document Encoding"  
                            FontSize="13" Padding="2,1"
                            IsSynchronizedWithCurrentItem="True" Margin="0,0,3,0"    
                            ItemsSource="{Binding EncodingTypes}"
@@ -1112,9 +1112,9 @@
 
             
          
-            <StatusBarItem Grid.Column="6" Margin="6,0,0,0">
+            <StatusBarItem Grid.Column="6" Margin="0,0,0,0">
                 <ComboBox   Name="DocumentType" x:FieldModifier="public" HorizontalAlignment="Left"
-                            Width="100"  FontSize="13"  Padding="3,1"
+                            Width="Auto"  FontSize="13"  Padding="3,0"
                             ItemsSource="{Binding DocumentTypes}"
                             SelectedItem="{Binding ActiveEditor.EditorSyntax, Mode=TwoWay}"                             
                             ToolTip="Editor Code Syntax" 
@@ -1128,7 +1128,7 @@
                 <ComboBox  HorizontalAlignment="Right"  
                            ToolTip="Registered Markdown Parsers" Width="{Binding MarkdownParserColumnWidth}"
                            SelectedItem="{Binding Configuration.MarkdownOptions.MarkdownParserName}" 
-                           IsSynchronizedWithCurrentItem="True"   FontSize="13"  Padding="3,1"
+                           IsSynchronizedWithCurrentItem="True"   FontSize="13"  Padding="3,0"
                            ItemsSource="{Binding MarkdownParserNames}"
                            Background="Transparent" BorderBrush="Transparent" BorderThickness="0"
                            SelectionChanged="MarkdownParserName_SelectionChanged" />
@@ -1138,14 +1138,14 @@
             <StatusBarItem Grid.Column="8">
 
                 <ComboBox  HorizontalAlignment="Right"  ToolTip="Editor Themes"
-                           SelectedItem="{Binding Configuration.EditorTheme}"  FontSize="13" Padding="3,1"
+                           SelectedItem="{Binding Configuration.EditorTheme}"  FontSize="13" Padding="3,0"
                            IsSynchronizedWithCurrentItem="True"                            
                            ItemsSource="{Binding EditorThemeNames}"
                            Background="Transparent" BorderBrush="Transparent" BorderThickness="0"
                            SelectionChanged="EditorTheme_SelectionChanged" />
             </StatusBarItem>
             <StatusBarItem Grid.Column="9">
-                <ComboBox  HorizontalAlignment="Right" Padding="3,1"
+                <ComboBox  HorizontalAlignment="Right" Padding="3,0"
                            ToolTip="Preview rendering Themes"  FontSize="13"
                            SelectedItem="{Binding Configuration.PreviewTheme}" 
                            IsSynchronizedWithCurrentItem="True" 
