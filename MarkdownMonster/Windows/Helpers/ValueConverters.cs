@@ -170,6 +170,26 @@ namespace MarkdownMonster.Windows
         }
     }
 
+    
+    public class ToUpperCaseConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            string str;
+            if (value is string)
+                str = value as string;
+            else
+                str = value?.ToString();
+            
+            return string.IsNullOrEmpty(str) ? string.Empty : str.ToUpper();
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            return null;
+        }
+    }
+
     public class FileNameFromPathConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)

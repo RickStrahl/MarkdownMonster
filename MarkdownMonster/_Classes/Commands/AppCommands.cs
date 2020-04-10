@@ -2168,7 +2168,14 @@ namespace MarkdownMonster
             SettingsVisualCommand = new CommandBase((parameter, command) =>
             {
                 if (mmApp.OpenWindows.ConfigurationEditor == null || !mmApp.OpenWindows.ConfigurationEditor.IsLoaded)
-                    mmApp.OpenWindows.ConfigurationEditor = new ConfigurationEditorWindow() { Owner = Model.Window };
+                    mmApp.OpenWindows.ConfigurationEditor = new ConfigurationEditorWindow() {Owner = Model.Window};
+
+                // optional parameter for text to jump to
+                var searchFor = parameter as string;
+
+                if (!string.IsNullOrEmpty(searchFor))
+                    mmApp.OpenWindows.ConfigurationEditor.Model.SearchText = searchFor;
+
                 mmApp.OpenWindows.ConfigurationEditor.Show();
             }, (p, c) => true);
         }

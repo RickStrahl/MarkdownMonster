@@ -26,6 +26,7 @@
     <Window.Resources>
         <localwindows:InvertedBooleanConverter x:Key="InvertedBooleanConverter" />
         <localwindows:NotEmptyStringToBooleanConverter x:Key="NotEmptyStringToBooleanConverter" />
+        <localwindows:ToUpperCaseConverter x:Key="ToUpperCaseConverter" />
 
         <ObjectDataProvider x:Key="ApplicationThemeEnums" 
                             MethodName="GetValues" ObjectType="{x:Type System:Enum}">
@@ -1029,15 +1030,14 @@
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="Auto" />
                             <ColumnDefinition Width="*" MinWidth="100" />
-                            <ColumnDefinition Width="4"  />
+                            <ColumnDefinition Width="Auto"  />
                             <ColumnDefinition Width="Auto"  />
                             <ColumnDefinition Width="Auto"/>
                             <ColumnDefinition Width="Auto"/>
                             <ColumnDefinition Width="Auto"/>
-                            <!-- Markdown Parser column, width = 150 -->
+                            <ColumnDefinition Width="Auto" />
+                            <!-- Markdown Parser column, width = 150  Column 8-->
                             <ColumnDefinition Width="{Binding MarkdownParserColumnWidth}"/>
-                            <ColumnDefinition Width="Auto" />
-                            <ColumnDefinition Width="Auto" />
                             <ColumnDefinition Width="Auto" />
                             <ColumnDefinition Width="Auto" />
                             <ColumnDefinition Width="Auto" />
@@ -1045,27 +1045,24 @@
                     </Grid>
                 </ItemsPanelTemplate>
             </StatusBar.ItemsPanel>
+
+
             <StatusBarItem Grid.Column="0" Margin="2,1,0,0">
                 <fa:FontAwesome Name="StatusIcon" Icon="Circle" Foreground="Green"/>
             </StatusBarItem>
+            
             <StatusBarItem Grid.Column="1">
                 <StackPanel Orientation="Horizontal">
                     <TextBlock Name="StatusText" x:FieldModifier="public" HorizontalAlignment="Left">Ready</TextBlock>
                 </StackPanel>
             </StatusBarItem>
-            <Separator Grid.Column="2" />
 
-
-            <StatusBarItem Grid.Column="3">
-                <TextBlock  Name="StatusStats" x:FieldModifier="public" Margin="0,2,0,0"
-                            HorizontalAlignment="Left"></TextBlock>
-            </StatusBarItem>
-
-            <StatusBarItem  Grid.Column="4" >
+            <StatusBarItem  Grid.Column="2" >
                 <ComboBox Name="StatusZoomLevel"
                           Background="Transparent" BorderBrush="Transparent" BorderThickness="0"
                           IsEditable="True" FontSize="13"  Padding="1" 
                           IsSynchronizedWithCurrentItem="True"
+
                           MouseDoubleClick="StatusZoomLevel_MouseDoubleClick"  
                           SelectionChanged="StatusZoomLevel_SelectionChanged"
                           PreviewTextInput="StatusZoomLevel_PreviewTextInput"  
@@ -1073,7 +1070,7 @@
                           Text="{Binding Configuration.Editor.ZoomLevel,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged,StringFormat='0\\%'}">
                     <ComboBox.ToolTip>
                         <TextBlock>
-                            Editor font size zoom level.
+                            Editor Font Size Zoom Level.
                             <LineBreak /> 
                             Also use the mouse wheel or Ctrl++ and Ctrl+- to zoom.
                             <LineBreak />
@@ -1088,8 +1085,19 @@
                     <ComboBoxItem>200</ComboBoxItem>
                 </ComboBox>
             </StatusBarItem>
-       
-          
+
+            <StatusBarItem Grid.Column="3">
+                <TextBlock  Name="StatusStats" x:FieldModifier="public" Margin="0,2,0,0"
+                            HorizontalAlignment="Left" ToolTip="Document Statistics and Status"></TextBlock>
+            </StatusBarItem>
+
+            <StatusBarItem Grid.Column="4">
+                <TextBlock Name="TextLinefeedMode" Text="{Binding Configuration.Editor.LinefeedMode, Converter={StaticResource ToUpperCaseConverter}}"
+                           Margin="12,0,4,0" 
+                           ToolTip="Linefeed Mode. Click to change global setting" 
+                           MouseUp="TextLinefeedMode_MouseUp"></TextBlock>
+            </StatusBarItem>
+
             <StatusBarItem Grid.Column="5">
                 <ComboBox  Name="StatusEncoding" x:FieldModifier="public"
                            HorizontalAlignment="Right"  Width="130" ToolTip="Document Encoding"  
@@ -1100,10 +1108,10 @@
                            Background="Transparent" BorderBrush="Transparent" BorderThickness="0"                           
                 />
 
-                <!--<TextBlock  Name="StatusEncoding" x:FieldModifier="public" HorizontalAlignment="Left"
-                            ToolTip="Document Encoding"></TextBlock>-->
             </StatusBarItem>
 
+            
+         
             <StatusBarItem Grid.Column="6" Margin="6,0,0,0">
                 <ComboBox   Name="DocumentType" x:FieldModifier="public" HorizontalAlignment="Left"
                             Width="100"  FontSize="13"  Padding="3,1"
@@ -1112,7 +1120,7 @@
                             ToolTip="Editor Code Syntax" 
                             Background="Transparent" BorderBrush="Transparent" BorderThickness="0"
                             SelectionChanged="DocumentType_SelectionChanged"
-                            />
+                />
             </StatusBarItem>
 
 
@@ -1127,7 +1135,7 @@
 
             </StatusBarItem>
             
-            <StatusBarItem Grid.Column="9">
+            <StatusBarItem Grid.Column="8">
 
                 <ComboBox  HorizontalAlignment="Right"  ToolTip="Editor Themes"
                            SelectedItem="{Binding Configuration.EditorTheme}"  FontSize="13" Padding="3,1"
@@ -1136,7 +1144,7 @@
                            Background="Transparent" BorderBrush="Transparent" BorderThickness="0"
                            SelectionChanged="EditorTheme_SelectionChanged" />
             </StatusBarItem>
-            <StatusBarItem Grid.Column="10">
+            <StatusBarItem Grid.Column="9">
                 <ComboBox  HorizontalAlignment="Right" Padding="3,1"
                            ToolTip="Preview rendering Themes"  FontSize="13"
                            SelectedItem="{Binding Configuration.PreviewTheme}" 
@@ -1146,7 +1154,7 @@
                            SelectionChanged="PreviewTheme_SelectionChanged" />
 
             </StatusBarItem>
-            <StatusBarItem Grid.Column="11">
+            <StatusBarItem Grid.Column="10">
                 <ComboBox  HorizontalAlignment="Right"   Width="18" ToolTip="Preview sync mode"  
                            Name="ComboBoxPreviewSyncModes"  FontSize="13" Padding="0,1"
                            IsSynchronizedWithCurrentItem="True" Margin="0,0,3,0"    
@@ -1160,7 +1168,7 @@
                 </ComboBox>
             </StatusBarItem>
 
-            <StatusBarItem Grid.Column="12">
+            <StatusBarItem Grid.Column="11">
                 <Button Name="ButtonStatusEncrypted" Margin="0,0,15,0" Click="Button_Handler" 
                     ToolTip="Encrypted"
                     fa:Awesome.Content="Lock" 

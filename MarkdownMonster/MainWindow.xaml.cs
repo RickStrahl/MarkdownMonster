@@ -3031,6 +3031,11 @@ Do you want to continue anyway?", "Disable Markdown Script Rendering",
         }
 
         #endregion
+
+        private void TextLinefeedMode_MouseUp(object sender, MouseButtonEventArgs e)
+        {
+            Model.Commands.SettingsVisualCommand?.Execute("Linefeed");
+        }
     }
 
     public class RecentDocumentListItem
