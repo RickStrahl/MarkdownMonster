@@ -105,6 +105,18 @@ namespace MarkdownMonster
             Invoke("setselpositionfrommouse", false);
         }
 
+        
+        /// <summary>
+        /// Selects the entire line specified by the line number
+        /// if line is smaller than 0 the current line is selected
+        /// </summary>
+        /// <param name="row">The row to select by number. If not passed (or negative) current line is selected</param>
+        /// <returns>The new line selection text</returns>
+        public void SelectLine(int row = -1)
+        {
+            Invoke("selectLine", row);
+        }
+        
         #endregion
 
         #region Navigation
@@ -254,6 +266,10 @@ namespace MarkdownMonster
 
         #endregion
 
+        
+
+
+        
         #region Document State
 
         /// <summary>

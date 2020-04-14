@@ -502,7 +502,7 @@ namespace MarkdownMonster
         /// <param name="delim2"></param>
         /// <param name="stripSpaces"></param>
         /// <returns></returns>
-        public string wrapValue(string input, string delim1, string delim2, bool stripSpaces = true)
+        public string WrapValue(string input, string delim1, string delim2, bool stripSpaces = true)
         {
             if (!stripSpaces)
                 return delim1 + input + delim2;
@@ -519,6 +519,25 @@ namespace MarkdownMonster
 
             return input;
         }
+
+        
+        /// <summary>
+        /// Prefixes the currently selected line with characters specified.
+        /// </summary>
+        /// <param name="prefix">Characters to prefix.</param>
+        /// <param name="trimStartCharacters">Optional - characters to trim from the beginning</param>
+        /// <returns></returns>
+        public string PrefixSelectedLine(string prefix, params char[] trimStartCharacters)
+        {
+            // create a new selection for the current line
+            AceEditor.SelectLine();
+            var input = GetSelection();
+            if (trimStartCharacters != null && trimStartCharacters.Length > 0)
+                input = prefix +  input.TrimStart(trimStartCharacters);
+
+            return input;
+        }
+
 
         #endregion
 
@@ -565,56 +584,56 @@ namespace MarkdownMonster
             }
             if (action == "bold")
             {
-                html = wrapValue(input, "**", "**", stripSpaces: true);
+                html = WrapValue(input, "**", "**", stripSpaces: true);
                 cursorMovement = -2;
             }
             else if (action == "italic")
             {
                 var italic = mmApp.Configuration.MarkdownOptions.MarkdownSymbolsConfiguration.Italic;
-                html = wrapValue(input, italic, italic, stripSpaces: true);
+                html = WrapValue(input, italic, italic, stripSpaces: true);
                 cursorMovement = -1;
             }
             else if (action == "small")
             {
                 // :-( no markdown spec for this - use HTML
-                html = wrapValue(input, "<small>", "</small>", stripSpaces: true);
+                html = WrapValue(input, "<small>", "</small>", stripSpaces: true);
                 cursorMovement = -8;
             }
             else if (action == "underline")
             {
                 // :-( no markdown spec for this - use HTML
-                html = wrapValue(input, "<u>", "</u>", stripSpaces: true);
+                html = WrapValue(input, "<u>", "</u>", stripSpaces: true);
                 cursorMovement = -4;
             }
             else if (action == "strikethrough")
             {
-                html = wrapValue(input, "~~", "~~", stripSpaces: true);
+                html = WrapValue(input, "~~", "~~", stripSpaces: true);
                 cursorMovement = -2;
             }
             else if (action == "mark")
             {
-                html = wrapValue(input, "<mark>", "</mark>", stripSpaces: true);
+                html = WrapValue(input, "<mark>", "</mark>", stripSpaces: true);
                 cursorMovement = -7;
             }
             else if (action == "pagebreak")
                 html = "\n<div style='page-break-after: always'></div>\n";
             else if (action == "inlinecode")
             {
-                html = wrapValue(input, "`", "`", stripSpaces: true);
+                html = WrapValue(input, "`", "`", stripSpaces: true);
                 cursorMovement = -1;
             }
             else if (action == "h1")
-                html = "# " + input;
+                html = PrefixSelectedLine("# ", ' ', '#', '\t');
             else if (action == "h2")
-                html = "## " + input;
+                html = PrefixSelectedLine("## ", ' ', '#', '\t');
             else if (action == "h3")
-                html = "### " + input;
+                html = PrefixSelectedLine("### ", ' ', '#', '\t');
             else if (action == "h4")
-                html = "#### " + input;
+                html = PrefixSelectedLine("#### ", ' ', '#', '\t');
             else if (action == "h5")
-                html = "##### " + input;
+                html = PrefixSelectedLine("##### ", ' ', '#', '\t');
             else if (action == "h6")
-                html = "###### " + input;
+                html = PrefixSelectedLine("###### ", ' ', '#', '\t');
 
             else if (action == "quote")
             {
@@ -819,7 +838,7 @@ namespace MarkdownMonster
                     html = action.Replace("{0}", input);
                 else
                     // html|cite  (html keyword)
-                    html = wrapValue(input, $"<{action}>", $"</{action}>", stripSpaces: true);
+                    html = WrapValue(input, $"<{action}>", $"</{action}>", stripSpaces: true);
 
                 cursorMovement = (action.Length + 3) * -1;
             }

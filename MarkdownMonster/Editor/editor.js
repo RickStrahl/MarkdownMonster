@@ -508,6 +508,12 @@
             range.setEnd({ row: endRow, column: endColumn });
             sel.setSelectionRange(range);
         },
+        // line < 0 means use current line
+        selectLine: function(lineNo) {
+          if (lineNo > -1)
+            te.gotoLine(lineNo, true, false);
+          te.editor.selection.selectLine();
+        },
         deleteCurrentLine: function () {
             var sel = te.getselection();
             if (sel) {

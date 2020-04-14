@@ -4,7 +4,11 @@
 [![Chocolatey](https://img.shields.io/chocolatey/dt/markdownmonster.svg)](https://chocolatey.org/packages/MarkdownMonster)
 [![Web Site](https://img.shields.io/badge/Markdown_Monster-WebSite-blue.svg)](https://markdownmonster.west-wind.com)
 
+### 1.21.14
+*<small>not released yet</small>* 
 
+* **Change h1..h6 Header Insertion Behvior**  
+Header insertions for `h1`..`h6` now prefix the current string with the header prefix instead of just prefixing the current selection. It also strips off existing headers so you can change a header value to a new header type.
 
 ### 1.21.12
 *<small>April 10th, 2020</small>* 
