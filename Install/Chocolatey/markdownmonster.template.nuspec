@@ -14,15 +14,15 @@
     
 But above all the editor's goal is to get out of your way and let you focus on your content creation, and to provide you with the right tools to get your job done efficiently.
     
-Documents can be saved to HTML or PDF, you can generate HTML from partial selections and you can even convert some HTML to Markdown. Markdown Monster can also publish your Markdown directly to your Weblog that supports WordPress, MetaWebLog or Medium APIs. You can manage multiple blogs and even download existing HTML posts as Markdown.
+Documents can be saved to HTML or PDF, you can generate HTML from partial selections and you can even convert exsternal HTML to Markdown. Markdown Monster can also publish your Markdown directly to your Weblog that supports WordPress, MetaWebLog or Medium APIs. You can manage multiple blogs and even download existing HTML posts as Markdown.
 
-Markdown Monster can be extended using a .NET based add-in model and a few useful addins are available to provide features like storing images in Azure Blobs, Gist integration, a reusable Snippets manager, and more. You can also swap Markdown Parsers between Markdig and Pandoc and use another custom Markdown parser via addin integration.
+Markdown Monster can be extended using a .NET based add-in model and a few useful addins are available to provide features like storing images in Azure Blobs, Gist integration, a reusable Snippets manager, and more. You can also swap Markdown Parsers between Markdig and Pandoc and use another custom Markdown parser via addin integration. A command line interface lets you easily launch Markdown Monster with multiple files, or with a folder selected, and the included CLI can automate several Markdown conversions.
 
 Markdown Monster can be evaluated for free. This package is **unlimited and fully functional**, but a [license](http://markdownmonster.west-wind.com/purchase.aspx) is required for continued use. Although Markdown Monster is licensed software, the source code is available in the open on GitHub. Requires **.NET 4.7.2 or later**.
 
 A portable, non-admin Chocolatey install is also available in [MarkdownMonster.Portable](https://chocolatey.org/packages/MarkdownMonster.Portable). 
 
-![Markdown Monster](http://markdownmonster.west-wind.com/Images/MarkdownMonsterLogo.jpg)
+![Markdown Monster](https://markdownmonster.west-wind.com/Images/screenshot.png)
     </description>
     <summary>Markdown Monster is an easy to use and extensible Markdown Editor and Viewer and Weblog Publisher</summary>
     <releaseNotes>https://github.com/RickStrahl/MarkdownMonster/blob/master/Changelog.md</releaseNotes>

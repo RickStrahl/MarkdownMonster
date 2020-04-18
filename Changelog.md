@@ -8,7 +8,7 @@
 *<small>not released yet</small>* 
 
 * **Text only Link and Image Embedding**  
-Added additional hotkeys to add links (ctrl-shift-k) and images (alt-shift-i) using text only insertion. Select text and the link/image is wrapped around the text with the cursor inside of the link brackets.
+Added additional hotkeys to add links (`ctrl-shift-k`) and images (`alt-shift-i`) using text only insertion. Select text and the link/image is wrapped around the text with the cursor inside of the link brackets (similar to the way Github does this).
 
 * **Change h1..h6 Header Insertion Behavior**  
 Header insertions for `h1`..`h6` now prefix the current string with the header prefix instead of just prefixing the current selection. It also strips off existing headers so you can change a header value to a new header type.
@@ -30,7 +30,6 @@ The statusbar now shows the active Linefeed mode. You can click on the mode and 
 
 * **Statusbar re-arrangements**  
 Move around some of the toolbar status items by grouping like items together and making common things a little more visible.
-
 
 ### 1.21.10
 *<small>March 24th, 2020</small>* 

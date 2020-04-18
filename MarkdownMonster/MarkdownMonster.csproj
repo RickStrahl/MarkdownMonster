@@ -7,7 +7,7 @@
     <UseWPF>true</UseWPF>
     <TargetFramework>net472</TargetFramework>
 
-    <Version>1.21.12</Version>
+    <Version>1.21.12.6</Version>
     <AssemblyName>MarkdownMonster</AssemblyName>
     
     <Authors>Rick Strahl, West Wind Technologies</Authors>
@@ -55,11 +55,11 @@
     <PackageReference Include="LibGit2Sharp" Version="0.26.2" />
     <PackageReference Include="LumenWorksCsvReader" Version="4.0.0" />
     <PackageReference Include="MahApps.Metro" Version="1.6.5" />
-    <PackageReference Include="Markdig" Version="0.18.3" />
+    <PackageReference Include="Markdig" Version="0.20.0" />
     <PackageReference Include="Microsoft.ApplicationInsights" Version="2.13.1" />
     <PackageReference Include="Microsoft.DocAsCode.MarkdigEngine.Extensions" Version="2.51.0" />
     <PackageReference Include="NHunspell" Version="1.2.5554.16953" />
-    <PackageReference Include="Westwind.Utilities" Version="3.0.36" />
+    <PackageReference Include="Westwind.Utilities" Version="3.0.37" />
     <PackageReference Include="ReverseMarkdown" Version="3.11.0" />
     <PackageReference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform" Version="2.0.1" />
     <PackageReference Include="Mono.Cecil" Version="0.11.2" />
