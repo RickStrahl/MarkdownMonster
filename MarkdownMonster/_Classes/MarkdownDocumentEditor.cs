@@ -487,64 +487,19 @@ namespace MarkdownMonster
             return true;
         }
 
-        public struct MarkupMarkdownResult
-        {
-            public string Html;
-            public int CursorMovement;
-        }
-
-        /// <summary>
-        /// Wraps a string with beginning and ending delimiters.
-        /// Fixes up accidental leading and trailing spaces.
-        /// </summary>
-        /// <param name="input"></param>
-        /// <param name="delim1"></param>
-        /// <param name="delim2"></param>
-        /// <param name="stripSpaces"></param>
-        /// <returns></returns>
-        public string WrapValue(string input, string delim1, string delim2, bool stripSpaces = true)
-        {
-            if (!stripSpaces)
-                return delim1 + input + delim2;
-
-            if (input.StartsWith(" "))
-                input = " " + delim1 + input.TrimStart();
-            else
-                input = delim1 + input;
-
-            if (input.EndsWith(" "))
-                input = input.TrimEnd() + delim2 + " ";
-            else
-                input += delim2;
-
-            return input;
-        }
-
-        
-        /// <summary>
-        /// Prefixes the currently selected line with characters specified.
-        /// </summary>
-        /// <param name="prefix">Characters to prefix.</param>
-        /// <param name="trimStartCharacters">Optional - characters to trim from the beginning</param>
-        /// <returns></returns>
-        public string PrefixSelectedLine(string prefix, params char[] trimStartCharacters)
-        {
-            // create a new selection for the current line
-            AceEditor.SelectLine();
-            var input = GetSelection();
-            if (trimStartCharacters != null && trimStartCharacters.Length > 0)
-                input = prefix +  input.TrimStart(trimStartCharacters);
-
-            return input;
-        }
-
-
+       
         #endregion
 
 
 
 
         #region Editor Selection Replacements and Insertions
+
+        public struct MarkupMarkdownResult
+        {
+            public string Html;
+            public int CursorMovement;
+        }
 
         /// <summary>
         /// Takes action on the selected string in the editor using
@@ -566,15 +521,6 @@ namespace MarkdownMonster
 
             action = action.ToLower();
 
-            // check for insert actions that don't require a pre selection
-            //if (string.IsNullOrEmpty(input) && !StringUtils.Inlist(action,
-            //    new string[] {
-            //        "image", "href", "code", "emoji",
-            //        "h1", "h2", "h3", "h4", "h5",
-
-            //    }))
-            //    return null;
-
             string html = input;
             int cursorMovement = 0;
 
@@ -585,55 +531,65 @@ namespace MarkdownMonster
             if (action == "bold")
             {
                 html = WrapValue(input, "**", "**", stripSpaces: true);
-                cursorMovement = -2;
             }
             else if (action == "italic")
             {
                 var italic = mmApp.Configuration.MarkdownOptions.MarkdownSymbolsConfiguration.Italic;
                 html = WrapValue(input, italic, italic, stripSpaces: true);
-                cursorMovement = -1;
             }
             else if (action == "small")
             {
                 // :-( no markdown spec for this - use HTML
                 html = WrapValue(input, "<small>", "</small>", stripSpaces: true);
-                cursorMovement = -8;
             }
             else if (action == "underline")
             {
                 // :-( no markdown spec for this - use HTML
                 html = WrapValue(input, "<u>", "</u>", stripSpaces: true);
-                cursorMovement = -4;
             }
             else if (action == "strikethrough")
             {
                 html = WrapValue(input, "~~", "~~", stripSpaces: true);
-                cursorMovement = -2;
             }
             else if (action == "mark")
             {
                 html = WrapValue(input, "<mark>", "</mark>", stripSpaces: true);
-                cursorMovement = -7;
             }
             else if (action == "pagebreak")
                 html = "\n<div style='page-break-after: always'></div>\n";
             else if (action == "inlinecode")
             {
                 html = WrapValue(input, "`", "`", stripSpaces: true);
-                cursorMovement = -1;
             }
             else if (action == "h1")
+            {
                 html = PrefixSelectedLine("# ", ' ', '#', '\t');
+            }
             else if (action == "h2")
+            {
                 html = PrefixSelectedLine("## ", ' ', '#', '\t');
+                cursorMovement = -1;
+            }
             else if (action == "h3")
+            {
                 html = PrefixSelectedLine("### ", ' ', '#', '\t');
+                cursorMovement = -1;
+            }
             else if (action == "h4")
+            {
                 html = PrefixSelectedLine("#### ", ' ', '#', '\t');
+                cursorMovement = -1;
+            }
             else if (action == "h5")
+            {
                 html = PrefixSelectedLine("##### ", ' ', '#', '\t');
+                cursorMovement = -1;
+            }
             else if (action == "h6")
+            {
                 html = PrefixSelectedLine("###### ", ' ', '#', '\t');
+                cursorMovement = -1;
+            }
 
             else if (action == "quote")
             {
@@ -729,6 +685,11 @@ namespace MarkdownMonster
                         html = $"[{form.LinkText}]({form.Link})";
                 }
             }
+            else if (action == "href2")
+            {
+                html = "[" + input + "]()";
+                cursorMovement = -1;
+            }
             else if (action == "image")
             {
                 var form = new PasteImageWindow(Window)
@@ -785,6 +746,11 @@ namespace MarkdownMonster
                         html = $"{mmApp.NewLine}![{form.ImageText}][{id}]";
                     }
                 }
+            }
+            else if (action == "image2")
+            {
+                html = "![" + input + "]()";
+                cursorMovement = -1;
             }
             else if (action == "code")
             {
@@ -850,12 +816,57 @@ namespace MarkdownMonster
                     html = addinAction;
             }
 
-            if (string.IsNullOrEmpty(input))
-                result.CursorMovement = cursorMovement;
+            result.CursorMovement = cursorMovement;
             result.Html = html;
 
             return result;
         }
+
+        
+        /// <summary>
+        /// Wraps a string with beginning and ending delimiters.
+        /// Fixes up accidental leading and trailing spaces.
+        /// </summary>
+        /// <param name="input"></param>
+        /// <param name="delim1"></param>
+        /// <param name="delim2"></param>
+        /// <param name="stripSpaces"></param>
+        /// <returns></returns>
+        public string WrapValue(string input, string delim1, string delim2, bool stripSpaces = true)
+        {
+            if (!stripSpaces)
+                return delim1 + input + delim2;
+
+            if (input.StartsWith(" "))
+                input = " " + delim1 + input.TrimStart();
+            else
+                input = delim1 + input;
+
+            if (input.EndsWith(" "))
+                input = input.TrimEnd() + delim2 + " ";
+            else
+                input += delim2;
+
+            return input;
+        }
+
+        /// <summary>
+        /// Prefixes the currently selected line with characters specified.
+        /// </summary>
+        /// <param name="prefix">Characters to prefix.</param>
+        /// <param name="trimStartCharacters">Optional - characters to trim from the beginning</param>
+        /// <returns></returns>
+        public string PrefixSelectedLine(string prefix, params char[] trimStartCharacters)
+        {
+            // create a new selection for the current line
+            AceEditor.SelectLine();
+            var input = GetSelection();
+            if (trimStartCharacters != null && trimStartCharacters.Length > 0)
+                input = prefix +  input.TrimStart(trimStartCharacters);
+
+            return input;
+        }
+
 
         private void AddLinkReference(PasteHref form)
         {

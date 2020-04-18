@@ -708,14 +708,14 @@
                         <Separator />
 
 
-                        <Button Name ="ButtonLink" Margin="7,0" ToolTip="Insert link (Ctrl+K)"
+                        <Button Name ="ButtonLink" Margin="7,0" ToolTip="Insert link (Ctrl+K dialog) or (Ctrl+Shift+K text only)"
                                 Command="{Binding Commands.ToolbarInsertMarkdownCommand }" 
                                 CommandParameter="href" 
                                 fa:Awesome.Content="ExternalLink"
                                  
                                 TextElement.FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" 
                                 />
-                        <Button Name ="ButtonImage" Margin="7,0"                              
+                        <Button Name ="ButtonImage" Margin="7,0" 
                                 Command="{Binding Commands.ToolbarInsertMarkdownCommand }" 
                                 CommandParameter="image"                                
                                 fa:Awesome.Content="Image"
@@ -723,9 +723,9 @@
                                 >
                             <Button.ToolTip>
                                 <ToolTip>
-                                    <TextBlock>Insert an image from disk or the clipboard (Alt+I).
+                                    <TextBlock>Insert an image from disk or the clipboard (Alt+I dialog) or (Alt+Shift+I text only).
                                         <LineBreak/>
-                                        You can also paste images from the clipboard into the document.
+                                        You can also paste images from the clipboard or drag images from Explorer into the document.
                                     </TextBlock>
                                 </ToolTip>
                             </Button.ToolTip>

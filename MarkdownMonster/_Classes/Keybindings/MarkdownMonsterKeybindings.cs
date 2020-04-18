@@ -203,6 +203,15 @@ namespace MarkdownMonster.Utilities
                 },
                 new AppKeyBinding
                 {
+                    Id="EditorCommand_Href2",
+                    Key = "Ctrl+Shift+K",
+                    CommandName = "EditorCommand",
+                    CommandParameter = "href2",
+                    HasJavaScriptHandler= true
+                },
+
+                new AppKeyBinding
+                {
                     Id="EditorCommand_List",
                     Key = "Ctrl+L",
                     CommandName = "EditorCommand",
@@ -223,6 +232,14 @@ namespace MarkdownMonster.Utilities
                     CommandName = "EditorCommand",
                     CommandParameter = "image",
                     Key = "Alt+I",
+                    HasJavaScriptHandler= true
+                },
+                new AppKeyBinding
+                {
+                    Id = "EditorCommand_Image2",
+                    CommandName = "EditorCommand",
+                    CommandParameter = "image2",
+                    Key = "Alt+Shift+I",
                     HasJavaScriptHandler= true
                 },
                 new AppKeyBinding

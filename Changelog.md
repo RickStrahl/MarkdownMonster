@@ -7,7 +7,10 @@
 ### 1.21.14
 *<small>not released yet</small>* 
 
-* **Change h1..h6 Header Insertion Behvior**  
+* **Text only Link and Image Embedding**  
+Added additional hotkeys to add links (ctrl-shift-k) and images (alt-shift-i) using text only insertion. Select text and the link/image is wrapped around the text with the cursor inside of the link brackets.
+
+* **Change h1..h6 Header Insertion Behavior**  
 Header insertions for `h1`..`h6` now prefix the current string with the header prefix instead of just prefixing the current selection. It also strips off existing headers so you can change a header value to a new header type.
 
 ### 1.21.12
