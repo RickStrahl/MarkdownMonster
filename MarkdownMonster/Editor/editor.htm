@@ -59,8 +59,11 @@
 <body>
 <pre lang="markdown" id="Editor">
 </pre>
-<div id="message"
-     style="display: none; position: absolute; right: 0; left: -1px; bottom: 0; padding: 10px; background: black; color: white; z-index:1000; opacity: 0.96;"></div>
+<div id="StatusMessage"
+     style="display: none; position: fixed; right: 0; left: -1px; bottom: 0; padding: 5px; background: black; color: white; z-index: 1000; opacity: 0.85; font-size: 8.75pt;" 
+     ondblclick="this.style.display = 'none'; this.innerText = '';"
+     title="Status Window. Double Click to clear">
+</div>
 
 </body>
 </html>

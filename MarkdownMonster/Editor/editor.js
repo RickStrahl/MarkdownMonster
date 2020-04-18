@@ -1,5 +1,6 @@
 /// <reference path="editorsettings.js"/>
 /// <reference path="editorsettings.js"/>
+/// <reference path="editorsettings.js"/>
 /// <reference path="editorSpellcheck.js"/>
 /// <reference path="editor-helpers.js" />
 /// <reference path="scripts/ace/ace.js" />
@@ -11,23 +12,23 @@
 
     var allowSplitMode = true;
     var te = window.textEditor = {
-      mm: null, // Markdown Monster MarkdownDocumentEditor COM object
+        mm: null, // Markdown Monster MarkdownDocumentEditor COM object
 
-      // Editor and Split instances
-      isEditorSimple: false, // determines if this is a support code editor (Snippets, Code etc.)
-      splitInstance: null,
-      editor: null, // Ace Editor instance - can be a split instance
-      mainEditor: null, // The main editor instance (root instance)
-      editorElement: null, // Ace Editor DOM element bount to
-      updateDocument: null,
-      previewRefreshTimeout: 300,
-      previewRefreshTimeoutSlow: 2200,
-      previewScrollTimeout: 400,
-      settings: editorSettings,
-      lastError: null,
-      dic: null,
-      aff: null,
-      isDirty: false,
+        // Editor and Split instances
+        isEditorSimple: false, // determines if this is a support code editor (Snippets, Code etc.)
+        splitInstance: null,
+        editor: null, // Ace Editor instance - can be a split instance
+        mainEditor: null, // The main editor instance (root instance)
+        editorElement: null, // Ace Editor DOM element bount to
+        updateDocument: null,
+        previewRefreshTimeout: 300,
+        previewRefreshTimeoutSlow: 2000,
+        previewScrollTimeout: 400,
+        settings: editorSettings,
+        lastError: null,
+        dic: null,
+        aff: null,
+        isDirty: false,
 
         mousePos: { column: 0, row: 0 },
         spellcheck: null,
@@ -37,14 +38,14 @@
         },
         // checks if code was recently scrolled and shouldn't be scrolled again (also used for context menu)
         isCodeScrolled: function(timeout) {
-          if (!timeout)
+            if (!timeout)
             timeout = 300;
-          return te.codeScrolled && te.codeScrolled > new Date().getTime() - timeout;
+            return te.codeScrolled && te.codeScrolled > new Date().getTime() - timeout;
         },
         codeScrolled: 0,
         initialize: function (styleSettings) {
             if (!styleSettings)
-                styleSettings = editorSettings;
+            styleSettings = editorSettings;
 
             // attach ace to formatted code controls if they are loaded and visible
             var $el = $("pre[lang]");
@@ -61,8 +62,8 @@
                     te.splitInstance = split;
                     te.editor = split.getEditor(0);
                     te.mainEditor = te.editor; // keep track of the main editor
-                    //te.editor.name = "Editor1";
-
+                    
+                    // switch active document instance when focusing on different split view                
                     split.on("focus",
                         function (editor) {
                             te.editor = editor;
@@ -71,13 +72,16 @@
 
                 te.setlanguage(codeLang);
                 te.configureAceEditor(te.editor, styleSettings);
+                te.configureEvents();
 
             } catch (ex) {
                 if (typeof console !== "undefined")
                     console.log("Failed to bind syntax: " + codeLang + " - " + ex.message);
             }
         },
-        // Call SetStyle
+
+
+        // Initial editor startup configuration
         configureAceEditor: function (editor, editorSettings) {
             if (!editor)
                 editor = te.editor;
@@ -101,6 +105,14 @@
             });
 
             te.setEditorStyle(editorSettings, editor);
+
+            return editor;
+        },
+
+
+        // one time event hook ups
+        configureEvents: function() {
+            var editor = te.editor;
 
             function setUpdateDocument() {
               te.updateDocument = debounce(function(force) {
@@ -155,13 +167,13 @@
                       updateDocumentStats();
                     }
                   } else {
-
                     // key typed into document
                     if (event.keyCode === 13 || event.keyCode === 8 || event.keyCode === 46) {
                       // Line feed, backspace, del should immediately spell check as errors shift
                       if (te.spellcheck) te.spellcheck.spellCheck(true);
                     }
-                    if (te.editor.session.getLength() > 2000 && te.previewRefreshTimeout != te.previewRefreshTimeoutSlow) {
+                    // check number of lines and if over a certain number start refreshing less frequently
+                    if (te.editor.session.getLength() > 1600 && te.previewRefreshTimeout != te.previewRefreshTimeoutSlow) {
                       te.previewRefreshTimeout = te.previewRefreshTimeoutSlow;
                       setUpdateDocument();
                     }
@@ -170,8 +182,6 @@
                   }
                   
                 });
-
-            
 
    
             var changeScrollTop = debounce(function (e) {
@@ -282,15 +292,139 @@
 
                     return false;
                 }
-            };
+            };            
+        },
 
-            return editor;
+
+        lastStyle: null,
+        // This function configures the editor based on JSON or object map with 'editorSettings'
+        // properties that configure the editor.
+        setEditorStyle: function (styleJson, editor) {
+
+            if (!editor)
+                editor = te.editor;
+
+            //setTimeout(function () {
+            var style;
+            if (typeof styleJson === "object")
+                style = styleJson;
+            else
+                style = JSON.parse(styleJson);
+
+            te.lastStyle = style;
+
+            
+            editor.container.style.lineHeight = style.lineHeight;
+
+            var activeTheme = editor.getTheme();
+            var theme = "ace/theme/" + style.theme;
+            if (activeTheme !== theme)
+                editor.setTheme(theme);
+
+            editor.setOptions({
+                fontFamily: style.font,
+                fontSize: style.fontSize
+            });
+            te.setRightToLeft(style.rightToLeft);
+
+            var session = editor.getSession();
+
+            session.setUseWrapMode(style.wrapText);
+            session.setOption("indentedSoftWrap", true);
+
+            session.setOptions({ useSoftTabs: style.useSoftTabs, tabSize: style.tabSize });
+            session.setNewLineMode(style.linefeedMode);
+
+            editor.setHighlightActiveLine(style.highlightActiveLine);
+
+            editor.renderer.setShowGutter(style.showLineNumbers);
+            editor.renderer.setShowInvisibles(style.showInvisibles);
+
+            // these value are used in Resize to keep the editor size
+            // limited to a max-width
+            te.adjustPadding(true);
+
+            if (style.showPrintMargin) {
+                te.editor.setShowPrintMargin(true);
+                te.editor.setPrintMarginColumn(style.printMargin + 1);
+            } else {
+                te.editor.setShowPrintMargin(false);
+                te.editor.setPrintMarginColumn(style.printMargin + 1);
+            }
+
+            if (style.wrapMargin > 0)
+                te.editor.session.setWrapLimitRange(style.wrapMarin, style.wrapMargin);
+            else
+                te.editor.session.setWrapLimitRange(null, null);
+
+            //style.wrapMargin = 50;
+            //if (style.wrapMargin > 0) {
+            //
+            //    te.editor.setShowPrintMargin(true);
+            //    te.editor.setPrintMarginColumn(style.wrapMargin + 1);
+            //} else {
+            //    session.setWrapLimitRange(null, null);
+            //    te.editor.setShowPrintMargin(false);
+            //}
+
+            var keyboardHandler = style.keyboardHandler;
+            if (!keyboardHandler || keyboardHandler == "default" || keyboardHandler == "ace")
+                te.editor.setKeyboardHandler("");
+            else
+                te.editor.setKeyboardHandler("ace/keyboard/" + keyboardHandler);
+
+            if (!style.enableBulletAutoCompletion) {
+                // turn off bullet auto-completion (or any new line auto-completion)
+                editor.getSession().getMode().getNextLineIndent = function (state, line) {
+                    return this.$getIndent(line);
+                };
+
+            }
+            //},1);
+
+
+            setTimeout(te.updateDocumentStats, 30);
         },
-        initializeeditor: function () {
-            te.configureAceEditor(null, null);
+        setShowLineNumbers: function (showLineNumbers) {
+            te.editor.renderer.setShowGutter(showLineNumbers);
         },
-        status: function status(msg) {
-          status(msg);
+        setShowInvisibles: function (showInvisibles) {
+            te.editor.renderer.setShowInvisibles(showInvisibles);
+        },
+        setWordWrap: function (enable) {
+            te.editor.session.setUseWrapMode(enable);
+        },
+        setlanguage: function (lang) {
+
+            if (!lang)
+                lang = "txt";
+            if (lang == "vfp")
+                lang = "foxpro";
+            if (lang == "c#")
+                lang = "csharp";
+            if (lang == "c++" || lang == "cpp")
+                lang = "c_cpp";
+            if (lang == "txt" || lang == "text" || lang == "none" || lang == "plain")
+                lang = "txt";
+
+            te.editor.getSession().setMode("ace/mode/" + lang);
+        },
+        setRightToLeft: function (onOff) {
+          te.editor.setOption("rtlText",onOff);
+          //te.editor.session.$bidiHandler.setRtlDirection(te.editor,onOff);
+        },
+        setfont: function (size, fontFace, weight) {
+          if (size)
+            te.editor.setFontSize(size);
+          if (fontFace)
+            te.editor.setOption("fontFamily", fontFace);
+          if (weight)
+            te.editor.setOption("fontWeight", weight);
+        },
+        getfontsize: function () {
+          var zoom = screen.deviceXDPI / screen.logicalXDPI;
+          var fontsize = te.editor.getFontSize() * zoom;
+          return fontsize;
         },
         getscrolltop: function (ignored) {
             var st = te.editor.getSession().getScrollTop();
@@ -300,6 +434,25 @@
             setTimeout(function () {
                 return te.editor.getSession().setScrollTop(scrollTop);
             },100);
+        },
+        setReadOnly: function (status) {
+          if (te.editor.readOnly == status)
+            return;
+          te.editor.setReadOnly(status);
+          //.readOnly = status;
+          if (status) {
+            te.editor.container.style.opacity = 0.70;
+            $(te.editor.container).on("dblclick", te.readOnlyDoubleClick);
+          } else {
+            $(te.editor.container).off("dblclick", te.readOnlyDoubleClick);
+            te.editor.container.style.opacity = 1; // or use svg filter to make it gray
+          }
+        },
+        readOnlyDoubleClick: function () {
+          if (!te.mm || te.isEditorSimple)
+            return;
+
+          te.mm.textbox.NotifyAddins("ReadOnlyEditorDoubleClick", null);
         },
         getvalue: function (ignored) {
             var text = te.editor.getSession().getValue();
@@ -333,28 +486,10 @@
                     30);
             }
         },
-        setReadOnly: function (status) {
-            if (te.editor.readOnly == status)
-                return;
-            te.editor.setReadOnly(status);
-            //.readOnly = status;
-            if (status) {
-                te.editor.container.style.opacity = 0.70;
-                $(te.editor.container).on("dblclick", te.readOnlyDoubleClick);
-            } else {
-                $(te.editor.container).off("dblclick", te.readOnlyDoubleClick);
-                te.editor.container.style.opacity = 1; // or use svg filter to make it gray
-            }
-        },
-        readOnlyDoubleClick: function () {
-            if (!te.mm || te.isEditorSimple)
-                return;
-
-            te.mm.textbox.NotifyAddins("ReadOnlyEditorDoubleClick", null);
-        },
+     
         // replaces content without completely reloading the document
         // by using clipboard replacement
-        // Leaves scroll position intact
+        // Leaves scroll position and undo buffer intact
         replacecontent: function (text) {
             var sel = te.editor.getSelection();
             sel.selectAll();
@@ -371,19 +506,7 @@
             if (te.mm)
                 te.mm.textbox.EditorSelectionOperation(action, text);
         },
-        setfont: function (size, fontFace, weight) {
-            if (size)
-                te.editor.setFontSize(size);
-            if (fontFace)
-                te.editor.setOption("fontFamily", fontFace);
-            if (weight)
-                te.editor.setOption("fontWeight", weight);
-        },
-        getfontsize: function () {
-            var zoom = screen.deviceXDPI / screen.logicalXDPI;
-            var fontsize = te.editor.getFontSize() * zoom;
-            return fontsize;
-        },
+      
         // noRefresh: Set true to prevent the editor from refreshing the preview
         //            and recursive bouncing in the editor.
         gotoLine: function (line, noRefresh, noSelection) {
@@ -626,123 +749,9 @@
             }, 80);
         },
 
-        setlanguage: function (lang) {
-
-            if (!lang)
-                lang = "txt";
-            if (lang == "vfp")
-                lang = "foxpro";
-            if (lang == "c#")
-                lang = "csharp";
-            if (lang == "c++" || lang == "cpp")
-                lang = "c_cpp";
-            if (lang == "txt" || lang == "text" || lang == "none" || lang == "plain")
-                lang = "txt";
-
-            te.editor.getSession().setMode("ace/mode/" + lang);
-        },
-        setRightToLeft: function (onOff) {
-          te.editor.setOption("rtlText",onOff);
-          //te.editor.session.$bidiHandler.setRtlDirection(te.editor,onOff);
-        },
-        lastStyle: null,
-        setEditorStyle: function (styleJson, editor) {
-
-            if (!editor)
-                editor = te.editor;
-
-            //setTimeout(function () {
-            var style;
-            if (typeof styleJson === "object")
-                style = styleJson;
-            else
-                style = JSON.parse(styleJson);
-
-            te.lastStyle = style;
-
-            
-            editor.container.style.lineHeight = style.lineHeight;
-
-            var activeTheme = editor.getTheme();
-            var theme = "ace/theme/" + style.theme;
-            if (activeTheme !== theme)
-                editor.setTheme(theme);
-
-            editor.setOptions({
-                fontFamily: style.font,
-                fontSize: style.fontSize
-            });
-            te.setRightToLeft(style.rightToLeft);
-
-            var session = editor.getSession();
-
-            session.setUseWrapMode(style.wrapText);
-            session.setOption("indentedSoftWrap", true);
-
-            session.setOptions({ useSoftTabs: style.useSoftTabs, tabSize: style.tabSize });
-            session.setNewLineMode(style.linefeedMode);
-
-            editor.setHighlightActiveLine(style.highlightActiveLine);
-
-            editor.renderer.setShowGutter(style.showLineNumbers);
-            editor.renderer.setShowInvisibles(style.showInvisibles);
-
-            // these value are used in Resize to keep the editor size
-            // limited to a max-width
-            te.adjustPadding(true);
-
-            if (style.showPrintMargin) {
-                te.editor.setShowPrintMargin(true);
-                te.editor.setPrintMarginColumn(style.printMargin + 1);
-            } else {
-                te.editor.setShowPrintMargin(false);
-                te.editor.setPrintMarginColumn(style.printMargin + 1);
-            }
-
-            if (style.wrapMargin > 0)
-                te.editor.session.setWrapLimitRange(style.wrapMarin, style.wrapMargin);
-            else
-                te.editor.session.setWrapLimitRange(null, null);
-
-            //style.wrapMargin = 50;
-            //if (style.wrapMargin > 0) {
-            //
-            //    te.editor.setShowPrintMargin(true);
-            //    te.editor.setPrintMarginColumn(style.wrapMargin + 1);
-            //} else {
-            //    session.setWrapLimitRange(null, null);
-            //    te.editor.setShowPrintMargin(false);
-            //}
-
-            var keyboardHandler = style.keyboardHandler;
-            if (!keyboardHandler || keyboardHandler == "default" || keyboardHandler == "ace")
-                te.editor.setKeyboardHandler("");
-            else
-                te.editor.setKeyboardHandler("ace/keyboard/" + keyboardHandler);
-
-            if (!style.enableBulletAutoCompletion) {
-                // turn off bullet auto-completion (or any new line auto-completion)
-                editor.getSession().getMode().getNextLineIndent = function (state, line) {
-                    return this.$getIndent(line);
-                };
-
-            }
-            //},1);
-
-
-            setTimeout(te.updateDocumentStats, 30);
-        },
-        setShowLineNumbers: function (showLineNumbers) {
-            te.editor.renderer.setShowGutter(showLineNumbers);
-        },
-        setShowInvisibles: function (showInvisibles) {
-            te.editor.renderer.setShowInvisibles(showInvisibles);
-        },
-        setWordWrap: function (enable) {
-            te.editor.session.setUseWrapMode(enable);
-        },
-        execcommand: function (cmd, parm1, parm2) {
-            te.editor.execCommand(cmd);
+        // call through to status display so it can be called from host
+        status: function status(msg) {
+          status(msg);
         },
         curStats: { wordCount: 0, lines: 0, characters: 0 },
         getDocumentStats: function () {
@@ -873,8 +882,6 @@
             te.setfocus();
         },
         setfocus: function (ignored) {
-            //te.editor.resize(true);
-
             setTimeout(function () {
                 te.editor.focus();
                 setTimeout(function () {
@@ -981,7 +988,9 @@
 
             te.splitInstance.resize();
         },
-
+        execcommand: function (cmd, parm1, parm2) {
+          te.editor.execCommand(cmd);
+        },
         // Below or Beside or None
         split: function (value) {
             var split = te.splitInstance;
@@ -1109,29 +1118,61 @@
         return false;
     }
 
+    var statusTimeout = null;
+    var statusDefaultTimeout = 10000;
 
-    function status(msg) {
-        var $el = $("#message");
-        if (!msg)
-            $el.hide();
-        else {
-            var dt = new Date();
-            $el.text(dt.getHours() +
-                ":" +
-                dt.getMinutes() +
-                ":" +
-                dt.getSeconds() +
-                "." +
-                dt.getMilliseconds() +
-                ": " +
-                msg);
-            $el.show();
-            setTimeout(function () { $("#message").fadeOut() }, 7000);
+
+    /*
+     * Generic Status Message for the bottom of the screen. Can be used to render debug output
+     * into the editor. Double click status bar to clear for appended output.
+     * status('Started');
+     * status('updated',true, 5000);
+     */
+    function status(msg, append, timeout) {
+      if (!timeout)
+        timeout = statusDefaultTimeout;
+
+      var el = document.getElementById("StatusMessage");
+      if (!el) {
+        el = document.createElement('div');
+        el.outerHTML = "<div id='StatusMessage' style='display: none; position: fixed; right: 0; left: 0; bottom: 0; padding: 10px; background: black; color: white; z-index: 1000; opacity: 0.90;font-size: 8.75pt;' ondblclick=\"this.style.display = \'none\'; this.innerText = \'\';\"></div>";
+        document.body.append(el);
+      }
+      if (!msg)
+        el.style.display = "none";
+      else {
+        var dt = new Date();
+        msg = dt.getHours() + ":" +
+          dt.getMinutes() + ":" +
+          dt.getSeconds() + "." +
+          Math.floor(dt.getMilliseconds()) + ": " + msg;
+
+        if (!append) {
+          el.innerText = msg;
+        } else {
+          var textEl = document.createElement('div');
+          textEl.innerText = msg;
+          msg = textEl.innerHTML;
+          var old = el.innerHTML;
+          if (old)
+            msg = old + '</br>' + msg;
+          el.innerHTML = msg;
         }
+
+        el.style.display = "block";
+
+        if (statusDefaultTimeout > 0) {
+          if (statusTimeout)
+            window.clearTimeout(statusTimeout);
+          statusTimeout = window.setTimeout(function() {
+              statusTimeout = null;
+              var el = document.getElementById("StatusMessage");
+              el.style.display = "none";
+              el.innerText = '';
+            }, timeout);
+        }
+      }
     }
-
-
-
 
 })();
 

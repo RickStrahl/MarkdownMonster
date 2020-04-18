@@ -20,5 +20,5 @@ var editorSettings = {
   "tabSize": 4,
   "useSoftTabs": true,
   "enableBulletAutoCompletion": false,
-  "isDebug": false,
+  "isDebug": false
 };

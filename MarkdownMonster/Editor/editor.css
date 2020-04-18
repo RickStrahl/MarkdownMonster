@@ -1,3 +1,7 @@
+html, body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-size: 16px;
+}
 /* 
     top level editor configuration
     Ace Editor style overrides
