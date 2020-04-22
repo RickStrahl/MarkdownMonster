@@ -281,19 +281,13 @@
            
 
             <h3 style="clear: both">Better Markdown Editing for Windows</h3>
-            <p>
-                Markdown is everywhere these days and it's used for all sorts
-                of different purposes. Wouldn't it be nice if you had an editor that can keep 
-                up with <strong>all</strong> of those scenarios?
-            </p>
-                
             <p>                    
                 Markdown Monster is a Markdown editor and viewer that lets you edit Markdown with syntax highlighting
-                and fast text entry. A collapsible, synced, live preview lets you see your output as you type.
+                and fast text entry. A collapsible, synced, live preview lets you see your output as you type or scroll.
                 Easily embed images, links, emojis and code using Markdown text or use our gentle UI
                 helpers that simplify many operations with a couple of keystrokes. Paste images from the clipboard
-                or drag and drop from Explorer or our built-in folder browser.
-                Inline spell-checking and word counts keep your content streamlined unobtrusively.
+                or drag and drop from Explorer or our built-in folder browser. Inline spell-checking and word counts 
+                keep your content streamlined unobtrusively.
             </p>
                 
                 
@@ -301,7 +295,7 @@
                 You can export your Markdown to HTML or PDF by saving to disk or by copying Markdown selections as
                 HTML directly to the clipboard. The HTML preview can display syntax colored code snippets 
                 for most common coding languages, and can easily be customized with HTML and CSS template to match 
-                your own sites. You can choose from a light and dark theme, and choose individual editor and  
+                your own sites. You can choose from a light and dark app theme, and choose individual editor and  
                 preview themes that are fully customizable. You can even use Vim or EMacs type conventions. 
                 Other convenience features let you browse for and select files in the built-in folder browser,
                 use the document outline to jump through sections in your Markdown, or shell out to Explorer,

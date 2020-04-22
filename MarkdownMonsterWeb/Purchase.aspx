@@ -116,7 +116,7 @@ Markdown Monster can be [downloaded](download.aspx) and evaluated for free. We a
 provide the [source code](https://github.com/RickStrahl/MarkdownMonster) 
 in the open, but a reasonably priced license must be purchased for continued use. 
     
-We offer individual and organizational licences to purchase, as well as **free** licenses to contributors 
+We offer individual and organizational licenses to purchase, as well as **free** licenses to contributors 
 and certain developer organizations. For more licensing information, please check out 
  [Licensing Information](#License) below.
     
@@ -292,7 +292,7 @@ the Microsoft MVP program also qualify for a free license.
          
 Markdown Monster comes in several license modes: Evaluation, Single User, Multiple User and Site License.
 
-Markdown Monster is **Source Open** with source code available on GitHub, but it is a licensed product that requires a paid-for license for continued use. The software is licensed as © Rick Strahl, West Wind Technologies, 2015-2019. 
+Markdown Monster is **Source Open** with source code available on GitHub, but it is a licensed product that requires a paid-for license for continued use. The software is licensed as © Rick Strahl, West Wind Technologies, 2015-2020. 
 
 A fully functional, free evaluation version is available for evaluation use, but continued use requires purchase of a license. 
 
@@ -308,21 +308,21 @@ You can use the evaluation version with the notices enabled, but if you use Mark
 
 #### Purchased License
 
-For continued or commercial use of Markdown Monster a paid-for license is required. The paid-for license removes the freeware notices.
+For continued use or commercial use of Markdown Monster a paid-for license is required. The paid-for license removes the freeware notices.
 
 Each licensed user must have a separate license, but a single user may use multiple copies of Markdown Monster on multiple machines.
 
-The multi-user licenses work the same as a single user license applied to the number of users specified on the license purchased. An organizational site license is available to allow any number of users running unlimited numbers of Markdown Monster instances within a single organization.
+The multi-user licenses work the same as a single user license applied to the number of users specified on the license purchased. An organizational site license is available to allow any number of users running unlimited numbers of Markdown Monster instances within a single commercial, non-profit or government organization.
 
 Any purchased license is valid for the duration of the major release that it was purchased for (ie. 1.00-1.99) and minor version updates within that major version are always free. Upgrade pricing is available for major version upgrades, usually at half of full price, and it's our policy to allow for free upgrades to the next major version within a year of purchase.
 
 #### Source Code
 
-Markdown Monster is **Source Open** and source code is available on GitHub at https://github.com/RickStrahl/MarkdownMonster, but the licensing outlined above is applies regardless. We allow modification of source code for internal use of Markdown Monster in your organization or for submitting pull requests to the Markdown Monster main repository. Under no circumstances are you allowed to re-package and re-distribute any part of Markdown Monster outside of your organization.
+Markdown Monster is **Source Open** and source code is available on [GitHub](https://github.com/RickStrahl/MarkdownMonster), but the licensing outlined above applies to the source code use as well as the binary distributions. We allow modification of source code for internal use of Markdown Monster in your organization or for submitting pull requests to the Markdown Monster main repository. Under no circumstances are you allowed to re-package and re-distribute any part of Markdown Monster outside of your organization.
 
 #### Help us out - Get a free License
 
-We encourage pull requests for feature suggestions or bug fixes to be submitted back to the Markdown Monster repository. Any contributors that provide meaningful enhancements, help with identifying and or fixing of bugs or by actively promoting Markdown Monster can qualify for a free license (at our discretion). Additionally Microsoft MVPs and Insiders and Microsoft Employees can [apply for a free license](https://markdownmonster.west-wind.com/download.aspx#contribute---get-a-free-license").
+We encourage pull requests for feature suggestions or bug fixes to be submitted back to the Markdown Monster repository. Please check with us first before comitting to providing larger PRs. Any contributors that provide meaningful enhancements, help with identifying and or fixing of bugs or by actively promoting Markdown Monster can qualify for a free license (at our discretion). Additionally Microsoft MVPs and Insiders and Microsoft Employees can [apply for a free license](https://markdownmonster.west-wind.com/download.aspx#contribute---get-a-free-license").
 
 ### Warranty Disclaimer: NO WARRANTY!
 
