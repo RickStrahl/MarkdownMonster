@@ -653,6 +653,8 @@ namespace MarkdownMonster.Windows
                 return headers;
 
             var cols = data[0];
+            if(cols == null || cols.Count < 0)
+                return headers;
 
             for (int i = 0; i < cols.Count; i++)
             {

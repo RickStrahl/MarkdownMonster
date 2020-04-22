@@ -69,11 +69,13 @@ namespace MarkdownMonster
             if (string.IsNullOrEmpty(markdown))
                 return string.Empty;
 
-            var htmlWriter = new StringWriter();
-            var renderer = CreateRenderer(htmlWriter);
-
-            Markdown.Convert(markdown, renderer, Pipeline);
-            var html = htmlWriter.ToString();
+            string html;
+            using (var htmlWriter = new StringWriter())
+            {
+                var renderer = CreateRenderer(htmlWriter);
+                Markdown.Convert(markdown, renderer, Pipeline);
+                html = htmlWriter.ToString();
+            }
 
             html = ParseFontAwesomeIcons(html);
 
