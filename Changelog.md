@@ -4,50 +4,17 @@
 [![Chocolatey](https://img.shields.io/chocolatey/dt/markdownmonster.svg)](https://chocolatey.org/packages/MarkdownMonster)
 [![Web Site](https://img.shields.io/badge/Markdown_Monster-WebSite-blue.svg)](https://markdownmonster.west-wind.com)
 
-### 1.21.14
-*<small>not released yet</small>* 
+### 1.22
+*<small>April 22nd, 2020</small>* 
 
-* **Text only Link and Image Embedding**  
-Added additional hotkeys to add links (`ctrl-shift-k`) and images (`alt-shift-i`) using text only insertion. Select text and the link/image is wrapped around the text with the cursor inside of the link brackets (similar to the way Github does this).
-
-* **Change h1..h6 Header Insertion Behavior**  
-Header insertions for `h1`..`h6` now prefix the current string with the header prefix instead of just prefixing the current selection. It also strips off existing headers so you can change a header value to a new header type.
-
-### 1.21.12
-*<small>April 10th, 2020</small>* 
-
-* **Remember PDF Export Settings**  
-The PDF export window now remembers its settings so the next time the window is opened the existing settings are preserved.
-
-* **Don't allow usage of non-fixed Width Fonts**  
-Changed behavior of Editor Font assignment so that only fixed-width fonts are allowed. The editor used in MM doesn't support propportional fonts, so a fixed-width font has to be used in order for the editor to track correctly. Also updated the description for the Options setting window.
-
-* **Download and Embed Web Image Link as Local File**  
-New context menu option for image links in the editor allows to convert a Web image URL into a local image by downloading and saving the file to the local disk and re-linking the new relative (if possible) path.
-
-* **Show Linefeed Mode in Statusbar**  
-The statusbar now shows the active Linefeed mode. You can click on the mode and jump to setting the global setting to edit in the visual Settings Editor.
-
-* **Statusbar re-arrangements**  
-Move around some of the toolbar status items by grouping like items together and making common things a little more visible.
-
-### 1.21.10
-*<small>March 24th, 2020</small>* 
-
-* **[New Markdown Monster CLI and Refactoring of Command Line Switches](https://markdownmonster.west-wind.com/docs/_5fp0xp68p.htm#cli-commands)**  
-Refactored existing command line options into two categories: Startup switches that affect Markdown Monster UI operation and operational tasks like registering, uninstalling, converting documents that don't use the UI. Added a new `mmcli.exe` that handles command line operations.
+* **[New Markdown Monster CLI](https://markdownmonster.west-wind.com/docs/_5fp0xp68p.htm#cli-commands)**  
+Added new `mmCLI.exe` executable that automates a number of Markdown tasks. You can convert Markdown to HTML in several ways, import HTML into Markdown (with some limitations), convert markdown to PDF as well as perform a number miscellaneous operations. This replaces some of the original Markdown Monster command line switches, but the old executable retains some of the original switches that pertain to administrative tasks like registration, launching etc.
 
 * **[New MarkdownToHtml, MarkdownToPdf and HtmlToMarkdown Command Line Commands](https://markdownmonster.west-wind.com/docs/_5fp0xp68p.htm#cli-commands)**  
-Added additional commands to the command line handler for converting documents between Markdown and HTML and PDF as well as converting documents from HTML to Markdown. Uses `mmcli.exe`.
+As part of the new separated command line tool the command line now supports converting documents between Markdown and HTML and PDF as well as converting documents from HTML to Markdown. Uses `mmcli.exe`.
 
-* **Remember common settings in Link Dialog**  
-The link dialog now remembers the last folder used to select a file, for the 'Open in New Window' and 'Use Link References' and checkboxes. These values are stored in the configuration and saved across shutdowns.
-
-* **Fix up Copy to Clipboard with CR/LF**  
-Fix up Ctrl-C copy behavior for text to force CR/LF to the clipboard  even if the editor is running LF only mode. This fixes issues for editors that don't support LF only and paste single lines of text.
-
-### 1.21.5
-*<small>March 5th, 2019</small>* 
+* **[Additional Site Relative Root Path `/` Overrides](https://markdownmonster.west-wind.com/docs/_5fz0ozkln.htm)**  
+Added additional site overrides for root `/` path resolution in the previewer. The new additions look up the folder hierarchy for a `.markdownmonster`, `_toc.json` or `docfx.json` file, or any `<yourProject>.mdproj` file. These overrides happen after the existing checks for YAML `previewWebRootPath` header, and the `PreviewWebRootPath` in an open project file.
 
 * **Close Tabs To Right**  
 Added option to the Tab Context and Window Menu to close tabs to the right of the currently active tab.
@@ -55,23 +22,44 @@ Added option to the Tab Context and Window Menu to close tabs to the right of th
 * **Folder Browser Drag and Drop Improvements**  
 You can now drag and drop files from the folder browser into external applications using the standard Windows file dragging protocol. You can also drag open document tabs as files into other applications using the same mechanims. Files dragged from the folder browser into the editor surface either open the document, or embed an image as relative links or ask to save for external paths.
 
+* **Remember PDF Export Settings**  
+The PDF export window now remembers its settings so the next time the window is opened the existing settings are preserved.
+
+* **Additional Paper Size Options for PDF Output**  
+Added additional paper sizes for PDF output: Letter, Legal, A4, B3.
+
+* **Remember common settings in Link Dialog**  
+The link dialog now remembers the last folder used to select a file, for the 'Open in New Window' and 'Use Link References' and checkboxes. These values are stored in the configuration and saved across shutdowns.
+
+* **Download and Embed Web Image Link as Local File**  
+New context menu option for image links in the editor allows to convert a Web image URL into a local image by downloading and saving the file to the local disk and re-linking the new relative (if possible) path.
+
+* **Text only Link and Image Embedding**  
+Added additional hotkeys to add links (`ctrl-shift-k`) and images (`alt-shift-i`) using text only insertion. Select text and the link/image is wrapped around the text with the cursor inside of the link brackets (similar to the way Github does this).
+
+* **Change h1..h6 Header Insertion Behavior**  
+Header insertions for `h1`..`h6` now prefix the current string with the header prefix instead of just prefixing the current selection. It also strips off existing headers so you can change a header value to a new header type.
+
+* **Don't allow usage of non-fixed Width Fonts**  
+Changed behavior of Editor Font assignment so that only fixed-width fonts are allowed. The editor used in MM doesn't support propportional fonts, so a fixed-width font has to be used in order for the editor to track correctly. Also updated the description for the Options setting window.
+
+* **Show Linefeed Mode in Statusbar**  
+The statusbar now shows the active Linefeed mode. You can click on the mode and jump to setting the global setting to edit in the visual Settings Editor.
+
+* **Statusbar re-arrangements**  
+Move around some of the toolbar status items by grouping like items together and making common things a more visible. Also added additional tooltips to those items that didn't have them.
+
+* **Fix up Copy to Clipboard with CR/LF**  
+Fix up Ctrl-C copy behavior for text to force CR/LF to the clipboard  even if the editor is running LF only mode. This fixes issues for editors that don't support LF only and paste single lines of text.
+
+* **Color Emoji Fonts in Preview Themes**  
+Added specific emoji fonts for the preview themes so emojis now show in color instead of the default black and white.
+
 * **Initial Support for RTL Text (experimental)**  
 There is initial support for paragraph based RTL editing by setting the **Enable Right To Left** Editor Setting, and using `Alt-Shift-R` and `Alt-Shift-L` to toggle between RTL and LTR modes respectively. This is still rough and under consideration but if you want to play with this please check out [this issue on Github](https://github.com/RickStrahl/MarkdownMonster/issues/646).
 
 * **Update Registration File Storage for better Shared Drive Operation**  
 Modify storage location of `Registered.key` to be stored in the install folder if permissions allow with a backup in the common folder. Install folder storage gives each machine accessing a potentially shared configuration its own machine specific registration file which fixes an issue where shared configurations using DropBox, OneDrive etc. would override the machine specific registration files, resulting in installations as showing not registered.
-
-### 1.21.2
-*<small>February 19th, 2020</small>* 
-
-* **[Additional Site Relative Root Path `/` Overrides](https://markdownmonster.west-wind.com/docs/_5fz0ozkln.htm)**  
-Added additional site overrides for root `/` path resolution in the previewer. The new additions look up the folder hierarchy for a `.markdownmonster`, `_toc.json` or `docfx.json` file, or any `<yourProject>.mdproj` file. These overrides happen after the exisiting checks for YAML `previewWebRootPath` header, and the `PreviewWebRootPath` in an open project file.
-
-* **Color Emoji Fonts in Preview Themes**  
-Added specific emoji fonts for the preview themes so emojis now show in color instead of the default black and white.
-
-* **Additional Paper Size Options for PDF Output**  
-Added additional paper sizes for PDF output: Letter, Legal, A4, B3.
 
 * **[Improved DocFx Handling in Default Markdown Parser](https://markdownmonster.west-wind.com/docs/_5750qtgr2.htm)**  
 Enhanced support for `[!include]` and `[!lang-javascript]` syntax to support the recently added PreviewWebRootPath sniffing, so paths to `/` and `~/` can be resolved. Also improved display of Info/Warning/Note etc.
@@ -87,7 +75,6 @@ MM now will check if MM is rendering off screen when starting up. It's possible 
 
 * **Snippets Addin Window Placement**  
 The Snippets addin now by default remembers its last window position and ensures that - like the main form - it's visible on the desktop. Initial startup will launch centered in the main app window.
-
 
 * **Addins: Support for Colors in the MM Console**  
 The new Markdown Monster Console that was recently added for addin developers, now implements coloring of console output. The parameters were there previously but didn't do anything.
