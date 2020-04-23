@@ -34,7 +34,7 @@ namespace MarkdownMonster
                 if (string.IsNullOrEmpty(text))
                     return;
 
-                text = Markdown.ToPlainText(text);
+                text = ToPlainText(text);
 
                 Speak(text);
             }, (p, c) => true);
@@ -50,13 +50,13 @@ namespace MarkdownMonster
                 if (string.IsNullOrEmpty(text))
                     return;
 
-                text = MarkdownUtilities.StripFrontMatter(text);
-                text = Markdown.ToPlainText(text);
+                text = ToPlainText(text);
 
                 Speak(text);
             }, (p, c) => true);
         }
 
+        
 
         public CommandBase SpeakFromClipboardCommand { get; set; }
 
@@ -67,7 +67,10 @@ namespace MarkdownMonster
                 if (!Clipboard.ContainsText())
                     return;
 
-                Speak(Clipboard.GetText());
+                var text = ClipboardHelper.GetText();
+                text = ToPlainText(text);
+                Speak(text);
+
             }, (p, c) => true);
         }
 
@@ -105,6 +108,21 @@ namespace MarkdownMonster
             // Speak the contents of the prompt synchronously.
             _synth.SpeakAsync(speak);
         }
+
+        /// <summary>
+        /// converts markdown to plain text
+        /// </summary>
+        /// <param name="text"></param>
+        /// <returns></returns>
+        private string ToPlainText(string text)
+        {
+            var parser = new MarkdownParserMarkdig(false);
+            var builder = parser.CreatePipelineBuilder();
+            text = Markdown.ToPlainText(text,builder.Build());
+
+            return text;
+        }
+
 
     }
 }
