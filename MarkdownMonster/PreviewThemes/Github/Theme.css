@@ -98,7 +98,15 @@ pre {
     background: transparent;
     font-weight: normal;
   }
-
+  pre>code::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;        
+    background: #bbb;    
+  }
+  pre > code::-webkit-scrollbar-thumb {
+    background:#888;
+  }
+  
 table {
   width: 100%;
   overflow: auto;

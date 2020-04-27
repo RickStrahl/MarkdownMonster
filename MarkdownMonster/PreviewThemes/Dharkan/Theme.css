@@ -1,6 +1,7 @@
 html, body {
   color: #333;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI Emoji","Segoe UI Symbol", "Apple Color Emoji", "Segoe UI", Helvetica, Helvetica, Arial, sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol"; font-size: 17px;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Helvetica, Arial, sans-serif, "Segoe UI Symbol", "Apple Color Emoji";
+  font-size: 17px;
   -webkit-font-smoothing: antialiased;
   height: 100%;
   line-height: 1.55;
@@ -217,7 +218,15 @@ pre {
     background: transparent;
     font-weight: normal;
   }
+  pre > code::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+    background: #444;
+  }
 
+  pre > code::-webkit-scrollbar-thumb {
+    background: #999;
+  }
 table {
   width: 100%;
   overflow: auto;

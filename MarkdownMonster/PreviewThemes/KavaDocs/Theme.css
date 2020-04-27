@@ -130,6 +130,14 @@ pre {
     padding-right: 8px;
     line-height: 1.5em;
   }
+  pre>code::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;        
+    background: #bbb;    
+  }
+  pre > code::-webkit-scrollbar-thumb {
+    background:#888;
+  }
 
 h1 {
   font-family: Roboto,"Helvetica Neue Light","Helvetica Neue",Helvetica,Arial,"Lucida Grande",sans-serif;

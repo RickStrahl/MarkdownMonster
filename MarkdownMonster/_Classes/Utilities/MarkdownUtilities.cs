@@ -1,18 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.IO;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading;
-using System.Threading.Tasks;
-using System.Windows;
-using Markdig.Helpers;
 using Markdig.Syntax;
-using MarkdownMonster.Windows;
-using MarkdownMonster.Windows.DocumentOutlineSidebar;
-using Newtonsoft.Json.Linq;
 using Westwind.Utilities;
 
 namespace MarkdownMonster
@@ -58,10 +49,11 @@ namespace MarkdownMonster
         public static readonly Regex YamlExtractionRegex = new Regex(@"\A---[ \t]*\r?\n[\s\S]+?\r?\n(---|\.\.\.)[ \t]*\r?\n", RegexOptions.Multiline | RegexOptions.Compiled);
 
         /// <summary>
-        /// Strips
+        /// Strips FrontMatter
         /// </summary>
         /// <param name="markdown"></param>
         /// <returns></returns>
+        [Obsolete("Use Markdig's native Yaml FrontMatter extension which strips as part of the main pipeline")]
         public static string StripFrontMatter(string markdown)
         {
             string extractedYaml = null;

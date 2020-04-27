@@ -86,7 +86,15 @@ pre {
     color: #f5f5f5 !important;
     background: transparent;
   }
+  pre > code::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+    background: #444;
+  }
 
+  pre > code::-webkit-scrollbar-thumb {
+    background: #999;
+  }
 
 table {
   width: 100%;

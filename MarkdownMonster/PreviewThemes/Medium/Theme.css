@@ -75,7 +75,7 @@ pre {
   line-height: 1.40;
   margin: 7px 0;
   padding: 0;
-  border: 1px solid silver;
+  border: 1px solid #ddd;
   border-radius: 5px;
   overflow-x: auto;
   max-width: 98%;
@@ -92,7 +92,14 @@ pre {
     background: transparent;
     font-weight: normal;
   }
-
+  pre>code::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;        
+    background: #bbb;    
+  }
+  pre > code::-webkit-scrollbar-thumb {
+    background:#888;
+  }
 table {
   width: 100%;
   overflow: auto;
