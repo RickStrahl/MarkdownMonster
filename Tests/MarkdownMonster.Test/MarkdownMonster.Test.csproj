@@ -13,10 +13,10 @@
 
     <PackageReference Include="LibGit2Sharp" Version="0.26.2" />
     <PackageReference Include="Markdig" Version="0.20.0" />
-    <PackageReference Include="Microsoft.ApplicationInsights" Version="2.13.1" />
+    <PackageReference Include="Microsoft.ApplicationInsights" Version="2.14.0" />
 
     <PackageReference Include="ReverseMarkdown" Version="3.11.0" />
-    <PackageReference Include="Westwind.Utilities" Version="3.0.37" />
+    <PackageReference Include="Westwind.Utilities" Version="3.0.37.2" />
   
   </ItemGroup>
 

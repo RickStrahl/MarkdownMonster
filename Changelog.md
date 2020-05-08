@@ -4,6 +4,13 @@
 [![Chocolatey](https://img.shields.io/chocolatey/dt/markdownmonster.svg)](https://chocolatey.org/packages/MarkdownMonster)
 [![Web Site](https://img.shields.io/badge/Markdown_Monster-WebSite-blue.svg)](https://markdownmonster.west-wind.com)
 
+
+### 1.23
+*<small>not released yet</small>* 
+
+* **Fix: Fonts in Preview Themes**  
+We had recently switched to Emojii versions of common fonts as the primary fonts (like Segoi Emojii) but it turns out these fonts are inferior in quality to the regular fonts (like Segoe UI). This should bring font rendering back to smoother text in the preview and also for rendered HTML output in external browsers and exports.
+
 ### 1.22
 *<small>April 22nd, 2020</small>* 
 
