@@ -736,7 +736,7 @@ namespace MarkdownMonster
                         WindowUtilities.DoEvents();
 
                         // reset the selection point
-                        AceEditor.SetCursorPosition(pos); //pos.column,pos.row);
+                        AceEditor.SetCursorPosition(pos);
 
                         if (scroll != null)
                             AceEditor.SetScrollTop(scroll);

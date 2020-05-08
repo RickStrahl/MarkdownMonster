@@ -87,9 +87,14 @@ te.keyBindings = {
   removeMarkdownFormatting: function () { te.keyboardCommand("RemoveMarkdownFormatting"); },
 
   // Capture paste operation in WPF to handle Images
-  paste: function () {
+  paste: function (editor, args) {
+    // text use default behavior
+    if (clipboardData.getData("text")) {
+      te.editor.$handlePaste(args);
+      return;
+    }  
+    // anything else - let MM handle it
     te.mm.textbox.PasteOperation();
-    //setTimeout(function() { alert('test'); }, 1000);
   },
   paste2: function () {
     te.mm.textbox.PasteOperation();
