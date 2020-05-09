@@ -780,11 +780,21 @@ namespace MarkdownMonster.Windows
 
         private void PasteImageFromClipboard()
         {
-            SetImagePreview(Clipboard.GetImage());
+            BitmapSource image;
+            try
+            {
+                image = Clipboard.GetImage();
+            }
+            catch (Exception e)
+            {
+                StatusBar.ShowStatusError("Image retrieval from clipboard failed: " + e.Message);
+                return;
+            }
+
+            SetImagePreview(image);
 
             Image = null;
             IsMemoryImage = true;
-
 
             StatusBar.ShowStatusSuccess("Image pasted from clipboard.");
         }

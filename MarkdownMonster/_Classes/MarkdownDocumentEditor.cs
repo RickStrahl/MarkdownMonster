@@ -52,6 +52,7 @@ using MarkdownMonster.Utilities;
 using MarkdownMonster.Windows;
 using Microsoft.Win32;
 using Westwind.Utilities;
+using Image = System.Drawing.Image;
 
 namespace MarkdownMonster
 {
@@ -498,7 +499,16 @@ namespace MarkdownMonster
         public struct MarkupMarkdownResult
         {
             public string Html;
+
+            /// <summary>
+            /// Number of characters to move the caret
+            /// </summary>
             public int CursorMovement;
+
+            /// <summary>
+            /// Optional number of characters to select after the caret has been moved
+            /// </summary>
+            public int SelectionLength { get; set; }
         }
 
         /// <summary>
@@ -687,8 +697,18 @@ namespace MarkdownMonster
             }
             else if (action == "href2")
             {
-                html = "[" + input + "]()";
-                cursorMovement = -1;
+                var ct = ClipboardHelper.GetText();
+                if (ct.StartsWith("http"))
+                {
+                    html = $"[{input}]({ct})";
+                    //cursorMovement = (ct.Length + 1) * -1;
+                    //result.SelectionLength = ct.Length;
+                }
+                else
+                {
+                    html = $"[{input}]()";
+                    cursorMovement = -1;
+                }
             }
             else if (action == "image")
             {
@@ -916,6 +936,16 @@ namespace MarkdownMonster
 
             if (result.CursorMovement != 0)
                 MoveCursorPosition(result.CursorMovement);
+            if (result.SelectionLength > 0)
+            {
+                Window.Dispatcher.InvokeAsync(() =>
+                {
+                    var range = AceEditor.GetSelectionRange();
+                    range.EndColumn += result.SelectionLength;
+                    AceEditor.SetSelectionRange(range.StartRow, range.StartColumn, range.EndRow, range.EndColumn);
+                },DispatcherPriority.ApplicationIdle);
+
+            }
         }
 
         /// <summary>
@@ -1863,7 +1893,17 @@ namespace MarkdownMonster
             {
                 string imagePath = null;
 
-                var bitMap = System.Windows.Forms.Clipboard.GetImage();
+                Image bitMap;
+                try
+                {
+                    bitMap = System.Windows.Forms.Clipboard.GetImage();
+                }
+                catch (Exception e)
+                {
+                    Window.ShowStatusError("Couldn't paste image into document: " + e.Message);
+                    return;
+                }
+                
                 if (bitMap == null)
                 {
                     Window.ShowStatusError("An error occurred pasting an image from the clipboard.");
