@@ -113,7 +113,12 @@ namespace MarkdownMonster
         public PdfPageMargins Margins { get; set; } = new PdfPageMargins();
 
 
-
+        /// <summary>
+        /// High level method that converts HTML to PDF.
+        /// </summary>
+        /// <param name="sourceHtmlFileOrUri"></param>
+        /// <param name="outputPdfFile"></param>
+        /// <returns></returns>
 		public bool GeneratePdfFromHtml(string sourceHtmlFileOrUri, string outputPdfFile)
 		{
 			StringBuilder sb = new StringBuilder();
@@ -192,7 +197,7 @@ namespace MarkdownMonster
 
 			if (exitCode != 0)
 			{
-				SetError("Unable to create PDF document. Exit code: " + exitCode + "\r\n" + sb);
+                SetError("Unable to create PDF document. Exit code: " + exitCode + " " + ErrorMessage + "\r\n" + sb);
 				return false;
 			}
 
@@ -206,6 +211,7 @@ namespace MarkdownMonster
 
 			return true;
 		}
+
 
 		public int ExecuteWkProcess(string parms, bool copyCommandLineToClipboard = false)
 		{
@@ -235,18 +241,23 @@ namespace MarkdownMonster
 				process.OutputDataReceived += OnProcessOnOutputDataReceived;				
 				process.ErrorDataReceived += OnProcessOnOutputDataReceived;
 
-				try
-				{
-					process.Start();
+                try
+                {
+                    process.Start();
 
-					process.BeginOutputReadLine();
-					process.BeginErrorReadLine();
+                    process.BeginOutputReadLine();
+                    process.BeginErrorReadLine();
 
-					bool result = process.WaitForExit(180000);
+                    bool result = process.WaitForExit(180000);
 
-					if (!result)
-						return 1473;
-				}
+                    if (!result)
+                        return 1473;
+                }
+                catch (Exception ex)
+                {
+                    ErrorMessage = ex.Message;
+                    return -1;
+                }
 				finally
 				{
 					process.OutputDataReceived -= OnProcessOnOutputDataReceived;

@@ -1893,6 +1893,7 @@ namespace MarkdownMonster
             {
                 string imagePath = null;
 
+                var msg = "An error occurred pasting an image from the clipboard.";
                 Image bitMap;
                 try
                 {
@@ -1900,13 +1901,13 @@ namespace MarkdownMonster
                 }
                 catch (Exception e)
                 {
-                    Window.ShowStatusError("Couldn't paste image into document: " + e.Message);
-                    return;
+                    msg = "Couldn't paste image into document: " + e.Message;
+                    bitMap = null;
                 }
                 
                 if (bitMap == null)
                 {
-                    Window.ShowStatusError("An error occurred pasting an image from the clipboard.");
+                    Window.ShowStatusError(msg);
                     return;
                 }
                 using (bitMap)
