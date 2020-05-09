@@ -24,7 +24,7 @@ namespace MarkdownMonster.Windows
             set
             {
                 if (value == _link) return;
-                _link = value;
+                _link = value.Replace(" ","%20");
                 OnPropertyChanged(nameof(Link));
             }
         }
@@ -113,7 +113,7 @@ namespace MarkdownMonster.Windows
                 string clip = ClipboardHelper.GetText();
                 if (IsLink(clip))
                 {
-                    Link = clip;
+                    Link = clip.Replace(" ", "%20");
                     TextLink.SelectAll();
                 }
             }
@@ -121,6 +121,8 @@ namespace MarkdownMonster.Windows
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
+            //WindowUtilities.FixFocus(this, CheckExternalLink);
+
             if (sender == ButtonCancel)
                 DialogResult = false;
             else
