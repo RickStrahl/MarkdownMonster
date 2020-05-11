@@ -1,12 +1,32 @@
-# Markdown Monster Change Log
+﻿# Markdown Monster Change Log
 
 [![download](https://img.shields.io/badge/Download-Installer-blue.svg)](https://markdownmonster.west-wind.com/download.aspx)
 [![Chocolatey](https://img.shields.io/chocolatey/dt/markdownmonster.svg)](https://chocolatey.org/packages/MarkdownMonster)
 [![Web Site](https://img.shields.io/badge/Markdown_Monster-WebSite-blue.svg)](https://markdownmonster.west-wind.com)
 
-
 ### 1.23
 *<small>not released yet</small>* 
+
+* **Support for Opening Empty Documents
+You can now use `mm untitled` to force a new empty document to be opened on startup. MM runs without 
+
+* **Support for Opening Documents with Preset Text**  
+You can now open a new untitled document with preset text by using a custom filename format on the command line. Use `mm untitled.base64,base64text`, `mm "untitled.text,This is a new document"`, `mm untitled.urlencoded,this+is+new` to open a document with the specified encoding format. Base64 is recommended due to the need to encode line breaks and extended characters but for simple string text and urlencoded can also work.
+
+* **New `mm -base64text` Command Line Option**  
+This is an alternate syntax for the `mm untitled.base64,base64Text` option, and provided mainly to provide a clear and obvious documentation point that might be easier to remember and look up. Allows opening a new docuemnt with pre-set text.
+
+* **Text Only Linking (Ctrl-Shift-K) Improvements**  
+When using the text only link shortcut Markdown Monster now automatically pastes and selects URLs from the clipboard. If there's a URL on the clipboard (any https link) it will be automatically injected.
+
+* **Paste Improvements**  
+Updated the paste behavior to use native editor paste behavior for text while deferring images and file paste operations to the Editor shell. This improves paste performance fixes rare paste operation failures.
+
+* **Switch to embedded Debug Symbols**  
+Debug information is now embedded in the Exe. Removes the original pdb file and reduces distribution footprint by a 1.8mb.
+
+* **Fix: Link Dialog Spaces to %20**  
+Automatically fix up any spaces in a typed in url to `%20`. We're not URL encoding the entire URL because more than likely a URL pasted into the textbox (or auto-injected) is already URL encoded so we don't want to end up double encoding, but spaces are one of the most common 'encoded' values that will break Markdown rendering of a URL.
 
 * **Fix: Fonts in Preview Themes**  
 We had recently switched to Emojii versions of common fonts as the primary fonts (like Segoi Emojii) but it turns out these fonts are inferior in quality to the regular fonts (like Segoe UI). This should bring font rendering back to smoother text in the preview and also for rendered HTML output in external browsers and exports.

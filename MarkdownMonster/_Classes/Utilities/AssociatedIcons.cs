@@ -184,6 +184,7 @@ namespace MarkdownMonster.Utilities
 
             {".md", "md"},
             {".markdown", "md"},
+            {".mkdown", "md"},
             {".mdcrypt", "md"},
             {".mdproj", "mdproj" },
 

@@ -42,7 +42,7 @@ namespace MarkdownMonster.Controls
 
 
             Model.WindowLayout.ConsoleText += text;
-            Model.Window.ConsolePanelScroll.ScrollToVerticalOffset(99999999);
+            Model.Window.ConsolePanel.ConsolePanelScroll.ScrollToVerticalOffset(99999999);
         }
 
         /// <summary>

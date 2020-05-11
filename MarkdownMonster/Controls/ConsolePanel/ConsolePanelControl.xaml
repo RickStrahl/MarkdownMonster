@@ -43,7 +43,7 @@
 
         <ScrollViewer Name="ConsolePanelScroll" 
                           Grid.Row="1" Padding="15,5,0,1"
-                          CanContentScroll="True"
+                          CanContentScroll="True" x:FieldModifier="public"
                           Height="Auto">
             <TextBlock Name="ConsolePanelText"
                            FontFamily="Consolas" 

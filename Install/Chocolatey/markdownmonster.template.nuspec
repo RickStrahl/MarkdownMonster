@@ -27,7 +27,7 @@ A portable, non-admin Chocolatey install is also available in [MarkdownMonster.P
     <summary>Markdown Monster is an easy to use and extensible Markdown Editor and Viewer and Weblog Publisher</summary>
     <releaseNotes>https://github.com/RickStrahl/MarkdownMonster/blob/master/Changelog.md</releaseNotes>
     <copyright>West Wind Technologies, 2016-2020</copyright>
-    <tags>markdown editor text weblog publishing writing documentation blog westwind admin</tags>
+        <tags>markdown markdown-editor markdown-generator markdown-blogging documentation writing weblog blogging westwind admin</tags>
     <bugTrackerUrl>https://github.com/rickstrahl/MarkdownMonster/issues</bugTrackerUrl>
     <docsUrl>http://markdownmonster.west-wind.com/docs</docsUrl>
     <mailingListUrl>https://support.west-wind.com</mailingListUrl>
