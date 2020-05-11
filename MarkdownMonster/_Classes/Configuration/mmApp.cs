@@ -330,7 +330,7 @@ namespace MarkdownMonster
             string version = GetVersion();
             string winVersion = null;
             
-            if (Telemetry.UseApplicationInsights)
+            if (Telemetry.UseApplicationInsights && AppRunTelemetry?.Telemetry != null)
             {
                 var secs = (int) DateTimeOffset.UtcNow.Subtract(AppRunTelemetry.Telemetry.Timestamp).TotalSeconds;
 

@@ -66,7 +66,7 @@ namespace MarkdownMonster
     /// using the low level AceEditor property.
     /// </summary>
     [ComVisible(true)]
-    [DebuggerDisplay("Doc: {MarkdownDocument.Filename}")]
+    [DebuggerDisplay("Editor Doc: {MarkdownDocument.Filename}")]
     public class MarkdownDocumentEditor : INotifyPropertyChanged
 
     {

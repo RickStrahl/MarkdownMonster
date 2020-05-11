@@ -7,10 +7,11 @@
     <UseWPF>true</UseWPF>
     <TargetFramework>net472</TargetFramework>
 
-    <Version>1.22.2</Version>
+    <Version>1.22.3.4</Version>
     <AssemblyName>MarkdownMonster</AssemblyName>
     
     <Authors>Rick Strahl, West Wind Technologies</Authors>
+    <Product>Markdown Monster</Product>
     <PackageProjectUrl>https://markdownmonster.west-wind.com</PackageProjectUrl>
     <PackageIconUrl>https://markdownmonster.west-wind.com/Images/MarkdownMonster_Icon_256.png</PackageIconUrl>
     <RepositoryUrl>https://github.com/rickstrahl/MarkdownMonster</RepositoryUrl>
@@ -23,7 +24,7 @@
     <SelfContained>false</SelfContained>
     <PlatformTarget>AnyCpu</PlatformTarget>
     <Prefer32Bit>true</Prefer32Bit>
-    <Description>Markdown Monster is an easy to use Markdown Editor and Weblog Publisher for Windows. It's highly optimized for content creation tasks, image embedding and provides many useful features to improve document editing and output workflow.</Description>
+    <Description>Markdown Monster is an easy to use Markdown Editor and Weblog Publisher.</Description>
     <Company>West Wind Technologies</Company>
     <Copyright>West Wind Technologies, 2016-2020</Copyright>
   </PropertyGroup>
@@ -43,9 +44,6 @@
     <PackageReference Include="Microsoft-WindowsAPICodePack-Shell" Version="1.1.4" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Compile Remove="Controls\ConsolePanel\ConsolePanelModel.cs" />
-  </ItemGroup>
 
 
   <ItemGroup>
@@ -141,7 +139,7 @@
     <DefineConstants>NETFULL</DefineConstants>
   </PropertyGroup>
   <PropertyGroup>
-    <DebugType>full</DebugType>
+    <DebugType>embedded</DebugType>
     <DebugSymbols>true</DebugSymbols>
     <DocumentationFile>C:\projects\MarkdownMonster\MarkdownMonster\MarkdownMonster.xml</DocumentationFile>
   </PropertyGroup>

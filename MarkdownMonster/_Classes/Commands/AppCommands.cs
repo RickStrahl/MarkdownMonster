@@ -19,6 +19,7 @@ using MarkdownMonster.Utilities;
 using MarkdownMonster.Windows;
 using MarkdownMonster.Windows.ConfigurationEditor;
 using Microsoft.Win32;
+using ReverseMarkdown.Converters;
 using Westwind.HtmlPackager;
 using Westwind.Utilities;
 
@@ -151,7 +152,19 @@ namespace MarkdownMonster
         void NewDocument()
         {
             // NEW DOCUMENT COMMAND (ctrl-n)
-            NewDocumentCommand = new CommandBase((s, e) => { Model.Window.OpenTab("untitled"); });
+            NewDocumentCommand = new CommandBase((parameter, e) =>
+            {
+                Model.Window.OpenTab("untitled");
+
+                if (parameter is string)
+                {
+                    Model.Window.Dispatcher.InvokeAsync(()=>
+                    {
+                        Model.ActiveEditor.SetMarkdown(parameter as string);
+                        Model.ActiveEditor.PreviewMarkdownCallback();
+                    },DispatcherPriority.ApplicationIdle);
+                }
+            });
         }
 
         public CommandBase OpenDocumentCommand { get; set; }

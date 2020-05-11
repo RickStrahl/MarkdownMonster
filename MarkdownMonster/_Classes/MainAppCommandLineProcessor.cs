@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
+using MarkdownMonster.Utilities;
 using Microsoft.Win32;
 using Westwind.HtmlPackager;
 using Westwind.Utilities;
@@ -41,6 +42,18 @@ namespace MarkdownMonster
                 {
                     Thread.Sleep(10);
                 }
+            }
+
+            // Open an empty document with base64 decoded text
+            if (arg0 == "base64text" && App.CommandArgs.Length > 1)
+            {
+                // Set Startup text which will be picked up by the command line file opener
+                App.CommandArgs[0] = CommandLineTextEncoder.CreateEncodedCommandLineFilename(
+                    App.CommandArgs[1],
+                    CommandLineTextEncodingFormats.PreEncodedBase64);
+
+                // trim other args
+                App.CommandArgs = App.CommandArgs.Take(1).ToArray();
             }
 
             if (arg0 == "stdin")
@@ -89,16 +102,11 @@ namespace MarkdownMonster
                             builder.Append(Console.InputEncoding.GetString(buffer, 0, read));
                         }
 
-                        if (builder.Length > 0)
-                        {
-                            var tempFile = Path.ChangeExtension(Path.GetTempFileName(), "md");
-                            File.WriteAllText(tempFile, builder.ToString());
-                            App.CommandArgs[0] = tempFile;
-                        }
-                        else
-                        {
-                            App.CommandArgs[0] = null;
-                        }
+
+                        App.CommandArgs[0] =
+                            CommandLineTextEncoder.CreateEncodedCommandLineFilename(builder.ToString());
+
+
                     }
                 }
             }

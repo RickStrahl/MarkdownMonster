@@ -65,6 +65,12 @@ namespace MarkdownMonster
         /// </summary>
         public static string[] CommandArgs { get; set; }
 
+        /// <summary>
+        /// Text that can be set by the application during startup to
+        /// let MM display an 'Untitled'  document with the embedded text.
+        /// </summary>
+        //public static string StartupText {get; set;}
+
 
         // Flag to indicate that app shouldn't start
         // Need this so OnStartup doesn't fire
@@ -195,19 +201,43 @@ namespace MarkdownMonster
             string filesToOpen = " ";
             StringBuilder sb = new StringBuilder();
 
+
+            StringBuilder sb2 = new StringBuilder();
+            foreach (var arg in CommandArgs)
+            {
+                sb.AppendLine(arg);
+            }
+            mmApp.Log(sb.ToString());
+
             for (int i = 0; i < CommandArgs.Length; i++)
             {
                 string file = CommandArgs[i];
                 if (string.IsNullOrEmpty(file))
                     continue;
 
-                if (!file.StartsWith("-"))
+                if (file.Equals("untitled", StringComparison.OrdinalIgnoreCase) ||
+                    file.StartsWith("untitled.", StringComparison.OrdinalIgnoreCase) ||
+                    file.StartsWith("markdownmonster:") ||
+                    file.StartsWith("markdown:"))
+                {
+                    // just append as is - form file opener will decode
+                    sb.AppendLine(file);
+                }
+                else if (!file.StartsWith("-"))
                 {
                     file = file.TrimEnd('\\');
-                    file = Path.GetFullPath(file);
-                }
+                    try
+                    {
+                        file = Path.GetFullPath(file);
+                    }
+                    catch
+                    {
+                        mmApp.Log($"Invalid startup command line file (skipping): {file}", logLevel: LogLevels.Error);
+                        continue;
+                    }
 
-                sb.AppendLine(file);
+                    sb.AppendLine(file);
+                }
 
                 // write fixed up path arguments
                 CommandArgs[i] = file;

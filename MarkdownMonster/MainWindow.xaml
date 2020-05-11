@@ -1017,7 +1017,7 @@
 
 
         <mmcontrols:ConsolePanelControl 
-            Grid.Row="4" x:Name="ConsolePanel" 
+            Grid.Row="4" x:Name="ConsolePanel" x:FieldModifier="public"
             Height="Auto"
             controls:VisibilityHelper.IsCollapsed="{Binding WindowLayout.IsConsolePanelVisible, Converter={StaticResource InvertedBooleanConverter}}" />
 

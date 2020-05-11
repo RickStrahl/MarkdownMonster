@@ -1,4 +1,5 @@
 #define MyAppName "Markdown Monster"
+#define Moniker "markdownmonster"
 #define MyAppVersion GetFileVersion('.\Distribution\MarkdownMonster.exe')
 #define MyAppPublisher "West Wind Technologies"
 #define MyAppURL "https://markdownmonster.west-wind.com"
@@ -68,6 +69,11 @@ Root: HKCU; Subkey: "Software\Classes\.md";                             ValueDat
 Root: HKCU; Subkey: "Software\Classes\.markdown";                       ValueData: "{#MyAppName}";          Flags: uninsdeletevalue; ValueType: string;  ValueName: ""
 Root: HKCU; Subkey: "Software\Classes\.mdcrypt";                       ValueData: "{#MyAppName}";          Flags: uninsdeletevalue; ValueType: string;  ValueName: ""
 Root: HKCU; Subkey: "Software\Classes\.mdproj";                       ValueData: "{#MyAppName}";          Flags: uninsdeletevalue; ValueType: string;  ValueName: ""
+
+Root: HKLM; Subkey: "{#Moniker}";                    ValueData: "URL:{#MyAppName}";  Flags: uninsdeletekey;   ValueType: string;  ValueName: ""
+Root: HKLM; Subkey: "{#Moniker}";                    ValueName: "URL Protocol";  ValueData: "";  ValueType: string;  
+Root: HKLM; Subkey: "{#Moniker}\DefaultIcon";        ValueData: "{app}\{#MyAppExeName},0";               ValueType: string;  ValueName: ""
+Root: HKLM; Subkey: "{#Moniker}\shell\open\command"; ValueData: """{app}\{#MyAppExeName}"" ""%1""";  ValueType: string;  ValueName: ""
 
 ; IE 11 mode
 Root: HKCU; Subkey: "Software\Microsoft\Internet Explorer\Main\FeatureControl\FEATURE_BROWSER_EMULATION"; ValueType: dword; ValueName: "MarkdownMonster.exe"; ValueData: "11001"; Flags: createvalueifdoesntexist

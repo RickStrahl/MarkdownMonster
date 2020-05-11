@@ -31,6 +31,7 @@ using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -38,14 +39,17 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Forms;
+using System.Windows.Forms.VisualStyles;
 using System.Windows.Input;
 using System.Windows.Interop;
 using System.Windows.Media;
 using System.Windows.Threading;
 using Dragablz;
 using FontAwesome.WPF;
+using LibGit2Sharp;
 using MahApps.Metro.Controls;
 using MahApps.Metro.Controls.Dialogs;
+using MarkdownMonster;
 using MarkdownMonster.AddIns;
 using MarkdownMonster.Annotations;
 using MarkdownMonster.Controls.ContextMenus;
@@ -348,157 +352,6 @@ namespace MarkdownMonster
             Dispatcher.InvokeAsync(() => { LoadPreviewBrowser(); }, DispatcherPriority.ApplicationIdle);
         }
 
-
-        /// <summary>
-        /// Opens files from the command line or from an array of strings
-        /// </summary>
-        /// <param name="args">Array of file names. If null Command Line Args are used.</param>
-        private void OpenFilesFromCommandLine(string[] args = null)
-        {
-            if (args == null)
-            {
-                // read fixed up command line args
-                args = App.CommandArgs;
-
-                if (args == null || args.Length == 0) // no args, only command line
-                    return;
-            }
-
-            var autoSave = App.CommandArgs.Any(a => a.Equals("-autosave", StringComparison.InvariantCultureIgnoreCase));
-
-            bool closeNextFile = false;
-            foreach (var fileArgs in args)
-            {
-                var file = fileArgs;
-                if (string.IsNullOrEmpty(file))
-                    continue;
-
-                // handle file closing
-                if (file == "-close")
-                {
-                    closeNextFile = true;
-                    continue;
-                }
-
-                if (closeNextFile)
-                {
-                    closeNextFile = false;
-                    var tab = GetTabFromFilename(file);
-                    if (tab != null)
-                    {
-                        if (tab.Tag is MarkdownDocumentEditor editor)
-                        {
-                            if (editor.IsDirty())
-                                editor.SaveDocument();
-                            CloseTab(tab, dontPromptForSave: true);
-
-                            if (TabControl.Items.Count < 1)
-                            {
-                                WindowUtilities.DoEvents();
-                                Close();
-                                return;
-                            }
-
-                        }
-                    }
-
-                    continue;
-                }
-
-                file = file.TrimEnd('\\');
-
-                try
-                {
-                    // FAIL: This fails at runtime not in debugger when value is .\ trimmed to . VERY WEIRD
-                    file = Path.GetFullPath(file);
-                }
-                catch
-                {
-                    mmApp.Log("Fullpath CommandLine failed: " + file);
-                }
-
-                Topmost = true;
-                WindowUtilities.DoEvents();
-                var ext = Path.GetExtension(file);
-
-                if (File.Exists(file))
-                {
-                    // open file which may or may not open a tab (like a project)
-                    var tab = OpenFile(filename: file, batchOpen: true);
-                    //var tab = OpenTab(mdFile: file, batchOpen: true);
-                    if (tab?.Tag is MarkdownDocumentEditor editor)
-                    {
-                        editor.MarkdownDocument.AutoSaveBackup = Model.Configuration.AutoSaveBackups;
-                        editor.MarkdownDocument.AutoSaveDocument = autoSave || Model.Configuration.AutoSaveDocuments;
-                    }
-                }
-                else if (Directory.Exists(file))
-                {
-                    ShowFolderBrowser(false, file);
-                }
-
-                // file is an .md file but doesn't exist but folder exists - create it
-                else if ((ext.Equals(".md", StringComparison.InvariantCultureIgnoreCase) ||
-                          ext.Equals(".mkdown", StringComparison.InvariantCultureIgnoreCase) ||
-                          ext.Equals(".mdcrypt", StringComparison.InvariantCultureIgnoreCase)
-                         ) &&
-                         Directory.Exists(Path.GetDirectoryName(file)))
-                {
-                    File.WriteAllText(file, "");
-                    var tab = OpenTab(mdFile: file, batchOpen: true);
-                    if (tab?.Tag is MarkdownDocumentEditor editor)
-                    {
-                        editor.MarkdownDocument.AutoSaveBackup = Model.Configuration.AutoSaveBackups;
-                        editor.MarkdownDocument.AutoSaveDocument = autoSave || Model.Configuration.AutoSaveDocuments;
-                    }
-
-                    // delete the file if we abort
-                    Dispatcher.Delay(1000, p => File.Delete(file), null);
-                }
-                else
-                {
-                    file = Path.Combine(App.InitialStartDirectory, file);
-                    file = Path.GetFullPath(file);
-                    if (File.Exists(file))
-                    {
-                        var tab = OpenTab(mdFile: file, batchOpen: true);
-                        if (tab.Tag is MarkdownDocumentEditor editor)
-                        {
-                            editor.MarkdownDocument.AutoSaveBackup = Model.Configuration.AutoSaveBackups;
-                            editor.MarkdownDocument.AutoSaveDocument =
-                                autoSave || Model.Configuration.AutoSaveDocuments;
-                        }
-                    }
-                    else if (Directory.Exists(file))
-                        ShowFolderBrowser(false, file);
-                }
-
-                Dispatcher.Delay(800, s => { Topmost = false; });
-            }
-        }
-
-        private void HandleNamedPipe_OpenRequest(string filesToOpen)
-        {
-            Dispatcher.Invoke(() =>
-            {
-                if (!string.IsNullOrEmpty(filesToOpen))
-                {
-                    var parms = StringUtils.GetLines(filesToOpen.Trim());
-
-                    OpenFilesFromCommandLine(parms);
-                    BindTabHeaders();
-                }
-
-                Topmost = true;
-
-                if (WindowState == WindowState.Minimized)
-                    WindowState = WindowState.Normal;
-
-                Activate();
-
-                Dispatcher.BeginInvoke(new Action(() => { Topmost = false; }), DispatcherPriority.ApplicationIdle);
-            });
-        }
 
         protected override void OnContentRendered(EventArgs e)
         {
@@ -979,6 +832,189 @@ namespace MarkdownMonster
             }
 
             return true;
+        }
+        #endregion
+
+        #region Open From Command Line and Singleton Pipe
+        /// <summary>
+        /// Opens files from the command line or from an array of strings
+        /// </summary>
+        /// <param name="args">Array of file names. If null Command Line Args are used.</param>
+        private void OpenFilesFromCommandLine(string[] args = null)
+        {
+            if (args == null)
+            {
+                // read fixed up command line args
+                args = App.CommandArgs;
+
+                if (args == null || args.Length == 0) // no args, only command line
+                    return;
+            }
+
+            var autoSave = App.CommandArgs.Any(a => a.Equals("-autosave", StringComparison.InvariantCultureIgnoreCase));
+
+            bool closeNextFile = false;
+            foreach (var fileArgs in args)
+            {
+                var file = fileArgs;
+                if (string.IsNullOrEmpty(file))
+                    continue;
+
+                // handle file closing
+                if (file == "-close")
+                {
+                    closeNextFile = true;
+                    continue;
+                }
+
+                if (closeNextFile)
+                {
+                    closeNextFile = false;
+                    var tab = GetTabFromFilename(file);
+                    if (tab != null)
+                    {
+                        if (tab.Tag is MarkdownDocumentEditor editor)
+                        {
+                            if (editor.IsDirty())
+                                editor.SaveDocument();
+                            CloseTab(tab, dontPromptForSave: true);
+
+                            if (TabControl.Items.Count < 1)
+                            {
+                                WindowUtilities.DoEvents();
+                                Close();
+                                return;
+                            }
+
+                        }
+                    }
+
+                    continue;
+                }
+
+                string ext = string.Empty;
+                file = file.TrimEnd('\\');
+
+                // file monikers - just strip first
+                if (file.StartsWith("markdownmonster:"))
+                    file = WebUtility.UrlDecode(file.Replace("markdownmonster:",String.Empty));
+                if (file.StartsWith("markdown:"))
+                    file = WebUtility.UrlDecode(file.Replace("markdownmonster:",String.Empty));
+            
+                bool isUntitled = file.Equals("untitled", StringComparison.OrdinalIgnoreCase);
+                if (file.StartsWith("untitled."))
+                    isUntitled = true;
+
+
+                if (!isUntitled)
+                {
+                    try
+                    {
+                        // FAIL: This fails at runtime not in debugger when value is .\ trimmed to . VERY WEIRD
+                        file = Path.GetFullPath(file);
+                        ext = Path.GetExtension(file);
+                    }
+                    catch(Exception ex)
+                    {
+                        mmApp.Log("CommandLine file path resolution failed: " + file, ex);
+                    }
+                }
+
+                Topmost = true;
+                WindowUtilities.DoEvents();
+                
+                // open an empty doc or new doc with preset text from base64 (untitled.base64text)
+                if (isUntitled)
+                {
+                    string docText = null;
+
+                    // untitled.base64text will decode the base64 text
+                    if (file.StartsWith("untitled."))
+                    {
+                        docText = CommandLineTextEncoder.ParseUntitledString(file);
+                    }
+
+                    // open empty document, or fill with App.StartupText is set
+                    Model.Commands.NewDocumentCommand.Execute(docText);
+                }
+                else if (File.Exists(file))
+                {
+                    // open file which may or may not open a tab (like a project)
+                    var tab = OpenFile(filename: file, batchOpen: true);
+                    //var tab = OpenTab(mdFile: file, batchOpen: true);
+                    if (tab?.Tag is MarkdownDocumentEditor editor)
+                    {
+                        editor.MarkdownDocument.AutoSaveBackup = Model.Configuration.AutoSaveBackups;
+                        editor.MarkdownDocument.AutoSaveDocument = autoSave || Model.Configuration.AutoSaveDocuments;
+                    }
+                }
+                else if (Directory.Exists(file))
+                {
+                    ShowFolderBrowser(false, file);
+                }
+
+                // file is an .md file but doesn't exist but folder exists - create it
+                else if ((ext.Equals(".md", StringComparison.InvariantCultureIgnoreCase) ||
+                          ext.Equals(".mkdown", StringComparison.InvariantCultureIgnoreCase) ||
+                          ext.Equals(".markdown", StringComparison.InvariantCultureIgnoreCase) ||
+                          ext.Equals(".mdcrypt", StringComparison.InvariantCultureIgnoreCase)
+                         ) &&
+                         Directory.Exists(Path.GetDirectoryName(file)))
+                {
+                    File.WriteAllText(file, "");
+                    var tab = OpenTab(mdFile: file, batchOpen: true);
+                    if (tab?.Tag is MarkdownDocumentEditor editor)
+                    {
+                        editor.MarkdownDocument.AutoSaveBackup = Model.Configuration.AutoSaveBackups;
+                        editor.MarkdownDocument.AutoSaveDocument = autoSave || Model.Configuration.AutoSaveDocuments;
+                    }
+
+                    // delete the file if we abort
+                    Dispatcher.Delay(1000, p => File.Delete(file), null);
+                }
+                else
+                {
+                    file = Path.Combine(App.InitialStartDirectory, file);
+                    file = Path.GetFullPath(file);
+                    if (File.Exists(file))
+                    {
+                        var tab = OpenTab(mdFile: file, batchOpen: true);
+                        if (tab.Tag is MarkdownDocumentEditor editor)
+                        {
+                            editor.MarkdownDocument.AutoSaveBackup = Model.Configuration.AutoSaveBackups;
+                            editor.MarkdownDocument.AutoSaveDocument =
+                                autoSave || Model.Configuration.AutoSaveDocuments;
+                        }
+                    }
+                    else if (Directory.Exists(file))
+                        ShowFolderBrowser(false, file);
+                }
+
+                Dispatcher.Delay(800, s => { Topmost = false; });
+            }
+        }
+
+        private void HandleNamedPipe_OpenRequest(string filesToOpen)
+        {
+            Dispatcher.Invoke(() =>
+            {
+                if (!string.IsNullOrEmpty(filesToOpen))
+                {
+                    var parms = StringUtils.GetLines(filesToOpen.Trim());
+
+                    OpenFilesFromCommandLine(parms);
+                    BindTabHeaders();
+                }
+
+                Topmost = true;
+
+                if (WindowState == WindowState.Minimized)
+                    WindowState = WindowState.Normal;
+
+                Activate();
+
+                Dispatcher.BeginInvoke(new Action(() => { Topmost = false; }), DispatcherPriority.ApplicationIdle);
+            });
         }
 
         #endregion
