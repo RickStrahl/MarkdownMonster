@@ -7,8 +7,8 @@
 ### 1.22.4
 *<small>May 12th, 2020</small>* 
 
-* **[Support for Opening Empty Documents](https://markdownmonster.west-wind.com/docs/_4x313dneu.htm#open-a-new-empty-document)**
-You can now use `mm untitled` to force an empty or 'Untitled' document to be opened on startup. MM runs w
+* **[Support for Opening Empty Documents](https://markdownmonster.west-wind.com/docs/_4x313dneu.htm#open-a-new-empty-document)**  
+You can now use `mm untitled` to force an empty or 'Untitled' document to be opened on startup. Yes this 'feature' was surprisingly missing in previous versions as a start without parameters would just open MM with whatever documents were previously open (or are already open in single instance mode).
 
 * **[Support for Untitled Documents with Preset Text](https://markdownmonster.west-wind.com/docs/_4x313dneu.htm#open-a-new-document-with-pre-filled-text)**  
 You can now open a new untitled document with preset text by using a custom filename format on the command line. Use `mm untitled.base64,base64text`, `mm "untitled.text,This is a new document"`, `mm untitled.urlencoded,this+is+new` to open a document with the specified encoding format. Base64 is recommended due to the need to encode line breaks and extended characters but for simple string text and urlencoded can also work.
