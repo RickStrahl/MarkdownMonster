@@ -7,16 +7,21 @@
     <UseWPF>true</UseWPF>
     <TargetFramework>net472</TargetFramework>
 
-    <Version>1.22.3.4</Version>
+    <Version>1.22.4</Version>
     <AssemblyName>MarkdownMonster</AssemblyName>
-    
-    <Authors>Rick Strahl, West Wind Technologies</Authors>
     <Product>Markdown Monster</Product>
+    <Authors>Rick Strahl, West Wind Technologies</Authors>
+    <Company>West Wind Technologies</Company>
+    <Copyright>West Wind Technologies, 2016-2020</Copyright>
+    <Description>Markdown Monster is an easy to use Markdown Editor and Weblog Publisher.</Description>
+
+
     <PackageProjectUrl>https://markdownmonster.west-wind.com</PackageProjectUrl>
     <PackageIconUrl>https://markdownmonster.west-wind.com/Images/MarkdownMonster_Icon_256.png</PackageIconUrl>
     <RepositoryUrl>https://github.com/rickstrahl/MarkdownMonster</RepositoryUrl>
     <RepositoryType>Github</RepositoryType>
     <PackageTags>markdown editor weblog-publishing blogging documentation writing westwind admin</PackageTags>
+
     <ApplicationIcon>MarkdownMonster.ico</ApplicationIcon>
     <ApplicationManifest>app.manifest</ApplicationManifest>
     <TieredCompilation>true</TieredCompilation>
@@ -24,9 +29,6 @@
     <SelfContained>false</SelfContained>
     <PlatformTarget>AnyCpu</PlatformTarget>
     <Prefer32Bit>true</Prefer32Bit>
-    <Description>Markdown Monster is an easy to use Markdown Editor and Weblog Publisher.</Description>
-    <Company>West Wind Technologies</Company>
-    <Copyright>West Wind Technologies, 2016-2020</Copyright>
   </PropertyGroup>
 
   <PropertyGroup Condition=" '$(TargetFramework)' == 'netcoreapp3.0' ">

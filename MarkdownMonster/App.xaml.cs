@@ -201,14 +201,6 @@ namespace MarkdownMonster
             string filesToOpen = " ";
             StringBuilder sb = new StringBuilder();
 
-
-            StringBuilder sb2 = new StringBuilder();
-            foreach (var arg in CommandArgs)
-            {
-                sb.AppendLine(arg);
-            }
-            mmApp.Log(sb.ToString());
-
             for (int i = 0; i < CommandArgs.Length; i++)
             {
                 string file = CommandArgs[i];

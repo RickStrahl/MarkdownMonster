@@ -1,20 +1,23 @@
-﻿# Markdown Monster Change Log
+# Markdown Monster Change Log
 
 [![download](https://img.shields.io/badge/Download-Installer-blue.svg)](https://markdownmonster.west-wind.com/download.aspx)
 [![Chocolatey](https://img.shields.io/chocolatey/dt/markdownmonster.svg)](https://chocolatey.org/packages/MarkdownMonster)
 [![Web Site](https://img.shields.io/badge/Markdown_Monster-WebSite-blue.svg)](https://markdownmonster.west-wind.com)
 
-### 1.23
-*<small>not released yet</small>* 
+### 1.22.4
+*<small>May 12th, 2020</small>* 
 
-* **Support for Opening Empty Documents
-You can now use `mm untitled` to force a new empty document to be opened on startup. MM runs without 
+* **[Support for Opening Empty Documents](https://markdownmonster.west-wind.com/docs/_4x313dneu.htm#open-a-new-empty-document)**
+You can now use `mm untitled` to force an empty or 'Untitled' document to be opened on startup. MM runs w
 
-* **Support for Opening Documents with Preset Text**  
+* **[Support for Untitled Documents with Preset Text](https://markdownmonster.west-wind.com/docs/_4x313dneu.htm#open-a-new-document-with-pre-filled-text)**  
 You can now open a new untitled document with preset text by using a custom filename format on the command line. Use `mm untitled.base64,base64text`, `mm "untitled.text,This is a new document"`, `mm untitled.urlencoded,this+is+new` to open a document with the specified encoding format. Base64 is recommended due to the need to encode line breaks and extended characters but for simple string text and urlencoded can also work.
 
-* **New `mm -base64text` Command Line Option**  
+* **[New `mm -base64text` Command Line Option](https://markdownmonster.west-wind.com/docs/_5fp0xp68p.htm#base64text)**  
 This is an alternate syntax for the `mm untitled.base64,base64Text` option, and provided mainly to provide a clear and obvious documentation point that might be easier to remember and look up. Allows opening a new docuemnt with pre-set text.
+
+* **[Open Markdown Monster from a browser with `markdownmonster:` Application Protocol](https://markdownmonster.west-wind.com/docs/_5fp0xp68p.htm)**  
+Added support for an Application Protocol handler of `markdownmonster:` that allows opening MM from within a Web Browser. You can use ``
 
 * **Text Only Linking (Ctrl-Shift-K) Improvements**  
 When using the text only link shortcut Markdown Monster now automatically pastes and selects URLs from the clipboard. If there's a URL on the clipboard (any https link) it will be automatically injected.
