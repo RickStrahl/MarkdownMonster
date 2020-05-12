@@ -14,7 +14,7 @@ You can now use `mm untitled` to force an empty or 'Untitled' document to be ope
 You can now open a new untitled document with preset text by using a custom filename format on the command line. Use `mm untitled.base64,base64text`, `mm "untitled.text,This is a new document"`, `mm untitled.urlencoded,this+is+new` to open a document with the specified encoding format. Base64 is recommended due to the need to encode line breaks and extended characters but for simple string text and urlencoded can also work.
 
 * **[New `mm -base64text` Command Line Option](https://markdownmonster.west-wind.com/docs/_5fp0xp68p.htm#base64text)**  
-This is an alternate syntax for the `mm untitled.base64,base64Text` option, and provided mainly to provide a clear and obvious documentation point that might be easier to remember and look up. Allows opening a new docuemnt with pre-set text.
+This is an alternate syntax for the `mm untitled.base64,base64Text` option, and provided mainly to provide a clear and obvious documentation point that might be easier to remember and look up. Allows opening a new docuemnt with pre-set text. If launching from the command line or using `CreateProcess` from another application this is the recommended approach for passing new document data to MM.
 
 * **[Open Markdown Monster from a browser with `markdownmonster:` Application Protocol](https://markdownmonster.west-wind.com/docs/_5fp0xp68p.htm)**  
 Added support for an Application Protocol handler of `markdownmonster:` that allows opening MM from within a Web Browser. You can use ``
