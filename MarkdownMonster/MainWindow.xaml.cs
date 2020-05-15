@@ -54,6 +54,7 @@ using MarkdownMonster.AddIns;
 using MarkdownMonster.Annotations;
 using MarkdownMonster.Controls.ContextMenus;
 using MarkdownMonster.Utilities;
+using MarkdownMonster.WebSockets;
 using MarkdownMonster.Windows;
 using MarkdownMonster.Windows.PreviewBrowser;
 using Westwind.Utilities;
@@ -836,11 +837,13 @@ namespace MarkdownMonster
         #endregion
 
         #region Open From Command Line and Singleton Pipe
+        WebSocketServer WebSocketServer = null;
+        
         /// <summary>
         /// Opens files from the command line or from an array of strings
         /// </summary>
         /// <param name="args">Array of file names. If null Command Line Args are used.</param>
-        private void OpenFilesFromCommandLine(string[] args = null)
+        public void OpenFilesFromCommandLine(string[] args = null)
         {
             if (args == null)
             {
@@ -896,10 +899,29 @@ namespace MarkdownMonster
                 file = file.TrimEnd('\\');
 
                 // file monikers - just strip first
+                if (file.StartsWith("markdownmonster:websocketserver"))
+                {
+                    if (WebSocketServer == null)
+                    {
+                        WebSocketServer = new WebSocketServer();
+                        WebSocketServer.OnBinaryMessage = (bytes) =>
+                        {
+                            App.CommandArgs = new[] {"untitled.base64," + Convert.ToBase64String(bytes)};
+                            mmApp.Model.Window.Dispatcher.InvokeAsync(() => mmApp.Model.Window.OpenFilesFromCommandLine());
+                        };
+                        WebSocketServer.StartServer();
+                    }
+                    else
+                    {
+                        WebSocketServer.StopServer();
+                        WebSocketServer.StartServer();
+                    }
+                    continue;
+                }
                 if (file.StartsWith("markdownmonster:"))
                     file = WebUtility.UrlDecode(file.Replace("markdownmonster:",String.Empty));
-                if (file.StartsWith("markdown:"))
-                    file = WebUtility.UrlDecode(file.Replace("markdownmonster:",String.Empty));
+                else if (file.StartsWith("markdown:"))
+                    file = WebUtility.UrlDecode(file.Replace("markdown:",String.Empty));
             
                 bool isUntitled = file.Equals("untitled", StringComparison.OrdinalIgnoreCase);
                 if (file.StartsWith("untitled."))
