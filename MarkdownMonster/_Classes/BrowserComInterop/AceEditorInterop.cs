@@ -259,6 +259,11 @@ namespace MarkdownMonster
         }
 
 
+        /// <summary>
+        /// Forces the editor to refresh the document statistics.
+        /// Calls the editor to retrieve the stats and then pushes
+        /// the changes into the MM shell to update the status bar
+        /// </summary>
         public void UpdateDocumentStats()
         {
             Invoke("updateDocumentStats", false);

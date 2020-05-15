@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Linq;
-using System.Speech.Synthesis;
 using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
@@ -11,7 +10,6 @@ using System.Windows.Media;
 using System.Windows.Threading;
 using Dragablz;
 using FontAwesome.WPF;
-using Markdig;
 using MarkdownMonster.AddIns;
 using MarkdownMonster.Controls.ContextMenus;
 using MarkdownMonster.Favorites;
@@ -19,7 +17,7 @@ using MarkdownMonster.Utilities;
 using MarkdownMonster.Windows;
 using MarkdownMonster.Windows.ConfigurationEditor;
 using Microsoft.Win32;
-using ReverseMarkdown.Converters;
+
 using Westwind.HtmlPackager;
 using Westwind.Utilities;
 
@@ -158,11 +156,11 @@ namespace MarkdownMonster
 
                 if (parameter is string)
                 {
-                    Model.Window.Dispatcher.InvokeAsync(()=>
+                    Model.Window.Dispatcher.InvokeAsync(() =>
                     {
                         Model.ActiveEditor.SetMarkdown(parameter as string);
                         Model.ActiveEditor.PreviewMarkdownCallback();
-                    },DispatcherPriority.ApplicationIdle);
+                    }, DispatcherPriority.ApplicationIdle);
                 }
             });
         }
@@ -233,6 +231,7 @@ namespace MarkdownMonster
                 {
                     Model.Window.OpenTab(filename, rebindTabHeaders: true);
                 }
+
                 if (fd.FileNames.Length > 0)
                     Model.Configuration.LastFolder = Path.GetDirectoryName(fd.FileNames[0]);
 
@@ -258,7 +257,7 @@ namespace MarkdownMonster
                     if (doc != null)
                     {
                         var urlTab = Model.Window.OpenTab("untitled");
-                        ((MarkdownDocumentEditor)urlTab.Tag).MarkdownDocument = doc;
+                        ((MarkdownDocumentEditor) urlTab.Tag).MarkdownDocument = doc;
                         Model.Window.PreviewMarkdownAsync();
                     }
 
@@ -420,7 +419,8 @@ namespace MarkdownMonster
                     SaveAsCommand.Execute(tab);
                 else if (!doc.SaveDocument())
                 {
-                    Model.Window.ShowStatusError("Couldn't save document. Most likely the file is locked or the path is no longer valid.");
+                    Model.Window.ShowStatusError(
+                        "Couldn't save document. Most likely the file is locked or the path is no longer valid.");
                     SaveAsCommand.Execute(tab);
                 }
 
@@ -514,7 +514,7 @@ namespace MarkdownMonster
                     doc.MarkdownDocument.Password = null;
                 else
                 {
-                    var pwdDialog = new FilePasswordDialog(doc.MarkdownDocument, false) { Owner = Model.Window };
+                    var pwdDialog = new FilePasswordDialog(doc.MarkdownDocument, false) {Owner = Model.Window};
                     bool? pwdResult = pwdDialog.ShowDialog();
                 }
 
@@ -529,6 +529,7 @@ namespace MarkdownMonster
                         SaveAsCommand.Execute(tab);
                         return;
                     }
+
                     Model.Configuration.LastFolder = Path.GetDirectoryName(sd.FileName);
                 }
 
@@ -651,7 +652,7 @@ namespace MarkdownMonster
 
 
                         if (sd.FilterIndex != 4 && doc.MarkdownDocument.RenderHtmlToFile(usePragmaLines: false,
-                                filename: sd.FileName) == null)
+                            filename: sd.FileName) == null)
                         {
                             MessageBox.Show(Model.Window,
                                 $"{sd.FileName}\r\n\r\nThis document can't be saved in this location. The file is either locked or you don't have permissions to save it. Please choose another location to save the file.",
@@ -761,7 +762,7 @@ namespace MarkdownMonster
             // PDF GENERATION PREVIEW
             GeneratePdfCommand = new CommandBase((s, e) =>
             {
-                var form = new GeneratePdfWindow() { Owner = mmApp.Model.Window };
+                var form = new GeneratePdfWindow() {Owner = mmApp.Model.Window};
                 form.Show();
             }, (s, e) =>
             {
@@ -860,7 +861,7 @@ namespace MarkdownMonster
                     headers = new List<DragablzItem>();
                     foreach (DragablzItem tab in Model.Window.TabControl.Items)
                     {
-                        ((List<DragablzItem>)headers).Add(tab);
+                        ((List<DragablzItem>) headers).Add(tab);
                     }
                 }
 
@@ -1209,7 +1210,7 @@ namespace MarkdownMonster
         }
 
 
-        
+
 
 
 
@@ -1224,6 +1225,7 @@ namespace MarkdownMonster
                 },
                 (p, c) => Model.IsEditorActive);
         }
+
         #endregion
 
         #region Editor CommandsToolTip;ToolTip;
@@ -1366,7 +1368,7 @@ namespace MarkdownMonster
 
 
         public CommandBase WindowMenuCommand { get; set; }
-     
+
 
         void ShowActiveTabsList()
         {
@@ -1377,7 +1379,7 @@ namespace MarkdownMonster
             });
         }
 
-       
+
 
         public CommandBase SetDictionaryCommand { get; set; }
 
@@ -1564,7 +1566,7 @@ namespace MarkdownMonster
                 var display = Path.GetFileNameWithoutExtension(file).Replace("-", " ").Replace("_", " ");
                 display = StringUtils.FromCamelCase(display);
 
-                var favorite = fav.AddFavorite(null, new FavoriteItem { File = file, Title = display });
+                var favorite = fav.AddFavorite(null, new FavoriteItem {File = file, Title = display});
                 fav.SaveFavorites();
 
                 fav.EditedFavorite = favorite;
@@ -1721,7 +1723,7 @@ namespace MarkdownMonster
         {
             AddinManagerCommand = new CommandBase((parameter, command) =>
             {
-                var form = new AddinManagerWindow { Owner = Model.Window };
+                var form = new AddinManagerWindow {Owner = Model.Window};
                 form.Show();
             });
         }
@@ -2148,13 +2150,13 @@ namespace MarkdownMonster
         void ToggleConsolePanel()
         {
             ToggleConsolePanelCommand = new CommandBase((parameter, command) =>
-                {
-                    Model.WindowLayout.IsConsolePanelVisible = !Model.WindowLayout.IsConsolePanelVisible;
-                    if (!Model.WindowLayout.IsConsolePanelVisible)
-                        Model.Window.ConsolePanel.Hide();
-                    else
-                        Model.Window.ConsolePanel.Show();
-                }, (p, c) => true);
+            {
+                Model.WindowLayout.IsConsolePanelVisible = !Model.WindowLayout.IsConsolePanelVisible;
+                if (!Model.WindowLayout.IsConsolePanelVisible)
+                    Model.Window.ConsolePanel.Hide();
+                else
+                    Model.Window.ConsolePanel.Show();
+            }, (p, c) => true);
         }
 
 
@@ -2162,10 +2164,8 @@ namespace MarkdownMonster
 
         void ClearConsolePanel()
         {
-            ClearConsolePanelCommand = new CommandBase((parameter, command) =>
-            {
-                Model.Console.Clear();
-            }, (p, c) => true);
+            ClearConsolePanelCommand =
+                new CommandBase((parameter, command) => { Model.Console.Clear(); }, (p, c) => true);
         }
 
 
@@ -2227,10 +2227,8 @@ namespace MarkdownMonster
 
                     if (searchFor != null)
                     {
-                        Model.Window.Dispatcher.InvokeAsync(() =>
-                        {
-                            Model.ActiveEditor.AceEditor.FindText(searchFor);
-                        }, DispatcherPriority.ApplicationIdle);
+                        Model.Window.Dispatcher.InvokeAsync(() => { Model.ActiveEditor.AceEditor.FindText(searchFor); },
+                            DispatcherPriority.ApplicationIdle);
                     }
                 }
                 catch
@@ -2286,12 +2284,13 @@ We're now shutting down the application.
                         selectedTheme = Themes.Light;
                 }
                 else
-                    selectedTheme = (Themes)Enum.Parse(typeof(Themes), text);
+                    selectedTheme = (Themes) Enum.Parse(typeof(Themes), text);
 
                 var oldVal = mmApp.Configuration.ApplicationTheme;
 
                 if (oldVal != selectedTheme &&
-                    MessageBox.Show("Application theme changes require that you restart.\r\n\r\nDo you want to restart Markdown Monster?",
+                    MessageBox.Show(
+                        "Application theme changes require that you restart.\r\n\r\nDo you want to restart Markdown Monster?",
                         "Theme Change", MessageBoxButton.YesNo,
                         MessageBoxImage.Question, MessageBoxResult.Yes) == MessageBoxResult.Yes)
                 {
@@ -2347,7 +2346,8 @@ We're now shutting down the application.
             ViewHtmlSourceCommand = new CommandBase((p, e) =>
             {
                 if (Model.ActiveDocument == null) return;
-                var filename = Model.ActiveDocument.HtmlRenderFilename.Replace(MarkdownDocument.PREVIEW_HTML_FILENAME, MarkdownDocument.PREVIEW_HTML_SOURCE_FILENAME);
+                var filename = Model.ActiveDocument.HtmlRenderFilename.Replace(MarkdownDocument.PREVIEW_HTML_FILENAME,
+                    MarkdownDocument.PREVIEW_HTML_SOURCE_FILENAME);
                 Model.ActiveDocument.RenderHtmlToFile(filename: filename);
                 Model.Window.RefreshTabFromFile(filename);
             });
@@ -2411,13 +2411,31 @@ We're now shutting down the application.
 
         public CommandBase TestButtonCommand { get; set; }
 
+        private MarkdownMonster.WebSockets.WebSocketServer WebSocketServer = null;
+
         void TestButton()
         {
             TestButtonCommand = new CommandBase((parameter, command) =>
             {
-                MessageBox.Show("Test Command");
-                object obj = null;
-                obj.ToString();
+                if (WebSocketServer == null)
+                {
+                    WebSocketServer = new MarkdownMonster.WebSockets.WebSocketServer();
+                    WebSocketServer.StartServer();
+                    WebSocketServer.OnBinaryMessage = (bytes) =>
+                    {
+                        App.CommandArgs = new[] {"untitled.base64," + Convert.ToBase64String(bytes)};
+                        mmApp.Model.Window.Dispatcher.InvokeAsync(() => mmApp.Model.Window.OpenFilesFromCommandLine());
+                    };
+                }
+                else
+                {
+                    WebSocketServer?.StopServer();
+                    WebSocketServer = null;
+                }
+                
+
+
+
             });
         }
     }

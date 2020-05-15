@@ -2,8 +2,7 @@
   "profiles": {
     "MarkdownMonster": {
       "commandName": "Project",
-      "_commandLineArgs": " -base64text \"VGhpcyBpcyBhIHRlc3Qgc3RyaW5nIG9mIHRleHQu\"",
-      "commandLineArgs": "\"untitled.json,'This is\\n\\ntwo lines of text.'\""
+      "_commandLineArgs": " -base64text \"VGhpcyBpcyBhIHRlc3Qgc3RyaW5nIG9mIHRleHQu\""
     }
   }
 }
