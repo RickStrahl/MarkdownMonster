@@ -14,6 +14,7 @@ using MarkdownMonster.AddIns;
 using MarkdownMonster.Controls.ContextMenus;
 using MarkdownMonster.Favorites;
 using MarkdownMonster.Utilities;
+using MarkdownMonster.WebSockets;
 using MarkdownMonster.Windows;
 using MarkdownMonster.Windows.ConfigurationEditor;
 using Microsoft.Win32;
@@ -2419,23 +2420,12 @@ We're now shutting down the application.
             {
                 if (WebSocketServer == null)
                 {
-                    WebSocketServer = new MarkdownMonster.WebSockets.WebSocketServer();
-                    WebSocketServer.StartServer();
-                    WebSocketServer.OnBinaryMessage = (bytes) =>
-                    {
-                        App.CommandArgs = new[] {"untitled.base64," + Convert.ToBase64String(bytes)};
-                        mmApp.Model.Window.Dispatcher.InvokeAsync(() => mmApp.Model.Window.OpenFilesFromCommandLine());
-                    };
+                    WebSocketServer.StartMarkdownMonsterWebSocketServer();
                 }
                 else
                 {
-                    WebSocketServer?.StopServer();
-                    WebSocketServer = null;
+                    WebSocketServer.StopMarkdownMonsterWebSocketServer();
                 }
-                
-
-
-
             });
         }
     }

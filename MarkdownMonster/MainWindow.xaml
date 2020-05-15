@@ -419,6 +419,7 @@
                          Command="{Binding Commands.OpenInExplorerCommand}" 
                         IsEnabled="{Binding IsEditorActive}" 
                         ToolTip="Open the document's folder in Explorer" />
+              
                 <Separator/>
                 <MenuItem Name="MenuCommitToGit" Header="Commit to _Git..." Command="{Binding Commands.Git.CommitToGitCommand}" IsEnabled="{Binding IsEditorActive}" 
                           ToolTip="Commits the open document to Git and tries to push to the active remote branch." />
@@ -428,9 +429,15 @@
                           IsEnabled="{Binding IsEditorActive}" />
 
                 <Separator/>
+                <MenuItem Name="MenuToggleWebSocket" Header="WebSocket Server" 
+                          IsCheckable="True"
+                          IsChecked="{Binding Configuration.WebSocket.AutoStart}"
+                          Click="Button_Handler"
+                          ToolTip="Enables the WebSocket server in MM to allow browsers to open new documents for editing. Also check the WebSocket.AutoStart property." />
                 
-
+                <Separator/>
                 <MenuItem Header="_Settings" Command="{Binding Commands.SettingsVisualCommand}"/>
+
             </MenuItem>
             <MenuItem Header="_View" Name="MainMenuView"  x:FieldModifier="public" >
                 <MenuItem Name="ButtonHtmlPreview" 

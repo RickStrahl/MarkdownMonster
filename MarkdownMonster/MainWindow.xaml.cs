@@ -267,6 +267,10 @@ namespace MarkdownMonster
                 tabHeaderContainer.Background = Brushes.Transparent; // REQUIRED OR CLICK NOT FIRING!
                 tabHeaderContainer.MouseLeftButtonDown += TabHeader_DoubleClick;
 
+                var config = Model.Configuration;
+                // Start the WebSocket Server if marked for AutoStart
+                if (config.WebSocket.AutoStart)
+                    WebSocketServer.StartMarkdownMonsterWebSocketServer();
             }, DispatcherPriority.ApplicationIdle);
 
             // TODO: Check to see why this fails in async block above ^^^
@@ -280,7 +284,6 @@ namespace MarkdownMonster
                 // always write back out
                 Task.Run(() => KeyBindings.SaveKeyBindings());
             }
-
             KeyBindings.SetKeyBindings();
 
         }
@@ -474,6 +477,7 @@ namespace MarkdownMonster
                 }
 
                 PipeManager?.StopServer();
+                WebSocketServer?.StopServer();
 
 
                 AddinManager.Current.RaiseOnApplicationShutdown();
@@ -837,7 +841,7 @@ namespace MarkdownMonster
         #endregion
 
         #region Open From Command Line and Singleton Pipe
-        WebSocketServer WebSocketServer = null;
+        public WebSocketServer WebSocketServer = null;
         
         /// <summary>
         /// Opens files from the command line or from an array of strings
@@ -902,20 +906,10 @@ namespace MarkdownMonster
                 if (file.StartsWith("markdownmonster:websocketserver"))
                 {
                     if (WebSocketServer == null)
-                    {
-                        WebSocketServer = new WebSocketServer();
-                        WebSocketServer.OnBinaryMessage = (bytes) =>
-                        {
-                            App.CommandArgs = new[] {"untitled.base64," + Convert.ToBase64String(bytes)};
-                            mmApp.Model.Window.Dispatcher.InvokeAsync(() => mmApp.Model.Window.OpenFilesFromCommandLine());
-                        };
-                        WebSocketServer.StartServer();
-                    }
+                        WebSocketServer.StartMarkdownMonsterWebSocketServer();
                     else
-                    {
-                        WebSocketServer.StopServer();
-                        WebSocketServer.StartServer();
-                    }
+                        WebSocketServer.StopMarkdownMonsterWebSocketServer();
+                    
                     continue;
                 }
                 if (file.StartsWith("markdownmonster:"))
@@ -2734,6 +2728,10 @@ Do you want to continue anyway?", "Disable Markdown Script Rendering",
 
                 // force preview to refresh
                 Model.Commands.RefreshPreviewCommand.Execute(null);
+            }
+            else if (button == MenuToggleWebSocket)
+            {
+                Model.Configuration.WebSocket.IsRunning = MenuToggleWebSocket.IsChecked;
             }
         }
 

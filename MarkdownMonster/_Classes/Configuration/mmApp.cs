@@ -20,6 +20,7 @@ using Microsoft.ApplicationInsights.DataContracts;
 using Microsoft.ApplicationInsights.Extensibility;
 using Microsoft.ApplicationInsights.Extensibility.Implementation;
 using Microsoft.Win32;
+using MarkdownMonster.WebSockets;
 
 namespace MarkdownMonster
 {
@@ -153,7 +154,7 @@ namespace MarkdownMonster
         }
 
         public static void Shutdown(bool errorShutdown = false)
-        {            
+        {
             ShutdownLogging();
 
             var tempPath = Path.GetTempPath();

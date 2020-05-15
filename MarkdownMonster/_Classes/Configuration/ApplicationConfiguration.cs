@@ -12,7 +12,7 @@ using Newtonsoft.Json;
 using Westwind.Utilities.Configuration;
 using MarkdownMonster.Annotations;
 using Westwind.Utilities;
-
+using MarkdownMonster._Classes.Configuration;
 
 namespace MarkdownMonster
 {
@@ -256,6 +256,7 @@ namespace MarkdownMonster
             FolderBrowser = new FolderBrowserConfiguration();
             ApplicationUpdates = new ApplicationUpdatesConfiguration();
             PdfOutputWindow = new  PdfOutputConfiguration();
+            WebSocket = new WebSocketConfiguration();
 
             OpenDocuments = new List<OpenFileDocument>();
 
@@ -385,8 +386,8 @@ namespace MarkdownMonster
         public int RecentDocumentsLength { get; set; }
 
         /// <summary>
-        /// Determines how many of the last documents are remembered and
-        /// reopened at most
+        /// Determines how many of the last documents that were open are
+        /// reopened next time you start Markdown Monster
         /// </summary>
         public int RememberLastDocumentsLength { get; set; }
         #endregion
@@ -488,6 +489,9 @@ namespace MarkdownMonster
         public GitConfiguration Git { get; set; }
 
         public PdfOutputConfiguration PdfOutputWindow { get; set; }
+
+
+        public WebSocketConfiguration WebSocket {get; set; }
 
         #endregion
 
