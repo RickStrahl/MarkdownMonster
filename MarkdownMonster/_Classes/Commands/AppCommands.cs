@@ -13,8 +13,8 @@ using FontAwesome.WPF;
 using MarkdownMonster.AddIns;
 using MarkdownMonster.Controls.ContextMenus;
 using MarkdownMonster.Favorites;
+using MarkdownMonster.Services;
 using MarkdownMonster.Utilities;
-using MarkdownMonster.WebSockets;
 using MarkdownMonster.Windows;
 using MarkdownMonster.Windows.ConfigurationEditor;
 using Microsoft.Win32;
@@ -2412,19 +2412,19 @@ We're now shutting down the application.
 
         public CommandBase TestButtonCommand { get; set; }
 
-        private MarkdownMonster.WebSockets.WebSocketServer WebSocketServer = null;
+        private WebServer WebServer = null;
 
         void TestButton()
         {
             TestButtonCommand = new CommandBase((parameter, command) =>
             {
-                if (WebSocketServer == null)
+                if (WebServer == null)
                 {
-                    WebSocketServer.StartMarkdownMonsterWebSocketServer();
+                    WebServerLauncher.StartMarkdownMonsterWebServer();
                 }
                 else
                 {
-                    WebSocketServer.StopMarkdownMonsterWebSocketServer();
+                    WebServerLauncher.StopMarkdownMonsterWebServer();
                 }
             });
         }

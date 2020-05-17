@@ -429,11 +429,23 @@
                           IsEnabled="{Binding IsEditorActive}" />
 
                 <Separator/>
-                <MenuItem Name="MenuToggleWebSocket" Header="WebSocket Server" 
+                <MenuItem Name="MenuToggleWebSocket" Header="Web Server" 
                           IsCheckable="True"
-                          IsChecked="{Binding Configuration.WebSocket.AutoStart}"
-                          Click="Button_Handler"
-                          ToolTip="Enables the WebSocket server in MM to allow browsers to open new documents for editing. Also check the WebSocket.AutoStart property." />
+                          IsChecked="{Binding Configuration.WebServer.IsRunning}"
+                          >
+                    <MenuItem.ToolTip>
+                        <TextBlock>Toggles the Markdown Monster Web Server on or off. 
+                            <LineBreak />
+                            Allows browsers to open new documents for editing.
+                            <LineBreak />
+                            <LineBreak />
+                            You can autostart the Web Server when the application starts
+                            <LineBreak />
+                            by setting the 'WebServer.AutoRun' flag to true."
+                        </TextBlock>
+                    </MenuItem.ToolTip>
+                </MenuItem>
+                          
                 
                 <Separator/>
                 <MenuItem Header="_Settings" Command="{Binding Commands.SettingsVisualCommand}"/>

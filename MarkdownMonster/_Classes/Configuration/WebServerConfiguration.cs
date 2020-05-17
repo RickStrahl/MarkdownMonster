@@ -1,46 +1,44 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
+﻿using System.ComponentModel;
 using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
 using MarkdownMonster.Annotations;
-using MarkdownMonster.WebSockets;
+using MarkdownMonster.Services;
 using Newtonsoft.Json;
 
-namespace MarkdownMonster._Classes.Configuration
+namespace MarkdownMonster.Configuration
 {
     /// <summary>
-    /// Settings that control the Web Socket server that can be used
-    /// for browser to Markdown Monster communication.
+    /// Settings that control the local built-in Web Server that can
+    /// be used to open Markdown Monster from Web pages or any other
+    /// client that can make HTTP requests. Ooperations supported are:
     ///
+    /// Open - same as command line operations
+    /// 
     /// By default this server is off and can be started via
     /// Application Protocol:
     ///
-    /// markdownmonster:websocketserver
+    /// markdownmonster:webserver
     ///
     /// or by autostarting on startup
     /// </summary>
-    public class WebSocketConfiguration : INotifyPropertyChanged
+    public class WebServerConfiguration : INotifyPropertyChanged
     {
         /// <summary>
         /// Port used for the Socket Server. Note if you change this value
         /// any script code used to access the server requires that you
         /// also change the client port!
         /// </summary>
-        public int SocketPort
+        public int Port
         {
-            get => _socketPort;
+            get => _port;
             set
             {
-                if (value == _socketPort) return;
-                _socketPort = value;
+                if (value == _port) return;
+                _port = value;
                 OnPropertyChanged();
             }
         }
 
-        private int _socketPort = 5009;
+        private int _port = 5009;
 
 
         /// <summary>
@@ -77,9 +75,9 @@ namespace MarkdownMonster._Classes.Configuration
                 _isRunning = value;
 
                 if (!_isRunning)
-                    WebSocketServer.StopMarkdownMonsterWebSocketServer();
+                    WebServerLauncher.StopMarkdownMonsterWebServer();
                 else
-                    WebSocketServer.StartMarkdownMonsterWebSocketServer();
+                    WebServerLauncher.StartMarkdownMonsterWebServer();
 
                 OnPropertyChanged(nameof(IsRunning));
             }

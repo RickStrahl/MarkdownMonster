@@ -6,13 +6,11 @@ using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
-using System.Windows.Threading;
 using MarkdownMonster.Configuration;
 using Newtonsoft.Json;
 using Westwind.Utilities.Configuration;
 using MarkdownMonster.Annotations;
 using Westwind.Utilities;
-using MarkdownMonster._Classes.Configuration;
 
 namespace MarkdownMonster
 {
@@ -256,7 +254,7 @@ namespace MarkdownMonster
             FolderBrowser = new FolderBrowserConfiguration();
             ApplicationUpdates = new ApplicationUpdatesConfiguration();
             PdfOutputWindow = new  PdfOutputConfiguration();
-            WebSocket = new WebSocketConfiguration();
+            WebServer = new WebServerConfiguration();
 
             OpenDocuments = new List<OpenFileDocument>();
 
@@ -491,7 +489,7 @@ namespace MarkdownMonster
         public PdfOutputConfiguration PdfOutputWindow { get; set; }
 
 
-        public WebSocketConfiguration WebSocket {get; set; }
+        public WebServerConfiguration WebServer {get; set; }
 
         #endregion
 

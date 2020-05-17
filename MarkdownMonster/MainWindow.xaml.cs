@@ -33,28 +33,23 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Text;
-using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
-using System.Windows.Forms;
-using System.Windows.Forms.VisualStyles;
 using System.Windows.Input;
 using System.Windows.Interop;
 using System.Windows.Media;
 using System.Windows.Threading;
 using Dragablz;
 using FontAwesome.WPF;
-using LibGit2Sharp;
 using MahApps.Metro.Controls;
 using MahApps.Metro.Controls.Dialogs;
-using MarkdownMonster;
 using MarkdownMonster.AddIns;
 using MarkdownMonster.Annotations;
 using MarkdownMonster.Controls.ContextMenus;
+using MarkdownMonster.Services;
 using MarkdownMonster.Utilities;
-using MarkdownMonster.WebSockets;
 using MarkdownMonster.Windows;
 using MarkdownMonster.Windows.PreviewBrowser;
 using Westwind.Utilities;
@@ -62,7 +57,6 @@ using Binding = System.Windows.Data.Binding;
 using Brushes = System.Windows.Media.Brushes;
 using Button = System.Windows.Controls.Button;
 using Color = System.Windows.Media.Color;
-using ColorConverter = System.Windows.Media.ColorConverter;
 using ContextMenu = System.Windows.Controls.ContextMenu;
 using DataFormats = System.Windows.DataFormats;
 using DataObject = System.Windows.DataObject;
@@ -268,9 +262,11 @@ namespace MarkdownMonster
                 tabHeaderContainer.MouseLeftButtonDown += TabHeader_DoubleClick;
 
                 var config = Model.Configuration;
-                // Start the WebSocket Server if marked for AutoStart
-                if (config.WebSocket.AutoStart)
-                    WebSocketServer.StartMarkdownMonsterWebSocketServer();
+
+                // Start the built-in localhost Web Server if marked for AutoStart
+                if (config.WebServer.AutoStart)
+                    WebServerLauncher.StartMarkdownMonsterWebServer();
+
             }, DispatcherPriority.ApplicationIdle);
 
             // TODO: Check to see why this fails in async block above ^^^
@@ -477,7 +473,7 @@ namespace MarkdownMonster
                 }
 
                 PipeManager?.StopServer();
-                WebSocketServer?.StopServer();
+                WebServer?.StopServer();
 
 
                 AddinManager.Current.RaiseOnApplicationShutdown();
@@ -841,7 +837,7 @@ namespace MarkdownMonster
         #endregion
 
         #region Open From Command Line and Singleton Pipe
-        public WebSocketServer WebSocketServer = null;
+        public WebServer WebServer = null;
         
         /// <summary>
         /// Opens files from the command line or from an array of strings
@@ -903,12 +899,12 @@ namespace MarkdownMonster
                 file = file.TrimEnd('\\');
 
                 // file monikers - just strip first
-                if (file.StartsWith("markdownmonster:websocketserver"))
+                if (file.StartsWith("markdownmonster:webserver"))
                 {
-                    if (WebSocketServer == null)
-                        WebSocketServer.StartMarkdownMonsterWebSocketServer();
+                    if (WebServer == null)
+                        WebServerLauncher.StartMarkdownMonsterWebServer();
                     else
-                        WebSocketServer.StopMarkdownMonsterWebSocketServer();
+                        WebServerLauncher.StopMarkdownMonsterWebServer();
                     
                     continue;
                 }
@@ -2728,10 +2724,6 @@ Do you want to continue anyway?", "Disable Markdown Script Rendering",
 
                 // force preview to refresh
                 Model.Commands.RefreshPreviewCommand.Execute(null);
-            }
-            else if (button == MenuToggleWebSocket)
-            {
-                Model.Configuration.WebSocket.IsRunning = MenuToggleWebSocket.IsChecked;
             }
         }
 

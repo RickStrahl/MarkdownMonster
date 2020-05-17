@@ -20,7 +20,6 @@ using Microsoft.ApplicationInsights.DataContracts;
 using Microsoft.ApplicationInsights.Extensibility;
 using Microsoft.ApplicationInsights.Extensibility.Implementation;
 using Microsoft.Win32;
-using MarkdownMonster.WebSockets;
 
 namespace MarkdownMonster
 {

@@ -1,10 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using MarkdownMonster._Classes.Configuration;
 using MarkdownMonster.Configuration;
 using Westwind.TypeImporter;
 using Westwind.Utilities;
@@ -52,7 +47,7 @@ namespace MarkdownMonster.Windows.ConfigurationEditor
             ParseConfigurationObject(typeof(ImagesConfiguration), true);
             ParseConfigurationObject(typeof(WindowPositionConfiguration), true);
             ParseConfigurationObject(typeof(ApplicationUpdatesConfiguration), true);
-            ParseConfigurationObject(typeof(WebSocketConfiguration), true);
+            ParseConfigurationObject(typeof(WebServerConfiguration), true);
         }
 
     
