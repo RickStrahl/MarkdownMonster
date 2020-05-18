@@ -1,0 +1,597 @@
+﻿prehtml, body {               
+    font-size: 16px;
+}
+h1, h2, h3, h4,h5,h6,.page-header-text {
+    font-weight: 600;
+}
+h1 {
+    font-weight: 600;
+    font-size: 1.8em;
+    padding-bottom: 8px;
+    border-bottom: 1px solid #eee;
+    color: #555;
+}
+h2 {
+    font-size: 1.5em;
+    color: #444;
+}
+h3 {
+    font-size: 1.25em;
+    color: #2B547E;    
+}
+h4 {
+    font-size: 1.13em;
+    color: #2B547E;    
+}
+h5
+{
+    font-size: 1.06em;
+}
+h6
+{
+    font-size: 1em;
+}
+option {
+    padding: 4px 3px;
+    border-radius: 3px;
+}
+footer {
+    margin: 30px 0 12px;
+    padding: 10px;
+    border-top: 1px solid silver;
+    font-size: 0.85em;
+}
+
+.table-dark-headers tr th {
+    background: #636363; 
+    color: white;   
+} 
+    .table-dark-headers tr th a, .table-dark tr th a:visited {
+        text-decoration: none;
+        color: cornsilk;
+    }
+
+code {
+    background: #eee;
+    color: #333;
+    padding: 2px 5px;
+    font-weight: 600;
+    font-family: consolas,monospace;
+    border-radius: 3px;
+}
+
+pre {
+    font-family: consolas,monospace;
+    font-size: 0.875em !important;
+    font-weight: normal;
+    line-height: 1.45;
+    background: #f2f2f2;
+    color: #333;
+    margin: 7px 0 !important;
+    padding: 5px;
+    border: 1px solid #eee;
+    border-radius: 4px;
+    
+    overflow-x: auto;
+    white-space: pre;
+    word-break: normal;
+    word-wrap: normal;
+}
+    pre.no-container {
+        border: none;
+        padding: 0;
+    }
+
+pre code {
+    white-space: pre;    
+    font-weight: normal;
+    background: transparent;
+    padding: 0.8em !important;
+}
+
+blockquote {
+    background: #ecf5ff;
+    font-size: 1.04em;
+    padding: 10px 10px 10px 20px !important;
+    margin: 1.1em 1.3em 1.1em 1em;
+    border-left: 8px #507bac solid;
+    border-radius: 4px 0 0 4px;
+}
+blockquote>p:last-child { margin: 0;}
+
+strong, b {
+    font-weight: 600;
+    color: #222;
+}
+img {
+    max-width: 100%;
+}
+
+/* Font-awsome based radios and checkboxes */
+
+/* Font-awsome based radios and checkboxes */
+input[type=radio].with-font,
+input[type=checkbox].with-font {
+    border: 0;
+    clip: rect(0 0 0 0);
+    height: 1px;
+    overflow: hidden;    
+    padding: 0;
+    margin: 0;
+    position: absolute;    
+}
+
+    input[type=radio].with-font ~ label:before,
+    input[type=checkbox].with-font ~ label:before {
+        font-family: 'Font Awesome 5 Free';
+        content: "\f111"; /* fa-circle-thin */
+        letter-spacing: 10px;
+        font-size: 1.2em;
+        color: #535353;
+        xwidth: 1.3em; /* reduce bounce */
+    }
+
+    input[type=radio].with-font:checked ~ label:before {
+        content: "\f00c"; /* fa-check */        
+        color: darkgreen;        
+        font-weight: 600;
+    }
+    input[type=radio].with-font ~ label:before {
+        content: "\f111"; /* fa-circle */
+        font-weight: 500;
+    }
+
+    input[type=checkbox].with-font ~ label:before {
+        content: "\f0c8"; /* fa-square-o */   
+        font-weight: 400;
+    }
+
+    input[type=checkbox].with-font:checked ~ label:before {
+        content: "\f14a"; /* fa-check-square */
+        color: green;            
+    }
+
+/* BootStrap overrides */
+a {
+    color: #0075d9;
+}
+a:hover {
+    color: #337ab6;
+}
+label {
+    font-weight: 600;
+}
+.panel-heading {
+    font-weight: 600;
+    font-size: 1.4em;
+    margin-bottom: 2em;
+}
+.btn-primary {
+    background-color: #337ab6;
+    border-color: #337ab6;
+}
+.card-header {
+    font-weight: 600;
+}
+.badge-super {
+    font-size: 0.5em;  
+    vertical-align: super;
+}
+
+
+/* font-awesome overrides - legacy icons*/
+.fa-right-padding {
+    padding-right: 0.4em;    
+}
+.fa-warning:before {
+    content: "\f071";
+}
+.fa-gear :before {
+    content: "\f013";
+}
+.fa-gears :before {
+    content: "\f085"; 
+}
+
+/* Common CSS */
+
+.right{ 
+    text-align: right;
+}
+
+/* hidden and out of the document flow */
+.hidden {
+    display: none;
+}
+/* hidden display, but still part of document flow */
+.visually-hidden {
+    border: 0;
+    clip: rect(0 0 0 0);
+    height: 1px;
+    margin: -1px;
+    overflow: hidden;
+    padding: 0;
+    position: absolute;
+    width: 1px; 
+}
+
+/* hidden in below tablet and phone (-xs) sizes respectively */
+.hidable, .hidable-xs {   }
+
+
+
+/* flows child elements evenly to fill 100%*/
+.responsive-container {
+    display: flex;    
+    vertical-align: middle;
+}
+.responsive-container>* {
+    margin-right: 3px;
+}
+.responsive-container>*:last-child {
+    margin-right: 0;
+}
+.stackable {
+}
+@media(max-width: 768px) {
+    .responsive-container {
+        flex-direction: column;        
+    }
+        .responsive-container>* {
+            margin-right: 0;
+            margin-top: 4px;
+            width: 100% !important;
+        }
+    .stackable {
+        display: block;
+        margin-top: 4px;        
+    }
+}
+
+/* West Wind Component Features */
+
+.error, .red-highlight, .binding-error {
+    color: firebrick;
+    font-weight: bold;
+}
+.error-inline {
+    color: firebrick;
+    display: inline;    
+}
+.binding-error {
+    padding: 5px 0;
+    font-size: 0.85em;
+}
+.highlight {
+    background: #c6f1c6 !important;
+}
+.title-bar {
+    position: absolute;
+    top: 2px;
+    left: 32px;
+    z-index: 11;
+}
+.title-bar.no-slide-menu {
+    left: 5px;
+}
+.title-bar-icon {
+    height: 45px; 
+    float: left
+}
+
+.list {
+    border: 1px #eee solid;
+    margin-top: 40px;
+    margin-bottom: 30px;
+    border-radius: 4px;
+}
+
+.list-header {
+    font-size: 1.1em;
+    font-weight: 600;
+    padding: 14px;
+    background: #656565;
+    color: #eee;
+    border-radius: 4px 4px 0 0;
+}
+
+.list-item {
+    padding: 12px;
+    border-bottom: 1px solid #eee;
+}
+.list-item-header {
+    font-weight: 600;
+    font-size: 1.1em;
+}
+
+    .list-item.alternate {
+        background: #f2f2f2;
+    }
+
+    .list-item.active {
+        background: lightsteelblue;
+    }
+
+.banner {
+    background: #535353;
+    color: #e1e1e1;    
+    position: fixed;
+    opacity: .95;
+    top: 0;
+    left: 0;
+    padding-top: 6px;
+    height: 60px;    
+    width: 100%;
+    z-index: 10;
+    box-shadow: 3px 3px 8px #828282;
+}
+.banner.active {
+    color: white;
+    font-weight: bolder;
+}
+.banner nav {
+    display: inline-block;
+    margin-right: 3px;
+    padding: 4px;
+}
+
+.banner nav a, .banner nav input {
+    display: inline-block;
+    padding: 11px 6px 6px;
+    color: #eee;    
+    margin-top: 3px;
+    text-decoration: none;
+}
+
+.banner nav a img {
+    height: 24px;
+    vertical-align: top;
+}
+
+.banner nav a:hover {
+    color: white;
+    background: #767676;
+    text-decoration: none;
+    border-bottom: solid 4px silver;
+    border-radius: 2px;
+}
+
+.banner nav a.active, .banner nav a.selected {
+    color: white;
+    font-weight: bold;
+    border-bottom: solid 4px orange;
+    border-radius: 2px;
+}
+    .banner nav .dropdown a, .banner nav .dropdown a:hover {
+        border-bottom: none;        
+    }
+    .banner nav .dropdown a:hover {
+        background: #999;
+    }
+
+.banner-bottom {
+    position: fixed;
+    bottom: 0;
+    top: auto;
+    text-align: center;
+    padding-top: inherit;
+    height: 43px;
+    display: none;
+}
+
+.banner-bottom a {
+    margin: 0 20px;
+}    
+.slide-menu {    
+    position: fixed;        
+    top: 56px;
+    left: 0;
+    bottom: 0;
+    width: 0;    
+    background: #535353 ;
+    background: linear-gradient(to bottom,  #535353 0, #707070 100%);
+    transition: width 0.50s ease-out;
+    white-space: nowrap;
+    overflow-x:auto;
+    overflow-y: auto;
+    z-index: 2000;    
+}
+.slide-menu.active {       
+    width: 300px;   
+    border: 1px #868686 solid;
+    box-shadow: 2px 2px 4px #535353;    
+}
+.slide-menu a, .slide-menu a:visited, .slide-menu a:hover {
+    text-decoration: none;
+    color: white;
+    display: block;    
+    padding: 10px;
+    overflow-x: hidden;
+    border-bottom: 1px solid silver;
+}
+.slide-menu a.indented {
+    margin-left: 25px;
+}
+    .slide-menu a:hover {
+        background: #eee;
+        background: linear-gradient(to bottom, #888 0, #696969 100%);        
+    }
+    .slide-menu a.disabled, .slide-menu a.disabled:hover {
+        background: transparent;
+        color: #ccc;
+    }
+    .slide-menu a.header, .slide-menu a.header:hover {
+        background: transparent;
+        color:  floralwhite;
+        font-weight: 600;
+        background: #606060;
+    }
+a.slide-menu-toggle-close, a.slide-menu-toggle-close:hover {
+    background: transparent;
+    color: white;
+    width: 40px;
+    font-size: 1.2em;
+    padding: 3px;   
+    margin-bottom: 15px;
+    margin-left: 5px;
+    margin-top: 7px;
+    border-bottom: 0 none !important;
+}
+a.slide-menu-toggle-open, a.slide-menu-toggle-open:hover {
+    position: absolute;
+    text-decoration: none;
+    top: 20px;
+    left: 10px;
+    font-size: 1.2em;     
+    color: white;
+    margin-bottom: 10px;
+    border-bottom: none;    
+}
+.slide-menu-toggle-open.no-slide-menu {
+    display: none;
+}
+
+/* West Wind Main Page Layout */
+
+#MainView {
+    margin-top: 70px;
+    width: 100%;       
+}
+#MainView.fixed {
+    position: absolute;
+    left: 0;
+    top: 60px;
+    bottom: 0;
+    padding-top: 10px;
+    width: 100%;
+    z-index: 11;        
+    -webkit-overflow-scrolling: touch;
+}
+
+.page-header-text {
+    font-size: 1.52em;    
+    color:  #0092d0;
+    padding-bottom: 5px;
+    margin-bottom: 15px;
+    border-bottom: 1px solid #e1e1e1;
+}
+.separator {
+    padding: 3px 0;
+    margin: 10px 0 15px 0;
+    border-bottom: solid 1px #e1e1e1;
+}
+.scrollbox {    
+    min-height: 200px;
+    overflow-y: scroll;
+}
+.margin-top {
+    margin-top: 25px;
+}
+.margin-top-2x {
+    margin-top: 50px;
+}
+.margin-bottom {
+    margin-bottom: 25px;
+}
+.margin-bottom-2x {
+    margin-bottom: 40px;
+}
+.margin-sides {
+    margin-left: 3%;
+    margin-right: 3%;
+}
+
+.margin-sides-2x {
+    margin-left: 6%;
+    margin-right: 6%;
+}
+
+.margin-sides-auto {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.record-container {
+    background: #f1f1f1;
+    border: 1px solid silver;
+}
+.record-container>.row {
+    padding: 8px 12px;
+    margin-right: 0;
+    margin-left: 0;
+}   
+    .record-container>.row.alternate {
+        background: white;
+    }
+select.invalid, textarea.invalid,
+input:not([type=submit]):not([type=checkbox]):not([type=radio]):not([type=file]).invalid {
+    background: lightpink;
+    border-left: 5px solid red;
+}
+input:not([type=submit]):not([type=checkbox]):not([type=radio]):not([type=file]).valid,
+select:not(.pristine).invalid, textarea:not(.pristine):not(.untouched).valid {
+    background: #adfbdc;
+    border-left: 5px solid green;
+}
+@media(max-width: 767px) {
+    .container {
+    	padding-left: 9px;
+        padding-right: 6px;
+    }
+    .banner nav a span {
+        display: none;
+    }
+    a.slide-menu-toggle-open,a.slide-menu-toggle-open:hover {
+        display: block;
+    }
+    .hidable {
+        display: none !important;
+    }
+    .record-container {
+        border: none;
+    }
+        .record-container > .row {
+            border: none;
+        }
+}
+@media(max-width: 480px){
+    .hidable-xs {
+        display: none !important;
+    }
+	.stacked {
+    	display: block;
+		width: auto !important;   
+    	margin-bottom: 4px;               
+	}
+}
+
+.modal {
+    position: absolute;
+    top: 0;
+    z-index: 1040;
+}
+
+.modal-dialog {
+    margin: 2px auto;
+}
+
+.modal-header {
+    padding: 15px 15px 5px;
+}
+
+.modal-body {
+    padding: 10px 20px 5px 20px;
+}
+
+
+
+form input:not([type=submit]):not([type=checkbox]):not([type=radio]):not([type=file]):not(.ng-pristine):not(.ng-untouched).ng-invalid,
+     select:not(ng-pristine).ng-invalid, textarea:not(.ng-pristine).ng-invalid
+{
+    background: pink;
+    border-left: 5px solid red;
+}
+
+[ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
+    display: none !important;
+}

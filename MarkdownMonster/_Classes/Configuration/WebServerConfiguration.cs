@@ -23,7 +23,7 @@ namespace MarkdownMonster.Configuration
     public class WebServerConfiguration : INotifyPropertyChanged
     {
         /// <summary>
-        /// Port used for the Socket Server. Note if you change this value
+        /// Port used for the Web Server. Note if you change this value
         /// any script code used to access the server requires that you
         /// also change the client port!
         /// </summary>
@@ -42,11 +42,11 @@ namespace MarkdownMonster.Configuration
 
 
         /// <summary>
-        /// Determines whether the internal Web Socket Server is automatically
-        /// started when Markdown Monster starts.
+        /// Determines whether the light weight, internal Web Server is 
+        /// automatically started when Markdown Monster starts.
         ///
-        /// The WebSocket server allows Web Browsers and external applications
-        /// using WebSockets to open new documents in Markdown Monster for editing.
+        /// The Web Server allows Web Browsers and external applications
+        /// to open new documents in Markdown Monster for editing.
         /// </summary>
         public bool AutoStart
         {
@@ -62,7 +62,7 @@ namespace MarkdownMonster.Configuration
         
 
         /// <summary>
-        /// Determines whether the socket is automatically started when MArkdown Monster Starts
+        /// Determines whether the Web Server is running
         /// </summary>
         [JsonIgnore]
         public bool IsRunning

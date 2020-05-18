@@ -13,6 +13,12 @@ namespace MarkdownMonster.Services
 {
     public class WebServer
     {
+        /// <summary>
+        /// Connection Timeout in milliseconds. Resets connection if waiting
+        /// longer than this timeout.
+        /// </summary>
+        public int ConnectionTimeout { get; set; } = 10_000;
+        bool Cancelled { get; set; } = false;
 
 
         Thread SocketThread { get; set; }
@@ -37,6 +43,7 @@ namespace MarkdownMonster.Services
         public Exception LastException { get; set; }
 
 
+        #region Start and Stop Server 
 
         public bool StartServer(string ipAddress = "127.0.0.1", int serverPort = 5009)
         {
@@ -58,6 +65,9 @@ namespace MarkdownMonster.Services
 
         public void StopServer()
         {
+            Cancelled = true;
+            Thread.Sleep(80);
+
             CloseConnection();
 
             try
@@ -107,7 +117,7 @@ namespace MarkdownMonster.Services
 
 
             // enter to an infinite cycle to be able to handle every change in stream
-            while (true)
+            while (!Cancelled)
             {
                 try
                 {
@@ -116,6 +126,13 @@ namespace MarkdownMonster.Services
 
                     
                     WaitForConnectionData();
+
+                    
+                    if (!RequestContext.Connection.Connected)
+                        continue;
+
+                    if ( RequestContext.Connection.Available == 0)
+                        continue;
 
                     if (!ParseRequest())
                         continue;
@@ -128,7 +145,7 @@ namespace MarkdownMonster.Services
                             "HTTP/1.1 200 OK\r\n" +
                             "Access-Control-Allow-Origin: *\r\n" +
                             "Access-Control-Allow-Methods: GET,POST,PUT,OPTIONS\r\n" +
-                            "Access-Control-Allow-Headers: Content-Type, Authorization, Content-Length, X-Requested-With");
+                            "Access-Control-Allow-Headers: *\r\n");
 
                         //wrapper.Stream.Write(response, 0, response.Length);
 
@@ -163,16 +180,21 @@ namespace MarkdownMonster.Services
                             "HTTP/1.1 200 OK\r\n" +
                             "Access-Control-Allow-Origin: *\r\n" +
                             "Access-Control-Allow-Methods: GET,POST,PUT,OPTIONS\r\n" +
-                            "Access-Control-Allow-Headers: Content-Type, Authorization, Content-Length, X-Requested-With\r\n" +
+                            "Access-Control-Allow-Headers: *\r\n" +
                             "Content-Type: application/json\r\n";
 
-                        WriteResponse(
-                            JsonConvert.SerializeObject(new {result = "OK"}, Newtonsoft.Json.Formatting.Indented),
+                        WriteResponse(JsonConvert.SerializeObject(new {result = "OK"}, Newtonsoft.Json.Formatting.Indented),
                             headers);
                     }
                     else if (RequestContext.Path.StartsWith("/ping"))
                     {
-                        WriteResponse("OK", null);
+                        string headers =
+                            "HTTP/1.1 200 OK\r\n" +
+                            "Access-Control-Allow-Origin: *\r\n" +
+                            "Access-Control-Allow-Methods: GET,POST,PUT,OPTIONS\r\n" +
+                            "Access-Control-Allow-Headers: *\r\n" +
+                            "Content-Type: text/plain\r\n";
+                        WriteResponse("OK", headers);
                     }
                     else
                     {
@@ -195,16 +217,77 @@ namespace MarkdownMonster.Services
 
         }
 
+        #endregion
+
+        #region Connection Operations
+
+        /// <summary>
+        /// Returns a raw stream which can be SSL encoded and the original
+        /// Network stream so both are accessible. Use the raw stream
+        /// for read/write and the Network Stream for checking data
+        /// availability
+        /// </summary>
+        /// <param name="secure"></param>
+        /// <returns></returns>
+        WebRequestContext OpenConnection(bool secure = false)
+        {
+            WebRequestContext requestContext = new WebRequestContext();
+            try
+            {
+                requestContext.Connection = TcpServer.AcceptTcpClient();
+                requestContext.Connection.ReceiveTimeout = 3000;
+                requestContext.Connection.SendTimeout = 3000;
+
+                requestContext.NetworkStream = requestContext.Connection.GetStream();
+
+                if (secure)
+                    requestContext.Stream = new SslStream(requestContext.NetworkStream);
+                else
+                    requestContext.Stream = requestContext.NetworkStream;
+            }
+            catch
+            {
+                return null;
+            }
+
+            return requestContext;
+        }
+
+        void CloseConnection()
+        {
+            // close connection			
+            RequestContext?.Close();
+            RequestContext = null;
+        }
+
+        #endregion
+
+        #region Receive Processing
         private void WaitForConnectionData()
         {
-            while (!RequestContext.NetworkStream.DataAvailable)
+
+            var dt = DateTime.UtcNow.AddMilliseconds(ConnectionTimeout);
+
+            while (RequestContext.NetworkStream != null &&
+                   !RequestContext.NetworkStream.DataAvailable)
             {
+                
                 if (TcpServer == null)
                     return;
 
                 Thread.Sleep(1); // don't hog CPU
-                while (RequestContext.Connection.Available < 3)
+
+                if(RequestContext?.Connection == null)
+                     return;
+
+                
+                while ( RequestContext?.Connection != null &&
+                        RequestContext.Connection.Connected &&
+                        RequestContext.Connection.Available < 3)
                 {
+                    if (dt < DateTime.UtcNow)
+                        return;  // break and restart connection in case it's hung
+
                     Thread.Sleep(10);
                 }
             }
@@ -212,6 +295,10 @@ namespace MarkdownMonster.Services
 
         private bool ParseRequest()
         {
+            if (RequestContext.Connection == null ||
+                !RequestContext.Connection.Connected)
+                return false;
+
             // Read initial buffer to get the headers
             int available = RequestContext.Connection.Available;
             byte[] bytes = new byte[available];
@@ -283,12 +370,12 @@ namespace MarkdownMonster.Services
             OnMarkdownMonsterOperation?.Invoke(operation);
         }
 
-        
+        #endregion
+
         #region Response Output Wrappers
         public void WriteResponse(string data, string headers)
         {
             byte[] content = null;
-            int contentLength = 0;
 
             if (!string.IsNullOrEmpty(data))
                 content = Encoding.UTF8.GetBytes(data);
@@ -303,6 +390,9 @@ namespace MarkdownMonster.Services
             byte[] response = Encoding.UTF8.GetBytes(headers.TrimEnd('\r', '\n') + "\r\n\r\n");
             try
             {
+                if (RequestContext?.NetworkStream == null)
+                    return;
+
                 RequestContext.NetworkStream.Write(response, 0, response.Length);
 
                 if (content != null)
@@ -331,51 +421,17 @@ namespace MarkdownMonster.Services
             if (message == null)
                 message = "An unknown error occurred processing this request.";
 
-            WriteResponse(message, "HTTP/1.1 500 Server Error\r\n" + "Content-Type: text/plain\r\n" );
+            string headers =
+                "HTTP/1.1 500 Server Error\r\n" +
+                "Access-Control-Allow-Origin: *\r\n" +
+                "Access-Control-Allow-Methods: GET,POST,PUT,OPTIONS\r\n" +
+                "Access-Control-Allow-Headers: *\r\n";
+                
+            WriteResponse(message,  headers + "Content-Type: text/plain\r\n" );
         }
 
         #endregion
 
-
-        #region Connection Operations
-
-        /// <summary>
-        /// Returns a raw stream which can be SSL encoded and the original
-        /// Network stream so both are accessible. Use the raw stream
-        /// for read/write and the Network Stream for checking data
-        /// availability
-        /// </summary>
-        /// <param name="secure"></param>
-        /// <returns></returns>
-        WebRequestContext OpenConnection(bool secure = false)
-        {
-            WebRequestContext requestContext = new WebRequestContext();
-            try
-            {
-                requestContext.Connection = TcpServer.AcceptTcpClient();
-                requestContext.NetworkStream = requestContext.Connection.GetStream();
-
-                if (secure)
-                    requestContext.Stream = new SslStream(requestContext.NetworkStream);
-                else
-                    requestContext.Stream = requestContext.NetworkStream;
-            }
-            catch (Exception ex)
-            {
-                return null;
-            }
-
-            return requestContext;
-        }
-
-        void CloseConnection()
-        {
-            // close connection			
-            RequestContext?.Close();
-            RequestContext = null;
-        }
-
-        #endregion
 
         string GetFirstHeaderLine(string s)
         {
