@@ -6,12 +6,19 @@ using System.Net.Security;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading;
+using MarkdownMonster.Controls;
 using Newtonsoft.Json;
 
 namespace MarkdownMonster.Services
 {
     public class WebServer
     {
+
+
+        Thread SocketThread { get; set; }
+        TcpListener TcpServer { get; set; }
+
+        WebRequestContext RequestContext = null;
 
         string IpAddress { get; set; } = "127.0.0.1";
         int ServerPort { get; set; } = 5009;
@@ -20,11 +27,6 @@ namespace MarkdownMonster.Services
         /// If true uses SSL
         /// </summary>
         bool Secure { get; set; }
-
-        Thread SocketThread { get; set; }
-        TcpListener TcpServer { get; set; }
-
-        WebRequestContext RequestContext = null;
 
         public Action<WebServerOperation> OnMarkdownMonsterOperation { get; set; }
 
@@ -42,6 +44,7 @@ namespace MarkdownMonster.Services
             {
                 SocketThread = new Thread(RunServer);
                 SocketThread.Start();
+                mmApp.Configuration.WebServer.IsRunning = true;
             }
             catch (Exception ex)
             {
@@ -83,9 +86,24 @@ namespace MarkdownMonster.Services
         {
             TcpServer?.Stop();
 
-            TcpServer = new TcpListener(IPAddress.Parse(IpAddress), ServerPort);
-            TcpServer.Start();
-
+            try
+            {
+                TcpServer = new TcpListener(IPAddress.Parse(IpAddress), ServerPort);
+                TcpServer.Start();
+            }
+            catch(Exception ex)
+            {
+                
+                var window = mmApp.Model?.Window;
+                if (window != null)
+                    window.Dispatcher.InvokeAsync( ()=>
+                    {
+                        mmApp.Model.Configuration.WebServer.IsRunning = false;
+                        window.ShowStatusError(
+                                $"Failed to start Web Server on `localhost:{ServerPort}`: {ex.Message}");
+                    });
+                return;
+            }
 
 
             // enter to an infinite cycle to be able to handle every change in stream
@@ -124,7 +142,15 @@ namespace MarkdownMonster.Services
                             var operation = JsonConvert.DeserializeObject(RequestContext.RequestContent, typeof(WebServerOperation)) as WebServerOperation;
                             if (operation == null)
                                 throw new ArgumentException("Invalid json request data: " + RequestContext.RequestContent);
-                            OnMarkdownMonsterOperation?.Invoke(operation);
+
+                            try
+                            {
+                                OnMarkdownMonsterOperation?.Invoke(operation);
+                            }
+                            catch
+                            {
+                                mmApp.Model?.Window?.ShowStatusError("Web Server Client Request failed. Operation: " + operation.Operation);
+                            }
                         }
                         catch (Exception ex)
                         {
@@ -166,6 +192,7 @@ namespace MarkdownMonster.Services
                     RequestContext = null;
                 }
             }
+
         }
 
         private void WaitForConnectionData()
@@ -199,12 +226,38 @@ namespace MarkdownMonster.Services
             if (firstLine == null)
                 return false;  // invalid
 
+            //Read multiple buffers for large content
+            while (RequestContext.NetworkStream.DataAvailable)
+            {
+                try
+                {
+                    RequestContext.Stream.Read(bytes, 0, RequestContext.Connection.Available);
+                    sb.Append(Encoding.UTF8.GetString(bytes));
+                }
+                catch
+                {
+                    // TODO: needs specific exception handling for disconnects
+                    return false;
+                }
+            }
+
+
             var tokens = firstLine.Split(' ');
             if (tokens.Length < 3)
                 return false; // invalid GET /path HTTP/1.1
 
             RequestContext.Verb = tokens[0].ToUpper();
             RequestContext.Path = tokens[1];
+
+            string fullRequest = sb.ToString();
+            int at = fullRequest.IndexOf("\r\n\r\n");
+            if (at < 1)
+                return false;
+
+            RequestContext.RequestHeaders = fullRequest.Substring(0, at);
+            if (fullRequest.Length > at + 4)
+                RequestContext.RequestContent = fullRequest.Substring(at + 4);
+
 
             return true;
         }
@@ -248,11 +301,18 @@ namespace MarkdownMonster.Services
                 headers += "Content-Length: " + content.Length;
 
             byte[] response = Encoding.UTF8.GetBytes(headers.TrimEnd('\r', '\n') + "\r\n\r\n");
+            try
+            {
+                RequestContext.NetworkStream.Write(response, 0, response.Length);
 
-            RequestContext.NetworkStream.Write(response, 0, response.Length);
-
-            if (content != null)
-                RequestContext.NetworkStream.Write(content, 0, content.Length);
+                if (content != null)
+                    RequestContext.NetworkStream.Write(content, 0, content.Length);
+            }
+            catch(Exception ex)
+            {
+                // socket write failure
+                mmApp.Model?.Window?.ShowStatusError("Web Server failed to send response: " + ex.Message);
+            }
 
         }
 
@@ -388,10 +448,10 @@ namespace MarkdownMonster.Services
             window.WebServer?.StopServer();
 
             var server = new WebServer();
+            window.WebServer = server;
             server.OnMarkdownMonsterOperation = OnMarkdownMonsterOperationHandler;
 
             server.StartServer();
-            mmApp.Model.Configuration.WebServer.IsRunning = true;
 
             window.ShowStatusSuccess("The WebSocket server has been started.");
             return window.WebServer;
@@ -422,7 +482,7 @@ namespace MarkdownMonster.Services
                 // Open Markdown Monster documents
                 App.CommandArgs = new[]
                 {
-                    "untitled.base64," + Convert.ToBase64String(Encoding.UTF8.GetBytes(operation.Data))
+                    operation.Data
                 };
                 mmApp.Model.Window.Dispatcher.InvokeAsync(() => mmApp.Model.Window.OpenFilesFromCommandLine());
             }
