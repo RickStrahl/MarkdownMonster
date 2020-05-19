@@ -91,7 +91,7 @@ namespace WeblogAddin
 
 
         /// <summary>
-        /// The API endpoint to hit
+        /// The API URL endpoint or local folder path for local copy distributions
         /// </summary>
         public string ApiUrl
         {
@@ -227,7 +227,8 @@ namespace WeblogAddin
         MetaWeblogApi,
         Wordpress,
         Unknown,
-        Medium
+        Medium,
+        LocalJekyll
     }
 
     public enum AuthenticationType

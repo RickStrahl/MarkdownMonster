@@ -29,6 +29,9 @@
     <PackageReference Include="Westwind.Utilities" Version="3.0.37.2">
       <IncludeAssets>compile</IncludeAssets>
     </PackageReference>
+    <PackageReference Include="Markdig" Version="0.2.0">
+      <IncludeAssets>compile</IncludeAssets>
+    </PackageReference>
 
     <PackageReference Include="xmlrpcnet" Version="3.0.0.266" />
     <PackageReference Include="YamlDotNet" Version="6.0.0" />

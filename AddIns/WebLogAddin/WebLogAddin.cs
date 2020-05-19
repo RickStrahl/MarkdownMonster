@@ -278,6 +278,12 @@ namespace WeblogAddin
                 postUrl = client.PostUrl;
             }
 
+            if (type == WeblogTypes.LocalJekyll)
+            {
+
+
+            }
+
             meta.PostId = WeblogModel.ActivePost.PostId?.ToString();
 
 
@@ -393,13 +399,7 @@ namespace WeblogAddin
         public void CreateNewPostOnDisk(string title, string postFilename, string weblogName)
         {
             string filename = FileUtils.SafeFilename(postFilename);
-            string titleFilename = FileUtils.SafeFilename(title);
-
-            // Additional fix ups
-            titleFilename = titleFilename
-                .Replace(" ", "-")
-                .Replace("'", "")
-                .Replace("&", "and");
+            string titleFilename = GetPostFileNameFromTitle(title);
 
             var folder = Path.Combine(WeblogAddinConfiguration.Current.PostsFolder,DateTime.Now.Year + "-" + DateTime.Now.Month.ToString("00"),titleFilename);
             if (!Directory.Exists(folder))
@@ -439,6 +439,29 @@ namespace WeblogAddin
             Model.Window.OpenTab(outputFile);
 
             mmApp.Configuration.LastFolder = Path.GetDirectoryName(outputFile);
+        }
+
+        /// <summary>
+        /// Generates a filename from a post title using snake case breaking
+        /// </summary>
+        /// <param name="title"></param>
+        /// <returns></returns>
+        public static string GetPostFileNameFromTitle(string title)
+        {
+            string titleFilename = FileUtils.SafeFilename(title);
+
+            // Additional fix ups
+            titleFilename = titleFilename
+                .Replace(" ", "-")
+                .Replace("--","-")
+                .Replace("'", "")
+                .Replace("`", "")
+                .Replace("\"", "")
+                .Replace("/","")
+                .Replace("\\","")
+                .Replace("&", "and");
+
+            return titleFilename;
         }
 
         /// <summary>

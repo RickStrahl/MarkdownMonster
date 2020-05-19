@@ -245,7 +245,6 @@ namespace MarkdownMonster
             {
                 try
                 {
-
                     var jsonStyle = AceEditorInterop.GetJsonStyleInfo();
                     var inst = WebBrowser.InvokeScript("initializeinterop",this,jsonStyle);
                     AceEditor = new AceEditorInterop(inst);
@@ -309,8 +308,10 @@ namespace MarkdownMonster
             string file = e.Uri.LocalPath;
 
             EmbedDroppedFileAsImage(file);
+
         }
 
+        
 
         /// <summary>
         /// Attaches the Preview Browser to this editor instance

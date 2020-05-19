@@ -403,7 +403,6 @@ namespace MarkdownMonster.Services
                 // socket write failure
                 mmApp.Model?.Window?.ShowStatusError("Web Server failed to send response: " + ex.Message);
             }
-
         }
 
         public void WriteResponse(string data)

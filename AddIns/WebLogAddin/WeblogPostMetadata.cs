@@ -196,7 +196,7 @@ namespace WeblogAddin
         /// <param name="markdown"></param>
         /// <param name="post"></param>
         /// <param name="weblogInfo"></param>
-        public static WeblogPostMetadata GetPostYamlConfigFromMarkdown(string markdown, Post post, WeblogInfo weblogInfo)
+        public static WeblogPostMetadata GetPostYamlConfigFromMarkdown(string markdown, Post post)
         {
             var meta = new WeblogPostMetadata()
             {
@@ -358,7 +358,7 @@ namespace WeblogAddin
                 var block = StringUtils.ExtractString(meta.MarkdownBody, "---", "\n---", returnDelimiters: true);
                 if (!string.IsNullOrEmpty(block))
                 {
-                    meta = GetPostYamlConfigFromMarkdown(markdown, post, weblogInfo);
+                    meta = GetPostYamlConfigFromMarkdown(markdown, post);
                     meta.RawMarkdownBody = markdown;
                     if (string.IsNullOrEmpty(meta.WeblogName))
                         meta.WeblogName = WeblogAddinConfiguration.Current.LastWeblogAccessed;

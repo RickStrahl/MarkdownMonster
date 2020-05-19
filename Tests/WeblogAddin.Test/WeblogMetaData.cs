@@ -30,7 +30,7 @@ namespace MarkdownMonster.Test
 			};
 			var post = new Post();
 
-			var meta = WeblogPostMetadata.GetPostYamlConfigFromMarkdown(STR_postWithMetaData, post, weblogInfo);
+			var meta = WeblogPostMetadata.GetPostYamlConfigFromMarkdown(STR_postWithMetaData, post);
 
 			Console.WriteLine(meta.Title);
 			Console.WriteLine(meta.Abstract);

@@ -47,6 +47,9 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "mm", "Install\MarkdownMonsterLaunchMM\mm\mm.csproj", "{3D075262-82A0-4F22-A6BA-90FFFC769891}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SupportProjects", "SupportProjects", "{D7DD7DBF-5809-40D3-8734-6C28178104E8}"
+	ProjectSection(SolutionItems) = preProject
+		Changelog.md = Changelog.md
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -69,9 +72,9 @@ Global
 		{7EDA8CFE-B576-480B-804E-63DC372CF41D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{7EDA8CFE-B576-480B-804E-63DC372CF41D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4832D00A-BE3B-4F3B-93DB-D2FB6406F1B3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4832D00A-BE3B-4F3B-93DB-D2FB6406F1B3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4832D00A-BE3B-4F3B-93DB-D2FB6406F1B3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A3FCE345-F767-487F-86BF-DFA78B4BC218}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{A3FCE345-F767-487F-86BF-DFA78B4BC218}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A3FCE345-F767-487F-86BF-DFA78B4BC218}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A3FCE345-F767-487F-86BF-DFA78B4BC218}.Release|Any CPU.Build.0 = Release|Any CPU
 		{44A962C6-B414-4184-9E05-EFCCDB575D82}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
