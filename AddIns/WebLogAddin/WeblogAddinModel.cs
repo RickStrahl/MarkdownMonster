@@ -107,11 +107,13 @@ namespace WeblogAddin
             {
                 if (value == _activeWeblogInfo) return;
                 _activeWeblogInfo = value;
+
                 OnPropertyChanged(nameof(ActiveWeblogInfo));
                 OnPropertyChanged(nameof(IsUserPassVisible));
                 OnPropertyChanged(nameof(IsTokenVisible));
                 OnPropertyChanged(nameof(IsAbstractVisible));
                 OnPropertyChanged(nameof(IsCategoriesVisible));
+                OnPropertyChanged(nameof(IsPreviewUrlVisible));
             }
         }
         private WeblogInfo _activeWeblogInfo;
@@ -185,16 +187,37 @@ namespace WeblogAddin
             }
         }
 
+        public void PropertyChangeForVisibility()
+        {
+            // since we
+            OnPropertyChanged(nameof(IsTokenVisible));
+            OnPropertyChanged(nameof(IsUserPassVisible));
+            OnPropertyChanged(nameof(IsLaunchCommandVisible));
+            OnPropertyChanged(nameof(IsBlogIdVisible));
+            OnPropertyChanged(nameof(IsPreviewUrlVisible));
+        }
+
 
         public bool IsTokenVisible => ActiveWeblogInfo?.Type == WeblogTypes.Medium;
 
-        public bool IsUserPassVisible => ActiveWeblogInfo?.Type != WeblogTypes.Medium;
+        public bool IsUserPassVisible => ActiveWeblogInfo?.Type == WeblogTypes.MetaWeblogApi ||
+                                         ActiveWeblogInfo?.Type == WeblogTypes.Wordpress;
+        public bool IsLaunchCommandVisible => ActiveWeblogInfo?.Type == WeblogTypes.LocalJekyll;
 
-        public bool IsAbstractVisible => ActiveWeblogInfo?.Type != WeblogTypes.Medium;
+        public bool IsPreviewUrlVisible => ActiveWeblogInfo?.Type == WeblogTypes.LocalJekyll;
 
-        public bool IsCategoriesVisible => ActiveWeblogInfo?.Type != WeblogTypes.Medium;
+        public bool IsBlogIdVisible => ActiveWeblogInfo?.Type != WeblogTypes.LocalJekyll;
 
 
+
+        public bool IsAbstractVisible => ActiveWeblogInfo?.Type == WeblogTypes.MetaWeblogApi ||
+                                         ActiveWeblogInfo?.Type == WeblogTypes.Wordpress;
+
+        public bool IsCategoriesVisible => ActiveWeblogInfo?.Type == WeblogTypes.MetaWeblogApi ||
+                                           ActiveWeblogInfo?.Type == WeblogTypes.Wordpress ||
+                                           ActiveWeblogInfo?.Type == WeblogTypes.LocalJekyll;
+
+        
         public List<Post> PostList
         {
             get

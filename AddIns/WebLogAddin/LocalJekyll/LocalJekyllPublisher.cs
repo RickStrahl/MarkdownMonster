@@ -1,11 +1,19 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
+using System.Net;
 using System.Text;
 using System.Text.RegularExpressions;
+using Markdig;
+using Markdig.Parsers;
+using MarkdownMonster;
 using WeblogAddin;
+using WebLogAddin.MetaWebLogApi;
 using Westwind.Utilities;
 using YamlDotNet.Serialization;
 using YamlDotNet.Serialization.NamingConventions;
+using File = System.IO.File;
 
 // WIP: Add Local File Jekyll Publisher
 // From Rocky's code
@@ -48,10 +56,30 @@ namespace WebLogAddin.LocalJekyll
             DocumentFilename = documentFilename;
         }
 
-
-        public  void PublishPost(bool pushToGit = false)
+        #region Top Level API
+        /// <summary>
+        /// Publishes post
+        /// </summary>
+        /// <param name="pushToGit"></param>
+        /// <returns></returns>
+        public bool PublishPost(bool pushToGit = false)
         {
             var blogPath = WeblogInfo.ApiUrl;
+
+            string blogRoot = null;
+            try
+            {
+                blogRoot = Path.GetFullPath(Path.Combine(blogPath, "..\\"));
+            }
+            catch {}
+
+
+            if (string.IsNullOrEmpty(blogRoot) || !Directory.Exists(blogRoot))
+            {
+                SetError($"Blog root directory does not exist: {blogRoot}");
+                return false;
+            }
+            
             var postTitle = FileUtils.SafeFilename(WeblogInfo.Name).Replace(" ","-").Replace("--","-");
             var blogFileName = $"{PublishDate:yyyy-MM-dd}-{postTitle}";
             
@@ -59,28 +87,112 @@ namespace WebLogAddin.LocalJekyll
             // normalize the path
             if (!blogPath.EndsWith("\\"))
                 blogPath += "\\";
-
-            var blogRoot = Path.GetFullPath(Path.Combine(blogPath, "..\\"));
-            if (!Directory.Exists(blogRoot))
-            {
-                Console.WriteLine($"ERROR: Blog root directory does not exist at {blogRoot}");
-                return;
-            }
-
+            
             var postText = PostMetadata.MarkdownBody;
             if (string.IsNullOrWhiteSpace(postText))
-                return;
+                return false;
 
             // fix up image paths to point at /assets/blog-post-name/ and copy files there
             // updates the markdown text with the new image URLs
             postText = CopyImages(postText, blogFileName, Path.GetDirectoryName(DocumentFilename), blogPath);
 
             WritePostFile(postText, blogFileName, blogPath);
+
+            return true;
         }
 
-        public void PushPostToGit()
+        
+        /// <summary>
+        /// Returns a list of posts
+        /// </summary>
+        /// <param name="numberOfPosts">The number of most recent posts to retrieve</param>
+        /// <returns></returns>
+        public IEnumerable<Post> GetRecentPosts(int numberOfPosts = 20)
         {
+            var posts = new List<Post>();
 
+            string blogPath = null;
+            try
+            {
+                blogPath = Path.GetFullPath(WeblogInfo.ApiUrl);
+            }
+            catch
+            {
+                SetError($"Invalid Jekyll Blog Path: {WeblogInfo.ApiUrl}.");
+                return posts;
+            }
+
+            var blogRoot = Path.GetFullPath(Path.Combine(blogPath, "..\\"));
+
+
+            var postFiles = Directory.GetFiles(Path.Combine(blogPath, "_posts"), "*.m*")
+                .OrderByDescending(s => s)
+                .Take(numberOfPosts);
+            foreach (var file in postFiles)
+            {
+                var fileNameWithoutExtension = Path.GetFileNameWithoutExtension(file);
+                
+                var at = StringUtils.IndexOfNth(fileNameWithoutExtension,'-',3);
+                if (at < -1 || fileNameWithoutExtension.Length < at + 2) 
+                    continue;
+
+                string dateString = fileNameWithoutExtension.Substring(0, at);
+                if (!DateTime.TryParse(dateString, out DateTime date))
+                    continue;
+
+                //title = title.Substring(at + 1);
+
+                string content = null;
+                try
+                {
+                    content = File.ReadAllText(file);
+                    if (string.IsNullOrEmpty(content))
+                        continue;
+                }
+                catch
+                {
+                    continue;
+                }
+
+                var post = new Post { DateCreated = date };
+                var meta = WeblogPostMetadata.GetPostYamlConfigFromMarkdown(content, post);
+
+
+                if (meta.MarkdownBody.Length > 500)
+                    content = meta.MarkdownBody.Substring(0, 500);
+                else
+                    content = meta.MarkdownBody;
+                
+                post.mt_excerpt = StringUtils.TextAbstract(Markdown.ToPlainText(content),180);
+                
+                var title = StringUtils.ExtractString(content, "title:", "\n")?.Trim(new char[] {' ', '\'', '\"', '\n' , '\r'});
+
+                
+                posts.Add(post);
+            }
+            
+
+            return posts;
+        }
+
+        /// <summary>
+        /// Returns a post and its meta data
+        /// </summary>
+        /// <param name="postIdTag"></param>
+        /// <returns></returns>
+        public Post GetPost(string postIdTag)
+        {
+            return null;
+        }
+        #endregion
+
+
+        public List<Post> GetPosts()
+        {
+            var rootPath = WeblogInfo.ApiUrl;
+
+
+            return null;
         }
 
         
@@ -109,12 +221,37 @@ namespace WebLogAddin.LocalJekyll
         //    return postText;
         //}
 
-        public void WritePostFile(string postText, string blogName, string blogRoot)
+        /// <summary>
+        /// Generates a POST URL using a template ("http://localhost/{0}") where the
+        /// templated text is filled with /cat/cat/yyyy/mm/dd/title-cased/
+        /// </summary>
+        /// <param name="baseUrl"></param>
+        /// <returns></returns>
+        public string GetPostUrl(string baseUrl = "http://localhost:4000/{0}")
+        {
+            var catPath = "";
+
+            if (PostMetadata.Categories != null)
+            {
+                var cats = PostMetadata.Categories.Split(new char[] {',', ' '}, StringSplitOptions.RemoveEmptyEntries);
+
+                foreach (string cat in cats)
+                    catPath += WebUtility.UrlEncode(cat) + "/";
+
+                catPath = catPath.TrimStart('/');
+            }
+
+            var url = string.Format(baseUrl, catPath);
+            return url;
+        }
+
+        public bool WritePostFile(string postText, string blogName, string blogRoot)
         {
             var jkMeta = new JekyllMetaData
             {
                 Title = PostMetadata.Title,
-                PostTime = PostMetadata.PostDate
+                PostTime = PostMetadata.PostDate,
+                Published = PostMetadata.PostStatus.Equals("published", StringComparison.OrdinalIgnoreCase)
             };
 
             if (!string.IsNullOrEmpty(PostMetadata.Categories))
@@ -124,9 +261,19 @@ namespace WebLogAddin.LocalJekyll
                 {
                     sb.Append(cat.Trim() + " ");
                 }
-
                 jkMeta.Categories = sb.ToString().TrimEnd();
             }
+
+            if (!string.IsNullOrEmpty(PostMetadata.Keywords))
+            {
+                StringBuilder sb = new StringBuilder();
+                foreach (var key in PostMetadata.Keywords.Split(','))
+                {
+                    sb.Append(key.Trim() + " ");
+                }
+                jkMeta.Tags = sb.ToString().TrimEnd();
+            }
+
 
             var serializer = new SerializerBuilder()
                 .WithNamingConvention(new CamelCaseNamingConvention())
@@ -137,10 +284,20 @@ namespace WebLogAddin.LocalJekyll
             var folder = Path.Combine(blogRoot,"_posts");
             if (!Directory.Exists(folder))
                 Directory.CreateDirectory(folder);
-            
-            var file = Path.Combine(folder, blogName + ".markdown");
 
-            System.IO.File.WriteAllText(file, "---\n" + yaml + "---\n"+ postText);
+            try
+            {
+                var file = Path.Combine(folder, blogName + ".markdown");
+
+                System.IO.File.WriteAllText(file, "---\n" + yaml + "---\n" + postText);
+            }
+            catch (Exception ex)
+            {
+                SetError($"Unable to write post files into the Jekyll output folder: {blogRoot}");
+                return false;
+            }
+
+            return true;
         }
 
         static Regex Image_RegEx = new Regex(@"!\[\S*\]\(\S*\)", RegexOptions.Multiline);
@@ -177,14 +334,14 @@ namespace WebLogAddin.LocalJekyll
                 oldFile = FileUtils.NormalizePath(oldFile);
                 newFile = FileUtils.NormalizePath(newFile);
 
+                
                 if (File.Exists(oldFile))
                 {
                     var targetFolder = Path.GetDirectoryName(newFile);
-                    //if (Directory.Exists(targetFolder))
-                    //    Directory.Delete(targetFolder, true);
-
                     if (!Directory.Exists(targetFolder))
                         Directory.CreateDirectory(targetFolder);
+                    else
+                        FileUtils.DeleteFiles(targetFolder, "*.*", false);
 
                     System.IO.File.Copy(oldFile, newFile, true);
                 }
@@ -196,34 +353,41 @@ namespace WebLogAddin.LocalJekyll
             return markdown;
         }
 
-        //public void CopyImages(string blogName, string sourcePath, string blogPath)
-        //{
-        //    blogPath = Path.Combine(blogPath, "assets") + blogName.Replace(".md", "") + @"\";
+        #region
 
+        public string ErrorMessage { get; set; }
 
-            
-        //    if (!Directory.Exists(blogPath))
-        //        Directory.CreateDirectory(blogPath);
+        protected void SetError()
+        {
+            SetError("CLEAR");
+        }
 
-        //    var images = new List<string>();
-        //    images.AddRange(Directory.GetFiles(sourcePath, "*.png"));
-        //    images.AddRange(Directory.GetFiles(sourcePath, "*.jpg"));
-        //    images.AddRange(Directory.GetFiles(sourcePath, "*.gif"));
-        //    foreach (var item in images)
-        //    {
-        //        var fileName = item;
-        //        if (fileName.Contains("\\"))
-        //        {
-        //            var parts = fileName.Split('\\');
-        //            fileName = parts[parts.Length];
-        //        }
+        protected void SetError(string message)
+        {
+            if (message == null || message == "CLEAR")
+            {
+                ErrorMessage = string.Empty;
+                return;
+            }
+            ErrorMessage += message;
+        }
 
-        //        System.IO.File.Copy(item, blogPath + fileName, true);
-        //    }
-        //}
+        protected void SetError(Exception ex, bool checkInner = false)
+        {
+            if (ex == null)
+                ErrorMessage = string.Empty;
+
+            Exception e = ex;
+            if (checkInner)
+                e = e.GetBaseException();
+
+            ErrorMessage = e.Message;
+        }
+        #endregion  
 
     }
 
+    //  
     public class JekyllMetaData
     {
         public string Layout { get; set; } = "post";
@@ -234,6 +398,10 @@ namespace WebLogAddin.LocalJekyll
         /// <summary>
         /// Categories separated by spaces
         /// </summary>
-        public string Categories {get; set; }  
+        public string Categories {get; set; }
+
+        public string Tags {get; set; }
+
+        public bool Published {get; set; }
     }
 }

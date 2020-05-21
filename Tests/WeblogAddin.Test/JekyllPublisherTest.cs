@@ -37,6 +37,31 @@ namespace WeblogAddin.Test
             var pub = new LocalJekyllPublisher(meta, webLogInfo,STR_MM_POST_FILE_NAME);
             pub.PublishPost(false);
         }
-        
+
+        [TestMethod]
+        public void GetPosts()
+        {
+            var webLogInfo = new WeblogInfo
+            {
+                ApiUrl = STR_JEKYLL_PROJECT_FOLDER,
+                Name = "Jekyll Test Blog"
+            };
+
+            var rawMd = System.IO.File.ReadAllText(STR_MM_POST_FILE_NAME);
+
+            var post = new Post();  // filled from meta data but not used here
+            var meta = WeblogPostMetadata.GetPostYamlConfigFromMarkdown(rawMd, post);
+            
+
+            var pub = new LocalJekyllPublisher(meta, webLogInfo,null);
+            var posts = pub.GetRecentPosts(20).ToList();
+
+            Console.WriteLine(posts.Count);
+
+            foreach (var pst in posts)
+            {
+                Console.WriteLine($"{pst.Title} -  {pst.mt_excerpt}") ;
+            }
+        }
     }
 }

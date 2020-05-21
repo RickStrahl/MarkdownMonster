@@ -362,7 +362,7 @@
                                    controls:ControlsHelper.HeaderFontSize="16"
                                    CloseButtonEnabled="False">
                 
-                <StackPanel HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="50,35">
+                <StackPanel HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="50,35,50,10">
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition  Width="*"/>
@@ -404,12 +404,16 @@
                         </Grid.ColumnDefinitions>
                         
                         <Label  Grid.Row="0" Grid.Column="0">Name:</Label>
-                        <Label  Grid.Row="0" Grid.Column="1" Margin="7,0,0,0">Blog Id:</Label>
+                        <Label  Grid.Row="0" Grid.Column="1" Margin="7,0,0,0" 
+                                controls:VisibilityHelper.IsVisible="{Binding IsBlogIdVisible}">Blog Id:</Label>
 
                         <TextBox Grid.Column="0" Grid.Row="1"  Text="{Binding ActiveWeblogInfo.Name}"  FontSize="15"  Style="{StaticResource HeaderStyle}" />
-                        <TextBox Grid.Column="1" Grid.Row="1"  Text="{Binding ActiveWeblogInfo.BlogId}"  FontSize="15" Margin="7,0,0,0" Style="{StaticResource HeaderStyle}" />
+                        <TextBox Grid.Column="1" Grid.Row="1"  Text="{Binding ActiveWeblogInfo.BlogId}"  
+                                 controls:VisibilityHelper.IsVisible="{Binding IsBlogIdVisible}" 
+                                 FontSize="15" Margin="7,0,0,0" Style="{StaticResource HeaderStyle}" />
                         
                         <Button Name="ButtonBlogsList" Margin="-2,0,0,0"
+                                controls:VisibilityHelper.IsVisible="{Binding IsBlogIdVisible}"
                                 Grid.Column="2" Grid.Row="1" 
                                 ContextMenu="{DynamicResource BlogsContextMenu}" 
                                 fa:Awesome.Content="CaretDown"
@@ -423,7 +427,7 @@
                     </Grid>
                  
 
-                    <Label Margin="0,10,0,0">Weblog Api Endpoint Url:</Label>
+                    <Label Margin="0,10,0,0">Weblog Api Url or Local Path:</Label>
                     
                     <Grid >
                         <Grid.ColumnDefinitions>
@@ -431,7 +435,18 @@
                             <ColumnDefinition Width="40"/>
                             <ColumnDefinition Width="40"/>
                         </Grid.ColumnDefinitions>
-                        <TextBox Text="{Binding ActiveWeblogInfo.ApiUrl}"  FontSize="15" ToolTip="The API Endpoint URL for MetaWeblog or WordPress APIs. IMPORTANT: This has to be the RPC endpoint URL, not a discovery URL." />
+                        <TextBox Text="{Binding ActiveWeblogInfo.ApiUrl}"  FontSize="15">
+                            <TextBox.ToolTip>
+                                <TextBlock>
+                                The API Endpoint URL for MetaWeblog or WordPress or Medium APIs. 
+                                <LineBreak/>
+                                IMPORTANT: This has to be the RPC endpoint URL, not a discovery URL.
+                                <LineBreak/>
+                                <LineBreak/>
+                                For Local Jekyll this is the local folder path to the Jekyll Project.
+                                </TextBlock>
+                            </TextBox.ToolTip>
+                        </TextBox>
                         <Button Grid.Column="1" Margin="5,0,0,0" Name="ButtonDiscoverEndpoint" 
                                 Click="ButtonDiscoverEndpoint_Click"  
                                 ToolTip="Discover and check Weblog Endpoint Url. See status bar after clicking."
@@ -443,6 +458,21 @@
                                 
                                 />
                     </Grid>
+
+                    
+                    <StackPanel controls:VisibilityHelper.IsVisible="{Binding IsLaunchCommandVisible}" >
+                        <Label Margin="0,10,0,0">Launch Command</Label>
+                        <TextBox 
+                            ToolTip="An command line command that can be executed after the post has been published."
+                            Text="{Binding ActiveWeblogInfo.LaunchCommand}"  FontSize="15" />
+                    </StackPanel>
+
+                    <StackPanel  >
+                        <Label Margin="0,10,0,0">Preview Url</Label>
+                        <TextBox 
+                            ToolTip="An optional URL that can preview the current post or blog. Necessary only for blogs that don't return the URL generated."
+                            Text="{Binding ActiveWeblogInfo.PreviewUrl}"  FontSize="15" />
+                    </StackPanel>
 
                     <Label Margin="0,10,0,0">Blog type:</Label>
 
@@ -463,7 +493,9 @@
                     <!--<Label Margin="0,10,0,0">Preview Url: (using {0} for post id)</Label>
                     <TextBox 
                         ToolTip="Leave blank to use the API's permalink downloaded in post data (if available). Otherwise fill in with a URL and use {0} to specify the Post Id."
-                	    Text="{Binding ActiveWeblogInfo.PreviewUrl}"  FontSize="15" />-->
+                        Text="{Binding ActiveWeblogInfo.PreviewUrl}"  FontSize="15" />-->
+
+
 
                     <StackPanel Visibility="{Binding IsUserPassVisible, Converter={StaticResource BooleanToVisibilityConverter}}" >
                         <Label Margin="0,10,0,0">Username:</Label>

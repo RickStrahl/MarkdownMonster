@@ -26,10 +26,10 @@
     <PackageReference Include="HtmlAgilityPack" Version="1.11.23">
       <IncludeAssets>compile</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Westwind.Utilities" Version="3.0.37.2">
+    <PackageReference Include="Westwind.Utilities" Version="3.0.38">
       <IncludeAssets>compile</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Markdig" Version="0.2.0">
+    <PackageReference Include="Markdig" Version="0.20.0">
       <IncludeAssets>compile</IncludeAssets>
     </PackageReference>
 
@@ -60,6 +60,9 @@
     <Reference Include="$(SolutionDir)MarkdownMonster\bin\$(Configuration)\$(TargetFramework)\win-x86\MarkdownMonster.exe">
       <Private>false</Private>
     </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\MarkdownMonster\MarkdownMonster.csproj" />
   </ItemGroup>
 
 

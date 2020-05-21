@@ -12,6 +12,7 @@ using MahApps.Metro.Controls;
 using MarkdownMonster;
 using MarkdownMonster.Windows;
 using WebLogAddin;
+using WebLogAddin.LocalJekyll;
 using WebLogAddin.Medium;
 using WebLogAddin.MetaWebLogApi;
 using Westwind.Utilities;
@@ -216,6 +217,42 @@ namespace WeblogAddin
         {
             WeblogInfo weblogInfo = Model.ActiveWeblogInfo;
 
+            if (weblogInfo.Type == WeblogTypes.MetaWeblogApi || weblogInfo.Type == WeblogTypes.Wordpress )
+                await DownloadMetaWeblogAndWordPressPosts();
+            else if(weblogInfo.Type == WeblogTypes.LocalJekyll)
+            {
+                await DownloadJekyllPosts();
+            }
+            else
+            {
+                StatusBar.ShowStatusError($"The Weblog {weblogInfo.Name} doesn't support downloading of posts.");
+            }
+        }
+
+        public Task DownloadJekyllPosts()
+        {
+            var publisher = new LocalJekyllPublisher(Model.ActivePostMetadata, Model.ActiveWeblogInfo,null);
+
+            StatusBar.ShowStatusProgress($"Downloading last {Model.NumberOfPostsToRetrieve} posts...");
+
+            var posts = publisher.GetRecentPosts()?.ToList();
+            if (posts == null)
+                StatusBar.ShowStatusError($"An error occurred trying to retrieve posts: {publisher.ErrorMessage}");
+
+            Dispatcher.Invoke(() =>
+            {
+                StatusBar.ShowStatusSuccess($"{posts.Count} posts downloaded.");
+                Model.PostList = posts;
+            });
+
+            return Task.CompletedTask;
+        }
+
+
+        public async Task DownloadMetaWeblogAndWordPressPosts()
+        {
+            WeblogInfo weblogInfo = Model.ActiveWeblogInfo;
+
             var client = new MetaWebLogWordpressApiClient(weblogInfo);
             Model.Configuration.LastWeblogAccessed = weblogInfo.Name;
 
@@ -401,9 +438,8 @@ namespace WeblogAddin
         private void ComboWeblogType_SelectionChanged(object sender,
             System.Windows.Controls.SelectionChangedEventArgs e)
         {
-            // since we
-            Model.OnPropertyChanged(nameof(Model.IsTokenVisible));
-            Model.OnPropertyChanged(nameof(Model.IsUserPassVisible));
+
+            Model.PropertyChangeForVisibility();
         }
 
         private void DropDownButton_Click(object sender, RoutedEventArgs e)

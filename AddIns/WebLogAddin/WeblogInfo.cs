@@ -136,7 +136,16 @@ namespace WeblogAddin
                 OnPropertyChanged(nameof(Type));
 
                 if (Type == WeblogTypes.Medium)
-                    ApiUrl = MediumApiClient.MediumApiUrl;                
+                    ApiUrl = MediumApiClient.MediumApiUrl;
+                else if (Type == WeblogTypes.LocalJekyll)
+                {
+                    if (string.IsNullOrEmpty(ApiUrl))
+                        ApiUrl = "<Local Path To your Jekyll Project>";
+                    if (string.IsNullOrEmpty(LaunchCommand))
+                        LaunchCommand = @"c:\windows\SysNative\bash.exe -c ""cd <Path: /mnt/c/projects/jekyll/yourproject>; bundle exec jekyll server""";
+                    if (string.IsNullOrEmpty(PreviewUrl))
+                        PreviewUrl = "http://localhost:4000/{0}";
+                }
             }
         }
         private WeblogTypes _type = WeblogTypes.MetaWeblogApi;
@@ -158,6 +167,23 @@ namespace WeblogAddin
         }
         private AuthenticationType _authenticationType = AuthenticationType.UsernamePassword;
 
+        /// <summary>
+        /// An executable command that can be launched after the publish is complete
+        ///
+        /// This is useful to launch a build process after generating to a local
+        /// repository.
+        /// </summary>
+        public string LaunchCommand
+        {
+            get { return _LaunchCommand; }
+            set
+            {
+                if (value == _LaunchCommand) return;
+                _LaunchCommand = value;
+                OnPropertyChanged(nameof(LaunchCommand));
+            }
+        }
+        private string _LaunchCommand;
 
 
         /// <summary>
