@@ -227,7 +227,6 @@ namespace MarkdownMonster
         }
         private bool _alwaysUsePreviewRefresh;
 
-
         /// <summary>
         /// Default code syntax displayed in the Paste Code dialog
         /// </summary>
@@ -571,6 +570,15 @@ namespace MarkdownMonster
         /// Starts up the application without showing the Splash screen.
         /// </summary>
         public bool DisableSplashScreen { get; set; }
+
+        
+        /// <summary>
+        /// Determines whether MM shows the version number in the title
+        /// of the main window.
+        /// </summary>
+        public bool ShowVersionNumberInTitle {get; set;}
+
+
 
         /// <summary>
         /// If set makes the application not use GPU accelleration.
