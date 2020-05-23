@@ -1209,9 +1209,64 @@ function initializeinteropSimple(textbox) {
     return window.textEditor;
 }
 
+/*
+* Generic invocation script that invokes
+* a function on the 
+*/
+function Invoke(teFunction)
+{
+    if (arguments.length < 1)
+        return null;
+    
+    var func = eval("te." + teFunction);
+    if (typeof func != "function")
+        throw new Error("Invalid Function to Invoke: " + teFunction);        
 
-// Standalone testing - uncomment this
-// setTimeout(function() {
-//    window.textEditor.initialize(null);
-//    te.editor.setOption("rtlText",true);   
-// },400);
+    if (arguments.length > 1)
+        Array.prototype.shift.call(arguments);
+
+    return func.apply(window, arguments);
+}
+
+
+//function Callback(method) {       
+//    var parms = [];
+//    if (arguments.length > 1) {
+//        for(var i = 1; i < arguments.length; i++)
+//            parms[i-1] = arguments[i];
+//    }
+        
+//    var json = JSON.stringify( { method: 'showMessage', parameters: parms } );
+//    window.chrome.webview.postMessage(json);        
+//}
+
+//function testCallback() {
+//    Callback("showMessage", "Show me what you got Rick!",10);
+
+//    // Synchronous call
+//    // var res = window.chrome.webview.hostObjects.sync.mm.HelloWorld('rick');
+//    // alert(res);
+
+    
+
+//    // Sync call
+//    var mm = window.chrome.webview.hostObjects.sync.mm;
+//    var res = mm.HelloWorld('rick');    
+//    alert(res);
+
+//    // Async call
+//    chrome.webview.hostObjects.mm.HelloWorld('rick async')
+//        .then(function(result) {
+//            alert(result);
+//        }, function(err) { alert('error ' + err) });
+
+//}
+
+
+// For Standalone from WebBrowser partial execution - uncomment this
+//setTimeout(function() {
+//   window.textEditor.initialize(null);
+//   //te.setvalue("# Markdown Text\n\n* Bullet 1\n* Bullet 2");
+//   // demonstrate how an external application can 'globally' trigger a function
+//   //Invoke("setvalue","# Markdown Text\n\n* Bullet 1\n* Bullet 2");   
+//},400);
