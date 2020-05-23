@@ -2825,9 +2825,7 @@ Do you want to continue anyway?", "Disable Markdown Script Rendering",
 
             
             Model.ActiveEditor.SetEditorSyntax(Model.ActiveEditor.EditorSyntax);
-            Model.ActiveDocument.Syntax = Model.ActiveEditor.EditorSyntax;
             SetTabHeaderBinding(TabControl.SelectedItem as TabItem, Model.ActiveEditor.MarkdownDocument);
-
         }
 
         private void ButtonRecentFiles_SubmenuOpened(object sender, RoutedEventArgs e)

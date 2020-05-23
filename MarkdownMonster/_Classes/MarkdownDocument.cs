@@ -46,6 +46,7 @@ using Westwind.Utilities;
 using System.Linq;
 using System.Security;
 using MarkdownMonster.AddIns;
+using MarkdownMonster.Configuration;
 using MarkdownMonster.Windows;
 using MarkdownMonster.RenderExtensions;
 
@@ -82,6 +83,9 @@ namespace MarkdownMonster
                 OnPropertyChanged(nameof(FilenamePathWithIndicator));
                 OnPropertyChanged(nameof(HtmlRenderFilename));
                 OnPropertyChanged(nameof(IsDirty));
+
+                if (mmApp.Model?.ActiveEditor != null)
+                    mmApp.Model.ActiveEditor.EditorSyntax = ResolveSyntaxFromFilename();
             }
         }
         private string _filename;
@@ -235,6 +239,7 @@ namespace MarkdownMonster
                 return title;
             }
         }
+
 
         /// <summary>
         /// Determines whether documents are automatically saved in
@@ -951,6 +956,32 @@ namespace MarkdownMonster
                 Encoding = Encoding.UTF8;
             }
         }
+
+        /// <summary>
+        /// Resolves syntax based on the filename extension. Untitled 
+        /// </summary>
+        /// <param name="filename"></param>
+        /// <returns></returns>
+        public string ResolveSyntaxFromFilename(string filename = null)
+        {
+            
+            if (string.IsNullOrEmpty(filename))
+                filename = Filename;
+
+            string syntax = "markdown";
+
+            if (string.IsNullOrEmpty(filename) || filename == "untitled")
+                return syntax;
+            
+            var ext = Path.GetExtension(filename).ToLower().Replace(".", "");
+
+            // only show preview for Markdown and HTML documents
+            mmApp.Configuration.EditorExtensionMappings.TryGetValue(ext, out string mappedTo);
+            syntax = mappedTo ?? "markdown";
+
+            return syntax;
+        }
+
         #endregion
 
         #region Output Generation

@@ -189,16 +189,8 @@ namespace MarkdownMonster.Windows.PreviewBrowser
                     mappedTo = "html";
                     ext = null;
                 }
-                else if (doc.Filename == "untitled")
-                {
-                    mappedTo = "markdown";
-                }
                 else
-                {
-                    // only show preview for Markdown and HTML documents
-                    Model.Configuration.EditorExtensionMappings.TryGetValue(ext, out mappedTo);
-                    mappedTo = mappedTo ?? string.Empty;
-                }
+                    mappedTo = editor.EditorSyntax;
 
                 
                 PreviewBrowserInterop interop = null;
