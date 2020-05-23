@@ -120,19 +120,26 @@ namespace MarkdownMonster.Windows.ConfigurationEditor
 
         private void Button_BackupToFolder(object sender, RoutedEventArgs e)
         {
-            var folder = mmWindowsUtils.ShowFolderDialog(Path.GetTempPath(),"Backup Configuration Files");
+            var outputFolder = Path.Combine(Model.AppModel.Configuration.CommonFolder, "Backups");
+            if (!Directory.Exists(outputFolder))
+                Directory.CreateDirectory(outputFolder);
+
+            var folder = mmWindowsUtils.ShowFolderDialog(outputFolder,"Backup Configuration Files Folder");
 
             if (string.IsNullOrEmpty(folder))
                 return;
 
-            
+            outputFolder = Path.Combine(folder, $"{DateTime.Now:yyyy-MM-dd}-Markdown-Monster-Confguration");
+            if(Directory.Exists(folder))
+                outputFolder = Path.Combine(folder, $"{DateTime.Now:yyyy-MM-dd-HH-mm}-Markdown-Monster-Confguration");
+
             var bu = new BackupManager();
-            if (!bu.BackupToFolder(folder))
+            if (!bu.BackupToFolder(outputFolder))
                 StatusBar.ShowStatusError("Backup failed. Files have not been backed up to a Zip file.");
             else
             {
                 StatusBar.ShowStatusSuccess("Backup to Folder completed.");
-                ShellUtils.GoUrl(folder);
+                ShellUtils.GoUrl(outputFolder);
             }
 
         }
