@@ -2823,9 +2823,11 @@ Do you want to continue anyway?", "Disable Markdown Script Rendering",
             if (Model.ActiveEditor == null)
                 return;
 
-            
             Model.ActiveEditor.SetEditorSyntax(Model.ActiveEditor.EditorSyntax);
             SetTabHeaderBinding(TabControl.SelectedItem as TabItem, Model.ActiveEditor.MarkdownDocument);
+
+            // Refresh the Preview to show preview for html and markdown and hide it for others
+            Model.Window.PreviewMarkdownAsync();
         }
 
         private void ButtonRecentFiles_SubmenuOpened(object sender, RoutedEventArgs e)
