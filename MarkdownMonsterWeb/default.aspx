@@ -377,7 +377,7 @@
                 <h4>Weblog Publishing</h4>
                 <p>
                     Markdown Monster can also publish your Markdown directly to your Weblog. If your blog supports 
-					WordPress, MetaWeblog or Medium, you can publish your documents with one click. You can also edit and republish, or download existing posts and even convert existing posts from HTML to Markdown.
+					WordPress, MetaWeblog, Jekyll or Medium, you can publish your documents with one click. You can also edit and republish, or download existing posts and even convert existing posts from HTML to Markdown.
                  </p>
                 
                 <h4>Extensible via .NET</h4>

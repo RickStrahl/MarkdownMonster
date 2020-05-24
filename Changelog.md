@@ -8,8 +8,17 @@
 ### 1.22.6
 *<small>not released yet</small>* 
 
-* **Built-in optional WebSocket server to allow Browsers Open Text Markdown Monster**  
+* **Local Jekyll Weblog Publishing Support**  
+Added explicit support for publishing blog posts to a local Jekyll installation. Works by letting you write your blog content in a separate location with related resources in a self-contained folder structure. The 'publish' process then pushes the post and all the related image resources into the Jekyll project. 
+
+* **Built-in optional Web Server to allow Browsers Open Text Markdown Monster**  
 Added WebSocket support to allow opening Markdown text in MM via a browser connection. Socket server listens to incoming document requests and if sent opens a specific document. This is similar to the `markdownmonster:untitled` functionality recently added, but unlike Application Protocols which are limited to 2046 bytes of data, this mechanism allows for large Markdown content to be opened in MM. The WebSocket Server  is disabled by default and can be auto-started whenever MM starts via the `WebSocket.AutoStart` configuration switch.
+
+* **Document Syntax Improvements**  
+The Document object now internally tracks the editor sytnax associated with it. It is assigned based on the filename extension and mapped to editor associations - just as before. But the Syntax is now separately tracked from the doc type, so that you can change the syntax and affect editor and preview behavior. It's now possible to use the Preview with with `.txt` files for example, if the syntax is set to `markdown`.
+
+* **Improve Configuration Backups to Folder**  
+Updated folder backups to choose the Configuration folder `.\backups` sub-folder for folder backups. You can now pick a path and the backup is created as a subfolder **below** that folder in the format of `yyyy-MM-dd-Markdown-Monster-Backup`.
 
 ### 1.22.4
 *<small>May 12th, 2020</small>* 

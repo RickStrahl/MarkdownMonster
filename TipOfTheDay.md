@@ -163,3 +163,13 @@ Did you know that Markdown Monster has an add-in extension model? You can easily
 
 ## Html Editing
 Did you know that Markdown Monster can also edit HTML files with live preview? Open an HTML document and MM will preview it and update the preview as you edit it.
+
+## Backup your Markdown Monster Settings
+Have you backed up your Markdown Monster Settings lately? There are quite a few settings for MM and Addins and it's a good idea to take a snapshot of your settings.
+
+Use Tool->Settings->Backup to  easily back up to:
+
+* Zip File
+* Folder
+
+markdownmonster.west-wind.com

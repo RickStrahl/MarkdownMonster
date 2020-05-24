@@ -16,7 +16,7 @@
     <PackageReference Include="Microsoft.ApplicationInsights" Version="2.14.0" />
 
     <PackageReference Include="ReverseMarkdown" Version="3.11.0" />
-    <PackageReference Include="Westwind.Utilities" Version="3.0.38" />
+    <PackageReference Include="Westwind.Utilities" Version="3.0.40" />
   
   </ItemGroup>
 
