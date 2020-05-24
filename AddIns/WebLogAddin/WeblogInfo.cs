@@ -105,7 +105,23 @@ namespace WeblogAddin
         }
         private string _apiUrl;
 
-        
+
+        /// <summary>
+        /// A root site path for the Web site that can be used to fix up
+        /// URLs explicitly for providers that otherwise do not have access
+        /// to live site info - mainly static providers.
+        /// </summary>
+        public string WebLogRootSitePath
+        {
+            get { return _WebLogRootSitePath; }
+            set
+            {
+                if (value == _WebLogRootSitePath) return;
+                _WebLogRootSitePath = value;
+                OnPropertyChanged(nameof(WebLogRootSitePath));
+            }
+        }
+        private string _WebLogRootSitePath;
 
         /// <summary>
         /// The ID of the blog or publication also knonw as Publication ID sometimes

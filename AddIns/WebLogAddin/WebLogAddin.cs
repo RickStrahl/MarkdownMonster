@@ -227,6 +227,7 @@ namespace WeblogAddin
 				type = weblogInfo.Type;
 
 
+            string previewUrl = weblogInfo.PreviewUrl;
 			string basePath = Path.GetDirectoryName(doc.Filename);
 			string postUrl = null;
 
@@ -289,13 +290,9 @@ namespace WeblogAddin
 				if (weblogInfo.LaunchCommand != null)
 				{
 					ShellUtils.ExecuteCommandLine(weblogInfo.LaunchCommand);
-
-					Model.Window.Dispatcher.Delay(2000, (p) =>
-					{
-						var url = pub.GetPostUrl(weblogInfo.PreviewUrl ?? "http://localhost:4000/{0}");
-						ShellUtils.GoUrl(url);
-					},null);
-				}
+                    previewUrl = null;
+                    postUrl = pub.GetPostUrl(weblogInfo.PreviewUrl ?? "http://localhost:4000/{0}");
+                }
 			}
 
 			meta.PostId = WeblogModel.ActivePost.PostId?.ToString();
@@ -312,19 +309,17 @@ namespace WeblogAddin
 			editor.SetMarkdown(markdown, updateDirtyFlag: true, keepUndoBuffer: true);
 
 			try
-			{
-				// preview post
-				if (!string.IsNullOrEmpty(weblogInfo.PreviewUrl))
+            {
+                if (!string.IsNullOrEmpty(postUrl))
+                    ShellUtils.GoUrl(postUrl);
+                else if (!string.IsNullOrEmpty(previewUrl))
 				{
-					var url = weblogInfo.PreviewUrl.Replace("{0}", WeblogModel.ActivePost.PostId.ToString());
+					var url = string.Format(previewUrl, WeblogModel.ActivePost.PostId);
 					ShellUtils.GoUrl(url);
 				}
 				else
 				{
-					if (!string.IsNullOrEmpty(postUrl))
-						ShellUtils.GoUrl(postUrl);
-					else
-						ShellUtils.GoUrl(new Uri(weblogInfo.ApiUrl).GetLeftPart(UriPartial.Authority));
+					ShellUtils.GoUrl(new Uri(weblogInfo.ApiUrl).GetLeftPart(UriPartial.Authority));
 				}
 			}
 			catch

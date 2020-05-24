@@ -26,7 +26,7 @@
     <PackageReference Include="HtmlAgilityPack" Version="1.11.23">
       <IncludeAssets>compile</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Westwind.Utilities" Version="3.0.38">
+    <PackageReference Include="Westwind.Utilities" Version="3.0.40">
       <IncludeAssets>compile</IncludeAssets>
     </PackageReference>
     <PackageReference Include="Markdig" Version="0.20.0">
@@ -42,7 +42,7 @@
 <!--  </ItemGroup>-->
 
   <!-- This pulls in the reference and all dependencies - not what we want  here-->
-<!--<ItemGroup>
+  <!--<ItemGroup>
     <ProjectReference Include="..\..\MarkdownMonster\MarkdownMonster.csproj">
       <Private>false</Private>
       <ReferenceOutputAssembly>true</ReferenceOutputAssembly>
@@ -54,16 +54,14 @@
   <ItemGroup Condition=" '$(TargetFramework)' == 'netcoreapp3.0'">
     <Reference Include="$(SolutionDir)MarkdownMonster\bin\$(Configuration)\$(TargetFramework)\win-x86\MarkdownMonster.dll">
       <Private>false</Private>
-    </Reference> 
+    </Reference>
   </ItemGroup>
   <ItemGroup Condition=" '$(TargetFramework)' == 'net472'">
     <Reference Include="$(SolutionDir)MarkdownMonster\bin\$(Configuration)\$(TargetFramework)\win-x86\MarkdownMonster.exe">
       <Private>false</Private>
     </Reference>
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\MarkdownMonster\MarkdownMonster.csproj" />
-  </ItemGroup>
+
 
 
   <ItemGroup>

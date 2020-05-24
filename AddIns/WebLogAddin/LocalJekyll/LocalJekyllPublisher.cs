@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Security.Policy;
 using System.Text;
 using System.Text.RegularExpressions;
 using Markdig;
@@ -26,8 +27,7 @@ namespace WebLogAddin.LocalJekyll
         /// Markdown Monster Weblog Post Meta Data
         /// </summary>
         public WeblogPostMetadata PostMetadata { get; }
-
-
+        
         /// <summary>
         /// Markdown Monster Weblog information for a specific
         /// blog. Holds name, type of blog, post URL or path.
@@ -36,21 +36,18 @@ namespace WebLogAddin.LocalJekyll
         public WeblogInfo WeblogInfo { get; }
 
         /// <summary>
-        /// The filename of the document that contains the post.
+        /// The filename of the document that contains the Markdown Monster post.
         ///
-        /// This should be set to ActiveDocument.Filename, but no
-        /// direct access in this code.
+        /// Used as a path reference so that related resources can be found. The
+        /// actual post content is retrieved from the postMetaData.
         /// </summary>
         public string DocumentFilename {get; }
 
-        public DateTime PublishDate {get; }
 
         public LocalJekyllPublisher(WeblogPostMetadata postMetadata,
             WeblogInfo weblogInfo,
-            string documentFilename,
-            DateTime publishDate = default)
+            string documentFilename)
         {
-            PublishDate = publishDate == DateTime.MinValue ? DateTime.Now : publishDate;
             PostMetadata = postMetadata;
             WeblogInfo = weblogInfo;
             DocumentFilename = documentFilename;
@@ -80,8 +77,8 @@ namespace WebLogAddin.LocalJekyll
                 return false;
             }
             
-            var postTitle = FileUtils.SafeFilename(WeblogInfo.Name).Replace(" ","-").Replace("--","-");
-            var blogFileName = $"{PublishDate:yyyy-MM-dd}-{postTitle}";
+            var postTitle = FileUtils.SafeFilename(PostMetadata.Title).Replace(" ","-").Replace("--","-");
+            var blogFileName = $"{PostMetadata.PostDate:yyyy-MM-dd}-{postTitle}";
             
 
             // normalize the path
@@ -98,10 +95,13 @@ namespace WebLogAddin.LocalJekyll
 
             WritePostFile(postText, blogFileName, blogPath);
 
+
+            PostMetadata.PostId = blogFileName;
+
             return true;
         }
 
-        
+
         /// <summary>
         /// Returns a list of posts
         /// </summary>
@@ -128,6 +128,8 @@ namespace WebLogAddin.LocalJekyll
             var postFiles = Directory.GetFiles(Path.Combine(blogPath, "_posts"), "*.m*")
                 .OrderByDescending(s => s)
                 .Take(numberOfPosts);
+
+
             foreach (var file in postFiles)
             {
                 var fileNameWithoutExtension = Path.GetFileNameWithoutExtension(file);
@@ -162,8 +164,14 @@ namespace WebLogAddin.LocalJekyll
                     content = meta.MarkdownBody.Substring(0, 500);
                 else
                     content = meta.MarkdownBody;
-                
-                post.mt_excerpt = StringUtils.TextAbstract(Markdown.ToPlainText(content),180);
+
+                content = Markdown.ToPlainText(content);
+
+                // replace line breaks
+                var lines = content.GetLines();
+                content = string.Join(" ", lines);
+
+                post.mt_excerpt = StringUtils.TextAbstract(content,180);
                 
                 var title = StringUtils.ExtractString(content, "title:", "\n")?.Trim(new char[] {' ', '\'', '\"', '\n' , '\r'});
 
@@ -184,18 +192,10 @@ namespace WebLogAddin.LocalJekyll
         {
             return null;
         }
+
         #endregion
 
 
-        public List<Post> GetPosts()
-        {
-            var rootPath = WeblogInfo.ApiUrl;
-
-
-            return null;
-        }
-
-        
         //public string FixImagePaths(string postText, string blogName, string blogRoot)
         //{
         //    var pattern = @"\!\[(?:.*)\]\((?:.*)\)";
@@ -221,37 +221,15 @@ namespace WebLogAddin.LocalJekyll
         //    return postText;
         //}
 
-        /// <summary>
-        /// Generates a POST URL using a template ("http://localhost/{0}") where the
-        /// templated text is filled with /cat/cat/yyyy/mm/dd/title-cased/
-        /// </summary>
-        /// <param name="baseUrl"></param>
-        /// <returns></returns>
-        public string GetPostUrl(string baseUrl = "http://localhost:4000/{0}")
-        {
-            var catPath = "";
-
-            if (PostMetadata.Categories != null)
-            {
-                var cats = PostMetadata.Categories.Split(new char[] {',', ' '}, StringSplitOptions.RemoveEmptyEntries);
-
-                foreach (string cat in cats)
-                    catPath += WebUtility.UrlEncode(cat) + "/";
-
-                catPath = catPath.TrimStart('/');
-            }
-
-            var url = string.Format(baseUrl, catPath);
-            return url;
-        }
-
         public bool WritePostFile(string postText, string blogName, string blogRoot)
         {
             var jkMeta = new JekyllMetaData
             {
                 Title = PostMetadata.Title,
-                PostTime = PostMetadata.PostDate,
-                Published = PostMetadata.PostStatus.Equals("published", StringComparison.OrdinalIgnoreCase)
+                Date = PostMetadata.PostDate.Date,
+                Published = PostMetadata.PostStatus.Equals("published", StringComparison.OrdinalIgnoreCase),
+                Permalink = PostMetadata.Permalink,
+                FeaturedImageUrl = PostMetadata.FeaturedImageUrl
             };
 
             if (!string.IsNullOrEmpty(PostMetadata.Categories))
@@ -259,7 +237,7 @@ namespace WebLogAddin.LocalJekyll
                 StringBuilder sb = new StringBuilder();
                 foreach (var cat in PostMetadata.Categories.Split(','))
                 {
-                    sb.Append(cat.Trim() + " ");
+                    sb.Append(cat.ToLower().Trim() + " ");
                 }
                 jkMeta.Categories = sb.ToString().TrimEnd();
             }
@@ -273,6 +251,8 @@ namespace WebLogAddin.LocalJekyll
                 }
                 jkMeta.Tags = sb.ToString().TrimEnd();
             }
+
+            
 
 
             var serializer = new SerializerBuilder()
@@ -291,7 +271,7 @@ namespace WebLogAddin.LocalJekyll
 
                 System.IO.File.WriteAllText(file, "---\n" + yaml + "---\n" + postText);
             }
-            catch (Exception ex)
+            catch 
             {
                 SetError($"Unable to write post files into the Jekyll output folder: {blogRoot}");
                 return false;
@@ -302,8 +282,6 @@ namespace WebLogAddin.LocalJekyll
 
         static Regex Image_RegEx = new Regex(@"!\[\S*\]\(\S*\)", RegexOptions.Multiline);
 
-        /// <summary>
-        // Parses each of the images in the document and posts them to the server.
         /// Updates the HTML with the returned Image Urls
         /// </summary>
         /// <param name="html">HTML that contains images</param>
@@ -312,6 +290,8 @@ namespace WebLogAddin.LocalJekyll
         private string CopyImages(string markdown, string blogName, string basePath, string blogPath)
         {
             var matches = Image_RegEx.Matches(markdown);
+
+            bool firstImage = true;
             foreach(Match match in matches)
             {
                 var matchedText = match.Value;
@@ -327,6 +307,13 @@ namespace WebLogAddin.LocalJekyll
                 string imageFilename = Path.GetFileName(imageUrl);
 
                 var newUrl = $"/assets/{blogName}/{imageFilename}";
+
+                if (firstImage)
+                {
+                    firstImage = false;
+                    if(string.IsNullOrEmpty(PostMetadata.FeaturedImageUrl))
+                        PostMetadata.FeaturedImageUrl = WeblogInfo.WebLogRootSitePath?.TrimEnd('/') + newUrl;
+                }
 
                 var oldFile = Path.Combine(basePath, imageUrl);
                 var newFile = Path.Combine(blogPath, "assets", blogName, imageUrl);
@@ -352,6 +339,38 @@ namespace WebLogAddin.LocalJekyll
 
             return markdown;
         }
+
+        /// <summary>
+        /// Generates a POST URL using a template ("http://localhost/{0}") where the
+        /// templated text is filled with /cat/cat/yyyy/mm/dd/title-cased/
+        /// </summary>
+        /// <param name="baseUrl"></param>
+        /// <returns></returns>
+        public string GetPostUrl(string baseUrl = "http://localhost:4000/{0}")
+        {
+            var catPath = "";
+
+            if (PostMetadata.Categories != null)
+            {
+                var cats = PostMetadata.Categories.Split(new char[] {',', ' '}, StringSplitOptions.RemoveEmptyEntries);
+
+                foreach (string cat in cats)
+                    catPath += WebUtility.UrlEncode(cat.ToLower()).Replace(" ","-") + "/";
+
+                catPath = catPath.TrimStart('/');
+            }
+
+            
+            var postTitle = FileUtils.SafeFilename(PostMetadata.Title).Replace(" ","-").Replace("--","-");
+            catPath += $"{PostMetadata.PostDate:yyyy/MM/dd}/{postTitle}";
+
+
+            var url = string.Format(baseUrl, catPath);
+            return url;
+        }
+
+        /// <summary>
+        // Parses each of the images in the document and posts them to the server.
 
         #region
 
@@ -393,7 +412,7 @@ namespace WebLogAddin.LocalJekyll
         public string Layout { get; set; } = "post";
         public string Title { get; set; }
 
-        public DateTime PostTime { get; set; } = DateTime.Now;
+        public DateTime Date { get; set; } = DateTime.Now;
 
         /// <summary>
         /// Categories separated by spaces
@@ -403,5 +422,9 @@ namespace WebLogAddin.LocalJekyll
         public string Tags {get; set; }
 
         public bool Published {get; set; }
+
+        public string Permalink { get; set; }
+
+        public string FeaturedImageUrl {get; set; }
     }
 }

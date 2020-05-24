@@ -193,10 +193,9 @@ namespace WeblogAddin
         /// Strips the Markdown Meta data from the message and populates
         /// the post structure with the meta data values.
         /// </summary>
-        /// <param name="markdown"></param>
-        /// <param name="post"></param>
-        /// <param name="weblogInfo"></param>
-        public static WeblogPostMetadata GetPostYamlConfigFromMarkdown(string markdown, Post post)
+        /// <param name="markdown">The raw markdown document with YAML header (optional)</param>
+        /// <param name="post">Optional empty <seealso cref="Post"/> object that is filled with the meta data in.</param>
+        public static WeblogPostMetadata GetPostYamlConfigFromMarkdown(string markdown, Post post = null)
         {
             var meta = new WeblogPostMetadata()
             {
@@ -253,32 +252,34 @@ namespace WeblogAddin
             meta.MarkdownBody = markdown.Replace(extractedYaml,"");
             meta.RawMarkdownBody = markdown;
 
-
-            post.Title = meta.Title?.Trim();
-            if (!string.IsNullOrEmpty(meta.Categories))
+            if (post != null)
             {
-                post.Categories = meta.Categories.Split(new[] {','}, StringSplitOptions.RemoveEmptyEntries);
-                for (int i = 0; i < post.Categories.Length; i++)
-                    post.Categories[i] = post.Categories[i].Trim();
+                post.Title = meta.Title?.Trim();
+                if (!string.IsNullOrEmpty(meta.Categories))
+                {
+                    post.Categories = meta.Categories.Split(new[] {','}, StringSplitOptions.RemoveEmptyEntries);
+                    for (int i = 0; i < post.Categories.Length; i++)
+                        post.Categories[i] = post.Categories[i].Trim();
+                }
+
+                if (!string.IsNullOrEmpty(meta.Keywords))
+                {
+                    post.Tags = meta.Keywords.Split(new[] {','}, StringSplitOptions.RemoveEmptyEntries);
+                    for (int i = 0; i < post.Tags.Length; i++)
+                        post.Tags[i] = post.Tags[i].Trim();
+                }
+
+                post.Permalink = meta.Permalink;
+                post.DateCreated = meta.PostDate;
+                if (post.DateCreated < new DateTime(2000, 1, 1))
+                    post.DateCreated = DateTime.Now;
+
+                post.mt_excerpt = meta.Abstract;
+                post.mt_keywords = meta.Keywords;
+
+                if (meta.CustomFields != null)
+                    post.CustomFields = meta.CustomFields.Values.ToArray();
             }
-
-            if (!string.IsNullOrEmpty(meta.Keywords))
-            {
-                post.Tags = meta.Keywords.Split(new[] {','}, StringSplitOptions.RemoveEmptyEntries);
-                for (int i = 0; i < post.Tags.Length; i++)
-                    post.Tags[i] = post.Tags[i].Trim();
-            }
-
-            post.Permalink = meta.Permalink;
-            post.DateCreated = meta.PostDate;
-            if (post.DateCreated < new DateTime(2000, 1, 1))
-                post.DateCreated = DateTime.Now;
-
-            post.mt_excerpt = meta.Abstract;
-            post.mt_keywords = meta.Keywords;
-
-            if (meta.CustomFields != null)
-                post.CustomFields = meta.CustomFields.Values.ToArray();
 
             return meta;
         }

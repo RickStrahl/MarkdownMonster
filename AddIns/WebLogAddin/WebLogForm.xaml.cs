@@ -330,12 +330,22 @@ namespace WeblogAddin
             if (item == null)
                 return;
 
+            WeblogInfo weblogInfo = Model.ActiveWeblogInfo;
+
+            if (weblogInfo.Type == WeblogTypes.LocalJekyll)
+            {
+                MessageBox.Show("Jekyll post recovery is not supported yet. For now you can just copy the post content from the Jekyll markdown file into Markdown Monster.","Jekyll Import Failed",
+                                MessageBoxButton.OK, MessageBoxImage.Exclamation);
+                return;
+            }
+
+            
+
             StatusBar.ShowStatusProgress("Downloading Weblog post '" + item.Title + "'");
 
 
-            string postId = item.PostId.ToString();
-            WeblogInfo weblogInfo = Model.ActiveWeblogInfo;
-
+            string postId = item.PostId?.ToString();
+            
             Post post = null;
 
             if (weblogInfo.Type == WeblogTypes.MetaWeblogApi)

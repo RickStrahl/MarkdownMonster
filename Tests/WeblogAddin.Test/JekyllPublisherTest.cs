@@ -31,7 +31,7 @@ namespace WeblogAddin.Test
             var rawMd = System.IO.File.ReadAllText(STR_MM_POST_FILE_NAME);
 
             var post = new Post();  // filled from meta data but not used here
-            var meta = WeblogPostMetadata.GetPostYamlConfigFromMarkdown(rawMd, post);
+            var meta = WeblogPostMetadata.GetPostYamlConfigFromMarkdown(rawMd);
             
 
             var pub = new LocalJekyllPublisher(meta, webLogInfo,STR_MM_POST_FILE_NAME);
