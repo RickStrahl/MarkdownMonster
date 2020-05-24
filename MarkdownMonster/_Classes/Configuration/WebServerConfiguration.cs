@@ -62,7 +62,8 @@ namespace MarkdownMonster.Configuration
         
 
         /// <summary>
-        /// Determines whether the Web Server is running
+        /// Determines whether the Web Server is currently running. 
+        /// This setting is not persisted.
         /// </summary>
         [JsonIgnore]
         public bool IsRunning

@@ -7,8 +7,8 @@ namespace MarkdownMonster
 {
 
     /// <summary>
-    /// Configuration contained class that holds Markdown options
-    /// applied as available to the Markdown Parser (mostly to default MarkDig parser)
+    /// Configuration contained class that holds Markdown options applied as
+    /// available to the Markdown Parser (mostly to default MarkDig parser)
     /// </summary>
     public class MarkdownOptionsConfiguration : INotifyPropertyChanged
     {
@@ -22,8 +22,7 @@ namespace MarkdownMonster
         public bool AutoLinks { get; set; } = true;
 
         /// <summary>
-        /// Determines if headers automatically generate
-        /// ids. We use the Github Flavored version of it.
+        /// Determines if headers automatically generate ids. We use the Github Flavored version of it.
         /// https://github.com/lunet-io/markdig/blob/master/src/Markdig.Tests/Specs/AutoIdentifierSpecs.md
         /// </summary>
         public bool AutoHeaderIdentifiers { get; set; } = true;
