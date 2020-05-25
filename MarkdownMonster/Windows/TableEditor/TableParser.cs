@@ -390,19 +390,35 @@ namespace MarkdownMonster.Windows
                 data.Add(columnData);
             }
 
-            if (data.Count < 1)
-                return data;
+            BalanceTableColumns(data);
+
+            return data;
+        }
+
+
+        /// <summary>
+        /// Fixes up table columns to match the widest row. Table header and rows
+        /// are all fixed up to match the widest row of columns. Empty columns and
+        /// headers are created with empty text.
+        /// </summary>
+        /// <param name="data"></param>
+        private static void BalanceTableColumns(ObservableCollection<ObservableCollection<CellContent>> data)
+        {
+            if (data == null || data.Count < 1)
+                return;
 
             // Check to see if the header has less columns than max colums in any row
             var maxCols = data.Max(d => d.Count);
-            if (data[0].Count < maxCols)
+            for (var i = 0; i < data.Count; i++)
             {
-                int add = maxCols - data[0].Count;
-                for (int i = 0; i < add; i++)
-                    data[0].Add(new CellContent(" "));
+                var row = data[i];
+                if (row.Count < maxCols)
+                {
+                    int add = maxCols - row.Count;
+                    for (int x = 0; x < add; x++)
+                        row.Add(new CellContent(""));
+                }
             }
-
-            return data;
         }
 
 
@@ -480,18 +496,8 @@ namespace MarkdownMonster.Windows
                 }
             }
 
-            if (data.Count < 1)
-                return data;
-
-            // Check to see if the header has less columns than max colums in any row
-            var maxCols = data.Max(d => d.Count);
-            if (data[0].Count < maxCols)
-            {
-                int add = maxCols-data[0].Count;
-                for (int i = 0; i < add; i++)
-                    data[0].Add(new CellContent(" "));
-            }
-
+            BalanceTableColumns(data);
+            
             return data;
         }
 
@@ -552,6 +558,8 @@ namespace MarkdownMonster.Windows
 
                 data.Add(rowColumns);
             }
+
+            BalanceTableColumns(data);
 
             return data;
         }

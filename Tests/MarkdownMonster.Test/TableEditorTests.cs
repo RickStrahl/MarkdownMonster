@@ -135,6 +135,29 @@ a  | b
             Assert.IsTrue(data[1][1].Text == "Column 2");
         }
 
+        [TestMethod]        
+        public void ExtraUnbalancedPipeTableParsingTest()
+        {
+            var md = @"| Header 1 | Header 2 |
+|------------|------------|------------|
+| Column 1   | Column 2   |
+| Column 1.1 | Column 2.1 | More Stuff | Even More Stuff |";
+
+            Console.WriteLine(md + "\n\n");
+
+            var parser = new TableParser();
+            var data = parser.ParseMarkdownToData(md);
+
+            Console.WriteLine(data.Count);
+            Console.WriteLine(parser.ToPipeTableMarkdown(data));
+
+            Assert.IsTrue(data.Count == 3, "Table should have returned 3 rows");
+            Assert.IsTrue( string.IsNullOrWhiteSpace(data[0][2].Text) );  // header
+            Assert.IsTrue( string.IsNullOrWhiteSpace(data[1][2].Text) );  
+            Assert.IsTrue(data[1][1].Text == "Column 2");
+            Assert.IsTrue(data[2][2].Text == "More Stuff");
+        }
+
 
         [TestMethod]
         public void ParseMarkdownGridTableToDataTest()
@@ -165,6 +188,42 @@ a  | b
             Assert.IsTrue(data.Count == 5, "Table should have returned 5 rows");
             Assert.IsTrue(data[2][0].Text.Contains("\nand a bottle of"));
         }
+
+        [TestMethod]
+        public void ParseUnbalancedMarkdownGridTableToDataTest()
+        {
+            string md = @"
++------------------------------------------+----------------+------------+
+| Header 1                                 | Header 2       |
++==========================================+================+============+
+| Column 1                                 | Column 2 Text  | Column 3   |
++------------------------------------------+----------------+------------+
+| Column 4                                 | Column 5 Text  | 
+| and a bottle of Russian rum              |                |            
+| with broken glass                        |                |           
++------------------------------------------+----------------+------------+
+| Column 6                                 | Column 7 Text  | Column 8   |
++------------------------------------------+----------------+------------+
+| Column 9                                 | Column 10 Text | Column 11  |
+| ho ho and a bottle of rum                |                |            |
++------------------------------------------+----------------+------------+
+";
+
+            var parser = new TableParser();
+            var data = parser.ParseMarkdownToData(md);
+
+            Console.WriteLine(data.Count);
+            Console.WriteLine(parser.ToGridTableMarkdown(data));
+
+            Assert.IsTrue(data.Count == 5, "Table should have returned 5 rows");
+
+            Assert.IsTrue(string.IsNullOrWhiteSpace(data[0][0].Text));  // header filled
+            Assert.IsTrue(string.IsNullOrWhiteSpace(data[2][0].Text));  // 2nd row filled
+
+            Assert.IsTrue(data[2][0].Text.Contains("\nand a bottle of"));
+            
+        }
+
 
         [TestMethod]
         public void ParseComplexMarkdownGridTableToDataTest()
