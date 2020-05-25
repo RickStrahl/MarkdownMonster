@@ -20,6 +20,9 @@ The Document object now internally tracks the editor sytnax associated with it. 
 * **Improve Configuration Backups to Folder**  
 Updated folder backups to choose the Configuration folder `.\backups` sub-folder for folder backups. You can now pick a path and the backup is created as a subfolder **below** that folder in the format of `yyyy-MM-dd-Markdown-Monster-Backup`.
 
+* **Fix: Several Table Parsing Issues**  
+Fixed several recurring issues with invalid table imports from unbalanced or misformatted tables. Unbalanced tables (with rows that have more columns than headers) are now adding additional headers as needed to balance the table. Added a number of additional out of bounds checks when parsing incoming column data.
+
 ### 1.22.4
 *<small>May 12th, 2020</small>* 
 

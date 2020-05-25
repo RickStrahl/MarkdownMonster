@@ -40,6 +40,12 @@ namespace MarkdownMonster.Test
             Assert.IsTrue(html.Contains("| Column 8   |"));
         }
 
+
+
+
+
+
+
         [TestMethod]
         public void DataToMarkdownGridTableTest()
         {
@@ -108,6 +114,27 @@ a  | b
             Assert.IsTrue(data.Count == 3, "Table should have returned 3 rows");
             Assert.IsTrue(data[1][1].Text == "1");
         }
+
+
+        [TestMethod]        
+        public void UnbalancedPipeTableParsingTest()
+        {
+            var md = @"| Header 1 | Header 2 |
+|------------|------------|------------|
+| Column 1   | Column 2   | More Stuff |
+| Column 1.1 | Column 2.1 | More Stuff |";
+
+            
+            var parser = new TableParser();
+            var data = parser.ParseMarkdownToData(md);
+
+            Console.WriteLine(data.Count);
+            Console.WriteLine(parser.ToPipeTableMarkdown(data));
+
+            Assert.IsTrue(data.Count == 3, "Table should have returned 3 rows");
+            Assert.IsTrue(data[1][1].Text == "Column 2");
+        }
+
 
         [TestMethod]
         public void ParseMarkdownGridTableToDataTest()

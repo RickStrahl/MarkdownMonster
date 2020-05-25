@@ -16,6 +16,7 @@ using System.Threading.Tasks;
 using HtmlAgilityPack;
 using LumenWorks.Framework.IO.Csv;
 using MarkdownMonster.Annotations;
+using ReverseMarkdown.Converters;
 using Westwind.Utilities;
 
 namespace MarkdownMonster.Windows
@@ -114,11 +115,6 @@ namespace MarkdownMonster.Windows
             sb.AppendLine(line.TrimEnd());
             sb.AppendLine(separator);
 
-
-            //sb.Append("|");
-            //for (int i = 0; i < line.Length-4; i++)
-            //    sb.Append("-");
-            //sb.AppendLine("|");
 
             foreach (var row in tableData.Skip(1))
             {
@@ -394,6 +390,18 @@ namespace MarkdownMonster.Windows
                 data.Add(columnData);
             }
 
+            if (data.Count < 1)
+                return data;
+
+            // Check to see if the header has less columns than max colums in any row
+            var maxCols = data.Max(d => d.Count);
+            if (data[0].Count < maxCols)
+            {
+                int add = maxCols - data[0].Count;
+                for (int i = 0; i < add; i++)
+                    data[0].Add(new CellContent(" "));
+            }
+
             return data;
         }
 
@@ -470,6 +478,18 @@ namespace MarkdownMonster.Windows
 
                     data.Add(columnData);
                 }
+            }
+
+            if (data.Count < 1)
+                return data;
+
+            // Check to see if the header has less columns than max colums in any row
+            var maxCols = data.Max(d => d.Count);
+            if (data[0].Count < maxCols)
+            {
+                int add = maxCols-data[0].Count;
+                for (int i = 0; i < add; i++)
+                    data[0].Add(new CellContent(" "));
             }
 
             return data;
@@ -665,8 +685,14 @@ namespace MarkdownMonster.Windows
                     MaxWidth = header.Length
                 };
 
-                // Loop through all rows and look at the i column's text to get max length
-                var maxWidth = data.Max(d =>  d[i]?.Text == null ? 0 : d[i].Text.Length);
+                // Loop through all rows and look at the i column's text to get max text width
+                var maxWidth = data.Max(d =>
+                {
+                    if (i >= d.Count || string.IsNullOrEmpty(d[i]?.Text) )
+                        return 0;
+
+                    return d[i].Text.Length;
+                });
 
                 if (maxWidth > colInfo.MaxWidth)
                     colInfo.MaxWidth = maxWidth;
