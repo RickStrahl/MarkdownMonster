@@ -5,7 +5,7 @@ exports.isDark = false;
 exports.cssClass = "ace-vslight";
 exports.cssText = ".ace-vslight .ace_gutter {\
 background: #f9f9f90;\
-color: #333;\
+color: #222;\
 }\
 .ace-vslight .ace_support.ace_function {\
 color: #800000;\
@@ -23,7 +23,7 @@ background-color: #6B72E6;\
 }\
 .ace-vslight {\
 background-color: #FCFCFC;\
-color: #333;\
+color: #222;\
 }\
 .ace-vslight .ace_cursor {\
 color: black;\
