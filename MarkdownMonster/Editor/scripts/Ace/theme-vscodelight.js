@@ -23,6 +23,7 @@ background-color: #6B72E6;\
 }\
 .ace-vslight {\
 background-color: #FCFCFC;\
+color: #333;\
 }\
 .ace-vslight .ace_cursor {\
 color: black;\
