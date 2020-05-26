@@ -26,16 +26,14 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *
- * ***** END LICENSE BLOCK ***** */
+ * * ***** END LICENSE BLOCK ***** */
 
 define('ace/theme/visualstudio', ['require', 'exports', 'module' , 'ace/lib/dom'], function(require, exports, module) {
-
-
 exports.isDark = false;
 exports.cssClass = "ace-vs";
 exports.cssText = ".ace-vs .ace_gutter {\
-background: #f9f9f90;\
-color: #333;\
+  background: #fcfcfc;\
+  color: #222;\
 }\
 .ace-vs .ace_print-margin {\
 width: 1px;\
@@ -45,7 +43,8 @@ background: #e8e8e8;\
 background-color: #6B72E6;\
 }\
 .ace-vs {\
-background-color: #FCFCFC;\
+  background-color: #fcfcfc;\
+  color: #222;\
 }\
 .ace-vs .ace_cursor {\
 color: black;\
