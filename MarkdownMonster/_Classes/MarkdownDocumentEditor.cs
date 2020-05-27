@@ -677,7 +677,7 @@ namespace MarkdownMonster
                 // check for links in input or on clipboard
                 string link = input;
                 if (string.IsNullOrEmpty(link))
-                    link = Clipboard.GetText();
+                    link = ClipboardHelper.GetText();
 
                 if (!(input.StartsWith("http:") || input.StartsWith("https:") || input.StartsWith("mailto:") ||
                       input.StartsWith("ftp:")))
@@ -723,7 +723,7 @@ namespace MarkdownMonster
                 // check for links in input or on clipboard
                 string link = input;
                 if (string.IsNullOrEmpty(link))
-                    link = Clipboard.GetText();
+                    link = ClipboardHelper.GetText();
 
                 if (!(input.StartsWith("http:") || input.StartsWith("https:") || input.StartsWith("mailto:") ||
                       input.StartsWith("ftp:")))
@@ -782,7 +782,7 @@ namespace MarkdownMonster
                 else
                 {
                     // use clipboard text if we think it contains code
-                    string clipText = Clipboard.GetText(TextDataFormat.Text);
+                    string clipText = ClipboardHelper.GetText();
                     if (!string.IsNullOrEmpty(clipText) &&
                         clipText.Contains("{") ||
                         clipText.Contains("/>") ||

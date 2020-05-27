@@ -55,7 +55,7 @@ namespace MarkdownMonster.Windows
 
         private void OpenFromUrl_Activated(object sender, EventArgs e)
         {
-            string clip = Clipboard.GetText(TextDataFormat.Text);
+            string clip = ClipboardHelper.GetText();
             if (string.IsNullOrEmpty(Url) &&
                 clip.StartsWith("http://") || clip.StartsWith("https://"))
                 Url = clip;
@@ -65,7 +65,7 @@ namespace MarkdownMonster.Windows
         {
             if (string.IsNullOrEmpty(Url))
             {
-                string clipText = Clipboard.GetText();
+                string clipText = ClipboardHelper.GetText();
                 if (clipText != null && clipText.Contains("://") && !clipText.Contains("\n"))
                     Url = clipText;
             

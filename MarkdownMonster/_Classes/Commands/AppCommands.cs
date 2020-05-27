@@ -1530,7 +1530,7 @@ namespace MarkdownMonster
                 if (!string.IsNullOrEmpty(html))
                     html = StringUtils.ExtractString(html, "<!--StartFragment-->", "<!--EndFragment-->");
                 else
-                    html = Clipboard.GetText(); // Probably just plain HTML text
+                    html = ClipboardHelper.GetText(); // Probably just plain HTML text
 
                 if (string.IsNullOrEmpty(html))
                     return;
@@ -2273,9 +2273,12 @@ We're now shutting down the application.
 
             SwitchThemeCommand = new CommandBase((parameter, command) =>
             {
-                var window = mmApp.Model.Window;
-                var selectedTheme = Themes.Dark;
+                var window = mmApp.Model?.Window;
+                if(window == null)
+                    return;
 
+                var selectedTheme = Themes.Dark;
+                
                 // Parameter is text for a theme or empty in which case it's toggled
                 var text = parameter as string;
                 if (string.IsNullOrEmpty(text))

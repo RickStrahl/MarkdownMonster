@@ -213,7 +213,7 @@ namespace MarkdownMonster.Windows
 
                 if (form.ImportFromClipboard)
                 {
-                    string csvText = Clipboard.GetText();
+                    string csvText = ClipboardHelper.GetText();
                     csvFile = Path.GetTempFileName();
                     csvFile = Path.ChangeExtension(csvFile, "csv");
                     File.WriteAllText(csvFile,csvText);
@@ -278,7 +278,7 @@ namespace MarkdownMonster.Windows
             {
                 html = ClipboardHelper.GetHtmlFromClipboard();
                 if (string.IsNullOrEmpty(html))
-                    html = Clipboard.GetText();
+                    html = ClipboardHelper.GetText();
             }
 
             var parser = new TableParser();

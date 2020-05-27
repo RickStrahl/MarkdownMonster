@@ -116,7 +116,7 @@ namespace MarkdownMonster.Windows
         private void RadioClipboard_Click(object sender, RoutedEventArgs e)
         {
             // Try to detect the CSV delimiter
-            var csv = Clipboard.GetText();
+            var csv = ClipboardHelper.GetText();
             var lines = StringUtils.GetLines(csv.Trim());
 
             int tabCount = 0;

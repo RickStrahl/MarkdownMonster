@@ -198,7 +198,7 @@ namespace MarkdownMonster.Windows
         private void PasteImage_PreviewKeyDown(object sender, KeyEventArgs e)
         {
             bool isControlKey = (Keyboard.Modifiers & ModifierKeys.Control) == ModifierKeys.Control;
-            var clipText = Clipboard.GetText();
+            var clipText = ClipboardHelper.GetText();
 
             if (isControlKey && e.Key == Key.V && Clipboard.ContainsImage())
                 PasteImageFromClipboard();
@@ -224,7 +224,7 @@ namespace MarkdownMonster.Windows
             }
             else if (string.IsNullOrEmpty(Image) && Clipboard.ContainsText())
             {
-                string clip = Clipboard.GetText().ToLower();
+                string clip = ClipboardHelper.GetText()?.ToLower();
                 if ((clip.StartsWith("http://", StringComparison.InvariantCultureIgnoreCase) ||
                      clip.StartsWith("https://", StringComparison.InvariantCultureIgnoreCase)) &&
                     (clip.Contains(".png", StringComparison.InvariantCultureIgnoreCase) ||
