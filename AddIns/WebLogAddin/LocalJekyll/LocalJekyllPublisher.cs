@@ -124,7 +124,6 @@ namespace WebLogAddin.LocalJekyll
 
             var blogRoot = Path.GetFullPath(Path.Combine(blogPath, "..\\"));
 
-
             var postFiles = Directory.GetFiles(Path.Combine(blogPath, "_posts"), "*.m*")
                 .OrderByDescending(s => s)
                 .Take(numberOfPosts);
@@ -138,9 +137,6 @@ namespace WebLogAddin.LocalJekyll
                 if (at < -1 || fileNameWithoutExtension.Length < at + 2) 
                     continue;
 
-                string dateString = fileNameWithoutExtension.Substring(0, at);
-                if (!DateTime.TryParse(dateString, out DateTime date))
-                    continue;
 
                 //title = title.Substring(at + 1);
 
@@ -156,8 +152,20 @@ namespace WebLogAddin.LocalJekyll
                     continue;
                 }
 
-                var post = new Post { DateCreated = date };
+                var post = new Post();
                 var meta = WeblogPostMetadata.GetPostYamlConfigFromMarkdown(content, post);
+
+                string dateString = MarkdownUtilities.ExtractYamlValue(meta.YamlFrontMatter,"date");
+                DateTime date;
+                if (!DateTime.TryParse(dateString, out date))
+                {
+                    dateString = file.Substring(0, 10);
+                    if (!DateTime.TryParse(dateString, out date))
+                        date = DateTime.Now.Date;
+                }
+
+                // use the parsed value
+                post.DateCreated = date;
 
 
                 if (meta.MarkdownBody.Length > 500)
@@ -166,11 +174,6 @@ namespace WebLogAddin.LocalJekyll
                     content = meta.MarkdownBody;
 
                 content = Markdown.ToPlainText(content);
-
-                // replace line breaks
-                var lines = content.GetLines();
-                content = string.Join(" ", lines);
-
                 post.mt_excerpt = StringUtils.TextAbstract(content,180);
                 
                 var title = StringUtils.ExtractString(content, "title:", "\n")?.Trim(new char[] {' ', '\'', '\"', '\n' , '\r'});

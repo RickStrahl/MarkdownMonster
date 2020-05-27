@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Security.Policy;
 using System.Xml;
 using MarkdownMonster;
 using WebLogAddin.MetaWebLogApi;
@@ -181,6 +182,11 @@ namespace WeblogAddin
 		[YamlIgnore]
         public string MarkdownBody { get; set; }
 
+        /// <summary>
+        /// Holds the Yaml Front Matter when parsing
+        /// </summary>
+        [YamlIgnore]
+        public string YamlFrontMatter { get; set; }
 
         /// <summary>
         /// This should hold the raw markdown text retrieved
@@ -188,6 +194,8 @@ namespace WeblogAddin
         /// </summary>
         [YamlIgnore]
         public string RawMarkdownBody { get; set; }
+
+
 
         /// <summary>
         /// Strips the Markdown Meta data from the message and populates
@@ -214,18 +222,13 @@ namespace WeblogAddin
             if (!markdown.StartsWith("---\n") && !markdown.StartsWith("---\r"))
                 return meta;
 
-            string extractedYaml = null;
-            //var match = YamlExtractionRegex.Match(markdown);
-            var match = MarkdownUtilities.YamlExtractionRegex.Match(markdown);
-            if (match.Success)
-                extractedYaml = match.Value;
-
-            //var extractedYaml = StringUtils.ExtractString(markdown.TrimStart(), "---\n", "\n---\n",returnDelimiters: true);
+            
+            
+            string extractedYaml = MarkdownUtilities.ExtractFrontMatter(markdown, true);
             if (string.IsNullOrEmpty(extractedYaml))
                 return meta;
 
-            var yaml = StringUtils.ExtractString(markdown, "---", "\n---", returnDelimiters: false).Trim();
-            var input = new StringReader(yaml);
+            var input = new StringReader(extractedYaml);
 
             var deserializer = new DeserializerBuilder()
                  .IgnoreUnmatchedProperties()
@@ -247,10 +250,15 @@ namespace WeblogAddin
 
 	        if (meta.CustomFields == null)
 		        meta.CustomFields = new Dictionary<string, CustomField>();
-
+            
             meta = yamlMeta;
+
             meta.MarkdownBody = markdown.Replace(extractedYaml,"");
             meta.RawMarkdownBody = markdown;
+            meta.YamlFrontMatter = extractedYaml;
+            if (string.IsNullOrEmpty(meta.WeblogName))
+                meta.WeblogName = WeblogAddinConfiguration.Current.LastWeblogAccessed;
+
 
             if (post != null)
             {
@@ -283,6 +291,8 @@ namespace WeblogAddin
 
             return meta;
         }
+
+
 
 
         public string SetPostYaml()

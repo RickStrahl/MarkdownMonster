@@ -235,7 +235,7 @@ namespace WeblogAddin
 
             StatusBar.ShowStatusProgress($"Downloading last {Model.NumberOfPostsToRetrieve} posts...");
 
-            var posts = publisher.GetRecentPosts()?.ToList();
+            var posts = publisher.GetRecentPosts(Model.NumberOfPostsToRetrieve)?.ToList();
             if (posts == null)
                 StatusBar.ShowStatusError($"An error occurred trying to retrieve posts: {publisher.ErrorMessage}");
 
