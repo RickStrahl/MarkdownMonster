@@ -70,16 +70,37 @@ namespace MarkdownMonster
         /// <summary>
         /// Returns Front Matter Yaml block content as a string
         /// </summary>
-        /// <param name="markdown"></param>
-        /// <returns></returns>
-        public static string ExtractFrontMatter(string markdown)
+        /// <param name="markdown">the raw markdown text that includes YAML text</param>
+        /// <returns>YAML text including the the leading and ending `---`, or null if there is no YAML header</returns>
+        public static string ExtractFrontMatter(string markdown, bool stripFrontMatterDashes = false)
         {
             string extractedYaml = null;
             var match = YamlExtractionRegex.Match(markdown);
             if (match.Success)
                 extractedYaml = match.Value;
 
+            if (stripFrontMatterDashes)
+                return extractedYaml?.Trim('-','\n','\r',' ');
+
             return extractedYaml;
+        }
+
+        /// <summary>
+        /// Extracts a single YAML value from a YAML block
+        /// </summary>
+        /// <param name="yamlText">The YAML text to search in</param>
+        /// <param name="key">The key to look for. Key is case sensitive.</param>
+        /// <returns>matched text or string.Empty()</returns>
+        public static string ExtractYamlValue(string yamlText, string key)
+        {
+            if(string.IsNullOrEmpty(yamlText) || string.IsNullOrEmpty(key))
+                return null;
+
+            var extract = StringUtils.ExtractString(yamlText, $"{key}: ", "\n")?.Trim(' ','\"','\r');
+            if (string.IsNullOrEmpty(extract))
+                return null;
+
+            return extract;
         }
 
         #endregion
