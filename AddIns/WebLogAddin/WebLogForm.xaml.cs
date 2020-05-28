@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
@@ -122,7 +123,7 @@ namespace WeblogAddin
 
             var editor = Model.AppModel.ActiveEditor;
             // Update the Markdown document first
-            string markdown = Model.ActivePostMetadata.SetPostYaml();
+            string markdown = Model.ActivePostMetadata.SetPostYamlFromMetaData();
             editor.SetMarkdown(markdown);
             editor.SaveDocument();
 
@@ -153,7 +154,7 @@ namespace WeblogAddin
             GetCustomFieldsFromObservableCollection();
 
             // Update the Markdown document first
-            string markdown = Model.ActivePostMetadata.SetPostYaml();
+            string markdown = Model.ActivePostMetadata.SetPostYamlFromMetaData();
             Model.AppModel.ActiveEditor.SetMarkdown(markdown, updateDirtyFlag: true);
             Model.AppModel.ActiveEditor.SaveDocument();
 
@@ -253,6 +254,12 @@ namespace WeblogAddin
         {
             WeblogInfo weblogInfo = Model.ActiveWeblogInfo;
 
+            if (weblogInfo.Name == null)
+            {
+                StatusBar.ShowStatusError("Please select a Weblog configuration to list posts for.");
+                return;
+            }
+
             var client = new MetaWebLogWordpressApiClient(weblogInfo);
             Model.Configuration.LastWeblogAccessed = weblogInfo.Name;
 
@@ -332,16 +339,7 @@ namespace WeblogAddin
 
             WeblogInfo weblogInfo = Model.ActiveWeblogInfo;
 
-            if (weblogInfo.Type == WeblogTypes.LocalJekyll)
-            {
-                MessageBox.Show("Jekyll post recovery is not supported yet. For now you can just copy the post content from the Jekyll markdown file into Markdown Monster.","Jekyll Import Failed",
-                                MessageBoxButton.OK, MessageBoxImage.Exclamation);
-                return;
-            }
-
-            
-
-            StatusBar.ShowStatusProgress("Downloading Weblog post '" + item.Title + "'");
+           StatusBar.ShowStatusProgress("Downloading Weblog post '" + item.Title + "'");
 
 
             string postId = item.PostId?.ToString();
@@ -361,12 +359,13 @@ namespace WeblogAddin
                 }
                 catch (Exception ex)
                 {
-                    StatusBar.ShowStatus();
-                    MessageBox.Show("Unable to download post.\r\n\r\n" + ex.Message);
+                    StatusBar.ShowStatusError("Unable to download post.\r\n\r\n" + ex.Message);
                     return;
                 }
+
+                Model.Addin.CreateDownloadedPostOnDisk(post, weblogInfo.Name);
             }
-            else
+            else if(weblogInfo.Type == WeblogTypes.Wordpress)
             {
                 var wrapper = new WordPressWrapper(weblogInfo.ApiUrl,
                     weblogInfo.Username,
@@ -379,15 +378,31 @@ namespace WeblogAddin
                 catch (Exception ex)
                 {
                     StatusBar.ShowStatus();
-                    MessageBox.Show("Unable to download post.\r\n\r\n" + ex.Message);
+                    StatusBar.ShowStatusError("Unable to download post.\r\n\r\n" + ex.Message);
                     return;
                 }
+
+                Model.Addin.CreateDownloadedPostOnDisk(post, weblogInfo.Name);
             }
+            else if (weblogInfo.Type == WeblogTypes.LocalJekyll)
+            {
+                var pub = new LocalJekyllPublisher(null, weblogInfo,null);
+                post = pub.GetPost(postId);
+                if (post == null)
+                {
+                    StatusBar.ShowStatusError("Unable to import post from Jekyll.");
+                    return;
+                }
 
-            Model.Addin.CreateDownloadedPostOnDisk(post, weblogInfo.Name);
+                string outputFile = pub.CreateDownloadedPostOnDisk(post,weblogInfo.Name);
+
+                mmApp.Model.Window.OpenTab(outputFile);
+                mmApp.Model.Window.ShowFolderBrowser(folder: Path.GetDirectoryName(outputFile));
+            }
+           
+
             Close();
-
-            StatusBar.ShowStatus();
+            StatusBar.ShowStatusSuccess("Post has been imported into Markdown Monster Web log Posts.");
         }
 
         private void ButtonApiUrlInfo_Click(object sender, RoutedEventArgs e)

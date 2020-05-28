@@ -19,6 +19,8 @@ namespace WeblogAddin.Test
 
         private const string STR_JEKYLL_PROJECT_FOLDER = "C:\\projects\\Test\\jekyll\\help";
 
+        private const string STR_JEKYLL_POST_ID = "2020-05-21-Jekyll-Test-Post";
+
         [TestMethod]
         public void PublishTest()
         {
@@ -62,6 +64,43 @@ namespace WeblogAddin.Test
             {
                 Console.WriteLine($"{pst.Title} -  {pst.mt_excerpt}") ;
             }
+        }
+
+        [TestMethod]
+        public void GetPostTest()
+        {
+            var weblogInfo = new WeblogInfo
+            {
+                ApiUrl = STR_JEKYLL_PROJECT_FOLDER,
+                Name = "Jekyll Test Blog"
+            };
+
+
+            var pub = new LocalJekyllPublisher(null, weblogInfo,null);
+            
+            var post = pub.GetPost(STR_JEKYLL_POST_ID);
+            Assert.IsNotNull(post);
+            Assert.IsNotNull(post.Body);
+        }
+
+        [TestMethod]
+        public void CreateDownloadPostTest()
+        {
+            var weblogInfo = new WeblogInfo
+            {
+                ApiUrl = STR_JEKYLL_PROJECT_FOLDER,
+                Name = "Jekyll Test Blog"
+            };
+
+
+            var pub = new LocalJekyllPublisher(null, weblogInfo,null);
+            
+            var post = pub.GetPost(STR_JEKYLL_POST_ID);
+            Assert.IsNotNull(post);
+            Assert.IsNotNull(post.Body);
+
+            pub.CreateDownloadedPostOnDisk(post,weblogInfo.Name);
+
         }
     }
 }

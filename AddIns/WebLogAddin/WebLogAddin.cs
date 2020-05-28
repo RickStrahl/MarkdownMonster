@@ -286,10 +286,9 @@ namespace WeblogAddin
 				var pub = new LocalJekyllPublisher(meta, weblogInfo, Model.ActiveDocument.Filename);
 				pub.PublishPost(false);
 
-				//mmFileUtils.OpenTerminal(weblogInfo.ApiUrl);
-				if (weblogInfo.LaunchCommand != null)
-				{
-					ShellUtils.ExecuteCommandLine(weblogInfo.LaunchCommand);
+                if (weblogInfo.LaunchCommand != null)
+                {
+                    pub.BuildAndLaunchSite();
                     previewUrl = null;
                     postUrl = pub.GetPostUrl(weblogInfo.PreviewUrl ?? "http://localhost:4000/{0}");
                 }
@@ -303,7 +302,7 @@ namespace WeblogAddin
 			meta.RawMarkdownBody = markdown;
 
 			// add the meta configuration to it
-			markdown = meta.SetPostYaml();
+			markdown = meta.SetPostYamlFromMetaData();
 
 			// write it back out to editor
 			editor.SetMarkdown(markdown, updateDirtyFlag: true, keepUndoBuffer: true);
@@ -346,6 +345,12 @@ namespace WeblogAddin
 				client = new MetaWebLogWordpressApiClient(weblogInfo);
 				return client.GetPost(postId);
 			}
+
+            if (weblogInfo.Type == WeblogTypes.LocalJekyll)
+            {
+                var pub = new LocalJekyllPublisher(null, weblogInfo, null);
+                return pub.GetPost(postId);
+            }
 
 			// Medium doesn't support post retrieval so return null
 			return null;
@@ -400,7 +405,7 @@ namespace WeblogAddin
 			meta.MarkdownBody = post;
 
 			if(!hasFrontMatter)
-				post = meta.SetPostYaml();
+				post = meta.SetPostYamlFromMetaData();
 
 			return post;
 		}

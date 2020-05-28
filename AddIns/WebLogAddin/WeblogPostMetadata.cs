@@ -223,12 +223,16 @@ namespace WeblogAddin
                 return meta;
 
             
-            
-            string extractedYaml = MarkdownUtilities.ExtractFrontMatter(markdown, true);
+
+            // YAML with --- so we can replace
+            string extractedYaml = MarkdownUtilities.ExtractFrontMatter(markdown,false);
             if (string.IsNullOrEmpty(extractedYaml))
                 return meta;
 
-            var input = new StringReader(extractedYaml);
+            // just the YAML text
+            var yaml = extractedYaml.Trim('-', ' ', '\r', '\n');
+
+            var input = new StringReader(yaml);
 
             var deserializer = new DeserializerBuilder()
                  .IgnoreUnmatchedProperties()
@@ -255,7 +259,7 @@ namespace WeblogAddin
 
             meta.MarkdownBody = markdown.Replace(extractedYaml,"");
             meta.RawMarkdownBody = markdown;
-            meta.YamlFrontMatter = extractedYaml;
+            meta.YamlFrontMatter = yaml;
             if (string.IsNullOrEmpty(meta.WeblogName))
                 meta.WeblogName = WeblogAddinConfiguration.Current.LastWeblogAccessed;
 
@@ -294,13 +298,24 @@ namespace WeblogAddin
 
 
 
-
-        public string SetPostYaml()
+        /// <summary>
+        /// Parses the current Raw post data and updates the meta data
+        /// to reflect the latest state of the Meta object.
+        /// Returns a string of the final Markdown and updates these properties:
+        /// * MarkdownBody
+        /// * YamlFrontMatter
+        /// * RawMarkdownBody
+        /// </summary>
+        /// <param name="rawMarkdown">the raw Markdown that contains both Markdown and YAML. If not passed uses RawMarkdownBody which is the full document.</param>
+        /// <returns>YAML or null. Also sets MarkdownBody, YamlFrontMatter and RawMarkdownBody properties.</returns>
+        public string SetPostYamlFromMetaData(string rawMarkdownBody = null)
         {
-            if (RawMarkdownBody == null)
-                return RawMarkdownBody;
+            if (string.IsNullOrEmpty(rawMarkdownBody))
+                rawMarkdownBody = RawMarkdownBody;
+            if (string.IsNullOrEmpty(rawMarkdownBody))
+                return null;
 
-            string markdown = RawMarkdownBody.Trim();
+            string markdown = rawMarkdownBody.Trim();
 
             var serializer = new SerializerBuilder()
                  .WithNamingConvention(new CamelCaseNamingConvention())
@@ -328,19 +343,20 @@ namespace WeblogAddin
             else
                 markdown = markdown.Trim();
 
-            markdown = $"---{mmApp.NewLine}" + yaml + $"---{mmApp.NewLine}" +
-                markdown;
+            MarkdownBody = markdown;
+            YamlFrontMatter = $"---{mmApp.NewLine}" + yaml + $"---{mmApp.NewLine}";
+            RawMarkdownBody = YamlFrontMatter + MarkdownBody;
 
-            // strip out old meta data
+            // TODO: strip out old meta data
             string config = StringUtils.ExtractString(markdown,
                 "<!-- Post Configuration -->",
                 "<!-- End Post Configuration -->",
                 caseSensitive: false, allowMissingEndDelimiter: true, returnDelimiters: true);
 
             if (!string.IsNullOrEmpty(config))
-                markdown = markdown.Replace(config, "");
+                RawMarkdownBody = RawMarkdownBody.Replace(config, "");
 
-            return markdown;
+            return RawMarkdownBody;
         }
 
         /// <summary>

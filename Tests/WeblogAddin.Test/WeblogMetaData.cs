@@ -44,7 +44,7 @@ namespace MarkdownMonster.Test
 
 			meta.RawMarkdownBody = "# Weblog Title\r\nHere's my **great** markdown post body";
 
-			string markdown = meta.SetPostYaml();
+			string markdown = meta.SetPostYamlFromMetaData();
 
 			Console.WriteLine(markdown);
 		}
@@ -70,7 +70,7 @@ namespace MarkdownMonster.Test
 			meta.Title = title;
 			meta.RawMarkdownBody = STR_postWithMetaData;
 
-			string markdown = meta.SetPostYaml();
+			string markdown = meta.SetPostYamlFromMetaData();
 
 			Console.WriteLine(markdown);
 			Assert.IsTrue(markdown.Contains("title: 'Tip: Updated on "));
