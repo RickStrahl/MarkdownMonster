@@ -231,12 +231,9 @@ namespace WebLogAddin.LocalJekyll
 
 			var outputFile = Path.Combine(mmPostFolder, StringUtils.ToCamelCase(filename) + ".md");
 
-            bool isMarkdown = true;
-			string body = post.Body;
+            string body = post.Body;
 			string featuredImage = null;
-
-
-			string categories = null;
+            string categories = null;
 			if (post.Categories != null && post.Categories.Length > 0)
 				categories = string.Join(",", post.Categories);
 
@@ -509,8 +506,6 @@ namespace WebLogAddin.LocalJekyll
         {
 
             var matches = Image_RegEx.Matches(markdown);
-
-            bool firstImage = true;
             foreach(Match match in matches)
             {
                 var matchedText = match.Value;

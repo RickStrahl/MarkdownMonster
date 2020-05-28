@@ -8,8 +8,8 @@
 ### 1.22.6
 *<small>not released yet</small>* 
 
-* **Local Jekyll Weblog Publishing Support**  
-Added explicit support for publishing blog posts to a local Jekyll installation. Works by letting you write your blog content in a separate location with related resources in a self-contained folder structure. The 'publish' process then pushes the post and all the related image resources into the Jekyll project. 
+* **Local Jekyll Weblog Publishing Support (Preview)**  
+Added support for 'publishing; blog posts to a local Jekyll installation. Works by letting you write your blog content as a MM Weblog post and publishing the content into the Jekyll `_posts` folder structure and creates images in the `_assets` folder by post name. Simplifies: Post creation, asset management, re-editing and re-publishing to other blog platforms, makes posts more portable.
 
 * **Built-in optional Web Server to allow Browsers Open Text Markdown Monster**  
 Added WebSocket support to allow opening Markdown text in MM via a browser connection. Socket server listens to incoming document requests and if sent opens a specific document. This is similar to the `markdownmonster:untitled` functionality recently added, but unlike Application Protocols which are limited to 2046 bytes of data, this mechanism allows for large Markdown content to be opened in MM. The WebSocket Server  is disabled by default and can be auto-started whenever MM starts via the `WebSocket.AutoStart` configuration switch.

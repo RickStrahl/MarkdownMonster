@@ -415,10 +415,10 @@ namespace WeblogAddin
 			string filename = FileUtils.SafeFilename(postFilename);
 			string titleFilename = GetPostFileNameFromTitle(title);
 
-			var folder = Path.Combine(WeblogAddinConfiguration.Current.PostsFolder,DateTime.Now.Year + "-" + DateTime.Now.Month.ToString("00"),titleFilename);
-			if (!Directory.Exists(folder))
-				Directory.CreateDirectory(folder);
-			var outputFile = Path.Combine(folder, filename);
+			var mmPostFolder = Path.Combine(WeblogAddinConfiguration.Current.PostsFolder,DateTime.Now.Year + "-" + DateTime.Now.Month.ToString("00"),titleFilename);
+			if (!Directory.Exists(mmPostFolder))
+				Directory.CreateDirectory(mmPostFolder);
+			var outputFile = Path.Combine(mmPostFolder, filename);
 
 			// Create the new post by creating a file with title preset
 			string newPostMarkdown = NewWeblogPost(new WeblogPostMetadata()
@@ -451,8 +451,9 @@ namespace WeblogAddin
 			}
 
 			Model.Window.OpenTab(outputFile);
+            Model.Window.ShowFolderBrowser(folder: mmPostFolder);
 
-			mmApp.Configuration.LastFolder = Path.GetDirectoryName(outputFile);
+			mmApp.Configuration.LastFolder = mmPostFolder;
 		}
 
 		/// <summary>
@@ -609,7 +610,8 @@ namespace WeblogAddin
 			}
 
 			Model.Window.OpenTab(outputFile);
-		}
+            Model.Window.ShowFolderBrowser(folder: Path.GetDirectoryName(outputFile));
+        }
 
 		private void SaveMarkdownImages(string htmlText, string basePath)
 		{
