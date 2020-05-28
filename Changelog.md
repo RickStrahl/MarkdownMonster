@@ -11,6 +11,9 @@
 * **[Local Jekyll Weblog Publishing Support](https://markdownmonster.west-wind.com/docs/_5rv00rx4i.htm#setting-up-the-jekyll-publishing-configuration) (Preview)**  
 Added support for 'publishing; blog posts to a local Jekyll installation. Works by letting you write your blog content as a MM Weblog post and publishing the content into the Jekyll `_posts` folder structure and creates images in the `_assets` folder by post name. Simplifies: Post creation, asset management, re-editing and re-publishing to other blog platforms, makes posts more portable.
 
+* **[Support for Opening Empty Documents](https://markdownmonster.west-wind.com/docs/_4x313dneu.htm#open-a-new-empty-document)**  
+You can now use `mm untitled` to force an empty or 'Untitled' document to be opened on startup. Yes this 'feature' was surprisingly missing in previous versions as a start without parameters would just open MM with whatever documents were previously open (or are already open in single instance mode).
+
 * **[Built-in local Web Server to allow Browsers Open Text Markdown Monster](https://markdownmonster.west-wind.com/docs/_5s1009yx1.htm)**  
 Added WebSocket support to allow opening Markdown text in MM via a browser connection. Socket server listens to incoming document requests and if sent opens a specific document. This is similar to the `markdownmonster:untitled` functionality recently added, but unlike Application Protocols which are limited to 2046 bytes of data, this mechanism allows for large Markdown content to be opened in MM. The WebSocket Server  is disabled by default and can be auto-started whenever MM starts via the `WebSocket.AutoStart` configuration switch.
 
@@ -25,9 +28,6 @@ Fixed several recurring issues with invalid table imports from unbalanced or mis
 
 ### 1.22.4
 *<small>May 12th, 2020</small>* 
-
-* **[Support for Opening Empty Documents](https://markdownmonster.west-wind.com/docs/_4x313dneu.htm#open-a-new-empty-document)**  
-You can now use `mm untitled` to force an empty or 'Untitled' document to be opened on startup. Yes this 'feature' was surprisingly missing in previous versions as a start without parameters would just open MM with whatever documents were previously open (or are already open in single instance mode).
 
 * **[Support for Untitled Documents with Preset Text](https://markdownmonster.west-wind.com/docs/_4x313dneu.htm#open-a-new-document-with-pre-filled-text)**  
 You can now open a new untitled document with preset text by using a custom filename format on the command line. Use `mm untitled.base64,base64text`, `mm "untitled.text,This is a new document"`, `mm untitled.urlencoded,this+is+new` to open a document with the specified encoding format. Base64 is recommended due to the need to encode line breaks and extended characters but for simple string text and urlencoded can also work.

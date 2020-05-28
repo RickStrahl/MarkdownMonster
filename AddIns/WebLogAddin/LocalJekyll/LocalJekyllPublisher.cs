@@ -471,10 +471,6 @@ namespace WebLogAddin.LocalJekyll
 
                 var oldFile = Path.Combine(basePath, imageUrl);
                 var newFile = Path.Combine(blogPath, "assets", blogName, imageUrl);
-
-                oldFile = FileUtils.NormalizePath(oldFile);
-                newFile = FileUtils.NormalizePath(newFile);
-
                 
                 if (File.Exists(oldFile))
                 {
