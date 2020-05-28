@@ -6,7 +6,7 @@
 
 
 ### 1.22.6
-*<small>not released yet</small>* 
+*<small>May 28th, 2020</small>* 
 
 * **[Local Jekyll Weblog Publishing Support](https://markdownmonster.west-wind.com/docs/_5rv00rx4i.htm#setting-up-the-jekyll-publishing-configuration) (Preview)**  
 Added support for 'publishing; blog posts to a local Jekyll installation. Works by letting you write your blog content as a MM Weblog post and publishing the content into the Jekyll `_posts` folder structure and creates images in the `_assets` folder by post name. Simplifies: Post creation, asset management, re-editing and re-publishing to other blog platforms, makes posts more portable.
