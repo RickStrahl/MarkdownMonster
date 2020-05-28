@@ -8,10 +8,10 @@
 ### 1.22.6
 *<small>not released yet</small>* 
 
-* **Local Jekyll Weblog Publishing Support (Preview)**  
+* **[Local Jekyll Weblog Publishing Support](https://markdownmonster.west-wind.com/docs/_5rv00rx4i.htm#setting-up-the-jekyll-publishing-configuration) (Preview)**  
 Added support for 'publishing; blog posts to a local Jekyll installation. Works by letting you write your blog content as a MM Weblog post and publishing the content into the Jekyll `_posts` folder structure and creates images in the `_assets` folder by post name. Simplifies: Post creation, asset management, re-editing and re-publishing to other blog platforms, makes posts more portable.
 
-* **Built-in optional Web Server to allow Browsers Open Text Markdown Monster**  
+* **[Built-in local Web Server to allow Browsers Open Text Markdown Monster](https://markdownmonster.west-wind.com/docs/_5s1009yx1.htm)**  
 Added WebSocket support to allow opening Markdown text in MM via a browser connection. Socket server listens to incoming document requests and if sent opens a specific document. This is similar to the `markdownmonster:untitled` functionality recently added, but unlike Application Protocols which are limited to 2046 bytes of data, this mechanism allows for large Markdown content to be opened in MM. The WebSocket Server  is disabled by default and can be auto-started whenever MM starts via the `WebSocket.AutoStart` configuration switch.
 
 * **Document Syntax Improvements**  
@@ -21,7 +21,7 @@ The Document object now internally tracks the editor sytnax associated with it. 
 Updated folder backups to choose the Configuration folder `.\backups` sub-folder for folder backups. You can now pick a path and the backup is created as a subfolder **below** that folder in the format of `yyyy-MM-dd-Markdown-Monster-Backup`.
 
 * **Fix: Several Table Parsing Issues**  
-Fixed several recurring issues with invalid table imports from unbalanced or misformatted tables. Unbalanced tables (with rows that have more columns than headers) are now adding additional headers as needed to balance the table. Added a number of additional out of bounds checks when parsing incoming column data.
+Fixed several recurring issues with invalid table imports from unbalanced or mis-formatted tables. Unbalanced tables (with rows that have more columns than headers) are now adding additional headers as needed to balance the table. Added a number of additional out of bounds checks when parsing incoming column data.
 
 ### 1.22.4
 *<small>May 12th, 2020</small>* 
