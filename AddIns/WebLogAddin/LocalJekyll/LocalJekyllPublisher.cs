@@ -63,20 +63,12 @@ namespace WebLogAddin.LocalJekyll
         public bool PublishPost(bool pushToGit = false)
         {
             var blogPath = WeblogInfo.ApiUrl;
-
-            string blogRoot = null;
-            try
+            if (!Directory.Exists(WeblogInfo.ApiUrl))
             {
-                blogRoot = Path.GetFullPath(Path.Combine(blogPath, "..\\"));
-            }
-            catch {}
-
-
-            if (string.IsNullOrEmpty(blogRoot) || !Directory.Exists(blogRoot))
-            {
-                SetError($"Blog root directory does not exist: {blogRoot}");
+                SetError("Invalid or missing Weblog root path: " + WeblogInfo.ApiUrl);
                 return false;
             }
+
             
             var postTitle = FileUtils.SafeFilename(PostMetadata.Title).Replace(" ","-").Replace("--","-");
             var blogFileName = $"{PostMetadata.PostDate:yyyy-MM-dd}-{postTitle}";
@@ -125,6 +117,9 @@ namespace WebLogAddin.LocalJekyll
             try
             {
                 blogPath = Path.GetFullPath(WeblogInfo.ApiUrl);
+
+                if (!Directory.Exists(blogPath) || !Directory.Exists(Path.Combine(blogPath,"_posts")))
+                    throw new DirectoryNotFoundException();
             }
             catch
             {
@@ -132,9 +127,7 @@ namespace WebLogAddin.LocalJekyll
                 return posts;
             }
 
-            var blogRoot = Path.GetFullPath(Path.Combine(blogPath, "..\\"));
-
-            var postFiles = Directory.GetFiles(Path.Combine(blogPath, "_posts"), "*.m*")
+           var postFiles = Directory.GetFiles(Path.Combine(blogPath, "_posts"), "*.m*")
                 .OrderByDescending(s => s)
                 .Take(numberOfPosts);
 
@@ -280,31 +273,6 @@ namespace WebLogAddin.LocalJekyll
 
         #endregion
 
-
-        //public string FixImagePaths(string postText, string blogName, string blogRoot)
-        //{
-        //    var pattern = @"\!\[(?:.*)\]\((?:.*)\)";
-        //    blogName = blogName.Replace(".md", "");
-        //    var newPath = $"{{{{ site.url }}}}/assets/{blogName}/";
-
-        //    var match = Regex.Match(postText, pattern, RegexOptions.Multiline);
-        //    while (match.Success)
-        //    {
-        //        if (!match.ToString().Contains("://"))
-        //        {
-        //            var original = match.ToString();
-        //            var newText = original.Replace("](", $"]({newPath}");
-        //            postText = postText.Replace(original, newText);
-        //        }
-
-        //        match = match.NextMatch();
-        //    }
-
-        //    if (!postText.Contains("featured-image: https"))
-        //        postText = postText.Replace("featured-image: ",
-        //            $"featured-image: https://blog.lhotka.net/assets/{blogName}/");
-        //    return postText;
-        //}
 
         /// <summary>
         /// Retrieves Weblog Metadata and Post Data from a Jekyll post on disk
