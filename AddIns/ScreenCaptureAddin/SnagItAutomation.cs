@@ -112,7 +112,10 @@ namespace SnagItAddin
         public bool ShowPreviewWindow
         {
             get { return _showPreviewWindow; }
-            set { _showPreviewWindow = value; }
+            set
+            {
+                _showPreviewWindow = value;
+            }
         }
         private bool _showPreviewWindow = true;
 
@@ -215,7 +218,6 @@ namespace SnagItAddin
             ReflectionUtils.SetPropertyCom(snagIt, "Input", CaptureMode);
             ReflectionUtils.SetPropertyCom(snagIt, "EnablePreviewWindow", ShowPreviewWindow);
 
-
             ReflectionUtils.SetPropertyExCom(snagIt, "OutputImageFile.Filename", OutputCaptureFile);
 
             ReflectionUtils.SetPropertyExCom(snagIt, "OutputImageFile.Quality", 86); //86% quality
@@ -243,7 +245,9 @@ namespace SnagItAddin
                 }
             }
 
-            //snagIt.OnStateChange += new Action<CaptureState>(SnagImg_OnStateChange);            
+            //snagIt.OnStateChange += new Action<CaptureState>(SnagImg_OnStateChange);
+
+            
 
             try
             {
@@ -352,7 +356,7 @@ namespace SnagItAddin
                  IncludeCursor = config.IncludeCursor,
                  ColorDepth = config.ColorDepth,
                  DeleteImageFromDisk = false,
-                 ShowPreviewWindow = true,
+                 ShowPreviewWindow = config.ShowPreviewWindow,
                  OutputFileCaptureFormat = CaptureFormats.png
             };
         }
