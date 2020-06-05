@@ -1,31 +1,6 @@
-﻿<!-- Start Document Outline -->
+﻿# Markdown Monster Tip of the Day
 
-* [Markdown Monster Tip of the Day](#markdown-monster-tip-of-the-day)
-	* [Markdown Monster Shortcut Keys](#markdown-monster-shortcut-keys)
-	* [Open from Url](#open-from-url)
-	* [Favorites Tab Dragging](#favorites-tab-dragging)
-	* [Open Markdown Monster from the Command Line](#open-markdown-monster-from-the-command-line)
-	* [Open Markdown Files from Preview HTML Links](#open-markdown-files-from-preview-html-links)
-	* [Edit Images](#edit-images)
-	* [Convert to Word Document](#convert-to-word-document)
-	* [Generate HTML Output](#generate-html-output)
-	* [Generate PDFs from your Markdown Topics](#generate-pdfs-from-your-markdown-topics)
-	* [Custom Preview Themes](#custom-preview-themes)
-	* [Distraction Free Mode](#distraction-free-mode)
-	* [Viewer Mode](#viewer-mode)
-	* [Right Click To Edit Images, Links and Tables](#right-click-to-edit-images-links-and-tables)
-	* [Using Gists for Bug Reports and general Purpose Web Pages](#using-gists-for-bug-reports-and-general-purpose-web-pages)
-	* [3 ways to Image Embedding](#3-ways-to-image-embedding)
-	* [FontAwesome Icons](#fontawesome-icons)
-	* [Snippet Add-in](#snippet-add-in)
-	* [Portable Version](#portable-version)
-	* [Pasting Images into Content](#pasting-images-into-content)
-	* [Build your own Markdown Monster Add-ins](#build-your-own-markdown-monster-add-ins)
-	* [Embed Font-Awesome Icons](#embed-font-awesome-icons)
-	* [Html Editing](#html-editing)
 
-<!-- End Document Outline -->
-# Markdown Monster Tip of the Day
 
 ## Markdown Monster Shortcut Keys
 Here are a few useful Markdown Monster shortcuts to remember:
@@ -91,6 +66,18 @@ It's a quick way to navigate and work with files in the current folder.
 
 ## Open Markdown Files from Preview HTML Links
 Did you know that in Markdown Monster you can click on Markdown links in the Previewer to open related Markdown documents in the Editor? MM  intercepts relative or local file Markdown links and opens the appropriate Markdown document in the editor. 
+
+## Image Linking
+Did you know you have many choices for creating Markdown links in Markdown Monster?
+
+* Ctrl-K link dialog
+* Ctrl-Shift-K inline linking
+* raw Markdown links
+* raw HTML links
+
+Inline linking is a new, much requested feature.
+
+markdownmonster.west-wind.com/docs/_4xs10gau… #markdown #documentation
 
 ## Edit Images
 Did you know you can bring up your favorite image editor directly from your Markdown Document in Markdown Monster?

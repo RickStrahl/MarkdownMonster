@@ -22,6 +22,8 @@ using System.Xml.Serialization;
 using System.Windows;
 using MarkdownMonster.Windows;
 using Westwind.Utilities;
+using System.Threading.Tasks;
+using MarkdownMonster;
 
 namespace SnagItAddin
 {
@@ -206,7 +208,7 @@ namespace SnagItAddin
 
             try
             {
-                ReflectionUtils.SetPropertyExCom(snagIt, "OutputImageFile.Directory", CapturePath);
+                ReflectionUtils.SetPropertyCom(snagIt, "Input", CaptureMode);
             }
             catch
             {
@@ -214,12 +216,12 @@ namespace SnagItAddin
                 return null;
             }
 
-
             ReflectionUtils.SetPropertyCom(snagIt, "Input", CaptureMode);
+            ReflectionUtils.SetPropertyCom(snagIt, "Output", 2);        // file
             ReflectionUtils.SetPropertyCom(snagIt, "EnablePreviewWindow", ShowPreviewWindow);
 
+            ReflectionUtils.SetPropertyExCom(snagIt, "OutputImageFile.Directory", CapturePath);
             ReflectionUtils.SetPropertyExCom(snagIt, "OutputImageFile.Filename", OutputCaptureFile);
-
             ReflectionUtils.SetPropertyExCom(snagIt, "OutputImageFile.Quality", 86); //86% quality
             int type = (int) OutputFileCaptureFormat;
             ReflectionUtils.SetPropertyExCom(snagIt,"OutputImageFile.FileType",type);
@@ -245,9 +247,8 @@ namespace SnagItAddin
                 }
             }
 
-            //snagIt.OnStateChange += new Action<CaptureState>(SnagImg_OnStateChange);
-
-            
+            // Works but doesn't really add anything. Won't work in .NET Core due to dynamic not working with COM
+            //((dynamic) snagIt).OnStateChange += new Action<CaptureState>(SnagImg_OnStateChange);
 
             try
             {
@@ -257,8 +258,11 @@ namespace SnagItAddin
                 while (!IsDone && !HasError)
                 {
                     IsDone = (bool) ReflectionUtils.GetPropertyCom(snagIt, "IsCaptureDone");
+                    if(IsDone)
+                        break;
+
                     WindowUtilities.DoEvents();
-                    Thread.Sleep(20);
+                    Thread.Sleep(5);
                 }
             }
             catch(Exception ex)
@@ -319,12 +323,16 @@ namespace SnagItAddin
 
         private void SnagImg_OnStateChange(CaptureState newState)
         {            
-            if (newState != CaptureState.scsBusy && newState != CaptureState.scsIdle)
+            if (newState == CaptureState.scsCaptureSucceeded)
                 IsDone = true;
 
+            if (newState != CaptureState.scsBusy && newState != CaptureState.scsIdle)
+                IsDone = true;
+            
             if (newState == CaptureState.scsCaptureFailed)
                 HasError = true;
 
+            
             Debug.WriteLine(newState.ToString() + " - IsDone " + IsDone );
         }
 
