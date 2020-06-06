@@ -405,7 +405,7 @@
             if (lang == "c++" || lang == "cpp")
                 lang = "c_cpp";
             if (lang == "txt" || lang == "text" || lang == "none" || lang == "plain")
-                lang = "txt";
+                lang = "text";
 
             te.editor.getSession().setMode("ace/mode/" + lang);
         },

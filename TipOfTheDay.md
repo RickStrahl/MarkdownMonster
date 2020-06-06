@@ -1,7 +1,5 @@
 ﻿# Markdown Monster Tip of the Day
 
-
-
 ## Markdown Monster Shortcut Keys
 Here are a few useful Markdown Monster shortcuts to remember:
 
@@ -147,6 +145,12 @@ Images are auto-compressed to reduce image size.
 
 ## Build your own Markdown Monster Add-ins
 Did you know that Markdown Monster has an add-in extension model? You can easily create an add-in that adds custom functionality to Markdown Monster. You can add a button and window using your own UI and/or simply interact with the active document, hook events such when documents are loaded or saved, and modify selected text inside of a document. It's easy to do using the .NET Add-in model.
+
+## Document Outline
+Did you know Markdown Monster has a Document Outline you can use to quickly view & jump to sections of the document?
+
+Use the Bookmark icon on the left panel or Tools->View->Document Outline (alt-v-o). Great for navigation or quick review of large docs.
+
 
 ## Html Editing
 Did you know that Markdown Monster can also edit HTML files with live preview? Open an HTML document and MM will preview it and update the preview as you edit it.
