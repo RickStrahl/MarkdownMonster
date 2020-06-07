@@ -160,10 +160,7 @@ namespace MarkdownMonster.Controls.ContextMenus
             ContextMenu.Items.Add(miCut);
 
             var miCopy = new MenuItem() { Header = "Copy", InputGestureText="Ctrl-C" };
-            miCopy.Click += (o, args) =>
-            {
-                ClipboardHelper.SetText(selText, true);
-            };
+            miCopy.Click += (o, args) =>ClipboardHelper.SetText(selText, true);
             ContextMenu.Items.Add(miCopy);
 
             var miCopyHtml = new MenuItem() { Header = "Copy As Html", InputGestureText=Model.Commands.CopyAsHtmlCommand.KeyboardShortcut };
@@ -213,6 +210,29 @@ namespace MarkdownMonster.Controls.ContextMenus
             AddSpeech();
         }
 
+        public void AddUndoRedo()
+        {
+
+            var editor = Model.ActiveEditor;
+
+            bool hasUndo = editor.AceEditor.HasUndo();
+            bool hasRedo = editor.AceEditor.HasRedo();
+
+            var miUndo = new MenuItem { Header = "Undo", InputGestureText = "Ctrl-Z" };
+            if (!hasUndo)
+                miUndo.IsEnabled = false;
+            miUndo.Click += (o, args) => Model.ActiveEditor.AceEditor.Undo();
+            ContextMenu.Items.Add(miUndo);
+
+            var miRedo = new MenuItem() { Header = "Redo", InputGestureText = "Ctrl-Y" };
+            if (!hasRedo)
+                miRedo.IsEnabled = false;
+            miRedo.Click += (o, args) => Model.ActiveEditor.AceEditor.Redo();
+            ContextMenu.Items.Add(miRedo);
+
+            ContextMenu.Items.Add(new Separator());
+        }
+
         public void AddSpeech()
         {
             var hasDocumentSelection = !string.IsNullOrEmpty(Model.ActiveEditor?.AceEditor?.GetSelection());
@@ -254,29 +274,6 @@ namespace MarkdownMonster.Controls.ContextMenus
                 Command = Model.Commands.Speech.CancelSpeakCommand
             };
             mi.Items.Add(mi2);
-        }
-
-        public void AddUndoRedo()
-        {
-
-            var editor = Model.ActiveEditor;
-
-            bool hasUndo = editor.AceEditor.HasUndo();
-            bool hasRedo = editor.AceEditor.HasRedo();
-
-            var miUndo = new MenuItem { Header = "Undo", InputGestureText = "Ctrl-Z" };
-            if (!hasUndo)
-                miUndo.IsEnabled = false;
-            miUndo.Click += (o, args) => Model.ActiveEditor.AceEditor.Undo();
-            ContextMenu.Items.Add(miUndo);
-
-            var miRedo = new MenuItem() { Header = "Redo", InputGestureText = "Ctrl-Y" };
-            if (!hasRedo)
-                miRedo.IsEnabled = false;
-            miRedo.Click += (o, args) => Model.ActiveEditor.AceEditor.Redo();
-            ContextMenu.Items.Add(miRedo);
-
-            ContextMenu.Items.Add(new Separator());
         }
 
         /// <summary>
