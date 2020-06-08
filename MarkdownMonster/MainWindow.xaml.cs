@@ -952,8 +952,8 @@ namespace MarkdownMonster
                 else if (File.Exists(file))
                 {
                     // open file which may or may not open a tab (like a project)
-                    var tab = OpenTab(mdFile: file, batchOpen: true);
-                    //OpenFile(filename: file, batchOpen: true);
+                    var tab = OpenFile(filename: file, batchOpen: true, noShellNavigation: true);
+                    
                     //var tab = OpenTab(mdFile: file, batchOpen: true);
                     if (tab?.Tag is MarkdownDocumentEditor editor)
                     {
@@ -1052,6 +1052,7 @@ namespace MarkdownMonster
         /// <param name="readOnly"></param>
         /// <param name="noFocus"></param>
         /// <param name="isPreview"></param>
+        /// <param name="noShellNavigation">If true last resort editing will open in editor rather than shell execute</param>
         /// <returns>Tab or Null</returns>
         public TabItem OpenFile(string filename,
             MarkdownDocumentEditor editor = null,
@@ -1063,7 +1064,8 @@ namespace MarkdownMonster
             int initialLineNumber = 0,
             bool readOnly = false,
             bool noFocus = false,
-            bool isPreview = false)
+            bool isPreview = false,
+            bool noShellNavigation = false)
         {
             var ext = Path.GetExtension(filename).ToLowerInvariant();
 
@@ -1090,8 +1092,11 @@ namespace MarkdownMonster
             string format = mmFileUtils.GetEditorSyntaxFromFileType(filename);
 
             // Open a Tab for editable formats
-            if (!string.IsNullOrEmpty(format))
+            if (!string.IsNullOrEmpty(format) || noShellNavigation)
             {
+                if (string.IsNullOrEmpty(format))
+                    format = "markdown";
+
                 if (!noFocus && PreviewTab != null)
                     CloseTab(PreviewTab);
 
