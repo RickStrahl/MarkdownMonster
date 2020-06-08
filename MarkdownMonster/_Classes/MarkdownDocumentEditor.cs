@@ -236,6 +236,8 @@ namespace MarkdownMonster
                 WebBrowser.Navigate(new Uri(Path.Combine(App.InitialStartDirectory, "Editor\\editor.htm")));
 
             EditorSyntax = mmFileUtils.GetEditorSyntaxFromFileType(MarkdownDocument.Filename);
+            if (string.IsNullOrEmpty(EditorSyntax))
+                EditorSyntax = "markdown";
         }
 
 

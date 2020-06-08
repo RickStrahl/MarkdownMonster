@@ -952,7 +952,8 @@ namespace MarkdownMonster
                 else if (File.Exists(file))
                 {
                     // open file which may or may not open a tab (like a project)
-                    var tab = OpenFile(filename: file, batchOpen: true);
+                    var tab = OpenTab(mdFile: file, batchOpen: true);
+                    //OpenFile(filename: file, batchOpen: true);
                     //var tab = OpenTab(mdFile: file, batchOpen: true);
                     if (tab?.Tag is MarkdownDocumentEditor editor)
                     {
@@ -1961,7 +1962,7 @@ namespace MarkdownMonster
                 if (icon == null)
                 {
                     icon = FolderStructure.IconList.GetIconFromFile(document.Filename);
-                    if (icon == AssociatedIcons.DefaultIcon)
+                    if (icon == AssociatedIcons.DefaultIcon && Model.ActiveEditor != null)
                         icon = FolderStructure.IconList.GetIconFromType(Model.ActiveEditor.EditorSyntax);
                 }
 

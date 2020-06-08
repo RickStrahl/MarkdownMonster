@@ -2,7 +2,8 @@
   "profiles": {
     "MarkdownMonster": {
       "commandName": "Project",
-      "_commandLineArgs": " -base64text \"VGhpcyBpcyBhIHRlc3Qgc3RyaW5nIG9mIHRleHQu\""
+      "commandLineArgs": "c:\\temp\\test2.rzm",
+      "_commandLineArgs": "test2.rzm"
     }
   }
 }
