@@ -2,8 +2,7 @@
   "profiles": {
     "MarkdownMonster": {
       "commandName": "Project",
-      "commandLineArgs": "c:\\temp\\test2.rzm",
-      "_commandLineArgs": "test2.rzm"
+      "commandLineArgs": ""
     }
   }
 }

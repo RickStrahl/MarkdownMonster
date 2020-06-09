@@ -2138,7 +2138,11 @@ namespace MarkdownMonster
             {
                 var editor = GetActiveMarkdownEditor();
                 if (editor == null)
+                {
+                    Title = "Markdown Monster" +
+                             (Model.Configuration.ShowVersionNumberInTitle ? " " + mmApp.GetVersionForDisplay() : string.Empty);
                     return;
+                }
 
                 if (Model.Configuration.ShowFullDocPathInTitlebar)
                     title = editor.MarkdownDocument.Filename;

@@ -1,8 +1,20 @@
-# Markdown Monster Change Log
+﻿# Markdown Monster Change Log
 
 [![download](https://img.shields.io/badge/Download-Installer-blue.svg)](https://markdownmonster.west-wind.com/download.aspx)
 [![Chocolatey](https://img.shields.io/chocolatey/dt/markdownmonster.svg)](https://chocolatey.org/packages/MarkdownMonster)
 [![Web Site](https://img.shields.io/badge/Markdown_Monster-WebSite-blue.svg)](https://markdownmonster.west-wind.com)
+
+### 1.22.8
+*<small>June 9th</small>*
+
+* **Fix: Several Table Parsing Issues**  
+Fixed several recurring issues with invalid table imports from unbalanced or mis-formatted tables. Unbalanced tables (with rows that have more columns than headers) are now adding additional headers as needed to balance the table. Added a number of additional out of bounds checks when parsing incoming column data.
+
+* **Fix: Jekyll Pathing issues**  
+Fixed a path issue Jekyll publishing if path was entered with trailing slash.
+
+* **Fix: Recursive Loading Issue with Shell Mapped Files**  
+Fix issue where a shell mapped file would cause infinite load loops when opened from the shell or the command line. Fixed.
 
 
 ### 1.22.6
@@ -23,8 +35,7 @@ The Document object now internally tracks the editor sytnax associated with it. 
 * **Improve Configuration Backups to Folder**  
 Updated folder backups to choose the Configuration folder `.\backups` sub-folder for folder backups. You can now pick a path and the backup is created as a subfolder **below** that folder in the format of `yyyy-MM-dd-Markdown-Monster-Backup`.
 
-* **Fix: Several Table Parsing Issues**  
-Fixed several recurring issues with invalid table imports from unbalanced or mis-formatted tables. Unbalanced tables (with rows that have more columns than headers) are now adding additional headers as needed to balance the table. Added a number of additional out of bounds checks when parsing incoming column data.
+
 
 ### 1.22.4
 *<small>May 12th, 2020</small>* 

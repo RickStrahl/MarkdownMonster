@@ -142,7 +142,7 @@ namespace MarkdownMonster
         /// <returns></returns>
         public object Get(object instance, string propertyName)
         {
-            return ReflectionUtils.GetPropertyCom(instance, propertyName);
+            return InstanceType.InvokeMember(propertyName, flags | BindingFlags.GetProperty, null, instance, null);
         }
 
 
