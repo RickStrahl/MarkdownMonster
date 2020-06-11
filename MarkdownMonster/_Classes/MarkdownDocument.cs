@@ -1241,6 +1241,14 @@ $('#hrefShow').click(function () {{ $('#detail').show(); }});
             return PreviewWebRootPath;
         }
 
+
+
+        /// <summary>
+        /// Retrieves a Web Root path that is used to resolving `/` and `/~` in the
+        /// Previewer so that related resources that site relative paths can be resolved.
+        /// </summary>
+        /// <param name="basePath">base folder from which to start searching **up** the hierarchy.</param>
+        /// <returns></returns>
         private string GetWebRootPathFromMarkerFiles(string basePath)
         {
             if (string.IsNullOrEmpty(basePath))
