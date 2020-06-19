@@ -153,11 +153,9 @@ namespace MarkdownMonster
 
 
         /// <summary>
-        /// Determines whether the full path for the open
-        /// document is displayed in the Main Window's
-        /// title bar.
+        /// Determines how the filename is displayed in the window title bar.
         /// </summary>
-        public bool ShowFullDocPathInTitlebar { get; set; }
+        public TitlebarDisplayModes TitlebarDisplay { get; set; } = TitlebarDisplayModes.FilenameOnly;
 
         /// <summary>
         /// String that holds any of the following as a comma delimited string
@@ -1028,5 +1026,12 @@ namespace MarkdownMonster
     {
         Commit,
         CommitAndPush
+    }
+
+    public enum TitlebarDisplayModes
+    {
+        FilenameOnly,
+        FullPath,
+        FileNameAndParentPath
     }
 }

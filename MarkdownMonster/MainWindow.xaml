@@ -13,16 +13,20 @@
         xmlns:mmcontrols="clr-namespace:MarkdownMonster.Controls"
         mc:Ignorable="d"					  
         
-        Name="MainApplicationWindow"                      
-        Title="Markdown Monster" TitleCharacterCasing="Normal"
+        Name="MainApplicationWindow"     
+        
+        Title="Markdown Monster" 
+        TitleCharacterCasing="Normal"
+        TitlebarHeight="28"
         Icon="Assets\MarkdownMonster_Icon_256.png"
+
         BorderThickness="0"
-        GlowBrush="Black"                           
+        GlowBrush="Black"    
+        
         ResizeMode="CanResizeWithGrip"		
         Height="600" Width="1000"  
         MinWidth="390" MinHeight="220" 
         WindowTransitionsEnabled="False">
-
     <Window.Resources>
         <localwindows:InvertedBooleanConverter x:Key="InvertedBooleanConverter" />
         <localwindows:NotEmptyStringToBooleanConverter x:Key="NotEmptyStringToBooleanConverter" />
@@ -41,7 +45,7 @@
 
     <controls:MetroWindow.LeftWindowCommands>
         <controls:WindowCommands>
-         
+            
         </controls:WindowCommands>
     </controls:MetroWindow.LeftWindowCommands>
 

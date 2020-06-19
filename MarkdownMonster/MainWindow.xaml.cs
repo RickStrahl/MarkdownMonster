@@ -2144,10 +2144,13 @@ namespace MarkdownMonster
                     return;
                 }
 
-                if (Model.Configuration.ShowFullDocPathInTitlebar)
+                if (Model.Configuration.TitlebarDisplay == TitlebarDisplayModes.FullPath)
                     title = editor.MarkdownDocument.Filename;
-                else
+                else if(Model.Configuration.TitlebarDisplay == TitlebarDisplayModes.FilenameOnly)
                     title = editor.MarkdownDocument.FilenameWithIndicator.Replace("*", "");
+                else if
+                    (Model.Configuration.TitlebarDisplay == TitlebarDisplayModes.FileNameAndParentPath)
+                    title = editor.MarkdownDocument.FilenamePathWithIndicator.Replace("*", "");
 
                 if (!Model.ActiveProject.IsEmpty)
                     title = title + " • " + Path.GetFileName(Model.ActiveProject.Filename);
