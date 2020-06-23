@@ -171,20 +171,21 @@ namespace MarkdownMonster
                 return (code, message, origin, line) => actualErrors.Add(code);
             }
 
-
+            
             // Handler to fix up file paths for nested/included documents
-            (string content, object file) ReadFile(string path, object relativeTo, MarkdownObject origin)
+            (string content, object file) ReadFile(string path,  MarkdownObject origin)
             {
 
                 string key;
-                var relativeDocumentPath = relativeTo as string;
-
+                
                 var rootPath = mmApp.Model.ActiveDocument?.PreviewWebRootPath;
                 if (rootPath == null)
                     rootPath = Path.GetDirectoryName(files.FirstOrDefault().Key);
-                var parentDocPath = relativeTo as string;
-                if (!string.IsNullOrEmpty(parentDocPath))
-                    parentDocPath = Path.GetDirectoryName(parentDocPath);
+
+
+                string parentDocPath = null; //relativeTo as string;   NOT PROVIDEd BY DOCFX ANYMORE???
+                //if (!string.IsNullOrEmpty(parentDocPath))
+                //    parentDocPath = Path.GetDirectoryName(parentDocPath);
 
 
                 //fully qualified path
