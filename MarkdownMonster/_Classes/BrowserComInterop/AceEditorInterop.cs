@@ -127,7 +127,11 @@ namespace MarkdownMonster
         /// <param name="pos">Previously captured position (column, row props)</param>
         public void SetCursorPosition(object pos)
         {
-            Invoke("setCursorPosition", pos);
+            try
+            {
+                Invoke("setCursorPosition", pos);
+            }
+            catch {}
         }
 
         /// <summary>
@@ -137,7 +141,11 @@ namespace MarkdownMonster
         /// <param name="col">column to goto</param>
         public void SetCursorPosition(int row, int col)
         {
-            Invoke("setCursorPosition", row, col);
+            try
+            {
+                Invoke("setCursorPosition", row, col);
+            }
+            catch {}
         }
 
         /// <summary>
@@ -534,11 +542,7 @@ namespace MarkdownMonster
         {
             ReflectionUtils.CallMethodExCom(Instance, "editor.redo", false);
         }
-
         #endregion
-
-
-       
     }
 }
 
