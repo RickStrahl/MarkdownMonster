@@ -1540,7 +1540,7 @@ namespace MarkdownMonster
                 editor.SetSelection(markdown);
                 editor.SetEditorFocus();
 
-                Model.Window.PreviewBrowser.PreviewMarkdownAsync(editor, true);
+                Model.Window.PreviewBrowser?.PreviewMarkdownAsync(editor, true);
             }, (p, c) => true);
             PasteMarkdownFromHtmlCommand.PremiumFeatureName = "HTML to Markdown Conversion";
         }

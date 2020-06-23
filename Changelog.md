@@ -1,11 +1,44 @@
-﻿# Markdown Monster Change Log
+# Markdown Monster Change Log
 
 [![download](https://img.shields.io/badge/Download-Installer-blue.svg)](https://markdownmonster.west-wind.com/download.aspx)
 [![Chocolatey](https://img.shields.io/chocolatey/dt/markdownmonster.svg)](https://chocolatey.org/packages/MarkdownMonster)
 [![Web Site](https://img.shields.io/badge/Markdown_Monster-WebSite-blue.svg)](https://markdownmonster.west-wind.com)
 
-### 1.22.8
+### 1.22.9 
 *<small>June 9th</small>*
+
+* **[Local Jekyll Weblog Publishing Support](https://markdownmonster.west-wind.com/docs/_5rv00rx4i.htm#setting-up-the-jekyll-publishing-configuration) (Preview)**  
+Added support for 'publishing; blog posts to a local Jekyll installation. Works by letting you write your blog content as a MM Weblog post and publishing the content into the Jekyll `_posts` folder structure and creates images in the `_assets` folder by post name. Simplifies: Post creation, asset management, re-editing and re-publishing to other blog platforms, makes posts more portable.
+
+* **[Support for Opening Empty/Untitled Documents with Preset Text](https://markdownmonster.west-wind.com/docs/_4x313dneu.htm#open-a-new-document-with-pre-filled-text)**  
+You can now open a new untitled document with preset text by using a custom filename format on the command line. Use `mm untitled.base64,base64text`, `mm "untitled.text,This is a new document"`, `mm untitled.urlencoded,this+is+new` to open a document with the specified encoding format. Base64 is recommended due to the need to encode line breaks and extended characters but for simple string text and urlencoded can also work.
+
+* **[New `mm -base64text` Command Line Option](https://markdownmonster.west-wind.com/docs/_5fp0xp68p.htm#base64text)**  
+This is an alternate syntax for the `mm untitled.base64,base64Text` option, and provided mainly to provide a clear and obvious documentation point that might be easier to remember and look up. Allows opening a new document with preset text. If launching from the command line or using `CreateProcess` from another application this is the recommended approach for passing new document data to MM.
+
+* **[Open Markdown Monster from a browser with `markdownmonster:` Application Protocol](https://markdownmonster.west-wind.com/docs/_5rj1cknrj.htm)**  
+Markdown Monster now installs a `markdownmonster:` Application Protocol Handler which allows opening MM from a within a browser. . You can use `markdownmonster:untitled.text,New Document Text` as well as the other new options using the `mm untitled.` syntax mentioned above.
+
+* **[Built-in local Web Server to allow Browsers Open Text Markdown Monster](https://markdownmonster.west-wind.com/docs/_5s1009yx1.htm)**  
+Added WebSocket support to allow opening Markdown text in MM via a browser connection. Socket server listens to incoming document requests and if sent opens a specific document. This is similar to the `markdownmonster:untitled` functionality recently added, but unlike Application Protocols which are limited to 2046 bytes of data, this mechanism allows for large Markdown content to be opened in MM. The WebSocket Server  is disabled by default and can be auto-started whenever MM starts via the `WebSocket.AutoStart` configuration switch.
+
+* **Improved Application Title Bar Configuration Options**  
+The title bar now has a new `TitlebarDisplayMode` configuration property that has options for displaying, just the filename, the full path, or the filename plus the parent path on the title bar. Tabs continue to display the filename by default and the filename plus parent path *if multiple files with the same name are open*. The new option to display filename plus parent path makes it easier to differentiate documents in the task bar.
+
+* **Document Syntax Improvements**  
+The Document object now internally tracks the editor sytnax associated with it. It is assigned based on the filename extension and mapped to editor associations - just as before. But the Syntax is now separately tracked from the doc type, so that you can change the syntax and affect editor and preview behavior. It's now possible to use the Preview with with `.txt` files for example, if the syntax is set to `markdown`.
+
+* **Improve Configuration Backups to Folder**  
+Updated folder backups to choose the Configuration folder `.\backups` sub-folder for folder backups. You can now pick a path and the backup is created as a subfolder **below** that folder in the format of `yyyy-MM-dd-Markdown-Monster-Backup`.
+
+* **Text Only Linking (Ctrl-Shift-K) Improvements**  
+When using the text only link shortcut Markdown Monster now automatically pastes and selects URLs from the clipboard. If there's a URL on the clipboard (any https link) it will be automatically injected.
+
+* **Paste Improvements**  
+Updated the paste behavior to use native editor paste behavior for text while deferring images and file paste operations to the Editor shell. This improves paste performance and fixes rare paste operation failures.
+
+* **Switch to embedded Debug Symbols**  
+Debug information is now embedded in the Exe. Removes the original pdb file and reduces distribution footprint by a 1.8mb.
 
 * **Fix: Several Table Parsing Issues**  
 Fixed several recurring issues with invalid table imports from unbalanced or mis-formatted tables. Unbalanced tables (with rows that have more columns than headers) are now adding additional headers as needed to balance the table. Added a number of additional out of bounds checks when parsing incoming column data.
@@ -15,48 +48,6 @@ Fixed a path issue Jekyll publishing if path was entered with trailing slash.
 
 * **Fix: Recursive Loading Issue with Shell Mapped Files**  
 Fix issue where a shell mapped file would cause infinite load loops when opened from the shell or the command line. Fixed.
-
-
-### 1.22.6
-*<small>May 28th, 2020</small>* 
-
-* **[Local Jekyll Weblog Publishing Support](https://markdownmonster.west-wind.com/docs/_5rv00rx4i.htm#setting-up-the-jekyll-publishing-configuration) (Preview)**  
-Added support for 'publishing; blog posts to a local Jekyll installation. Works by letting you write your blog content as a MM Weblog post and publishing the content into the Jekyll `_posts` folder structure and creates images in the `_assets` folder by post name. Simplifies: Post creation, asset management, re-editing and re-publishing to other blog platforms, makes posts more portable.
-
-* **[Support for Opening Empty Documents](https://markdownmonster.west-wind.com/docs/_4x313dneu.htm#open-a-new-empty-document)**  
-You can now use `mm untitled` to force an empty or 'Untitled' document to be opened on startup. Yes this 'feature' was surprisingly missing in previous versions as a start without parameters would just open MM with whatever documents were previously open (or are already open in single instance mode).
-
-* **[Built-in local Web Server to allow Browsers Open Text Markdown Monster](https://markdownmonster.west-wind.com/docs/_5s1009yx1.htm)**  
-Added WebSocket support to allow opening Markdown text in MM via a browser connection. Socket server listens to incoming document requests and if sent opens a specific document. This is similar to the `markdownmonster:untitled` functionality recently added, but unlike Application Protocols which are limited to 2046 bytes of data, this mechanism allows for large Markdown content to be opened in MM. The WebSocket Server  is disabled by default and can be auto-started whenever MM starts via the `WebSocket.AutoStart` configuration switch.
-
-* **Document Syntax Improvements**  
-The Document object now internally tracks the editor sytnax associated with it. It is assigned based on the filename extension and mapped to editor associations - just as before. But the Syntax is now separately tracked from the doc type, so that you can change the syntax and affect editor and preview behavior. It's now possible to use the Preview with with `.txt` files for example, if the syntax is set to `markdown`.
-
-* **Improve Configuration Backups to Folder**  
-Updated folder backups to choose the Configuration folder `.\backups` sub-folder for folder backups. You can now pick a path and the backup is created as a subfolder **below** that folder in the format of `yyyy-MM-dd-Markdown-Monster-Backup`.
-
-
-
-### 1.22.4
-*<small>May 12th, 2020</small>* 
-
-* **[Support for Untitled Documents with Preset Text](https://markdownmonster.west-wind.com/docs/_4x313dneu.htm#open-a-new-document-with-pre-filled-text)**  
-You can now open a new untitled document with preset text by using a custom filename format on the command line. Use `mm untitled.base64,base64text`, `mm "untitled.text,This is a new document"`, `mm untitled.urlencoded,this+is+new` to open a document with the specified encoding format. Base64 is recommended due to the need to encode line breaks and extended characters but for simple string text and urlencoded can also work.
-
-* **[New `mm -base64text` Command Line Option](https://markdownmonster.west-wind.com/docs/_5fp0xp68p.htm#base64text)**  
-This is an alternate syntax for the `mm untitled.base64,base64Text` option, and provided mainly to provide a clear and obvious documentation point that might be easier to remember and look up. Allows opening a new docuemnt with pre-set text. If launching from the command line or using `CreateProcess` from another application this is the recommended approach for passing new document data to MM.
-
-* **[Open Markdown Monster from a browser with `markdownmonster:` Application Protocol](https://markdownmonster.west-wind.com/docs/_5rj1cknrj.htm)**  
-Added support for an Application Protocol handler of `markdownmonster:` that allows opening MM from within a Web Browser. You can use ``
-
-* **Text Only Linking (Ctrl-Shift-K) Improvements**  
-When using the text only link shortcut Markdown Monster now automatically pastes and selects URLs from the clipboard. If there's a URL on the clipboard (any https link) it will be automatically injected.
-
-* **Paste Improvements**  
-Updated the paste behavior to use native editor paste behavior for text while deferring images and file paste operations to the Editor shell. This improves paste performance fixes rare paste operation failures.
-
-* **Switch to embedded Debug Symbols**  
-Debug information is now embedded in the Exe. Removes the original pdb file and reduces distribution footprint by a 1.8mb.
 
 * **Fix: Link Dialog Spaces to %20**  
 Automatically fix up any spaces in a typed in url to `%20`. We're not URL encoding the entire URL because more than likely a URL pasted into the textbox (or auto-injected) is already URL encoded so we don't want to end up double encoding, but spaces are one of the most common 'encoded' values that will break Markdown rendering of a URL.
