@@ -342,6 +342,7 @@ namespace MarkdownMonster
                         {
                             {"msg", msg},
                             {"exmsg", ex.Message},
+                            {"exbasemsg", ex.GetBaseException().Message},
                             {"exsource", ex.Source},
                             {"extrace", ex.StackTrace},
                             {"severity", unhandledException ? "unhandled" : ""},
