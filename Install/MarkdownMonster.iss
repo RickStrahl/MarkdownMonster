@@ -5,7 +5,7 @@
 #define MyAppURL "https://markdownmonster.west-wind.com"
 #define MyAppExeName "MarkdownMonster.exe"
 #define MySetupImageIco "..\MarkdownMonster\MarkdownMonster.ico"
-#define MyAppCopyright "Copyright © 2016-2018, West Wind Technologies"
+#define MyAppCopyright "Copyright (c) 2016-2020, West Wind Technologies"
 
 [Setup]
 ; NOTE: The value of AppId uniquely identifies this application.

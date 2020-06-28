@@ -25,7 +25,7 @@ $filetext = @"
 `$silentArgs = '/VERYSILENT'
 `$validExitCodes = @(0)
 
-Install-ChocolateyPackage "`packageName" "`$fileType" "`$silentArgs" "`$url"  -validExitCodes  `$validExitCodes  -checksum "$sha" -checksumType "sha256"
+Install-ChocolateyPackage "`$packageName" "`$fileType" "`$silentArgs" "`$url"  -validExitCodes  `$validExitCodes  -checksum "$sha" -checksumType "sha256"
 "@
 
 out-file -filepath .\tools\chocolateyinstall.ps1 -inputobject $filetext
