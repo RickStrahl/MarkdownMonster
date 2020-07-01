@@ -224,9 +224,10 @@
 
 
             <ComboBox Grid.Row="1"
-                 x:Name="ComboFolderPath" 
+                 x:Name="ComboFolderPath"  controls:ComboBoxHelper.CharacterCasing="Upper"
                  Text="{Binding FolderPath,UpdateSourceTrigger=LostFocus}"
-	             Opacity="0.60" FontWeight="Medium"                            
+	             Opacity="1" FontWeight="Medium"                         
+                 Background="Transparent" 
 	             ToolTip="{Binding RelativeSource={RelativeSource Self}, Path=Text}"                 
 	             BorderThickness="0" Padding="2"                                                                    
                  MaxDropDownHeight="275" FontSize="12"

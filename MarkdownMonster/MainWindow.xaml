@@ -1171,7 +1171,6 @@
                            IsSynchronizedWithCurrentItem="True" 
                            ItemsSource="{Binding PreviewThemeNames}"
                            BorderBrush="Transparent" BorderThickness="1"
-                           Background="Orange"
                            SelectionChanged="PreviewTheme_SelectionChanged" />
 
             </StatusBarItem>

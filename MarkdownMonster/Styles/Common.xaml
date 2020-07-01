@@ -5,7 +5,7 @@
 
     <!--Fonts-->
 
-    <FontFamily x:Key="DefaultFont">Segoe UI, Lucida Sans Unicode, Verdana</FontFamily>
+    <!--<FontFamily x:Key="DefaultFont">Segoe UI, Lucida Sans Unicode, Verdana</FontFamily>
     <FontFamily x:Key="HeaderFontFamily">Segoe UI Light, Lucida Sans Unicode, Verdana</FontFamily>
     <FontFamily x:Key="ContentFontFamily">Segoe UI, Lucida Sans Unicode, Verdana</FontFamily>
 
@@ -46,7 +46,9 @@
     </Style>
     <Style TargetType="{x:Type ComboBox}" >
         <Setter Property="Padding" Value="3,5" />
-    </Style>
+    </Style>-->
+
+
     <Style x:Key="SmallTextBox" TargetType="{x:Type TextBox}" >
         <Setter Property="Height" Value="25" />
         <Setter Property="Padding" Value="1" />
