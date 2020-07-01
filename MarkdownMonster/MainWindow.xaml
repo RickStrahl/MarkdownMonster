@@ -7,17 +7,17 @@
 		xmlns:localwindows="clr-namespace:MarkdownMonster.Windows"
         xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
         xmlns:fa="http://schemas.fontawesome.io/icons/"
-        xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
         xmlns:dragablz="http://dragablz.net/winfx/xaml/dragablz"
         xmlns:System="clr-namespace:System;assembly=mscorlib"
         xmlns:mmcontrols="clr-namespace:MarkdownMonster.Controls"
+        xmlns:b="http://schemas.microsoft.com/xaml/behaviors"
         mc:Ignorable="d"					  
         
         Name="MainApplicationWindow"     
         
         Title="Markdown Monster" 
         TitleCharacterCasing="Normal"
-        TitlebarHeight="28"
+        TitleBarHeight="28"
         Icon="Assets\MarkdownMonster_Icon_256.png"
 
         BorderThickness="0"
@@ -38,10 +38,7 @@
                 <x:Type TypeName="local:Themes"/>
             </ObjectDataProvider.MethodParameters>
         </ObjectDataProvider>
-
-        
     </Window.Resources>
-
 
     <controls:MetroWindow.LeftWindowCommands>
         <controls:WindowCommands>
@@ -65,9 +62,9 @@
 				        TextElement.FontSize="12" 
 				        TextElement.FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" 
 				>
-                    <i:Interaction.Behaviors>
+                    <b:Interaction.Behaviors>
                         <local:DropDownButtonBehavior />
-                    </i:Interaction.Behaviors>
+                    </b:Interaction.Behaviors>
                     <Button.ContextMenu>
                         <ContextMenu>
                             <MenuItem Header="Dark" 
@@ -113,9 +110,9 @@
 				        Click="ButtonLangugeDropDown_Click"
 				        TextElement.FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" 
 				>
-                    <i:Interaction.Behaviors>
+                    <b:Interaction.Behaviors>
                         <local:DropDownButtonBehavior  />
-                    </i:Interaction.Behaviors>
+                    </b:Interaction.Behaviors>
                 </Button>
 
                 <ToggleButton Name="ToolButtonPreview"  Foreground="{StaticResource BlueItem}"                                                              
@@ -135,9 +132,9 @@
 				        TextElement.FontSize="12" 
 				        TextElement.FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" 
 				>
-                    <i:Interaction.Behaviors>
+                    <b:Interaction.Behaviors>
                         <local:DropDownButtonBehavior />
-                    </i:Interaction.Behaviors>
+                    </b:Interaction.Behaviors>
                     <Button.ContextMenu>
                         <ContextMenu>
 
@@ -195,9 +192,9 @@
                     Foreground="{StaticResource BlueItem}"				                             
                     TextElement.FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" 
                 >
-                    <i:Interaction.Behaviors>
+                    <b:Interaction.Behaviors>
                         <local:DropDownButtonBehavior />
-                    </i:Interaction.Behaviors>
+                    </b:Interaction.Behaviors>
                     <Button.ToolTip>
                         <ToolTip>
                         <TextBlock>Resize main window to a pre-configured size.
@@ -775,9 +772,9 @@
                                 ToolTip="More Markup Operations" 
                                 fa:Awesome.Content="CaretDown"                                                      
                         >
-                            <i:Interaction.Behaviors>
+                            <b:Interaction.Behaviors>
                                 <local:DropDownButtonBehavior />
-                            </i:Interaction.Behaviors>
+                            </b:Interaction.Behaviors>
 
                             <Button.ContextMenu>
                                 <ContextMenu>
@@ -1021,7 +1018,7 @@
                         <Style.Setters>
                             <Setter Property="Padding" Value="3,2,9,10" />
                             <Setter Property="Margin" Value="0,0,4,4" />
-                            <Setter Property="controls:ControlsHelper.HeaderFontSize" Value="14" />
+                            <Setter Property="controls:HeaderedControlHelper.HeaderFontSize" Value="14" />
                         </Style.Setters>
                     </Style>
                 </TabControl.Resources>
@@ -1173,7 +1170,8 @@
                            SelectedItem="{Binding Configuration.PreviewTheme}" 
                            IsSynchronizedWithCurrentItem="True" 
                            ItemsSource="{Binding PreviewThemeNames}"
-                           Background="Transparent" BorderBrush="Transparent" BorderThickness="0"
+                           BorderBrush="Transparent" BorderThickness="1"
+                           Background="Orange"
                            SelectionChanged="PreviewTheme_SelectionChanged" />
 
             </StatusBarItem>
@@ -1186,7 +1184,8 @@
                            DisplayMemberPath="IconString"
                            SelectedValuePath="Value" 
                            FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome"
-                           Background="Transparent" BorderBrush="Transparent" BorderThickness="0"
+                           Background="Transparent" 
+                           BorderBrush="Transparent" BorderThickness="0"
                            SelectionChanged="PreviewTheme_SelectionChanged">
                 </ComboBox>
             </StatusBarItem>

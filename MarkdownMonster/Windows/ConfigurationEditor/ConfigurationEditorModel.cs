@@ -279,7 +279,7 @@ namespace MarkdownMonster.Windows.ConfigurationEditor
                     else if (item.Property.Type == "DateTime")
                     {
                         var timePicker = new DateTimePicker {Margin = new Thickness(0, 5, 0, 10)};
-                        BindingOperations.SetBinding(timePicker, DateTimePicker.SelectedDateProperty,valueBinding);
+                        BindingOperations.SetBinding(timePicker, DateTimePicker.SelectedDateTimeProperty, valueBinding);
                         panel.Children.Add(timePicker);
                     }
                     else if (type.IsClass)

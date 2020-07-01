@@ -7,8 +7,8 @@
              xmlns:fa="http://schemas.fontawesome.io/icons/"
              xmlns:local="clr-namespace:MarkdownMonster.Windows"
              xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
-             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
              xmlns:mmcontrols="clr-namespace:MarkdownMonster.Controls"
+             xmlns:b="http://schemas.microsoft.com/xaml/behaviors"
              mc:Ignorable="d" MinWidth="165"
              d:DesignHeight="300" d:DesignWidth="300">
     <UserControl.Resources>
@@ -80,7 +80,7 @@
                         Visibility="{Binding IsEditing, Converter={StaticResource BooleanToVisibilityConverter}}" 
                         LostFocus="TextEditFileItem_LostFocus">
                     <TextBox.Style>
-                        <Style TargetType="{x:Type TextBox}" BasedOn="{StaticResource MetroTextBox}">
+                        <Style TargetType="{x:Type TextBox}">
                             <Style.Triggers>
                                 <DataTrigger Binding="{Binding IsEditing}" Value="True">
                                 <Setter Property="FocusManager.FocusedElement" Value="{Binding RelativeSource={RelativeSource Self}}"/>
@@ -231,9 +231,9 @@
 	             BorderThickness="0" Padding="2"                                                                    
                  MaxDropDownHeight="275" FontSize="12"
                  controls:TextBoxHelper.Watermark="Folder Browser Path">
-                <i:Interaction.Behaviors>
+                <b:Interaction.Behaviors>
                     <mmcontrols:FileSystemAutoCompleteBehavior />
-                </i:Interaction.Behaviors>
+                </b:Interaction.Behaviors>
             </ComboBox>
 
             <!--ContextMenuOpening="TreeFolderBrowser_ContextMenuOpening"-->

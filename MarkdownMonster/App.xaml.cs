@@ -32,6 +32,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media;
+using ControlzEx.Theming;
 using MahApps.Metro;
 using MahApps.Metro.Controls;
 using MarkdownMonster.AddIns;
@@ -344,24 +345,24 @@ namespace MarkdownMonster
         private void ThemeCustomizations()
         {
             // Custom MahApps Light Theme based on Blue
-            ThemeManager.AddAccent("MahLight", new Uri("Styles/MahLightAccents.xaml", UriKind.RelativeOrAbsolute));
+            //ThemeManager.Current.AddAccent("MahLight", new Uri("Styles/MahLightAccents.xaml", UriKind.RelativeOrAbsolute));
 
             Uri resourceUri = null;
 
             // Add Dark Menu Customizations
             if (mmApp.Configuration.ApplicationTheme == Themes.Dark)
             {
-                resourceUri = new Uri("Styles/MahMenuCustomizations.xaml", UriKind.RelativeOrAbsolute);
-                Current.Resources.MergedDictionaries.Add(
-                    new ResourceDictionary() {Source = resourceUri});
+                //resourceUri = new Uri("Styles/MahMenuCustomizations.xaml", UriKind.RelativeOrAbsolute);
+                //Current.Resources.MergedDictionaries.Add(
+                //    new ResourceDictionary() {Source = resourceUri});
 
                 var dragablzLightStyles = new Uri("Styles/DragablzGeneric.xaml", UriKind.RelativeOrAbsolute);
                 Current.Resources.MergedDictionaries.Add(
-                    new ResourceDictionary() {Source = dragablzLightStyles});
+                    new ResourceDictionary() { Source = dragablzLightStyles });
 
                 resourceUri = new Uri("Styles/MahDarkResources.xaml", UriKind.RelativeOrAbsolute);
                 Current.Resources.MergedDictionaries.Add(
-                    new ResourceDictionary() {Source = resourceUri});
+                    new ResourceDictionary() { Source = resourceUri });
             }
             else
             {

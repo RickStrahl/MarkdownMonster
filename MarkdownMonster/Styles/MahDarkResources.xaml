@@ -2,7 +2,7 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
                     xmlns:options="http://schemas.microsoft.com/winfx/2006/xaml/presentation/options"
-                    xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
+                    xmlns:mahcontrols="http://metro.mahapps.com/winfx/xaml/controls"
                     xmlns:dragablz="http://dragablz.net/winfx/xaml/dragablz"
                     mc:Ignorable="options">
 
@@ -61,10 +61,6 @@
         <Setter Property="Margin" Value="0,18,0,2" />
     </Style>
 
-    <!-- this doesn't work-->
-    <Style TargetType="{x:Type controls:MetroWindow}" BasedOn="{x:Null}">
-        <Setter Property="BorderBrush" Value="#999999" />
-    </Style>
 
     <!-- TreeView Item High-->
     <Style TargetType="{x:Type TreeView}">

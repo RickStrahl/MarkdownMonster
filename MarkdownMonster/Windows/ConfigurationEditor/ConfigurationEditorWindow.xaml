@@ -11,7 +11,7 @@
                        Icon="../../Assets/MarkdownMonster_Icon_256.png"                     
                        Title="Markdown Monster Settings"
                        TitleCharacterCasing="Normal"
-                       TitlebarHeight="35"                  
+                       TitleBarHeight="30"                  
                        ShowInTaskbar="False"
                        WindowStyle="SingleBorderWindow" ResizeMode="CanResize"
                        WindowStartupLocation="CenterOwner"         

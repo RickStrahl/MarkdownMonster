@@ -3,20 +3,20 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MarkdownMonster;assembly=MarkdownMonster"
         xmlns:windows="clr-namespace:MarkdownMonster.Windows;assembly=MarkdownMonster"
-        xmlns:weblog="clr-namespace:WeblogAddin"
+        
         xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
         xmlns:fa="http://schemas.fontawesome.io/icons/"
         xmlns:dragablz="http://dragablz.net/winfx/xaml/dragablz"
-        
+        xmlns:b="http://schemas.microsoft.com/xaml/behaviors"
+
         mc:Ignorable="d"        
         Icon="icon.png"
         Title="Markdown Monster Weblog Publishing" 
         TitleCharacterCasing="Normal" 
-        TitlebarHeight="32"
+        TitleBarHeight="32"
         WindowStyle="SingleBorderWindow" ResizeMode="CanResizeWithGrip"                      
         WindowStartupLocation="CenterOwner"
         ShowInTaskbar="False"
@@ -54,7 +54,7 @@
             </dragablz:TabablzControl.Resources>
 
             <controls:MetroTabItem Name="TabPublish" Header="Post to Weblog " Margin="0,0,5,0" CloseButtonEnabled="False"                                   
-                               controls:ControlsHelper.HeaderFontSize="16"  
+                               controls:HeaderedControlHelper.HeaderFontSize="16"  
                                AutomationProperties.HelpText="Post to Weblog Tab"
                                AutomationProperties.Name="WeblogPostTab">
 
@@ -208,7 +208,7 @@
 
             <controls:MetroTabItem Margin="0,0,5,0" Header="New Weblog Entry"
                                    FontSize="16" CloseButtonEnabled="False"                                  
-                                   controls:ControlsHelper.HeaderFontSize="16">
+                                   controls:HeaderedControlHelper.HeaderFontSize="16">
                 <StackPanel HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="50,15">
                     <Label>Title:</Label>
                     <TextBox Text="{Binding NewTitle, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource HeaderStyle}"    />
@@ -239,7 +239,7 @@
             </controls:MetroTabItem>
 
 
-            <controls:MetroTabItem Header="Download Blog Post " Margin="0,0,5,0" controls:ControlsHelper.HeaderFontSize="16">
+            <controls:MetroTabItem Header="Download Blog Post " Margin="0,0,5,0" controls:HeaderedControlHelper.HeaderFontSize="16">
                 <Grid Margin="40,15">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>
@@ -359,7 +359,7 @@
 
             <controls:MetroTabItem Header="Web Logs " Margin="0,0,5,0" 
                                    FontSize="16" Name="TabWeblogs"
-                                   controls:ControlsHelper.HeaderFontSize="16"
+                                   controls:HeaderedControlHelper.HeaderFontSize="16"
                                    CloseButtonEnabled="False">
                 
                 <StackPanel HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="50,35,50,10">
@@ -419,9 +419,9 @@
                                 fa:Awesome.Content="CaretDown"
                                 Click="DropDownButton_Click"
                                 ToolTip="Lookup Blog. Make sure the API Url and token or username/password are set before running this lookup.">
-                            <i:Interaction.Behaviors>
+                            <b:Interaction.Behaviors>
                                 <local:DropDownButtonBehavior />
-                            </i:Interaction.Behaviors>
+                            </b:Interaction.Behaviors>
                         </Button>
 
                     </Grid>

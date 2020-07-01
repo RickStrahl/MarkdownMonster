@@ -1229,67 +1229,67 @@ function Invoke(teFunction)
 }
 
 
-function Callback(method) {       
-   var parms = [];
-   if (arguments.length > 1) {
-       for(var i = 1; i < arguments.length; i++)
-           parms[i-1] = arguments[i];
-   }
+//function Callback(method) {       
+//   var parms = [];
+//   if (arguments.length > 1) {
+//       for(var i = 1; i < arguments.length; i++)
+//           parms[i-1] = arguments[i];
+//   }
         
-   var json = JSON.stringify( { method: 'showMessage', parameters: parms } );
-   window.chrome.webview.postMessage(json);        
-}
+//   var json = JSON.stringify( { method: 'showMessage', parameters: parms } );
+//   window.chrome.webview.postMessage(json);        
+//}
 
-function testCallback() {
-   //Callback("showMessage", "Show me what you got Rick!",10);
+//function testCallback() {
+//   //Callback("showMessage", "Show me what you got Rick!",10);
 
-   // Synchronous call
-   // var res = window.chrome.webview.hostObjects.sync.mm.HelloWorld('rick');
-   // alert(res);
-
-    
-
-//    // Sync calls
-    var mm = window.chrome.webview.hostObjects.sync.mm;
-//    var res = mm.HelloWorld('rick');    
-//    alert(res);
-
-
-//     // Object access
-//     alert(mm.Message.FullName + " - " + mm.Message.Message);
-
-//     mm.Message.Message = "Yowza - set in JavaScript";
-//     alert(mm.HelloWorld('js Rick')); // should now show the new message as part of the result
+//   // Synchronous call
+//   // var res = window.chrome.webview.hostObjects.sync.mm.HelloWorld('rick');
+//   // alert(res);
 
     
-//    // this doesn't work - message is null
-     var message = mm.ReturnDotnetObject();
-     alert("object return: " + message.Message + " - " + message.FullName);
 
-//    // mm.PassMessageItem
-    message.Message = 'hello from JS';
-    message.FullName= "JS Rick 2";
+////    // Sync calls
+//    var mm = window.chrome.webview.hostObjects.sync.mm;
+////    var res = mm.HelloWorld('rick');    
+////    alert(res);
+
+
+////     // Object access
+////     alert(mm.Message.FullName + " - " + mm.Message.Message);
+
+////     mm.Message.Message = "Yowza - set in JavaScript";
+////     alert(mm.HelloWorld('js Rick')); // should now show the new message as part of the result
+
     
-    var message = mm.PassMessageItem(message);
-    alert(message);
+////    // this doesn't work - message is null
+//     var message = mm.ReturnDotnetObject();
+//     alert("object return: " + message.Message + " - " + message.FullName);
 
-    var message = mm.PassDynamic({ Message: "dynamic from JS code", FullName: "Name from JS"});
+////    // mm.PassMessageItem
+//    message.Message = 'hello from JS';
+//    message.FullName= "JS Rick 2";
+    
+//    var message = mm.PassMessageItem(message);
+//    alert(message);
+
+//    var message = mm.PassDynamic({ Message: "dynamic from JS code", FullName: "Name from JS"});
 
 
-   // Async call
-   chrome.webview.hostObjects.mm.HelloWorld('rick async')
-       .then(function(result) {
-           alert(result);
-       }, function(err) { alert('error ' + err) });
+//   // Async call
+//   chrome.webview.hostObjects.mm.HelloWorld('rick async')
+//       .then(function(result) {
+//           alert(result);
+//       }, function(err) { alert('error ' + err) });
 
-}
+//}
 
 
 // For Standalone from WebBrowser partial execution - uncomment this
-setTimeout(function() {
-  window.textEditor.initialize(null);
+//setTimeout(function() {
+//  window.textEditor.initialize(null);
 
-  te.setvalue("# Markdown Text\n\n* Bullet 1\n* Bullet 2");
-  // demonstrate how an external application can 'globally' trigger a function
-  //Invoke("setvalue","# Markdown Text\n\n* Bullet 1\n* Bullet 2");   
-},400);
+//  te.setvalue("# Markdown Text\n\n* Bullet 1\n* Bullet 2");
+//  // demonstrate how an external application can 'globally' trigger a function
+//  //Invoke("setvalue","# Markdown Text\n\n* Bullet 1\n* Bullet 2");   
+//},400);

@@ -1178,9 +1178,8 @@ namespace MarkdownMonster
                 }
             }
 
-
-            ControlsHelper.SetHeaderFontSize(tab, 13F);
-
+            HeaderedControlHelper.SetHeaderFontSize(tab, 13f);
+            
             if (editor == null)
             {
                 editor = new MarkdownDocumentEditor
@@ -1609,7 +1608,7 @@ namespace MarkdownMonster
                 textBlock.SetValue(Grid.ColumnProperty, 1);
                 grid.Children.Add(textBlock);
 
-                ControlsHelper.SetHeaderFontSize(PreviewTab, 13F);
+                HeaderedControlHelper.SetHeaderFontSize(PreviewTab, 13F);
 
                 previewBrowser = new IEWebBrowserControl();
                 PreviewTab.Content = previewBrowser;
@@ -2109,7 +2108,7 @@ namespace MarkdownMonster
 
 
 
-                ControlsHelper.SetHeaderFontSize(tabItem, 14);
+                HeaderedControlHelper.SetHeaderFontSize(tabItem, 14);
                 RightSidebarContainer.Items.Add(tabItem);
 
                 if (selectItem)

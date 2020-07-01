@@ -14,7 +14,7 @@
         IsMinButtonEnabled="False" IsMaxRestoreButtonEnabled="False"                       
         Width="800" Height="650" MinHeight="500"  MinWidth="700"                     
         Icon="icon.png"
-        TitlebarHeight="35"
+        TitleBarHeight="35"
         WindowTransitionsEnabled="False"                       
     >
     <Grid>

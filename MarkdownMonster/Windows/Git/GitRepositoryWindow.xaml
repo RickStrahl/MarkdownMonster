@@ -12,7 +12,7 @@
         Icon="../../Assets/MarkdownMonster_Icon_256.png"                     
         Title="Git Repository"
         TitleCharacterCasing="Normal"
-        TitlebarHeight="35"                       
+        TitleBarHeight="30"                       
         WindowStyle="SingleBorderWindow" ResizeMode="NoResize"                      
         SizeToContent="Height"
         WindowStartupLocation="CenterOwner"    MaxHeight="800"     
@@ -42,8 +42,7 @@
 
             <!-- CLONE REPOSITORY -->
             <TabItem Name="TabClone" Header="Clone Repository"
-                                Margin="0,0,5,0" Visibility="Visible" 
-                               controls:ControlsHelper.HeaderFontSize="16">
+                     Margin="0,0,5,0" Visibility="Visible">
 
                 <StackPanel  Margin="30,10,30,0">
                     <Button Command="{Binding AppModel.Commands.HelpCommand}" CommandParameter="_4xp0yygt2.htm#CloneaRepository"
@@ -107,8 +106,7 @@
 
             <!-- CREATE REPOSITORY -->
             <TabItem   Name="TabCreate" Header="Create Repository"
-                                Margin="0,0,5,0" Visibility="Visible" 
-                               controls:ControlsHelper.HeaderFontSize="26">
+                                Margin="0,0,5,0" Visibility="Visible">
 
                 <StackPanel  Margin="20,10,30,0">
                     <Button Command="{Binding AppModel.Commands.HelpCommand}" CommandParameter="_4xp0yygt2.htm#CreateARepository"

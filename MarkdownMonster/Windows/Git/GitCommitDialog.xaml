@@ -14,7 +14,7 @@
                        Title="Commit to Git" 
                        FontSize="15"
                        TitleCharacterCasing="Normal"
-                       TitlebarHeight="35"         
+                       TitleBarHeight="30"         
                        ShowMinButton="False" ShowMaxRestoreButton="False"
                        ShowInTaskbar="False"
                        ResizeMode="CanResizeWithGrip"                       

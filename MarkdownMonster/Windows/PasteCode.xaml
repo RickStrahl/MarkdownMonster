@@ -11,7 +11,7 @@
         Title="Embed Syntax Colored Code" 
 		FontSize="15"
         TitleCharacterCasing="Normal"
-        TitlebarHeight="35"   
+        TitleBarHeight="30"   
         ShowInTaskbar="False"
         ResizeMode="CanResizeWithGrip"
         WindowStyle="SingleBorderWindow"                    

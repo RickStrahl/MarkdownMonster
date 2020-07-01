@@ -12,6 +12,7 @@ using System.Globalization;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using ControlzEx.Theming;
 using MarkdownMonster.Utilities;
 using MarkdownMonster.Windows;
 using MarkdownMonster.Windows.ConfigurationEditor;
@@ -565,28 +566,30 @@ Markdown Monster v{version}
 
             if (theme == Themes.Light)
             {
-                // get the current app style (theme and accent) from the application
-                // you can then use the current theme and custom accent instead set a new theme
-                Tuple<AppTheme, Accent> appStyle = ThemeManager.DetectAppStyle(Application.Current);
+                //// get the current app style (theme and accent) from the application
+                //// you can then use the current theme and custom accent instead set a new theme
+                //Tuple<AppTheme, Accent> appStyle = ThemeManager..DetectAppStyle(Application.Current);
 
-                // now set the Green accent and light theme
-                ThemeManager.ChangeAppStyle(Application.Current,
-                    ThemeManager.GetAccent("MahLight"),
-                    ThemeManager.GetAppTheme("BaseLight")); // or appStyle.Item1
+                ThemeManager.Current.ChangeThemeColorScheme(Application.Current, "Light.Blue");
+
+                //// now set the Green accent and light theme
+                //ThemeManager.ChangeAppStyle(Application.Current,
+                //    ThemeManager.GetAccent("MahLight"),
+                //    ThemeManager.GetAppTheme("BaseLight")); // or appStyle.Item1
             }
             else
             {
-                // get the current app style (theme and accent) from the application
-                // you can then use the current theme and custom accent instead set a new theme
-                Tuple<AppTheme, Accent> appStyle = ThemeManager.DetectAppStyle(Application.Current);
+                ThemeManager.Current.ChangeThemeColorScheme(Application.Current, "Dark.Blue");
+
+                //// get the current app style (theme and accent) from the application
+                //// you can then use the current theme and custom accent instead set a new theme
+                //Tuple<AppTheme, Accent> appStyle = ThemeManager.DetectAppStyle(Application.Current);
 
 
-                // now set the highlight accent and dark theme
-                ThemeManager.ChangeAppStyle(Application.Current,
-                    ThemeManager.GetAccent("Blue"),
-                    ThemeManager.GetAppTheme("BaseDark")); // or appStyle.Item1
-
-
+                //// now set the highlight accent and dark theme
+                //ThemeManager.ChangeAppStyle(Application.Current,
+                //    ThemeManager.GetAccent("Blue"),
+                //    ThemeManager.GetAppTheme("BaseDark")); // or appStyle.Item1
             }
 
             if (window != null)
@@ -607,7 +610,7 @@ Markdown Monster v{version}
             {
                 var darkBrush = (SolidColorBrush) (new BrushConverter().ConvertFrom("#333333"));
                 window.WindowTitleBrush = darkBrush;
-                window.NonActiveWindowTitleBrush = (Brush) window.FindResource("WhiteBrush");
+                window.NonActiveWindowTitleBrush = (Brush) window.FindResource("MahApps.Brushes.ThemeBackground");
 
                 //App.Current.Resources["MenuSeparatorBorderBrush"] = darkBrush;
                 window.BorderBrush = (SolidColorBrush)new BrushConverter().ConvertFrom("#999");
@@ -615,7 +618,7 @@ Markdown Monster v{version}
             else
             {
                 // Need to fix this to show the accent color when switching
-                window.WindowTitleBrush = (SolidColorBrush) window.FindResource("AccentColorBrush");
+                window.WindowTitleBrush = (SolidColorBrush) window.FindResource("MahApps.Brushes.AccentBase");
                 window.NonActiveWindowTitleBrush = window.WindowTitleBrush;
 
                 window.BorderBrush = (SolidColorBrush) new BrushConverter().ConvertFrom("#ccc");

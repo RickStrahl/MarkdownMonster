@@ -33,10 +33,6 @@
         <Setter Property="Padding" Value="5,2,5,3" />
     </Style>
 
-    <!-- this doesn't work-->
-    <Style TargetType="{x:Type controls:MetroWindow}" BasedOn="{x:Null}">
-        <Setter Property="BorderBrush" Value="#cccccc" />
-    </Style>
 
     <!-- TreeView Item Highlighting -->
     <Style TargetType="{x:Type TreeView}">
