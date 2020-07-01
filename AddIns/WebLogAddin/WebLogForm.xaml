@@ -44,7 +44,7 @@
                                  ShowDefaultAddButton="False" >
 
             <dragablz:TabablzControl.Resources>
-                <Style x:Key="HeaderStyle" TargetType="{x:Type TextBox}" BasedOn="{StaticResource MetroTextBox}">
+                <Style x:Key="HeaderStyle" TargetType="TextBox"  BasedOn="{StaticResource {x:Type TextBox}}">
                     <Setter Property="controls:TextBoxHelper.IsSpellCheckContextMenuEnabled" Value="{Binding RelativeSource={RelativeSource Self}, Path=(SpellCheck.IsEnabled)}" />
                     <Setter Property="FontSize" Value="17" />
                     <Setter Property="FontWeight" Value="Bold" />

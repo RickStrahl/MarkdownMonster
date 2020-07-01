@@ -3,13 +3,16 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:MarkdownMonster"
+        
+                      xmlns:local="clr-namespace:MarkdownMonster"
 		xmlns:localwindows="clr-namespace:MarkdownMonster.Windows"
+        xmlns:mmcontrols="clr-namespace:MarkdownMonster.Controls"
+
         xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
         xmlns:fa="http://schemas.fontawesome.io/icons/"
         xmlns:dragablz="http://dragablz.net/winfx/xaml/dragablz"
         xmlns:System="clr-namespace:System;assembly=mscorlib"
-        xmlns:mmcontrols="clr-namespace:MarkdownMonster.Controls"
+        
         xmlns:b="http://schemas.microsoft.com/xaml/behaviors"
         mc:Ignorable="d"					  
         
