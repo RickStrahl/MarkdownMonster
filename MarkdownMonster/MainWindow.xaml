@@ -643,19 +643,35 @@
                         </Button>
 
 
-						<Button Name="ToolButtonNewFile" Command="{Binding Commands.NewDocumentCommand}" ToolTip="New file (Ctrl+N)"                                
+						<Button Name="ToolButtonNewFile" 
+                                FontSize="18"
+                                Command="{Binding Commands.NewDocumentCommand}" 
+                                ToolTip="New file (Ctrl+N)"                                
                                 fa:Awesome.Content="PlusCircle" 
-                                Foreground="ForestGreen"
+                                Foreground="SteelBlue"
                                 TextElement.FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" 
                                 />
 
                         <Button Name ="ToolButtonSaveFile" 
+                                FontSize="19"
                                 Command="{Binding Commands.SaveCommand}" 
 								ToolTip="Save active document (Ctrl+S)"   
-                                IsEnabled="{Binding ActiveDocument.IsDirty}"
+                                controls:VisibilityHelper.IsCollapsed="{Binding ActiveDocument.IsDirty}"
+                                IsEnabled="False"
+                                
                                 fa:Awesome.Content="CheckCircleOutline" 
                                 TextElement.FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" 
                                 />
+
+                        <Button Name ="ToolButtonSaveFile2" 
+                                FontSize="19"
+                                Command="{Binding Commands.SaveCommand}" 
+                                ToolTip="Save active document (Ctrl+S)"   
+                                controls:VisibilityHelper.IsVisible="{Binding ActiveDocument.IsDirty}"
+                                Foreground="ForestGreen"
+                                fa:Awesome.Content="CheckCircleOutline" 
+                                TextElement.FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" 
+                        />
 
 					</ToolBar>
 
@@ -1070,8 +1086,15 @@
             controls:VisibilityHelper.IsCollapsed="{Binding WindowLayout.IsConsolePanelVisible, Converter={StaticResource InvertedBooleanConverter}}" />
 
 
-        <StatusBar  Grid.Row ="5"  Margin="0,0,0,0" VerticalAlignment="Bottom" 
+        <StatusBar  Grid.Row ="5"  Margin="0,0,0,0" 
+                    VerticalAlignment="Bottom" 
                     HorizontalAlignment="Stretch">
+            <!--<StatusBar.Resources>
+                <Style x:Key="{x:Static ToolBar.ComboBoxStyleKey}" TargetType="ComboBox">
+                    <Setter Property="Background" Value="Transparent"/>
+                    <Setter Property="BorderThickness" Value="0"/>
+                </Style>
+            </StatusBar.Resources>-->
             <StatusBar.ItemsPanel>
                 <ItemsPanelTemplate>
                     <Grid>
@@ -1153,11 +1176,10 @@
                            IsSynchronizedWithCurrentItem="True" Margin="0,0,3,0"    
                            ItemsSource="{Binding EncodingTypes}"
                            SelectionChanged="StatusEncoding_SelectionChanged"
-                           Background="Transparent" BorderBrush="Transparent" BorderThickness="0"                           
+                           Background="Transparent" BorderThickness="0"                           
                 />
 
             </StatusBarItem>
-
             
          
             <StatusBarItem Grid.Column="6" Margin="0,0,0,0">
@@ -1166,7 +1188,7 @@
                             ItemsSource="{Binding DocumentTypes}"
                             SelectedItem="{Binding ActiveEditor.EditorSyntax, Mode=TwoWay}"                             
                             ToolTip="Editor Code Syntax" 
-                            Background="Transparent" BorderBrush="Transparent" BorderThickness="0"
+                            Background="Transparent" BorderThickness="0"
                             SelectionChanged="DocumentType_SelectionChanged"
                 />
             </StatusBarItem>
@@ -1178,7 +1200,7 @@
                            SelectedItem="{Binding Configuration.MarkdownOptions.MarkdownParserName}" 
                            IsSynchronizedWithCurrentItem="True"   FontSize="13"  Padding="3,0"
                            ItemsSource="{Binding MarkdownParserNames}"
-                           Background="Transparent" BorderBrush="Transparent" BorderThickness="0"
+                           BorderThickness="0" Background="Transparent"
                            SelectionChanged="MarkdownParserName_SelectionChanged" />
 
             </StatusBarItem>
@@ -1189,7 +1211,7 @@
                            SelectedItem="{Binding Configuration.EditorTheme}"  FontSize="13" Padding="3,0"
                            IsSynchronizedWithCurrentItem="True"                            
                            ItemsSource="{Binding EditorThemeNames}"
-                           Background="Transparent" BorderBrush="Transparent" BorderThickness="0"
+                           BorderThickness="0" Background="Transparent"
                            SelectionChanged="EditorTheme_SelectionChanged" />
             </StatusBarItem>
             <StatusBarItem Grid.Column="9">
@@ -1198,7 +1220,7 @@
                            SelectedItem="{Binding Configuration.PreviewTheme}" 
                            IsSynchronizedWithCurrentItem="True" 
                            ItemsSource="{Binding PreviewThemeNames}"
-                           BorderBrush="Transparent" BorderThickness="0"
+                           BorderThickness="0" Background="Transparent"
                            SelectionChanged="PreviewTheme_SelectionChanged" />
 
             </StatusBarItem>
@@ -1210,9 +1232,8 @@
                            ItemsSource="{Binding PreviewSyncModeItems}"                           
                            DisplayMemberPath="IconString"
                            SelectedValuePath="Value" 
+                           BorderThickness="0" Background="Transparent"
                            FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome"
-                           Background="Transparent" 
-                           BorderBrush="Transparent" BorderThickness="0"
                            SelectionChanged="PreviewTheme_SelectionChanged">
                 </ComboBox>
             </StatusBarItem>
@@ -1222,7 +1243,6 @@
                     ToolTip="Encrypted"
                     fa:Awesome.Content="Lock" 
                     Visibility="{Binding ActiveDocument.IsEncrypted, Converter={StaticResource BooleanToVisibilityConverter}}"
-                    BorderThickness="0"                     
                     TextElement.FontSize="12"
                     TextElement.FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" />
             </StatusBarItem>
