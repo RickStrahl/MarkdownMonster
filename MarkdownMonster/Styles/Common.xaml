@@ -39,8 +39,12 @@
     <System:Double x:Key="MahApps.Font.Size.Flyout.Header">20</System:Double>
 
     <System:Double x:Key="MahApps.Font.Size.ToggleSwitch">14.667</System:Double>
-    <System:Double x:Key="	MahApps.Font.Size.ToggleSwitch.Header">16</System:Double>
+    <System:Double x:Key="MahApps.Font.Size.ToggleSwitch.Header">16</System:Double>
+    
+
+    
     <!--
+    
     
 
     <Style TargetType="{x:Type TextBox}">

@@ -54,11 +54,6 @@
     <SolidColorBrush x:Key="MahApps.Metro.Brushes.ToggleSwitchButton.OnSwitchMouseOverBrush.Win10" Color="{StaticResource AccentColor2}" options:Freeze="True" />
     <SolidColorBrush x:Key="MahApps.Metro.Brushes.ToggleSwitchButton.ThumbIndicatorCheckedBrush.Win10" Color="{StaticResource IdealForegroundColor}" options:Freeze="True" />
 
-    <!-- THIS IS NOT WORKING? -->
-    <Style x:Key="LightBorderColor" TargetType="{x:Type controls:MetroWindow}" BasedOn="{x:Null}">
-        <Setter Property="BorderBrush" Value="#ddd" />
-    </Style>
-
 
     <!--<Style TargetType="{x:Type dragablz:TabablzControl}" BasedOn="{StaticResource MahAppsTabablzControlStyle}">-->
     <Style x:Key="MarkdownMonsterTrapezoidDragableTabItemStyle"

@@ -4,7 +4,16 @@
 [![Chocolatey](https://img.shields.io/chocolatey/dt/markdownmonster.svg)](https://chocolatey.org/packages/MarkdownMonster)
 [![Web Site](https://img.shields.io/badge/Markdown_Monster-WebSite-blue.svg)](https://markdownmonster.west-wind.com)
 
-### 1.22.9 
+### 1.24 
+*<small>not released yet</small>*
+
+* **Statusbar Tooltip**  
+The status bar now also shows a multi-line tooltip for extra long messages that might overflow the status bar area. 
+
+* **Switch to MahApps 2.0**  
+Switched MM to use latest MahApps Metro UI framework. This provides a number of enhancements plus better stability and consistency for many UI operations.
+
+### 1.23 
 *<small>June 9th</small>*
 
 * **[Local Jekyll Weblog Publishing Support](https://markdownmonster.west-wind.com/docs/_5rv00rx4i.htm#setting-up-the-jekyll-publishing-configuration) (Preview)**  

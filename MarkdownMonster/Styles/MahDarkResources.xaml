@@ -7,7 +7,11 @@
                     mc:Ignorable="options">
 
 
-    <!--<Style TargetType="{x:Type dragablz:TabablzControl}" BasedOn="{StaticResource MahAppsTabablzControlStyle}">-->
+    <!-- Menu Colors -->
+    <SolidColorBrush x:Key="MahApps.Brushes.SubMenu.Border" Color="#777" />
+    <SolidColorBrush x:Key="MahApps.Brushes.ContextMenu.Border" Color="#777" />
+    <SolidColorBrush x:Key="MahApps.Brushes.MenuItem.SelectionFill" Color="#414141" />
+
     <Style x:Key="MarkdownMonsterTrapezoidDragableTabItemStyle"
            TargetType="{x:Type dragablz:DragablzItem}" BasedOn="{StaticResource TrapezoidDragableTabItemStyle}">
     </Style>
@@ -20,10 +24,10 @@
     </Style>
 
     <Style TargetType="{x:Type Hyperlink}">
-        <Setter Property="Foreground" Value="#009DE0" />
+        <Setter Property="Foreground" Value="#0075d9" />
         <Style.Triggers>
             <Trigger Property="IsMouseOver" Value="True">
-                <Setter Property="Foreground" Value="Firebrick" />
+                <Setter Property="Foreground" Value="#FF2733" />
             </Trigger>
             <Trigger Property="IsEnabled" Value="False">
                 <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}" />
@@ -35,10 +39,7 @@
     </Style>
 
     <!-- Colors -->
-    <Color x:Key="Gray6">DarkGray</Color>
-    <SolidColorBrush x:Key="TextBoxBorderBrush" Color="{StaticResource Gray6}" options:Freeze="True" />
-
-    <SolidColorBrush x:Key="BlueItem" Color="#70B8FF" />
+    <SolidColorBrush x:Key="BlueItem" Color="#0075d9" />
     <SolidColorBrush x:Key="LightThemeTitleBackground" Color="#D5DAE8" />
     <SolidColorBrush x:Key="HeadlineColor" Color="#569AD4" />
 
