@@ -780,7 +780,16 @@ namespace MarkdownMonster.Utilities
 
             var statusItems = new ObservableCollection<RepositoryStatusItem>();
 
-            var status = Repository.RetrieveStatus();
+            RepositoryStatus status;
+            try
+            {
+                status = Repository.RetrieveStatus();
+            }
+            catch (Exception ex)
+            {
+                SetError(ex.Message);
+                return null;
+            }
 
             string relSelectedFile = null;
             if (!string.IsNullOrEmpty(selectedFile))

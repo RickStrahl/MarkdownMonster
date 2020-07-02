@@ -87,6 +87,11 @@ namespace MarkdownMonster
                 }
 
                 var changes = gh.GetRepositoryChanges(repo.Info.WorkingDirectory);
+                if (changes == null && !string.IsNullOrEmpty(gh.ErrorMessage))
+                {
+                    Model.Window.ShowStatusError($"Unable to retrieve Repository status: {gh.ErrorMessage}");
+                    return;
+                }
                 if (changes.Count < 1)
                     Model.Window.ShowStatusError(
                         $"There are no pending changes for this Git repository: {repo.Info.WorkingDirectory}");

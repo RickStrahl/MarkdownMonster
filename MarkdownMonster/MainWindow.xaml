@@ -656,20 +656,20 @@
                                 />
 
                         <Button Name ="ToolButtonSaveFile" 
-                                FontSize="19"
+                                FontSize="19.2"  Padding="8,3,8,3"
                                 Command="{Binding Commands.SaveCommand}" 
 								ToolTip="Save active document (Ctrl+S)"   
                                 controls:VisibilityHelper.IsCollapsed="{Binding ActiveDocument.IsDirty}"
                                 IsEnabled="False"
-                                
                                 fa:Awesome.Content="CheckCircleOutline" 
                                 TextElement.FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" 
                                 />
 
                         <Button Name ="ToolButtonSaveFile2" 
-                                FontSize="19"
+                                FontSize="19.2"  Padding="8,3,8,3"
                                 Command="{Binding Commands.SaveCommand}" 
                                 ToolTip="Save active document (Ctrl+S)"   
+                                IsEnabled="True"
                                 controls:VisibilityHelper.IsVisible="{Binding ActiveDocument.IsDirty}"
                                 Foreground="ForestGreen"
                                 fa:Awesome.Content="CheckCircleOutline" 
@@ -1127,7 +1127,16 @@
             
             <StatusBarItem Grid.Column="1">
                 <StackPanel Orientation="Horizontal">
-                    <TextBlock Name="StatusText" x:FieldModifier="public" HorizontalAlignment="Left">Ready</TextBlock>
+                    <TextBlock Name="StatusText" 
+                               x:FieldModifier="public" 
+                               HorizontalAlignment="Left"
+                               Text="Ready">
+                        <TextBlock.ToolTip>
+                            <ToolTip>
+                                <TextBlock TextWrapping="Wrap" MaxWidth="600" Text="{Binding RelativeSource={RelativeSource AncestorType=TextBlock}, Path=Text}" />                        
+                            </ToolTip>
+                        </TextBlock.ToolTip>
+                    </TextBlock>
                 </StackPanel>
             </StatusBarItem>
 

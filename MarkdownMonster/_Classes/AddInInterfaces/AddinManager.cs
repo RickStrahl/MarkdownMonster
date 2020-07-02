@@ -197,10 +197,13 @@ namespace MarkdownMonster.AddIns
                                               $" ({addinMenuItem.KeyboardShortcut})" :
                                               string.Empty),
                                 Height = addinMenuItem.IconImageSource == null ? 18 : 19,
-                                Width = addinMenuItem.IconImageSource == null ? 18 : 19,                           
-                                Margin = new Thickness(5, 0, hasConfigMenu ? 0 : 5, 0)
+                                Width = addinMenuItem.IconImageSource == null ? 18 : 19,
                             };
+                            if (hasConfigMenu)
+                                titem.Padding = new Thickness(8, 4, 4, 4);
+
                             addinMenuItem.MenuItemButton = titem;
+
                         
 
                             if (addinMenuItem.Execute != null)
@@ -225,10 +228,12 @@ namespace MarkdownMonster.AddIns
                                                 addin.Model.Window.Foreground),                                    
                                         Height = 16,
                                         Width = 8,
-                                        Margin = new Thickness(0, 0, 0, 0),
+                                        Margin = new Thickness(0, 0, 0, 0)
                                     },
+                                    
                                     ToolTip = addinMenuItem.Caption + " Configuration",                                
                                 };
+                                tcitem.Padding = new Thickness(4,4,4,4);
 
                                 var ctxm = new ContextMenu();
                                 tcitem.ContextMenu = ctxm;
@@ -261,8 +266,7 @@ namespace MarkdownMonster.AddIns
                                     ctxm.Items.Add(configMenuItem);
 
                                     // Uninstall Addin
-                                    if (!addin.Id.Equals("screencapture",
-                                            StringComparison.InvariantCultureIgnoreCase) &&
+                                    if (!addin.Id.Equals("screencapture", StringComparison.InvariantCultureIgnoreCase) &&
                                         !addin.Id.Equals("weblog", StringComparison.InvariantCultureIgnoreCase) &&
                                         !addin.Id.Equals("snippets", StringComparison.InvariantCultureIgnoreCase))
                                     {
