@@ -286,17 +286,20 @@ namespace WeblogAddin
 				var pub = new LocalJekyllPublisher(meta, weblogInfo, Model.ActiveDocument.Filename);
 				pub.PublishPost(false);
 
-                if (weblogInfo.LaunchCommand != null)
+                if (!string.IsNullOrEmpty(weblogInfo.LaunchCommand))
                 {
-                    pub.BuildAndLaunchSite();
+                    if (!pub.BuildAndLaunchSite())
+                    {
+                        ShowStatusError(pub.ErrorMessage);
+                        return false;
+                    }
                     previewUrl = null;
                     postUrl = pub.GetPostUrl(weblogInfo.PreviewUrl ?? "http://localhost:4000/{0}");
                 }
 			}
 
 			meta.PostId = WeblogModel.ActivePost.PostId?.ToString();
-
-
+            
 			// retrieve the raw editor markdown
 			markdown = editor.MarkdownDocument.CurrentText;
 			meta.RawMarkdownBody = markdown;

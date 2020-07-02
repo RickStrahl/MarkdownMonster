@@ -188,13 +188,26 @@ namespace WebLogAddin.LocalJekyll
         /// <summary>
         /// Builds and launches the Jekyll site using the `LaunchCommand`
         /// </summary>
-        public void BuildAndLaunchSite()
+        public bool BuildAndLaunchSite()
         {
             //mmFileUtils.OpenTerminal(weblogInfo.ApiUrl);
-            if (WeblogInfo.LaunchCommand != null)
+            if (string.IsNullOrEmpty(WeblogInfo.LaunchCommand))
+            {
+                SetError("Can't build and launch: Missing Jekyll Launch Command.");
+                return false;
+            }
+
+            try
             {
                 ShellUtils.ExecuteCommandLine(WeblogInfo.LaunchCommand);
             }
+            catch (Exception ex)
+            {
+                SetError("Failed to launch Jekyll Build and Launch Command: " + WeblogInfo.LaunchCommand);
+                return false;
+            }
+
+            return true;
         }
 
         /// <summary>
