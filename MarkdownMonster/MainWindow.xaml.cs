@@ -149,12 +149,17 @@ namespace MarkdownMonster
 
         private IEWebBrowserControl previewBrowser;
 
+        /// <summary>
+        /// Display Statusbar messages easily with pre-configuraed helper  methods
+        /// </summary>
         StatusBarHelper StatusBarHelper { get; }
 
+        /// <summary>
+        /// Keybindings for the window and editor.
+        /// </summary>
         public KeyBindingsManager KeyBindings { get; set; }
 
 
-       
 
         public MainWindow()
         {
@@ -191,7 +196,7 @@ namespace MarkdownMonster
             }
 
             // Override some of the theme defaults (dark header specifically)
-            mmApp.SetThemeWindowOverride(this);
+            mmApp.SetThemeWindowOverride(this, isMainWindow: true);
 
             StatusBarHelper = new StatusBarHelper(StatusText, StatusIcon);
         }

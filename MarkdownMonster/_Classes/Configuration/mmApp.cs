@@ -12,6 +12,7 @@ using System.Globalization;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Windows.Controls;
 using ControlzEx.Theming;
 using MarkdownMonster.Utilities;
 using MarkdownMonster.Windows;
@@ -601,27 +602,37 @@ Markdown Monster v{version}
         /// Overrides specific theme colors in the window header
         /// </summary>
         /// <param name="window"></param>
-        public static void SetThemeWindowOverride(MetroWindow window)
+        /// <param name="isMainWindow"></param>
+        public static void SetThemeWindowOverride(MetroWindow window, bool isMainWindow = false)
         {
             if (window == null)
                 return;
 
             if (Configuration.ApplicationTheme == Themes.Dark)
             {
-                var darkBrush = (SolidColorBrush) (new BrushConverter().ConvertFrom("#333333"));
+                var darkBrush = (SolidColorBrush) (new BrushConverter().ConvertFrom("#333"));
                 window.WindowTitleBrush = darkBrush;
-                window.NonActiveWindowTitleBrush = (Brush) window.FindResource("MahApps.Brushes.ThemeBackground");
+                window.NonActiveWindowTitleBrush = (SolidColorBrush) (new BrushConverter().ConvertFrom("#444"));
+                //(Brush) window.FindResource("MahApps.Brushes.ThemeBackground");
 
-                //App.Current.Resources["MenuSeparatorBorderBrush"] = darkBrush;
-                window.BorderBrush = (SolidColorBrush)new BrushConverter().ConvertFrom("#999");
+                // Use a custom color for the Window Control Panel Button Items
+                if (isMainWindow)
+                {
+                    // override system control panel button colors
+                    var blueItem = App.Current.Resources["BlueItem"] as System.Windows.Media.Brush;
+                    foreach (var control in mmApp.Model.Window.WindowControlPanel.Children)
+                    {
+                        var c = control as Control;
+                        if (c == null)
+                            continue;
+
+                        c.Foreground = blueItem;
+                    }
+                }
             }
             else
             {
-                // Need to fix this to show the accent color when switching
-                window.WindowTitleBrush = (SolidColorBrush) window.FindResource("MahApps.Brushes.AccentBase");
-                window.NonActiveWindowTitleBrush = window.WindowTitleBrush;
-
-                window.BorderBrush = (SolidColorBrush) new BrushConverter().ConvertFrom("#ccc");
+                // Light theme
             }
         }
         #endregion

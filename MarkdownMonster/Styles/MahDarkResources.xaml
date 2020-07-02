@@ -7,16 +7,14 @@
 
 
     <!-- Menu Colors -->
-    <SolidColorBrush x:Key="MahApps.Brushes.SubMenu.Border" Color="#777" />
-    <SolidColorBrush x:Key="MahApps.Brushes.ContextMenu.Border" Color="#696969" />
+    <SolidColorBrush x:Key="MahApps.Brushes.SubMenu.Border" Color="#606060" />
+    <SolidColorBrush x:Key="MahApps.Brushes.ContextMenu.Border" Color="#606060" />
     <SolidColorBrush x:Key="MahApps.Brushes.MenuItem.SelectionFill" Color="#414141" />
 
     <!-- Highlight Colors -->
     <SolidColorBrush x:Key="BlueItem" Color="#5BB3FF" />
-    <!--<SolidColorBrush x:Key="LightThemeTitleBackground" Color="#D5DAE8" />
-    <SolidColorBrush x:Key="HeadlineColor" Color="#569AD4" />-->
-
     <SolidColorBrush x:Key="SidebarHeaderBackground" Color="#555"/>
+
 
     <Style  x:Key="HeaderTextBoxStyle" TargetType="{x:Type TextBox}"
             BasedOn="{StaticResource {x:Type TextBox}}">

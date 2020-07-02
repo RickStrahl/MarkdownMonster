@@ -7,11 +7,14 @@
                     mc:Ignorable="options">
 
 
+    <!-- Menu Colors -->
+    <SolidColorBrush x:Key="MahApps.Brushes.SubMenu.Border" Color="#ccc" />
+    <SolidColorBrush x:Key="MahApps.Brushes.ContextMenu.Border" Color="#ccc" />
+    <!--<SolidColorBrush x:Key="MahApps.Brushes.MenuItem.SelectionFill" Color="#414141" />-->
+
+
   
-    <SolidColorBrush x:Key="BlueItem" Color="#0075d9" />
-    <SolidColorBrush x:Key="LightThemeTitleBackground" Color="#D5DAE8" />
-    <SolidColorBrush x:Key="LightThemeContentBackground" Color="#555" />
-    <SolidColorBrush x:Key="HeadlineColor" Color="#4D6081" />
+    <SolidColorBrush x:Key="BlueItem" Color="#48A4FF" />
     <SolidColorBrush x:Key="SidebarHeaderBackground" Color="#bbb"/>
 
     <Style  x:Key="HeaderTextBoxStyle" TargetType="{x:Type TextBox}"

@@ -51,9 +51,9 @@
 
     <controls:MetroWindow.RightWindowCommands>
         <controls:WindowCommands>
-            <StackPanel Orientation="Horizontal">
+            <StackPanel Orientation="Horizontal" Name="WindowControlPanel">
 
-                <Button Name="ToolButtonAppTheme"  Foreground="{StaticResource BlueItem}"                                                              
+                <Button Name="ToolButtonAppTheme"                                                           
                         ToolTip="Switch Application Theme"
                         Content="{Binding Configuration.ApplicationTheme}"
                         TextElement.FontSize="13" FontWeight="DemiBold">
@@ -61,7 +61,7 @@
                 <Button 
                         Margin="-10,0,0,0"
                         ToolTip="Switch Application Theme"                               
-				        fa:Awesome.Content="CaretDown" Foreground="{StaticResource BlueItem}"				                             
+				        fa:Awesome.Content="CaretDown" 			                             
 				        TextElement.FontSize="12" 
 				        TextElement.FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" 
 				>
@@ -87,7 +87,7 @@
 
 
                 <ToggleButton
-                    fa:Awesome.Content="Check"  Foreground="{StaticResource BlueItem}"                                                                
+                    fa:Awesome.Content="Check"                                                             
                     IsChecked="{Binding Configuration.Editor.EnableSpellcheck}"
                     ToolTip="enable/disable spell-checking"
                     Command="{Binding Commands.SpellCheckCommand}"                          
@@ -97,7 +97,8 @@
                     <StackPanel Orientation="Horizontal">
                         <fa:FontAwesome   Icon="Check"  
                                           FontSize="19"
-                                          FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" Foreground="{StaticResource BlueItem}"    />
+                                          FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" 
+                                          />
                         <TextBlock Margin="1,5,0,0" FontSize="11" 
                                    Text="{Binding Configuration.Editor.Dictionary}" />
                     </StackPanel>
@@ -109,7 +110,7 @@
                         Margin="-12,0,0,0"
                         FontSize="11"
 						ToolTip="Languages"                                
-				        fa:Awesome.Content="CaretDown" Foreground="{StaticResource BlueItem}"				                             
+				        fa:Awesome.Content="CaretDown" 		                             
 				        Click="ButtonLangugeDropDown_Click"
 				        TextElement.FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" 
 				>
@@ -118,7 +119,7 @@
                     </b:Interaction.Behaviors>
                 </Button>
 
-                <ToggleButton Name="ToolButtonPreview"  Foreground="{StaticResource BlueItem}"                                                              
+                <ToggleButton Name="ToolButtonPreview"                                                            
                               Margin="-5,0,0,0"
                                 IsChecked="{Binding IsPreviewBrowserVisible}"
                                 Command="{Binding Commands.TogglePreviewBrowserCommand}"                                  
@@ -131,7 +132,7 @@
                 <Button 
                         Margin="-10,0,0,0"
 						ToolTip="Preview Modes"                                
-				        fa:Awesome.Content="CaretDown" Foreground="{StaticResource BlueItem}"				                             
+				        fa:Awesome.Content="CaretDown" 		                             
 				        TextElement.FontSize="12" 
 				        TextElement.FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" 
 				>
@@ -163,7 +164,7 @@
 
                 </Button>
 
-                <ToggleButton Name="ToolButtonFullScreen"   Foreground="{StaticResource BlueItem}"				              
+                <ToggleButton Name="ToolButtonFullScreen" 			              
                               Margin="-4,0,0,0"
                                       IsChecked="{Binding IsFullScreen}"
                                       Command="{Binding Commands.DistractionFreeModeCommand}"                                                 
@@ -171,7 +172,7 @@
                                  fa:Awesome.Content="ArrowsAlt"                                
                                 TextElement.FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome"      
                                       />
-                <ToggleButton Name="ToolButtonPresentationMode"   Foreground="{StaticResource BlueItem}"                              
+                <ToggleButton Name="ToolButtonPresentationMode"
                                       IsChecked="{Binding IsPresentationMode}"
                                       Command="{Binding Commands.PresentationModeCommand}"                                                 
                                       ToolTip="toggle presentation mode (F11)"
@@ -181,7 +182,7 @@
 
                
 
-                <Button Name="ToolButtonSettings" Foreground="{StaticResource BlueItem}" 
+                <Button Name="ToolButtonSettings"
                         Command="{Binding Commands.SettingsVisualCommand}"
                         fa:Awesome.Content="Gear" 
                         ToolTip="Configuration Settings for Markdown Monster"                        
@@ -192,7 +193,6 @@
                     Click="ButtonWindowSizesDropdown_Click"
                     fa:Awesome.Content="CaretDown"
                     FontSize="12"
-                    Foreground="{StaticResource BlueItem}"				                             
                     TextElement.FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" 
                 >
                     <b:Interaction.Behaviors>
