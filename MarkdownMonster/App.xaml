@@ -12,7 +12,6 @@
                 <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Fonts.xaml" />
                 
                 <!-- Mah Base Accent and AppTheme setting -->
-                <ResourceDictionary Source="Styles/MahLightAccents.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Themes/Dark.Blue.xaml" />
 
                 <ResourceDictionary Source="Styles/Common.xaml"/>

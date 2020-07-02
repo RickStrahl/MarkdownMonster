@@ -21,7 +21,7 @@
                        WindowStyle="SingleBorderWindow"                    
                        WindowStartupLocation="CenterOwner"                        
                        IsMinButtonEnabled="False" IsMaxRestoreButtonEnabled="False"                       
-                       Width="810"  MinWidth="810" MinHeight="500" Height="700"
+                       Width="850"  MinWidth="850" MinHeight="500" Height="700"
                        WindowTransitionsEnabled="True" >
     <Window.InputBindings>
         <KeyBinding Key="F1" Command="{Binding AppModel.Commands.HelpCommand}" CommandParameter="_4xp0yygt2.htm"/>
@@ -43,7 +43,7 @@
 
                     <Button Name="ButtonCommit"  Click="ButtonCommit_Click">
                         <StackPanel Orientation="Horizontal">
-                            <fa:FontAwesome Margin="5,2,5,0" Icon="CheckCircleOutline"                                             
+                            <fa:FontAwesome Margin="0,2,5,0" Icon="CheckCircleOutline"                                             
                                             FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" 
                                             Foreground="#1F9B3C" />
                             <TextBlock>Commit</TextBlock>
@@ -52,7 +52,7 @@
 
                     <Button Name="ButtonCommitAndPush"   Click="ButtonCommitAndPush_Click">
                         <StackPanel Orientation="Horizontal">
-                            <fa:FontAwesome Margin="5,2,5,0" Icon="Upload"                                            
+                            <fa:FontAwesome Margin="0,2,5,0" Icon="Upload"                                            
                                             FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" 
                                             Foreground="#1F9B3C" />
                             <TextBlock>Commit &amp; Push</TextBlock>
@@ -61,7 +61,7 @@
 
                     <Button Name="ButtonCancel" IsCancel="True" Click="ButtonCancel_Click" >
                         <StackPanel Orientation="Horizontal">
-                            <fa:FontAwesome Icon="Remove" Margin="5,4,5,0"  
+                            <fa:FontAwesome Icon="Remove" Margin="0,4,5,0"  
                                             FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome"  
                                             Foreground="Firebrick"/>
                             <TextBlock>Cancel</TextBlock>
@@ -72,7 +72,7 @@
                 <ToolBar>
                     <Button Click="ButtonPull_Click">
                         <StackPanel Orientation="Horizontal">
-                            <fa:FontAwesome Margin="5,2,5,0" Icon="Download"                                             
+                            <fa:FontAwesome Margin="0,2,5,0" Icon="Download"                                             
                                             FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" />
                             <TextBlock>Pull</TextBlock>
                         </StackPanel>
@@ -80,7 +80,7 @@
 
                     <Button Click="ButtonPush_Click">
                         <StackPanel Orientation="Horizontal">
-                            <fa:FontAwesome Margin="5,2,5,0" Icon="Upload"                                             
+                            <fa:FontAwesome Margin="0,2,5,0" Icon="Upload"                                             
                                             FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" />
                             <TextBlock>Push</TextBlock>
                         </StackPanel>
@@ -88,7 +88,7 @@
 
                     <Button Click="ButtonRefresh_Click">
                         <StackPanel Orientation="Horizontal">
-                            <fa:FontAwesome Margin="5,2,5,0" Icon="Refresh"                                             
+                            <fa:FontAwesome Margin="0,2,5,0" Icon="Refresh"                                             
                                             FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" />
                             <TextBlock>Refresh</TextBlock>
                         </StackPanel>
@@ -98,7 +98,7 @@
                             ToolTip="Open this repository in your Git client."
                             Command="{Binding AppModel.Commands.Git.OpenGitClientCommand}" CommandParameter="{Binding Filename}" >
                         <StackPanel Orientation="Horizontal">
-                            <fa:FontAwesome Margin="5,2,5,0" Icon="ExternalLink"                                             
+                            <fa:FontAwesome Margin="0,2,5,0" Icon="ExternalLink"                                             
                                             FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" />
                             <TextBlock>Git Client</TextBlock>
                         </StackPanel> 
@@ -106,7 +106,7 @@
 
                     <Button Name="ButtonOpenRemote"  ToolTip="Open Git remote in web browser" Click="ButtonOpenRemote_Click">
                         <StackPanel Orientation="Horizontal">
-                            <fa:FontAwesome Margin="5,2,5,0" Icon="Github" FontSize="18"                                       
+                            <fa:FontAwesome Margin="0,2,5,0" Icon="Github" FontSize="18"                                       
                                             FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" />
                             <TextBlock>Remote</TextBlock>
                         </StackPanel>
@@ -116,20 +116,20 @@
                     <Button controls:VisibilityHelper.IsCollapsed="{Binding ShowUserInfo}" 
                             Click="ButtonShowUserInfo_Click" ToolTip="Show Git Commit User Info - stored in settings after update">
                         <StackPanel Orientation="Horizontal">
-                            <fa:FontAwesome Margin="5,2,5,0" Icon="UserOutline"                                             
+                            <fa:FontAwesome Margin="0,2,5,0" Icon="UserOutline"                                             
                                             FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" />
                         </StackPanel>
                     </Button>
                     <Button  Name="ButtonGitToolsContext" ToolTip="More Options" Click="ButtonGitToolsContext_Click">
                         <StackPanel Orientation="Horizontal">
-                            <fa:FontAwesome Margin="5,2,5,0" Icon="Gear"                                             
+                            <fa:FontAwesome Margin="0,2,5,0" Icon="Gear"                                             
                                             FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" />
                         </StackPanel>
                     </Button>
                     <Button  ToolTip="More info on using this Dialog" 
                              Command="{Binding AppModel.Commands.HelpCommand}" CommandParameter="_4xp0yygt2.htm">
                         <StackPanel Orientation="Horizontal">
-                            <fa:FontAwesome Margin="5,2,5,0" Icon="QuestionCircleOutline"                                             
+                            <fa:FontAwesome Margin="0,2,5,0" Icon="QuestionCircleOutline"                                             
                                             FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" />
                         </StackPanel>
                     </Button>

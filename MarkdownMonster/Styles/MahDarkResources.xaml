@@ -2,49 +2,21 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
                     xmlns:options="http://schemas.microsoft.com/winfx/2006/xaml/presentation/options"
-                    xmlns:mahcontrols="http://metro.mahapps.com/winfx/xaml/controls"
                     xmlns:dragablz="http://dragablz.net/winfx/xaml/dragablz"
                     mc:Ignorable="options">
 
 
     <!-- Menu Colors -->
     <SolidColorBrush x:Key="MahApps.Brushes.SubMenu.Border" Color="#777" />
-    <SolidColorBrush x:Key="MahApps.Brushes.ContextMenu.Border" Color="#777" />
+    <SolidColorBrush x:Key="MahApps.Brushes.ContextMenu.Border" Color="#696969" />
     <SolidColorBrush x:Key="MahApps.Brushes.MenuItem.SelectionFill" Color="#414141" />
 
-    <Style x:Key="MarkdownMonsterTrapezoidDragableTabItemStyle"
-           TargetType="{x:Type dragablz:DragablzItem}" BasedOn="{StaticResource TrapezoidDragableTabItemStyle}">
-    </Style>
-
-    <Style TargetType="{x:Type dragablz:TabablzControl}" BasedOn="{StaticResource {x:Type dragablz:TabablzControl}}">
-        <Setter Property="ItemContainerStyle" Value="{StaticResource MarkdownMonsterTrapezoidDragableTabItemStyle}" />
-        <Setter Property="AdjacentHeaderItemOffset" Value="-12" />
-        <Setter Property="ShowDefaultAddButton" Value="True" />
-        <Setter Property="ShowDefaultCloseButton" Value="True" />
-    </Style>
-
-    <Style TargetType="{x:Type Hyperlink}">
-        <Setter Property="Foreground" Value="#0075d9" />
-        <Style.Triggers>
-            <Trigger Property="IsMouseOver" Value="True">
-                <Setter Property="Foreground" Value="#FF2733" />
-            </Trigger>
-            <Trigger Property="IsEnabled" Value="False">
-                <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}" />
-            </Trigger>
-            <Trigger Property="IsEnabled" Value="True">
-                <Setter Property="Cursor" Value="Hand" />
-            </Trigger>
-        </Style.Triggers>
-    </Style>
-
-    <!-- Colors -->
-    <SolidColorBrush x:Key="BlueItem" Color="#0075d9" />
-    <SolidColorBrush x:Key="LightThemeTitleBackground" Color="#D5DAE8" />
-    <SolidColorBrush x:Key="HeadlineColor" Color="#569AD4" />
+    <!-- Highlight Colors -->
+    <SolidColorBrush x:Key="BlueItem" Color="#5BB3FF" />
+    <!--<SolidColorBrush x:Key="LightThemeTitleBackground" Color="#D5DAE8" />
+    <SolidColorBrush x:Key="HeadlineColor" Color="#569AD4" />-->
 
     <SolidColorBrush x:Key="SidebarHeaderBackground" Color="#555"/>
-
 
     <Style  x:Key="HeaderTextBoxStyle" TargetType="{x:Type TextBox}"
             BasedOn="{StaticResource {x:Type TextBox}}">
@@ -77,5 +49,20 @@
         </Style.Resources>
     </Style>
 
+
+
+    <!-- This must live here or later or it won't work -->
+
+    <!--<Style TargetType="{x:Type dragablz:TabablzControl}" BasedOn="{StaticResource MahAppsTabablzControlStyle}">-->
+    <Style x:Key="MarkdownMonsterTrapezoidDragableTabItemStyle"
+           TargetType="{x:Type dragablz:DragablzItem}" BasedOn="{StaticResource TrapezoidDragableTabItemStyle}">
+    </Style>
+
+    <Style TargetType="{x:Type dragablz:TabablzControl}" BasedOn="{StaticResource {x:Type dragablz:TabablzControl}}">
+        <Setter Property="ItemContainerStyle" Value="{StaticResource MarkdownMonsterTrapezoidDragableTabItemStyle}" />
+        <Setter Property="AdjacentHeaderItemOffset" Value="-12" />
+        <Setter Property="ShowDefaultAddButton" Value="True" />
+        <Setter Property="ShowDefaultCloseButton" Value="True" />
+    </Style>
 
 </ResourceDictionary>

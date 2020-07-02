@@ -629,7 +629,7 @@
                     <ToolBar Name="ToolbarFile">
                         
                         <Button Name="ToolButtonOpenFile" 
-                                Padding="8,4,4,4"
+                                Padding="6,4,4,4"
                                 FontSize="18"
                                 Foreground="Goldenrod"
                                 Command="{Binding Commands.OpenDocumentCommand}" 
@@ -638,13 +638,13 @@
                                 TextElement.FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" 
                         />
                         <Button Name="ToolbarButtonRecentFiles" Click="Button_Handler" 
-                                        ToolTip="Recent documents (Alt+F+R)" Padding="0,6"
+                                        Padding="2,4" Margin="0,0,4,0"
+                                        FontSize="15"
+                                        ToolTip="Recent documents (Alt+F+R)" 
                                         fa:Awesome.Content="CaretDown"
-                                        Width="16" 
-                                        TextElement.FontSize="11"
                                         TextElement.FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome">
                         </Button>
-
+                        
 
 						<Button Name="ToolButtonNewFile" 
                                 FontSize="18"
@@ -808,6 +808,7 @@
 						<Button Name="ButtonEmoji"
 								ToolTip="Insert emoji (Ctrl+J)"
                                 Command="{Binding Commands.ToolbarInsertMarkdownCommand }" 
+                                FontSize="15"
                                 CommandParameter="emoji"
                                 fa:Awesome.Content="SmileOutline"                                                           
                                 TextElement.FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome"        
@@ -815,7 +816,7 @@
                         />
 
                         <Button Name="ButtonMoreMarkdown"
-                                Padding="4,4"
+                                Padding="2,4" Margin="3,0,0,0"
                                 ToolTip="More Markup Operations" 
                                 fa:Awesome.Content="CaretDown"                                                      
                         >
@@ -909,8 +910,8 @@
 
 					<ToolBar Name="ToolbarAddIns" Visibility="Hidden" FontSize="17">
                         <Button Name="ButtonGit" Command="{Binding Commands.Git.CommitToGitCommand}" 
-                                ToolTip="Git Operations: Commit, Push, Pull, Clone, Create (Alt+G)">
-                            <Image Source="assets/git.png" Height="19" Margin="0,0,2,0"/>
+                                ToolTip="Git Operations: Commit, Push, Pull, Clone, Create (Alt+G)" Margin="0,0,4,0" >
+                            <Image Source="assets/git.png" Height="19" />
                         </Button>
                         
 					</ToolBar>
@@ -982,9 +983,9 @@
             </controls:MetroTabControl>
 
 
-            <GridSplitter Grid.Column="1"                               
-			              HorizontalAlignment="Center"                          
-			              BorderThickness="0" IsTabStop="False"                          
+            <GridSplitter Grid.Column="1" ShowsPreview="False"
+			              HorizontalAlignment="Center" 
+			              BorderThickness="0" IsTabStop="False"              
 			              VerticalAlignment="Stretch" >
                 <GridSplitter.Template>
                     <ControlTemplate TargetType="{x:Type GridSplitter}">
@@ -1025,7 +1026,7 @@
             <mmcontrols:StartMenuUserControl Grid.Column="2"  controls:VisibilityHelper.IsCollapsed="{Binding IsTabOpen}" />
 
             <GridSplitter Grid.Column="3"  x:Name="RightSidebarContainerSeparator"                                                                   
-                          HorizontalAlignment="Center"                          
+                          HorizontalAlignment="Center" ShowsPreview="False"                          
                           BorderThickness="0" IsTabStop="False"
                           VerticalAlignment="Stretch">
                 <GridSplitter.Template>
@@ -1076,7 +1077,7 @@
 
 
         <GridSplitter Height="7"  Grid.Row="3"    Background="#333"                          
-                      VerticalAlignment="Center"                          
+                      VerticalAlignment="Center" ShowsPreview="False"                         
                       BorderThickness="0" IsTabStop="False"                          
                       controls:VisibilityHelper.IsCollapsed="{Binding WindowLayout.IsConsolePanelVisible, Converter={StaticResource InvertedBooleanConverter}}"
                       HorizontalAlignment="Stretch" >

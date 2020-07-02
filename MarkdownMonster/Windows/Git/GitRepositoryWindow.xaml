@@ -17,7 +17,7 @@
         SizeToContent="Height"
         WindowStartupLocation="CenterOwner"    MaxHeight="800"     
         IsMinButtonEnabled="False" IsMaxRestoreButtonEnabled="False"                       
-        Width="620">
+        Width="800">
     <Window.InputBindings>
         <KeyBinding Key="F1" Command="{Binding AppModel.Commands.HelpCommand}" CommandParameter="_4xp0yygt2.htm#CloneaRepository"/>
     </Window.InputBindings>

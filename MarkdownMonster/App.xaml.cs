@@ -344,19 +344,14 @@ namespace MarkdownMonster
 
         private void ThemeCustomizations()
         {
-            // Custom MahApps Light Theme based on Blue
-            //ThemeManager.Current.AddAccent("MahLight", new Uri("Styles/MahLightAccents.xaml", UriKind.RelativeOrAbsolute));
-
-            Uri resourceUri = null;
+            Uri resourceUri;
 
             // Add Dark Menu Customizations
             if (mmApp.Configuration.ApplicationTheme == Themes.Dark)
             {
-                //resourceUri = new Uri("Styles/MahMenuCustomizations.xaml", UriKind.RelativeOrAbsolute);
-                //Current.Resources.MergedDictionaries.Add(
-                //    new ResourceDictionary() {Source = resourceUri});
-
-                var dragablzLightStyles = new Uri("Styles/DragablzGeneric.xaml", UriKind.RelativeOrAbsolute);
+                ThemeManager.Current.ChangeTheme(Application.Current, "Dark.Blue");
+                
+                var dragablzLightStyles = new Uri("Styles/DragablzGenericDark.xaml", UriKind.RelativeOrAbsolute);
                 Current.Resources.MergedDictionaries.Add(
                     new ResourceDictionary() { Source = dragablzLightStyles });
 

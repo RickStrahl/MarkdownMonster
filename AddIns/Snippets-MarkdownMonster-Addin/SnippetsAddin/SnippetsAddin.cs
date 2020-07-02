@@ -51,7 +51,8 @@ namespace SnippetsAddin
             bool requiresCompiler = false;
             foreach (var snippet in SnippetsAddinConfiguration.Current.Snippets)
             {
-                if (!requiresCompiler && snippet.SnippetText.Contains("{{") || snippet.SnippetText.Contains("@"))
+                if (!requiresCompiler && !string.IsNullOrEmpty(snippet.SnippetText) &&
+                    (snippet.SnippetText.Contains("{{") || snippet.SnippetText.Contains("@")))
                     requiresCompiler = true;
 
 

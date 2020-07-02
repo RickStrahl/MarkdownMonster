@@ -11,6 +11,7 @@
         Title="Embed Image"
         TitleCharacterCasing="Normal"                      
         TitleBarHeight="30"
+        FontSize="16"
         ShowInTaskbar="False"
         WindowStyle="SingleBorderWindow" ResizeMode="CanResizeWithGrip"                      
         WindowStartupLocation="CenterOwner"                
@@ -28,14 +29,15 @@
         </Grid.RowDefinitions>
         <ToolBarPanel>
             <StackPanel Orientation="Horizontal">
-                <ToolBar FontWeight="Normal" Padding="0,2,0,2" >
-                  
-                    <Button Name="ButtonOk"  IsDefault="True"  Click="Button_Click"
+                <ToolBar FontWeight="Normal">
+                    <Button Name="ButtonOk"  
+                            IsDefault="True"  
+                            Click="Button_Click"
                             Visibility="{Binding IsFileImage, Converter={StaticResource BooleanToVisibilityConverter}}" >
                         <StackPanel Orientation="Horizontal">
-                            <fa:FontAwesome Margin="5,2,5,0" Icon="CheckCircleOutline"                                             
+                            <fa:FontAwesome Margin="0,2,5,0" Icon="CheckCircleOutline"                                             
                                             FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" 
-                                            Foreground="#1F9B3C" />
+                                            Foreground="#1F9B3C"  />
                             <TextBlock  FontWeight="SemiBold" >Embed Image</TextBlock>
                         </StackPanel>
                     </Button>
@@ -43,7 +45,7 @@
                     <Button Name="ButtonSaveImage" IsDefault="True"
                             Click="Button_SaveImage"  Visibility="{Binding IsMemoryImage, Converter={StaticResource BooleanToVisibilityConverter}}" >
                         <StackPanel Orientation="Horizontal">
-                            <fa:FontAwesome Margin="5,4,5,0" Icon="FloppyOutline" 
+                            <fa:FontAwesome Margin="0,4,5,0" Icon="FloppyOutline" 
                                             FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" 
                                             Foreground="#1F9B3C"   />
                             <TextBlock>Save to Disk</TextBlock>
@@ -53,7 +55,7 @@
 
                     <Button Name="ButtonCancel" IsCancel="True" Click="Button_Click" >
                         <StackPanel Orientation="Horizontal">
-                            <fa:FontAwesome Icon="Remove" Margin="5,4,5,0"  
+                            <fa:FontAwesome Icon="Remove" Margin="0,4,5,0"  
                                             FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome"  
                                             Foreground="Firebrick"/>
                             <TextBlock>Cancel</TextBlock>
@@ -72,7 +74,7 @@
                             <fa:FontAwesome Icon="Edit"  Name="FaEditImage"                                           
                                           
                                             FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" 
-                                            Margin="5,4,5,0" />
+                                            Margin="0,4,5,0" />
                             <TextBlock>Edit</TextBlock>
                         </StackPanel>
                     </Button>
@@ -82,7 +84,7 @@
                         <StackPanel Orientation="Horizontal">
                             <fa:FontAwesome Icon="Paste"  Name="FaPasteImage"                                                                                       
                                             FontWeight="Normal" FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" 
-                                            Margin="5,2,5,0" />
+                                            Margin="0,2,5,0" />
                             <TextBlock>Paste</TextBlock>
                         </StackPanel>
                     </Button>
@@ -92,7 +94,7 @@
                         <StackPanel Orientation="Horizontal">
                             <fa:FontAwesome Icon="Copy"  Name="FaCopyImage"                                           
                                             FontWeight="Normal" FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" 
-                                            Margin="5,2,5,0" />
+                                            Margin="0,2,5,0" />
                             <TextBlock>Copy</TextBlock>
                         </StackPanel>
                     </Button>
@@ -102,7 +104,7 @@
                         <StackPanel Orientation="Horizontal">
                             <fa:FontAwesome Icon="Remove"  Name="FaClearImage"                                           
                                             FontWeight="Normal" FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" 
-                                            Margin="5,4,5,0" />
+                                            Margin="0,4,5,0" />
                             <TextBlock>Clear</TextBlock>
                         </StackPanel>
                     </Button>

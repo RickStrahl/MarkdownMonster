@@ -1,11 +1,10 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:System="clr-namespace:System;assembly=mscorlib"
-                    xmlns:mahcontrols="http://metro.mahapps.com/winfx/xaml/controls">
+                    xmlns:mahcontrols="http://metro.mahapps.com/winfx/xaml/controls"
+                    xmlns:dragablz="http://dragablz.net/winfx/xaml/dragablz">
 
     <!--Fonts-->
-    
-
     <FontFamily x:Key="DefaultFont">Segoe UI, Lucida Sans Unicode, Verdana</FontFamily>
     <FontFamily x:Key="HeaderFontFamily">Segoe UI Light, Lucida Sans Unicode, Verdana</FontFamily>
     <FontFamily x:Key="ContentFontFamily">Segoe UI, Lucida Sans Unicode, Verdana</FontFamily>
@@ -18,12 +17,12 @@
     
     <System:Double x:Key="MahApps.Font.Size.Header">40</System:Double>
     <System:Double x:Key="MahApps.Font.Size.SubHeader">29.333</System:Double>
-    <System:Double x:Key="MahApps.Font.Size.Window.Title">14</System:Double>
+    <System:Double x:Key="MahApps.Font.Size.Window.Title">16</System:Double>
     <System:Double x:Key="MahApps.Font.Size.Default">16</System:Double>
-    <System:Double x:Key="MahApps.Font.Size.Content">15</System:Double>
-    <System:Double x:Key="MahApps.Font.Size.Button.Flat">14</System:Double>
-    <System:Double x:Key="MahApps.Font.Size.TabItem">26.67</System:Double>
-    <System:Double x:Key="MahApps.Font.Size.Button">13</System:Double>
+    <System:Double x:Key="MahApps.Font.Size.Content">14</System:Double>
+    <System:Double x:Key="MahApps.Font.Size.Button.Flat">15</System:Double>
+    <System:Double x:Key="MahApps.Font.Size.TabItem">16.67</System:Double>
+    <System:Double x:Key="MahApps.Font.Size.Button">14</System:Double>
     <System:Double x:Key="MahApps.Font.Size.FloatingWatermark">10</System:Double>
     <System:Double x:Key="MahApps.Font.Size.Button.ClearText">16</System:Double>
 
@@ -33,7 +32,7 @@
 
     <System:Double x:Key="MahApps.Font.Size.StatusBar">13</System:Double>
 
-    <System:Double x:Key="MahApps.Font.Size.Dialog.Title">26</System:Double>
+    <System:Double x:Key="MahApps.Font.Size.Dialog.Title">126</System:Double>
     <System:Double x:Key="MahApps.Font.Size.Dialog.Message">15</System:Double>
 
     <System:Double x:Key="MahApps.Font.Size.Flyout.Header">20</System:Double>
@@ -42,17 +41,24 @@
     <System:Double x:Key="MahApps.Font.Size.ToggleSwitch.Header">16</System:Double>
     
 
-    
-    <!--
-    
-    
 
-    <Style TargetType="{x:Type TextBox}">
-        <Setter Property="Padding" Value="3,2" />
-    </Style>
-    <Style TargetType="{x:Type ComboBox}" >
-        <Setter Property="Padding" Value="3,5" />
+    <!-- Application Colors -->
+    <SolidColorBrush x:Key="BlueItem" Color="#0075d9" />
+    <SolidColorBrush x:Key="RedHighlight" Color="#FF2733" />
+    <SolidColorBrush x:Key="HeadlineColor" Color="#5BB3FF" />
+    
+    
+    <!--<Style BasedOn="{StaticResource MahApps.Styles.Button.Flat}" TargetType="{x:Type ButtonBase}" >
+        <Setter Property="Padding" Value="0 0 0 0" />
+        <Setter Property="Background" Value="Green" />
     </Style>-->
+
+    <Style TargetType="{x:Type TextBox}" BasedOn="{StaticResource MahApps.Styles.TextBox}">
+        <Setter Property="Padding" Value="3,6" />
+    </Style>
+    <Style TargetType="{x:Type ComboBox}" BasedOn="{StaticResource MahApps.Styles.ComboBox}">
+        <Setter Property="Padding" Value="6,6" />
+    </Style>
 
 
     <Style x:Key="SmallTextBox" TargetType="{x:Type TextBox}" >
@@ -66,6 +72,21 @@
                 <ScaleTransform ScaleX="0.85" ScaleY="0.85"/>
             </Setter.Value>
         </Setter>
+    </Style>
+
+    <Style TargetType="{x:Type Hyperlink}">
+        <Setter Property="Foreground" Value="{DynamicResource BlueItem}" />
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Foreground" Value="{DynamicResource RedHighlight}" />
+            </Trigger>
+            <Trigger Property="IsEnabled" Value="False">
+                <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}" />
+            </Trigger>
+            <Trigger Property="IsEnabled" Value="True">
+                <Setter Property="Cursor" Value="Hand" />
+            </Trigger>
+        </Style.Triggers>
     </Style>
 
 </ResourceDictionary>

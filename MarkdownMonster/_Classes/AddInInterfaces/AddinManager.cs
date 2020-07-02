@@ -200,7 +200,7 @@ namespace MarkdownMonster.AddIns
                                 Width = addinMenuItem.IconImageSource == null ? 18 : 19,
                             };
                             if (hasConfigMenu)
-                                titem.Padding = new Thickness(8, 4, 4, 4);
+                                titem.Padding = new Thickness(5, 4, 4, 4);
 
                             addinMenuItem.MenuItemButton = titem;
 
@@ -228,12 +228,13 @@ namespace MarkdownMonster.AddIns
                                                 addin.Model.Window.Foreground),                                    
                                         Height = 16,
                                         Width = 8,
-                                        Margin = new Thickness(0, 0, 0, 0)
+                                        Margin = new Thickness(0,0,0,0)
                                     },
                                     
                                     ToolTip = addinMenuItem.Caption + " Configuration",                                
                                 };
-                                tcitem.Padding = new Thickness(4,4,4,4);
+                                tcitem.Padding = new Thickness(2,4,2,4);
+                                tcitem.Margin = new Thickness(0,0,4,0);
 
                                 var ctxm = new ContextMenu();
                                 tcitem.ContextMenu = ctxm;
