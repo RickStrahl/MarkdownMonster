@@ -362,7 +362,7 @@ namespace MarkdownMonster
             }
             else
             {
-                ThemeManager.Current.ChangeTheme(Application.Current, "Light.Steel");
+                ThemeManager.Current.ChangeTheme(Application.Current, "Light.Blue");
 
                 var dragablzLightStyles = new Uri("Styles/DragablzGenericLight.xaml", UriKind.RelativeOrAbsolute);
                 Current.Resources.MergedDictionaries.Add(

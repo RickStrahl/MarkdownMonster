@@ -610,29 +610,14 @@ Markdown Monster v{version}
 
             if (Configuration.ApplicationTheme == Themes.Dark)
             {
-                var darkBrush = (SolidColorBrush) (new BrushConverter().ConvertFrom("#333"));
-                window.WindowTitleBrush = darkBrush;
-                window.NonActiveWindowTitleBrush = (SolidColorBrush) (new BrushConverter().ConvertFrom("#444"));
-                //(Brush) window.FindResource("MahApps.Brushes.ThemeBackground");
-
-                // Use a custom color for the Window Control Panel Button Items
-                if (isMainWindow)
-                {
-                    // override system control panel button colors
-                    var blueItem = App.Current.Resources["BlueItem"] as System.Windows.Media.Brush;
-                    foreach (var control in mmApp.Model.Window.WindowControlPanel.Children)
-                    {
-                        var c = control as Control;
-                        if (c == null)
-                            continue;
-
-                        c.Foreground = blueItem;
-                    }
-                }
+                window.WindowTitleBrush = (SolidColorBrush) new BrushConverter().ConvertFrom("#333");
+                window.NonActiveWindowTitleBrush = (SolidColorBrush) new BrushConverter().ConvertFrom("#444");
             }
             else
             {
                 // Light theme
+                window.WindowTitleBrush = (SolidColorBrush)new BrushConverter().ConvertFrom("#D4D9E7");
+                window.NonActiveWindowTitleBrush = (SolidColorBrush)(new BrushConverter().ConvertFrom("#eee"));
             }
         }
         #endregion

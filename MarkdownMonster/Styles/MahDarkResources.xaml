@@ -13,8 +13,8 @@
 
     <!-- Highlight Colors -->
     <SolidColorBrush x:Key="BlueItem" Color="#5BB3FF" />
+    <SolidColorBrush x:Key="ControlBoxBrush" Color="#5BB3FF" />
     <SolidColorBrush x:Key="SidebarHeaderBackground" Color="#555"/>
-
 
     <Style  x:Key="HeaderTextBoxStyle" TargetType="{x:Type TextBox}"
             BasedOn="{StaticResource {x:Type TextBox}}">

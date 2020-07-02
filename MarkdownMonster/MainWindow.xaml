@@ -53,13 +53,13 @@
         <controls:WindowCommands>
             <StackPanel Orientation="Horizontal" Name="WindowControlPanel">
 
-                <Button Name="ToolButtonAppTheme"                                                           
+                <Button Name="ToolButtonAppTheme" Foreground="{StaticResource ControlBoxBrush}"                                                  
                         ToolTip="Switch Application Theme"
                         Content="{Binding Configuration.ApplicationTheme}"
                         TextElement.FontSize="13" FontWeight="DemiBold">
                 </Button>
                 <Button 
-                        Margin="-10,0,0,0"
+                        Margin="-10,0,0,0" Foreground="{StaticResource ControlBoxBrush}"    
                         ToolTip="Switch Application Theme"                               
 				        fa:Awesome.Content="CaretDown" 			                             
 				        TextElement.FontSize="12" 
@@ -87,7 +87,7 @@
 
 
                 <ToggleButton
-                    fa:Awesome.Content="Check"                                                             
+                    fa:Awesome.Content="Check"  Foreground="{StaticResource ControlBoxBrush}"                                                                
                     IsChecked="{Binding Configuration.Editor.EnableSpellcheck}"
                     ToolTip="enable/disable spell-checking"
                     Command="{Binding Commands.SpellCheckCommand}"                          
@@ -105,21 +105,22 @@
                     
                 </ToggleButton>
 
-                <Button 
-                        Name="ButtonLanguages"
+                <Button Name="ButtonLanguages"
+                        Foreground="{StaticResource ControlBoxBrush}"    
                         Margin="-12,0,0,0"
                         FontSize="11"
-						ToolTip="Languages"                                
-				        fa:Awesome.Content="CaretDown" 		                             
-				        Click="ButtonLangugeDropDown_Click"
-				        TextElement.FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" 
-				>
+                        ToolTip="Languages"                                
+                        fa:Awesome.Content="CaretDown" 		                             
+                        Click="ButtonLangugeDropDown_Click"
+                        TextElement.FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" 
+                >
                     <b:Interaction.Behaviors>
                         <local:DropDownButtonBehavior  />
                     </b:Interaction.Behaviors>
                 </Button>
 
-                <ToggleButton Name="ToolButtonPreview"                                                            
+                <ToggleButton Name="ToolButtonPreview"    
+                              Foreground="{StaticResource ControlBoxBrush}"   
                               Margin="-5,0,0,0"
                                 IsChecked="{Binding IsPreviewBrowserVisible}"
                                 Command="{Binding Commands.TogglePreviewBrowserCommand}"                                  
@@ -129,13 +130,13 @@
                                 TextElement.FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome">
                 </ToggleButton>
 
-                <Button 
-                        Margin="-10,0,0,0"
-						ToolTip="Preview Modes"                                
-				        fa:Awesome.Content="CaretDown" 		                             
-				        TextElement.FontSize="12" 
-				        TextElement.FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" 
-				>
+                <Button Margin="-10,0,0,0"
+                        Foreground="{StaticResource ControlBoxBrush}"   
+                        ToolTip="Preview Modes"                                
+                        fa:Awesome.Content="CaretDown" 		                             
+                        TextElement.FontSize="12" 
+                        TextElement.FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" 
+                >
                     <b:Interaction.Behaviors>
                         <local:DropDownButtonBehavior />
                     </b:Interaction.Behaviors>
@@ -164,7 +165,8 @@
 
                 </Button>
 
-                <ToggleButton Name="ToolButtonFullScreen" 			              
+                <ToggleButton Name="ToolButtonFullScreen" 		
+                              Foreground="{StaticResource ControlBoxBrush}"   
                               Margin="-4,0,0,0"
                                       IsChecked="{Binding IsFullScreen}"
                                       Command="{Binding Commands.DistractionFreeModeCommand}"                                                 
@@ -173,6 +175,7 @@
                                 TextElement.FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome"      
                                       />
                 <ToggleButton Name="ToolButtonPresentationMode"
+                              Foreground="{StaticResource ControlBoxBrush}"   
                                       IsChecked="{Binding IsPresentationMode}"
                                       Command="{Binding Commands.PresentationModeCommand}"                                                 
                                       ToolTip="toggle presentation mode (F11)"
@@ -183,6 +186,7 @@
                
 
                 <Button Name="ToolButtonSettings"
+                        Foreground="{StaticResource ControlBoxBrush}"   
                         Command="{Binding Commands.SettingsVisualCommand}"
                         fa:Awesome.Content="Gear" 
                         ToolTip="Configuration Settings for Markdown Monster"                        
@@ -190,6 +194,7 @@
 
                 <Button 
                     Margin="-4,0,0,0" Name="ButtonWindowSizes"
+                    Foreground="{StaticResource ControlBoxBrush}"   
                     Click="ButtonWindowSizesDropdown_Click"
                     fa:Awesome.Content="CaretDown"
                     FontSize="12"
