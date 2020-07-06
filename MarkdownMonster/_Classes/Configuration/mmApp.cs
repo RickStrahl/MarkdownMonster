@@ -616,8 +616,8 @@ Markdown Monster v{version}
             else
             {
                 // Light theme
-                window.WindowTitleBrush = (SolidColorBrush)new BrushConverter().ConvertFrom("#D4D9E7");
-                window.NonActiveWindowTitleBrush = (SolidColorBrush)(new BrushConverter().ConvertFrom("#eee"));
+                window.WindowTitleBrush = (SolidColorBrush)new BrushConverter().ConvertFrom("#CBD4EF");
+                window.NonActiveWindowTitleBrush = (SolidColorBrush)(new BrushConverter().ConvertFrom("#CBD4EF"));
             }
         }
         #endregion

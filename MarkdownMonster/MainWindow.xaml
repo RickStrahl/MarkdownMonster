@@ -656,7 +656,7 @@
                                 Command="{Binding Commands.NewDocumentCommand}" 
                                 ToolTip="New file (Ctrl+N)"                                
                                 fa:Awesome.Content="PlusCircle" 
-                                Foreground="SteelBlue"
+                                Foreground="{StaticResource BlueItem}"
                                 TextElement.FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" 
                                 />
 

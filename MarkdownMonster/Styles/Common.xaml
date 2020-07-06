@@ -17,7 +17,7 @@
     
     <System:Double x:Key="MahApps.Font.Size.Header">40</System:Double>
     <System:Double x:Key="MahApps.Font.Size.SubHeader">29.333</System:Double>
-    <System:Double x:Key="MahApps.Font.Size.Window.Title">16</System:Double>
+    <System:Double x:Key="MahApps.Font.Size.Window.Title">14.5</System:Double>
     <System:Double x:Key="MahApps.Font.Size.Default">16</System:Double>
     <System:Double x:Key="MahApps.Font.Size.Content">14</System:Double>
     <System:Double x:Key="MahApps.Font.Size.Button.Flat">15</System:Double>

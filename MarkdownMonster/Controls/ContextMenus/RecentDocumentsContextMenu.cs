@@ -101,9 +101,9 @@ namespace MarkdownMonster.Controls.ContextMenus
                 {
                     Text = path,
                     FontStyle = FontStyles.Italic,
-                    FontSize = 10.25,
-                    //Margin = new Thickness(0, 2, 0, 0),
-                    Foreground = lowlightColor
+                    FontSize = 10.35,
+                    //Margin = new Thickness(0, 1, 0, 0),
+                    Opacity = 0.80
                 });
 
 
@@ -112,7 +112,7 @@ namespace MarkdownMonster.Controls.ContextMenus
                     Header = content,
                     Command = Window.Model.Commands.OpenRecentDocumentCommand,
                     CommandParameter = file,
-                    Padding = new Thickness(0, 2, 0, 3)
+                    Padding = new Thickness(0, 1, 0, 3)
                 };
 
                 if (mode == RecentFileDropdownModes.ToolbarDropdown)
@@ -165,8 +165,8 @@ namespace MarkdownMonster.Controls.ContextMenus
                     {
                         Text = path,
                         FontStyle = FontStyles.Italic,
-                        FontSize = 10.25,
-                        Margin = new Thickness(0, 2, 0, 0),
+                        FontSize = 10.35,
+                        //Margin = new Thickness(0, 1, 0, 0),
                         Opacity = 0.8
                     });
 

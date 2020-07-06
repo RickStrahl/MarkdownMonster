@@ -6,6 +6,10 @@
                     xmlns:dragablz="http://dragablz.net/winfx/xaml/dragablz"
                     mc:Ignorable="options">
 
+    <!-- Highlight Colors -->
+    <SolidColorBrush x:Key="BlueItem" Color="#0D7EBE" />
+    <SolidColorBrush x:Key="ControlBoxBrush" Color="#222" />
+    <SolidColorBrush x:Key="SidebarHeaderBackground" Color="#eee"/>
 
     <!-- Menu Colors -->
     <SolidColorBrush x:Key="MahApps.Brushes.SubMenu.Border" Color="#ccc" />
@@ -13,11 +17,23 @@
     <!--<SolidColorBrush x:Key="MahApps.Brushes.MenuItem.SelectionFill" Color="#414141" />-->
 
     <!-- Title and StatusBar Foreground Color -->
-    <SolidColorBrush x:Key="MahApps.Brushes.IdealForeground" Color="#222" />
-  
-    <SolidColorBrush x:Key="BlueItem" Color="#0080FF" />
-    <SolidColorBrush x:Key="ControlBoxBrush" Color="#222" />
-    <SolidColorBrush x:Key="SidebarHeaderBackground" Color="#bbb"/>
+    <SolidColorBrush x:Key="MahApps.Brushes.IdealForeground" Color="#090909" />
+
+    <!-- Blueish VS Style Menu bar -->
+    <SolidColorBrush x:Key="MahApps.Brushes.Menu.Background" Color="#CBD4EF" options:Freeze="True" />
+    <SolidColorBrush x:Key="MahApps.Brushes.MenuItem.Background" Color="#CBD4EF" options:Freeze="True" />
+    <SolidColorBrush x:Key="MahApps.Brushes.ContextMenu.Background" Color="#CBD4EF" options:Freeze="True" />
+    <SolidColorBrush x:Key="MahApps.Brushes.SubMenu.Background" Color="#CBD4EF" options:Freeze="True" />
+    
+    <SolidColorBrush x:Key="MahApps.Brushes.MenuItem.SelectionFill" Color="#A3ADCB" options:Freeze="True" />
+    <SolidColorBrush x:Key="MahApps.Brushes.MenuItem.SelectionStroke" Color="#A6C5DD" options:Freeze="True" />
+
+    <SolidColorBrush x:Key="MahApps.Brushes.TopMenuItem.PressedFill" Color="#A3ADCB" options:Freeze="True" />
+    <SolidColorBrush x:Key="MahApps.Brushes.TopMenuItem.PressedStroke" Color="#A3ADCB" options:Freeze="True" />
+    <SolidColorBrush x:Key="MahApps.Brushes.TopMenuItem.SelectionStroke" Color="#A3ADCB" options:Freeze="True" />
+
+    <SolidColorBrush x:Key="MahApps.Brushes.T" Color="#A3ADCB" options:Freeze="True" />
+
 
     <Style  x:Key="HeaderTextBoxStyle" TargetType="{x:Type TextBox}"
             BasedOn="{StaticResource {x:Type TextBox}}">

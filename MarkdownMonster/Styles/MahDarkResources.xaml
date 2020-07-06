@@ -5,16 +5,18 @@
                     xmlns:dragablz="http://dragablz.net/winfx/xaml/dragablz"
                     mc:Ignorable="options">
 
+    <!-- Highlight Colors -->
+    <SolidColorBrush x:Key="BlueItem" Color="#5BB3FF" />
+    <SolidColorBrush x:Key="ControlBoxBrush" Color="#5BB3FF" />
+    <SolidColorBrush x:Key="SidebarHeaderBackground" Color="#555"/>
+
 
     <!-- Menu Colors -->
     <SolidColorBrush x:Key="MahApps.Brushes.SubMenu.Border" Color="#606060" />
     <SolidColorBrush x:Key="MahApps.Brushes.ContextMenu.Border" Color="#606060" />
     <SolidColorBrush x:Key="MahApps.Brushes.MenuItem.SelectionFill" Color="#414141" />
 
-    <!-- Highlight Colors -->
-    <SolidColorBrush x:Key="BlueItem" Color="#5BB3FF" />
-    <SolidColorBrush x:Key="ControlBoxBrush" Color="#5BB3FF" />
-    <SolidColorBrush x:Key="SidebarHeaderBackground" Color="#555"/>
+
 
     <Style  x:Key="HeaderTextBoxStyle" TargetType="{x:Type TextBox}"
             BasedOn="{StaticResource {x:Type TextBox}}">

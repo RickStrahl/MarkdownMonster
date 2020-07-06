@@ -102,18 +102,17 @@
         </Grid.RowDefinitions>
 
         <StackPanel Name="SearchPanel" Visibility="Collapsed">
-            <Grid Background="{StaticResource  SidebarHeaderBackground}">
+            <Grid Background="{StaticResource SidebarHeaderBackground}">
 
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="auto" />
                 </Grid.ColumnDefinitions>
-
                 
-                    <TextBlock Height="Auto" 
+                <TextBlock Height="Auto" 
                            Text="SEARCH" 
-                           FontWeight="Medium" FontSize="12"  Padding="4,5,2,5" />
-                
+                           FontWeight="Medium" FontSize="12"  
+                           Padding="4,5,2,5" />
 
                 <Button fa:Awesome.Content="Remove" Grid.Column="1" Background="Transparent"
                         Foreground="{DynamicResource BlueItem}" Padding="5,0,5,0"
@@ -168,7 +167,8 @@
                 <RowDefinition Name="ImagePreviewColumn"  Height="Auto"/>
             </Grid.RowDefinitions>
 
-            <Grid Background="{StaticResource  SidebarHeaderBackground}">
+            <Grid Background="{StaticResource SidebarHeaderBackground}">
+                
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="Auto" />

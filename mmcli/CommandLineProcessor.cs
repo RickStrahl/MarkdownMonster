@@ -37,7 +37,7 @@ namespace mmcli.CommandLine
             {
                 arg0 = CommandArgs[0].ToLower().TrimStart('-');
 
-                if (CommandArgs[0] == "-")
+                if (CommandArgs[0] == "-") // EXACT MATCH
                     arg0 = "-";
             }
 

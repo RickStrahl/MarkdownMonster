@@ -4,14 +4,17 @@
 [![Chocolatey](https://img.shields.io/chocolatey/dt/markdownmonster.svg)](https://chocolatey.org/packages/MarkdownMonster)
 [![Web Site](https://img.shields.io/badge/Markdown_Monster-WebSite-blue.svg)](https://markdownmonster.west-wind.com)
 
-### 1.24 
-*<small>not released yet</small>*
+### 1.23.12 
+*<small>July 6th, 2020</small>*
 
-* **Statusbar Tooltip**  
+* **Statusbar Text Tooltip**  
 The status bar now also shows a multi-line tooltip for extra long messages that might overflow the status bar area. 
 
-* **Switch to MahApps 2.0**  
+* **Switch to MahApps 2.1**  
 Switched MM to use latest MahApps Metro UI framework. This provides a number of enhancements plus better stability and consistency for many UI operations.
+
+* **Light Theme Enhancements**  
+In light of the MahApps update the light theme has seen a number of updates for better consistency and color contrast in a few areas.
 
 ### 1.23 
 *<small>June 9th</small>*
