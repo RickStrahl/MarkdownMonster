@@ -37,6 +37,13 @@
 		</Grid.RowDefinitions>
 
         <ToolBarPanel>
+            <ToolBarPanel.Resources>
+                <Style x:Key="{x:Static ToolBar.ButtonStyleKey}" TargetType="Button">
+                    <Setter Property="Margin" Value="0" />
+                    <Setter Property="Padding" Value="6,4"/>
+                    <Setter Property="FontSize" Value="17" />
+                </Style>
+            </ToolBarPanel.Resources>
             <StackPanel Orientation="Horizontal">
                 <ToolBar Padding="0,5,0,5" FontWeight="Normal" >
 
