@@ -88,7 +88,7 @@ namespace mmcli
             }
             catch 
             {
-                ConsoleHelper.WriteError("Failed: Couldn't read input file.");
+                ColorConsole.WriteError("Failed: Couldn't read input file.");
                 Processor.ConsoleFooter();
                 return;
             }
@@ -102,7 +102,7 @@ namespace mmcli
                 }
                 catch 
                 {
-                    ConsoleHelper.WriteError("Failed: Couldn't write output file.");
+                    ColorConsole.WriteError("Failed: Couldn't write output file.");
                     Processor.ConsoleFooter();
                     return;
                 }
@@ -111,7 +111,7 @@ namespace mmcli
                     ShellUtils.ExecuteProcess("markdownmonster.exe", $"'{outputFile}'");
 
 
-                ConsoleHelper.WriteSuccess($"Created Markdown file: {outputFile}");
+                ColorConsole.WriteSuccess($"Created Markdown file: {outputFile}");
 
                 Processor.ConsoleFooter();
             }
@@ -181,7 +181,7 @@ namespace mmcli
             }
             catch
             {
-                ConsoleHelper.WriteError("Failed: Couldn't read input file.");
+                ColorConsole.WriteError("Failed: Couldn't read input file.");
                 Processor.ConsoleFooter();
                 return;
             }
@@ -201,7 +201,7 @@ namespace mmcli
                     }
                     catch
                     {
-                        ConsoleHelper.WriteError("Failed: Couldn't convert Markdown document or generate output file.");
+                        ColorConsole.WriteError("Failed: Couldn't convert Markdown document or generate output file.");
                         Processor.ConsoleFooter();
                         return;
                     }
@@ -222,7 +222,7 @@ namespace mmcli
                     }
                     catch
                     {
-                        ConsoleHelper.WriteError("Failed: Couldn't write output file.");
+                        ColorConsole.WriteError("Failed: Couldn't write output file.");
                         Processor.ConsoleFooter();
                         return;
                     }
@@ -231,13 +231,13 @@ namespace mmcli
                 {
                     var packager = new Westwind.HtmlPackager.HtmlPackager();
                     if (!packager.PackageHtmlToFolder(outputFile, outputFile))
-                        ConsoleHelper.WriteLine("Failed: Create output folder.",ConsoleColor.Red);
+                        ColorConsole.WriteLine("Failed: Create output folder.",ConsoleColor.Red);
                 }
                 else if (renderMode == "zip")
                 {
                     var packager = new Westwind.HtmlPackager.HtmlPackager();
                     if (!packager.PackageHtmlToZipFile(Path.ChangeExtension(outputFile,"html"), Path.ChangeExtension(outputFile,"zip")))
-                        ConsoleHelper.WriteError("Failed: Couldn't create Packaged HTML Zip files.");
+                        ColorConsole.WriteError("Failed: Couldn't create Packaged HTML Zip files.");
 
                     try
                     {
@@ -249,7 +249,7 @@ namespace mmcli
 
             catch
             {
-                ConsoleHelper.WriteError("Failed: Couldn't write output file.");
+                ColorConsole.WriteError("Failed: Couldn't write output file.");
                 Processor.ConsoleFooter();
                 return;
             }
@@ -257,8 +257,8 @@ namespace mmcli
             if (Arguments.OpenOutputFile)
                 ShellUtils.GoUrl($"{outputFile}");
 
-            ConsoleHelper.WriteSuccess($"Created file: {outputFile}");
-            ConsoleHelper.WriteSuccess($" Output Mode: {Arguments.HtmlRenderMode}");
+            ColorConsole.WriteSuccess($"Created file: {outputFile}");
+            ColorConsole.WriteSuccess($" Output Mode: {Arguments.HtmlRenderMode}");
 
             Processor.ConsoleFooter();
         }

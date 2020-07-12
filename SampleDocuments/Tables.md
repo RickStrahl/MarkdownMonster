@@ -1,6 +1,6 @@
 ### Pipe Tables
 
-|                               | UMD                | CommonJS              | ES Module          |
+| UMD                | CommonJS              | ES Module          |
 |-------------------------------|--------------------|-----------------------|--------------------|
 | **Full**                      | vue.js             | vue.common.js         | vue.esm.js         |
 | **Runtime-only**              | vue.runtime.js     | vue.runtime.common.js | vue.runtime.esm.js |

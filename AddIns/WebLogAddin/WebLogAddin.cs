@@ -299,7 +299,7 @@ namespace WeblogAddin
 			}
 
 			meta.PostId = WeblogModel.ActivePost.PostId?.ToString();
-            
+
 			// retrieve the raw editor markdown
 			markdown = editor.MarkdownDocument.CurrentText;
 			meta.RawMarkdownBody = markdown;
@@ -719,9 +719,7 @@ namespace WeblogAddin
 			if (!string.IsNullOrEmpty(curText) &&
 				curText.Contains("permalink: ", StringComparison.InvariantCultureIgnoreCase))
 			{
-
-				MainMenuItem.Items.Add(new Separator());
-				mi = new MenuItem
+                mi = new MenuItem
 				{
 					Header = "Open Blog Post in _Browser",
 					Command = WeblogFormCommand,

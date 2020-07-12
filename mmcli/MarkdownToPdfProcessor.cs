@@ -78,7 +78,7 @@ namespace mmcli
             }
             catch
             {
-                ConsoleHelper.WriteError("Failed: Couldn't read input file.");
+                ColorConsole.WriteError("Failed: Couldn't read input file.");
                 Processor.ConsoleFooter();
                 return;
             }
@@ -99,7 +99,7 @@ namespace mmcli
             }
             catch (Exception ex)
             {
-                ConsoleHelper.WriteError("Failed: PDF output generation failed: " + ex.Message);
+                ColorConsole.WriteError("Failed: PDF output generation failed: " + ex.Message);
                 Processor.ConsoleFooter();
                 return;
             }
@@ -108,7 +108,7 @@ namespace mmcli
                 File.Delete(htmlFilename);
             }
 
-            ConsoleHelper.WriteSuccess("PDF file generated: " + outputFile);
+            ColorConsole.WriteSuccess("PDF file generated: " + outputFile);
             Processor.ConsoleFooter();
         }
     }

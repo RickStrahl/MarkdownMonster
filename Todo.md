@@ -1,15 +1,16 @@
-﻿# Markdown Monster ToDo List
+# Markdown Monster ToDo List
 
 ### Bugs
 
 
 ### Immediate
-* [ ] Addin Enabled/Disabled
+
+* [ ] Redesign the Addin Manager Load Behavior
+        * Addin Enabled/Disabled
+        * Check for Updates
+        * Check for incompatible versions
+        * Auto-Update?
 * [ ] Large, Large Document Performance  
-* [x] ~~Add ability to have a 'Navigation Only' refresh (no refresh, but navigation works so doc doesn't have to reload)~~
-* [x] Menu option/hotkey to manually do a 'Preview Refresh' 
-* [x] ~~Command Line to create HTML and PDF from Markdown Files~~
-* [x] ~~Add a CLI?~~
 
 ### Mid Term
 * [ ] Search for Blog Posts in Weblog Posts folder (walk tree and show titles)
@@ -20,6 +21,7 @@
 
 
 ### Consideration
+* [ ] Markua (Publishing) support
 * [ ] Check out ReverseMarkdown C# source - needs adjustments (lists, spacing)
 * [ ] reveal.js presentations
 * [ ] Research **R Markdown**, **AsciiDoc**

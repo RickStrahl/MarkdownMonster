@@ -59,7 +59,7 @@ namespace mmcli.CommandLine
                     UninstallSettings();
 
                     ConsoleHeader();
-                    ConsoleHelper.WriteLine("Markdown Monster Machine Wide Settings uninstalled.",ConsoleColor.Green);
+                    ColorConsole.WriteLine("Markdown Monster Machine Wide Settings uninstalled.",ConsoleColor.Green);
                     ConsoleFooter();
 
                     break;
@@ -69,7 +69,7 @@ namespace mmcli.CommandLine
                     mmApp.Configuration.Reset(); // forces exit
 
                     ConsoleHeader();
-                    ConsoleHelper.WriteLine("Markdown Monster Settings reset to defaults.",ConsoleColor.Green);
+                    ColorConsole.WriteLine("Markdown Monster Settings reset to defaults.",ConsoleColor.Green);
                     ConsoleFooter();
 
                     break;
@@ -107,7 +107,7 @@ namespace mmcli.CommandLine
                     }
                     catch (Exception ex)
                     {
-                        ConsoleHelper.WriteLine("Unable to set portable mode: " + ex.Message,ConsoleColor.Red);
+                        ColorConsole.WriteLine("Unable to set portable mode: " + ex.Message,ConsoleColor.Red);
                     }
 
                     ConsoleFooter();
@@ -123,11 +123,11 @@ namespace mmcli.CommandLine
                         mmApp.Configuration.CommonFolder = internalFolder; 
                         mmApp.Configuration.Write();
 
-                        ConsoleHelper.WriteLine("Removed Portable settings for this installation. Use `mm SetPortable` to reenable.",ConsoleColor.Green);
+                        ColorConsole.WriteLine("Removed Portable settings for this installation. Use `mm SetPortable` to reenable.",ConsoleColor.Green);
                     }
                     catch (Exception ex)
                     {
-                        ConsoleHelper.WriteLine($"Unable to delete portable settings switch file\r\n_IsPortable\r\n\r\n{ex.Message}",ConsoleColor.Red);
+                        ColorConsole.WriteLine($"Unable to delete portable settings switch file\r\n_IsPortable\r\n\r\n{ex.Message}",ConsoleColor.Red);
                     }
 
                     break;
@@ -142,12 +142,12 @@ namespace mmcli.CommandLine
                     {
                         if (! UnlockKey.Register(CommandArgs[1]))
                         {
-                            ConsoleHelper.WriteLine("Invalid registration code. Please pass a valid registration code.",ConsoleColor.Red);
+                            ColorConsole.WriteLine("Invalid registration code. Please pass a valid registration code.",ConsoleColor.Red);
                         }
                         else
                         {
-                            ConsoleHelper.WriteLine("Markdown Monster Registration successful.",ConsoleColor.Green);
-                            ConsoleHelper.WriteLine("Thank you for playing fair!",ConsoleColor.Green);
+                            ColorConsole.WriteLine("Markdown Monster Registration successful.",ConsoleColor.Green);
+                            ColorConsole.WriteLine("Thank you for playing fair!",ConsoleColor.Green);
                         }
                     }
 
@@ -238,7 +238,7 @@ mmcli markdowntopdf  -i ""<inputMarkdownFile>"" -o ""outputPdfFile"" -open
 
 For more detailed information please go to:";
             Console.WriteLine(help);
-            ConsoleHelper.WriteLine("https://markdownmonster.west-wind.com/docs/_5fp0xp68p.htm", ConsoleColor.DarkCyan);
+            ColorConsole.WriteLine("https://markdownmonster.west-wind.com/docs/_5fp0xp68p.htm", ConsoleColor.DarkCyan);
 
             ConsoleFooter();
         }
@@ -254,9 +254,9 @@ For more detailed information please go to:";
                 arg0 = CommandArgs[0].ToLower().TrimStart('-');
             
             var title = "Markdown Monster Console v" + typeof(MarkdownMonster.mmApp).Assembly.GetName().Version.ToString(3);
-            ConsoleHelper.WriteWrappedHeader(title);
+            ColorConsole.WriteWrappedHeader(title);
             Console.Write("Command: ");
-            ConsoleHelper.WriteLine(arg0,ConsoleColor.Cyan);
+            ColorConsole.WriteLine(arg0,ConsoleColor.Cyan);
         }
 
         /// <summary>
@@ -280,7 +280,7 @@ For more detailed information please go to:";
             mmFileUtils.EnsureSystemPath(uninstall: true);
             mmFileUtils.EnsureAssociations(uninstall: true);
 
-            ConsoleHelper.WriteLine("Permanent Markdown Monster settings have been uninstalled from the registry.",ConsoleColor.Green);
+            ColorConsole.WriteLine("Permanent Markdown Monster settings have been uninstalled from the registry.",ConsoleColor.Green);
 
             ConsoleFooter();
         }

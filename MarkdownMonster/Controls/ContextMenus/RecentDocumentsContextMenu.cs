@@ -28,7 +28,7 @@ namespace MarkdownMonster.Controls.ContextMenus
         /// </summary>
         public void UpdateRecentDocumentsContextMenu(RecentFileDropdownModes mode)
         {
-            var contextMenu = new ContextMenu { FontSize = 12.5, Padding = new Thickness(8) };
+            var contextMenu = new ContextMenu { FontSize = 12.5, Padding = new Thickness(0,8,8,8),  };
 
             if (mode == RecentFileDropdownModes.MenuDropDown)
                 Window.ButtonRecentFiles.Items.Clear();
@@ -40,33 +40,32 @@ namespace MarkdownMonster.Controls.ContextMenus
             var lowlightColor = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#aaa"));
 
 
-            if (true)
+            var headerContent = new StackPanel
             {
-                var content = new StackPanel
-                {
-                    Orientation = Orientation.Vertical
-                };
+                Orientation = Orientation.Vertical
+            };
 
-                // image/textblock panel
-                var panel = new StackPanel { Orientation = Orientation.Horizontal };
-                panel.Children.Add(new Image
-                {
-                    Source = ImageAwesome.CreateImageSource(FontAwesomeIcon.Star, Brushes.Goldenrod, 17),
-                    Height = 16
-                });
-                panel.Children.Add(new TextBlock
-                {
-                    Text = "Favorites...",
-                    FontWeight = FontWeights.SemiBold,
-                    Margin = new Thickness(5, 2, 0, 0)
-                });
-                content.Children.Add(panel);
+            // image/textblock panel
+            var headerPanel = new StackPanel { Orientation = Orientation.Horizontal };
+            headerPanel.Children.Add(new Image
+            {
+                Source = ImageAwesome.CreateImageSource(FontAwesomeIcon.Star, Brushes.Goldenrod, 17),
+                Height = 16
+            });
+            headerPanel.Children.Add(new TextBlock
+            {
+                Text = "Favorites...",
+                FontWeight = FontWeights.SemiBold,
+                Margin = new Thickness(5, 2, 0, 0)
+            });
+            headerContent.Children.Add(headerPanel);
 
-                mi = new MenuItem() { Header = content, Padding = new Thickness(0, 2, 0, 3) };
-                mi.Click += (o, args) => Window.OpenFavorites();
-                contextMenu.Items.Add(mi);
-                contextMenu.Items.Add(new Separator());
-            }
+            mi = new MenuItem() { Header = headerContent, Padding = new Thickness(0, 2, 0, 3) };
+            mi.Click += (o, args) => Window.OpenFavorites();
+            contextMenu.Items.Add(mi);
+
+            contextMenu.Items.Add(new Separator());
+
 
 
             mmApp.Configuration.CleanupRecentFilesAndFolders();
@@ -102,7 +101,7 @@ namespace MarkdownMonster.Controls.ContextMenus
                     Text = path,
                     FontStyle = FontStyles.Italic,
                     FontSize = 10.35,
-                    //Margin = new Thickness(0, 1, 0, 0),
+                    Margin = new Thickness(19, 0, 0, 2),
                     Opacity = 0.80
                 });
 
@@ -166,7 +165,7 @@ namespace MarkdownMonster.Controls.ContextMenus
                         Text = path,
                         FontStyle = FontStyles.Italic,
                         FontSize = 10.35,
-                        //Margin = new Thickness(0, 1, 0, 0),
+                        Margin = new Thickness(19, 1, 0, 0),
                         Opacity = 0.8
                     });
 

@@ -26,6 +26,13 @@
         </Grid.RowDefinitions>
 
         <ToolBarPanel Grid.Row ="0">
+            <ToolBarPanel.Resources>
+                <Style x:Key="{x:Static ToolBar.ButtonStyleKey}" TargetType="Button">
+                    <Setter Property="Margin" Value="0" />
+                    <Setter Property="Padding" Value="6,4"/>
+                    <Setter Property="FontSize" Value="17" />
+                </Style>
+            </ToolBarPanel.Resources>
             <StackPanel Orientation="Horizontal" >
                 <ToolBar >
                     <Button Name="ButtonExit" IsCancel="True" Click="ButtonExit_Click"
