@@ -1,6 +1,10 @@
-﻿using System.IO;
+﻿using System;
+using System.Drawing;
+using System.IO;
 using System.Web;
+using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Media.Imaging;
 using MarkdownMonster.Windows.DocumentOutlineSidebar;
 using Westwind.Utilities;
 
@@ -16,9 +20,113 @@ namespace MarkdownMonster.Windows.PreviewBrowser
         /// <param name="webBrowser"></param>
         public void ShowContextMenu(PositionAndDocumentType parms, AppModel model, WebBrowser webBrowser)
         {
+            
             var ctm = new ContextMenu();
+            MenuItem mi;
 
-            var mi = new MenuItem()
+            // Image Selected
+            if (!string.IsNullOrEmpty(parms.Src))
+            {
+                mi = new MenuItem()
+                {
+                    Header = "Copy Image to Clipboard"
+                };
+                mi.Click += (o, args) =>
+                {
+                    var image = HttpUtility.UrlDecode(parms.Src.Replace("file:///", ""));
+                    image = mmFileUtils.NormalizeFilenameWithBasePath(image,
+                        Path.GetDirectoryName(model.ActiveDocument.Filename));
+
+                    try
+                    {
+                        BitmapSource bmpSrc;
+                        using (var bmp = new Bitmap(image))
+                        {
+                            bmpSrc = WindowUtilities.BitmapToBitmapSource(bmp);
+                            Clipboard.SetImage(bmpSrc);
+                        }
+
+                        model.Window.ShowStatusSuccess("Image copied to clipboard.");
+                    }
+                    catch (Exception ex)
+                    {
+                        model.Window.ShowStatusError("Couldn't copy image to clipboard: " + ex.Message);
+                    }
+                };
+                ctm.Items.Add(mi);
+
+                mi = new MenuItem()
+                {
+                    Header = "Edit Image in Image editor"
+                };
+                mi.Click += (o, args) =>
+                {
+                    var image = HttpUtility.UrlDecode(parms.Src.Replace("file:///", ""));
+                    image = mmFileUtils.NormalizeFilenameWithBasePath(image,
+                        Path.GetDirectoryName(model.ActiveDocument.Filename));
+                    mmFileUtils.OpenImageInImageEditor(image);
+                };
+                ctm.Items.Add(mi);
+
+                ctm.Items.Add(new Separator());
+            }
+
+            
+            // HREF link selected
+            if (!string.IsNullOrEmpty(parms.Href))
+            {
+                // Navigate relative hash links in the document
+                if (parms.Href.StartsWith("#") && parms.Href.Length > 1)
+                {
+                    var docModel = new DocumentOutlineModel();
+                    int lineNo = docModel.FindHeaderHeadline(model.ActiveEditor?.GetMarkdown(), parms.Href?.Substring(1));
+                    if (lineNo > -1)
+                    {
+                        mi = new MenuItem()
+                        {
+                            Header = "Jump to: " + parms.Href, CommandParameter = parms.Href.Substring(1)
+                        };
+                        mi.Click += (s, e) =>
+                        {
+                            var mitem = s as MenuItem;
+
+                            var anchor = mitem.CommandParameter as string;
+                            if (string.IsNullOrEmpty(anchor))
+                                return;
+
+                            docModel = new DocumentOutlineModel();
+                            lineNo = docModel.FindHeaderHeadline(model.ActiveEditor?.GetMarkdown(), anchor);
+
+                            if (lineNo != -1)
+                                model.ActiveEditor.GotoLine(lineNo);
+                        };
+                        ctm.Items.Add(mi);
+
+                        ctm.Items.Add(new Separator());
+                    }
+                }
+            }
+
+            // ID to clipboard
+            if (!string.IsNullOrEmpty(parms.Id))
+            {
+                mi = new MenuItem()
+                {
+                    Header = "Copy Id to Clipboard: #" + parms.Id,
+
+                };
+                mi.Click += (s, e) =>
+                {
+                    ClipboardHelper.SetText("#" + parms.Id);
+                    model.Window.ShowStatusSuccess("'#" + parms.Id + "' copied to the clipboard.");
+                };
+                ctm.Items.Add(mi);
+
+                ctm.Items.Add(new Separator());
+            }
+
+
+            mi = new MenuItem()
             {
                 Header = "View in Web _Browser",
                 Command = model.Commands.ViewInExternalBrowserCommand,
@@ -65,84 +173,9 @@ namespace MarkdownMonster.Windows.PreviewBrowser
             };
             ctm.Items.Add(mi);
 
-            bool separatorAdded = false;
 
-            if (!string.IsNullOrEmpty(parms.Id))
-            {
-                ctm.Items.Add(new Separator());
-                separatorAdded = true;
-
-                mi = new MenuItem()
-                {
-                    Header = "Copy Id to Clipboard: #" + parms.Id,
-
-                };
-                mi.Click += (s, e) =>
-                {
-                    ClipboardHelper.SetText("#" + parms.Id);
-                };
-                ctm.Items.Add(mi);
-            }
-
-            if (!string.IsNullOrEmpty(parms.Src))
-            {
-                if (!separatorAdded)
-                {
-                    ctm.Items.Add(new Separator());
-                    separatorAdded = true;
-                }
-
-                mi = new MenuItem()
-                {
-                    Header = "Edit Image in Image editor"
-                };
-                mi.Click += (o, args) =>
-                {
-                    var image = HttpUtility.UrlDecode(parms.Src.Replace("file:///", ""));
-                    image = mmFileUtils.NormalizeFilenameWithBasePath(image,
-                        Path.GetDirectoryName(model.ActiveDocument.Filename));
-                    mmFileUtils.OpenImageInImageEditor(image);
-                };
-                ctm.Items.Add(mi);
-            }
-
-            if (!string.IsNullOrEmpty(parms.Href))
-            {
-                // Navigate relative hash links in the document
-                if (parms.Href.StartsWith("#") && parms.Href.Length > 1)
-                {
-                    if (!separatorAdded)
-                    {
-                        ctm.Items.Add(new Separator());
-                        separatorAdded = true;
-                    }
-
-                    var docModel = new DocumentOutlineModel();
-                    int lineNo = docModel.FindHeaderHeadline(model.ActiveEditor?.GetMarkdown(), parms.Href?.Substring(1));
-                    if (lineNo > -1)
-                    {
-                        mi = new MenuItem()
-                        {
-                            Header = "Jump to: " + parms.Href, CommandParameter = parms.Href.Substring(1)
-                        };
-                        mi.Click += (s, e) =>
-                        {
-                            var mitem = s as MenuItem;
-
-                            var anchor = mitem.CommandParameter as string;
-                            if (string.IsNullOrEmpty(anchor))
-                                return;
-
-                            docModel = new DocumentOutlineModel();
-                            lineNo = docModel.FindHeaderHeadline(model.ActiveEditor?.GetMarkdown(), anchor);
-
-                            if (lineNo != -1)
-                                model.ActiveEditor.GotoLine(lineNo);
-                        };
-                        ctm.Items.Add(mi);
-                    }
-                }
-            }
+           
+           
 
 
             ctm.Items.Add(new Separator());

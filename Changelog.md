@@ -4,6 +4,17 @@
 [![Chocolatey](https://img.shields.io/chocolatey/dt/markdownmonster.svg)](https://chocolatey.org/packages/MarkdownMonster)
 [![Web Site](https://img.shields.io/badge/Markdown_Monster-WebSite-blue.svg)](https://markdownmonster.west-wind.com)
 
+### 1.24
+
+* **Copy Image to Clipboard from Preview**  
+You can now copy an image to the clipboard from the Previewer.
+
+* **Refactor Preview Context Menu UI**  
+Change the order of context menu items to show the most context sensitive items on top. Options like *Copy/Edit Image* and *Copy Id to Clipboard* now show on top of the menu.
+
+* **Fix Recent Documents Dropdrown Layout**  
+Cleaned up the layout of recent menu lists on the Recent Files menu, and on the startup page.
+
 ### 1.23.12 
 *<small>July 6th, 2020</small>*
 
