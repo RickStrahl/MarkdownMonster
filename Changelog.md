@@ -4,7 +4,7 @@
 [![Chocolatey](https://img.shields.io/chocolatey/dt/markdownmonster.svg)](https://chocolatey.org/packages/MarkdownMonster)
 [![Web Site](https://img.shields.io/badge/Markdown_Monster-WebSite-blue.svg)](https://markdownmonster.west-wind.com)
 
-### 1.22.14
+### 1.23.14
 <small>not released yet</small>
 
 * **Copy Image to Clipboard from Preview**  
@@ -13,11 +13,14 @@ You can now copy an image to the clipboard from the Previewer.
 * **Refactor Preview Context Menu UI**  
 Change the order of context menu items to show the most context sensitive items on top. Options like *Copy/Edit Image* and *Copy Id to Clipboard* now show on top of the menu.
 
+* **Improved Application Title Bar Configuration Options**  
+The title bar now has a new `TitlebarDisplayMode` configuration property that has options for displaying, just the filename, the full path, or the filename plus the parent path on the title bar. Tabs continue to display the filename by default and the filename plus parent path *if multiple files with the same name are open*. The new option to display filename plus parent path makes it easier to differentiate documents in the task bar.
+
+* **Paste Improvements**  
+Updated the paste behavior to use native editor paste behavior for text while deferring images and file paste operations to the Editor shell. This improves paste performance and fixes rare paste operation failures.
+
 * **Fix Recent Documents Dropdrown Layout**  
 Cleaned up the layout of recent menu lists on the Recent Files menu, and on the startup page.
-
-### 1.23.12 
-*<small>July 6th, 2020</small>*
 
 * **Statusbar Text Tooltip**  
 The status bar now also shows a multi-line tooltip for extra long messages that might overflow the status bar area. 
@@ -46,11 +49,8 @@ Markdown Monster now installs a `markdownmonster:` Application Protocol Handler 
 * **[Built-in local Web Server to allow Browsers Open Text Markdown Monster](https://markdownmonster.west-wind.com/docs/_5s1009yx1.htm)**  
 Added WebSocket support to allow opening Markdown text in MM via a browser connection. Socket server listens to incoming document requests and if sent opens a specific document. This is similar to the `markdownmonster:untitled` functionality recently added, but unlike Application Protocols which are limited to 2046 bytes of data, this mechanism allows for large Markdown content to be opened in MM. The WebSocket Server  is disabled by default and can be auto-started whenever MM starts via the `WebSocket.AutoStart` configuration switch.
 
-* **Improved Application Title Bar Configuration Options**  
-The title bar now has a new `TitlebarDisplayMode` configuration property that has options for displaying, just the filename, the full path, or the filename plus the parent path on the title bar. Tabs continue to display the filename by default and the filename plus parent path *if multiple files with the same name are open*. The new option to display filename plus parent path makes it easier to differentiate documents in the task bar.
-
 * **Document Syntax Improvements**  
-The Document object now internally tracks the editor sytnax associated with it. It is assigned based on the filename extension and mapped to editor associations - just as before. But the Syntax is now separately tracked from the doc type, so that you can change the syntax and affect editor and preview behavior. It's now possible to use the Preview with with `.txt` files for example, if the syntax is set to `markdown`.
+The Document object now internally tracks the editor syntax associated with it. It is assigned based on the filename extension and mapped to editor associations - just as before. But the Syntax is now separately tracked from the doc type, so that you can change the syntax and affect editor and preview behavior. It's now possible to use the Preview with with `.txt` files for example, if the syntax is set to `markdown`.
 
 * **Improve Configuration Backups to Folder**  
 Updated folder backups to choose the Configuration folder `.\backups` sub-folder for folder backups. You can now pick a path and the backup is created as a subfolder **below** that folder in the format of `yyyy-MM-dd-Markdown-Monster-Backup`.
@@ -58,8 +58,7 @@ Updated folder backups to choose the Configuration folder `.\backups` sub-folder
 * **Text Only Linking (Ctrl-Shift-K) Improvements**  
 When using the text only link shortcut Markdown Monster now automatically pastes and selects URLs from the clipboard. If there's a URL on the clipboard (any https link) it will be automatically injected.
 
-* **Paste Improvements**  
-Updated the paste behavior to use native editor paste behavior for text while deferring images and file paste operations to the Editor shell. This improves paste performance and fixes rare paste operation failures.
+
 
 * **Switch to embedded Debug Symbols**  
 Debug information is now embedded in the Exe. Removes the original pdb file and reduces distribution footprint by a 1.8mb.
