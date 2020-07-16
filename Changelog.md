@@ -5,7 +5,7 @@
 [![Web Site](https://img.shields.io/badge/Markdown_Monster-WebSite-blue.svg)](https://markdownmonster.west-wind.com)
 
 ### 1.23.14
-<small>not released yet</small>
+<small>July 16th, 2020</small>
 
 * **Copy Image to Clipboard from Preview**  
 You can now copy an image to the clipboard from the Previewer.
