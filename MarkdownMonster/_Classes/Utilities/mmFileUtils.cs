@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.SqlTypes;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Runtime.InteropServices;
 using System.Security.Cryptography;
 using System.Text;
@@ -336,21 +338,36 @@ namespace MarkdownMonster
         /// <summary>
         /// Opens an image in the configured image editor
         /// </summary>
-        /// <param name="imageFile"></param>
-        public static bool OpenImageInImageEditor(string imageFile)
+        /// <param name="imageFileOrUrl"></param>
+        public static bool OpenImageInImageEditor(string imageFileOrUrl)
         {
-            imageFile = System.Net.WebUtility.UrlDecode(imageFile);
+            if(string.IsNullOrEmpty(imageFileOrUrl))
+                return false;
+
+
+            if (imageFileOrUrl.StartsWith("https://") || imageFileOrUrl.StartsWith("https://"))
+            {
+                var imageFile = HttpUtils.DownloadImageToFile(imageFileOrUrl);
+
+                if(imageFile == null)
+                    return false;
+
+                imageFileOrUrl = imageFile;
+            }
+
+            imageFileOrUrl = WebUtility.UrlDecode(imageFileOrUrl);
+            
 
             try
             {
                 string exe = mmApp.Configuration.Images.ImageEditor;
                 if (!string.IsNullOrEmpty(exe))
-                    Process.Start(new ProcessStartInfo(exe, $"\"{imageFile}\""));
+                    Process.Start(new ProcessStartInfo(exe, $"\"{imageFileOrUrl}\""));
                 else
                 {
                     Process.Start(new ProcessStartInfo
                     {
-                        FileName = imageFile,
+                        FileName = imageFileOrUrl,
                         UseShellExecute = true,
                         Verb = "Edit"
                     });
@@ -363,6 +380,7 @@ namespace MarkdownMonster
 
             return true;
         }
+
 
         /// <summary>
         /// Opens an image in the configured image viewer.

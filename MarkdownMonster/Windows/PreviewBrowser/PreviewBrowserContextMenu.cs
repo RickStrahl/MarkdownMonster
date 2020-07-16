@@ -33,9 +33,25 @@ namespace MarkdownMonster.Windows.PreviewBrowser
                 };
                 mi.Click += (o, args) =>
                 {
-                    var image = HttpUtility.UrlDecode(parms.Src.Replace("file:///", ""));
-                    image = mmFileUtils.NormalizeFilenameWithBasePath(image,
-                        Path.GetDirectoryName(model.ActiveDocument.Filename));
+                    string image = null;
+                    bool deleteFile = false;
+
+                    if (parms.Src.StartsWith("https://") || parms.Src.StartsWith("http://"))
+                    {
+                        image = HttpUtils.DownloadImageToFile(parms.Src);
+                        if (string.IsNullOrEmpty(image))
+                        {
+                            model.Window.ShowStatusError("Unable to copy image from URL to clipboard: " + parms.Src);
+                            return;
+                        }
+                        deleteFile = true;
+                    }
+                    else
+                    {
+                        image = new Uri(parms.Src).LocalPath;
+                        image = mmFileUtils.NormalizeFilenameWithBasePath(image,
+                            Path.GetDirectoryName(model.ActiveDocument.Filename));
+                    }
 
                     try
                     {
@@ -52,6 +68,11 @@ namespace MarkdownMonster.Windows.PreviewBrowser
                     {
                         model.Window.ShowStatusError("Couldn't copy image to clipboard: " + ex.Message);
                     }
+                    finally
+                    {
+                        if (deleteFile && File.Exists(image))
+                            File.Delete(image);
+                    }
                 };
                 ctm.Items.Add(mi);
 
@@ -61,9 +82,23 @@ namespace MarkdownMonster.Windows.PreviewBrowser
                 };
                 mi.Click += (o, args) =>
                 {
-                    var image = HttpUtility.UrlDecode(parms.Src.Replace("file:///", ""));
-                    image = mmFileUtils.NormalizeFilenameWithBasePath(image,
-                        Path.GetDirectoryName(model.ActiveDocument.Filename));
+                    string image = null;
+                    if (parms.Src.StartsWith("https://") || parms.Src.StartsWith("http://"))
+                    {
+                        image = HttpUtils.DownloadImageToFile(parms.Src);
+                        if (string.IsNullOrEmpty(image))
+                        {
+                            model.Window.ShowStatusError("Unable to copy image from URL to clipboard: " + parms.Src);
+                            return;
+                        }
+                    }
+                    else
+                    {
+                        image = new Uri(parms.Src).LocalPath;
+                        image = mmFileUtils.NormalizeFilenameWithBasePath(image,
+                            Path.GetDirectoryName(model.ActiveDocument.Filename));
+                    }
+         
                     mmFileUtils.OpenImageInImageEditor(image);
                 };
                 ctm.Items.Add(mi);
