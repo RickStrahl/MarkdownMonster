@@ -7,6 +7,9 @@ namespace mmcli.CommandLine
     /// <summary>
     /// Console Color Helper class that provides coloring to individual commands
     /// </summary>
+    /// <summary>
+    /// Console Color Helper class that provides coloring to individual commands
+    /// </summary>
     public static class ColorConsole
     {
         /// <summary>
@@ -16,14 +19,20 @@ namespace mmcli.CommandLine
         /// <param name="color"></param>
         public static void WriteLine(string text, ConsoleColor? color = null)
         {
-            var oldColor = System.Console.ForegroundColor;
-
-            if (color != null)
-                Console.ForegroundColor = color.Value;
-
-            Console.WriteLine(text);
-
-            Console.ForegroundColor = oldColor;
+            if (color.HasValue)
+            {
+                var oldColor = System.Console.ForegroundColor;
+                if (color == oldColor)
+                    Console.WriteLine(text);
+                else
+                {
+                    Console.ForegroundColor = color.Value;
+                    Console.WriteLine(text);
+                    Console.ForegroundColor = oldColor;
+                }
+            }
+            else
+                Console.WriteLine(text);
         }
 
         /// <summary>
@@ -56,14 +65,20 @@ namespace mmcli.CommandLine
         /// <param name="color"></param>
         public static void Write(string text, ConsoleColor? color = null)
         {
-            var oldColor = Console.ForegroundColor;
-
-            if (color != null)
-                Console.ForegroundColor = color.Value;
-
-            Console.Write(text);
-
-            Console.ForegroundColor = oldColor;
+            if (color.HasValue)
+            {
+                var oldColor = System.Console.ForegroundColor;
+                if (color == oldColor)
+                    Console.Write(text);
+                else
+                {
+                    Console.ForegroundColor = color.Value;
+                    Console.Write(text);
+                    Console.ForegroundColor = oldColor;
+                }
+            }
+            else
+                Console.Write(text);
         }
 
         /// <summary>
@@ -104,30 +119,34 @@ namespace mmcli.CommandLine
         /// <param name="headerColor">Color for header text (yellow)</param>
         /// <param name="dashColor">Color for dashes (gray)</param>
         public static void WriteWrappedHeader(string headerText,
-                                                char wrapperChar = '-',
-                                                ConsoleColor headerColor = ConsoleColor.Yellow,
-                                                ConsoleColor dashColor = ConsoleColor.DarkGray)
+            char wrapperChar = '-',
+            ConsoleColor headerColor = ConsoleColor.Yellow,
+            ConsoleColor dashColor = ConsoleColor.DarkGray)
         {
             if (string.IsNullOrEmpty(headerText))
                 return;
 
             string line = new string(wrapperChar, headerText.Length);
 
-            WriteLine(line,dashColor);
+            WriteLine(line, dashColor);
             WriteLine(headerText, headerColor);
-            WriteLine(line,dashColor);
+            WriteLine(line, dashColor);
         }
+
+        private static Lazy<Regex> colorBlockRegEx = new Lazy<Regex>(
+            () => new Regex("\\[(?<color>.*?)\\](?<text>[^[]*)\\[/\\k<color>\\]", RegexOptions.IgnoreCase),
+            isThreadSafe: true);
 
         /// <summary>
         /// Allows a string to be written with embedded color values using:
         /// This is [red]Red[/red] text and this is [cyan]Blue[/blue] text
         /// </summary>
         /// <param name="text">Text to display</param>
-        /// <param name="color">Base text color</param>
-        public static void WriteEmbeddedColorLine(string text, ConsoleColor? color = null)
+        /// <param name="baseTextColor">Base text color</param>
+        public static void WriteEmbeddedColorLine(string text, ConsoleColor? baseTextColor = null)
         {
-            if (color == null)
-                color = Console.ForegroundColor;
+            if (baseTextColor == null)
+                baseTextColor = Console.ForegroundColor;
 
             if (string.IsNullOrEmpty(text))
             {
@@ -139,25 +158,25 @@ namespace mmcli.CommandLine
             int at2 = text.IndexOf("]");
             if (at == -1 || at2 <= at)
             {
-                WriteLine(text, color);
+                WriteLine(text, baseTextColor);
                 return;
             }
 
             while (true)
             {
-                var match = Regex.Match(text,"\\[.*?\\].*?\\[/.*?\\]");
+                var match = colorBlockRegEx.Value.Match(text);
                 if (match.Length < 1)
                 {
-                    Write(text, color);
+                    Write(text, baseTextColor);
                     break;
                 }
 
                 // write up to expression
-                Write(text.Substring(0, match.Index), color);
+                Write(text.Substring(0, match.Index), baseTextColor);
 
                 // strip out the expression
-                string highlightText = ExtractString(text, "]", "[");
-                string colorVal = ExtractString(text, "[", "]");
+                string highlightText = match.Groups["text"].Value;
+                string colorVal = match.Groups["color"].Value;
 
                 Write(highlightText, colorVal);
 
@@ -180,7 +199,7 @@ namespace mmcli.CommandLine
         {
             WriteLine(text, ConsoleColor.Green);
         }
-        
+
         /// <summary>
         /// Write a Error Line - Red
         /// </summary>
@@ -210,36 +229,6 @@ namespace mmcli.CommandLine
         }
 
         #endregion
-     
-        
-        private static string ExtractString(this string source,
-            string beginDelim,
-            string endDelim,
-            bool allowMissingEndDelimiter = false,
-            bool returnDelimiters = false)
-        {
-            int at1, at2;
-
-            if (string.IsNullOrEmpty(source))
-                return string.Empty;
-
-            at1 = source.IndexOf(beginDelim, 0, source.Length, StringComparison.OrdinalIgnoreCase);
-            if (at1 == -1)
-                return string.Empty;
-
-            at2 = source.IndexOf(endDelim, at1 + beginDelim.Length, StringComparison.OrdinalIgnoreCase);
-
-
-            if (at1 > -1 && at2 > 1)
-            {
-                if (!returnDelimiters)
-                    return source.Substring(at1 + beginDelim.Length, at2 - at1 - beginDelim.Length);
-
-                return source.Substring(at1, at2 - at1 + endDelim.Length);
-            }
-
-            return string.Empty;
-        }
     }
 
 }
