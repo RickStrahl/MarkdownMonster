@@ -44,7 +44,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SnippetsAddin", "AddIns\Sni
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "mmcli", "mmcli\mmcli.csproj", "{7988EAEE-66D7-4AAF-BCDC-BD191FD18D71}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "mm", "Install\MarkdownMonsterLaunchMM\mm\mm.csproj", "{3D075262-82A0-4F22-A6BA-90FFFC769891}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "mm", "Install\MarkdownMonsterLaunchMM\mm\mm.csproj", "{3D075262-82A0-4F22-A6BA-90FFFC769891}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SupportProjects", "SupportProjects", "{D7DD7DBF-5809-40D3-8734-6C28178104E8}"
 	ProjectSection(SolutionItems) = preProject

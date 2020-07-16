@@ -2,9 +2,9 @@
 & "$PSScriptRoot\CopyFiles.ps1"
 
 "Signing binaries..."
-& ".\signtool.exe" sign /v /n "West Wind Technologies" /sm /s MY /tr "http://timestamp.digicert.com" /td SHA256 /fd SHA256 ".\Distribution\MarkdownMonster.exe"
-& ".\signtool.exe" sign /v /n "West Wind Technologies" /sm /s MY /tr "http://timestamp.digicert.com" /td SHA256 /fd SHA256 ".\Distribution\mm.exe"
-& ".\signtool.exe" sign /v /n "West Wind Technologies" /sm /s MY /tr "http://timestamp.digicert.com" /td SHA256 /fd SHA256 ".\Distribution\mmcli.exe"
+& ".\signtool.exe" sign /v /n "West Wind Technologies"  /tr "http://timestamp.digicert.com" /td SHA256 /fd SHA256 ".\Distribution\MarkdownMonster.exe"
+& ".\signtool.exe" sign /v /n "West Wind Technologies"  /tr "http://timestamp.digicert.com" /td SHA256 /fd SHA256 ".\Distribution\mm.exe"
+& ".\signtool.exe" sign /v /n "West Wind Technologies"  /tr "http://timestamp.digicert.com" /td SHA256 /fd SHA256 ".\Distribution\mmcli.exe"
 
 
 # Remove unused Roslyn Executables
@@ -28,7 +28,7 @@ out-file -filepath ".\Distribution\wkhtmltopdf.exe.ignore"  -inputobject ""
 & "C:\Program Files (x86)\Inno Setup 5\iscc.exe" "MarkdownMonster.iss" 
 
 "Signing the main EXE..."
-& ".\signtool.exe" sign /v /n "West Wind Technologies" /sm  /tr "http://timestamp.digicert.com" /td SHA256 /fd SHA256 ".\Builds\CurrentRelease\MarkdownMonsterSetup.exe"
+& ".\signtool.exe" sign /v /n "West Wind Technologies"  /tr "http://timestamp.digicert.com" /td SHA256 /fd SHA256 ".\Builds\CurrentRelease\MarkdownMonsterSetup.exe"
 
 "Zipping up setup file..."
 del ".\Builds\CurrentRelease\MarkdownMonsterSetup.zip"
