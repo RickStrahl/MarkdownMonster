@@ -145,7 +145,8 @@ namespace MarkdownMonster.Utilities
             return false;
         }
 
-        const string DictionaryDownloadUrl = "https://raw.githubusercontent.com/wooorm/dictionaries/master/dictionaries/{0}/index.dic";
+        const string DictionaryDownloadUrl = "https://raw.githubusercontent.com/wooorm/dictionaries/main/dictionaries/{0}/index.dic";
+
 
         /// <summary>
         /// Downloads a dictionary file for a given language
@@ -205,7 +206,8 @@ namespace MarkdownMonster.Utilities
             var wc = new WebClient();
             wc.Encoding = Encoding.UTF8;
 
-            var url = $"https://raw.githubusercontent.com/wooorm/dictionaries/master/dictionaries/{language}/license";
+            var url = $"https://raw.githubusercontent.com/wooorm/dictionaries/main/dictionaries/{language}/license";
+            
             var dd = DictionaryDownloads.FirstOrDefault(dx => dx.Code == language);
             if (!string.IsNullOrEmpty(dd?.CustomDownloadUrlForLicense))
                 url = dd.CustomDownloadUrlForLicense;
@@ -217,6 +219,7 @@ namespace MarkdownMonster.Utilities
             }
             catch
             {
+                mmApp.Model.Window.ShowStatusError($"Failed to download dictionary for '{language} from {url}");
                 return false;
             }
 
@@ -237,7 +240,7 @@ namespace MarkdownMonster.Utilities
 
         public static string GetDictionaryListStringFromWebSite()
         {
-            var url = "https://raw.githubusercontent.com/wooorm/dictionaries/master/readme.md";
+            var url = "https://raw.githubusercontent.com/wooorm/dictionaries/main/readme.md";
 
             string html = HttpUtils.HttpRequestString(url);
             var data = StringUtils.ExtractString(html, "| ---- | ----------- | ------- |", "<!--support end-->").Trim();
