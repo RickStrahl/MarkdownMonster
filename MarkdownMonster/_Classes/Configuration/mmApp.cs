@@ -567,30 +567,11 @@ Markdown Monster v{version}
 
             if (theme == Themes.Light)
             {
-                //// get the current app style (theme and accent) from the application
-                //// you can then use the current theme and custom accent instead set a new theme
-                //Tuple<AppTheme, Accent> appStyle = ThemeManager..DetectAppStyle(Application.Current);
-
                 ThemeManager.Current.ChangeThemeColorScheme(Application.Current, "Light.Blue");
-
-                //// now set the Green accent and light theme
-                //ThemeManager.ChangeAppStyle(Application.Current,
-                //    ThemeManager.GetAccent("MahLight"),
-                //    ThemeManager.GetAppTheme("BaseLight")); // or appStyle.Item1
             }
             else
             {
                 ThemeManager.Current.ChangeThemeColorScheme(Application.Current, "Dark.Blue");
-
-                //// get the current app style (theme and accent) from the application
-                //// you can then use the current theme and custom accent instead set a new theme
-                //Tuple<AppTheme, Accent> appStyle = ThemeManager.DetectAppStyle(Application.Current);
-
-
-                //// now set the highlight accent and dark theme
-                //ThemeManager.ChangeAppStyle(Application.Current,
-                //    ThemeManager.GetAccent("Blue"),
-                //    ThemeManager.GetAppTheme("BaseDark")); // or appStyle.Item1
             }
 
             if (window != null)
@@ -599,10 +580,14 @@ Markdown Monster v{version}
         }
 
         /// <summary>
-        /// Overrides specific theme colors in the window header
+        /// Overrides specific colors in the active theme depending on the currently active theme.
+        /// Use this in every Metro Window form to apply base window styling. Affects:
+        ///
+        /// * Title Brush, Active Title Brush
+        /// * Window Border
         /// </summary>
-        /// <param name="window"></param>
-        /// <param name="isMainWindow"></param>
+        /// <param name="window">MetroWindow to apply theme adjustments on</param>
+        /// <param name="isMainWindow">Is this the main application window (not used)</param>
         public static void SetThemeWindowOverride(MetroWindow window, bool isMainWindow = false)
         {
             if (window == null)
@@ -612,6 +597,7 @@ Markdown Monster v{version}
             {
                 window.WindowTitleBrush = (SolidColorBrush) new BrushConverter().ConvertFrom("#333");
                 window.NonActiveWindowTitleBrush = (SolidColorBrush) new BrushConverter().ConvertFrom("#444");
+                window.BorderBrush = (SolidColorBrush) new BrushConverter().ConvertFrom("#494949");
             }
             else
             {
