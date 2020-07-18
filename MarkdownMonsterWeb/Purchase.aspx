@@ -8,6 +8,10 @@
 <html>
 <head>
     <title>Purchase Markdown Monster</title>
+    <meta charset="utf-8" /> 
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />   
+
+
     <meta name="description" content="Purchase Markdown Monster. Markdown Monster: An easy to use Markdown Editor and Weblog Publishing tool for Windows. Create Markdown with a low key interface that gets out of your way, but provides advanced features to help you be more productive." />
     <meta name="keywords" content="markdown, windows, markdown editor,text editor,documentation,weblog,publishing,screen capture,writing,documentation,open source,extensible,addins,wpf,dotnet,westwind,rick strahl" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />

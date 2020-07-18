@@ -6,8 +6,10 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Markdown Monster - A better Markdown Editor for Windows</title>
+    <meta charset="utf-8" /> 
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />   
     
+    <title>Markdown Monster - A better Markdown Editor for Windows</title>
     <meta name="description" content="Markdown Monster: A powerful, yet easy to use Markdown Editor, Viewer and Weblog Publisher for Windows. Create Markdown with a powerful yet low key interface that provides many helpful support features, but gets out of your way to keep you productive creating content quickly." />
     <meta name="keywords" content="markdown,editor,windows,documentation,weblog,blog,publishing,writing,open source,addins,wpf,dotnet,westwind,rick strahl" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />

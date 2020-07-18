@@ -8,6 +8,9 @@
 <html>
 <head>
     <title>Features - West Wind WebSurge</title>
+    <meta charset="utf-8" /> 
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />   
+
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content="West Wind Web Surge Features. A brief walk through of functionality with many screenshots to get a feel for operation of West Wind Web Surge" />
     <meta name="keywords" content="Load,Testing,Web,Server,ASP.NET,Capture,Playback,Threads" />
