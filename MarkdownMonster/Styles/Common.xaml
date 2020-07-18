@@ -89,4 +89,9 @@
         </Style.Triggers>
     </Style>
 
+    <Style x:Key="mmWindow" TargetType="{x:Type mahcontrols:MetroWindow}">
+        <Setter Property="TitleCharacterCasing" Value="Normal" />
+        <Setter Property="TitleBarHeight"  Value="32" />
+    </Style>
+
 </ResourceDictionary>

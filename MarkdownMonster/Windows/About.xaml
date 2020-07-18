@@ -10,11 +10,12 @@
         mc:Ignorable="d"
         Icon="../Assets/MarkdownMonster_Icon_256.png"                     
         Title="Markdown Monster" 
-        WindowStyle="SingleBorderWindow" ResizeMode="NoResize"                      
+        WindowStyle="SingleBorderWindow" 
+	ResizeMode="NoResize"                      
         WindowStartupLocation="CenterOwner"
         IsMinButtonEnabled="False" IsMaxRestoreButtonEnabled="False" 
-              Background="Black" Foreground="White"
-        Width="603.57" Height="667.867">
+              Background="Black" Foreground="White" 
+        Width="603.57" Height="667.867" Style="{StaticResource mmWindow}">
     <Canvas RenderTransformOrigin="0.5,0.5" >
         <Image  Name="SplashImage" Source="../Assets/MarkdownMonster.png" Width="600" Height="441" Canvas.Left="0" Canvas.Top="0"  />
 
