@@ -28,7 +28,7 @@
 
     <Style x:Key="HeaderTextBlockStyle" TargetType="{x:Type TextBlock}"
            BasedOn="{StaticResource {x:Type TextBlock}}">
-        <Setter Property="FontSize" Value="20" />
+        <Setter Property="FontSize" Value="24" />
         <Setter Property="FontWeight" Value="SemiBold" />
         <Setter Property="Foreground" Value="{StaticResource HeadlineColor}" />
         <Setter Property="Margin" Value="0,18,0,2" />

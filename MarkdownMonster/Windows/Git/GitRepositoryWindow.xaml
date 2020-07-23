@@ -44,14 +44,28 @@
             <TabItem Name="TabClone" Header="Clone Repository"
                      Margin="0,0,5,0" Visibility="Visible">
 
-                <StackPanel  Margin="30,10,30,0">
+                <StackPanel  Margin="30,0,30,0">
+
+                    <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+
+                    <TextBlock Style="{StaticResource HeaderTextBlockStyle}">Clone Repository</TextBlock>
+
                     <Button Command="{Binding AppModel.Commands.HelpCommand}" CommandParameter="_4xp0yygt2.htm#CloneaRepository"
-                BorderThickness="0" Margin="0,0,-22,0" HorizontalAlignment="Right"   
-                Width="28" Height="28" FontSize="17" FontWeight="Normal">
+                            BorderThickness="0" Margin="0,20,0,0" HorizontalAlignment="Right"   ToolTip="More info on cloning a Repository"
+                            Width="28" Height="28" FontSize="17" FontWeight="Normal">
                         <fa:FontAwesome  Icon="QuestionCircleOutline"                                 
-                            ToolTip="More information on cloning."                             
-                            FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" />
+                                         ToolTip="More information on cloning."                             
+                                         FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" />
                     </Button>
+                    </Grid>
+
+    <Separator Margin="0,7,0,15"/> 
+
+                    
 
                     <Label Content="Git Repository URL"/>
                     <TextBox x:Name="TextUrl"  Text="{Binding GitUrl}"  
@@ -84,15 +98,16 @@
 
 
 
-                    <StackPanel Orientation="Horizontal" Margin="0 30 0 20">
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0 30 0 20">
                         <Button x:Name="ButtonOk" Height="38"  Width="130" HorizontalAlignment="Left"   IsDefault="True" Click="ButtonClone_Click"  >
                             <StackPanel Orientation="Horizontal">
-                                <fa:FontAwesome  Icon="Download"  FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" Foreground="#FF0E7E28" FontSize="20" />
+                                <fa:FontAwesome  Icon="Download"  FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" 
+                                                 Foreground="#FF0E7E28" FontSize="20" />
                                 <TextBlock Margin="10,2,0,0" Text="Clone" />
                             </StackPanel>
                         </Button>
 
-                        <Button x:Name="ButtonCancel" Margin="10,0" Height="38" Width="130" HorizontalAlignment="Left" IsCancel="True" Click="ButtonCancel_Click" >
+                        <Button x:Name="ButtonCancel" Margin="10,0,0,0" Height="38" Width="130" HorizontalAlignment="Left" IsCancel="True" Click="ButtonCancel_Click" >
                             <StackPanel Orientation="Horizontal">
                                 <fa:FontAwesome Icon="Remove" FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" Foreground="DarkRed"  FontSize="20"/>
                                 <TextBlock Margin="10,2,0,0"><Run Text="Cancel"/></TextBlock>
@@ -108,14 +123,28 @@
             <TabItem   Name="TabCreate" Header="Create Repository"
                                 Margin="0,0,5,0" Visibility="Visible">
 
-                <StackPanel  Margin="20,10,30,0">
-                    <Button Command="{Binding AppModel.Commands.HelpCommand}" CommandParameter="_4xp0yygt2.htm#CreateARepository"
-                BorderThickness="0" Margin="0,0,-22,0" HorizontalAlignment="Right"   
-                Width="28" Height="28" FontSize="17" FontWeight="Normal">
+                <StackPanel  Margin="30,0,30,0">
+
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+
+                        <TextBlock Style="{StaticResource HeaderTextBlockStyle}">Create New Repository</TextBlock>
+
+                        <Button Grid.Column="1" 
+                                Command="{Binding AppModel.Commands.HelpCommand}" CommandParameter="_4xp0yygt2.htm#CreateARepository"
+                                BorderThickness="0" HorizontalAlignment="Right"  
+                                Margin="0,20,0,0"
+                                Width="28" Height="28" FontSize="17" FontWeight="Normal">
                         <fa:FontAwesome  Icon="QuestionCircleOutline"                                 
                             ToolTip="More information on cloning."                             
                             FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" />
-                    </Button>
+                        </Button>
+                    </Grid>
+
+                    <Separator Margin="0,7,0,15"/> 
 
                     <Label Content="Location for the new Git Repository (folder should not exist yet)" Margin="0 10 0 0"/>
                     <Grid>
@@ -138,7 +167,7 @@
 
 
 
-                    <StackPanel Orientation="Horizontal" Margin="0 30 0 20">
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0 30 0 20">
                         <Button Height="38" Name="ButtonCreate" Width="130" HorizontalAlignment="Left"   IsDefault="True" Click="ButtonCreate_Click"  >
                             <StackPanel Orientation="Horizontal">
                                 <fa:FontAwesome  Icon="Download"  FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" Foreground="#FF0E7E28" FontSize="20" />
@@ -146,9 +175,11 @@
                             </StackPanel>
                         </Button>
 
-                        <Button Name="ButtonCreateCancel"  Margin="10,0" Height="38" Width="130" HorizontalAlignment="Left" IsCancel="True" Click="ButtonCancel_Click" >
+                        <Button Name="ButtonCreateCancel"  Margin="10,0,0,0" Height="38" Width="130" 
+                                HorizontalAlignment="Left" IsCancel="True" Click="ButtonCancel_Click" >
                             <StackPanel Orientation="Horizontal">
-                                <fa:FontAwesome Icon="Remove" FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" Foreground="DarkRed"  FontSize="20"/>
+                                <fa:FontAwesome Icon="Remove" FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" 
+                                                Foreground="DarkRed"  FontSize="20"/>
                                 <TextBlock Margin="10,2,0,0"><Run Text="Cancel"/></TextBlock>
                             </StackPanel>
                         </Button>
@@ -161,14 +192,27 @@
             <TabItem   IsEnabled="False" Name="TabAddRemote" Header="Attach to Remote Repository"
                        Margin="0,0,5,0" Visibility="Visible">
 
-                <StackPanel  Margin="30,10,30,0">
-                    <Button Command="{Binding AppModel.Commands.HelpCommand}" CommandParameter="_4xp0yygt2.htm#AddARemote"
-                BorderThickness="0" Margin="0,0,-22,0" HorizontalAlignment="Right"   
-                Width="28" Height="28" FontSize="17" FontWeight="Normal">
-                        <fa:FontAwesome  Icon="QuestionCircleOutline"                                 
-                            ToolTip="More information on cloning."                             
-                            FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" />
-                    </Button>
+                <StackPanel  Margin="30,0,30,0">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+
+                        <TextBlock Style="{StaticResource HeaderTextBlockStyle}">Attach to Remote Repository</TextBlock>
+
+                        <Button Grid.Column="1" Command="{Binding AppModel.Commands.HelpCommand}" CommandParameter="_4xp0yygt2.htm#add-remote-to-repository"
+                                BorderThickness="0" Margin="0,20,0,0" HorizontalAlignment="Right"   
+                                Width="28" Height="28" FontSize="17" FontWeight="Normal">
+                            <fa:FontAwesome  Icon="QuestionCircleOutline"                                 
+                                             ToolTip="More information on Attaching to a Remote"                             
+                                             FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" />
+                        </Button>
+
+                    </Grid>
+                    
+                    <Separator Margin="0,7,0,15" />
+
 
                     <Label Content="Git Repository URL"/>
                     <TextBox  Text="{Binding GitUrl}"  
@@ -207,18 +251,18 @@
 
 
 
-                    <StackPanel Orientation="Horizontal" Margin="0 30 0 20">
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,30,0,0">
                         <Button Name="ButtonAddRemote" Height="38"  Width="Auto" HorizontalAlignment="Left"   IsDefault="True" Click="ButtonAddRemote_Click"  >
                             <StackPanel Orientation="Horizontal">
                                 <fa:FontAwesome  Icon="PlusCircle"  
                                                  FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" 
                                                  FontSize="18"
                                                  Foreground="#FF0E7E28" />
-                                <TextBlock Margin="7,0,4,0" Text="Attach Remote" />
+                                <TextBlock Margin="7,0,8,0" Text="Attach Remote" />
                             </StackPanel>
                         </Button>
 
-                        <Button Margin="10,0" Height="38" Width="130" HorizontalAlignment="Left"
+                        <Button Margin="10,0,0,0" Height="38" Width="130" HorizontalAlignment="Left"
                                 IsCancel="True" Click="ButtonCancel_Click" >
                             <StackPanel Orientation="Horizontal">
                                 <fa:FontAwesome Icon="Remove" FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" 

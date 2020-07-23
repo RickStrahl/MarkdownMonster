@@ -45,7 +45,7 @@
     <!-- Application Colors -->
     <SolidColorBrush x:Key="BlueItem" Color="#0075d9" />
     <SolidColorBrush x:Key="RedHighlight" Color="#FF2733" />
-    <SolidColorBrush x:Key="HeadlineColor" Color="#5BB3FF" />
+    <SolidColorBrush x:Key="HeadlineColor" Color="#5191CA" />
     
     
     <!--<Style BasedOn="{StaticResource MahApps.Styles.Button.Flat}" TargetType="{x:Type ButtonBase}" >
