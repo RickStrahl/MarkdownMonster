@@ -208,17 +208,22 @@
 
 
                     <StackPanel Orientation="Horizontal" Margin="0 30 0 20">
-                        <Button Name="ButtonAddRemote" Height="38"  Width="130" HorizontalAlignment="Left"   IsDefault="True" Click="ButtonAddRemote_Click"  >
+                        <Button Name="ButtonAddRemote" Height="38"  Width="Auto" HorizontalAlignment="Left"   IsDefault="True" Click="ButtonAddRemote_Click"  >
                             <StackPanel Orientation="Horizontal">
-                                <fa:FontAwesome  Icon="PlusCircle"  FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" Foreground="#FF0E7E28" FontSize="20" />
-                                <TextBlock Margin="7,2,0,0" Text="Attach Remote" />
+                                <fa:FontAwesome  Icon="PlusCircle"  
+                                                 FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" 
+                                                 FontSize="18"
+                                                 Foreground="#FF0E7E28" />
+                                <TextBlock Margin="7,0,4,0" Text="Attach Remote" />
                             </StackPanel>
                         </Button>
 
-                        <Button Margin="10,0" Height="38" Width="130" HorizontalAlignment="Left" IsCancel="True" Click="ButtonCancel_Click" >
+                        <Button Margin="10,0" Height="38" Width="130" HorizontalAlignment="Left"
+                                IsCancel="True" Click="ButtonCancel_Click" >
                             <StackPanel Orientation="Horizontal">
-                                <fa:FontAwesome Icon="Remove" FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" Foreground="DarkRed"  FontSize="20"/>
-                                <TextBlock Margin="7,2,0,0"><Run Text="Cancel"/></TextBlock>
+                                <fa:FontAwesome Icon="Remove" FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" 
+                                                Foreground="DarkRed" FontSize="19" />
+                                <TextBlock Margin="7,0,0,0"><Run Text="Cancel"/></TextBlock>
                             </StackPanel>
                         </Button>
                     </StackPanel>
