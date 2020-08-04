@@ -26,7 +26,7 @@
     <PackageReference Include="HtmlAgilityPack" Version="1.11.23">
       <IncludeAssets>compile</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Westwind.Utilities" Version="3.0.44.2">
+    <PackageReference Include="Westwind.Utilities" Version="3.0.45.2">
       <IncludeAssets>compile</IncludeAssets>
     </PackageReference>
     <PackageReference Include="Markdig" Version="0.20.0">

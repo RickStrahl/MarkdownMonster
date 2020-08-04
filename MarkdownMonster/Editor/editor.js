@@ -490,7 +490,7 @@
         // replaces content without completely reloading the document
         // by using clipboard replacement
         // Leaves scroll position and undo buffer intact
-        replacecontent: function (text) {
+        replaceContent: function (text) {
             var sel = te.editor.getSelection();
             sel.selectAll();
             te.setselection(text);
