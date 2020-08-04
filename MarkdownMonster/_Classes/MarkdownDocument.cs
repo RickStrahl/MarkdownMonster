@@ -303,12 +303,18 @@ namespace MarkdownMonster
         /// Default: UTF-8 without a BOM
         /// </summary>
         [JsonIgnore]
+
         public Encoding Encoding
         {
-            get { return _encoding; }
-            set { _encoding = value; }
+            get { return _Encoding; }
+            set
+            {
+                if (value == _Encoding) return;
+                _Encoding = value;
+                OnPropertyChanged(nameof(Encoding));
+            }
         }
-        private Encoding _encoding = Encoding.UTF8;
+        private Encoding _Encoding;
 
         /// <summary>
         /// Determines whether the active document has changes
@@ -581,7 +587,7 @@ namespace MarkdownMonster
         /// </summary>
         /// <param name="filename"></param>
         /// <returns></returns>
-        public bool Load(string filename = null, SecureString password = null)
+        public bool Load(string filename = null, SecureString password = null, Encoding encoding = null)
         {
             if (string.IsNullOrEmpty(filename))
                 filename = Filename;
@@ -599,7 +605,11 @@ namespace MarkdownMonster
 
             Filename = filename;
             UpdateCrc();
-            GetFileEncoding();
+
+            if (encoding == null)
+                GetFileEncoding(); // try to figure out encoding
+            else
+                Encoding = encoding;
 
             try
             {

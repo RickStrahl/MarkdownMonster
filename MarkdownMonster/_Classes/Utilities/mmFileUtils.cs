@@ -14,7 +14,9 @@ using System.Windows.Media;
 using FontAwesome.WPF;
 using MarkdownMonster.Annotations;
 using MarkdownMonster.Utilities;
+using MarkdownMonster.Windows;
 using Microsoft.Win32;
+using ReverseMarkdown.Converters;
 using Westwind.Utilities;
 
 namespace MarkdownMonster
@@ -213,22 +215,18 @@ namespace MarkdownMonster
 
 
         /// <summary>
-        /// Gets an encoding name from 
+        /// Gets an encoding name from an Encoding instance 
         /// </summary>
         /// <param name="encoding"></param>
         /// <returns></returns>
         public static string GetEncodingName(Encoding encoding)
         {
             string enc = string.Empty;
-            bool hasBom = true;
             string name = encoding.BodyName;
             if (name == "utf-8")
             {
-#if NETFULL
-                hasBom = (bool)ReflectionUtils.GetField(encoding, "emitUtf8Identifier");
-#else
-                hasBom = (bool)ReflectionUtils.GetField(encoding, "_emitUTF8Identifier");
-#endif
+                bool hasBom = encoding.GetPreamble().Length > 0;
+
                 if (hasBom)
                     enc = "UTF-8 with BOM";
                 else
@@ -243,6 +241,86 @@ namespace MarkdownMonster
 
             return enc;
         }
+
+        public static Encoding Utf8EncodingWithoutBom = null;
+
+        public static Encoding GetEncoding(string encodingName)
+        {
+            var encoding = Encoding.UTF8;
+
+            if (encodingName == "UTF-8 with BOM")
+                return encoding;
+            if (encodingName == "UTF-8")
+            {
+                if (Utf8EncodingWithoutBom != null)
+                    return Utf8EncodingWithoutBom;
+                Utf8EncodingWithoutBom = new UTF8Encoding(false);
+                return Utf8EncodingWithoutBom;
+            }
+            if (encodingName == "UTF-16 BE")
+            {
+                return Encoding.BigEndianUnicode;
+            }
+            if (encodingName == "UTF-16 LE")
+            {
+                return Encoding.Unicode;
+            }
+
+            var enc = Encoding.GetEncodings().FirstOrDefault(e => e.DisplayName == encodingName || e.Name == encodingName);
+            if (enc == null) return encoding;
+
+            return Encoding.GetEncoding(enc.CodePage);
+        }
+
+        /// <summary>
+        /// Returns a list of encoding display names for use in
+        /// lists.
+        /// </summary>
+        /// <returns></returns>
+        public static List<string> GetEncodingList(bool fullList = false)
+        {
+            const string LineSegment = "——————————————————————";
+
+            var encList = new List<string>();
+            encList.AddRange(new string[]
+            {
+                "UTF-8",
+                "UTF-8 with BOM",
+                "UTF-16 LE",
+                "UTF-16 BE",
+                LineSegment,
+                Encoding.Default.EncodingName,
+                LineSegment
+            });
+
+            
+            foreach (var enc in new[] {
+                "Western European (Windows)", "Central European (Windows)", "Cyrillic (Windows)",
+                "Arabic (Windows)", "Greek (Windows)", "Turkish (Windows)", "Hebrew (Windows)",
+                "Vietnamese (Windows)", "Thai (Windows)"
+            })
+            {
+                if (!encList.Contains(enc))
+                    encList.Add(enc);
+            }
+            
+            if (fullList)
+            {
+                encList.Add(LineSegment);
+                var list = Encoding.GetEncodings().OrderBy(e => e.DisplayName);
+                foreach (var enc in list)
+                {
+                    if (!encList.Contains(enc.DisplayName))
+                        encList.Add(enc.DisplayName);
+                }
+            }
+
+
+            return encList;
+        }
+
+        
+
         #endregion
 
 

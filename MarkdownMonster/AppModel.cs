@@ -24,6 +24,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
@@ -464,23 +465,32 @@ namespace MarkdownMonster
             }
         }
 
-        
-        public List<string> EncodingTypes
+        /// <summary>
+        ///  Encodings for the Encoding drop down
+        /// </summary>
+        public ObservableCollection<string> EncodingTypes
         {
             get
             {
-                var encodings = new List<string>();
-                encodings.AddRange(new string[]
-                {
-                    "UTF-8",
-                    "UTF-8 with BOM",
-                    "UTF-16 LE",
-                    "UTF-16 BE"
-                });
-                
+                if (encodings != null)
+                    return encodings;
+
+                encodings = new ObservableCollection<string>(mmFileUtils.GetEncodingList());
+                encodings.Add("——————————————————————");
+                encodings.Add("Load additional Encodings...");
                 return encodings;
             }
+            set
+            {
+                if (encodings != value)
+                {
+                    encodings = value;
+                    OnPropertyChanged("EncodingTypes");
+                }
+            }
         }
+
+        private ObservableCollection<string> encodings = null;
 
 
         public List<string> DocumentTypes

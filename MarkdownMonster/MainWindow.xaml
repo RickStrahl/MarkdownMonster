@@ -1190,11 +1190,18 @@
                 <ComboBox  Name="StatusEncoding" x:FieldModifier="public"
                            HorizontalAlignment="Right"  Width="Auto" ToolTip="Document Encoding"  
                            FontSize="13" Padding="2,1"
-                           IsSynchronizedWithCurrentItem="True" Margin="0,0,3,0"    
+                           IsSynchronizedWithCurrentItem="True"
+                           Margin="0,0,3,0"    
                            ItemsSource="{Binding EncodingTypes}"
                            SelectionChanged="StatusEncoding_SelectionChanged"
                            Background="Transparent" BorderThickness="0"                           
                 />
+                <!--<TextBlock Name="TextEncoding" HorizontalAlignment="Right"  
+                           Width="Auto" ToolTip="Document Encoding - click to reopen or save with different encoding" 
+                           FontSize="13" Padding="2,1"
+                           MouseUp="TextEncoding_MouseUp"
+                           Text="{Binding ActiveDocument.Encoding.EncodingName}"
+                           Margin="0,0,3,0"    />-->                  
 
             </StatusBarItem>
             

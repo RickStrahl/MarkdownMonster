@@ -26,6 +26,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Drawing;
@@ -43,6 +44,7 @@ using System.Windows.Media;
 using System.Windows.Threading;
 using Dragablz;
 using FontAwesome.WPF;
+using LibGit2Sharp;
 using MahApps.Metro.Controls;
 using MahApps.Metro.Controls.Dialogs;
 using MarkdownMonster.AddIns;
@@ -3080,25 +3082,56 @@ Do you want to continue anyway?", "Disable Markdown Script Rendering",
             Model.ActiveEditor?.RestyleEditor();
         }
 
+
         private void StatusEncoding_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (Model.ActiveDocument == null)
                 return;
 
+            var encoding = Model.ActiveDocument.Encoding;
 
-            string enc = StatusEncoding.SelectedValue as string;
-
-            if (enc == null)
+            string enc = StatusEncoding.SelectedItem as string;
+            if (enc == null || enc.StartsWith("——"))
+            {
+                StatusEncoding.SelectedValue = mmFileUtils.GetEncodingName(encoding);
                 return;
+            }
             
-            if (enc == "UTF-16 LE")
-                Model.ActiveDocument.Encoding = Encoding.Unicode;
-            else if (enc == "UTF-16 BE")
-                Model.ActiveDocument.Encoding = Encoding.BigEndianUnicode;
-            else if (enc.Contains("with BOM"))
-                Model.ActiveDocument.Encoding = Encoding.UTF8; 
+            if (enc.StartsWith("Load additional"))
+            {
+                Model.EncodingTypes = new ObservableCollection<string>(mmFileUtils.GetEncodingList(true));
+                StatusEncoding.SelectedValue = mmFileUtils.GetEncodingName(encoding);
+
+                Dispatcher.InvokeAsync(() => StatusEncoding.IsDropDownOpen = true);
+                return;
+            }
+
+            if (Model.ActiveDocument.IsDirty &&
+                MessageBox.Show(
+                    "We need to reload the document with the new encoding, but there are changes pending in the document. " +
+                    "Reopening will lose these changes.\n\n" +
+                    "Reload the document with new Encoding and lose those changes?",
+                    "Document Changes Pending",
+                    MessageBoxButton.YesNo, MessageBoxImage.Question, MessageBoxResult.No) == MessageBoxResult.No)
+            {
+                return;
+            }
+
+            encoding = mmFileUtils.GetEncoding(enc);
+            Model.ActiveDocument.Encoding = encoding;
+
+
+            // otherwise re-open
+            if (!Model.ActiveDocument.Load(Model.ActiveDocument.Filename, encoding: encoding))
+                Model.Window.ShowStatusError("Couldn't reopen file with the " + encoding.EncodingName + " Encoding.");
             else
-                Model.ActiveDocument.Encoding = new UTF8Encoding(false);
+            {
+                Model.ActiveEditor.ReplaceContent(Model.ActiveDocument.CurrentText);
+                Model.ActiveEditor.PreviewMarkdownCallback(true);
+            }
+
+            StatusEncoding.SelectedValue = mmFileUtils.GetEncodingName(encoding);
+            Model.Window.ShowStatusSuccess($"The document has been reloaded with {StatusEncoding.SelectedValue} encoding.");
         }
 
         #endregion
@@ -3107,6 +3140,8 @@ Do you want to continue anyway?", "Disable Markdown Script Rendering",
         {
             Model.Commands.SettingsVisualCommand?.Execute("Linefeed");
         }
+
+        
     }
 
     public class RecentDocumentListItem
