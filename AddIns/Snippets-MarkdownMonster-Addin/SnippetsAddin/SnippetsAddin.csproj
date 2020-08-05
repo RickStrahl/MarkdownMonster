@@ -13,7 +13,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="MahApps.Metro" Version="2.1.1">
+    <PackageReference Include="MahApps.Metro" Version="2.2.0">
       <IncludeAssets>compile</IncludeAssets>
     </PackageReference>
     <PackageReference Include="Dragablz" Version="0.0.3.203">

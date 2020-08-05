@@ -3145,7 +3145,7 @@ Do you want to continue anyway?", "Disable Markdown Script Rendering",
     }
 
     public class RecentDocumentListItem
-    {
+    {   
         public string Filename { get; set; }
         public string DisplayFilename { get; set; }
     }
