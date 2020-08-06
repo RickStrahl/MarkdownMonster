@@ -10,6 +10,10 @@
 * **Better File Encoding Support**  
 You can now use **Load additional Encodings...** to load up all encodings available. Choosing an encoding will try to reload the document with the new encoding.
 
+* **Improved Code Snippet Syntax for Html to Markdown Conversions**  
+Worked with ReverseMarkdown to add better support for capturing syntax for many common services including GitHub, highlightJs, Atlassian and Confluence. For most snippets the syntax should now be applied to code-fenced blocks.
+
+
 ### 1.23.14
 <small>July 16th, 2020</small>
 

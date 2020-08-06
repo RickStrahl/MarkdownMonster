@@ -51,8 +51,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SupportProjects", "SupportP
 		Changelog.md = Changelog.md
 	EndProjectSection
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ReverseMarkdown", "..\ThirdParty\reversemarkdown-net\src\ReverseMarkdown\ReverseMarkdown.csproj", "{2052EABF-1DC0-47C1-8266-3561696E97EE}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -93,10 +91,6 @@ Global
 		{3D075262-82A0-4F22-A6BA-90FFFC769891}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3D075262-82A0-4F22-A6BA-90FFFC769891}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3D075262-82A0-4F22-A6BA-90FFFC769891}.Release|Any CPU.Build.0 = Release|Any CPU
-		{2052EABF-1DC0-47C1-8266-3561696E97EE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{2052EABF-1DC0-47C1-8266-3561696E97EE}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{2052EABF-1DC0-47C1-8266-3561696E97EE}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{2052EABF-1DC0-47C1-8266-3561696E97EE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
