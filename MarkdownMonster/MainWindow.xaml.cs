@@ -2375,21 +2375,15 @@ namespace MarkdownMonster
                         return;
                     }
 
-                    //MainWindowSeparatorColumn.Width = new GridLength(12);
                     if (!refresh)
                     {
-                        if (mmApp.Configuration.WindowPosition.SplitterPosition < 100)
-                            mmApp.Configuration.WindowPosition.SplitterPosition = 600;
-
-                        //if (!Model.IsPresentationMode)
-                        //    MainWindowPreviewColumn.Width =
-                        //        new GridLength(mmApp.Configuration.WindowPosition.SplitterPosition);
+                        if (Model.Configuration.WindowPosition.SplitterPosition < 100)
+                            Model.Configuration.WindowPosition.SplitterPosition = 600;
                     }
                 }
                 else if (Model.Configuration.PreviewMode == PreviewModes.ExternalPreviewWindow)
                 {
                     // make sure it's visible
-                    //bool visible = PreviewBrowserWindow.Visibility == Visibility.Visible;
                     PreviewBrowserWindow.Show();
 
                     // check if we're already active - if not assign and preview immediately
@@ -2411,9 +2405,6 @@ namespace MarkdownMonster
                 if (Model.Configuration.PreviewMode == PreviewModes.InternalPreview)
                 {
                     Model.WindowLayout.IsPreviewVisible = false;
-
-                    // clear the preview - have to delay otherwise the browser loses the doc
-                    //((IPreviewBrowser) PreviewBrowserContainer.Children[0]).Navigate("about:blank");
                 }
                 else if (Model.Configuration.PreviewMode == PreviewModes.ExternalPreviewWindow)
                 {
@@ -2422,9 +2413,6 @@ namespace MarkdownMonster
                         PreviewBrowserWindow.Close();
                         _previewBrowserWindow = null;
                         PreviewBrowser = null;
-
-                        // reset preview browser to internal so it's not null
-                        //LoadPreviewBrowser();
                     }
                 }
 
