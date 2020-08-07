@@ -1,8 +1,11 @@
+Markdown Monster License
+-------------------------
+
 Markdown Monster comes in several license modes: Evaluation, Single User, Multiple User and Site License.
 
-Markdown Monster is **Source Open** with source code available on GitHub, but it is a licensed product that requires a paid-for license for continued use. The software is licensed as Â© Rick Strahl, West Wind Technologies, 2015-2019. 
+Markdown Monster is **Source Open** with source code available on GitHub, but it is a licensed product that requires a paid-for license for continued use. The software is licensed as © Rick Strahl, West Wind Technologies, 2015-2020. 
 
-A fully functional, free evaluation version is available for evaluation use, but continued use requires purchase of a license. 
+A fully functional, free evaluation version is available for evaluation use, but continued use requires purchase of a license.
 
 Licenses can be purchased from:
 http://store.west-wind.com/product/markdown_monster
@@ -26,7 +29,7 @@ Any purchased license is valid for the duration of the major release that it was
 
 SOURCE CODE
 
-Markdown Monster is Source Open and source code is available on GitHub at https://github.com/RickStrahl/MarkdownMonster, but the licensing outlined above is applies regardless. We allow modification of source code for internal use of Markdown Monster in your organization or for submitting pull requests to the Markdown Monster main repository. Under no circumstances are you allowed to re-package and re-distribute any part of Markdown Monster outside of your organization.
+Markdown Monster is **Source Open** and source code is available on GitHub at https://github.com/RickStrahl/MarkdownMonster, but the licensing outlined above is applies regardless. We allow modification of source code for internal use of Markdown Monster in your organization or for submitting pull requests to the Markdown Monster main repository. Under no circumstances are you allowed to re-package and re-distribute any part of Markdown Monster outside of your organization.
 
 GET INVOLVED - GET A FREE LICENSE
 
