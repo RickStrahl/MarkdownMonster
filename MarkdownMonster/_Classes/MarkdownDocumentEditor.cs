@@ -906,10 +906,20 @@ namespace MarkdownMonster
                 return;
             }
 
+            if (markdownResult == null)
+            {
+                Window.ShowStatusError("Couldn't insert link.");
+                return;
+            }
+
             SetMarkdown(markdownResult.Markdown, keepUndoBuffer: true, updateDirtyFlag: true);
-            SetCursorPosition(new AcePosition
-            { row = origRange.StartRow + 1, column = origRange.StartColumn + markdownResult.SelectionLength });
-            //IsDirty();
+            if (origRange != null)
+            {
+                SetCursorPosition(new AcePosition
+                {
+                    row = origRange.StartRow + 1, column = origRange.StartColumn + markdownResult.SelectionLength
+                });
+            }
 
             // Force a refresh of the window
             Window.PreviewBrowser.Refresh(true);
