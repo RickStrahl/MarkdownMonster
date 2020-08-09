@@ -564,7 +564,7 @@ namespace WeblogAddin
             Model.ActivePostMetadata.CustomFields.Clear();
             foreach (var cf in Model.MetadataCustomFields)
             {
-                Model.ActivePostMetadata.CustomFields.Add(cf.Key, cf);
+                Model.ActivePostMetadata.CustomFields[cf.Key] = cf;
             }
         }
 
