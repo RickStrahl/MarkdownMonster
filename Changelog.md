@@ -8,6 +8,9 @@
 ### 1.23.16
 <small>not released yet</small>
 
+* **Fix Jekyll Image Publishing**  
+Fix bug with images published to a Jekyll Blog. All but the last image were deleted by the post handler previously. Related: Also updated the Preview URL generator used to navigate to the generated URL which should work much better than before for the post title as well as the categories to match the Jekyll snake case conversions.
+
 * **Fix: Light Theme Crashes**  
 Fix several bugs related to light theme missing resources. 
 
