@@ -55,6 +55,7 @@ namespace WebLogAddin.LocalJekyll
         }
 
         #region Top Level API
+
         /// <summary>
         /// Publishes post
         /// </summary>
@@ -69,8 +70,8 @@ namespace WebLogAddin.LocalJekyll
                 return false;
             }
 
-            
-            var postTitle = FileUtils.SafeFilename(PostMetadata.Title).Replace(" ","-").Replace("--","-");
+
+            var postTitle = GetSafeFilename(PostMetadata.Title);
             var blogFileName = $"{PostMetadata.PostDate:yyyy-MM-dd}-{postTitle}";
             
 
@@ -221,7 +222,7 @@ namespace WebLogAddin.LocalJekyll
             if (post == null)
                 return null;
 
-			string filename = FileUtils.SafeFilename(post.Title);
+            string filename = GetSafeFilename(post.Title);
 
             if (string.IsNullOrEmpty(weblogName))
                 weblogName = WeblogInfo.Name;
@@ -284,6 +285,11 @@ namespace WebLogAddin.LocalJekyll
             return outputFile;
         }
 
+        string GetSafeFilename(string title)
+        {
+            return FileUtils.SafeFilename(PostMetadata.Title).Replace(" ","-").Replace("--","-").Replace(".","");
+        }
+
         #endregion
 
 
@@ -339,16 +345,19 @@ namespace WebLogAddin.LocalJekyll
 
             if (PostMetadata.Categories != null)
             {
-                var cats = PostMetadata.Categories.Split(new char[] {',', ' '}, StringSplitOptions.RemoveEmptyEntries);
+                var cats = PostMetadata.Categories.Split(new char[] {','}, StringSplitOptions.RemoveEmptyEntries);
 
                 foreach (string cat in cats)
-                    catPath += WebUtility.UrlEncode(cat.ToLower()).Replace(" ","-") + "/";
+                {
+                    catPath += WebUtility.UrlEncode(cat.Trim().ToLower().Replace(" ","-")) + "/";
+                }
+                    
 
                 catPath = catPath.TrimStart('/');
             }
 
-            
-            var postTitle = FileUtils.SafeFilename(PostMetadata.Title).Replace(" ","-").Replace("--","-");
+
+            var postTitle = GetSafeFilename(PostMetadata.Title);
             catPath += $"{PostMetadata.PostDate:yyyy/MM/dd}/{postTitle}";
 
 
@@ -426,6 +435,13 @@ namespace WebLogAddin.LocalJekyll
         {
             var matches = Image_RegEx.Matches(markdown);
 
+            string assetsPath = Path.Combine(blogPath, "assets", blogName);
+            if (Directory.Exists(assetsPath))
+            {
+                FileUtils.DeleteFiles(assetsPath, "*.jpg", true);
+                FileUtils.DeleteFiles(assetsPath, "*.png", true);
+            }
+
             bool firstImage = true;
             foreach(Match match in matches)
             {
@@ -451,16 +467,15 @@ namespace WebLogAddin.LocalJekyll
                 }
 
                 var oldFile = Path.Combine(basePath, imageUrl);
-                var newFile = Path.Combine(blogPath, "assets", blogName, imageUrl);
+                
+                var newFile = Path.Combine(assetsPath, imageFilename);
                 
                 if (File.Exists(oldFile))
                 {
                     var targetFolder = Path.GetDirectoryName(newFile);
                     if (!Directory.Exists(targetFolder))
                         Directory.CreateDirectory(targetFolder);
-                    else
-                        FileUtils.DeleteFiles(targetFolder, "*.*", false);
-
+                    
                     System.IO.File.Copy(oldFile, newFile, true);
                 }
 
