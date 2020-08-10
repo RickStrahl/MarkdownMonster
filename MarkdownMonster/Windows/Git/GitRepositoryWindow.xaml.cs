@@ -130,8 +130,6 @@ namespace MarkdownMonster.Windows
             DataContext = this;
 
             mmApp.SetThemeWindowOverride(this);
-            if (mmApp.Configuration.ApplicationTheme == Themes.Light)
-                TabControl.Background = (SolidColorBrush)Resources["LightThemeTitleBackground"];
 
 
             Loaded += OpenFromUrl_Loaded;

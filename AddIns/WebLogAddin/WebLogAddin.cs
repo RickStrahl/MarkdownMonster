@@ -670,7 +670,8 @@ namespace WeblogAddin
 			{
 				Header = "Web_log"
 			};
-			AddMenuItem(MainMenuItem, "MainMenuTools", addMode: AddMenuItemModes.AddBefore);
+
+            AddMenuItem(MainMenuItem, "MainMenuTools", addMode: AddMenuItemModes.AddBefore);
 			MainMenuItem.Items.Add(new Separator());
 
 			MainMenuItem.SubmenuOpened += MainMenuItem_SubmenuOpened;

@@ -178,9 +178,6 @@ namespace SnagItAddin
             InitializeComponent();
 
             mmApp.SetThemeWindowOverride(this);
-            if (mmApp.Configuration.ApplicationTheme == Themes.Light)
-                CaptureButtonContainer.Background =
-                    (System.Windows.Media.Brush) FindResource("LightThemeTitleBackground");
 
             Loaded += ScreenCaptureForm_Loaded;
             Unloaded += ScreenCaptureForm_Unloaded;

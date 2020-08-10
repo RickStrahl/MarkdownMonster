@@ -44,8 +44,6 @@ namespace WeblogAddin
             InitializeComponent();
 
             mmApp.SetThemeWindowOverride(this);
-            if (mmApp.Configuration.ApplicationTheme == Themes.Light)
-                TabControl.Background = (SolidColorBrush) Resources["LightThemeTitleBackground"];
 
             Loaded += WebLogStart_Loaded;
             Closing += WebLogStart_Closing;

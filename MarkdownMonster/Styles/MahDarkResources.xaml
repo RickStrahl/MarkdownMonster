@@ -11,6 +11,8 @@
     <SolidColorBrush x:Key="SidebarHeaderBackground" Color="#555"/>
 
 
+    
+
     <!-- Menu Colors -->
     <SolidColorBrush x:Key="MahApps.Brushes.SubMenu.Border" Color="#606060" />
     <SolidColorBrush x:Key="MahApps.Brushes.ContextMenu.Border" Color="#606060" />

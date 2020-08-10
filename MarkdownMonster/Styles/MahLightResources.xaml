@@ -10,6 +10,25 @@
     <SolidColorBrush x:Key="BlueItem" Color="#0D7EBE" />
     <SolidColorBrush x:Key="ControlBoxBrush" Color="#222" />
     <SolidColorBrush x:Key="SidebarHeaderBackground" Color="#eee"/>
+    <SolidColorBrush x:Key="HeadlineColor" Color="#4D6081" />
+
+
+    <Style  x:Key="HeaderTextBoxStyle" TargetType="{x:Type TextBox}"
+            BasedOn="{StaticResource {x:Type TextBox}}">
+        <Setter Property="FontSize" Value="19" />
+        <Setter Property="FontWeight" Value="SemiBold" />
+        <Setter Property="Foreground" Value="{StaticResource BlueItem}" />
+        <Setter Property="Padding" Value="5,2,5,3" />
+    </Style>
+
+    <Style x:Key="HeaderTextBlockStyle" TargetType="{x:Type TextBlock}"
+           BasedOn="{StaticResource {x:Type TextBlock}}">
+        <Setter Property="FontSize" Value="24" />
+        <Setter Property="FontWeight" Value="SemiBold" />
+        <Setter Property="Foreground" Value="{StaticResource HeadlineColor}" />
+        <Setter Property="Margin" Value="0,18,0,2" />
+    </Style>
+
 
     <!-- Menu Colors -->
     <SolidColorBrush x:Key="MahApps.Brushes.SubMenu.Border" Color="#ccc" />
@@ -35,13 +54,7 @@
     <SolidColorBrush x:Key="MahApps.Brushes.T" Color="#A3ADCB" options:Freeze="True" />
 
 
-    <Style  x:Key="HeaderTextBoxStyle" TargetType="{x:Type TextBox}"
-            BasedOn="{StaticResource {x:Type TextBox}}">
-        <Setter Property="FontSize" Value="19" />
-        <Setter Property="FontWeight" Value="SemiBold" />
-        <Setter Property="Foreground" Value="#48A4FF" />
-        <Setter Property="Padding" Value="5,2,5,3" />
-    </Style>
+    
 
 
     <!-- TreeView Item Highlighting -->

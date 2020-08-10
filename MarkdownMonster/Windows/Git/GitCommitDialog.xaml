@@ -156,7 +156,7 @@
                 
             <TextBox Name="TextCommitMessage" Text="{Binding CommitMessage}"  Grid.Row="0" Margin="0,20,0,0"
                  controls:TextBoxHelper.Watermark="Enter a Commit Message (required)"                      
-                 TextWrapping="Wrap" Height="70" AcceptsReturn="True"
+                 TextWrapping="Wrap" Height="70" BorderThickness="0.8" AcceptsReturn="True"
                  controls:TextBoxHelper.SelectAllOnFocus="True"/>
             
 
@@ -191,7 +191,7 @@
 
 
             <ListBox Name="ListChangedItems" Grid.Row="3" ItemsSource="{Binding RepositoryStatusItems}"  
-                     BorderThickness="0.7" BorderBrush="White" IsTextSearchEnabled="True"                      
+                     BorderThickness="0.8"  IsTextSearchEnabled="True"                      
                      Padding="7" SelectionMode="Extended"  Margin="0 10 0 0"
                      ContextMenuOpening="ListChangedItems_ContextMenuOpening">
                 <ListBox.ItemTemplate>
