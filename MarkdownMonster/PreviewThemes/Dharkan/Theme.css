@@ -206,17 +206,22 @@ pre {
   white-space: pre;
   word-break: normal;
   word-wrap: normal;
-  background: #252525;
-  color: #eee;
+
+
+  /* handles non-formatted code snippets, but won't work with light syntax */
+  /* background: #252525;
+  color: #eee; */
 }
 
   pre > code {
     white-space: pre;
     padding: 0.8em !important;
     display: block;
-    color: #f5f5f5 !important;
-    background: transparent;
     font-weight: normal;
+
+    /* handles non-formatted code snippets, but won't work with light syntax */
+    /* background: transparent;
+    color: #f5f5f5 !important;   */
   }
   pre > code::-webkit-scrollbar {
     width: 8px;

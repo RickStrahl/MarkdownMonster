@@ -8,11 +8,12 @@
     <!-- Highlight Colors -->
     <SolidColorBrush x:Key="BlueItem" Color="#5BB3FF" />
     <SolidColorBrush x:Key="ControlBoxBrush" Color="#5BB3FF" />
+    <SolidColorBrush x:Key="LowLightForegroundBrush" Color="#bbb" />
+    <SolidColorBrush x:Key="LowLightBackgroundBrush" Color="#292929" />
     <SolidColorBrush x:Key="SidebarHeaderBackground" Color="#555"/>
 
 
-    
-
+   
     <!-- Menu Colors -->
     <SolidColorBrush x:Key="MahApps.Brushes.SubMenu.Border" Color="#606060" />
     <SolidColorBrush x:Key="MahApps.Brushes.ContextMenu.Border" Color="#606060" />

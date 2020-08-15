@@ -9,7 +9,12 @@
     <!-- Highlight Colors -->
     <SolidColorBrush x:Key="BlueItem" Color="#0D7EBE" />
     <SolidColorBrush x:Key="ControlBoxBrush" Color="#222" />
+    <SolidColorBrush x:Key="LowLightForegroundBrush" Color="#444" />
+    <SolidColorBrush x:Key="LowLightBackgroundBrush" Color="#F2F2F2" />
     <SolidColorBrush x:Key="SidebarHeaderBackground" Color="#eee"/>
+
+
+    <!-- Common Overrides -->
     <SolidColorBrush x:Key="HeadlineColor" Color="#4D6081" />
 
 
