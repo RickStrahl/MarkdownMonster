@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data.SqlTypes;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -10,13 +9,8 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Media;
-using FontAwesome.WPF;
-using MarkdownMonster.Annotations;
 using MarkdownMonster.Utilities;
-using MarkdownMonster.Windows;
 using Microsoft.Win32;
-using ReverseMarkdown.Converters;
 using Westwind.Utilities;
 
 namespace MarkdownMonster
@@ -27,8 +21,7 @@ namespace MarkdownMonster
     public static class mmFileUtils
     {
 
-
-
+        
         #region File Utilities
         /// <summary>
         /// Method checks for existance of full filename and tries
@@ -318,11 +311,7 @@ namespace MarkdownMonster
 
             return encList;
         }
-
-        
-
         #endregion
-
 
         #region Type and Language Utilities
 

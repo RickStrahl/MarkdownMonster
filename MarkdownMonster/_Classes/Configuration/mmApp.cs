@@ -450,9 +450,8 @@ Markdown Monster v{version}
             return exMsg;
         }
 
-
-       
         #endregion
+
         #region Version information
 
         /// <summary>
@@ -463,6 +462,27 @@ Markdown Monster v{version}
         {
             var v = Assembly.GetExecutingAssembly().GetName().Version;
             return v.ToString();
+        }
+
+
+        /// <summary>
+        /// Compare two version strings.
+        /// </summary>
+        /// <param name="versionToCompare">Semantic Version string</param>
+        /// <param name="versionToCompareAgainst">Semantic Version string</param>
+        /// <returns>0 - equal, 1 - greater than compareAgainst,  -1 - smaller than, -2  - Version Format error </returns>
+        public static int CompareVersions(string versionToCompare, string versionToCompareAgainst)
+        {
+            try
+            {
+                var v1 = new Version(versionToCompare);
+                var v2 = new Version(versionToCompareAgainst);
+                return v1.CompareTo(v2);
+            }
+            catch
+            {
+                return -2;
+            }
         }
 
         /// <summary>
@@ -482,6 +502,10 @@ Markdown Monster v{version}
             return version;
         }
 
+        /// <summary>
+        /// Return the write date for the Main MM application executable
+        /// </summary>
+        /// <returns></returns>
         public static string GetVersionDate()
         {
             var fi = new FileInfo(Assembly.GetExecutingAssembly().Location);
