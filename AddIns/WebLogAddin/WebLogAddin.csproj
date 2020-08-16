@@ -23,7 +23,7 @@
     <PackageReference Include="FontAwesome.WPF" Version="4.7.0.9">
       <IncludeAssets>compile</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="HtmlAgilityPack" Version="1.11.23">
+    <PackageReference Include="HtmlAgilityPack" Version="1.11.24">
       <IncludeAssets>compile</IncludeAssets>
     </PackageReference>
     <PackageReference Include="Westwind.Utilities" Version="3.0.45">

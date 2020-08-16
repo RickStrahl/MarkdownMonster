@@ -8,6 +8,15 @@
 ### 1.23.16
 <small>not released yet</small>
 
+* **Add additional Code Fencing inline Syntax Colorings**   
+Added additional inline syntax colorings for the following languages: `csharp`, `typescript`, `json`, `typescript`. You now get syntax colored text as you type or paste inside of triple backtick fenced code blocks.
+
+* **Additional File Browser Icons and Editing Syntax Support**  
+Added additional icons that can display in the Folder Browser including `Dart` and `Dockerfile` files. Both file types can now also be edited in MM. Also fix additional icons for various external document types.
+
+* **Add Window Menu Shortcut to Open Document in Folder Browser**  
+Added yet another shortcut to quickly navigate the Folder Browser to the active document's location on the Window Menu. Default shortcut is `alt-w-f`.
+
 * **Fix Jekyll Image Publishing**  
 Fix bug with images published to a Jekyll Blog. All but the last image were deleted by the post handler previously. Related: Also updated the Preview URL generator used to navigate to the generated URL which should work much better than before for the post title as well as the categories to match the Jekyll snake case conversions.
 

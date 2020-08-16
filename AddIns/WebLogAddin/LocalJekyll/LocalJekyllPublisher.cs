@@ -28,7 +28,7 @@ namespace WebLogAddin.LocalJekyll
         /// Markdown Monster Weblog Post Meta Data
         /// </summary>
         public WeblogPostMetadata PostMetadata { get; }
-        
+
         /// <summary>
         /// Markdown Monster Weblog information for a specific
         /// blog. Holds name, type of blog, post URL or path.
@@ -73,12 +73,12 @@ namespace WebLogAddin.LocalJekyll
 
             var postTitle = GetSafeFilename(PostMetadata.Title);
             var blogFileName = $"{PostMetadata.PostDate:yyyy-MM-dd}-{postTitle}";
-            
+
 
             // normalize the path
             if (!blogPath.EndsWith("\\"))
                 blogPath += "\\";
-            
+
             var postText = PostMetadata.MarkdownBody;
             if (string.IsNullOrWhiteSpace(postText))
                 return false;
@@ -99,7 +99,7 @@ namespace WebLogAddin.LocalJekyll
             {
                 try{ File.WriteAllText(markerFile, " "); } catch {}
             }
-                
+
 
             return true;
         }
@@ -136,9 +136,9 @@ namespace WebLogAddin.LocalJekyll
             foreach (var file in postFiles)
             {
                 var fileNameWithoutExtension = Path.GetFileNameWithoutExtension(file);
-                
+
                 var at = StringUtils.IndexOfNth(fileNameWithoutExtension,'-',3);
-                if (at < -1 || fileNameWithoutExtension.Length < at + 2) 
+                if (at < -1 || fileNameWithoutExtension.Length < at + 2)
                     continue;
 
                 var post = new Post();
@@ -149,7 +149,7 @@ namespace WebLogAddin.LocalJekyll
                 post.PostId = fileNameWithoutExtension;
                 posts.Add(post);
             }
-            
+
 
             return posts;
         }
@@ -202,7 +202,7 @@ namespace WebLogAddin.LocalJekyll
             {
                 ShellUtils.ExecuteCommandLine(WeblogInfo.LaunchCommand);
             }
-            catch (Exception ex)
+            catch
             {
                 SetError("Failed to launch Jekyll Build and Launch Command: " + WeblogInfo.LaunchCommand);
                 return false;
@@ -226,7 +226,7 @@ namespace WebLogAddin.LocalJekyll
 
             if (string.IsNullOrEmpty(weblogName))
                 weblogName = WeblogInfo.Name;
-            
+
 
 			var mmPostFolder = Path.Combine(WeblogAddinConfiguration.Current.PostsFolder,
 				"Downloaded",weblogName,
@@ -265,7 +265,7 @@ namespace WebLogAddin.LocalJekyll
             var postMarkdown = meta.SetPostYamlFromMetaData();
 
             var jekyllPostFolder = Path.Combine(WeblogInfo.ApiUrl, "assets", meta.PostId);
-            postMarkdown = CopyImagesToLocal(postMarkdown,jekyllPostFolder,mmPostFolder); 
+            postMarkdown = CopyImagesToLocal(postMarkdown,jekyllPostFolder,mmPostFolder);
 
 			try
 			{
@@ -277,7 +277,7 @@ namespace WebLogAddin.LocalJekyll
 {outputFile}
 
 {ex.Message}");
-					
+
 				return null;
 			}
             mmApp.Configuration.LastFolder = Path.GetDirectoryName(outputFile);
@@ -351,7 +351,7 @@ namespace WebLogAddin.LocalJekyll
                 {
                     catPath += WebUtility.UrlEncode(cat.Trim().ToLower().Replace(" ","-")) + "/";
                 }
-                    
+
 
                 catPath = catPath.TrimStart('/');
             }
@@ -402,7 +402,7 @@ namespace WebLogAddin.LocalJekyll
             var serializer = new SerializerBuilder()
                 .WithNamingConvention(new CamelCaseNamingConvention())
                 .Build();
-            
+
             string yaml = serializer.Serialize(jkMeta);
 
             var folder = Path.Combine(blogRoot,"_posts");
@@ -415,7 +415,7 @@ namespace WebLogAddin.LocalJekyll
 
                 System.IO.File.WriteAllText(file, "---\n" + yaml + "---\n" + postText);
             }
-            catch 
+            catch
             {
                 SetError($"Unable to write post files into the Jekyll output folder: {blogRoot}");
                 return false;
@@ -467,15 +467,15 @@ namespace WebLogAddin.LocalJekyll
                 }
 
                 var oldFile = Path.Combine(basePath, imageUrl);
-                
+
                 var newFile = Path.Combine(assetsPath, imageFilename);
-                
+
                 if (File.Exists(oldFile))
                 {
                     var targetFolder = Path.GetDirectoryName(newFile);
                     if (!Directory.Exists(targetFolder))
                         Directory.CreateDirectory(targetFolder);
-                    
+
                     System.IO.File.Copy(oldFile, newFile, true);
                 }
 
@@ -519,7 +519,7 @@ namespace WebLogAddin.LocalJekyll
 
                 oldFile = FileUtils.NormalizePath(oldFile);
                 newFile = FileUtils.NormalizePath(newFile);
-                
+
                 if (File.Exists(oldFile))
                 {
                     var targetFolder = Path.GetDirectoryName(newFile);
@@ -569,7 +569,7 @@ namespace WebLogAddin.LocalJekyll
         #endregion
     }
 
-    //  
+    //
     public class JekyllMetaData
     {
         public string Layout { get; set; } = "post";
