@@ -784,10 +784,12 @@ oop.inherits(Mode, TextMode);
     };
 
     this.$id = "ace/mode/javascript";
+    this.snippetFileId = "ace/snippets/javascript";
 }).call(Mode.prototype);
 
 exports.Mode = Mode;
-});                (function() {
+});
+                (function() {
                     window.require(["ace/mode/javascript"], function(m) {
                         if (typeof module == "object" && typeof exports == "object" && module) {
                             module.exports = m;

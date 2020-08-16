@@ -553,7 +553,8 @@ exports.defaultOptions = {
     showInvisibles:     "false"
 };
 
-});                (function() {
+});
+                (function() {
                     window.require(["ace/ext/textarea"], function(m) {
                         if (typeof module == "object" && typeof exports == "object" && module) {
                             module.exports = m;

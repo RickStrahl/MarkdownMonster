@@ -1,11 +1,10 @@
-define('ace/theme/vscodelight', ['require', 'exports', 'module' , 'ace/lib/dom'], function(require, exports, module) {
-
+define("ace/theme/vscodelight",["require","exports","module","ace/lib/dom"], function(require, exports, module) {
 
 exports.isDark = false;
-exports.cssClass = "ace-vslight";
+exports.cssClass = "ace-vscodelight";
 exports.cssText = ".ace-vslight .ace_gutter {\
-background: #f9f9f90;\
-color: #222;\
+background: #f9f9f9;\
+color: #222;  \
 }\
 .ace-vslight .ace_support.ace_function {\
 color: #800000;\
@@ -143,12 +142,16 @@ color: #000080;\
 }\
 .ace-vslight .ace_emphasis {\
 font-style: italic;\
-}\
-";
-
-// .ace-vslight .ace_indent-guide {\
-// background: url(\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAACCAYAAACZgbYnAAAAE0lEQVQImWP4////f4bLly//BwAmVgd1/w11/gAAAABJRU5ErkJggg==\") right repeat-y;\
+}";
 
 var dom = require("../lib/dom");
 dom.importCssString(exports.cssText, exports.cssClass);
 });
+                (function() {
+                    window.require(["ace/theme/vscodelight"], function(m) {
+                        if (typeof module == "object" && typeof exports == "object" && module) {
+                            module.exports = m;
+                        }
+                    });
+                })();
+            

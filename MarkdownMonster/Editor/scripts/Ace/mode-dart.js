@@ -494,8 +494,220 @@ oop.inherits(Mode, TextMode);
 
 exports.Mode = Mode;
 });
+
+define("ace/mode/dart_highlight_rules",["require","exports","module","ace/lib/oop","ace/mode/doc_comment_highlight_rules","ace/mode/text_highlight_rules"], function(require, exports, module) {
+"use strict";
+
+var oop = require("../lib/oop");
+var DocCommentHighlightRules = require("./doc_comment_highlight_rules").DocCommentHighlightRules;
+var TextHighlightRules = require("./text_highlight_rules").TextHighlightRules;
+
+var DartHighlightRules = function() {
+
+    var constantLanguage = "true|false|null";
+    var variableLanguage = "this|super";
+    var keywordControl = "try|catch|finally|throw|rethrow|assert|break|case|continue|default|do|else|for|if|in|return|switch|while|new|deferred|async|await";
+    var keywordDeclaration = "abstract|class|extends|external|factory|implements|get|native|operator|set|typedef|with|enum";
+    var storageModifier = "static|final|const";
+    var storageType = "void|bool|num|int|double|dynamic|var|String";
+
+    var keywordMapper = this.createKeywordMapper({
+        "constant.language.dart": constantLanguage,
+        "variable.language.dart": variableLanguage,
+        "keyword.control.dart": keywordControl,
+        "keyword.declaration.dart": keywordDeclaration,
+        "storage.modifier.dart": storageModifier,
+        "storage.type.primitive.dart": storageType
+    }, "identifier");
+
+    var stringfill = [{
+        token : "constant.language.escape",
+        regex : /\\./
+    }, {
+        token : "text",
+        regex : /\$(?:\w+|{[^"'}]+})?/
+    }, {
+        defaultToken : "string"
+    }];
+
+    this.$rules = {
+    "start": [
+        {
+            token : "comment",
+            regex : /\/\/.*$/
+        },
+        DocCommentHighlightRules.getStartRule("doc-start"),
+        {
+            token : "comment", // multi line comment
+            regex : /\/\*/,
+            next : "comment"
+        },
+        {
+            token: ["meta.preprocessor.script.dart"],
+            regex: "^(#!.*)$"
+        },
+        {
+            token: "keyword.other.import.dart",
+            regex: "(?:\\b)(?:library|import|export|part|of|show|hide)(?:\\b)"
+        },
+        {
+            token : ["keyword.other.import.dart", "text"],
+            regex : "(?:\\b)(prefix)(\\s*:)"
+        },
+        {
+            regex: "\\bas\\b",
+            token: "keyword.cast.dart"
+        },
+        {
+            regex: "\\?|:",
+            token: "keyword.control.ternary.dart"
+        },
+        {
+            regex: "(?:\\b)(is\\!?)(?:\\b)",
+            token: ["keyword.operator.dart"]
+        },
+        {
+            regex: "(<<|>>>?|~|\\^|\\||&)",
+            token: ["keyword.operator.bitwise.dart"]
+        },
+        {
+            regex: "((?:&|\\^|\\||<<|>>>?)=)",
+            token: ["keyword.operator.assignment.bitwise.dart"]
+        },
+        {
+            regex: "(===?|!==?|<=?|>=?)",
+            token: ["keyword.operator.comparison.dart"]
+        },
+        {
+            regex: "((?:[+*/%-]|\\~)=)",
+            token: ["keyword.operator.assignment.arithmetic.dart"]
+        },
+        {
+            regex: "=",
+            token: "keyword.operator.assignment.dart"
+        },
+        {
+            token : "string",
+            regex : "'''",
+            next : "qdoc"
+        }, 
+        {
+            token : "string",
+            regex : '"""',
+            next : "qqdoc"
+        }, 
+        {
+            token : "string",
+            regex : "'",
+            next : "qstring"
+        }, 
+        {
+            token : "string",
+            regex : '"',
+            next : "qqstring"
+        }, 
+        {
+            regex: "(\\-\\-|\\+\\+)",
+            token: ["keyword.operator.increment-decrement.dart"]
+        },
+        {
+            regex: "(\\-|\\+|\\*|\\/|\\~\\/|%)",
+            token: ["keyword.operator.arithmetic.dart"]
+        },
+        {
+            regex: "(!|&&|\\|\\|)",
+            token: ["keyword.operator.logical.dart"]
+        },
+        {
+            token : "constant.numeric", // hex
+            regex : "0[xX][0-9a-fA-F]+\\b"
+        }, 
+        {
+            token : "constant.numeric", // float
+            regex : "[+-]?\\d+(?:(?:\\.\\d*)?(?:[eE][+-]?\\d+)?)?\\b"
+        }, 
+        {
+            token : keywordMapper,
+            regex : "[a-zA-Z_$][a-zA-Z0-9_$]*\\b"
+        }
+    ],
+    "comment" : [
+        {
+            token : "comment", // closing comment
+            regex : "\\*\\/",
+            next : "start"
+        }, {
+            defaultToken : "comment"
+        }
+    ],
+    "qdoc" : [
+        {
+            token : "string",
+            regex : "'''",
+            next : "start"
+        }
+    ].concat(stringfill),
+
+    "qqdoc" : [
+        {
+            token : "string",
+            regex : '"""',
+            next : "start"
+        }
+    ].concat(stringfill),
+
+    "qstring" : [
+        {
+            token : "string",
+            regex : "'|$",
+            next : "start"
+        }
+    ].concat(stringfill),
+
+    "qqstring" : [
+        {
+            token : "string",
+            regex : '"|$',
+            next : "start"
+        }
+    ].concat(stringfill)
+};
+
+    this.embedRules(DocCommentHighlightRules, "doc-",
+        [ DocCommentHighlightRules.getEndRule("start") ]);
+};
+
+oop.inherits(DartHighlightRules, TextHighlightRules);
+
+exports.DartHighlightRules = DartHighlightRules;
+});
+
+define("ace/mode/dart",["require","exports","module","ace/lib/oop","ace/mode/c_cpp","ace/mode/dart_highlight_rules","ace/mode/folding/cstyle"], function(require, exports, module) {
+"use strict";
+
+var oop = require("../lib/oop");
+var CMode = require("./c_cpp").Mode;
+var DartHighlightRules = require("./dart_highlight_rules").DartHighlightRules;
+var CStyleFoldMode = require("./folding/cstyle").FoldMode;
+
+var Mode = function() {
+    CMode.call(this);
+    this.HighlightRules = DartHighlightRules;
+    this.foldingRules = new CStyleFoldMode();
+};
+oop.inherits(Mode, CMode);
+
+(function() { 
+    this.lineCommentStart = "//";
+    this.blockComment = {start: "/*", end: "*/"};
+    this.$id = "ace/mode/dart";
+    this.snippetFileId = "ace/snippets/dart";
+}).call(Mode.prototype);
+
+exports.Mode = Mode;
+});
                 (function() {
-                    window.require(["ace/mode/c_cpp"], function(m) {
+                    window.require(["ace/mode/dart"], function(m) {
                         if (typeof module == "object" && typeof exports == "object" && module) {
                             module.exports = m;
                         }

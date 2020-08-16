@@ -784,6 +784,7 @@ oop.inherits(Mode, TextMode);
     };
 
     this.$id = "ace/mode/javascript";
+    this.snippetFileId = "ace/snippets/javascript";
 }).call(Mode.prototype);
 
 exports.Mode = Mode;
@@ -1023,10 +1024,12 @@ oop.inherits(Mode, JavaScriptMode);
     };
 
     this.$id = "ace/mode/java";
+    this.snippetFileId = "ace/snippets/java";
 }).call(Mode.prototype);
 
 exports.Mode = Mode;
-});                (function() {
+});
+                (function() {
                     window.require(["ace/mode/java"], function(m) {
                         if (typeof module == "object" && typeof exports == "object" && module) {
                             module.exports = m;

@@ -429,12 +429,14 @@ oop.inherits(Mode, TextMode);
         return session.$mode.$highlightRules.completions;
     };
     
-    this.$id = "ace/mode/sql";
+    this.$id = "ace/mode/sqlserver";
+    this.snippetFileId = "ace/snippets/sqlserver";
 }).call(Mode.prototype);
 
 exports.Mode = Mode;
 
-});                (function() {
+});
+                (function() {
                     window.require(["ace/mode/sqlserver"], function(m) {
                         if (typeof module == "object" && typeof exports == "object" && module) {
                             module.exports = m;

@@ -781,11 +781,14 @@ var Mode = function() {
 oop.inherits(Mode, TextMode);
 
 (function() {
+    this.lineCommentStart = "//";
+    this.blockComment = {start: "/*", end: "*/"};
     this.$id = "ace/mode/kotlin";
 }).call(Mode.prototype);
 
 exports.Mode = Mode;
-});                (function() {
+});
+                (function() {
                     window.require(["ace/mode/kotlin"], function(m) {
                         if (typeof module == "object" && typeof exports == "object" && module) {
                             module.exports = m;

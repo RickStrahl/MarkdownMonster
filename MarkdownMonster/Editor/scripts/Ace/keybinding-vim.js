@@ -597,8 +597,9 @@ define("ace/keyboard/vim",["require","exports","module","ace/range","ace/lib/eve
   this.getMode = function() {
     return { name : this.getOption("mode") };
   };
-  this.execCommand = function() {
-
+  this.execCommand = function(name) {
+    if (name == "indentAuto") this.ace.execCommand("autoindent");
+    else console.log(name + " is not implemented");
   };
 }).call(CodeMirror.prototype);
   function toAcePos(cmPos) {
@@ -5920,7 +5921,8 @@ dom.importCssString(".normal-mode .ace_cursor{\
   exports.handler.defaultKeymap = defaultKeymap;
   exports.handler.actions = actions;
   exports.Vim = Vim;
-});                (function() {
+});
+                (function() {
                     window.require(["ace/keyboard/vim"], function(m) {
                         if (typeof module == "object" && typeof exports == "object" && module) {
                             module.exports = m;

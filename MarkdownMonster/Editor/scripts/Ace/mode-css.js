@@ -705,11 +705,13 @@ oop.inherits(Mode, TextMode);
     };
 
     this.$id = "ace/mode/css";
+    this.snippetFileId = "ace/snippets/css";
 }).call(Mode.prototype);
 
 exports.Mode = Mode;
 
-});                (function() {
+});
+                (function() {
                     window.require(["ace/mode/css"], function(m) {
                         if (typeof module == "object" && typeof exports == "object" && module) {
                             module.exports = m;

@@ -576,7 +576,9 @@ var SnippetManager = function() {
                 {regex: "\\|" + escape("\\|") + "*\\|", onMatch: function(val, state, stack) {
                     var choices = val.slice(1, -1).replace(/\\[,|\\]|,/g, function(operator) {
                         return operator.length == 2 ? operator[1] : "\x00";
-                    }).split("\x00");
+                    }).split("\x00").map(function(value){
+                        return {value: value};
+                    });
                     stack[0].choices = choices;
                     return [choices[0]];
                 }, next: "start"},
@@ -1047,6 +1049,12 @@ var SnippetManager = function() {
             }
             snippetMap[scope].push(s);
 
+            if (s.prefix)
+                s.tabTrigger = s.prefix;
+
+            if (!s.content && s.body)
+                s.content = Array.isArray(s.body) ? s.body.join("\n") : s.body;
+
             if (s.tabTrigger && !s.trigger) {
                 if (!s.guard && /^\w/.test(s.tabTrigger))
                     s.guard = "\\b";
@@ -1063,10 +1071,13 @@ var SnippetManager = function() {
             s.endTriggerRe = new RegExp(s.endTrigger);
         }
 
-        if (snippets && snippets.content)
-            addSnippet(snippets);
-        else if (Array.isArray(snippets))
+        if (Array.isArray(snippets)) {
             snippets.forEach(addSnippet);
+        } else {
+            Object.keys(snippets).forEach(function(key) {
+                addSnippet(snippets[key]);
+            });
+        }
         
         this._signal("registerSnippets", {scope: scope});
     };
@@ -1116,7 +1127,7 @@ var SnippetManager = function() {
                     snippet.tabTrigger = val.match(/^\S*/)[0];
                     if (!snippet.name)
                         snippet.name = val;
-                } else {
+                } else if (key) {
                     snippet[key] = val;
                 }
             }
@@ -1265,18 +1276,17 @@ var TabstopManager = function(editor) {
         
         this.selectedTabstop = ts;
         var range = ts.firstNonLinked || ts;
+        if (ts.choices) range.cursor = range.start;
         if (!this.editor.inVirtualSelectionMode) {
             var sel = this.editor.multiSelect;
-            sel.toSingleRange(range.clone());
+            sel.toSingleRange(range);
             for (var i = 0; i < ts.length; i++) {
                 if (ts.hasLinkedRanges && ts[i].linked)
                     continue;
                 sel.addRange(ts[i].clone(), true);
             }
-            if (sel.ranges[0])
-                sel.addRange(sel.ranges[0].clone());
         } else {
-            this.editor.selection.setRange(range);
+            this.editor.selection.fromOrientedRange(range);
         }
         
         this.editor.keyBinding.addKeyboardHandler(this.keyboardHandler);
@@ -1507,6 +1517,7 @@ var Autocomplete = function() {
         } else if (keepPopupPosition && !prefix) {
             this.detach();
         }
+        this.changeTimer.cancel();
     };
 
     this.detach = function() {
@@ -1569,13 +1580,15 @@ var Autocomplete = function() {
         if (!data)
             return false;
 
+        var completions = this.completions;
+        this.editor.startOperation({command: {name: "insertMatch"}});
         if (data.completer && data.completer.insertMatch) {
             data.completer.insertMatch(this.editor, data);
         } else {
-            if (this.completions.filterText) {
+            if (completions.filterText) {
                 var ranges = this.editor.selection.getAllRanges();
                 for (var i = 0, range; range = ranges[i]; i++) {
-                    range.start.column -= this.completions.filterText.length;
+                    range.start.column -= completions.filterText.length;
                     this.editor.session.remove(range);
                 }
             }
@@ -1584,7 +1597,9 @@ var Autocomplete = function() {
             else
                 this.editor.execCommand("insertstring", data.value || data);
         }
-        this.detach();
+        if (this.completions == completions)
+            this.detach();
+        this.editor.endOperation();
     };
 
 
@@ -2097,22 +2112,23 @@ var supportedModes = {
     ABC:         ["abc"],
     ActionScript:["as"],
     ADA:         ["ada|adb"],
+    Alda:        ["alda"],
     Apache_Conf: ["^htaccess|^htgroups|^htpasswd|^conf|htaccess|htgroups|htpasswd"],
+    Apex:        ["apex|cls|trigger|tgr"],
+    AQL:         ["aql"],
     AsciiDoc:    ["asciidoc|adoc"],
     ASL:         ["dsl|asl"],
     Assembly_x86:["asm|a"],
     AutoHotKey:  ["ahk"],
-    Apex:        ["apex|cls|trigger|tgr"],
-    AQL:         ["aql"],
     BatchFile:   ["bat|cmd"],
     C_Cpp:       ["cpp|c|cc|cxx|h|hh|hpp|ino"],
     C9Search:    ["c9search_results"],
-    Crystal:     ["cr"],
     Cirru:       ["cirru|cr"],
     Clojure:     ["clj|cljs"],
     Cobol:       ["CBL|COB"],
     coffee:      ["coffee|cf|cson|^Cakefile"],
     ColdFusion:  ["cfm"],
+    Crystal:     ["cr"],
     CSharp:      ["cs"],
     Csound_Document: ["csd"],
     Csound_Orchestra: ["orc"],
@@ -2159,8 +2175,8 @@ var supportedModes = {
     Jade:        ["jade|pug"],
     Java:        ["java"],
     JavaScript:  ["js|jsm|jsx"],
-    JSON5:       ["json5"],
     JSON:        ["json"],
+    JSON5:       ["json5"],
     JSONiq:      ["jq"],
     JSP:         ["jsp"],
     JSSM:        ["jssm|jssm_state"],
@@ -2182,13 +2198,14 @@ var supportedModes = {
     Mask:        ["mask"],
     MATLAB:      ["matlab"],
     Maze:        ["mz"],
+    MediaWiki:   ["wiki|mediawiki"],
     MEL:         ["mel"],
     MIXAL:       ["mixal"],
     MUSHCode:    ["mc|mush"],
     MySQL:       ["mysql"],
     Nginx:       ["nginx|conf"],
-    Nix:         ["nix"],
     Nim:         ["nim"],
+    Nix:         ["nix"],
     NSIS:        ["nsi|nsh"],
     Nunjucks:    ["nunjucks|nunjs|nj|njk"],
     ObjectiveC:  ["m|mm"],
@@ -2197,16 +2214,18 @@ var supportedModes = {
     Perl:        ["pl|pm"],
     Perl6:       ["p6|pl6|pm6"],
     pgSQL:       ["pgsql"],
-    PHP_Laravel_blade: ["blade.php"],
     PHP:         ["php|inc|phtml|shtml|php3|php4|php5|phps|phpt|aw|ctp|module"],
-    Puppet:      ["epp|pp"],
+    PHP_Laravel_blade: ["blade.php"],
     Pig:         ["pig"],
     Powershell:  ["ps1"],
     Praat:       ["praat|praatscript|psc|proc"],
+    Prisma:      ["prisma"],
     Prolog:      ["plg|prolog"],
     Properties:  ["properties"],
     Protobuf:    ["proto"],
+    Puppet:      ["epp|pp"],
     Python:      ["py"],
+    QML:         ["qml"],
     R:           ["r"],
     Razor:       ["cshtml|asp"],
     RDoc:        ["Rd"],
@@ -2224,6 +2243,7 @@ var supportedModes = {
     SJS:         ["sjs"],
     Slim:        ["slim|skim"],
     Smarty:      ["smarty|tpl"],
+    Smithy:      ["smithy"],
     snippets:    ["snippets"],
     Soy_Template:["soy"],
     Space:       ["space"],
@@ -2586,13 +2606,10 @@ prompt.commands = function(editor, callback) {
             var platform = handler.platform;
             var cbn = handler.byName;
             for (var i in cbn) {
-                var key;
-                if (cbn[i].bindKey && cbn[i].bindKey[platform] !== null) {
-                    key = cbn[i].bindKey["win"];
-                } else {
-                    key = "";
+                var key = cbn[i].bindKey;
+                if (typeof key !== "string") {
+                    key = key && key[platform] || "";
                 }
-
                 var commands = cbn[i];
                 var description = commands.description || normalizeName(commands.name);
                 if (!Array.isArray(commands))
@@ -2754,7 +2771,8 @@ dom.importCssString(".ace_prompt_container {\
 
 exports.prompt = prompt;
 
-});                (function() {
+});
+                (function() {
                     window.require(["ace/ext/prompt"], function(m) {
                         if (typeof module == "object" && typeof exports == "object" && module) {
                             module.exports = m;
