@@ -110,15 +110,17 @@ namespace MarkdownMonster
             if (filename.ToLower() == "untitled")
                 return "markdown";
 
-            string editorSyntax = null;
-
             var ext = Path.GetExtension(filename).ToLower().Replace(".", "");
-            if (ext == "md")
+            if (ext == "md" || ext == "markdown")
                 return "markdown"; // most common use case
 
+            var justName = Path.GetFileName(filename);
+            if (justName.Equals("dockerfile", StringComparison.OrdinalIgnoreCase))
+                return "dockerfile";
+
             // look up all others
-            if (!mmApp.Configuration.EditorExtensionMappings.TryGetValue(ext, out editorSyntax))
-                return null;
+            if (!mmApp.Configuration.EditorExtensionMappings.TryGetValue(ext, out string editorSyntax))
+                return null; // editor doesn't handle it
 
             return editorSyntax;
         }

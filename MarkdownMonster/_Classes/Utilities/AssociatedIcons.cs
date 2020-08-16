@@ -158,6 +158,8 @@ namespace MarkdownMonster.Utilities
             {"package.json", "npm"},
             {"package-lock.json", "package"},
             {"bower.json", "package"},
+            {"dockerfile","dockerfile"},
+            {".dockerfile","dockerfile" },
             {"license.txt", "license"},
             {"favicon.ico", "favicon"},
             {"folder.folder", "folder"}, // special case
@@ -211,23 +213,15 @@ namespace MarkdownMonster.Utilities
             {".scss", "css"},
             {".txt", "txt"},
             {".log", "txt"},
+
+            // JavaScript and Related
             {".ts", "ts"},
             {".js", "js"},
+            {".dart","dart"},
             {".json", "json"},
             {".jsx", "react"},
             {".vue", "vue"},
             {".tsconfig", "ts"},
-
-            // office docs
-            {".ppt", "ppt"},
-            {".pptx", "ppt"},
-            {".doc", "docx"},
-            {".docx", "docx"},
-            {".xls","xls" },
-            {".xlsx","xls" },
-            {".one", "onenote"},
-            {".onenote", "onenote"},
-            {".pdf", "pdf"},
 
             // Scripts
             {".cshtml", "razor"},
@@ -241,6 +235,17 @@ namespace MarkdownMonster.Utilities
             {".rhtml", "rails"},
             {".py", "py"},
 
+            // office docs
+            {".ppt", "ppt"},
+            {".pptx", "ppt"},
+            {".doc", "docx"},
+            {".docx", "docx"},
+            {".xls","xls" },
+            {".xlsx","xls" },
+            {".one", "onenote"},
+            {".onenote", "onenote"},
+            {".pdf", "pdf"},
+            
             // Foxpro
             {".prg", "prg"},
             {".fxp", "prg"},
@@ -278,6 +283,7 @@ namespace MarkdownMonster.Utilities
             {".appx", "config"},
             {".yaml", "yaml"},
             {".yml", "yaml"},
+            {".cert", "cert"},
             {".cer", "cert"},
             {".pfx", "cert"},
             {".key", "key"},

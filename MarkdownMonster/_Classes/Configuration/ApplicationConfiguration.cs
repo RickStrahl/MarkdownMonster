@@ -416,9 +416,12 @@ namespace MarkdownMonster
             {"html", "html"},
 			{"htm", "html" },
 
+            // Languages
 		    {"cs", "csharp"},
+            {"fs", "fsharp"},
 		    {"js", "javascript"},
 		    {"ts", "typescript"},
+            {"dart", "dart"},
 		    {"css", "css"},
 		    {"less", "less"},
 		    {"sass", "sass"},
@@ -455,6 +458,7 @@ namespace MarkdownMonster
 		    {"nuspec", "xml"},
 
 		    {"yaml", "yaml"},
+            {"dockerfile", "dockerfile"},
 	        {"yml", "yaml"},
 	        {"diff", "diff" },
             {"txt", "text"},
