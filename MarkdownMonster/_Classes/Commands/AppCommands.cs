@@ -2107,7 +2107,7 @@ namespace MarkdownMonster
 
                 mmApp.Model.Window.SidebarContainer.SelectedItem = Model.Window.TabFolderBrowser;
                 mmApp.Model.Window.ShowFolderBrowser(folder: fileOrFolderPath);
-            });
+            }, (o, c) => Model.IsEditorActive );
         }
 
         public CommandBase ShowSidebarTabCommand { get; set; }
@@ -2278,7 +2278,7 @@ We're now shutting down the application.
                     return;
 
                 var selectedTheme = Themes.Dark;
-                
+
                 // Parameter is text for a theme or empty in which case it's toggled
                 var text = parameter as string;
                 if (string.IsNullOrEmpty(text))

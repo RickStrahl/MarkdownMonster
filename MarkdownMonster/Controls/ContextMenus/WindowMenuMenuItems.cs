@@ -37,7 +37,7 @@ namespace MarkdownMonster.Controls.ContextMenus
             var model = mmApp.Model;
             items.Clear();
 
-             
+
             items.Add(new MenuItem
             {
                 Header = "_Close Document", Command = model.Commands.CloseActiveDocumentCommand
@@ -69,6 +69,14 @@ namespace MarkdownMonster.Controls.ContextMenus
             {
                 Header = "Open Document in _New Window", Command = model.Commands.OpenInNewWindowCommand,
             });
+
+            items.Add(new MenuItem
+            {
+                Header = "Open Document in _Folder Browser",
+                Command = model.Commands.OpenFolderBrowserCommand,
+                InputGestureText = "Alt-W-F"
+            });
+
 
 
             var menuItems = model.Window.GenerateContextMenuItemsFromOpenTabs();
