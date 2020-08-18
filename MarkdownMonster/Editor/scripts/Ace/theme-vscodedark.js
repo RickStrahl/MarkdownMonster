@@ -56,16 +56,16 @@ color: #CDA869\
 .ace-vscodedark .ace_heading,\
 .ace-vscodedark .ace_markup.ace_heading,\
 .ace-vscodedark .ace_support.ace_constant {\
-color:  #569bd5;\
+color:  #4c84b3;;\
 }\
 .ace-vscodedark .ace_constant.ace_escape {\
 color: goldenrod !important;\
 }\
 .ace-vscodedark .ace_keyword {\
-color:  #c485bf;\
+color: #569bd5;\
 }\
 .ace-vscodedark .ace_identifier {\
-color:#8bdbfd;\
+color: rgb(213, 231, 255);\
 }\
 .ace-vscodedark .ace_name {\
 color: #dbdba9 !important;\
@@ -152,4 +152,3 @@ dom.importCssString(exports.cssText, exports.cssClass);
                         }
                     });
                 })();
-            
