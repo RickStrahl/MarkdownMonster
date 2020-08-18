@@ -142,7 +142,7 @@
                     }
 
                     ci = new MenuItem();
-                    ci.Header = "Open in Shell";
+                    ci.Header = "Open with Shell";
                     ci.Click += MenuOpenWithShell_Click;
                     ciOpen.Items.Add(ci);
                 }
@@ -154,17 +154,19 @@
                 ci.CommandParameter = pathItem.FullPath;
                 ciOpen.Items.Add(ci);
 
-                ciOpen.Items.Add(new Separator());
-
-                ci = new MenuItem();
-                ci.Header = "Open in Terminal";
-                ci.Click += MenuOpenTerminal_Click;
-                ciOpen.Items.Add(ci);
+                
 
                 ci = new MenuItem();
                 ci.Header = "Show in Explorer";
                 ci.Click += MenuOpenInExplorer_Click;
-                ciOpen.Items.Add(ci);
+                cm.Items.Add(ci);
+
+                ci = new MenuItem();
+                ci.Header = "Open in Terminal";
+                ci.Click += MenuOpenTerminal_Click;
+                cm.Items.Add(ci);
+
+                cm.Items.Add(new Separator());
 
 
                 ci = new MenuItem();
@@ -239,11 +241,6 @@
 
                 cm.Items.Add(new Separator());
 
-
-
-
-
-
                 bool isGit = false;
                 var git = new GitHelper();
                 string gitRemoteUrl = null;
@@ -294,10 +291,10 @@
                         }
                     }
 
+                    cm.Items.Add(new Separator());
                 }
 
-                cm.Items.Add(new Separator());
-
+                
                 ci = new MenuItem();
                 ci.Header = "Copy Path to Clipboard";
                 ci.Click += MenuCopyPathToClipboard_Click;
