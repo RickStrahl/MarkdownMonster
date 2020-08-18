@@ -21,13 +21,15 @@ namespace MarkdownMonster.RenderExtensions
             // Right to Left Rendering fix up from ACE Editor
             if (mmApp.Configuration.Editor.EnableRightToLeft )
             {
-                // HACK: Strip ACE embed RTL/LTR Transition character
-                var bytes = args.MarkdownDocument.Encoding.GetBytes(args.Markdown);
-                var bytesToRemove = new byte[] { 0xe2, 0x80, 0xAb };
-                if (DataUtils.IndexOfByteArray(bytes, bytesToRemove) > -1)
-                {
-                    var newbytes = DataUtils.RemoveBytes(bytes, bytesToRemove);
-                    args.Markdown = args.MarkdownDocument.Encoding.GetString(newbytes);
+                if (!string.IsNullOrEmpty(args.Markdown)) {
+                    // HACK: Strip ACE embed RTL/LTR Transition character
+                    var bytes = args.MarkdownDocument.Encoding.GetBytes(args.Markdown);
+                    var bytesToRemove = new byte[] {0xe2, 0x80, 0xAb};
+                    if (DataUtils.IndexOfByteArray(bytes, bytesToRemove) > -1)
+                    {
+                        var newbytes = DataUtils.RemoveBytes(bytes, bytesToRemove);
+                        args.Markdown = args.MarkdownDocument.Encoding.GetString(newbytes);
+                    }
                 }
             }
         }

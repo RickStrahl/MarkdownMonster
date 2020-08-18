@@ -5,7 +5,6 @@
 /// <reference path="editor-helpers.js" />
 /// <reference path="scripts/ace/ace.js" />
 
-
 (function () {
     var Split = ace.require("ace/split").Split;
     ace.require("ace/ext/rtl");
@@ -1284,12 +1283,15 @@ function Invoke(teFunction)
 
 //}
 
+var standalone = false;
 
 // For Standalone from WebBrowser partial execution - uncomment this
-//setTimeout(function() {
-//  window.textEditor.initialize(null);
+if (standalone) {
+    setTimeout(function() {
+    window.textEditor.initialize(null);
 
-//  te.setvalue("# Markdown Text\n\n* Bullet 1\n* Bullet 2");
-//  // demonstrate how an external application can 'globally' trigger a function
-//  //Invoke("setvalue","# Markdown Text\n\n* Bullet 1\n* Bullet 2");   
-//},400);
+    te.setvalue("# Markdown Text\n\n* Bullet 1\n* Bullet 2");
+    // demonstrate how an external application can 'globally' trigger a function
+    //Invoke("setvalue","# Markdown Text\n\n* Bullet 1\n* Bullet 2");   
+    },400);
+}

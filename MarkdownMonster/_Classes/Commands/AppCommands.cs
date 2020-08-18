@@ -412,20 +412,20 @@ namespace MarkdownMonster
             SaveCommand = new CommandBase((s, e) =>
             {
                 var tab = Model.Window.TabControl?.SelectedItem as TabItem;
-                var doc = tab?.Tag as MarkdownDocumentEditor;
-                if (doc == null)
+                var editor = tab?.Tag as MarkdownDocumentEditor;
+                if (editor == null)
                     return;
 
-                if (doc.MarkdownDocument.Filename == "untitled")
+                if (editor.MarkdownDocument.Filename == "untitled")
                     SaveAsCommand.Execute(tab);
-                else if (!doc.SaveDocument())
+                else if (!editor.SaveDocument())
                 {
                     Model.Window.ShowStatusError(
                         "Couldn't save document. Most likely the file is locked or the path is no longer valid.");
                     SaveAsCommand.Execute(tab);
                 }
 
-                Model.Window.PreviewMarkdown(doc, keepScrollPosition: true);
+                Model.Window.PreviewMarkdown(editor, keepScrollPosition: true);
             }, (s, e) =>
             {
                 if (!Model.IsEditorActive)

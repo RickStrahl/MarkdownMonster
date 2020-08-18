@@ -1672,7 +1672,7 @@ namespace MarkdownMonster
         /// <summary>
         /// Sets the Markdown Document as having changes
         /// </summary>
-        /// <param name="value">ignored</param>
+        /// <param name="value">value to set dirty flag to</param>
         public bool SetDirty(bool value)
         {
             GetMarkdown();

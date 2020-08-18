@@ -42,7 +42,7 @@ te.keyBindings = {
     te.keyboardCommand("InsertCodeBlock");
   },
   saveDocument: function () {
-    te.mm.textbox.IsDirty(); // force document to update
+    //te.mm.textbox.IsDirty(true); // force document to update
     te.keyboardCommand("SaveDocument");
   },
   newDocument: function () {

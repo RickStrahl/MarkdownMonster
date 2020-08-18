@@ -314,7 +314,8 @@ namespace MarkdownMonster
                 OnPropertyChanged(nameof(Encoding));
             }
         }
-        private Encoding _Encoding;
+
+        private Encoding _Encoding = mmFileUtils.Utf8EncodingWithoutBom;
 
         /// <summary>
         /// Determines whether the active document has changes
@@ -679,6 +680,7 @@ namespace MarkdownMonster
                         }
 
                         File.WriteAllText(filename, fileText, Encoding);
+
                         OriginalText = CurrentText;
                         if (Dispatcher != null)
                             // need dispatcher in order to handle the
@@ -695,8 +697,9 @@ namespace MarkdownMonster
                             CleanupBackupFile();
 
                     }
-                    catch
+                    catch(Exception ex)
                     {
+                        mmApp.Log("Document Save Failed:  " + filename + "  - " + Encoding?.EncodingName, ex, false, LogLevels.Warning);
                         return false;
                     }
                     finally
@@ -961,9 +964,11 @@ namespace MarkdownMonster
             {
                 Encoding = mmFileUtils.GetFileEncoding(filename);
             }
-            catch
+            catch(Exception ex)
             {
-                Encoding = Encoding.UTF8;
+                // TODO: Remove once errors are addressed
+                mmApp.Log("Couldn't set file encoding. Assign Utf-8. " + filename, ex, false, LogLevels.Warning);
+                Encoding = mmFileUtils.Utf8EncodingWithoutBom;
             }
         }
 
