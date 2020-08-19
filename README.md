@@ -9,21 +9,33 @@
 
 Markdown Monster is an easy to use and extensible **Markdown Editor**, **Viewer** and **Weblog Publisher** for Windows. Our goal is to provide the best Markdown specific editor for Windows and make it as easy as possible to create Markdown documents. We provide a core editor and previewer, and a number of non-intrusive helpers to help embed content like images, links, tables, code and more into your documents with minimal effort.
 
+* [See what's new](https://github.com/RickStrahl/MarkdownMonster/blob/master/Changelog.md)  
+* [License](#license)
+
+> Note in order to open and build the Markdown Monster project you need at least [SDK Core 3.0 SDK Preview 5](https://dotnet.microsoft.com/download). For Visual Studio you need [Visual Studio 2019.2](https://visualstudio.microsoft.com/vs/preview/) or later and enable 'Use .NET Core Preview SDKs' in the **Preview Features** Options in VS).
+
 ## Installation
+
+### Direct
+
 You can download Markdown Monster using the self-contained installer:
 
 [Download Markdown Monster](http://markdownmonster.west-wind.com/download.aspx)
 
-Or you can you use [Chocolatey](https://chocolatey.org/) to install from the Windows Command Prompt:
+### Chocolatey
+
+You can you use [Chocolatey](https://chocolatey.org/) to install from the Windows Command Prompt:
 
 ```ps
 c:\> choco install markdownmonster
 ```
 
-* [See what's new](https://github.com/RickStrahl/MarkdownMonster/blob/master/Changelog.md)  
-* [License](#license)
+### Scoop
 
-> Note in order to open and build the Markdown Monster project you need at least [SDK Core 3.0 SDK Preview 5](https://dotnet.microsoft.com/download). For Visual Studio you need [Visual Studio 2019.2](https://visualstudio.microsoft.com/vs/preview/) or later and enable 'Use .NET Core Preview SDKs' in the **Preview Features** Options in VS).
+You can use [Scoop](https://scoop.sh/) to install and update from the Windows Command Prompt. This is in the `extra` bucket which is automatically updated with the latest release when a new build is released on GitHub. 
+
+* To install run: `scoop install markdown-monster`
+* To update run: `scoop update markdown-monster`
 
 ## Overview
 Here's what Markdown Monster looks like using the default **Dark Theme**: 
