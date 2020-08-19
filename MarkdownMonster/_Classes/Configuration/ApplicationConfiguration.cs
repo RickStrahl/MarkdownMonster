@@ -393,77 +393,75 @@ namespace MarkdownMonster
 
         public MarkdownOptionsConfiguration MarkdownOptions { get; set; }
 
-	    /// <summary>
-	    /// Editor to editor syntax mappings that maps file extensions to
-	    /// specific Ace Editor syntax formats. If a file with the given
-	    /// extension is opened it uses the specified syntax highlighting
-	    /// in the editor.
-	    /// </summary>
-	    public Dictionary<string, string> EditorExtensionMappings { get; set; } = new Dictionary<string, string>
-	    {
-		    {"md", "markdown"},
-            {"markdown", "markdown" },
-	        {"mdcrypt", "markdown"},
-	        {"mdown", "markdown" },
-	        {"mkd", "markdown" },
-	        {"mkdn", "markdown" },
-
-            
+        /// <summary>
+        /// Editor to editor syntax mappings that maps file extensions to
+        /// specific Ace Editor syntax formats. If a file with the given
+        /// extension is opened it uses the specified syntax highlighting
+        /// in the editor.
+        ///
+        /// Extension to Image Icon mappings are in <see cref="AssociatedIcons.ExtensionToImageMappings"/> 
+        /// </summary>
+        public Dictionary<string, string> EditorExtensionMappings { get; set; } = new Dictionary<string, string>
+        {
+            {"md", "markdown"},
+            {"markdown", "markdown"},
+            {"mdcrypt", "markdown"},
+            {"mdown", "markdown"},
+            {"mkd", "markdown"},
+            {"mkdn", "markdown"},
             {"json", "json"},
-	        { "kavadocs", "json"},
-            { "mdproj", "json" },
-
+            {"kavadocs", "json"},
+            {"mdproj", "json"},
             {"html", "html"},
-			{"htm", "html" },
+            {"htm", "html"},
 
             // Languages
-		    {"cs", "csharp"},
+            {"cs", "csharp"},
             {"fs", "fsharp"},
-		    {"js", "javascript"},
-		    {"ts", "typescript"},
+            {"js", "javascript"},
+            {"ts", "typescript"},
             {"dart", "dart"},
-		    {"css", "css"},
-		    {"less", "less"},
-		    {"sass", "sass"},
-		    {"sql", "sqlserver"},
-		    {"prg", "foxpro"},
-		    {"vb", "vb"},
-		    {"py", "python"},
-		    {"c", "c_cpp"},
-		    {"cpp", "c_cpp"},
-		    {"ps1", "powershell"},
-		    {"ini", "ini"},
-		    {"sh", "bash"},
-		    {"bat", "batchfile"},
-		    {"cmd", "batchfile"},
+            {"css", "css"},
+            {"less", "less"},
+            {"sass", "sass"},
+            {"sql", "sqlserver"},
+            {"prg", "foxpro"},
+            {"vb", "vb"},
+            {"py", "python"},
+            {"c", "c_cpp"},
+            {"cpp", "c_cpp"},
+            {"ps1", "powershell"},
+            {"sh", "bash"},
+            {"bat", "batchfile"},
+            {"cmd", "batchfile"},
+            {"asp", "html"},
+            {"aspx", "html"},
+            {"jsx", "jsx"},
+            {"php", "php"},
+            {"go", "golang"},
+            {"cshtml", "razor"},
+            {"vbhtml", "razor"},
+            {"r", "r"},
+            {"mak", "makefile"},
 
-		    {"asp", "html"},
-		    {"aspx", "html"},
-		    {"jsx", "jsx"},
-		    {"php", "php"},
-		    {"go", "golang"},
-		    {"cshtml", "razor"},
-            {"vbhtml", "razor" },
-		    {"r", "r"},
-		    {"mak", "makefile"},
-
-		    {"xml", "xml"},
-		    {"xaml", "xml"},
-		    {"wsdl", "xml"},
-		    {"config", "xml"},
-	        {"user", "xml" },
-	        {"dotsettings", "xml" },
+            // Configuration
+            {"xml", "xml"},
+            {"xaml", "xml"},
+            {"wsdl", "xml"},
+            {"config", "xml"},
+            {"ini", "ini"},
+            {"user", "xml"},
+            {"dotsettings", "xml"},
             {"csproj", "xml"},
-            {"sln", "xml" },
-		    {"nuspec", "xml"},
-
-		    {"yaml", "yaml"},
+            {"sln", "xml"},
+            {"nuspec", "xml"},
+            {"yaml", "yaml"},
             {"dockerfile", "dockerfile"},
-	        {"yml", "yaml"},
-	        {"diff", "diff" },
+            {"yml", "yaml"},
+            {"diff", "diff"},
             {"txt", "text"},
-		    {"log", "text"}
-	    };
+            {"log", "text"}
+        };
 
         /// <summary>
 		/// Configuration object that olds info about how applications are updated

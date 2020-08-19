@@ -2756,7 +2756,7 @@ Do you want to continue anyway?", "Disable Markdown Script Rendering",
                 foreach (var file in files)
                 {
                     var ext = Path.GetExtension(file.ToLower());
-                    if (File.Exists(file) && mmApp.AllowedFileExtensions.Contains($",{ext},"))
+                    if (File.Exists(file) && ("," +  mmApp.AllowedFileExtensions + ",").Contains($",{ext},"))
                     {
                         OpenTab(file, rebindTabHeaders: true);
                     }

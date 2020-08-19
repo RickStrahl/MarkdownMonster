@@ -151,6 +151,12 @@ namespace MarkdownMonster.Utilities
             return wpfBitmap;
         }
 
+
+        /// <summary>
+        /// List of extensions or files to map to images in the image folder
+        ///
+        /// Note: Editor Extension Mappings is in  <see cref="ApplicationConfiguration.EditorExtensionMappings"/> 
+        /// </summary>
         public static Dictionary<string, string> ExtensionToImageMappings { get; } = new Dictionary<string, string>()
         {
 
