@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2015/06/nuspec.xsd">
   <metadata>
     <id>MarkdownMonster.Portable</id>
-    <version>1.23.16</version>
+    <version>1.23.17</version>
     <title>Markdown Monster Portable Install</title>
     <authors>Rick Strahl, West Wind Technologies</authors>
     <owners>West Wind Technologies</owners>
@@ -23,6 +23,8 @@ Markdown Monster can also be extended using an easy, but powerful .NET based add
 Markdown Monster can be downloaded and evaluated for free. This package is **unlimited and fully functional**, but a [license](http://store.west-wind.com/product/markdown_monster) is required for continued use. Although Markdown Monster is licensed software, the source code is available in the open on GitHub. Requires **.NET 4.7.2 or later**.
 
 This is a portable installation that doesn't run an installer installer and keeps all configuration data in a self-contained folder. The full desktop Chocolatey install is also available in the [MarkdownMonster Package](https://chocolatey.org/packages/MarkdownMonster).
+
+![Markdown Monster](https://markdownmonster.west-wind.com/Images/screenshot.png)
     </description>
     <summary>Markdown Monster is an easy to use and extensible Markdown Editor and viewer and Weblog Publisher</summary>
     <releaseNotes>https://github.com/RickStrahl/MarkdownMonster/blob/master/Changelog.md</releaseNotes>

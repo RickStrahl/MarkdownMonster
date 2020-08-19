@@ -5,8 +5,8 @@
 [![Web Site](https://img.shields.io/badge/Markdown_Monster-WebSite-blue.svg)](https://markdownmonster.west-wind.com)
 
 
-### 1.23.16
-<small>August 18th, 2020</small> 
+### 1.23.17
+<small>August 19th, 2020</small> 
 
 * **Add additional Code Fencing inline Syntax Colorings**   
 Added additional inline syntax colorings for the following languages: `csharp`, `typescript`, `json`, `typescript`. You now get syntax colored text as you type or paste inside of triple backtick fenced code blocks.
