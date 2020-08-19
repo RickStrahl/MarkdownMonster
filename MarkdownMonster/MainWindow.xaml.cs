@@ -3120,9 +3120,9 @@ Do you want to continue anyway?", "Disable Markdown Script Rendering",
                 Model.Window.ShowStatusError("Couldn't reopen file with the " + encoding.EncodingName + " Encoding.");
             else
             {
+                // Save Selection and past new content
                 Model.ActiveEditor.ReplaceContent(Model.ActiveDocument.CurrentText);
                 Model.ActiveEditor.PreviewMarkdownCallback(true);
-
                 Model.ActiveDocument.IsDirty = true;
             }
 

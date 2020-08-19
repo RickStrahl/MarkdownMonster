@@ -36,11 +36,31 @@ namespace MarkdownMonster
             Invoke("setfocus", false);
         }
 
+        /// <summary>
+        /// Selects the specified range of characters in the editor.
+        /// </summary>
+        /// <param name="startRow"></param>
+        /// <param name="startColumn"></param>
+        /// <param name="endRow"></param>
+        /// <param name="endColumn"></param>
+        /// <param name="noClearSelection"></param>
         public void SetSelectionRange(int startRow, int startColumn, int endRow, int endColumn)
         {
             Invoke("setSelectionRange", startRow, startColumn, endRow, endColumn);
         }
 
+        /// <summary>
+        /// Selects the specified range of characters in the editor using a value from GetSelectionRange
+        /// </summary>
+        public void SetSelectionRange(SelectionRange range)
+        {
+            Invoke("setSelectionRange", range.StartRow, range.StartColumn, range.EndRow, range.EndColumn);
+        }
+
+        /// <summary>
+        /// Returns the current selection as a Range Object with row column information.
+        /// </summary>
+        /// <returns></returns>
         public SelectionRange GetSelectionRange()
         {
             var range = Invoke("getselectionrange");
@@ -57,16 +77,36 @@ namespace MarkdownMonster
         }
 
 
+        /// <summary>
+        /// Gets the current text of the selection in the editor.
+        /// If nothing is selected (ie. just a cursor) an empty
+        /// string is returned.
+        /// </summary>
+        /// <returns></returns>
         public string GetSelection()
         {
             return Invoke("getselection", false) as string;
         }
 
+
+        /// <summary>
+        /// Sets the value of the current cursor insertion point.
+        /// Either the cursor position or if selection is active replaces
+        /// the entire selection with the text passed.
+        /// </summary>
+        /// <param name="text">text to replace with</param>
         public void SetSelection(string text)
         {
             Invoke("setselection", text);
         }
 
+        /// <summary>
+        /// Replaces the content of the full document with new text
+        /// using a selection.
+        ///
+        /// Preserves the Undo state.
+        /// </summary>
+        /// <param name="text"></param>
         public void ReplaceContent(string text)
         {
             Invoke("replaceContent", text);

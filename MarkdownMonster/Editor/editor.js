@@ -490,9 +490,17 @@
         // by using clipboard replacement
         // Leaves scroll position and undo buffer intact
         replaceContent: function (text) {
+            // remember cursor position
+            var pos = te.getCursorPosition();
+          
             var sel = te.editor.getSelection();
             sel.selectAll();
             te.setselection(text);
+
+            // reset cursor position
+            setTimeout(function() {
+                te.setCursorPosition(pos.row, pos.Col);
+              }, 5);
         },
         refresh: function (ignored) {
             te.editor.resize(true); //force a redraw
@@ -618,12 +626,12 @@
         },
         setSelectionRange: function (startRow, startColumn, endRow, endColumn) {
             var sel = te.editor.getSelection();
+
             // assume a selection range if an object is passed
             if (typeof startRow == "object") {
-                sel.setSelectionRange(startRow);
+              sel.setSelectionRange(startRow);
                 return;
             }
-
 
             var range = sel.getRange();
             range.setStart({ row: startRow, column: startColumn });
