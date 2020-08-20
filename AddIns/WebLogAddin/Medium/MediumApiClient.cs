@@ -106,6 +106,12 @@ namespace WebLogAddin.Medium
                 return false;
             }
 
+            if (string.IsNullOrEmpty(httpResult))
+            {
+                ErrorMessage = "The server returned no or non-JSON data for user retrieval.";
+                return false;
+            }
+            
             var result = JsonConvert.DeserializeObject<MediumUserResult>(httpResult);
             if (result == null)
             {
@@ -240,6 +246,12 @@ namespace WebLogAddin.Medium
             if (http.Error)
             {
                 ErrorMessage = http.ErrorMessage;
+                return null;
+            }
+
+            if (string.IsNullOrEmpty(httpResult))
+            {
+                ErrorMessage = "Request failure: Server returned no response.";
                 return null;
             }
             if (httpResult.Contains("\"errors\":"))
