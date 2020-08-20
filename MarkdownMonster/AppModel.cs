@@ -103,7 +103,7 @@ namespace MarkdownMonster
 
         /// <summary>
         /// Returns the active Tab's file name - this can either be
-        /// the name of a Markdown Doducment editor or just a filename
+        /// the name of a Markdown Document editor or just a filename
         /// or URL from a preview tab.
         /// </summary>
         public string ActiveTabFilename
