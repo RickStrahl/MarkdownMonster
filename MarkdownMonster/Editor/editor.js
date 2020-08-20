@@ -1291,9 +1291,8 @@ function Invoke(teFunction)
 
 //}
 
-var standalone = false;
-
 // For Standalone from WebBrowser partial execution - uncomment this
+var standalone = false;
 if (standalone) {
     setTimeout(function() {
     window.textEditor.initialize(null);

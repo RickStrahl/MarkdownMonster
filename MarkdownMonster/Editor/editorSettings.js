@@ -5,7 +5,7 @@ var editorSettings = {
   "theme": "vscodedark",
   "font": "Consolas",
   "fontSize": 17,
-  "lineHeight": 1.3,
+  "lineHeight": 1.45,
   "padding": 15,
   "maxWidth": 0,
   "highlightActiveLine": true,

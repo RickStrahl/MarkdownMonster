@@ -2,18 +2,18 @@ define("ace/theme/vscodedark",["require","exports","module","ace/lib/dom"], func
 
 exports.isDark = true;
 exports.cssClass = "ace-vscodedark";
-exports.cssText = ".ace-vscodedark .ace_gutter {\
+exports.cssText = ".ace-vscodedark {\
+background: #222;\
+color: #EEEEEE;\
+font-weight: normal;\
+}\
+.ace-vscodedark .ace_gutter {\
 background: #191919;\
 color: #E2E2E2\
 }\
 .ace-vscodedark .ace_print-margin {\
 width: 1px;\
 background: #333\
-}\
-.ace-vscodedark {\
-background: #222;\
-color: #EEEEEE;\
-font-weight: normal;\
 }\
 .ace-vscodedark .ace_cursor {\
 color: #A7A7A7\
@@ -28,9 +28,9 @@ box-shadow: 0 0 3px 0px #141414;\
 .ace-vscodedark .ace_marker-layer .ace_step {\
 background: rgb(102, 82, 0)\
 }\
-.ace-vscodedark .ace_marker-layer .ace_bracket {\
+.ace-vscodedark .ace_marker-layer .ace_bracket .ace_paren {\
 margin: -1px 0 0 -1px;\
-border: 1px solid rgba(255, 255, 255, 0.25)\
+border: 1px solid #888;\
 }\
 .ace-vscodedark .ace_marker-layer .ace_active-line {\
 background: #303030;\
@@ -60,6 +60,11 @@ color:  #4c84b3;;\
 }\
 .ace-vscodedark .ace_constant.ace_escape {\
 color: goldenrod !important;\
+}\
+.ace-vscodedark .ace_constant.ace_language,\
+.ace-vscodedark .ace_constant.ace_attribute\
+{\
+color: #57bebe;\
 }\
 .ace-vscodedark .ace_keyword {\
 color: #569bd5;\
@@ -91,7 +96,7 @@ border-color: #F8F8F8\
 }\
 .ace-vscodedark .ace_support.ace_function,\
 .ace-vscodedark .ace_function {\
-color: #fff8d6;\
+color: lightskyblue;\
 }\
 .ace-vscodedark .ace_markup.ace_list,\
 .ace-vscodedark .ace_storage {\
@@ -152,3 +157,4 @@ dom.importCssString(exports.cssText, exports.cssClass);
                         }
                     });
                 })();
+            

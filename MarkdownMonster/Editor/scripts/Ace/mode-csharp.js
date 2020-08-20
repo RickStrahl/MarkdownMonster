@@ -59,6 +59,7 @@ var CSharpHighlightRules = function() {
     var keywordMapper = this.createKeywordMapper({
         "variable.language": "this",
         "keyword": "abstract|async|await|event|new|struct|as|explicit|null|switch|base|extern|object|this|bool|false|operator|throw|break|finally|out|true|byte|fixed|override|try|case|float|params|typeof|catch|for|private|uint|char|foreach|protected|ulong|checked|goto|public|unchecked|class|if|readonly|unsafe|const|implicit|ref|ushort|continue|in|return|using|decimal|int|sbyte|virtual|default|interface|sealed|volatile|delegate|internal|partial|short|void|do|is|sizeof|while|double|lock|stackalloc|else|long|static|enum|namespace|string|var|dynamic",
+        "constant.function": "Where|Distinct|OrderBy|OrderByDescending|GroupBy|ThenBy|Query|First|FirstOrDefault|Last|LastOrDefault|Single|SingleOrDefault|Any|All|Select|Take|Skip|SkipWhile|Contains|Join|Union|ToList|ToArray|Max|Min|Sum|Count|Average|Aggregate|OfType|AsEnumerable|AsQueryable|GetEnumerator|ForEach|Cast|ToString",
         "constant.language": "null|true|false"
     }, "identifier");
 
@@ -73,10 +74,12 @@ var CSharpHighlightRules = function() {
                 token : "comment", // multi line comment
                 regex : "\\/\\*",
                 next : "comment"
-            }, {
+            }, 
+            {
                 token : "string", // character
                 regex : /'(?:.|\\(:?u[\da-fA-F]+|x[\da-fA-F]+|[tbrf'"n]))?'/
-            }, {
+            },                   
+            {
                 token : "string", start : '"', end : '"|$', next: [
                     {token: "constant.language.escape", regex: /\\(:?u[\da-fA-F]+|x[\da-fA-F]+|[tbrf'"n])/},
                     {token: "invalid", regex: /\\./}
@@ -100,25 +103,37 @@ var CSharpHighlightRules = function() {
             }, {
                 token : "constant.language.boolean",
                 regex : "(?:true|false)\\b"
-            }, {
+            },                       
+            {
+                token: "constant.language.attribute",
+                regex: '(^|(\\s.*))(\\[)(.*?)(\\])$'                
+            },  
+             {
+                 token: "constant.language.generic",
+                 regex: '(?:[a-zA-Z_$][a-zA-Z0-9_$]*<)(.*?)(?=>)'
+             },                     
+            {
                 token : keywordMapper,
                 regex : "[a-zA-Z_$][a-zA-Z0-9_$]*\\b"
-            }, {
+            },
+            {
                 token : "keyword.operator",
-                regex : "!|\\$|%|&|\\*|\\-\\-|\\-|\\+\\+|\\+|~|===|==|=|!=|!==|<=|>=|<<=|>>=|>>>=|<>|<|>|!|&&|\\|\\||\\?\\:|\\*=|%=|\\+=|\\-=|&=|\\^=|\\b(?:in|instanceof|new|delete|typeof|void)"
+                regex : "!|\\$|%|&|\\*|\\-\\-|\\-|\\+\\+|\\+|~|===|==|=|!=|!==|<=|>=|<<=|>>=|>>>=|<>|<|>|!|&&|\\|\\||\\?\\:|\\*=|%=|\\+=|\\-=|&=|\\^=|\\b(?:in|instanceof|new|delete|typeof|nameof|void)"
             }, {
                 token : "keyword",
                 regex : "^\\s*#(if|else|elif|endif|define|undef|warning|error|line|region|endregion|pragma)"
             }, {
                 token : "punctuation.operator",
                 regex : "\\?|\\:|\\,|\\;|\\."
-            }, {
+            }, 
+            {
                 token : "paren.lparen",
                 regex : "[[({]"
             }, {
                 token : "paren.rparen",
                 regex : "[\\])}]"
-            }, {
+            },                
+            {
                 token : "text",
                 regex : "\\s+"
             }
