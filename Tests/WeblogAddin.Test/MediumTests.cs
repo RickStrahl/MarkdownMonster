@@ -51,7 +51,10 @@ namespace WeblogAddin.Test
 
             // make sure there is at least one publication available
             var pubs = medium.GetBlogs();
+
             Assert.IsNotNull(pubs, medium.ErrorMessage);
+            Assert.IsTrue(pubs.Count > 0);
+
             string pubId = pubs.FirstOrDefault().BlogId as string;
             WeblogInfo.BlogId = pubId;
 

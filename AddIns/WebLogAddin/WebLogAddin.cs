@@ -270,8 +270,8 @@ namespace WeblogAddin
 				if (post == null)
 				{
 					mmApp.Log($"Error sending post to Weblog at {weblogInfo.ApiUrl}: " + client.ErrorMessage);
-					MessageBox.Show($"Error sending post to Weblog: " + client.ErrorMessage,
-						mmApp.ApplicationName,
+					MessageBox.Show(client.ErrorMessage,
+						"Error Sending Post to Medium",
 						MessageBoxButton.OK,
 						MessageBoxImage.Exclamation);
 					return false;

@@ -53,6 +53,9 @@ PrecompiledWeb/
 Output-Build.txt
 __README.htm
 __Todo.htm
+XXXapikey.txt
+
+
 MarkdownMonsterWeb/website.publishproj
 MarkdownMonsterWeb/App_Data/PublishProfiles/Markdown Monster Web Site.pubxml
 MarkdownMonsterWeb/BugReport/telemetry.txt
@@ -62,7 +65,8 @@ MarkdownMonsterWeb/BugReport/telemetry.txt
 /MediumApi.websurge
 /mm.vshost.exe.config
 /mm.vshost.exe.manifest
-/Tests/WeblogAddin.Test/apikey.txt
+
+
 {6AB5E445-9660-454B-BF02-506000EED978}
 MarkdownMonster/Editor/fileicons/sql.svg
 *.deb

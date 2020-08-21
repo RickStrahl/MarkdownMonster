@@ -308,7 +308,7 @@ namespace WebLogAddin.Medium
         }
 
        
-        public IEnumerable<UserBlog>  GetBlogs()
+        public List<UserBlog>  GetBlogs()
         {
             if (!GetUser())
                 return null;
@@ -339,6 +339,12 @@ namespace WebLogAddin.Medium
                      BlogId = blog.id,
                      BlogName = blog.name,                     
                 });
+            }
+
+            if (blogs.Count < 1)
+            {
+                ErrorMessage = "There are no Publications available to publish to on this account.";
+                return null;
             }
 
             return blogs;
