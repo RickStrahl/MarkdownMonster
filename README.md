@@ -89,6 +89,7 @@ Markdown Monster provides many useful features:
 * Line and Word counts
 * Synced Document Outline
 * Distraction free mode
+* Markdown folding
 
 ### Previewer
 * Scroll synced preview window
