@@ -895,6 +895,9 @@ namespace MarkdownMonster
         {
             var origRange = GetSelectionRange();
 
+            if (origRange == null)
+                return;
+
             LinkReferenceResult markdownResult = null;
             try
             {
@@ -913,16 +916,14 @@ namespace MarkdownMonster
             }
 
             SetMarkdown(markdownResult.Markdown, keepUndoBuffer: true, updateDirtyFlag: true);
-            if (origRange != null)
-            {
-                SetCursorPosition(new AcePosition
-                {
-                    row = origRange.StartRow + 1, column = origRange.StartColumn + markdownResult.SelectionLength
-                });
-            }
 
+            SetCursorPosition(new AcePosition
+            {
+                row = origRange.StartRow + 1, column = origRange.StartColumn + markdownResult.SelectionLength
+            });
+        
             // Force a refresh of the window
-            Window.PreviewBrowser.Refresh(true);
+            Window.PreviewBrowser?.Refresh(true);
         }
 
 
