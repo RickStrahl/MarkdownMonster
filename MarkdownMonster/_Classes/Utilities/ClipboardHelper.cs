@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Drawing;
 using System.Text;
 using System.Threading;
 using System.Windows;
+using System.Windows.Media;
 using MarkdownMonster.Windows;
 using Westwind.Utilities;
 
@@ -306,6 +308,44 @@ EndSelection:<<<<<<<<4";
 
             return null;
         }
+
+
+        /// <summary>
+        /// Returns an image source from the clipboard if available
+        /// </summary>
+        /// <returns>image source or null</returns>
+        public static ImageSource GetImageSource()
+        {
+            try
+            {
+                // This no longer works - image doesn't display in imagesource.
+                //image =  System.Windows.Clipboard.GetImage();
+
+                var bmp = System.Windows.Forms.Clipboard.GetImage();
+                return WindowUtilities.BitmapToBitmapSource(bmp as Bitmap);
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+        }
+
+        /// <summary>
+        /// Returns an image from the clipboard and capture exception
+        /// </summary>
+        /// <returns>Bitmap captured or null</returns>
+        public static Bitmap GetImage()
+        {
+            try
+            {
+                return System.Windows.Forms.Clipboard.GetImage() as Bitmap;
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+        }
+
 
         /// <summary>
         /// Safe way to retrieve whether clipboard contains an image

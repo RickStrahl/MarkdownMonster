@@ -125,15 +125,18 @@
                     <TextBlock Margin="0,2,5,0" FontWeight="Semibold">Image Resizing:</TextBlock>
                     <!--<TextBlock Margin="5,0,0,0" VerticalAlignment="Center">Width:</TextBlock>-->
                     
-                    <TextBox Name="TextBoxImageWidth" Margin="5,0,0,0" Text="{Binding ImageWidth}"  Width="50"  
-                                 Style="{StaticResource SmallTextBox}" ToolTip="Image Width"
-                                 LostFocus="TextBox_ImageSizeChanged" />
+                    <TextBox Name="TextBoxImageWidth" Margin="5,0,0,0" 
+                             Text="{Binding ImageWidth}"  
+                             Width="50"  Height="25" Padding="1"
+                             ToolTip="Image Width"
+                             LostFocus="TextBox_ImageSizeChanged" />
                     <TextBlock Margin="5,0,5,0" VerticalAlignment="Center">x</TextBlock>
 
                     <!--<TextBlock Margin="8,0,0,0" VerticalAlignment="Center">Height:</TextBlock>-->
-                    <TextBox Name="TextBoxImageHeight" Text="{Binding ImageHeight}"  Width="50" 
+                    <TextBox Name="TextBoxImageHeight" Text="{Binding ImageHeight}"  
+                             Width="50" Height="25" Padding="1"
                              ToolTip="Image Height" 
-                             LostFocus="TextBox_ImageSizeChanged" Style="{StaticResource SmallTextBox}"  />
+                             LostFocus="TextBox_ImageSizeChanged"   />
 
                     <Button Name="ButtonRememberLastSize"  Click="ButtonRememberLastSize_Click"
                             ToolTip="Recall last saved image size" >
@@ -190,7 +193,11 @@
                        Margin="0,15,0,10">Note: You can also paste images from the clipboard here or directly into the document</TextBlock>
         </StackPanel>
 
-        <Image Name="ImagePreview" Grid.Row="2" Margin="7,5,7,0"/>
+        <Image Name="ImagePreview" Grid.Row="2" 
+               Margin="7,5,7,0"  Source="c:\temp\test.png">
+        </Image>
+            
+            
 
         <StatusBar  Grid.Row="3" Height="30"  VerticalAlignment="Bottom" HorizontalAlignment="Stretch">
             <StatusBar.ItemsPanel>

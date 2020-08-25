@@ -416,7 +416,7 @@
             </MenuItem>
             <MenuItem Header="_Tools" Name="MainMenuTools" x:FieldModifier="public">                 
                 <MenuItem Name="MenuAddinManager" Header="_Add-in Manager" Command="{Binding Commands.AddinManagerCommand}"/>
-                <MenuItem Name="MenuAddins" Header="Add-ins" />
+                <MenuItem Name="MenuAddins" Header="Add-_ins" />
                 <Separator/>
                 <MenuItem Name="MenuOpenConfigFolder" Header="Open Configuration Folder" Click="Button_Handler" />
                 <MenuItem Name="MenuOpenPreviewFolder" Header="Open Preview Themes Folder" Click="Button_Handler"/>

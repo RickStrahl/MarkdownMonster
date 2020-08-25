@@ -683,7 +683,6 @@ namespace MarkdownMonster.Windows
                     Height = 800;
                 }
 
-                
                 var bmp = source as InteropBitmap;
                 if (bmp != null)
                 {
@@ -783,13 +782,19 @@ namespace MarkdownMonster.Windows
             BitmapSource image;
             try
             {
-                image = Clipboard.GetImage();
+                var bmp = System.Windows.Forms.Clipboard.GetImage();
+                image = WindowUtilities.BitmapToBitmapSource(bmp as Bitmap);
+
+                // This no longer works
+                //image =  System.Windows.Clipboard.GetImage();
             }
             catch (Exception e)
             {
                 StatusBar.ShowStatusError("Image retrieval from clipboard failed: " + e.Message);
                 return;
             }
+
+            ImagePreview.Source = image;
 
             SetImagePreview(image);
 
