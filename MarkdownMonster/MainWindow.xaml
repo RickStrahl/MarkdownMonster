@@ -1210,7 +1210,7 @@
                 <ComboBox   Name="DocumentType" x:FieldModifier="public" HorizontalAlignment="Left"
                             Width="Auto"  FontSize="13"  Padding="3,0"
                             ItemsSource="{Binding DocumentTypes}"
-                            SelectedItem="{Binding ActiveEditor.EditorSyntax, Mode=TwoWay}"                             
+                            SelectedItem="{Binding ActiveEditor.MarkdownDocument.EditorSyntax, Mode=TwoWay}"                             
                             ToolTip="Editor Code Syntax" 
                             Background="Transparent" BorderThickness="0"
                             SelectionChanged="DocumentType_SelectionChanged"

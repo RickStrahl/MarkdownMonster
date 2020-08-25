@@ -84,8 +84,7 @@ namespace MarkdownMonster
                 OnPropertyChanged(nameof(HtmlRenderFilename));
                 OnPropertyChanged(nameof(IsDirty));
 
-                if (mmApp.Model?.ActiveEditor != null)
-                    mmApp.Model.ActiveEditor.EditorSyntax = ResolveSyntaxFromFilename();
+                EditorSyntax = ResolveSyntaxFromFilename();
             }
         }
         private string _filename;
@@ -316,6 +315,19 @@ namespace MarkdownMonster
         }
 
         private Encoding _Encoding = mmFileUtils.Utf8EncodingWithoutBom;
+
+
+        public string EditorSyntax
+        {
+            get => _editorSyntax;
+            set
+            {
+                if (value == _editorSyntax) return;
+                _editorSyntax = value;
+                OnPropertyChanged();
+            }
+        }
+        private string _editorSyntax = "markdown";
 
         /// <summary>
         /// Determines whether the active document has changes

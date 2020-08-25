@@ -52,7 +52,7 @@ namespace MarkdownMonster.Windows
                 !Model.AppModel.Configuration.IsDocumentOutlineVisible) return;
 
             var editor = Model.AppModel.ActiveEditor;
-            if (editor == null || editor.EditorSyntax != "markdown")
+            if (editor == null || editor.MarkdownDocument.EditorSyntax != "markdown")
             {
                 Model.Window.TabDocumentOutline.Visibility = Visibility.Collapsed;
                 Model.DocumentOutline = null;

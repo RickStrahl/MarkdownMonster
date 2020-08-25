@@ -717,7 +717,7 @@ namespace MarkdownMonster
                     return false;
                 if (Model.ActiveDocument.Filename == "untitled")
                     return true;
-                if (Model.ActiveEditor?.EditorSyntax != "markdown")
+                if (Model.ActiveEditor?.MarkdownDocument.EditorSyntax != "markdown")
                     return false;
 
                 return true;
@@ -771,7 +771,7 @@ namespace MarkdownMonster
                     return false;
                 if (Model.ActiveDocument.Filename == "untitled")
                     return true;
-                if (Model.ActiveEditor.EditorSyntax != "markdown")
+                if (Model.ActiveEditor.MarkdownDocument.EditorSyntax != "markdown")
                     return false;
 
                 return true;
@@ -1481,7 +1481,7 @@ namespace MarkdownMonster
             SpellCheckNextCommand =
                 new CommandBase(
                     (parameter, command) => { Model.ActiveEditor?.AceEditor?.Invoke("spellcheckNext", false); },
-                    (p, c) => Model.ActiveEditor?.EditorSyntax == "markdown");
+                    (p, c) => Model.ActiveEditor?.MarkdownDocument.EditorSyntax == "markdown");
         }
 
 
@@ -1492,7 +1492,7 @@ namespace MarkdownMonster
             SpellCheckPreviousCommand =
                 new CommandBase(
                     (parameter, command) => { Model.ActiveEditor?.AceEditor?.Invoke("spellcheckPrevious", false); },
-                    (p, c) => Model.ActiveEditor?.EditorSyntax == "markdown");
+                    (p, c) => Model.ActiveEditor?.MarkdownDocument.EditorSyntax == "markdown");
         }
 
 
@@ -2121,7 +2121,7 @@ namespace MarkdownMonster
 
                 if (action == "DocumentOutline")
                 {
-                    if (Model.ActiveEditor == null && Model.ActiveEditor.EditorSyntax != "markdown")
+                    if (Model.ActiveEditor == null && Model.ActiveEditor.MarkdownDocument.EditorSyntax != "markdown")
                         return;
 
                     Model.Configuration.IsDocumentOutlineVisible = true;

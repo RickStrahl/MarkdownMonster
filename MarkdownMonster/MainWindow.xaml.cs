@@ -1192,7 +1192,6 @@ namespace MarkdownMonster
                 editor = new MarkdownDocumentEditor
                 {
                     Window = this,
-                    EditorSyntax = syntax,
                     InitialLineNumber = initialLineNumber,
                     IsReadOnly = readOnly,
                     NoInitialFocus = noFocus,
@@ -1211,7 +1210,10 @@ namespace MarkdownMonster
                     PreviewTab = tab;
                 }
 
-                var doc = new MarkdownDocument() {Filename = mdFile ?? "untitled", Dispatcher = Dispatcher};
+                var doc = new MarkdownDocument() {
+                    Filename = mdFile ?? "untitled",
+                    EditorSyntax = "markdown",
+                    Dispatcher = Dispatcher};
                 if (doc.Filename != "untitled")
                 {
                     doc.Filename = FileUtils.GetPhysicalPath(doc.Filename);
@@ -1974,7 +1976,7 @@ namespace MarkdownMonster
                 {
                     icon = FolderStructure.IconList.GetIconFromFile(document.Filename);
                     if (icon == AssociatedIcons.DefaultIcon && Model.ActiveEditor != null)
-                        icon = FolderStructure.IconList.GetIconFromType(Model.ActiveEditor.EditorSyntax);
+                        icon = FolderStructure.IconList.GetIconFromType(Model.ActiveEditor.MarkdownDocument.EditorSyntax);
                 }
 
                 var img = new Image() {Source = icon, Height = 16, Margin = new Thickness(0, 1, 5, 0)};
@@ -2830,7 +2832,7 @@ Do you want to continue anyway?", "Disable Markdown Script Rendering",
             if (Model.ActiveEditor == null)
                 return;
 
-            Model.ActiveEditor.SetEditorSyntax(Model.ActiveEditor.EditorSyntax);
+            Model.ActiveEditor.SetEditorSyntax(Model.ActiveEditor.MarkdownDocument.EditorSyntax);
             SetTabHeaderBinding(TabControl.SelectedItem as TabItem, Model.ActiveEditor.MarkdownDocument);
 
             // Refresh the Preview to show preview for html and markdown and hide it for others

@@ -103,16 +103,16 @@ namespace MarkdownMonster
         public AceEditorInterop AceEditor { get; set; }
 
 
-        public string EditorSyntax
-        {
-            get => _editorSyntax;
-            set
-            {
-                if (value == _editorSyntax) return;
-                _editorSyntax = value;
-                OnPropertyChanged();
-            }
-        }
+        //public string EditorSyntax
+        //{
+        //    get => _editorSyntax;
+        //    set
+        //    {
+        //        if (value == _editorSyntax) return;
+        //        _editorSyntax = value;
+        //        OnPropertyChanged();
+        //    }
+        //}
 
         private string _editorSyntax;
 
@@ -235,9 +235,9 @@ namespace MarkdownMonster
             else if (forceReload)
                 WebBrowser.Navigate(new Uri(Path.Combine(App.InitialStartDirectory, "Editor\\editor.htm")));
 
-            EditorSyntax = mmFileUtils.GetEditorSyntaxFromFileType(MarkdownDocument.Filename);
-            if (string.IsNullOrEmpty(EditorSyntax))
-                EditorSyntax = "markdown";
+            MarkdownDocument.EditorSyntax = mmFileUtils.GetEditorSyntaxFromFileType(MarkdownDocument.Filename);
+            if (string.IsNullOrEmpty(MarkdownDocument.EditorSyntax))
+                MarkdownDocument.EditorSyntax = "markdown";
         }
 
 
@@ -257,11 +257,11 @@ namespace MarkdownMonster
                     //throw;
                 }
 
-                if (EditorSyntax != "markdown")
-                    AceEditor?.SetLanguage(EditorSyntax);
+                if (MarkdownDocument.EditorSyntax != "markdown")
+                    AceEditor?.SetLanguage(MarkdownDocument.EditorSyntax);
 
 
-                if (EditorSyntax == "markdown" || EditorSyntax == "text")
+                if (MarkdownDocument.EditorSyntax == "markdown" || MarkdownDocument.EditorSyntax == "text")
                     AceEditor?.EnableSpellChecking(!mmApp.Configuration.Editor.EnableSpellcheck,
                         mmApp.Configuration.Editor.Dictionary);
                 else
@@ -1154,7 +1154,7 @@ namespace MarkdownMonster
                         // editor to apply new settings
                         AceEditor.SetEditorStyling();
 
-                        if (EditorSyntax == "markdown" || EditorSyntax == "text")
+                        if (MarkdownDocument.EditorSyntax == "markdown" || MarkdownDocument.EditorSyntax == "text")
                             AceEditor.EnableSpellChecking(!mmApp.Configuration.Editor.EnableSpellcheck,
                                 mmApp.Configuration.Editor.Dictionary);
                         else
@@ -1530,7 +1530,7 @@ namespace MarkdownMonster
         /// </summary>
         public bool RemoveMarkdownFormatting()
         {
-            if (EditorSyntax != "markdown")
+            if (MarkdownDocument.EditorSyntax != "markdown")
                 return false;
 
             var markdown = GetSelection();
@@ -1598,7 +1598,7 @@ namespace MarkdownMonster
         public void PreviewMarkdownCallback(bool dontGetMarkdown = false, int editorLineNumber = -1, bool noPreviewScrolling = false)
         {
             if (Window.PreviewBrowser == null ||
-                (EditorSyntax != "markdown" && EditorSyntax != "html") )
+                (MarkdownDocument.EditorSyntax != "markdown" && MarkdownDocument.EditorSyntax != "html") )
                 return;
 
             if (!dontGetMarkdown)
@@ -1616,7 +1616,7 @@ namespace MarkdownMonster
         public void ScrollPreviewToEditorLineCallback(int editorLineNumber = -1, bool updateCodeBlocks = true, bool noScrollTimeout = false, bool noScrollTopAdjustment = false)
         {
             if (Window.PreviewBrowser == null ||
-                (EditorSyntax != "markdown" && EditorSyntax != "html") )
+                (MarkdownDocument.EditorSyntax != "markdown" && MarkdownDocument.EditorSyntax != "html") )
                 return;
 
             Window.PreviewBrowser.ScrollToEditorLineAsync(editorLineNumber, updateCodeBlocks, noScrollTimeout, noScrollTopAdjustment);
@@ -1633,7 +1633,7 @@ namespace MarkdownMonster
         {
             if (Window.PreviewBrowser == null) return;
 
-            if (EditorSyntax != "markdown" && EditorSyntax != "html")
+            if (MarkdownDocument.EditorSyntax != "markdown" && MarkdownDocument.EditorSyntax != "html")
                 return;
 
             Window.Model.IsEditorFocused = false;

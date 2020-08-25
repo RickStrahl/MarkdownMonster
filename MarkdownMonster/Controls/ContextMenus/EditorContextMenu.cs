@@ -192,7 +192,7 @@ namespace MarkdownMonster.Controls.ContextMenus
                 miCut.IsEnabled = false;
             }
             else {
-                if (Model.ActiveEditor?.EditorSyntax != "markdown")
+                if (Model.ActiveEditor?.MarkdownDocument?.EditorSyntax != "markdown")
                     miCopyHtml.IsEnabled = false;
                 else
                 {

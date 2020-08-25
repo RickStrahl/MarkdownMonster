@@ -110,9 +110,9 @@ namespace MarkdownMonster.Windows.PreviewBrowser
                                     headerId = LinkHelper.UrilizeAsGfm(lineText);
                                 }
 
-                                if (editor.EditorSyntax == "markdown")
+                                if (editor.MarkdownDocument.EditorSyntax == "markdown")
                                     interop.ScrollToPragmaLine(lineno, headerId);
-                                else if (editor.EditorSyntax == "html")
+                                else if (editor.MarkdownDocument.EditorSyntax == "html")
                                     interop.ScrollToHtmlBlock(lineText);
                             }
                         }
@@ -190,7 +190,7 @@ namespace MarkdownMonster.Windows.PreviewBrowser
                     ext = null;
                 }
                 else
-                    mappedTo = editor.EditorSyntax;
+                    mappedTo = editor.MarkdownDocument.EditorSyntax;
 
                 
                 PreviewBrowserInterop interop = null;
@@ -315,9 +315,9 @@ namespace MarkdownMonster.Windows.PreviewBrowser
                                                 }
                                             }
 
-                                            if (editor.EditorSyntax == "markdown")
+                                            if (editor.MarkdownDocument.EditorSyntax == "markdown")
                                                 interop.ScrollToPragmaLine(editorLineNumber, headerId);
-                                            else if (editor.EditorSyntax == "html")
+                                            else if (editor.MarkdownDocument.EditorSyntax == "html")
                                                 interop.ScrollToHtmlBlock(lineText);
                                         }
                                         else
@@ -425,9 +425,9 @@ namespace MarkdownMonster.Windows.PreviewBrowser
                 }
             }
 
-            if (editor.EditorSyntax == "markdown")
+            if (editor.MarkdownDocument.EditorSyntax == "markdown")
                 interop.ScrollToPragmaLine(editorLineNumber, headerId, noScrollTimeout, noScrollTopAdjustment);
-            else if (editor.EditorSyntax == "html")
+            else if (editor.MarkdownDocument.EditorSyntax == "html")
                 interop.ScrollToHtmlBlock(lineText ?? editor.GetLine(editorLineNumber) );
         }
 
