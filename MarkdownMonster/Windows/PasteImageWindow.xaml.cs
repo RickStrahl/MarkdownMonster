@@ -278,8 +278,6 @@ namespace MarkdownMonster.Windows
                 if (bitMap == null)
                     return;
 
-                imagePath = AddinManager.Current.RaiseOnSaveImage(bitMap);
-
                 if (PasteAsBase64Content)
                 {
                     Base64EncodeImage(bitMap);
@@ -287,6 +285,9 @@ namespace MarkdownMonster.Windows
                     return;
                 }
 
+
+                // image path overridden by addin?
+                imagePath = AddinManager.Current.RaiseOnSaveImage(bitMap);
                 if (!string.IsNullOrEmpty(imagePath))
                 {
                     TextImage.Text = imagePath;
@@ -294,89 +295,10 @@ namespace MarkdownMonster.Windows
                     return;
                 }
 
-                string initialFolder = null;
-                string documentFolder = null;
-                if (!string.IsNullOrEmpty(Document.Filename) && Document.Filename != "untitled")
+                // Save image and return the relative Url
+                imagePath = FileSaver.SaveBitmapAndLinkInEditor(bitMap);
+                if (!string.IsNullOrEmpty(imagePath))
                 {
-
-                    documentFolder = Path.GetDirectoryName(Document.Filename);
-                    if (!string.IsNullOrEmpty(Document.LastImageFolder))
-                        initialFolder = Document.LastImageFolder;
-                    else
-                        initialFolder = documentFolder;
-                }
-
-                var sd = new SaveFileDialog
-                {
-                    Filter = "Image files (*.png;*.jpg;*.gif;)|*.png;*.jpg;*.jpeg;*.gif|All Files (*.*)|*.*",
-                    FilterIndex = 1,
-                    Title = "Save Image from Clipboard as",
-                    InitialDirectory = initialFolder,
-                    CheckFileExists = false,
-                    OverwritePrompt = true,
-                    CheckPathExists = true,
-                    RestoreDirectory = true
-                };
-                var result = sd.ShowDialog();
-                if (result != null && result.Value)
-                {
-                    imagePath = sd.FileName;
-
-                    try
-                    {
-                        var ext = Path.GetExtension(imagePath)?.ToLower();
-
-                        if (ext == ".jpg" || ext == ".jpeg")
-                            mmImageUtils.SaveJpeg(bitMap, imagePath, mmApp.Configuration.Images.JpegImageCompressionLevel);
-
-                        else
-                        {
-                            using (var fileStream = new FileStream(imagePath, FileMode.Create))
-                            {
-                                BitmapEncoder encoder = null;
-                                if (ext == ".png")
-                                    encoder = new PngBitmapEncoder();
-                                else if (ext == ".gif")
-                                    encoder = new GifBitmapEncoder();
-
-                                encoder.Frames.Add(BitmapFrame.Create(ImagePreview.Source as BitmapSource));
-                                encoder.Save(fileStream);
-                            }
-                        }
-
-                        if (ext == ".png" || ext == ".jpeg" || ext == ".jpg")
-                            mmFileUtils.OptimizeImage(sd.FileName); // async
-                    }
-                    catch (Exception ex)
-                    {
-                        MessageBox.Show("Couldn't save file: \r\n" + ex.Message, mmApp.ApplicationName);
-                        return;
-                    }
-
-
-                    string relPath = Path.GetDirectoryName(sd.FileName);
-                    Document.LastImageFolder = relPath;
-                    
-
-                    if (documentFolder != null)
-                    {
-                        try
-                        {
-                            relPath = FileUtils.GetRelativePath(sd.FileName, documentFolder);
-                        }
-                        catch (Exception ex)
-                        {
-                            mmApp.Log($"Failed to get relative path.\r\nFile: {sd.FileName}, Path: {imagePath}", ex);
-                        }
-
-                        imagePath = relPath;
-                    }
-
-                    if (imagePath.Contains(":\\"))
-                        imagePath = "file:///" + imagePath;
-
-                    imagePath = imagePath.Replace("\\", "/");
-
                     Image = imagePath;
                     IsMemoryImage = false;
                 }
@@ -769,11 +691,7 @@ namespace MarkdownMonster.Windows
                 ImagePreview.Stretch = Stretch.None;
             else
                 ImagePreview.Stretch = Stretch.Uniform;
-
-            Debug.WriteLine($"ResizeImagePreviewControl: {image.Width} x {image.Height} {ImagePreview.Stretch}");
-
         }
-
         #endregion
 
 
@@ -782,11 +700,7 @@ namespace MarkdownMonster.Windows
             BitmapSource image;
             try
             {
-                var bmp = System.Windows.Forms.Clipboard.GetImage();
-                image = WindowUtilities.BitmapToBitmapSource(bmp as Bitmap);
-
-                // This no longer works
-                //image =  System.Windows.Clipboard.GetImage();
+                image = ClipboardHelper.GetImageSource();
             }
             catch (Exception e)
             {

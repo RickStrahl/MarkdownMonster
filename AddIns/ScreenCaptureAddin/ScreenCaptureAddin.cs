@@ -122,15 +122,17 @@ namespace SnagItAddin
             if (!SnagIt.CaptureImageToClipboard())
                 return;
 
-            var bitmap = ClipboardHelper.GetImage();
-            if (bitmap == null || !FileSaver.SaveBitmapAndLinkInEditor(bitmap))
+            using (var bitmap = ClipboardHelper.GetImage())
             {
-                ShowStatusError("Image capture failed.");
-                return;
+                if (bitmap == null ||
+                    FileSaver.SaveBitmapAndLinkInEditor(bitmap) == null)
+                {
+                    ShowStatusError("Image capture failed.");
+                    return;
+                }
             }
 
-            // Force the browser to refresh completely so image changes show up
-            Model.Window.PreviewBrowser.Refresh(true);
+            
         }
 
 

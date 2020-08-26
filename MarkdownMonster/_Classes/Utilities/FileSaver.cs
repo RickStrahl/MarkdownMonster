@@ -265,24 +265,30 @@ namespace MarkdownMonster.Utilities
         /// <summary>
         /// Saves a bitmap image to file using a standard mechanism that
         /// prompts for a filename (unless you pass one in), optionally
-        /// compresses the file.
+        /// compresses the file and by default embeds a link at cursor position.
+        ///
+        /// Overrides let you remove some of these tasks.
+        ///
+        /// The method returns the embedded image path - a relative path if possible.
         /// </summary>
         /// <param name="bitmap">The bitmap to save</param>
         /// <param name="editor">An instance of the editor to paste into. If not passed the open document is used.</param>
         /// <param name="imageFilename">Optional image filename. If not passed you are prompted using MM's default locations (last document location, project/folder root/current directory)</param>
         /// <param name="noImageCompression">Images are compressed by default, set to true to avoid compression. Uses Pingo compressor for max size reduction.</param>
-        /// <returns>true or false</returns>
-        public static bool SaveBitmapAndLinkInEditor(Bitmap bitmap,
+        /// <returns>relative image URL used for embedding</returns>
+        /// <remarks>Make sure you `.Dispose()` the bitmap to avoid big memory leaks</remarks>
+        public static string SaveBitmapAndLinkInEditor(Bitmap bitmap,
             MarkdownDocumentEditor editor = null, 
             string imageFilename = null,
-            bool noImageCompression = false)
+            bool noImageCompression = false,
+            bool noEditorEmbedding = false)
         {
 
             if (editor == null)
                 editor = mmApp.Model.ActiveEditor;
 
             if (editor == null)
-                return false;
+                return null;
 
             var document = editor.MarkdownDocument;
 
@@ -295,7 +301,7 @@ namespace MarkdownMonster.Utilities
                     initialFolder = documentPath;
             }
 
-            WindowUtilities.DoEvents();
+            //WindowUtilities.DoEvents();
 
             var sd = new SaveFileDialog
             {
@@ -312,7 +318,7 @@ namespace MarkdownMonster.Utilities
 
             var result2 = sd.ShowDialog();
             if (result2 == null || !result2.Value)
-                return false;
+                return null;
 
             imageFilename = sd.FileName;
             var ext = Path.GetExtension(imageFilename)?.ToLower();
@@ -341,7 +347,7 @@ namespace MarkdownMonster.Utilities
             {
                 MessageBox.Show($"Couldn't save {imageFilename}: \r\n" + ex.Message,  "SnagIt Capture");
                 mmApp.Log($"Failed to save clipboard image.\r\nFile: {imageFilename}", ex);
-                return false;
+                return null;
             }
 
             document.LastImageFolder = Path.GetDirectoryName(imageFilename);
@@ -365,9 +371,15 @@ namespace MarkdownMonster.Utilities
             else
                 imageFilename = imageFilename.Replace("\\", "/");
 
-            editor.SetSelectionAndFocus($"![]({imageFilename.Replace(" ", "%20")})");
+            if (!noEditorEmbedding)
+            {
+                editor.SetSelectionAndFocus($"![]({imageFilename.Replace(" ", "%20")})");
 
-            return true;
+                // Force the browser to refresh completely so image changes show up
+                mmApp.Model?.Window?.PreviewBrowser?.Refresh(true);
+            }
+
+            return imageFilename;
         }
 
         public static void SaveMarkdownFileFromUrl(string url)

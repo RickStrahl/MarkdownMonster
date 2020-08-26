@@ -4,6 +4,7 @@ using System.Text;
 using System.Threading;
 using System.Windows;
 using System.Windows.Media;
+using System.Windows.Media.Imaging;
 using MarkdownMonster.Windows;
 using Westwind.Utilities;
 
@@ -314,12 +315,13 @@ EndSelection:<<<<<<<<4";
         /// Returns an image source from the clipboard if available
         /// </summary>
         /// <returns>image source or null</returns>
-        public static ImageSource GetImageSource()
+        public static BitmapSource GetImageSource()
         {
             try
             {
                 // This no longer works - image doesn't display in imagesource.
-                //image =  System.Windows.Clipboard.GetImage();
+                var image =  System.Windows.Clipboard.GetImage();
+                return image;
 
                 var bmp = System.Windows.Forms.Clipboard.GetImage();
                 return WindowUtilities.BitmapToBitmapSource(bmp as Bitmap);
@@ -338,7 +340,13 @@ EndSelection:<<<<<<<<4";
         {
             try
             {
-                return System.Windows.Forms.Clipboard.GetImage() as Bitmap;
+                // Use Windows.Clipboard to get transparency etc.
+                var imgSource = System.Windows.Clipboard.GetImage();
+                if (imgSource == null)
+                    return null;
+
+                return WindowUtilities.BitmapSourceToBitmap(imgSource);
+                //return System.Windows.Forms.Clipboard.GetImage() as Bitmap;
             }
             catch (Exception ex)
             {
