@@ -1911,7 +1911,7 @@ namespace MarkdownMonster
                 Image bitMap;
                 try
                 {
-                    bitMap = System.Windows.Forms.Clipboard.GetImage();
+                    bitMap =ClipboardHelper.GetImage();
                 }
                 catch (Exception e)
                 {

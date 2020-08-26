@@ -5,6 +5,15 @@
 [![Web Site](https://img.shields.io/badge/Markdown_Monster-WebSite-blue.svg)](https://markdownmonster.west-wind.com)
 
 
+### 1.23.18
+<small>August 27th, 2020</small> 
+
+* **Fix: Add hot key for Add-ins Menu on the Toolbar**  
+Added a keyboard mnemonic to the **Tools -> Add-_ins** menu item so it becomes possible to navigate to the add-in list via keyboard. Some addins have been updated with keyboard shortcuts so for example the Azure Blob Addin is accessible via `alt-t-i-b`
+
+* **Fix: Images from Clipboard not showing in Image Previews**  
+Fixed issue with WPF clipboard that failed to retrieve images from the clipboard properly. Used alternative image retrieval. This fixes missing preview images in the the Paste Image and Azure Blob Storage Addin (update required to see the fix).
+
 ### 1.23.17
 <small>August 19th, 2020</small> 
 

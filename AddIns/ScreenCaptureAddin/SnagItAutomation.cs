@@ -9,7 +9,8 @@
  * Created:  03/15/2007
  * 
  *           Snagit COM Documentation:
- *           http://download.techsmith.com/snagit/docs/comserver/enu/snagitcom.pdf
+ *           https://assets.techsmith.com/Docs/Snagit-2020-COM-Server-Guide.pdf
+ *           https://github.com/TechSmith/Snagit-COM-Samples
  **************************************************************  
 */
 
@@ -190,6 +191,101 @@ namespace SnagItAddin
             }
         }
 
+         /// <summary>
+        /// Captures an image to file
+        /// </summary>
+        /// <returns></returns>
+        public bool CaptureImageToClipboard()
+        {
+
+            var OldState = WindowState.Minimized;
+            if (ActiveForm != null)
+            {
+                OldState = ActiveForm.WindowState;
+                ActiveForm.WindowState = WindowState.Minimized;
+            }
+
+            object snagIt = SnagItCom;
+
+            try
+            {
+                ReflectionUtils.SetPropertyCom(snagIt, "Input", CaptureMode);
+            }
+            catch
+            {
+                SetError("SnagIt isn't installed - COM Access failed.\r\nPlease install SnagIt from Techsmith Corporation (www.techsmith.com\\snagit).");
+                return false;
+            }
+
+            ReflectionUtils.SetPropertyCom(snagIt, "Input", CaptureMode);
+            ReflectionUtils.SetPropertyCom(snagIt, "Output",    4);        // clipboard
+            ReflectionUtils.SetPropertyCom(snagIt, "EnablePreviewWindow", ShowPreviewWindow);
+            ReflectionUtils.SetPropertyCom(snagIt, "IncludeCursor",IncludeCursor);
+            
+            if (DelayInSeconds > 0)
+            {
+                ReflectionUtils.SetPropertyExCom(snagIt,"DelayOptions.EnableDelayedCapture", true);
+                ReflectionUtils.SetPropertyExCom(snagIt, "DelayOptions.DelaySeconds", DelayInSeconds);
+            }
+
+
+            if (ActiveForm != null)
+            {
+                // *** Need to delay a little here so that the form has properly minimized first
+                // *** especially under Vista/Win7
+                for (int i = 0; i < 20; i++)
+                {
+                    WindowUtilities.DoEvents();
+                    Thread.Sleep(5);
+                }
+            }
+
+            // Works but doesn't really add anything. Won't work in .NET Core due to dynamic not working with COM
+            //((dynamic) snagIt).OnStateChange += new Action<CaptureState>(SnagImg_OnStateChange);
+
+            Clipboard.Clear();
+
+            try
+            {
+                IsDone = false;
+                ReflectionUtils.CallMethodCom(snagIt,"Capture");
+
+                while (!IsDone && !HasError)
+                {
+                    IsDone = (bool) ReflectionUtils.GetPropertyCom(snagIt, "IsCaptureDone");
+                    if(IsDone)
+                        break;
+
+                    WindowUtilities.DoEvents();
+                    Thread.Sleep(5);
+                }
+            }
+            catch(Exception ex)
+            {                
+                ErrorMessage = "An error occurred during the image capture: " + ex.Message;
+                return false;
+            }
+            // *** No catch let it throw
+            finally
+            {
+                if (ActiveForm != null)
+                {
+                    // Reactivate Editor
+                    ActiveForm.WindowState = OldState;
+
+                    // Make sure it pops on top of SnagIt Editors
+                    ActiveForm.Topmost = true;
+                    WindowUtilities.DoEvents();
+                    Thread.Sleep(5);
+                    ActiveForm.Topmost = false;
+                }
+
+                Marshal.ReleaseComObject(SnagItCom);
+            }
+
+            return ClipboardHelper.ContainsImage();
+        }
+
         /// <summary>
         /// Captures an image to file
         /// </summary>
@@ -217,7 +313,7 @@ namespace SnagItAddin
             }
 
             ReflectionUtils.SetPropertyCom(snagIt, "Input", CaptureMode);
-            ReflectionUtils.SetPropertyCom(snagIt, "Output", 2);        // file
+            ReflectionUtils.SetPropertyCom(snagIt, "Output",    2);        // file
             ReflectionUtils.SetPropertyCom(snagIt, "EnablePreviewWindow", ShowPreviewWindow);
 
             ReflectionUtils.SetPropertyExCom(snagIt, "OutputImageFile.Directory", CapturePath);
@@ -316,7 +412,9 @@ namespace SnagItAddin
 
             return OutputCaptureFile;
         }
-        
+
+
+
 
         private bool IsDone;
         private bool HasError;
