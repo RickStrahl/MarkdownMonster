@@ -1,4 +1,6 @@
-﻿using System.Windows;
+﻿using System;
+using System.Diagnostics;
+using System.Windows;
 using System.Windows.Forms;
 using System.Windows.Interop;
 
@@ -29,6 +31,7 @@ namespace SnagItAddin
         public void SetWindowText(string text)
         {
             TextSize.Text = text;
+            Debug.WriteLine(TextSize.Text);
         }
 
     }    

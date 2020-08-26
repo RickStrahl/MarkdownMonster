@@ -1,12 +1,21 @@
 # Markdown Monster Change Log
 
+
 [![download](https://img.shields.io/badge/Download-Installer-blue.svg)](https://markdownmonster.west-wind.com/download.aspx)
 [![Chocolatey](https://img.shields.io/chocolatey/dt/markdownmonster.svg)](https://chocolatey.org/packages/MarkdownMonster)
 [![Web Site](https://img.shields.io/badge/Markdown_Monster-WebSite-blue.svg)](https://markdownmonster.west-wind.com)
 
 
 ### 1.23.18
-<small>August 27th, 2020</small> 
+<small>August 26th, 2020</small> 
+
+* **Fix: Preview Window Disappearing when editing non-Markdown Files** Fix bug that caused the active document syntax type to be turned to an invalid syntax when opening a non-Markdown document. Refactored `EditorSyntax` onto the document itself rather than on the Editor which would cause assignment issues.
+
+* **Fix: SnagIt Screen Capture and File Saving**  
+As of SnagIt 2020 the SnagIt Addin from TechSmith was broken due to a bug in the file saving mechanism. Modified the way file saving works by capturing to clipboard and saving the clipboard content. As a bonus we now get better file location support using MM's document/project file location settings. 
+
+* **Fix: Screen Capture Timer for Built-in Capture**  
+Fix the screen capture timer used with with built-in capture when delaying captures.
 
 * **Fix: Add hot key for Add-ins Menu on the Toolbar**  
 Added a keyboard mnemonic to the **Tools -> Add-_ins** menu item so it becomes possible to navigate to the add-in list via keyboard. Some addins have been updated with keyboard shortcuts so for example the Azure Blob Addin is accessible via `alt-t-i-b`

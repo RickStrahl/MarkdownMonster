@@ -105,8 +105,8 @@ namespace SnagItAddin
         }
         private bool _includeCursor;
 
-        
-        
+
+        private StatusBarHelper StatusBar { get; set; }
 
         #endregion
 
@@ -178,6 +178,8 @@ namespace SnagItAddin
             InitializeComponent();
 
             mmApp.SetThemeWindowOverride(this);
+
+            StatusBar = new StatusBarHelper(this.StatusText, StatusIcon);
 
             Loaded += ScreenCaptureForm_Loaded;
             Unloaded += ScreenCaptureForm_Unloaded;
@@ -280,57 +282,64 @@ namespace SnagItAddin
             WindowUtilities.DoEvents();
 
             // Display counter
+            IsPreviewCapturing = true;
+            Cancelled = false;
+
+            ScreenOverlayCounter counterForm = null;
             if (CaptureDelaySeconds > 0)
             {
-                IsPreviewCapturing = true;
-                Cancelled = false;
-
-                var counterForm = new ScreenOverlayCounter();
-
-                try
-                {
-                    counterForm.Show();
-                    counterForm.Topmost = true;
-                    counterForm.SetWindowText("1");
-
-                    for (int i = CaptureDelaySeconds; i > 0; i--)
-                    {
-                        counterForm.SetWindowText(i.ToString());
-                        WindowUtilities.DoEvents();
-
-                        for (int j = 0; j < 100; j++)
-                        {
-                            Thread.Sleep(10);
-                            WindowUtilities.DoEvents();
-                        }
-                        if (Cancelled)
-                        {
-                            CancelCapture(true);
-                            return;
-                        }
-                    }
-                }
-                finally
-                {
-                    counterForm.Close();
-                    IsPreviewCapturing = false;
-                    Cancelled = true;
-                }
+                counterForm = new ScreenOverlayCounter();
+                counterForm.Show();
+                counterForm.Topmost = true;
+                counterForm.SetWindowText("1");
             }
+            else
+            {
+                DoScreenCapture();
+                return;
+            }
+
+            var secs = 1;
+            var dispatcherTimer = new System.Windows.Threading.DispatcherTimer();
+            dispatcherTimer.Tick += (p, a) =>
+            {
+                Dispatcher.Invoke(() =>
+                {
+                    secs++;
+                    if (secs > CaptureDelaySeconds)
+                    {
+                        dispatcherTimer.Stop();
+                        counterForm?.Close();
+
+                        DoScreenCapture();
+                    }
+
+                    counterForm?.SetWindowText(secs.ToString());
+                });
+            };
+            if (CaptureDelaySeconds == 0)
+                dispatcherTimer.Interval = new TimeSpan(0, 0, 0, 1);
+            else
+                dispatcherTimer.Interval = new TimeSpan(0, 0, 1);
+
+            dispatcherTimer.Start();
+        }
+
+        private void DoScreenCapture()
+        {
             
+            IsPreviewCapturing = false;
+            Cancelled = true;
+
             IsMouseClickCapturing = true;
-                        
+
             Desktop = new ScreenOverlayDesktop(this);
             Desktop.SetDesktop(IncludeCursor);
             Desktop.Show();
 
             WindowUtilities.DoEvents();
 
-            Overlay = new ScreenClickOverlay(this)
-            {
-                Width = 0,
-                Height = 0
-            };
+            Overlay = new ScreenClickOverlay(this) {Width = 0, Height = 0};
             Overlay.Show();
 
             LastWindow = null;
@@ -386,12 +395,12 @@ namespace SnagItAddin
                 if (CapturedBitmap != null)
                 {
                     ImageCaptured.Source = ScreenCapture.BitmapToBitmapSource(CapturedBitmap);
-                    StatusText.Text = "Image capture from Screen: " + $"{CapturedBitmap.Width}x{CapturedBitmap.Height}";
+                    StatusBar.ShowStatusSuccess("Image capture from Screen: " + $"{CapturedBitmap.Width}x{CapturedBitmap.Height}");
                     ScreenCaptureForm_SizeChanged(this, null);
                 }
                 else
                 {
-                    StatusText.Text = "Image capture failed."; 
+                    StatusBar.ShowStatusError("Image capture failed.");
                 }
             }
 
@@ -497,41 +506,50 @@ namespace SnagItAddin
             if (string.IsNullOrEmpty(SaveFolder))
                 SaveFolder = Path.GetTempPath();
 
-            var sd = new SaveFileDialog
+            var link = FileSaver.SaveBitmapAndLinkInEditor(CapturedBitmap, noEditorEmbedding: true);
+            if (link == null)
             {
-                Filter = "png files (*.png)|*.png|jpg files (*.jpg)|*.jpg",
-                FilterIndex = 1,
-                FileName = "",
-                CheckFileExists = false,
-                OverwritePrompt = false,
-                AutoUpgradeEnabled = true,
-                CheckPathExists = true,
-                InitialDirectory = SaveFolder,
-                RestoreDirectory = true
-            };
-            var result = sd.ShowDialog();
-            if (result != System.Windows.Forms.DialogResult.OK)
-                return;
-
-            var ext = Path.GetExtension(sd.FileName);
-            SavedImageFile = sd.FileName;
-            try
-            {
-                if (ext == ".jpg" || ext == "jpeg")
-                    mmImageUtils.SaveJpeg(CapturedBitmap, SavedImageFile,
-                                           mmApp.Configuration.Images.JpegImageCompressionLevel);
-                else
-                    CapturedBitmap.Save(SavedImageFile);
-
-                if (ext == ".png" || ext == ".jpeg" || ext == ".jpg")
-                    mmFileUtils.OptimizeImage(sd.FileName); // async
-            }
-            catch (Exception ex)
-            {
-                Cancelled = true;
-                StatusText.Text = "Error saving image: " + ex.Message;
+                StatusBar.ShowStatusError("Failed to save the active image.");
                 return;
             }
+
+            SavedImageFile = link;
+
+            ////var sd = new SaveFileDialog
+            ////{
+            ////    Filter = "png files (*.png)|*.png|jpg files (*.jpg)|*.jpg",
+            ////    FilterIndex = 1,
+            ////    FileName = "",
+            ////    CheckFileExists = false,
+            ////    OverwritePrompt = false,
+            ////    AutoUpgradeEnabled = true,
+            ////    CheckPathExists = true,
+            ////    InitialDirectory = SaveFolder,
+            ////    RestoreDirectory = true
+            ////};
+            ////var result = sd.ShowDialog();
+            ////if (result != System.Windows.Forms.DialogResult.OK)
+            ////    return;
+
+            ////var ext = Path.GetExtension(sd.FileName);
+            ////SavedImageFile = sd.FileName;
+            ////try
+            ////{
+            ////    if (ext == ".jpg" || ext == "jpeg")
+            ////        mmImageUtils.SaveJpeg(CapturedBitmap, SavedImageFile,
+            ////                               mmApp.Configuration.Images.JpegImageCompressionLevel);
+            ////    else
+            ////        CapturedBitmap.Save(SavedImageFile);
+
+            ////    if (ext == ".png" || ext == ".jpeg" || ext == ".jpg")
+            ////        mmFileUtils.OptimizeImage(sd.FileName); // async
+            ////}
+            ////catch (Exception ex)
+            ////{
+            ////    Cancelled = true;
+            ////    StatusBar.ShowStatusError("Error saving image: " + ex.Message);
+            ////    return;
+            ////}
 
             if (!string.IsNullOrEmpty(ResultFilePath))
                 File.WriteAllText(ResultFilePath, SavedImageFile);
@@ -590,10 +608,19 @@ namespace SnagItAddin
 
         private void tbPasteImage_Click(object sender, RoutedEventArgs e)
         {
-            if (System.Windows.Clipboard.ContainsImage())
+            if (ClipboardHelper.ContainsImage())
             {
                 CapturedBitmap?.Dispose();
-                CapturedBitmap = new Bitmap(System.Windows.Forms.Clipboard.GetImage());
+
+
+                var image = ClipboardHelper.GetImage();
+                if (image == null)
+                {
+                    StatusBar.ShowStatusError("Couldn't retrieve image from clipboard.");
+                    return;
+                }
+
+                CapturedBitmap = new Bitmap(image);
                 ImageCaptured.Source = ScreenCapture.BitmapToBitmapSource(CapturedBitmap);
                 StatusText.Text = $"Pasted Image from Clipboard: {CapturedBitmap.Width}x{CapturedBitmap.Height}";
 
