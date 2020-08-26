@@ -277,9 +277,7 @@ namespace MarkdownMonster
                 // to retrieve ra markdown
                 url = form.Url;
                 bool fixupImageLinks = form.FixupImageLinks;
-
-                var fs = new FileSaver();
-                url = fs.ParseMarkdownUrl(url);
+                url = FileSaver.ParseMarkdownUrl(url);
 
                 Model.Window.ShowStatusProgress("Opening document from " + url);
 

@@ -122,108 +122,19 @@ namespace SnagItAddin
             if (!SnagIt.CaptureImageToClipboard())
                 return;
 
-            //string capturedFile = SnagIt.CaptureImageToFile();
-            //if (string.IsNullOrEmpty(capturedFile) || !File.Exists(capturedFile))
-            //    return;
             var bitmap = ClipboardHelper.GetImage();
-            if (bitmap == null)
+            if (bitmap == null || !FileSaver.SaveBitmapAndLinkInEditor(bitmap))
             {
-                this.ShowStatusError("Image capture failed.");
+                ShowStatusError("Image capture failed.");
                 return;
             }
 
-            string imagePath = null;
-            var document = Model.ActiveDocument;
-
-            string initialFolder = document.LastImageFolder;
-            string documentPath = null;
-            if (!string.IsNullOrEmpty(document.Filename) && document.Filename != "untitled")
-            {
-                documentPath = Path.GetDirectoryName(document.Filename);
-                if (string.IsNullOrEmpty(initialFolder))
-                    initialFolder = documentPath;
-            }
-
-            WindowUtilities.DoEvents();
-
-            var sd = new SaveFileDialog
-            {
-                Filter = "Image files (*.png;*.jpg;*.gif;)|*.png;*.jpg;*.jpeg;*.gif|All Files (*.*)|*.*",
-                FilterIndex = 1,
-                Title = "Save Image from Clipboard as",
-                InitialDirectory = initialFolder,
-                CheckFileExists = false,
-                OverwritePrompt = true,
-                CheckPathExists = true,
-                RestoreDirectory = true,
-                ValidateNames = true
-            };
-
-            var result2 = sd.ShowDialog();
-            if (result2 != null && result2.Value)
-            {
-
-                imagePath = sd.FileName;
-                var ext = Path.GetExtension(imagePath)?.ToLower();
-
-                try
-                {
-                    File.Delete(imagePath);
-
-                    if (ext == ".jpg" || ext == ".jpeg")
-                    {
-                        using (var bmp = new Bitmap(bitmap))
-                        {
-                            mmImageUtils.SaveJpeg(bmp, imagePath, mmApp.Configuration.Images.JpegImageCompressionLevel);
-                        }
-                    }
-                    else
-                    {
-                        var format = mmImageUtils.GetImageFormatFromFilename(imagePath);
-                        bitmap.Save(imagePath, format);
-                    }
-
-                    if (ext == ".png" || ext == ".jpeg" || ext == ".jpg")
-                        mmFileUtils.OptimizeImage(sd.FileName); // async
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show($"Couldn't save in {imagePath}: \r\n" + ex.Message,
-                        mmApp.ApplicationName);
-                    return;
-                }
-
-                document.LastImageFolder = Path.GetDirectoryName(sd.FileName);
-                string relPath = Path.GetDirectoryName(sd.FileName);
-                if (documentPath != null)
-                {
-                    try
-                    {
-                        relPath = FileUtils.GetRelativePath(sd.FileName, documentPath);
-                    }
-                    catch (Exception ex)
-                    {
-                        mmApp.Log($"Failed to get relative path.\r\nFile: {sd.FileName}, Path: {imagePath}",
-                            ex);
-                    }
-
-                    imagePath = relPath;
-                }
-
-                if (imagePath.Contains(":\\"))
-                    imagePath = "file:///" + imagePath;
-                else
-                    imagePath = imagePath.Replace("\\", "/");
-
-                editor.SetSelectionAndFocus($"![]({imagePath.Replace(" ", "%20")})");
-
-                // Force the browser to refresh completely so image changes show up
-                Model.Window.PreviewBrowser.Refresh(true);
-
-                //PreviewMarkdownCallback(); // force a preview refresh
-            }
-
+            // Force the browser to refresh completely so image changes show up
+            Model.Window.PreviewBrowser.Refresh(true);
         }
+
+
+        
 
         private void ExecuteApplicationFormCapture()
         {

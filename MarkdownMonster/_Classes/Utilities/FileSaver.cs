@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -191,7 +192,7 @@ namespace MarkdownMonster.Utilities
         /// </summary>
         /// <param name="url"></param>
         /// <returns></returns>
-        public string ParseMarkdownUrl(string url)
+        public static string ParseMarkdownUrl(string url)
         {
             if (string.IsNullOrEmpty(url))
                 return null;
@@ -261,7 +262,115 @@ namespace MarkdownMonster.Utilities
             return urlToOpen;
         }
 
-        public void SaveMarkdownFileFromUrl(string url)
+        /// <summary>
+        /// Saves a bitmap image to file using a standard mechanism that
+        /// prompts for a filename (unless you pass one in), optionally
+        /// compresses the file.
+        /// </summary>
+        /// <param name="bitmap">The bitmap to save</param>
+        /// <param name="editor">An instance of the editor to paste into. If not passed the open document is used.</param>
+        /// <param name="imageFilename">Optional image filename. If not passed you are prompted using MM's default locations (last document location, project/folder root/current directory)</param>
+        /// <param name="noImageCompression">Images are compressed by default, set to true to avoid compression. Uses Pingo compressor for max size reduction.</param>
+        /// <returns>true or false</returns>
+        public static bool SaveBitmapAndLinkInEditor(Bitmap bitmap,
+            MarkdownDocumentEditor editor = null, 
+            string imageFilename = null,
+            bool noImageCompression = false)
+        {
+
+            if (editor == null)
+                editor = mmApp.Model.ActiveEditor;
+
+            if (editor == null)
+                return false;
+
+            var document = editor.MarkdownDocument;
+
+            string initialFolder = document.LastImageFolder;
+            string documentPath = null;
+            if (!string.IsNullOrEmpty(document.Filename) && document.Filename != "untitled")
+            {
+                documentPath = Path.GetDirectoryName(document.Filename);
+                if (string.IsNullOrEmpty(initialFolder))
+                    initialFolder = documentPath;
+            }
+
+            WindowUtilities.DoEvents();
+
+            var sd = new SaveFileDialog
+            {
+                Filter = "Image files (*.png;*.jpg;*.gif;)|*.png;*.jpg;*.jpeg;*.gif|All Files (*.*)|*.*",
+                FilterIndex = 1,
+                Title = "Save Image from Clipboard as",
+                InitialDirectory = initialFolder,
+                CheckFileExists = false,
+                OverwritePrompt = true,
+                CheckPathExists = true,
+                RestoreDirectory = true,
+                ValidateNames = true
+            };
+
+            var result2 = sd.ShowDialog();
+            if (result2 == null || !result2.Value)
+                return false;
+
+            imageFilename = sd.FileName;
+            var ext = Path.GetExtension(imageFilename)?.ToLower();
+
+            try
+            {
+                File.Delete(imageFilename);
+
+                if (ext == ".jpg" || ext == ".jpeg")
+                {
+                    using (var bmp = new Bitmap(bitmap))
+                    {
+                        mmImageUtils.SaveJpeg(bmp, imageFilename, mmApp.Configuration.Images.JpegImageCompressionLevel);
+                    }
+                }
+                else
+                {
+                    var format = mmImageUtils.GetImageFormatFromFilename(imageFilename);
+                    bitmap.Save(imageFilename, format);
+                }
+
+                if (!noImageCompression && ext == ".png" || ext == ".jpeg" || ext == ".jpg")
+                    mmFileUtils.OptimizeImage(sd.FileName); // async
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Couldn't save {imageFilename}: \r\n" + ex.Message,  "SnagIt Capture");
+                mmApp.Log($"Failed to save clipboard image.\r\nFile: {imageFilename}", ex);
+                return false;
+            }
+
+            document.LastImageFolder = Path.GetDirectoryName(imageFilename);
+            string relPath = Path.GetDirectoryName(document.LastImageFolder);
+            if (documentPath != null)
+            {
+                try
+                {
+                    relPath = FileUtils.GetRelativePath(imageFilename, documentPath);
+                }
+                catch (Exception ex)
+                {
+                    mmApp.Log($"Failed to get relative path.\r\nFile: {imageFilename}", ex);
+                }
+
+                imageFilename = relPath;
+            }
+
+            if (imageFilename.Contains(":\\"))
+                imageFilename = "file:///" + imageFilename;
+            else
+                imageFilename = imageFilename.Replace("\\", "/");
+
+            editor.SetSelectionAndFocus($"![]({imageFilename.Replace(" ", "%20")})");
+
+            return true;
+        }
+
+        public static void SaveMarkdownFileFromUrl(string url)
         {
             if (string.IsNullOrEmpty(url))
                 return;
