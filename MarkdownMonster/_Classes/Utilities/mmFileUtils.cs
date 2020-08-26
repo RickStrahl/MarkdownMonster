@@ -369,7 +369,8 @@ namespace MarkdownMonster
         }
 
         /// <summary>
-        /// Optimizes a jpeg image
+        /// Optimizes an image. Runs asynchronous in the background and it's not fast
+        /// so don't rely on the file results immediately.
         /// </summary>
         /// <param name="imageFilename"></param>
         /// <param name="imageQuality">Optional image quality. If not specified auto is used</param>
@@ -402,6 +403,7 @@ namespace MarkdownMonster
             }
             catch { }
         }
+
 
         /// <summary>
         /// Opens an image in the configured image editor
