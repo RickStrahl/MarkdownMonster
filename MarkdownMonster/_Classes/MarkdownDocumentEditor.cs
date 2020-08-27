@@ -103,21 +103,9 @@ namespace MarkdownMonster
         public AceEditorInterop AceEditor { get; set; }
 
 
-        //public string EditorSyntax
-        //{
-        //    get => _editorSyntax;
-        //    set
-        //    {
-        //        if (value == _editorSyntax) return;
-        //        _editorSyntax = value;
-        //        OnPropertyChanged();
-        //    }
-        //}
-
-        private string _editorSyntax;
-
+        
         /// <summary>
-        ///
+        /// Determines if and how the editor split display is handled.
         /// </summary>
         public EditorSplitModes SplitMode
         {

@@ -32,11 +32,6 @@
     <PackageReference Include="Microsoft.Windows.Compatibility" Version="2.0.1" />
   </ItemGroup>
 
-
-  <ItemGroup>
-    <ProjectReference Include="..\..\MarkdownMonster\MarkdownMonster.csproj" />
-  </ItemGroup>
-
   <ItemGroup>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Windows.Forms" />

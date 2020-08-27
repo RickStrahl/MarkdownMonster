@@ -5,6 +5,7 @@
 /// <reference path="editor-helpers.js" />
 /// <reference path="scripts/ace/ace.js" />
 
+// API Reference: https://ace.c9.io/#nav=api
 (function () {
     var Split = ace.require("ace/split").Split;
     ace.require("ace/ext/rtl");
