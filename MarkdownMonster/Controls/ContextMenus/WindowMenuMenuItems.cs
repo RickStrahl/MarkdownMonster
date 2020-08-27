@@ -72,7 +72,7 @@ namespace MarkdownMonster.Controls.ContextMenus
 
             items.Add(new MenuItem
             {
-                Header = "Open Document in _Folder Browser",
+                Header = "Show Document in _Folder Browser",
                 Command = model.Commands.OpenFolderBrowserCommand,
                 InputGestureText = "Alt-W-F"
             });
