@@ -1,9 +1,12 @@
 ﻿using System;
 using System.Text;
 using System.Collections.Generic;
+using System.IO;
 using System.Windows;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Westwind.Utilities;
+using System.Windows.Media;
+using System.Drawing.Imaging;
 
 namespace MarkdownMonster.Test
 {
@@ -45,6 +48,20 @@ namespace MarkdownMonster.Test
         {
             string html = ClipboardHelper.GetHtmlFromClipboard();
             Console.WriteLine(html);
+        }
+
+        [TestMethod]
+        public void ImageTransparencyTest()
+        {
+            string file = @"c:\temp\test.png";
+            var img = ClipboardHelper.GetImage();
+
+            Assert.IsNotNull(img, "Image is null - no image data on the clipboard?");
+
+            File.Delete(file);
+            img.Save(file,ImageFormat.Png);
+
+            ShellUtils.ShellExecute(file);
         }
     }
 }

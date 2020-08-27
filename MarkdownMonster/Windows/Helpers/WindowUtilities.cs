@@ -258,15 +258,20 @@ namespace MarkdownMonster.Windows
             if (source == null)
                 return null;
 
+            var pixelFormat = PixelFormat.Format32bppPArgb;
+            if (source.Format == System.Windows.Media.PixelFormats.Bgr24)
+                pixelFormat = PixelFormat.Format24bppRgb;
+
+
             Bitmap bmp = new Bitmap(
                 source.PixelWidth,
                 source.PixelHeight,
-                PixelFormat.Format32bppPArgb);
+                pixelFormat);
 
             BitmapData data = bmp.LockBits(
                 new Rectangle(Point.Empty, bmp.Size),
                 ImageLockMode.WriteOnly,
-                PixelFormat.Format32bppPArgb);
+                pixelFormat);
 
             source.CopyPixels(
                 Int32Rect.Empty,

@@ -1,5 +1,10 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Drawing;
+using System.Drawing.Imaging;
+using System.IO;
+using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading;
 using System.Windows;
@@ -315,22 +320,59 @@ EndSelection:<<<<<<<<4";
         /// Returns an image source from the clipboard if available
         /// </summary>
         /// <returns>image source or null</returns>
-        public static BitmapSource GetImageSource()
+        public static ImageSource GetImageSource()
         {
-            try
+            using (var bmp = GetImage())
             {
-                // This no longer works - image doesn't display in imagesource.
-                var image =  System.Windows.Clipboard.GetImage();
-                return image;
+                return WindowUtilities.BitmapToBitmapSource(bmp);
+            }
 
-                var bmp = System.Windows.Forms.Clipboard.GetImage();
-                return WindowUtilities.BitmapToBitmapSource(bmp as Bitmap);
-            }
-            catch (Exception ex)
-            {
-                return null;
-            }
+            //var filename = Path.Combine(Path.GetTempPath(), StringUtils.NewStringId() + ".png");
+            //try
+            //{
+            //    var imgSrc = System.Windows.Clipboard.GetImage();
+                
+            //    using (var bmp = WindowUtilities.BitmapSourceToBitmap(imgSrc) )
+            //    {
+            //        File.Delete(filename);
+            //        bmp.Save(filename);
+            //    }
+
+            //    var bytes =File.ReadAllBytes(filename);
+            //    Bitmap bitmap;
+            //    using (var ms = new MemoryStream(bytes))
+            //    {
+            //        bitmap = new Bitmap(ms);
+            //    }
+
+            //    return WindowUtilities.BitmapToBitmapSource(bitmap);
+
+
+
+                //return ImageFromClipboardDib();
+
+                // This is unreliable for some images captured (from image editors like SnagIt mainly)
+                //return System.Windows.Clipboard.GetImage();
+                //return image;
+
+                // Grab safe image first, then convert to bitmap source
+                //using (var bmp = GetImage())
+                //{
+                //var bmp = GetImage();
+                //return WindowUtilities.BitmapToBitmapSource(bmp as Bitmap);
+                //}
+            //}
+            //catch (Exception ex)
+            //{
+            //    return null;
+            //}
+            //finally
+            //{
+            //    File.Delete(filename);
+            //}
         }
+
+        
 
         /// <summary>
         /// Returns an image from the clipboard and capture exception
@@ -340,19 +382,53 @@ EndSelection:<<<<<<<<4";
         {
             try
             {
-                // Use Windows.Clipboard to get transparency etc.
-                var imgSource = System.Windows.Clipboard.GetImage();
-                if (imgSource == null)
+                var dataObject = Clipboard.GetDataObject();
+
+                var formats = dataObject.GetFormats(true);
+                if (formats == null || formats.Length == 0)
                     return null;
 
-                return WindowUtilities.BitmapSourceToBitmap(imgSource);
-                //return System.Windows.Forms.Clipboard.GetImage() as Bitmap;
+                var first = formats[0];
+
+                foreach (var f in formats)
+                    Debug.WriteLine(" - "+f.ToString());
+
+                if (formats.Contains("PNG"))
+                {
+                    Debug.WriteLine("PNG");
+
+                    using (MemoryStream ms = (MemoryStream) dataObject.GetData("PNG"))
+                    {
+                        ms.Position = 0;
+                        return (Bitmap) new Bitmap(ms);
+                    }
+                }
+                // Guess at Chromium and Moz Web Browsers which can just use WPF's formatting
+                else if (first == DataFormats.Bitmap || formats.Contains("text/_moz_htmlinfo"))  
+                {
+                    Debug.WriteLine("First == Bitmap");
+                    
+                    var src = System.Windows.Clipboard.GetImage();
+                    return WindowUtilities.BitmapSourceToBitmap(src);
+                }
+                else if(formats.Contains("System.Drawing.Bitmap")) // (first == DataFormats.Dib)
+                {
+                    Debug.WriteLine("System.Drawing.Bitmap");
+                    var bitmap = (Bitmap)dataObject.GetData("System.Drawing.Bitmap");
+                    return bitmap;
+                }
+
+                Debug.WriteLine("Fall through - WinForms");
+
+                return System.Windows.Forms.Clipboard.GetImage() as Bitmap;
             }
-            catch (Exception ex)
+            catch 
             {
                 return null;
             }
         }
+
+  
 
 
         /// <summary>

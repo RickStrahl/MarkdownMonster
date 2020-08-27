@@ -592,7 +592,7 @@ namespace MarkdownMonster.Windows
             }
         }
 
-        private void SetImagePreview(BitmapSource source)
+        private void SetImagePreview(ImageSource source)
         {
             try
             {
@@ -605,7 +605,7 @@ namespace MarkdownMonster.Windows
                     Height = 800;
                 }
 
-                var bmp = source as InteropBitmap;
+                var bmp = source as BitmapFrame;
                 if (bmp != null)
                 {
                     ImageHeight = (int) bmp.PixelHeight;
@@ -681,7 +681,7 @@ namespace MarkdownMonster.Windows
         /// or adjusted.
         /// </summary>
         /// <param name="image"></param>
-        private void ResizeImagePreviewControl(BitmapSource image)
+        private void ResizeImagePreviewControl(ImageSource image)
         {
             if (image == null)
                 return;
@@ -697,10 +697,24 @@ namespace MarkdownMonster.Windows
 
         private void PasteImageFromClipboard()
         {
-            BitmapSource image;
+            ImageSource image;
+            
             try
             {
                 image = ClipboardHelper.GetImageSource();
+                //using (var bitmap = ClipboardHelper.GetImage())
+                //{
+                //    using (var ms = new MemoryStream())
+                //    {
+                //        bitmap.Save(ms, ImageFormat.Bmp);
+                //        bitmap.Dispose();
+
+                //        using (var b2 = new Bitmap(ms))
+                //        {
+                //            image = WindowUtilities.BitmapToBitmapSource(b2);
+                //        }
+                //    }
+                //}
             }
             catch (Exception e)
             {
