@@ -17,7 +17,7 @@ Markdown Monster is an easy to use and extensible **Markdown Editor**, **Viewer*
 
 ## Installation
 
-### Direct
+### Download
 
 You can download Markdown Monster using the self-contained installer:
 
@@ -33,10 +33,11 @@ c:\> choco install markdownmonster
 
 ### Scoop
 
-You can use [Scoop](https://scoop.sh/) to install and update from the Windows Command Prompt. This is in the `extra` bucket which is automatically updated with the latest release when a new build is released on GitHub. 
+You can use [Scoop](https://scoop.sh/) to install and update from the Windows Command Prompt. You need to use the `extra` bucket. 
 
-* To install run: `scoop install markdown-monster`
-* To update run: `scoop update markdown-monster`
+```ps
+c:\> scoop install markdown-monster
+```
 
 ## Overview
 Here's what Markdown Monster looks like using the default **Dark Theme**: 
