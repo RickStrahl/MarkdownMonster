@@ -9,7 +9,7 @@
 <small>September  3rd, 2020</small> 
 
 * **Add additional Code Fencing inline Syntax Colorings**   
-Added additional inline syntax colorings for the following languages: `csharp`, `typescript`, `json`, `typescript`. You now get syntax colored text as you type or paste inside of triple backtick fenced code blocks.
+Added additional inline syntax colorings for the following languages: `csharp`, `typescript`, `json`, `typescript`, `powershell`. You now get syntax colored text as you type or paste inside of triple backtick fenced code blocks.
 
 * **Additional File Browser Icons and Editing Syntax Support**  
 Added additional icons that can display in the Folder Browser including `Dart` and `Dockerfile` files. Both file types can now also be edited in MM. Also fix additional icons for various external document types.
@@ -18,8 +18,7 @@ Added additional icons that can display in the Folder Browser including `Dart` a
 Added shortcuts to quickly navigate the Folder Browser to the active document's location, open the Terminal or Explorer on the Tools menu. Added shortcut mnemonics to make them easier to be  discoverable.
 
 * **Better File Encoding Support**  
-You can now set the file encoding for documents. Additional encodings have been added. When changing encodings
-You can now use **Load additional Encodings...** to load up all encodings available. Choosing an encoding will try to reload the document with the new encoding.
+You can now set the file encoding for documents. Additional non UTF/Unicode encodings have been added. You can use **Load additional Encodings...** to load up all encodings available. Choosing an encoding will try to reload the document with the new encoding .
 
 * **Improved Code Snippet Syntax for Html to Markdown Conversions**  
 Worked with [ReverseMarkdown](https://github.com/mysticmind/reversemarkdown-net) to add better support for capturing syntax for many common services including GitHub, highlightJs, Atlassian and Confluence. For most snippets the syntax should now be applied to code-fenced blocks.
