@@ -5,14 +5,57 @@
 [![Chocolatey](https://img.shields.io/chocolatey/dt/markdownmonster.svg)](https://chocolatey.org/packages/MarkdownMonster)
 [![Web Site](https://img.shields.io/badge/Markdown_Monster-WebSite-blue.svg)](https://markdownmonster.west-wind.com)
 
+### 1.24
+<small>September  3rd, 2020</small> 
 
-### 1.23.18
-<small>August 26th, 2020</small> 
+* **Add additional Code Fencing inline Syntax Colorings**   
+Added additional inline syntax colorings for the following languages: `csharp`, `typescript`, `json`, `typescript`. You now get syntax colored text as you type or paste inside of triple backtick fenced code blocks.
 
-* **Fix: Preview Window Disappearing when editing non-Markdown Files** Fix bug that caused the active document syntax type to be turned to an invalid syntax when opening a non-Markdown document. Refactored `EditorSyntax` onto the document itself rather than on the Editor which would cause assignment issues.
+* **Additional File Browser Icons and Editing Syntax Support**  
+Added additional icons that can display in the Folder Browser including `Dart` and `Dockerfile` files. Both file types can now also be edited in MM. Also fix additional icons for various external document types.
+
+* **Add Menu Shortcuts for Document File and Shell Operations** 
+Added shortcuts to quickly navigate the Folder Browser to the active document's location, open the Terminal or Explorer on the Tools menu. Added shortcut mnemonics to make them easier to be  discoverable.
+
+* **Better File Encoding Support**  
+You can now set the file encoding for documents. Additional encodings have been added. When changing encodings
+You can now use **Load additional Encodings...** to load up all encodings available. Choosing an encoding will try to reload the document with the new encoding.
+
+* **Improved Code Snippet Syntax for Html to Markdown Conversions**  
+Worked with [ReverseMarkdown](https://github.com/mysticmind/reversemarkdown-net) to add better support for capturing syntax for many common services including GitHub, highlightJs, Atlassian and Confluence. For most snippets the syntax should now be applied to code-fenced blocks.
+
+* **Refactor Preview Context Menu UI**  
+Change the order of context menu items to show the most context sensitive items on top. Options like *Copy/Edit Image* and *Copy Id to Clipboard* now show on top of the menu if relevant.
+
+* **Copy Image to Clipboard from Preview**  
+There is now a context menu options to copy an image to the clipboard from the Preview Browser.
+
+* **Updated Heading ID to Clipboard**  
+You can now use the context menu in the previewer or the editor to copy the generated document html `id` attribute value to the clipboard. This makes it easier to paste relative links. As a reminder you can also get this Id from the Document Outline sidebar's context menu.
+
+* **Open Image in Image Editor or in Image Link Form from Editor**  
+You can now right click on an image link in the editor and use the option to open then image in your preferred image editor, or open the image in the link dialog (from which you can copy the image to the clipboard or resize the image).
+
+* **Improved Application Title Bar Configuration Options**  
+The title bar now has a new `TitlebarDisplayMode` configuration property that has options for displaying, just the filename, the full path, or the filename plus the parent path on the title bar. Tabs continue to display the filename by default and the filename plus parent path *if multiple files with the same name are open*. The new option to display filename plus parent path makes it easier to differentiate documents in the task bar.
+
+* **Paste Improvements**  
+Updated the editor paste behavior to use native editor paste behavior for text while deferring images and file paste operations to the Editor shell. This improves paste performance and reliability of text copy and paste operations.
+
+* **Statusbar Text Tooltip**  
+The status bar now also shows a multi-line tooltip for extra long messages that might overflow the status bar area. 
+
+* **Switch to MahApps 2.1**  
+Switched MM to use latest MahApps Metro UI framework. This provides a number of enhancements plus better stability and consistency for many UI operations.
+
+* **Light Theme Enhancements**  
+In light of the MahApps update the light theme has seen a number of updates for better consistency and color contrast in a few areas.
+
+* **Fix: Preview Window Disappearing when editing non-Markdown Files**  
+Fix bug that caused the active document syntax type to be turned to an invalid syntax when opening a non-Markdown document. Refactored `EditorSyntax` onto the document itself rather than on the Editor which would cause assignment issues.
 
 * **Fix: SnagIt Screen Capture and File Saving**  
-As of SnagIt 2020 the SnagIt Addin from TechSmith was broken due to a bug in the file saving mechanism. Modified the way file saving works by capturing to clipboard and saving the clipboard content. As a bonus we now get better file location support using MM's document/project file location settings. 
+As of SnagIt 2020 the SnagIt Addin from TechSmith was broken due to a bug in the file saving mechanism. Modified the way file saving works by capturing to clipboard and saving the clipboard content. This works around the SnagIt bug and should hopefully future proof the SnagIt regression that keeps cropping up. As a bonus we now get better file location support using MM's document/project file location settings. 
 
 * **Fix: Screen Capture Timer for Built-in Capture**  
 Fix the screen capture timer used with with built-in capture when delaying captures.
@@ -23,23 +66,8 @@ Added a keyboard mnemonic to the **Tools -> Add-_ins** menu item so it becomes p
 * **Fix: Images from Clipboard not showing in Image Previews**  
 Fixed issue with WPF clipboard that failed to retrieve images from the clipboard properly. Used alternative image retrieval. This fixes missing preview images in the the Paste Image and Azure Blob Storage Addin (update required to see the fix).
 
-### 1.23.17
-<small>August 19th, 2020</small> 
-
-* **Add additional Code Fencing inline Syntax Colorings**   
-Added additional inline syntax colorings for the following languages: `csharp`, `typescript`, `json`, `typescript`. You now get syntax colored text as you type or paste inside of triple backtick fenced code blocks.
-
-* **Additional File Browser Icons and Editing Syntax Support**  
-Added additional icons that can display in the Folder Browser including `Dart` and `Dockerfile` files. Both file types can now also be edited in MM. Also fix additional icons for various external document types.
-
-* **Add Window Menu Shortcut to Open Document in Folder Browser**  
-Added yet another shortcut to quickly navigate the Folder Browser to the active document's location on the Window Menu. Default shortcut is `alt-w-f`.
-
-* **Better File Encoding Support**  
-You can now use **Load additional Encodings...** to load up all encodings available. Choosing an encoding will try to reload the document with the new encoding.
-
-* **Improved Code Snippet Syntax for Html to Markdown Conversions**  
-Worked with [ReverseMarkdown](https://github.com/mysticmind/reversemarkdown-net) to add better support for capturing syntax for many common services including GitHub, highlightJs, Atlassian and Confluence. For most snippets the syntax should now be applied to code-fenced blocks.
+* **Fix Recent Documents Dropdrown Layout**  
+Cleaned up the layout of recent menu lists on the Recent Files menu, and on the startup page.
 
 * **Fix: File Encoding and Save Bug**  
 Fixed issue where file saving under certain circumstances with non-UTF8 encodings would cause the file not save. Fixed by assigning default encoding and fixing up encoding lookup failures as well as adding additional logging around encoding for notification or save problems.
@@ -48,35 +76,8 @@ Fixed issue where file saving under certain circumstances with non-UTF8 encoding
 Fix bug with images published to a Jekyll Blog. All but the last image were deleted by the post handler previously. Related: Also updated the Preview URL generator used to navigate to the generated URL which should work much better than before for the post title as well as the categories to match the Jekyll snake case conversions.
 
 * **Fix: Light Theme Crashes**  
-Fix several bugs related to light theme missing resources. 
+Fix several bugs related to light theme and missing resources. 
 
-
-### 1.23.14
-<small>July 16th, 2020</small>
-
-* **Copy Image to Clipboard from Preview**  
-You can now copy an image to the clipboard from the Previewer.
-
-* **Refactor Preview Context Menu UI**  
-Change the order of context menu items to show the most context sensitive items on top. Options like *Copy/Edit Image* and *Copy Id to Clipboard* now show on top of the menu.
-
-* **Improved Application Title Bar Configuration Options**  
-The title bar now has a new `TitlebarDisplayMode` configuration property that has options for displaying, just the filename, the full path, or the filename plus the parent path on the title bar. Tabs continue to display the filename by default and the filename plus parent path *if multiple files with the same name are open*. The new option to display filename plus parent path makes it easier to differentiate documents in the task bar.
-
-* **Paste Improvements**  
-Updated the paste behavior to use native editor paste behavior for text while deferring images and file paste operations to the Editor shell. This improves paste performance and fixes rare paste operation failures.
-
-* **Fix Recent Documents Dropdrown Layout**  
-Cleaned up the layout of recent menu lists on the Recent Files menu, and on the startup page.
-
-* **Statusbar Text Tooltip**  
-The status bar now also shows a multi-line tooltip for extra long messages that might overflow the status bar area. 
-
-* **Switch to MahApps 2.1**  
-Switched MM to use latest MahApps Metro UI framework. This provides a number of enhancements plus better stability and consistency for many UI operations.
-
-* **Light Theme Enhancements**  
-In light of the MahApps update the light theme has seen a number of updates for better consistency and color contrast in a few areas.
 
 ### 1.23 
 *<small>June 9th</small>*

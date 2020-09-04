@@ -400,7 +400,7 @@ namespace MarkdownMonster
         /// extension is opened it uses the specified syntax highlighting
         /// in the editor.
         ///
-        /// Extension to Image Icon mappings are in <see cref="AssociatedIcons.ExtensionToImageMappings"/> 
+        /// Extension to Image Icon mappings are in AssociatedIcons.ExtensionToImageMappings /> 
         /// </summary>
         public Dictionary<string, string> EditorExtensionMappings { get; set; } = new Dictionary<string, string>
         {

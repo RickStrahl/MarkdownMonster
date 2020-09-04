@@ -1,7 +1,7 @@
 cd "$PSScriptRoot" 
 
 # Major version
-$release = "v1.23" 
+$release = "v1.24" 
 $releaseFile = "$PSScriptRoot\builds\currentrelease\MarkdownMonsterSetup.exe"
 $versionFile = "$PSScriptRoot\builds\currentrelease\MarkdownMonster_Version.xml"
 $portableFile = "$PSScriptRoot\builds\currentrelease\MarkdownMonsterPortable.zip"

@@ -1,12 +1,15 @@
 ﻿using System;
 using System.Text;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Windows;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Westwind.Utilities;
 using System.Windows.Media;
 using System.Drawing.Imaging;
+using MarkdownMonster.Windows;
+using System.Runtime.CompilerServices;
 
 namespace MarkdownMonster.Test
 {
@@ -53,13 +56,25 @@ namespace MarkdownMonster.Test
         [TestMethod]
         public void ImageTransparencyTest()
         {
+            // Before running copy an image from SnagIt's editor with transparency
+            var data = System.Windows.Clipboard.GetDataObject();
+            var formats = data.GetFormats();
+
+            //foreach (var f in formats)
+            //    Console.WriteLine(" - " + f.ToString());
+
             string file = @"c:\temp\test.png";
-            var img = ClipboardHelper.GetImage();
 
-            Assert.IsNotNull(img, "Image is null - no image data on the clipboard?");
+            //var imgSource = System.Windows.Clipboard.GetImage();  // this won't display in a WPF Image control from SnagIt
+            //using (var img = WindowUtilities.BitmapSourceToBitmap(imgSource))
+            //{
+            using (var img = ClipboardHelper.GetImage())
+            {
+                Assert.IsNotNull(img, "Image is null - no image data on the clipboard?");
 
-            File.Delete(file);
-            img.Save(file,ImageFormat.Png);
+                File.Delete(file);
+                img.Save(file, ImageFormat.Png);
+            }
 
             ShellUtils.ShellExecute(file);
         }

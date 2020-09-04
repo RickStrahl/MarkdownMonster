@@ -33,7 +33,7 @@ c:\> choco install markdownmonster
 
 ### Scoop
 
-You can use [Scoop](https://scoop.sh/) to install and update from the Windows Command Prompt. You need to use the `extra` bucket. 
+You can use [Scoop](https://scoop.sh/) to install and update from the Windows Command Prompt. You need to use the `extras` bucket. 
 
 ```ps
 c:\> scoop install markdown-monster
@@ -104,11 +104,12 @@ Markdown Monster provides many useful features:
 * Synced Document Outline
 * Distraction free mode
 * Markdown folding
+* Split view
 
 ### Previewer
 * Scroll synced preview window
 * Optional external previewer for multi-screen
-* External Browser preview
+* Preview in Web Browser
 * Presentation mode support
 * Distraction-free mode support
 * Document Navigation from embedded Markdown Links
