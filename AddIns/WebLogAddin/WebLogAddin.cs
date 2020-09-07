@@ -36,13 +36,10 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Net;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
-using System.Xml;
 using FontAwesome.WPF;
 using HtmlAgilityPack;
 using WebLogAddin.MetaWebLogApi;
@@ -52,7 +49,6 @@ using WebLogAddin.LocalJekyll;
 using WebLogAddin.Medium;
 using Westwind.Utilities;
 using File = System.IO.File;
-using MarkdownMonster.Windows;
 
 namespace WeblogAddin
 {

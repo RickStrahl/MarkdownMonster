@@ -5,10 +5,12 @@ using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Security.Policy;
+using System.Text;
 using System.Xml;
 using MarkdownMonster;
 using WebLogAddin.MetaWebLogApi;
 using Westwind.Utilities;
+using YamlDotNet.RepresentationModel;
 using YamlDotNet.Serialization;
 using YamlDotNet.Serialization.NamingConventions;
 
@@ -174,6 +176,8 @@ namespace WeblogAddin
         public IDictionary<string,CustomField> CustomFields { get; set;} = new Dictionary<string, CustomField>();
 
 
+        [YamlIgnore]
+        public IDictionary<string, object> ExtraValues { get; set; } = new Dictionary<string, object>();
 
 		/// <summary>
 		/// This should hold the sanitized markdown text
@@ -232,17 +236,18 @@ namespace WeblogAddin
             // just the YAML text
             var yaml = extractedYaml.Trim('-', ' ', '\r', '\n');
 
-            var input = new StringReader(yaml);
+            //var input = new StringReader(yaml);
 
-            var deserializer = new DeserializerBuilder()
-                 .IgnoreUnmatchedProperties()
-                 .WithNamingConvention(new CamelCaseNamingConvention())
-                 .Build();
+            
+            //var deserializer = new DeserializerBuilder()
+            //    .IgnoreUnmatchedProperties()
+            //     .WithNamingConvention(new CamelCaseNamingConvention())
+            //     .Build();
 
             WeblogPostMetadata yamlMeta = null;
             try
             {
-                yamlMeta = deserializer.Deserialize<WeblogPostMetadata>(input);
+                yamlMeta = ParseFromYaml(yaml);  //deserializer.Deserialize<WeblogPostMetadata>(input);
             }
             catch
             {
@@ -297,6 +302,166 @@ namespace WeblogAddin
         }
 
 
+        /// <summary>
+        /// Parses a YAML block of text into a WeblogPostMetaData structure.
+        /// Any fields that don't match the meta structure are parsed into
+        /// ExtraFields
+        /// </summary>
+        /// <param name="yaml"></param>
+        /// <returns></returns>
+        public static WeblogPostMetadata ParseFromYaml(string yaml)
+        {
+            var parser = new YamlStream();
+            try
+            {
+                parser.Load(new StringReader(yaml));
+            }
+            catch
+            {
+                return null;
+            }
+
+            var meta = new WeblogPostMetadata();
+
+            var root = (YamlMappingNode) parser.Documents[0].RootNode;
+            foreach (var entry in root.Children)
+            {
+                var key = entry.Key?.ToString();
+
+                if(string.IsNullOrEmpty(key))
+                    continue;
+                if (key.Equals("Title", StringComparison.OrdinalIgnoreCase))
+                {
+                    meta.Title = entry.Value?.ToString();
+                }
+                else if (key.Equals("Abstract", StringComparison.OrdinalIgnoreCase))
+                {
+                    meta.Abstract = entry.Value?.ToString();
+                }
+                else if (key.Equals("PostId", StringComparison.OrdinalIgnoreCase))
+                {
+                    meta.PostId = entry.Value?.ToString();
+                }
+                else if (key.Equals("PostStatus", StringComparison.OrdinalIgnoreCase))
+                {
+                    meta.PostStatus = entry.Value?.ToString();
+                }
+                
+                else if (key.Equals("PostDate", StringComparison.OrdinalIgnoreCase))
+                {
+                    if (!DateTime.TryParse(entry.Value.ToString(), out DateTime dt))
+                        meta.PostDate = DateTime.UtcNow;
+                    else
+                        meta.PostDate = dt;
+                }
+                else if (key.Equals("WeblogName", StringComparison.OrdinalIgnoreCase))
+                {
+                    meta.WeblogName = entry.Value?.ToString();
+                }
+                else if (key.Equals("Keywords", StringComparison.OrdinalIgnoreCase))
+                {
+                    meta.Keywords = entry.Value?.ToString();
+                }
+                else if (key.Equals("Categories", StringComparison.OrdinalIgnoreCase))
+                {
+                    meta.Categories = entry.Value?.ToString();
+                }
+                else if (key.Equals("PermaLink", StringComparison.OrdinalIgnoreCase))
+                {
+                    meta.Permalink = entry.Value?.ToString();
+                }
+                else if (key.Equals("FeaturedImageUrl", StringComparison.OrdinalIgnoreCase))
+                {
+                    meta.FeaturedImageUrl = entry.Value?.ToString();
+                }
+                else if (key.Equals("FeaturedImageId", StringComparison.OrdinalIgnoreCase))
+                {
+                    meta.FeaturedImageId = entry.Value?.ToString();
+                }
+                else if (key.Equals("DontInferFeaturedImage", StringComparison.OrdinalIgnoreCase))
+                {
+                    bool.TryParse(entry.Value.ToString(), out bool val);
+                    meta.DontInferFeaturedImage =val;
+                }
+                else if (key.Equals("DontStripH1Header", StringComparison.OrdinalIgnoreCase))
+                {
+                    bool.TryParse(entry.Value.ToString(), out bool val);
+                    meta.DontStripH1Header = val;
+                }
+                else if (key.Equals("CustomFields", StringComparison.OrdinalIgnoreCase))
+                {
+                    var fields = (YamlMappingNode) entry.Value;
+                    foreach (var item in fields.Children)
+                    {
+                        string k = item.Key.ToString();
+                        string v = ((YamlMappingNode) item.Value).Children["value"].ToString();
+                        meta.CustomFields.Add(k, new CustomField {Value = v, Key = k});
+                    }
+                }
+                else
+                {
+                    meta.ExtraValues.Add(entry.Key.ToString(), entry.Value?.ToString());
+                }
+
+            }
+
+            return meta;
+            
+        }
+
+        /// <summary>
+        /// Serializes a meta weblog post to YAML including extra fields.
+        /// </summary>
+        /// <param name="meta">MetaWebLogPostData instance or null which uses this object</param>
+        /// <param name="addFrontMatterDashes">if true adds the leading and trailing Frontmatter dashes to the YAML</param>
+        /// <returns></returns>
+        public string SerializeToYaml(WeblogPostMetadata meta = null, bool addFrontMatterDashes = false)
+        {
+            if (meta == null)
+                meta = this;
+
+            var serializer = new SerializerBuilder()
+                .WithNamingConvention(new CamelCaseNamingConvention())
+                .Build();
+
+            // hide fields  if none are set
+            var customFields = CustomFields;
+            if (CustomFields != null && CustomFields.Count < 1)
+                CustomFields = null;
+            if (string.IsNullOrEmpty(PostId))
+                PostId = null;
+
+            string yaml =  serializer.Serialize(this);
+
+            if (meta.ExtraValues.Count > 0)
+            {
+                var root = new YamlMappingNode();
+                var doc = new YamlDocument(root);
+
+                foreach (var extra in meta.ExtraValues)
+                {
+                    root.Add(extra.Key.ToString(), extra.Value?.ToString());
+                }
+                
+                var yamlStream = new YamlStream(doc);
+                var buffer = new StringBuilder();
+                string yamlText;
+                using (var writer = new StringWriter(buffer))
+                {
+                    yamlStream.Save(writer);
+                    yamlText = writer.ToString();
+                }
+                yaml += yamlText.TrimEnd('\r','\n','.') + mmApp.NewLine;
+            }
+
+            if (addFrontMatterDashes)
+            {
+                yaml = $"---{mmApp.NewLine}{yaml}---{mmApp.NewLine}";
+            }
+
+            return yaml;
+        }
+
 
         /// <summary>
         /// Parses the current Raw post data and updates the meta data
@@ -317,9 +482,9 @@ namespace WeblogAddin
 
             string markdown = rawMarkdownBody.Trim();
 
-            var serializer = new SerializerBuilder()
-                 .WithNamingConvention(new CamelCaseNamingConvention())
-                 .Build();
+            //var serializer = new SerializerBuilder()
+            //     .WithNamingConvention(new CamelCaseNamingConvention())
+            //     .Build();
 
             // hide fields  if none are set
             var customFields = CustomFields;
@@ -328,7 +493,7 @@ namespace WeblogAddin
             if (string.IsNullOrEmpty(PostId))
                 PostId = null;
 
-            string yaml = serializer.Serialize(this);
+            string yaml = SerializeToYaml(this);  //  serializer.Serialize(this);
 
             // reset customfields
             CustomFields = customFields;
@@ -344,7 +509,7 @@ namespace WeblogAddin
                 markdown = markdown.Trim();
 
             MarkdownBody = markdown;
-            YamlFrontMatter = $"---{mmApp.NewLine}" + yaml + $"---{mmApp.NewLine}";
+            YamlFrontMatter = $"---{mmApp.NewLine}{yaml}---{mmApp.NewLine}";
             RawMarkdownBody = YamlFrontMatter + MarkdownBody;
 
             // TODO: strip out old meta data

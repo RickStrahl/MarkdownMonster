@@ -68,7 +68,6 @@ namespace MarkdownMonster
             set
             {
                 _splitterPosition = value;
-                //Debug.WriteLine(value);
             }
         }
 

@@ -8,6 +8,7 @@ using MarkdownMonster;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using WebLogAddin.LocalJekyll;
 using WebLogAddin.MetaWebLogApi;
+using YamlDotNet.RepresentationModel;
 
 namespace WeblogAddin.Test
 {
@@ -102,5 +103,7 @@ namespace WeblogAddin.Test
             pub.CreateDownloadedPostOnDisk(post,weblogInfo.Name);
 
         }
+
+       
     }
 }

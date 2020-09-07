@@ -49,6 +49,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SupportProjects", "SupportProjects", "{D7DD7DBF-5809-40D3-8734-6C28178104E8}"
 	ProjectSection(SolutionItems) = preProject
 		Changelog.md = Changelog.md
+		Todo.md = Todo.md
 	EndProjectSection
 EndProject
 Global
