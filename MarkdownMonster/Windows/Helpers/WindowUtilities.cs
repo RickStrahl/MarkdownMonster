@@ -258,11 +258,14 @@ namespace MarkdownMonster.Windows
             if (source == null)
                 return null;
 
-            var pixelFormat = PixelFormat.Format32bppPArgb;
-            if (source.Format == System.Windows.Media.PixelFormats.Bgr24)
+            var pixelFormat = PixelFormat.Format32bppArgb;  //Bgr32 default
+            if (source.Format == PixelFormats.Bgr24)
                 pixelFormat = PixelFormat.Format24bppRgb;
-
-
+            else if(source.Format == PixelFormats.Pbgra32)
+                pixelFormat = PixelFormat.Format32bppPArgb;
+            else if(source.Format == PixelFormats.Prgba64)
+                pixelFormat = PixelFormat.Format64bppPArgb;
+            
             Bitmap bmp = new Bitmap(
                 source.PixelWidth,
                 source.PixelHeight,

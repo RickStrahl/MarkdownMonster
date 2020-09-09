@@ -729,6 +729,9 @@ namespace MarkdownMonster.Windows
             Image = null;
             IsMemoryImage = true;
 
+            ImageWidth = (int) image.Width;
+            ImageHeight = (int) image.Height;
+
             StatusBar.ShowStatusSuccess("Image pasted from clipboard.");
         }
 
