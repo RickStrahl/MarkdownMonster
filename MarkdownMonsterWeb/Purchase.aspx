@@ -121,8 +121,8 @@ provide the [source code](https://github.com/RickStrahl/MarkdownMonster)
 in the open, but a reasonably priced license must be purchased for continued use. 
     
 We offer individual and organizational licenses to purchase, as well as **free** licenses to contributors 
-and certain developer organizations. For more licensing information, please check out 
- [Licensing Information](#License) below.
+and certain developer organizations. Discounted licenses are available for some International locations for fair global pricing. 
+For more licensing information, please check out [Licensing Information](#License) below.
     
 Thanks for playing fair.
 </ww:Markdown>
@@ -133,7 +133,7 @@ Thanks for playing fair.
             
   
             <h3 id="Licenses" style="margin:10px 0 20px">Markdown Monster Licenses</h3>
-            <table id="PricingTable" class="table table-bordered table-striped" style="width: 100%;">
+            <table id="PricingTable" class="table table-bordered table-striped" style="width: 100%;margin-bottom: 0;">
                 <thead>
                     <tr>
                         <th>Product</th>
@@ -233,8 +233,9 @@ Thanks for playing fair.
                 </tr>
 
             </table>
-            
-            
+        <p style="margin-top: 0">
+            <small><i><super>*</super> <a href="#discountpricing">discounted pricing available</a> for various global locations</i></small>
+        </p> 
        
                 <p>
                     For more information on order arrangements please visit <a href="https://west-wind.com/pricing.aspx#purchasing-west-wind-products">our order policies page</a>.
@@ -263,20 +264,19 @@ but [a reasonably priced license](https://store.west-wind.com/product/order/mark
 **Thank you for playing fair.**
          
  <p>
-     <a href="#Licenses" class="btn btn-primary" style="width: 210px">
+     <a href="#Licenses" class="btn btn-primary" style="width: 250px">
          <i class="fa fa-check" style="color: lightgreen"></i>&nbsp;
          Purchase a License
      </a>
  </p>
 
----
-         
-<a name="Contribute"></a>
-#### Contribute - Get a Free License
+
+        
+#### Contribute - Get a Free License{#Contribute}
 Contributors that provide valuable feedback with quality bug reports or enhancement requests, 
 help out with code via Pull Requests, help promote Markdown Monster, or support Markdown Monster in
 any other significant way are all eligible for a free license.
-        
+    
 <a href="http://west-wind.com/contact/" target="top">Contact Rick for more info</a>
 or - just as likely - I'll be contacting you.
          
@@ -285,11 +285,22 @@ Microsoft MVPs, ASP.NET Insiders and Microsoft employees as well as employees of
 the Microsoft MVP program also qualify for a free license.
 	            
 <a class="btn btn-primary" 
-   href="https://store.west-wind.com/mvpperks.aspx" target="top">
+   href="https://store.west-wind.com/mvpperks.aspx" target="top" style="width: 250px">
     <i class="fa fa-id-card-o" style="color: #ddd"></i>&nbsp;
-    Apply for a free license
+    Apply for a free MVP license
 </a>.
+
+
+#### Globally Adjusted Discount Pricing {#discountpricing}
+Live in a country where pricing for Markdown Monster is prohibitive? Let us help you get licensed with a discounted
+license with adjusted international pricing for your location. 
          
+<a class="btn btn-primary" href="https://store.west-wind.com/discountpricing.aspx" target="_blank" style="width: 250px">
+    <i class="fa fa-chevron-circle-down" style="color: #ddd"></i>&nbsp;
+    Apply for a Discounted License
+</a>
+
+
 --- 
          
 <h3 >Markdown Monster License</h3>
@@ -326,7 +337,7 @@ Markdown Monster is **Source Open** and source code is available on [GitHub](htt
 
 #### Help us out - Get a free License
 
-We encourage pull requests for feature suggestions or bug fixes to be submitted back to the Markdown Monster repository. Please check with us first before comitting to providing larger PRs. Any contributors that provide meaningful enhancements, help with identifying and or fixing of bugs or by actively promoting Markdown Monster can qualify for a free license (at our discretion). Additionally Microsoft MVPs and Insiders and Microsoft Employees can [apply for a free license](https://markdownmonster.west-wind.com/download.aspx#contribute---get-a-free-license").
+We encourage pull requests for feature suggestions or bug fixes to be submitted back to the Markdown Monster repository. Please check with us first before comitting to providing larger PRs. Any contributors that provide meaningful enhancements, help with identifying and or fixing of bugs or by actively promoting Markdown Monster can qualify for a free license (at our discretion). Additionally Microsoft MVPs and Insiders and Microsoft Employees can [apply for a free license](https://markdownmonster.west-wind.com/purchase.aspx#contribute---get-a-free-license").
 
 ### Warranty Disclaimer: NO WARRANTY!
 
