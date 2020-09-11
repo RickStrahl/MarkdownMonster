@@ -29,7 +29,7 @@
     <PackageReference Include="Westwind.Utilities" Version="3.0.47">
       <IncludeAssets>compile</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Markdig" Version="0.20.0">
+    <PackageReference Include="Markdig" Version="0.21.1">
       <IncludeAssets>compile</IncludeAssets>
     </PackageReference>
 

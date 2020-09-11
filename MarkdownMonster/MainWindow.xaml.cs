@@ -165,6 +165,10 @@ namespace MarkdownMonster
 
         public MainWindow()
         {
+            // Initially don't show an icon until we have loaded
+            // the form in the right location (in Activate -> Onload after FixMonitorPosition)
+            ShowInTaskbar = false;
+
             InitializeComponent();
 
             Model = new AppModel(this);
@@ -179,6 +183,9 @@ namespace MarkdownMonster
             DataContext = Model;
 
             TabControl.ClosingItemCallback = TabControlDragablz_TabItemClosing;
+
+
+
 
             Loaded += OnLoaded;
             Drop += MainWindow_Drop;
@@ -236,6 +243,8 @@ namespace MarkdownMonster
                 Left = left;
 
                 FixMonitorPosition();
+                ShowInTaskbar = true;
+
 
                 if (Model.IsPresentationMode)
                 {
