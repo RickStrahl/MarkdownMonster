@@ -5,6 +5,15 @@
 [![Chocolatey](https://img.shields.io/chocolatey/dt/markdownmonster.svg)](https://chocolatey.org/packages/MarkdownMonster)
 [![Web Site](https://img.shields.io/badge/Markdown_Monster-WebSite-blue.svg)](https://markdownmonster.west-wind.com)
 
+
+### 1.24.2
+
+* **FrontMatter in Blog Posts: Preserve Custom Properties**  
+Added support for preserving top level properties in FrontMatter when Weblog Meta data is created. Previously the FrontMatter was serialized directly into the Weblog Meta structure and written back out using just that schema which lost custom props. They are now maintained.
+
+* **Fix: Icon Placement on multi-monitor Setups**  
+Fix odd bug where the MM icon would not show on the correct screen in some multi-monitor scenarios. While at it also fixed the startup icon flash when loading MM onto a non-main screen.
+
 ### 1.24
 <small>September  3rd, 2020</small> 
 
