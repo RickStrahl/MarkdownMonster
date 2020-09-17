@@ -13,6 +13,7 @@ using MarkdownMonster;
 using WeblogAddin;
 using WebLogAddin.MetaWebLogApi;
 using Westwind.Utilities;
+using YamlDotNet.RepresentationModel;
 using YamlDotNet.Serialization;
 using YamlDotNet.Serialization.NamingConventions;
 using File = System.IO.File;
@@ -378,32 +379,45 @@ namespace WebLogAddin.LocalJekyll
 
             if (!string.IsNullOrEmpty(PostMetadata.Categories))
             {
-                StringBuilder sb = new StringBuilder();
-                foreach (var cat in PostMetadata.Categories.Split(','))
+                foreach (var cat in PostMetadata.Categories.Split(new [] {','}, StringSplitOptions.RemoveEmptyEntries))
                 {
-                    var k = cat.ToLower().Trim().Replace(" ", "-");
-                    sb.Append(k + " ");
+                    jkMeta.Categories.Add(cat?.Trim());
                 }
-                jkMeta.Categories = sb.ToString().TrimEnd();
             }
 
             if (!string.IsNullOrEmpty(PostMetadata.Keywords))
             {
-                StringBuilder sb = new StringBuilder();
-                foreach (var key in PostMetadata.Keywords.Split(','))
+                foreach (var key in PostMetadata.Keywords.Split(new [] { ','}, StringSplitOptions.RemoveEmptyEntries))
                 {
-                    var k = key.ToLower().Trim().Replace(" ", "-");
-                    sb.Append(k + " ");
+                    jkMeta.Tags.Add(key.Trim());
                 }
-                jkMeta.Tags = sb.ToString().TrimEnd();
             }
-
-
+            
             var serializer = new SerializerBuilder()
                 .WithNamingConvention(new CamelCaseNamingConvention())
                 .Build();
 
             string yaml = serializer.Serialize(jkMeta);
+
+            // serialize extra fields that aren't part of the scheme explicitly
+            var root = new YamlMappingNode();
+            var doc = new YamlDocument(root);
+
+            foreach (var extra in PostMetadata.ExtraValues)
+            {
+                root.Add(extra.Key.ToString(), extra.Value?.ToString().Trim());
+            }
+                
+            var yamlStream = new YamlStream(doc);
+            var buffer = new StringBuilder();
+            string yamlText;
+            using (var writer = new StringWriter(buffer))
+            {
+                yamlStream.Save(writer);
+                yamlText = writer.ToString();
+            }
+            yaml += yamlText.TrimEnd('\r','\n','.') + mmApp.NewLine;
+
 
             var folder = Path.Combine(blogRoot,"_posts");
             if (!Directory.Exists(folder))
@@ -580,9 +594,9 @@ namespace WebLogAddin.LocalJekyll
         /// <summary>
         /// Categories separated by spaces
         /// </summary>
-        public string Categories {get; set; }
+        public List<string> Categories { get; set; } = new List<string>();
 
-        public string Tags {get; set; }
+        public List<string> Tags { get; set; } = new List<string>();
 
         public bool Published {get; set; }
 

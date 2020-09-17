@@ -435,23 +435,7 @@ namespace WeblogAddin
 
             if (meta.ExtraValues.Count > 0)
             {
-                var root = new YamlMappingNode();
-                var doc = new YamlDocument(root);
-
-                foreach (var extra in meta.ExtraValues)
-                {
-                    root.Add(extra.Key.ToString(), extra.Value?.ToString());
-                }
-                
-                var yamlStream = new YamlStream(doc);
-                var buffer = new StringBuilder();
-                string yamlText;
-                using (var writer = new StringWriter(buffer))
-                {
-                    yamlStream.Save(writer);
-                    yamlText = writer.ToString();
-                }
-                yaml += yamlText.TrimEnd('\r','\n','.') + mmApp.NewLine;
+                yaml = ExtraValuesToYaml(ExtraValues);
             }
 
             if (addFrontMatterDashes)
@@ -462,6 +446,35 @@ namespace WeblogAddin
             return yaml;
         }
 
+
+        /// <summary>
+        /// Serializes any extra values that are in the ExtraValues collection
+        /// and creates YAML from them that can be appended to the serialized
+        /// Yaml data of the schema bound fields.
+        /// </summary>
+        /// <param name="extraValues"></param>
+        /// <returns></returns>
+        public string ExtraValuesToYaml(IDictionary<string, object> extraValues)
+        {
+            // serialize extra fields that aren't part of the scheme explicitly
+            var root = new YamlMappingNode();
+            var doc = new YamlDocument(root);
+
+            foreach (var extra in extraValues)
+            {
+                root.Add(extra.Key.ToString(), extra.Value?.ToString().Trim());
+            }
+
+            var yamlStream = new YamlStream(doc);
+            var buffer = new StringBuilder();
+            string yamlText;
+            using (var writer = new StringWriter(buffer))
+            {
+                yamlStream.Save(writer);
+                yamlText = writer.ToString();
+            }
+            return yamlText.TrimEnd('\r','\n','.') + mmApp.NewLine;
+        }
 
         /// <summary>
         /// Parses the current Raw post data and updates the meta data
