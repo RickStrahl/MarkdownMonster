@@ -11,6 +11,9 @@
 * **FrontMatter in Blog Posts: Preserve Custom Properties**  
 Added support for preserving top level properties in FrontMatter when Weblog Meta data is created. Previously the FrontMatter was serialized directly into the Weblog Meta structure and written back out using just that schema which lost custom props. They are now maintained.
 
+* **Improve Jekyll Post MetaData Handling**  
+Related to the FrontMatter improvements for blog posts, the meta data for Jekyll blog content has been updated to better support the category and tags lists.
+
 * **Fix: Icon Placement on multi-monitor Setups**  
 Fix odd bug where the MM icon would not show on the correct screen in some multi-monitor scenarios. While at it also fixed the startup icon flash when loading MM onto a non-main screen.
 

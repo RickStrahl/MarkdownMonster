@@ -296,7 +296,8 @@ namespace MarkdownMonster.Windows
         {
             var hBitmap = bmp.GetHbitmap();
             var imageSource = Imaging.CreateBitmapSourceFromHBitmap(hBitmap, IntPtr.Zero,
-                System.Windows.Int32Rect.Empty, System.Windows.Media.Imaging.BitmapSizeOptions.FromEmptyOptions());
+                System.Windows.Int32Rect.Empty,
+                System.Windows.Media.Imaging.BitmapSizeOptions.FromEmptyOptions());
             DeleteObject(hBitmap);
             return imageSource;
         }
