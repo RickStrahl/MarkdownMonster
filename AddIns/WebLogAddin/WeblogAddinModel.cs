@@ -197,6 +197,7 @@ namespace WeblogAddin
             OnPropertyChanged(nameof(IsPreviewUrlVisible));
         }
 
+        
 
         public bool IsTokenVisible => ActiveWeblogInfo?.Type == WeblogTypes.Medium;
 
@@ -217,7 +218,8 @@ namespace WeblogAddin
                                            ActiveWeblogInfo?.Type == WeblogTypes.Wordpress ||
                                            ActiveWeblogInfo?.Type == WeblogTypes.LocalJekyll;
 
-        
+
+
         public List<Post> PostList
         {
             get
@@ -258,11 +260,15 @@ namespace WeblogAddin
                 _WeblogNames = value;
                 OnPropertyChanged(nameof(WeblogNames));
             }
-        }    
+        }
+
+   
+
         private List<string> _WeblogNames = new List<string>();
         private int _numberOfPostsToRetrieve;        
         private string _postListSearch;
         private string _newFilename;
+        
 
         public void LoadWebLognames()
         {

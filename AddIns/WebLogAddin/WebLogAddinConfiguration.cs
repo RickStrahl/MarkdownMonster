@@ -159,6 +159,24 @@ Tags:
         }
         private string _lastWeblogAccessed;
 
+        
+        /// <summary>
+        /// Determines whether the post is saved to disk
+        /// automatically when posted to the blog or when
+        /// using Save MetaData
+        /// </summary>
+        public bool AutoSavePost
+        {
+            get { return _autoSavePost; }
+            set
+            {
+                if (value == _autoSavePost) return;
+                _autoSavePost = value;
+                OnPropertyChanged(nameof(AutoSavePost));
+            }
+        }
+        private bool _autoSavePost;
+
         /// <summary>
         /// When true renders links to open external window with Target="blank"
         /// </summary>

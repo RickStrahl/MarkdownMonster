@@ -435,7 +435,7 @@ namespace WeblogAddin
 
             if (meta.ExtraValues.Count > 0)
             {
-                yaml = ExtraValuesToYaml(ExtraValues);
+                yaml = yaml.TrimEnd() + mmApp.NewLine +  ExtraValuesToYaml(ExtraValues);
             }
 
             if (addFrontMatterDashes)

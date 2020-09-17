@@ -21,7 +21,7 @@
         WindowStartupLocation="CenterOwner"
         ShowInTaskbar="False"
         IsMinButtonEnabled="False" IsMaxRestoreButtonEnabled="False"                       
-        Width="800" Height="780" MinHeight="768" MinWidth="600">
+        Width="800" Height="780" MinHeight="768" MinWidth="700">
     <Window.Resources>
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
         <windows:StringComparisonToBooleanConverter x:Key="StringComparisonToBooleanConverter" />
@@ -159,30 +159,59 @@
                         <TextBox Name="TextAbstract" Grid.Row="1"  IsEnabled="{Binding IsAbstractVisible}" Grid.Column="1"  Text="{Binding ActivePostMetadata.PostId}"  Margin="10,0,0,0"/>
 
 						<StackPanel Orientation="Horizontal" Margin="0,15,0,0" Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" >
-
-							<ComboBox Name="ComboPostStatus" 
-							          SelectedValue="{Binding ActivePostMetadata.PostStatus, Mode=TwoWay}"                                       
-									  SelectedValuePath="Tag" Width="150">
-								<ComboBoxItem Content="Publish Post" Tag="publish" />
-								<ComboBoxItem Content="Publish as Draft"  Tag="draft"/>
-								<ComboBoxItem Content="Publish as Private" Tag="private" 
-											  IsEnabled="{Binding ActiveWeblogInfo.Type, Converter={StaticResource StringComparisonToBooleanConverter},ConverterParameter='Wordpress'}"/>
-							</ComboBox>
-					
-							<CheckBox Name="InferFeaturedImage"  Margin="20,0,0,0" 
+							<CheckBox Name="InferFeaturedImage"  Margin="0,0,0,0"  
                                   Content="Don't infer Featured Image"  IsChecked="{Binding ActivePostMetadata.DontInferFeaturedImage}" 
-                                  ToolTip="If checked won't infer a featured image from the first linked image in the post content."/>
+                                  ToolTip="If checked won't infer a featured image from the first linked image in the post content.">
+                                <CheckBox.LayoutTransform>
+                                    <ScaleTransform ScaleX="0.9" ScaleY="0.9" />
+                                </CheckBox.LayoutTransform>
+                            </CheckBox>
+
 							<CheckBox Name="StripH1Header"  Margin="20,0,0,0" 
-                                  Content="Don't strip Header Text"  IsChecked="{Binding ActivePostMetadata.DontStripH1Header}" 
-                                  ToolTip="If checked leaves strips the first H1 link in the post." />
+                                  Content="Strip Document Header"  IsChecked="{Binding ActivePostMetadata.DontStripH1Header}" 
+                                  ToolTip="If checked strips the first H1 link in the post.">
+                                <CheckBox.LayoutTransform>
+                                    <ScaleTransform ScaleX="0.9" ScaleY="0.9" />
+                                </CheckBox.LayoutTransform>
+                            </CheckBox>
+
+                         
 						</StackPanel>
 					</Grid>
 
 					
 
 
-					<StackPanel Orientation="Horizontal"  HorizontalAlignment="Right" Margin="0,25">
-                        <Button  Grid.Column="0" Margin="0,10" Height="40" Width="175"  HorizontalAlignment="Left" Click="ButtonPostBlog_Click" >
+					<Grid   Margin="0,30 0 10" VerticalAlignment="Top">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+
+                        <StackPanel Margin="0 0 50 0" HorizontalAlignment="Left">
+                            <ComboBox Name="ComboPostStatus" Width="187"
+                                      SelectedValue="{Binding ActivePostMetadata.PostStatus, Mode=TwoWay}"                                       
+                                      SelectedValuePath="Tag">
+                                <ComboBoxItem Content="Publish Post" Tag="publish" />
+                                <ComboBoxItem Content="Publish as Draft"  Tag="draft"/>
+                                <ComboBoxItem Content="Publish as Private" Tag="private" 
+                                              IsEnabled="{Binding ActiveWeblogInfo.Type, Converter={StaticResource StringComparisonToBooleanConverter},ConverterParameter='Wordpress'}"/>
+                            </ComboBox>
+
+                            <CheckBox Content="Auto-save to Disk" FontSize="13"
+                                      IsChecked="{Binding Configuration.AutoSavePost}" 
+                                      Margin="0,8,0,0"
+                                      ToolTip="Automatically saves the post to disk after uploading or saving meta data. Otherwise you have to manually save."
+                            >
+                                <CheckBox.LayoutTransform>
+                                    <ScaleTransform ScaleX="0.9" ScaleY="0.9" />
+                                </CheckBox.LayoutTransform>
+                            </CheckBox>
+                        </StackPanel>
+
+
+                        <Button  Grid.Column="1"  Height="40" Width="175" VerticalAlignment="Top" Click="ButtonPostBlog_Click" >
                             <StackPanel Orientation="Horizontal">
                                 <fa:FontAwesome Icon="Upload" FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" Foreground="#FF0E7E28" FontSize="20" />
                                 <TextBlock Margin="10,0,0,0" FontSize="14">Post to Weblog</TextBlock>
@@ -190,13 +219,15 @@
                        </Button>
                          
                         
-                        <Button Grid.Column="1" Margin="10,20,0,20" Height="40" Width="175"  HorizontalAlignment="Left" Click="ButtonSaveMeta_Click" >
+                        <Button Grid.Column="2" Margin="10,0,0,0" Height="40" Width="175"  VerticalAlignment="Top" Click="ButtonSaveMeta_Click" >
                             <StackPanel Orientation="Horizontal">
                                 <fa:FontAwesome Icon="Check" FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" Foreground="#FF0E7E28" FontSize="20" />
                                 <TextBlock Margin="10,0,0,0" FontSize="14">Save Metadata</TextBlock>
                             </StackPanel>
                         </Button>
-                    </StackPanel>
+                    </Grid>
+                    
+
 
 					
 				</StackPanel>

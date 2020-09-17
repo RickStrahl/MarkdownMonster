@@ -122,8 +122,10 @@ namespace WeblogAddin
             var editor = Model.AppModel.ActiveEditor;
             // Update the Markdown document first
             string markdown = Model.ActivePostMetadata.SetPostYamlFromMetaData();
-            editor.SetMarkdown(markdown);
-            editor.SaveDocument();
+            editor.SetMarkdown(markdown, updateDirtyFlag: true, keepUndoBuffer: true);
+
+            if (Model.Configuration.AutoSavePost)
+                editor.SaveDocument();
 
             WeblogAddinConfiguration.Current.LastWeblogAccessed = Model.ActivePostMetadata.WeblogName;
 
@@ -153,9 +155,10 @@ namespace WeblogAddin
 
             // Update the Markdown document first
             string markdown = Model.ActivePostMetadata.SetPostYamlFromMetaData();
-            Model.AppModel.ActiveEditor.SetMarkdown(markdown, updateDirtyFlag: true);
-            Model.AppModel.ActiveEditor.SaveDocument();
+            Model.AppModel.ActiveEditor.SetMarkdown(markdown, updateDirtyFlag: true, keepUndoBuffer: true);
 
+            if (Model.Configuration.AutoSavePost)
+                Model.AppModel.ActiveEditor.SaveDocument();
         }
 
         private void ButtonNewPost_Click(object sender, System.Windows.RoutedEventArgs e)
