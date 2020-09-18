@@ -872,6 +872,8 @@ namespace MarkdownMonster
 
             var autoSave = App.CommandArgs.Any(a => a.Equals("-autosave", StringComparison.InvariantCultureIgnoreCase));
 
+
+
             bool closeNextFile = false;
             foreach (var fileArgs in args)
             {
@@ -910,6 +912,7 @@ namespace MarkdownMonster
 
                     continue;
                 }
+
 
                 string ext = string.Empty;
                 file = file.TrimEnd('\\');
@@ -968,7 +971,8 @@ namespace MarkdownMonster
                 else if (File.Exists(file))
                 {
                     // open file which may or may not open a tab (like a project)
-                    var tab = OpenFile(filename: file, batchOpen: true, noShellNavigation: true);
+                    var tab = OpenFile(filename: file, batchOpen: true, noShellNavigation: true, initialLineNumber: MarkdownMonster.App.LineToOpen);
+                    App.LineToOpen = 0;
                     
                     //var tab = OpenTab(mdFile: file, batchOpen: true);
                     if (tab?.Tag is MarkdownDocumentEditor editor)
@@ -1020,6 +1024,7 @@ namespace MarkdownMonster
                 }
 
                 Dispatcher.Delay(800, s => { Topmost = false; });
+
             }
         }
 
@@ -1119,7 +1124,16 @@ namespace MarkdownMonster
                 var tab = ActivateTab(filename, false, false, !showPreviewIfActive,
                     !selectTab, noFocus, readOnly, isPreview);
                 if (tab != null)
+                {
+                    if (initialLineNumber > 0)
+                    {
+                        if (tab.Tag is MarkdownDocumentEditor ed)
+                            Dispatcher.InvokeAsync(() => ed.GotoLine(initialLineNumber), DispatcherPriority.ApplicationIdle);
+                    }
+
                     return tab;
+                }
+
                 return OpenTab(filename, editor, showPreviewIfActive, syntax,
                     selectTab, rebindTabHeaders, batchOpen,
                     initialLineNumber, readOnly, noFocus, isPreview);

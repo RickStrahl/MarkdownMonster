@@ -49,16 +49,40 @@ namespace MarkdownMonster
     {
         public static Mutex Mutex { get; set; }
 
+
+        /// <summary>
+        /// Command Line: Start MM in portable mode which causes looking for configuration
+        /// files in the local folder hiearchy.
+        ///
+        /// Important: Folder structure requires READ/WRITE access in order to save settings
+        /// </summary>
         public static bool IsPortableMode { get; set; }
 
 
+        /// <summary>
+        /// Captured, fixed startup directory when MM was started. This value never changes.
+        /// </summary>
         public static string InitialStartDirectory { get; }
 
+        /// <summary>
+        /// Command Line: Open MM in Presentation Mode
+        /// </summary>
         public static bool StartInPresentationMode { get; set; }
 
+        /// <summary>
+        /// Command Line: Force a new Window to be opened
+        /// </summary>
         public static bool ForceNewWindow { get; set; }
 
+        /// <summary>
+        /// Command Line: Don't show a splach
+        /// </summary>
         public static bool NoSplash { get; set; }
+
+        /// <summary>
+        /// Command Line: Parsed Line Number from Command Line of document line to open
+        /// </summary>
+        public static int LineToOpen { get; set; }
 
         /// <summary>
         /// Startup Command Arguments without the initial full
@@ -340,7 +364,7 @@ namespace MarkdownMonster
 
         public static string UserDataPath { get; internal set; }
         public static string VersionCheckUrl { get; internal set; }
-
+       
 
 
         private void ThemeCustomizations()

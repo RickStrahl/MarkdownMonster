@@ -23,7 +23,7 @@ namespace MarkdownMonster.Utilities
     public class CommandLineTextEncoder
     {
 
-        public static string CreateEncodedCommandLineFilename(string text,
+        public static string CreateEncodedCommandLineFilename(string text, int line = 0,
             CommandLineTextEncodingFormats format = CommandLineTextEncodingFormats.Base64)
         {
             if (string.IsNullOrEmpty(text))
@@ -41,6 +41,9 @@ namespace MarkdownMonster.Utilities
                 encodedFile = "untitled.text," + text;
             else if(format == CommandLineTextEncodingFormats.PreEncodedBase64)
                 encodedFile = "untitled.base64," + text;
+
+            if(line > 0)
+                encodedFile += "," + line;
 
             return encodedFile;
         }
@@ -127,6 +130,7 @@ namespace MarkdownMonster.Utilities
     {
         // Text is encoded to base64
         Base64,
+
         // Text is encoded to UrlEncoded 
         UrlEncoded,
 

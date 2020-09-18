@@ -30,12 +30,31 @@ namespace MarkdownMonster
             if (Environment.CommandLine.Contains("-presentation"))
                 App.StartInPresentationMode = true;
 
-            if (Environment.CommandLine.Contains("-newwindow", StringComparison.InvariantCultureIgnoreCase))
+            if (Environment.CommandLine.Contains("-newwindow", StringComparison.OrdinalIgnoreCase))
                 App.ForceNewWindow = true;
 
-            if (Environment.CommandLine.Contains("-nosplash", StringComparison.InvariantCultureIgnoreCase))
+            if (Environment.CommandLine.Contains("-nosplash", StringComparison.OrdinalIgnoreCase))
                 App.NoSplash = true;
 
+            
+            if (Environment.CommandLine.Contains("-line", StringComparison.OrdinalIgnoreCase))
+            {
+                // -line 22 parameter to open doc at a specific location
+                for (int i = 0; i < App.CommandArgs.Length; i++)
+                {
+                    var arg = App.CommandArgs[i];
+                    if ((arg.Equals("-line", StringComparison.OrdinalIgnoreCase) ||
+                        arg.Equals("--line", StringComparison.OrdinalIgnoreCase) ) &&
+                        App.CommandArgs.Length >= i + 1)
+                    {
+                        int.TryParse(App.CommandArgs[i + 1], out int lineToOpen);
+                        App.LineToOpen = lineToOpen;
+                        break;
+                    }
+                }
+            }
+
+            
             if (Environment.CommandLine.Contains("-delay", StringComparison.InvariantCultureIgnoreCase))
             {
                 for (int i = 0; i < 150; i++)
@@ -50,7 +69,8 @@ namespace MarkdownMonster
                 // Set Startup text which will be picked up by the command line file opener
                 App.CommandArgs[0] = CommandLineTextEncoder.CreateEncodedCommandLineFilename(
                     App.CommandArgs[1],
-                    CommandLineTextEncodingFormats.PreEncodedBase64);
+                    line: 0,
+                    format: CommandLineTextEncodingFormats.PreEncodedBase64);
 
                 // trim other args
                 App.CommandArgs = App.CommandArgs.Take(1).ToArray();
