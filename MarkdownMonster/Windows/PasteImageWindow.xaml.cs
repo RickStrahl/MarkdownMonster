@@ -702,19 +702,6 @@ namespace MarkdownMonster.Windows
             try
             {
                 image = ClipboardHelper.GetImageSource();
-                //using (var bitmap = ClipboardHelper.GetImage())
-                //{
-                //    using (var ms = new MemoryStream())
-                //    {
-                //        bitmap.Save(ms, ImageFormat.Bmp);
-                //        bitmap.Dispose();
-
-                //        using (var b2 = new Bitmap(ms))
-                //        {
-                //            image = WindowUtilities.BitmapToBitmapSource(b2);
-                //        }
-                //    }
-                //}
             }
             catch (Exception e)
             {

@@ -52,6 +52,9 @@ Remove-Item ${target}\roslyn\Microsoft.DiaSymReader.Native.x86.dll
 # Ship MM PDB but none of the others
 Remove-Item ${target}\*.pdb -Exclude markdownmonster.pdb
 
+# Duplicated git2 native libary - lives in `lib` folder
+Remove-Item ${target}\git2-*.*
+
 # Remove Cecil unused assemblies
 Remove-item ${target}\mono.Cecil.*.dll
 

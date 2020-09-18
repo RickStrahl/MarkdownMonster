@@ -2,9 +2,11 @@
 
 ### Bugs
 
-
-### Immediate
-
+#### Enhancements
+* [ ] Command Line option to open document at a given line
+* [ ] Refactor file names (rename and fix up relative links)
+* [ ] Commit/push all changes in the folder to Git
+* [ ] Undocking tabs? :smiley:
 * [ ] Redesign the Addin Manager Load Behavior
         * Addin Enabled/Disabled
         * Check for Updates
@@ -12,35 +14,20 @@
         * Auto-Update?
 * [ ] Large, Large Document Performance  
 
-### Mid Term
+### Nice to Have
 * [ ] Search for Blog Posts in Weblog Posts folder (walk tree and show titles)
 * [ ] Add JavaScript {{Handlebars}} Processing to Snippets Addin
 
 
-### Bugs
-
-
 ### Consideration
-* [ ] Markua (Publishing) support
-* [ ] Check out ReverseMarkdown C# source - needs adjustments (lists, spacing)
+* [ ] Markup (Publishing) support
 * [ ] reveal.js presentations
 * [ ] Research **R Markdown**, **AsciiDoc**
-* [ ] Switch to using CEFSharp (Chromium) instead of IE WebBrowser Control 
-    * Turns out this is too slow for the editor at least
-    * Lots of overhead even with optimizations enabled (noticable typing lag)
-    * Re-examime - CefSharp is supposedly working on perf improvements
-    * Perhaps look into using the WindowsFormsHost to use the WinForms version
-      which doesn't use bitmap proxy rendering.
-    * Very different and more limited Interop between WPF and Javascript
-    * Adds significantly to size of package (~40megs)
+* [ ] Switch to using WebView2 instead of Ie Web Browser Control
+      * Reviewed and looks viable in terms of features and interop
+      * WebView2 is still in Preview so distribution problematic
+      * Much bigger memory footprint than IE control
         
-### Markus's List of issues
-
-#### Enhancements
-* [ ] Commit/push all changes in the folder to Git
-* [ ] Undocking tabs? :smiley:
-
-#### Bugs 
 
 ### Table Editor
 * [ ] Alignment in tables would be nice
