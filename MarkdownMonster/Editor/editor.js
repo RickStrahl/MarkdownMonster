@@ -164,7 +164,7 @@
                     (event.keyCode === 74 || event.keyCode == 75)) {
                     if (!te.editor.state.cm.state.vim.insertMode) {
                       scrollPreviewRefresh();
-                      updateDocumentStats();
+                      te.updateDocumentStats();
                     }
                   } else {
                     // key typed into document
@@ -201,7 +201,7 @@
               if (sel && sel.length > 0) {
                 return;
               }
-
+              
               setTimeout(function () {
                 var firstRow = te.editor.renderer.getFirstVisibleRow();
                 if (firstRow > 2)
@@ -215,6 +215,7 @@
                 if (sc)
                   sc.contentModified = true;  // force spell check to run
               }, 10);
+
             }, 80);
             editor.session.on("changeScrollTop", changeScrollTop);
 
@@ -521,11 +522,14 @@
             if (typeof(line) !== "number")
                 return;
 
+            line = line - 1;
             var maxLine = te.editor.session.getLength() - 1;
             if (line < 0)
                 line = 0;
-            else if (line > maxLine)
-                line = maxLine;
+            else if (line > maxLine) {
+              line = maxLine;
+            }
+
 
             //te.editor.gotoLine(line, 0, true);
             te.editor.scrollToLine(line,
@@ -783,8 +787,8 @@
                 wordCount: wordCount,
                 lines: lines,
                 characters: chars,
-                row: pos.row,
-                column: pos.column
+                row: pos.row + 1,
+                column: pos.column + 1
             };
 
             return te.curStats;
