@@ -1,8 +1,7 @@
 {
   "profiles": {
     "MarkdownMonster": {
-      "commandName": "Project",
-      "commandLineArgs": "\"c:\\Users\\rstrahl\\Dropbox\\Markdown Monster Weblog Posts\\2020-08\\WPF-Images-from-the-Clipboard-and-Image-Control-Woes\\WpfImagesFromTheClipboardAndImageControlWoes.md\" -Line 50"
+      "commandName": "Project"
     }
   }
 }
