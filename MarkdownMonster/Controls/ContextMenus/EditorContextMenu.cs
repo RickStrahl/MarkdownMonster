@@ -26,6 +26,12 @@ namespace MarkdownMonster.Controls.ContextMenus
         private ContextMenu ContextMenu;
         private AppModel Model;
 
+        /// <summary>
+        /// This allows adding/removing items on the context menu from a plug in
+        /// </summary>
+        public static event EventHandler<ContextMenu> ContextMenuOpening;
+
+
         public EditorContextMenu()
         {
             Model = mmApp.Model;
@@ -48,6 +54,7 @@ namespace MarkdownMonster.Controls.ContextMenus
 
         public void Show()
         {
+            ContextMenuOpening?.Invoke(this,ContextMenu);
 
             if (ContextMenu != null)
             {

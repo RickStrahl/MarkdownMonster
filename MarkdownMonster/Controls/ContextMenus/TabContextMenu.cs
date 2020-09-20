@@ -25,6 +25,8 @@ namespace MarkdownMonster.Controls.ContextMenus
         private AppModel Model;
         private bool firstAccess;
 
+        public static event EventHandler<ContextMenu> ContextMenuOpening;
+
         public TabContextMenu()
         {
             Model = mmApp.Model;
@@ -59,6 +61,8 @@ namespace MarkdownMonster.Controls.ContextMenus
 
         public void Show()
         {
+            ContextMenuOpening?.Invoke(this, ContextMenu);
+
             if (ContextMenu != null)
             {
                 Model.ActiveEditor?.SetMarkdownMonsterWindowFocus();

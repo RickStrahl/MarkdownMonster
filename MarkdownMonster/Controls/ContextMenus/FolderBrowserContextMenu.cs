@@ -5,7 +5,8 @@
     using System.Linq;
     using System.Text;
     using System.Text.RegularExpressions;
-    using System.Windows;
+using System.Threading.Tasks;
+using System.Windows;
     using System.Windows.Controls;
     using System.Windows.Input;
     using System.Windows.Threading;
@@ -28,6 +29,12 @@
             private TreeView TreeFolderBrowser { get; set; }
 
             private AppModel Model;
+
+
+            /// <summary>
+            /// This allows adding/removing items on the context menu from a plug in
+            /// </summary>
+            public static event EventHandler<ContextMenu> ContextMenuOpening;
 
             public FolderBrowserContextMenu(FolderBrowerSidebar sidebar)
             {
@@ -63,6 +70,8 @@
 
             public void Show()
             {
+                ContextMenuOpening?.Invoke(this, ContextMenu);
+
                 if (ContextMenu != null)
                 {
                     Model.ActiveEditor?.SetMarkdownMonsterWindowFocus();
@@ -116,16 +125,19 @@
 
                     ci = new MenuItem();
                     ci.Header = "Show Image";
+                    ci.Name = "FBCM_ShowImage";
                     ci.Click += MenuShowImage_Click;
                     cm.Items.Add(ci);
 
                     ci = new MenuItem();
                     ci.Header = "Edit Image";
+                    ci.Name = "FBCM_EditImage";
                     ci.Click += MenuEditImage_Click;
                     cm.Items.Add(ci);
 
                     ci = new MenuItem();
                     ci.Header = "Optimize Image";
+                    ci.Name = "FBCM_OptimizeImage";
                     ci.Click += MenuOptimizeImage_Click;
                     cm.Items.Add(ci);
 
@@ -137,12 +149,14 @@
                     {
                         ci = new MenuItem();
                         ci.Header = "Open in Editor";
+                        ci.Name = "FBCM_OpenInEditor";
                         ci.Click += MenuOpenInEditor_Click;
                         ciOpen.Items.Add(ci);
                     }
 
                     ci = new MenuItem();
                     ci.Header = "Open with Shell";
+                    ci.Name = "FBCM_OpenWithShell";
                     ci.Click += MenuOpenWithShell_Click;
                     ciOpen.Items.Add(ci);
                 }
@@ -150,6 +164,7 @@
 
                 ci = new MenuItem();
                 ci.Header = "Open With...";
+                ci.Name = "FBCM_OpenWith";
                 ci.Command = Model.Commands.OpenWithCommand;
                 ci.CommandParameter = pathItem.FullPath;
                 ciOpen.Items.Add(ci);
@@ -158,11 +173,13 @@
 
                 ci = new MenuItem();
                 ci.Header = "Show in Explorer";
+                ci.Name = "FBCM_ShowInExplorer";
                 ci.Click += MenuOpenInExplorer_Click;
                 cm.Items.Add(ci);
 
                 ci = new MenuItem();
                 ci.Header = "Open in Terminal";
+                ci.Name = "FBCM_OpenInTerminal";
                 ci.Click += MenuOpenTerminal_Click;
                 cm.Items.Add(ci);
 
@@ -174,12 +191,14 @@
                 if (pathItem.DisplayName != "..")
                 {
                     ci.Header = "Delete";
+                    ci.Name = "FBCM_Delete";
                     ci.InputGestureText = "Del";
                     ci.Click += MenuDeleteFile_Click;
                     cm.Items.Add(ci);
 
                     ci = new MenuItem();
                     ci.Header = "Rename";
+                    ci.Name = "FBCM_Rename";
                     ci.InputGestureText = "F2";
                     ci.Click += MenuRenameFile_Click;
                     cm.Items.Add(ci);
@@ -192,6 +211,7 @@
                         ToolTip = "Cut currently selected file(s)",
                         InputGestureText =  "Ctrl-X",
                     };
+                    ci.Name = "FBCM_CutFile";
                     ci.Click += MenuCutFile_Click;
                     cm.Items.Add(ci);
 
@@ -212,6 +232,7 @@
                             InputGestureText = "Ctrl-V",
                             ToolTip = "Paste copied files from the Folder Browser or Explorer into the current folder."
                         };
+                        ci.Name = "FBCM_Paste";
                         ci.Click += MenuPasteFile_Click;
                         cm.Items.Add(ci);
                     }
@@ -219,6 +240,7 @@
                     {
                         ci = new MenuItem();
                         ci.Header = "Paste Clipboard Image as File";
+                        ci.Name = "FBCM_PasteImageAsFile";
                         ci.Command = Model.Commands.PasteImageToFileCommand;
                         ci.CommandParameter = pathItem.FullPath;
                         cm.Items.Add(ci);
@@ -228,13 +250,15 @@
                 }
 
                 ci = new MenuItem();
-                ci.Header = "Find Files";
+                ci.Header = "Find in Files";
+                ci.Name = "FBCM_FindInFiles";
                 ci.InputGestureText = "Ctrl-F";
                 ci.Click += Sidebar.MenuFindFiles_Click;
                 cm.Items.Add(ci);
 
                 ci = new MenuItem();
                 ci.Header = "Add to Favorites";
+                ci.Name = "FBCM_AddToFavorites";
                 ci.Command = Model.Commands.AddFavoriteCommand;
                 ci.CommandParameter = pathItem.FullPath;
                 cm.Items.Add(ci);
@@ -254,10 +278,12 @@
                 if (isGit)
                 {
                     var ciGit = new MenuItem() { Header = "Git"};
+                    ci.Name = "FBCM_GitSubmenu";
                     cm.Items.Add(ciGit);
 
                     ci = new MenuItem();
                     ci.Header = "Commit to _Git...";
+                    ci.Name = "FBCM_GIT_Commit";
                     ci.InputGestureText = "Ctrl-G";
                     ci.Click += MenuCommitGit_Click;
                     ciGit.Items.Add(ci);
@@ -266,6 +292,7 @@
                         pathItem.FileStatus == LibGit2Sharp.FileStatus.ModifiedInWorkdir)
                     {
                         ci = new MenuItem();
+                        ci.Name = "FBCM_GIT_UndoChanges";
                         ci.Header = "_Undo Changes in Git";
                         ci.InputGestureText = "Ctrl-Z";
                         ci.Click += MenuUndoGit_Click;
@@ -274,6 +301,7 @@
 
                     ci = new MenuItem();
                     ci.Header = "Open Folder in Git Client";
+                    ci.Name = "FBCM_GIT_OpenFolderInGitClient";
                     ci.Click += MenuGitClient_Click;
                     ci.IsEnabled = Model.Configuration.Git.GitClientExecutable != null &&
                                    File.Exists(Model.Configuration.Git.GitClientExecutable);
@@ -285,6 +313,7 @@
                         {
                             ci = new MenuItem();
                             ci.Header = "Open on GitHub";
+                            ci.Name = "FBCM_PasteImageAsFile";
                             ci.Command = mmApp.Model.Commands.Git.OpenOnGithubCommand;
                             ci.CommandParameter = pathItem.FullPath;
                             ciGit.Items.Add(ci);
@@ -297,6 +326,7 @@
                 
                 ci = new MenuItem();
                 ci.Header = "Copy Path to Clipboard";
+                ci.Name = "FBCM_CopyPathToClipboard";
                 ci.Click += MenuCopyPathToClipboard_Click;
                 cm.Items.Add(ci);
 
@@ -306,6 +336,7 @@
 
                     ci = new MenuItem();
                     ci.Header = "Open Folder Browser here";
+                    ci.Name = "FBCM_OpenFolderBrowser;
                     ci.Click += MenuOpenFolderBrowserHere_Click;
                     cm.Items.Add(ci);
                 }

@@ -18,6 +18,9 @@ Added support for preserving top level properties in FrontMatter when Weblog Met
 * **Improve Jekyll Post MetaData Handling**  
 Related to the FrontMatter improvements for blog posts, the meta data for Jekyll blog content has been updated to better support the category and tags lists.
 
+* **Addins: Add `ContextMenuOpening` Events to various Context Menu Renderers**  
+Added static  `ContextMenuOpening` events to the various context menus that are dynamically generated such as the editor, tab, folder browser preview context menus. These events can be hooked and allow adding (or removing) of menu options at runtime, typically from Addin code. Handler is passed the ContextMenuWrapper class and the actual `ContextMenu` instance as Event parameters.
+
 * **Fix: Icon Placement on multi-monitor Setups**  
 Fix odd bug where the MM icon would not show on the correct screen in some multi-monitor scenarios. While at it also fixed the startup icon flash when loading MM onto a non-main screen.
 

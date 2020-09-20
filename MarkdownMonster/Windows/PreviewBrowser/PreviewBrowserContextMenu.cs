@@ -12,6 +12,9 @@ namespace MarkdownMonster.Windows.PreviewBrowser
 {
     public class PreviewBrowserContextMenu
     {
+        public static event EventHandler<ContextMenu> ContextMenuOpening;
+
+
         /// <summary>
         /// Creates a context menu.
         /// </summary>
@@ -216,11 +219,6 @@ namespace MarkdownMonster.Windows.PreviewBrowser
             };
             ctm.Items.Add(mi);
 
-
-           
-           
-
-
             ctm.Items.Add(new Separator());
 
             mi = new MenuItem()
@@ -251,6 +249,9 @@ namespace MarkdownMonster.Windows.PreviewBrowser
             ctm.Items.Add(mi);
 
             webBrowser.ContextMenu = ctm;
+
+            ContextMenuOpening?.Invoke(this, ctm);
+
             ctm.Placement = System.Windows.Controls.Primitives.PlacementMode.MousePoint;
             ctm.PlacementTarget = webBrowser;
             ctm.IsOpen = true;
