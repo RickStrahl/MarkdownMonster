@@ -260,6 +260,14 @@ namespace SnippetsAddin
       ""KeyboardShortcut"": ""Ctrl+Shift+F"",
       ""ScriptMode"": ""Razor"",
       ""CompiledId"": null
+    },
+    {
+      ""Name"": ""Page Break"",
+      ""SnippetText"": ""<div style=\""page-break-after: always;\""></div>\r\n"",
+      ""Shortcut"": ""pagebreak"",
+      ""KeyboardShortcut"": null,
+      ""ScriptMode"": ""CSharpExpressions"",
+      ""CompiledId"": null
     }
   ]";
     }
