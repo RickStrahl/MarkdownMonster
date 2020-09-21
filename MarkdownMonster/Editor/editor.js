@@ -15,7 +15,7 @@
         mm: null, // Markdown Monster MarkdownDocumentEditor COM object
 
         // Editor and Split instances
-        isEditorSimple: false, // determines if this is a support code editor (Snippets, Code etc.)
+        isEditorSimple: true, // determines if this is a support code editor (Snippets, Code etc.) Initialized in InitializeInterop()
         splitInstance: null,
         editor: null, // Ace Editor instance - can be a split instance
         mainEditor: null, // The main editor instance (root instance)
@@ -794,7 +794,7 @@
             return te.curStats;
         },
         updateDocumentStats: function () {
-            if (te.isEditorSimple) return;
+            if (te.isEditorSimple || !te.mm) return;
             setTimeout(function () {
                 var stats = te.getDocumentStats();
                 te.mm.textbox.updateDocumentStats(stats);
@@ -1200,11 +1200,10 @@ function initializeinterop(textbox, jsonStyle) {
     te.mm.textbox = textbox;
 
     var style = JSON.parse(jsonStyle);
-
     te.initialize(style);
+    te.isEditorSimple = false;
 
     setTimeout(te.keyBindings.setupKeyBindings, 300);
-
     return window.textEditor;
 }
 
@@ -1213,7 +1212,6 @@ function initializeinteropSimple(textbox) {
 
     te.mm = {};
     te.mm.textbox = textbox;
-
     te.isEditorSimple = true;
 
     te.initialize(null);
