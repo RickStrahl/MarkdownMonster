@@ -390,8 +390,26 @@ EndSelection:<<<<<<<<4";
                 {
                     Debug.WriteLine("First == Bitmap");
 
-                    var src = System.Windows.Clipboard.GetImage();
+                    BitmapSource src = null;
+                    for (int i = 0; i < 5; i++)
+                    {
+                        try
+                        {
+                            // This is notoriously unreliable so retry multiple time if it fails
+                            src = Clipboard.GetImage();
+                            break;
+                        }
+                        catch (Exception e)
+                        {
+                            Thread.Sleep(10);  // retry
+                        }
+                    }
+
+                    if (src == null)
+                        return null;
+
                     return WindowUtilities.BitmapSourceToBitmap(src);
+                    
                 }
                 else if (formats.Contains("System.Drawing.Bitmap")) // (first == DataFormats.Dib)
                 {

@@ -336,7 +336,7 @@ using System.Windows;
 
                     ci = new MenuItem();
                     ci.Header = "Open Folder Browser here";
-                    ci.Name = "FBCM_OpenFolderBrowser;
+                    ci.Name = "FBCM_OpenFolderBrowser";
                     ci.Click += MenuOpenFolderBrowserHere_Click;
                     cm.Items.Add(ci);
                 }

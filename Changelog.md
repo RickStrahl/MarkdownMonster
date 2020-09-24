@@ -5,8 +5,8 @@
 [![Chocolatey](https://img.shields.io/chocolatey/dt/markdownmonster.svg)](https://chocolatey.org/packages/MarkdownMonster)
 [![Web Site](https://img.shields.io/badge/Markdown_Monster-WebSite-blue.svg)](https://markdownmonster.west-wind.com)
 
-### 1.24.7
-<small>not released yet</small>
+### 1.24.8
+<small>September 24th, 2020</small>
 
 * **New command line option to open MM document at specific Line**  
 You can now use the new `-line` command line option to open a document loaded from the command line at the specified line number.
