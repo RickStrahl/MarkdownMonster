@@ -1,9 +1,17 @@
 # Markdown Monster Change Log
 
-
 [![download](https://img.shields.io/badge/Download-Installer-blue.svg)](https://markdownmonster.west-wind.com/download.aspx)
 [![Chocolatey](https://img.shields.io/chocolatey/dt/markdownmonster.svg)](https://chocolatey.org/packages/MarkdownMonster)
 [![Web Site](https://img.shields.io/badge/Markdown_Monster-WebSite-blue.svg)](https://markdownmonster.west-wind.com)
+
+### 1.25
+<small>not released yet</small>
+
+* **[Updated Markdown Monster Add-in Project Visual Studio Extension](https://markdownmonster.west-wind.com/docs/_4ne0s0qoi.htm)**  
+The [Markdown Monster Addin Project Extension](https://marketplace.visualstudio.com/items?itemname=rickstrahl.markdownmonsteraddinproject) now creates much simpler, SDK style .NET projects. Projects now run and debug out of the box after running the New Project Template without additional manual configuration, as was required by the older version. It's also considerably easier now to configure for custom MM install locations using the raw XML Project file.
+
+* **Fix: Window Outline showing on multiple Windows desktops**  
+Provided a workaround for a problem whereby MM casts an 'outline frame' onto any other Windows desktops on which MM is not actually running. Fixed by removing the 'glow window' outline functionality and using a flat frame 1 pixel border instead.
 
 ### 1.24.8
 <small>September 24th, 2020</small>

@@ -23,9 +23,8 @@
         TitleBarHeight="28"
         Icon="Assets\MarkdownMonster_Icon_256.png"
 
-        BorderThickness="0"
-        GlowBrush="Black"    
-        
+        BorderThickness="1"
+
         ResizeMode="CanResizeWithGrip"		
         Height="600" Width="1000"  
         MinWidth="390" MinHeight="220" 

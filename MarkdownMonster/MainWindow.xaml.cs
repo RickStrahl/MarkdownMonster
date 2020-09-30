@@ -1088,8 +1088,15 @@ namespace MarkdownMonster
             bool isPreview = false,
             bool noShellNavigation = false)
         {
+            if (string.IsNullOrEmpty(filename))
+                return null;
+
             var ext = Path.GetExtension(filename).ToLowerInvariant();
 
+            if (filename.Contains('%'))
+            {
+                filename = Environment.ExpandEnvironmentVariables(filename);
+            }
 
             if (ext == ".jpg" || ext == ".png" || ext == ".gif" || ext == ".jpeg")
             {

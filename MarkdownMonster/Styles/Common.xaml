@@ -6,7 +6,7 @@
 
     <!--Fonts-->
     <FontFamily x:Key="DefaultFont">Segoe UI, Lucida Sans Unicode, Verdana</FontFamily>
-    <FontFamily x:Key="HeaderFontFamily">Segoe UI Light, Lucida Sans Unicode, Verdana</FontFamily>
+    <FontFamily x:Key="HeaderFontFamily">Segoe UI, Lucida Sans Unicode, Verdana</FontFamily>
     <FontFamily x:Key="ContentFontFamily">Segoe UI, Lucida Sans Unicode, Verdana</FontFamily>
 
     <FontFamily x:Key="ToggleSwitchFontFamily">Segoe UI Semibold, Segoe UI, Lucida Sans Unicode, Verdana</FontFamily>
@@ -17,7 +17,7 @@
     
     <System:Double x:Key="MahApps.Font.Size.Header">40</System:Double>
     <System:Double x:Key="MahApps.Font.Size.SubHeader">29.333</System:Double>
-    <System:Double x:Key="MahApps.Font.Size.Window.Title">14.5</System:Double>
+    <System:Double x:Key="MahApps.Font.Size.Window.Title">14</System:Double>
     <System:Double x:Key="MahApps.Font.Size.Default">16</System:Double>
     <System:Double x:Key="MahApps.Font.Size.Content">14</System:Double>
     <System:Double x:Key="MahApps.Font.Size.Button.Flat">15</System:Double>

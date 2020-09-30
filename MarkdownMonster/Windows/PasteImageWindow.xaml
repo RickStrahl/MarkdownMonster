@@ -10,8 +10,6 @@
         Icon="../Assets/MarkdownMonster_Icon_256.png"                     
         Title="Embed Image"
         TitleCharacterCasing="Normal"                      
-        TitleBarHeight="30"
-        FontSize="16"
         ShowInTaskbar="False"
         WindowStyle="SingleBorderWindow" ResizeMode="CanResizeWithGrip"                      
         WindowStartupLocation="CenterOwner"                
@@ -32,7 +30,6 @@
                 <Style x:Key="{x:Static ToolBar.ButtonStyleKey}" TargetType="Button">
                     <Setter Property="Margin" Value="0" />
                     <Setter Property="Padding" Value="6,4"/>
-                    <Setter Property="FontSize" Value="17" />
                 </Style>
             </ToolBarPanel.Resources>
             <StackPanel Orientation="Horizontal">
@@ -182,19 +179,22 @@
             <CheckBox x:Name="CheckPasteAsBase64Content" Margin="0,10,0,0"
                       Checked="CheckPasteAsBase64Content_Checked"
                       Unchecked="CheckPasteAsBase64Content_Checked"
-                      FontSize="19"
                       IsTabStop="False"
+                      FontSize="19"
                       IsChecked="{Binding PasteAsBase64Content}"                       
                       Content="Paste as base64 content"
-                      Style="{StaticResource CompactCheckBox}"
-                      ToolTip="Embeds the picture as inline base64 content in the HTML document. Can result in very large rendered HTML documents and recommended only for smaller images."/>
+                      ToolTip="Embeds the picture as inline base64 content in the HTML document. Can result in very large rendered HTML documents and recommended only for smaller images.">
+                <CheckBox.LayoutTransform>
+                    <ScaleTransform ScaleX="0.8" ScaleY="0.8" />
+                </CheckBox.LayoutTransform>
+            </CheckBox>
 
             <TextBlock FontSize="12" FontStyle="Italic" Foreground="silver"
-                       Margin="0,15,0,10">Note: You can also paste images from the clipboard here or directly into the document</TextBlock>
+                       Margin="0,15,0,10">Note: You can also paste images from the clipboard here or directly into the document (ctrl-v)</TextBlock>
         </StackPanel>
 
         <Image Name="ImagePreview" Grid.Row="2" 
-               Margin="7,5,7,0"  Source="c:\temp\test.png">
+               Margin="7,5,7,0" >
         </Image>
             
             
