@@ -92,6 +92,16 @@ namespace MarkdownMonster.Windows
                     window.Height = screenHeight - 60;
             }
         }
+
+        /// <summary>
+        /// Force Window to the foreground. This seems to be the only reliable way
+        /// to get MM to become UI active from within MM when activated externally.
+        /// </summary>
+        /// <param name="hWnd">IntPtr of the Window Handle to activate</param>
+        /// <returns></returns>
+        [System.Runtime.InteropServices.DllImport("user32.dll",EntryPoint = "SetForegroundWindow", SetLastError = true)]
+        public static extern IntPtr SetForegroundWindow(IntPtr hWnd);
+
         #endregion
 
         #region GetDpiRatio

@@ -418,6 +418,7 @@ namespace MarkdownMonster
                 }
                 catch
                 {
+                    // ignore interop errors
                 }
             }
         }
@@ -871,8 +872,8 @@ namespace MarkdownMonster
             }
 
             var autoSave = App.CommandArgs.Any(a => a.Equals("-autosave", StringComparison.InvariantCultureIgnoreCase));
-
-
+            bool isFirstFile = true;
+            TabItem tabToActivate = null;
 
             bool closeNextFile = false;
             foreach (var fileArgs in args)
@@ -971,7 +972,9 @@ namespace MarkdownMonster
                 else if (File.Exists(file))
                 {
                     // open file which may or may not open a tab (like a project)
-                    var tab = OpenFile(filename: file, batchOpen: true, noShellNavigation: true, initialLineNumber: MarkdownMonster.App.LineToOpen);
+                    var tab = OpenFile(filename: file, batchOpen: true,
+                                        noShellNavigation: true,
+                                        initialLineNumber: MarkdownMonster.App.LineToOpen, noFocus: true);
                     App.LineToOpen = 0;
                     
                     //var tab = OpenTab(mdFile: file, batchOpen: true);
@@ -980,12 +983,17 @@ namespace MarkdownMonster
                         editor.MarkdownDocument.AutoSaveBackup = Model.Configuration.AutoSaveBackups;
                         editor.MarkdownDocument.AutoSaveDocument = autoSave || Model.Configuration.AutoSaveDocuments;
                     }
+
+                    if (isFirstFile)
+                    {
+                        tabToActivate = tab;
+                        isFirstFile = false;
+                    }
                 }
                 else if (Directory.Exists(file))
                 {
                     ShowFolderBrowser(false, file);
                 }
-
                 // file is an .md file but doesn't exist but folder exists - create it
                 else if ((ext.Equals(".md", StringComparison.InvariantCultureIgnoreCase) ||
                           ext.Equals(".mkdown", StringComparison.InvariantCultureIgnoreCase) ||
@@ -995,7 +1003,7 @@ namespace MarkdownMonster
                          Directory.Exists(Path.GetDirectoryName(file)))
                 {
                     File.WriteAllText(file, "");
-                    var tab = OpenTab(mdFile: file, batchOpen: true);
+                    var tab = OpenTab(mdFile: file, batchOpen: true, noFocus:true);
                     if (tab?.Tag is MarkdownDocumentEditor editor)
                     {
                         editor.MarkdownDocument.AutoSaveBackup = Model.Configuration.AutoSaveBackups;
@@ -1004,6 +1012,12 @@ namespace MarkdownMonster
 
                     // delete the file if we abort
                     Dispatcher.Delay(1000, p => File.Delete(file), null);
+
+                    if (isFirstFile)
+                    {
+                        tabToActivate = tab;
+                        isFirstFile = false;
+                    }
                 }
                 else
                 {
@@ -1023,10 +1037,20 @@ namespace MarkdownMonster
                         ShowFolderBrowser(false, file);
                 }
 
-                Dispatcher.Delay(800, s => { Topmost = false; });
 
+                if (tabToActivate != null)
+                {
+                    Dispatcher.InvokeAsync(() =>
+                    {
+                        WindowUtilities.SetForegroundWindow(Hwnd); // this is the only thing that works to activate the window
+                        ActivateTab(tabToActivate, true);
+
+                    }, DispatcherPriority.ApplicationIdle);
+                }
             }
+
         }
+
 
         private void HandleNamedPipe_OpenRequest(string filesToOpen)
         {
@@ -1045,9 +1069,9 @@ namespace MarkdownMonster
                 if (WindowState == WindowState.Minimized)
                     WindowState = WindowState.Normal;
 
-                Activate();
+                WindowUtilities.SetForegroundWindow(Hwnd);
 
-                Dispatcher.BeginInvoke(new Action(() => { Topmost = false; }), DispatcherPriority.ApplicationIdle);
+                Dispatcher.InvokeAsync(() => Topmost = false, DispatcherPriority.ApplicationIdle);
             });
         }
 
@@ -1538,7 +1562,7 @@ namespace MarkdownMonster
             TabControl.SelectedItem = tab;
 
             if (setFocus)
-                Dispatcher.Invoke(() => Model.ActiveEditor.SetEditorFocus(), DispatcherPriority.ApplicationIdle);
+                Dispatcher.InvokeAsync(() => Model.ActiveEditor.SetEditorFocus(), DispatcherPriority.ApplicationIdle);
 
             return tab;
         }
