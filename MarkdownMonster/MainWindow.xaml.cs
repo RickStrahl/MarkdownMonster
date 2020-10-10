@@ -952,8 +952,9 @@ namespace MarkdownMonster
                     }
                 }
 
-                Topmost = true;
-                WindowUtilities.DoEvents();
+                // Force the app to the top of the window stack - we'll undo at end of processing
+                //Topmost = true;
+                //WindowUtilities.DoEvents();
                 
                 // open an empty doc or new doc with preset text from base64 (untitled.base64text)
                 if (isUntitled)
@@ -1042,9 +1043,10 @@ namespace MarkdownMonster
                 {
                     Dispatcher.InvokeAsync(() =>
                     {
-                        WindowUtilities.SetForegroundWindow(Hwnd); // this is the only thing that works to activate the window
+                        // Forces the Window to be active - note simple Activate()/Focus() doesn't
+                        // work here due to cross thread activation when called from named pipe - even with Dispatcher
+                        WindowUtilities.ActivateWindow(this);
                         ActivateTab(tabToActivate, true);
-
                     }, DispatcherPriority.ApplicationIdle);
                 }
             }
