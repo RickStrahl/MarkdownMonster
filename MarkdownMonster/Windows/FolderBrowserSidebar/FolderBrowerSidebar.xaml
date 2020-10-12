@@ -78,7 +78,8 @@
                         Text="{Binding EditName, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
                         Padding="6 0 10 -3" Margin="0" FontSize="13"                           
                         Visibility="{Binding IsEditing, Converter={StaticResource BooleanToVisibilityConverter}}" 
-                        LostFocus="TextEditFileItem_LostFocus">
+                        LostFocus="TextEditFileItem_LostFocus"  
+                        GotFocus="TextEditFileItem_GotFocus">
                     <TextBox.Style>
                         <Style TargetType="{x:Type TextBox}">
                             <Style.Triggers>
@@ -238,7 +239,7 @@
             </ComboBox>
 
             <!--ContextMenuOpening="TreeFolderBrowser_ContextMenuOpening"-->
-            <TreeView Grid.Row="3" x:Name="TreeFolderBrowser"
+            <TreeView Grid.Row="3" x:Name="TreeFolderBrowser" x:FieldModifier="public"
 				  ItemTemplate="{StaticResource FolderTemplate}" 
 				  KeyDown="TreeView_Keydown" 
                   ScrollViewer.HorizontalScrollBarVisibility="Disabled" 

@@ -155,11 +155,6 @@ namespace MarkdownMonster.Windows
 
         }
 
-        public PathItem GetSelectedPathItem()
-        {
-            return TreeFolderBrowser.SelectedItem as PathItem;
-        }
-
         /// <summary>
         /// Updates the Git status of the files currently active
         /// in the tree.
@@ -578,7 +573,12 @@ namespace MarkdownMonster.Windows
 
 #region TreeView Selection Handling
 
-        private string searchFilter = string.Empty;
+public PathItem GetSelectedPathItem()
+{
+    return TreeFolderBrowser.SelectedItem as PathItem;
+}
+
+private string searchFilter = string.Empty;
         private DateTime searchFilterLast = DateTime.MinValue;
 
 
@@ -832,6 +832,8 @@ namespace MarkdownMonster.Windows
                 item.IsSelected = true;
         }
 
+
+
         public void HandleItemSelection(bool forceEditorFocus = false)
         {
             var fileItem = TreeFolderBrowser.SelectedItem as PathItem;
@@ -856,7 +858,6 @@ namespace MarkdownMonster.Windows
             string oldPath = Path.GetDirectoryName(fileItem.FullPath);
             string newPath = Path.Combine(oldPath, fileItem.EditName);
 
-
             if (fileItem.IsFolder)
             {
                 try
@@ -878,11 +879,13 @@ namespace MarkdownMonster.Windows
                         fileItem.FullPath = newPath;
                         FolderStructure.InsertPathItemInOrder(fileItem, parent);
 
+
+                       
+
                         Dispatcher.Invoke(() => {
                             Directory.CreateDirectory(newPath);
                             fileItem.UpdateGitFileStatus();
                         },DispatcherPriority.ApplicationIdle);
-
                     }
                 }
                 catch
@@ -1035,6 +1038,11 @@ namespace MarkdownMonster.Windows
             }
         }
 
+        /// <summary>
+        /// Special intercepts for New File and Folder handling.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void TextEditFileItem_LostFocus(object sender, RoutedEventArgs e)
         {
             var selected = TreeFolderBrowser.SelectedItem as PathItem;
@@ -1051,6 +1059,36 @@ namespace MarkdownMonster.Windows
 
                 selected.IsEditing = false;
                 selected.SetIcon();
+            }
+        }
+
+        /// <summary>
+        /// Handle Text Selection for the filename only
+        /// </summary>
+        private void TextEditFileItem_GotFocus(object sender, RoutedEventArgs e)
+        {
+            var selected = TreeFolderBrowser.SelectedItem as PathItem;
+            if (selected != null)
+            {
+                var tb = sender as TextBox;
+                if (tb == null)
+                    return;
+                
+                if(!selected.DisplayName.Contains('.') && tb.SelectionStart > 0)  // already selected
+                    return;
+
+                var at = selected.DisplayName.IndexOf('.');
+                
+                if (at > 1) // ignore files like .git or .markdownmonster
+                {
+                    tb.SelectionLength = at;
+                    tb.SelectionStart = 0;
+                }
+                else
+                {
+                    tb.SelectionStart = 0;
+                    tb.SelectionLength = selected.DisplayName.Length;
+                }
             }
         }
 
@@ -1252,8 +1290,9 @@ namespace MarkdownMonster.Windows
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
-#endregion
+        #endregion
 
+      
     }
 
 }
