@@ -7,7 +7,7 @@
     <UseWPF>true</UseWPF>
     <TargetFramework>net472</TargetFramework>
 
-    <Version>1.24.10</Version>
+    <Version>1.24.12</Version>
     <AssemblyName>MarkdownMonster</AssemblyName>
     <Product>Markdown Monster</Product>
     <Authors>Rick Strahl, West Wind Technologies</Authors>
@@ -23,7 +23,7 @@
 
     <ApplicationIcon>MarkdownMonster.ico</ApplicationIcon>
     <ApplicationManifest>app.manifest</ApplicationManifest>
-    <TieredCompilation>true</TieredCompilation>
+    <TieredCompilation>true</TieredCompilation> 
     <RuntimeIdentifier>win-x86</RuntimeIdentifier>
     <SelfContained>false</SelfContained>
     <PlatformTarget>AnyCpu</PlatformTarget>
@@ -61,7 +61,7 @@
     <PackageReference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform" Version="2.0.1" />
     <PackageReference Include="Mono.Cecil" Version="0.11.3" />
     <PackageReference Include="ReverseMarkdown" Version="3.14.0" />
-    <PackageReference Include="westwind.utilities" Version="3.0.47" />
+    <PackageReference Include="westwind.utilities" Version="3.0.48" />
   </ItemGroup>
 
   <ItemGroup>

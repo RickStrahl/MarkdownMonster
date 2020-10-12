@@ -399,7 +399,7 @@ EndSelection:<<<<<<<<4";
                             src = Clipboard.GetImage();
                             break;
                         }
-                        catch (Exception e)
+                        catch 
                         {
                             Thread.Sleep(10);  // retry
                         }

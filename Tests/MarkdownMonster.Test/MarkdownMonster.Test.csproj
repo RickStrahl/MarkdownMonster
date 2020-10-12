@@ -10,7 +10,7 @@
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.1.1" />
     <PackageReference Include="MSTest.TestAdapter" Version="1.4.0" />
     <PackageReference Include="MSTest.TestFramework" Version="1.4.0" />
-    <PackageReference Include="Westwind.Utilities" Version="3.0.47" />
+    <PackageReference Include="Westwind.Utilities" Version="3.0.48" />
   
   </ItemGroup>
 
