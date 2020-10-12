@@ -21,8 +21,9 @@ namespace MarkdownMonster
     public static class mmFileUtils
     {
 
-        
+
         #region File Utilities
+
         /// <summary>
         /// Method checks for existance of full filename and tries
         /// to check for file in the initial startup folder.
@@ -107,6 +108,11 @@ namespace MarkdownMonster
             if (string.IsNullOrEmpty(filename))
                 return null;
 
+            var fname = Path.GetFileName(filename);
+
+            if (fname == ".markdownmonster")
+                return "json";
+
             if (filename.ToLower() == "untitled")
                 return "markdown";
 
@@ -144,7 +150,7 @@ namespace MarkdownMonster
 
                 // open with most permissive read options
                 using (var s = new FileStream(filename, FileMode.Open, FileAccess.Read, FileShare.Read))
-                using (var sr = new StreamReader(s,encoding))
+                using (var sr = new StreamReader(s, encoding))
                 {
                     fileContent = sr.ReadToEnd();
                 }
@@ -160,6 +166,7 @@ namespace MarkdownMonster
             return fileContent;
         }
 
+
         #endregion
 
 
@@ -169,7 +176,7 @@ namespace MarkdownMonster
         /// Reusable UTF-8 Encoding that doesn't have a BOM as
         /// the .NET default Encoding.Utf8 has.
         /// </summary>
-        public static  Encoding Utf8EncodingWithoutBom { get;  }= new UTF8Encoding(false);
+        public static Encoding Utf8EncodingWithoutBom { get; } = new UTF8Encoding(false);
 
         /// <summary>
         /// Retrieve the file encoding for a given file so we can capture
@@ -216,13 +223,13 @@ namespace MarkdownMonster
 
 
         /// <summary>
-        /// Gets an encoding name from an Encoding instance 
+        /// Gets an encoding name from an Encoding instance
         /// </summary>
         /// <param name="encoding"></param>
         /// <returns></returns>
         public static string GetEncodingName(Encoding encoding)
         {
-            if(encoding == null)
+            if (encoding == null)
                 encoding = Utf8EncodingWithoutBom;
 
             string enc = string.Empty;
@@ -260,7 +267,8 @@ namespace MarkdownMonster
             if (encodingName == "UTF-16 LE")
                 return Encoding.Unicode;
 
-            var enc = Encoding.GetEncodings().FirstOrDefault(e => e.DisplayName == encodingName || e.Name == encodingName);
+            var enc = Encoding.GetEncodings()
+                .FirstOrDefault(e => e.DisplayName == encodingName || e.Name == encodingName);
             if (enc == null) return encoding;
 
             return Encoding.GetEncoding(enc.CodePage);
@@ -278,17 +286,13 @@ namespace MarkdownMonster
             var encList = new List<string>();
             encList.AddRange(new string[]
             {
-                "UTF-8",
-                "UTF-8 with BOM",
-                "UTF-16 LE",
-                "UTF-16 BE",
-                LineSegment,
-                Encoding.Default.EncodingName,
+                "UTF-8", "UTF-8 with BOM", "UTF-16 LE", "UTF-16 BE", LineSegment, Encoding.Default.EncodingName,
                 LineSegment
             });
 
-            
-            foreach (var enc in new[] {
+
+            foreach (var enc in new[]
+            {
                 "Western European (Windows)", "Central European (Windows)", "Cyrillic (Windows)",
                 "Arabic (Windows)", "Greek (Windows)", "Turkish (Windows)", "Hebrew (Windows)",
                 "Vietnamese (Windows)", "Thai (Windows)"
@@ -297,7 +301,7 @@ namespace MarkdownMonster
                 if (!encList.Contains(enc))
                     encList.Add(enc);
             }
-            
+
             if (fullList)
             {
                 encList.Add(LineSegment);
@@ -312,6 +316,7 @@ namespace MarkdownMonster
 
             return encList;
         }
+
         #endregion
 
         #region Type and Language Utilities
@@ -337,11 +342,12 @@ namespace MarkdownMonster
             catch (Exception ex)
             {
                 mmApp.Log("Double to Int Conversion failed: " + value + " - failValue: " + failValue +
-                         "\r\n" + ex.GetBaseException().Message +
-                         "\r\n" + ex.StackTrace);
+                          "\r\n" + ex.GetBaseException().Message +
+                          "\r\n" + ex.StackTrace);
                 return failValue;
             }
         }
+
         #endregion
 
 
@@ -365,7 +371,9 @@ namespace MarkdownMonster
                 pi.WorkingDirectory = App.InitialStartDirectory;
                 Process.Start(pi);
             }
-            catch { }
+            catch
+            {
+            }
         }
 
         /// <summary>
@@ -401,7 +409,9 @@ namespace MarkdownMonster
                 else
                     ShellUtils.ExecuteProcess(exec, args, 0, ProcessWindowStyle.Hidden);
             }
-            catch { }
+            catch
+            {
+            }
         }
 
 
@@ -411,7 +421,7 @@ namespace MarkdownMonster
         /// <param name="imageFileOrUrl"></param>
         public static bool OpenImageInImageEditor(string imageFileOrUrl)
         {
-            if(string.IsNullOrEmpty(imageFileOrUrl))
+            if (string.IsNullOrEmpty(imageFileOrUrl))
                 return false;
 
 
@@ -419,14 +429,14 @@ namespace MarkdownMonster
             {
                 var imageFile = HttpUtils.DownloadImageToFile(imageFileOrUrl);
 
-                if(imageFile == null)
+                if (imageFile == null)
                     return false;
 
                 imageFileOrUrl = imageFile;
             }
 
             imageFileOrUrl = WebUtility.UrlDecode(imageFileOrUrl);
-            
+
 
             try
             {
@@ -437,9 +447,7 @@ namespace MarkdownMonster
                 {
                     Process.Start(new ProcessStartInfo
                     {
-                        FileName = imageFileOrUrl,
-                        UseShellExecute = true,
-                        Verb = "Edit"
+                        FileName = imageFileOrUrl, UseShellExecute = true, Verb = "Edit"
                     });
                 }
             }
@@ -468,11 +476,7 @@ namespace MarkdownMonster
                     Process.Start(new ProcessStartInfo(exe, $"\"{imageFile}\""));
                 else
                 {
-                    Process.Start(new ProcessStartInfo
-                    {
-                        FileName = imageFile,
-                        UseShellExecute = true
-                    });
+                    Process.Start(new ProcessStartInfo {FileName = imageFile, UseShellExecute = true});
                 }
             }
             catch (Exception)
@@ -599,6 +603,7 @@ namespace MarkdownMonster
             {
                 return false;
             }
+
             return true;
         }
 
@@ -640,9 +645,11 @@ namespace MarkdownMonster
             args += ",OpenAs_RunDLL " + path;
             Process.Start("rundll32.exe", args);
         }
+
         #endregion
 
         #region Git Operations
+
         /// <summary>
         /// Opens the configured Git Client in the specified folder
         /// </summary>
@@ -766,7 +773,7 @@ namespace MarkdownMonster
                     {
                         dynamic value = rk.GetValue(exename);
                         if (value == null)
-                            rk.SetValue(exename, (uint)11001, RegistryValueKind.DWord);
+                            rk.SetValue(exename, (uint) 11001, RegistryValueKind.DWord);
                     }
                     else
                         rk.DeleteValue(exename);
@@ -788,17 +795,21 @@ namespace MarkdownMonster
             {
                 Registry.CurrentUser.DeleteSubKeyTree("Software\\Classes\\Markdown Monster", false);
 
-                if (mmWindowsUtils.TryGetRegistryKey("Software\\Classes\\.md", null, out value, true) && value == "Markdown Monster")
+                if (mmWindowsUtils.TryGetRegistryKey("Software\\Classes\\.md", null, out value, true) &&
+                    value == "Markdown Monster")
                     Registry.CurrentUser.DeleteSubKey("Software\\Classes\\.md");
 
-                if (mmWindowsUtils.TryGetRegistryKey("Software\\Classes\\.markdown", null, out value, true) && value == "Markdown Monster")
+                if (mmWindowsUtils.TryGetRegistryKey("Software\\Classes\\.markdown", null, out value, true) &&
+                    value == "Markdown Monster")
                     Registry.CurrentUser.DeleteSubKey("Software\\Classes\\.markdown");
 
 
-                if (MarkdownMonster.Utilities.mmWindowsUtils.TryGetRegistryKey("Software\\Classes\\.mdcrypt", null, out value, true) && value == "Markdown Monster")
+                if (MarkdownMonster.Utilities.mmWindowsUtils.TryGetRegistryKey("Software\\Classes\\.mdcrypt", null,
+                    out value, true) && value == "Markdown Monster")
                     Registry.CurrentUser.DeleteSubKey("Software\\Classes\\.mdcrypt");
 
-                if (MarkdownMonster.Utilities.mmWindowsUtils.TryGetRegistryKey("Software\\Classes\\.mdproj", null, out value, true) && value == "Markdown Monster")
+                if (MarkdownMonster.Utilities.mmWindowsUtils.TryGetRegistryKey("Software\\Classes\\.mdproj", null,
+                    out value, true) && value == "Markdown Monster")
                     Registry.CurrentUser.DeleteSubKey("Software\\Classes\\.mdproj");
                 return;
             }
@@ -817,17 +828,22 @@ namespace MarkdownMonster
                     return; // already exists
             }
 
-            if (!mmWindowsUtils.TryGetRegistryKey("Software\\Classes\\Markdown Monster\\shell\\open\\command", null, out value, true))
+            if (!mmWindowsUtils.TryGetRegistryKey("Software\\Classes\\Markdown Monster\\shell\\open\\command", null,
+                out value, true))
             {
-                using (var rk = Registry.CurrentUser.CreateSubKey("Software\\Classes\\Markdown Monster\\shell\\open\\command", true))
+                using (var rk =
+                    Registry.CurrentUser.CreateSubKey("Software\\Classes\\Markdown Monster\\shell\\open\\command",
+                        true))
                 {
                     rk.SetValue(null, $"\"{installFolder}\\MarkdownMonster.exe\" \"%1\"");
                 }
             }
 
-            if (!mmWindowsUtils.TryGetRegistryKey("Software\\Classes\\Markdown Monster\\DefaultIcon", null, out value, true))
+            if (!mmWindowsUtils.TryGetRegistryKey("Software\\Classes\\Markdown Monster\\DefaultIcon", null, out value,
+                true))
             {
-                using (var rk = Registry.CurrentUser.CreateSubKey("Software\\Classes\\Markdown Monster\\DefaultIcon", true))
+                using (var rk =
+                    Registry.CurrentUser.CreateSubKey("Software\\Classes\\Markdown Monster\\DefaultIcon", true))
                 {
                     rk.SetValue(null, $"{installFolder}\\MarkdownMonster.exe,0");
                 }
@@ -885,16 +901,18 @@ namespace MarkdownMonster
 
                     // TODO: Switch to this after a few versions
                     //if (path.Contains("\\Markdown Monster\\"))
-                     //if (path.Contains(mmFolder,StringComparison.InvariantCultureIgnoreCase)) 
-                     //   return;
+                    //if (path.Contains(mmFolder,StringComparison.InvariantCultureIgnoreCase))
+                    //   return;
 
-                    var pathList = path.Split(new char[] { ';' }, StringSplitOptions.RemoveEmptyEntries).ToList();
+                    var pathList = path.Split(new char[] {';'}, StringSplitOptions.RemoveEmptyEntries).ToList();
 
                     // remove any others
                     if (path.Contains("Markdown Monster") || path.Contains("MarkdownMonster"))
                     {
-                        pathList = pathList.Where(p => !p.Contains("Markdown Monster") && !p.Contains("MarkdownMonster")).ToList();
+                        pathList = pathList
+                            .Where(p => !p.Contains("Markdown Monster") && !p.Contains("MarkdownMonster")).ToList();
                     }
+
                     pathList.Add(mmFolder);
 
                     path = string.Join(";", pathList.Distinct().ToArray());
@@ -911,6 +929,7 @@ namespace MarkdownMonster
         #endregion
 
         #region Recycle Bin Deletion
+
         // Credit: http://stackoverflow.com/a/3282450/11197
         [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
         public struct SHFILEOPSTRUCT
@@ -942,6 +961,7 @@ namespace MarkdownMonster
 
             return result == 0;
         }
+
         #endregion
     }
 }

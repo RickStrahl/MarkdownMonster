@@ -1118,6 +1118,7 @@ namespace MarkdownMonster
                 return null;
 
             var ext = Path.GetExtension(filename).ToLowerInvariant();
+            var fname = Path.GetFileName(filename);
 
             if (filename.Contains('%'))
             {
@@ -1142,8 +1143,9 @@ namespace MarkdownMonster
                 return null;
             }
 
+            string format = "markdown";
 
-            string format = mmFileUtils.GetEditorSyntaxFromFileType(filename);
+            format = mmFileUtils.GetEditorSyntaxFromFileType(filename);
 
             // Open a Tab for editable formats
             if (!string.IsNullOrEmpty(format) || noShellNavigation)

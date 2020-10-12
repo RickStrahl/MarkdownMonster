@@ -171,11 +171,11 @@ namespace MarkdownMonster.Utilities
             {"folder.folder", "folder"}, // special case
             {"folder.openfolder", "folder-open"}, // special case
             {"untitled", "md"},
-
+            
             //{"kavadocstopic.md", "kavadocs"},
             {"_kavadocs.json", "kavadocs" },
             { "_toc.json", "kavadocs" },
-
+            
             // special doc type
             {"kavadocs","kavadocs" },
             {"preview", "preview" },
@@ -187,6 +187,7 @@ namespace MarkdownMonster.Utilities
             {".gitattributes", "git"},
             {".npmignore", "npm"},
             {".editorconfig", "editorconfig"},
+            {".markdownmonster", "json"},
 
             // Common
 

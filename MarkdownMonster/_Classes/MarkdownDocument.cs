@@ -999,11 +999,8 @@ namespace MarkdownMonster
 
             if (string.IsNullOrEmpty(filename) || filename == "untitled")
                 return syntax;
-            
-            var ext = Path.GetExtension(filename).ToLower().Replace(".", "");
 
-            // only show preview for Markdown and HTML documents
-            mmApp.Configuration.EditorExtensionMappings.TryGetValue(ext, out string mappedTo);
+            var mappedTo = mmFileUtils.GetEditorSyntaxFromFileType(filename);
             syntax = mappedTo ?? "markdown";
 
             return syntax;
