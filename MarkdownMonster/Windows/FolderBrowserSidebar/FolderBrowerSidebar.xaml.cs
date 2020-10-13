@@ -615,6 +615,7 @@ private string searchFilter = string.Empty;
                     HandleItemSelection(forceEditorFocus: true);
                 else
                     RenameOrCreateFileOrFolder();
+                
 
                 e.Handled = true;
             }
@@ -851,8 +852,14 @@ private string searchFilter = string.Empty;
         void RenameOrCreateFileOrFolder()
         {
             var fileItem = TreeFolderBrowser.SelectedItem as PathItem;
-            if (string.IsNullOrEmpty(fileItem?.EditName))
+            if (fileItem == null)
                 return;
+
+            Fix if (string.IsNullOrEmpty(fileItem?.EditName) || fileItem.DisplayName == fileItem.EditName)
+            {
+                fileItem.IsEditing = false;
+                return;
+            }
 
             string oldFile = fileItem.FullPath;
             string oldPath = Path.GetDirectoryName(fileItem.FullPath);
@@ -1038,6 +1045,9 @@ private string searchFilter = string.Empty;
             }
         }
 
+
+        private string OrigEditValue;
+
         /// <summary>
         /// Special intercepts for New File and Folder handling.
         /// </summary>
@@ -1048,14 +1058,17 @@ private string searchFilter = string.Empty;
             var selected = TreeFolderBrowser.SelectedItem as PathItem;
             if (selected != null)
             {
+                
                 if (selected.DisplayName == "NewFile.md" || selected.DisplayName == "NewFolder")
                 {
                     selected.Parent.Files.Remove(selected);
                     return;
                 }
 
-                if (selected.IsEditing) // this should be ahndled by Key ops in treeview
+                if (selected.IsEditing) // this should be handled by Key ops in treeview
+                {
                     RenameOrCreateFileOrFolder();
+                }
 
                 selected.IsEditing = false;
                 selected.SetIcon();
@@ -1073,22 +1086,13 @@ private string searchFilter = string.Empty;
                 var tb = sender as TextBox;
                 if (tb == null)
                     return;
-                
-                if(!selected.DisplayName.Contains('.') && tb.SelectionStart > 0)  // already selected
+
+                if(!selected.DisplayName.Contains('.') && tb.SelectionLength > 0)  // already selected
                     return;
 
                 var at = selected.DisplayName.IndexOf('.');
-                
-                if (at > 1) // ignore files like .git or .markdownmonster
-                {
-                    tb.SelectionLength = at;
-                    tb.SelectionStart = 0;
-                }
-                else
-                {
-                    tb.SelectionStart = 0;
-                    tb.SelectionLength = selected.DisplayName.Length;
-                }
+                tb.SelectionStart = 0;
+                tb.SelectionLength = at > 1 ? at : selected.DisplayName.Length;
             }
         }
 
