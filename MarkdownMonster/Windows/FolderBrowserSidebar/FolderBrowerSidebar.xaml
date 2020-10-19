@@ -68,6 +68,9 @@
                                 <DataTrigger Binding="{Binding IsCut}" Value="True">
                                     <Setter Property="Opacity" Value="0.5"/>
                                 </DataTrigger>
+                                <DataTrigger Binding="{Binding IsSelected}" Value="True">
+                                    <Setter Property="Background" Value="#007ACB" />
+                                </DataTrigger>
                             </Style.Triggers>
                         </Style>
                     </TextBlock.Style>
@@ -255,8 +258,12 @@
                 <TreeView.ItemContainerStyle>
                     <Style TargetType="{x:Type TreeViewItem}">
                         <Setter Property="Visibility" Value="{Binding IsVisible,Mode=TwoWay,Converter={StaticResource BooleanToVisibilityConverter}}" />
-                        <Setter Property="IsSelected" Value="{Binding IsSelected,Mode=TwoWay}" />
+                        <!--<Setter Property="IsSelected" Value="{Binding IsSelected,Mode=OneWay}" />-->
+                        
                         <Setter Property="IsExpanded" Value="{Binding IsExpanded,Mode=TwoWay}" />
+
+                        <EventSetter Event="Selected" Handler="TreeView_SelectionChanged" />
+                        <EventSetter Event="Unselected" Handler="TreeView_SelectionChanged" />
 
                         <!-- We have to select the item which is right-clicked on -->
                         <EventSetter Event="TreeViewItem.PreviewMouseRightButtonUp" Handler="TreeViewItem_PreviewMouseRightButtonUp"/>

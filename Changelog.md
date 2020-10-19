@@ -14,7 +14,7 @@ The [Markdown Monster Addin Project Extension](https://marketplace.visualstudio.
 Added a `pagebreak` default snippet to the Snippet Manager Addin, so it's there by default when MM first creates the Snippet Manager defaults. This is optional and can be removed but is one useful use-case of using a snippet.
 
 * **File Stem Selection in Folder Browser**  
-When selecting files for renaming in the folder browser, the filename without extension is now highlighted when first entering the name editor. Makes it quicker and more reliable to rename a file.
+When selecting files for renaming in the folder browser, the filename without extension is now highlighted when first entering the name editor. Makes it quicker and more reliable to rename a file. Also fix file renaming message when edited filename is not changed.
 
 * **Allow for `.markdownmonster` as Root Indicator and External Configuration**  
 Set up addin handlers that can find `.markdownmonster` file and use it for custom project level addin configuration. For example this JSON file can contain custom, project level configuration that can be used to stored for an addin. For example, a Deployment addin might hold server/auth configuration.
