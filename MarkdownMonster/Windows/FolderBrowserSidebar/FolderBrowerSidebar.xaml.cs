@@ -68,7 +68,7 @@ namespace MarkdownMonster.Windows
                 SearchPanel.Visibility = Visibility.Collapsed;
 
                 if (string.IsNullOrEmpty(_folderPath))
-                    ActivePathItem = new PathItem();  // empty the folderOrFilePath browser
+                    ActivePathItem = new PathItem(); // empty the folderOrFilePath browser
                 else
                 {
                     if (filename != null && previousFolder == _folderPath && string.IsNullOrEmpty(SearchText))
@@ -88,6 +88,7 @@ namespace MarkdownMonster.Windows
                 }
             }
         }
+
         private string _folderPath;
 
 
@@ -130,13 +131,14 @@ namespace MarkdownMonster.Windows
                 OnPropertyChanged(nameof(ActivePathItem));
             }
         }
+
         private PathItem _activePath;
 
 
         /// <summary>
         /// Internal value
         /// </summary>
-        public  FolderStructure FolderStructure { get; } = new FolderStructure();
+        public FolderStructure FolderStructure { get; } = new FolderStructure();
 
 
         /// <summary>
@@ -195,6 +197,7 @@ namespace MarkdownMonster.Windows
             if (!Directory.Exists(FolderPath))
                 FolderPath = null;
         }
+
         #endregion
 
         #region FileWatcher
@@ -218,7 +221,7 @@ namespace MarkdownMonster.Windows
                 pi.Parent.Files.Remove(pi);
 
                 FolderStructure.InsertPathItemInOrder(pi, pi.Parent);
-            },DispatcherPriority.ApplicationIdle);
+            }, DispatcherPriority.ApplicationIdle);
         }
 
         private void FileWatcher_CreateOrDelete(object sender, FileSystemEventArgs e)
@@ -248,7 +251,7 @@ namespace MarkdownMonster.Windows
                     pi.Parent.Files.Remove(pi);
 
                     //Debug.WriteLine("After: " + pi.Parent.Files.Count + " " + file);
-                },DispatcherPriority.ApplicationIdle);
+                }, DispatcherPriority.ApplicationIdle);
             }
 
             if (e.ChangeType == WatcherChangeTypes.Created)
@@ -258,10 +261,13 @@ namespace MarkdownMonster.Windows
                     // Skip ignored Extensions
                     string[] extensions = null;
                     if (!string.IsNullOrEmpty(mmApp.Model.Configuration.FolderBrowser.IgnoredFileExtensions))
-                        extensions = mmApp.Model.Configuration.FolderBrowser.IgnoredFileExtensions.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
+                        extensions =
+                            mmApp.Model.Configuration.FolderBrowser.IgnoredFileExtensions.Split(new[] {','},
+                                StringSplitOptions.RemoveEmptyEntries);
 
-                    if (extensions != null && extensions.Any(ext => file.EndsWith(ext,StringComparison.InvariantCultureIgnoreCase)))
-                       return;
+                    if (extensions != null && extensions.Any(ext =>
+                        file.EndsWith(ext, StringComparison.InvariantCultureIgnoreCase)))
+                        return;
 
                     var pi = FolderStructure.FindPathItemByFilename(ActivePathItem, file);
                     if (pi != null) // Already exists in the tree
@@ -273,16 +279,13 @@ namespace MarkdownMonster.Windows
 
                     // Path either doesn't exist or is not expanded yet so don't attach - opening will trigger
                     if (parentPathItem == null ||
-                        (parentPathItem.Files.Count == 1 && parentPathItem.Files[0] == PathItem.Empty) )
+                        (parentPathItem.Files.Count == 1 && parentPathItem.Files[0] == PathItem.Empty))
                         return;
 
                     bool isFolder = Directory.Exists(file);
                     pi = new PathItem()
                     {
-                        FullPath = file,
-                        IsFolder = isFolder,
-                        IsFile = !isFolder,
-                        Parent = parentPathItem
+                        FullPath = file, IsFolder = isFolder, IsFile = !isFolder, Parent = parentPathItem
                     };
                     pi.SetIcon();
 
@@ -322,11 +325,12 @@ namespace MarkdownMonster.Windows
             var di = new DirectoryInfo(fullPath);
             if (di.Root.FullName == fullPath)
             {
-                AppModel.Window.ShowStatusProgress("Drive root selected: Files are not updated in root folders.",mmApp.Configuration.StatusMessageTimeout,spin: false, icon: FontAwesomeIcon.Circle);
+                AppModel.Window.ShowStatusProgress("Drive root selected: Files are not updated in root folders.",
+                    mmApp.Configuration.StatusMessageTimeout, spin: false, icon: FontAwesomeIcon.Circle);
                 return;
             }
 
-            if(FileWatcher != null)
+            if (FileWatcher != null)
                 ReleaseFileWatcher();
 
             if (string.IsNullOrEmpty(fullPath))
@@ -338,11 +342,7 @@ namespace MarkdownMonster.Windows
                 return;
             }
 
-            FileWatcher = new FileSystemWatcher(fullPath)
-            {
-                IncludeSubdirectories = true,
-                EnableRaisingEvents = true
-            };
+            FileWatcher = new FileSystemWatcher(fullPath) {IncludeSubdirectories = true, EnableRaisingEvents = true};
 
             FileWatcher.Created += FileWatcher_CreateOrDelete;
             FileWatcher.Deleted += FileWatcher_CreateOrDelete;
@@ -368,13 +368,14 @@ namespace MarkdownMonster.Windows
                 FileWatcher = null;
             }
         }
+
         #endregion
 
         #region Folder Button and Text Handling
 
         public void OpenFile(string file, bool forceEditorFocus = false)
         {
-            Window.OpenFile(file, noFocus: !forceEditorFocus );
+            Window.OpenFile(file, noFocus: !forceEditorFocus);
         }
 
         /// <summary>
@@ -406,7 +407,8 @@ namespace MarkdownMonster.Windows
                 ActivePathItem = null;
                 WindowUtilities.DoEvents();
 
-                var items = FolderStructure.GetFilesAndFolders(folderOrFilePath, nonRecursive: true, ignoredFolders: ".git");
+                var items = FolderStructure.GetFilesAndFolders(folderOrFilePath, nonRecursive: true,
+                    ignoredFolders: ".git");
                 ActivePathItem = items;
 
                 WindowUtilities.DoEvents();
@@ -487,7 +489,7 @@ namespace MarkdownMonster.Windows
                 treeitem.IsSelected = true;
 
                 // show edited filename with file stem selected
-                if (item.IsEditing &&  item.IsFile &&
+                if (item.IsEditing && item.IsFile &&
                     item.DisplayName != null && item.DisplayName.Contains('.'))
                 {
                     Dispatcher.Invoke(() =>
@@ -564,229 +566,230 @@ namespace MarkdownMonster.Windows
         #endregion
 
 
-#region TreeView Selections
+        #region TreeView Selections
 
-/// <summary>
-/// Returns the Active Selected Path Item
-/// </summary>
-/// <returns></returns>
-public PathItem GetSelectedPathItem()
-{
-    return TreeFolderBrowser.SelectedItem as PathItem;
-}
-
-
-/// <summary>
-/// Returns a list of selected items.
-/// </summary>
-/// <returns>List of items</returns>
-public List<PathItem> GetSelectedPathItems()
-{
-    return GetSelectedItems(TreeFolderBrowser.Items);
-}
-
-
-/// <summary>
-/// Explicitly selects the active path item and forces focus into it
-/// </summary>
-/// <param name="forceEditorFocus"></param>
-public void HandleItemSelection(bool forceEditorFocus = false)
-{
-    var fileItem = GetSelectedPathItem(); //TreeFolderBrowser.SelectedItem as PathItem;
-    if (fileItem == null)
-        return;
-
-    if (fileItem.FullPath == "..")
-        FolderPath = Path.GetDirectoryName(FolderPath.Trim('\\'));
-    else if (fileItem.IsFolder)
-        FolderPath = fileItem.FullPath;
-    else
-        OpenFile(fileItem.FullPath, forceEditorFocus);
-}
-
-/// <summary>
-/// Retrieves a nested TreeViewItem by walking the hierarchy.
-/// Specify a root treeview or treeviewitem and it then walks
-/// the hierarchy to find the item
-/// </summary>
-/// <param name="item">Item to find</param>
-/// <param name="treeItem">Parent item to start search from</param>
-/// <returns></returns>
-public TreeViewItem GetNestedTreeviewItem(object item, ItemsControl treeItem = null)
-{
-    if (treeItem == null)
-        treeItem = TreeFolderBrowser;
-
-    return WindowUtilities.GetNestedTreeviewItem(item, treeItem);
-}
-
-/// <summary>
-/// Used for TreeViewSelection() - will hold current selection after
-/// </summary>
-private PathItem lastSelectedPathItem = PathItem.Empty;
-
-
-/// <summary>
-/// This selects the item including multi-file selections
-/// </summary>
-private void TreeViewSelection(TreeViewItem titem, Key key = Key.None)
-{
-    if (titem == null) return;
-    
-    var pitem = titem.DataContext as PathItem;
-    if (pitem == null) return;
-
-    try
-    {
-        pitem.IsSelected = true;
-
-        if (pitem.IsFolder)
+        /// <summary>
+        /// Returns the Active Selected Path Item
+        /// </summary>
+        /// <returns></returns>
+        public PathItem GetSelectedPathItem()
         {
-            foreach(var pi in pitem.Files)
-                pi.IsSelected = true;
+            return TreeFolderBrowser.SelectedItem as PathItem;
         }
 
 
-        if (Keyboard.IsKeyDown(Key.LeftCtrl) || key == Key.LeftCtrl)
+        /// <summary>
+        /// Returns a list of selected items.
+        /// </summary>
+        /// <returns>List of items</returns>
+        public List<PathItem> GetSelectedPathItems()
         {
-            return; // don't need to clear any items additive
+            return GetSelectedItems(TreeFolderBrowser.Items);
         }
 
-        if (Keyboard.IsKeyDown(Key.LeftShift) || key == Key.LeftShift)
+
+        /// <summary>
+        /// Explicitly selects the active path item and forces focus into it
+        /// </summary>
+        /// <param name="forceEditorFocus"></param>
+        public void HandleItemSelection(bool forceEditorFocus = false)
         {
-            // select items between cursor position
-            var items = pitem.Parent?.Files;
-            if (items == null)
-                items = new ObservableCollection<PathItem>(TreeFolderBrowser.Items.Cast<PathItem>());
-
-
-            var idx = items.IndexOf(pitem);
-            var lastidx = items.IndexOf(lastSelectedPathItem);
-
-            if (lastidx < 0 || idx == lastidx)
+            var fileItem = GetSelectedPathItem(); //TreeFolderBrowser.SelectedItem as PathItem;
+            if (fileItem == null)
                 return;
 
-            int start = idx;
-            int stop = lastidx;
-            if (lastidx < idx)
+            if (fileItem.FullPath == "..")
+                FolderPath = Path.GetDirectoryName(FolderPath.Trim('\\'));
+            else if (fileItem.IsFolder)
+                FolderPath = fileItem.FullPath;
+            else
+                OpenFile(fileItem.FullPath, forceEditorFocus);
+        }
+
+        /// <summary>
+        /// Retrieves a nested TreeViewItem by walking the hierarchy.
+        /// Specify a root treeview or treeviewitem and it then walks
+        /// the hierarchy to find the item
+        /// </summary>
+        /// <param name="item">Item to find</param>
+        /// <param name="treeItem">Parent item to start search from</param>
+        /// <returns></returns>
+        public TreeViewItem GetNestedTreeviewItem(object item, ItemsControl treeItem = null)
+        {
+            if (treeItem == null)
+                treeItem = TreeFolderBrowser;
+
+            return WindowUtilities.GetNestedTreeviewItem(item, treeItem);
+        }
+
+        /// <summary>
+        /// Used for TreeViewSelection() - will hold current selection after
+        /// </summary>
+        private PathItem lastSelectedPathItem = PathItem.Empty;
+
+
+        /// <summary>
+        /// This selects the item including multi-file selections
+        /// </summary>
+        private void TreeViewSelection(TreeViewItem titem, Key key = Key.None)
+        {
+            if (titem == null) return;
+
+            var pitem = titem.DataContext as PathItem;
+            if (pitem == null) return;
+
+            try
             {
-                start = lastidx;
-                stop = idx;
+                pitem.IsSelected = true;
+
+                if (pitem.IsFolder)
+                {
+                    foreach (var pi in pitem.Files)
+                        pi.IsSelected = true;
+                }
+
+
+                if (Keyboard.IsKeyDown(Key.LeftCtrl) || key == Key.LeftCtrl)
+                {
+                    return; // don't need to clear any items additive
+                }
+
+                if (Keyboard.IsKeyDown(Key.LeftShift) || key == Key.LeftShift)
+                {
+                    // select items between cursor position
+                    var items = pitem.Parent?.Files;
+                    if (items == null)
+                        items = new ObservableCollection<PathItem>(TreeFolderBrowser.Items.Cast<PathItem>());
+
+
+                    var idx = items.IndexOf(pitem);
+                    var lastidx = items.IndexOf(lastSelectedPathItem);
+
+                    if (lastidx < 0 || idx == lastidx)
+                        return;
+
+                    int start = idx;
+                    int stop = lastidx;
+                    if (lastidx < idx)
+                    {
+                        start = lastidx;
+                        stop = idx;
+                    }
+
+                    for (int i = start; i < stop; i++)
+                    {
+                        items[i].IsSelected = true;
+                    }
+
+                    return;
+                }
+
+                // single click - we have to clear all but the new selection
+                ClearSelectedItems(TreeFolderBrowser.Items, pitem);
+            }
+            finally
+            {
+                lastSelectedPathItem = pitem;
+            }
+        }
+
+        /// <summary>
+        /// Returns the first selected item in the tree from the top down.
+        /// </summary>
+        /// <param name="items">Root tree nodes or child nodes. Defaults to the root</param>
+        /// <returns>Selected path item or null</returns>
+        public PathItem GetSelectedItem(ItemCollection items = null)
+        {
+            if (items == null)
+                items = TreeFolderBrowser.Items;
+
+            foreach (var childItem in items)
+            {
+                var pi = childItem as PathItem;
+                if (pi.IsSelected)
+                    return pi;
+
+                if (pi.Files.Count > 0)
+                {
+                    var titem = TreeFolderBrowser
+                        .ItemContainerGenerator
+                        .ContainerFromItem(childItem) as TreeViewItem;
+
+                    pi = GetSelectedItem(titem.Items);
+                    if (pi != null)
+                        return pi;
+                }
             }
 
-            for (int i = start; i < stop; i++)
+            return null;
+        }
+
+        /// <summary>
+        /// Returns all selected Path Items in the folder tree
+        /// </summary>
+        /// <param name="items">Root tree nodes or child nodes. Defaults to the root</param>
+        /// <param name="list">Optional list passed in for recursive child parsing</param>
+        /// <returns>Returns a list of matching items or an empty list</returns>
+        public List<PathItem> GetSelectedItems(ItemCollection items = null, List<PathItem> list = null)
+        {
+            if (items == null)
+                items = TreeFolderBrowser.Items;
+
+            if (list == null)
+                list = new List<PathItem>();
+
+            foreach (var childItem in items)
             {
-                items[i].IsSelected = true;
+                var pi = childItem as PathItem;
+                if (pi.IsSelected)
+                    list.Add(pi);
+
+                if (pi.Files.Count > 0)
+                {
+                    var titem = TreeFolderBrowser
+                        .ItemContainerGenerator
+                        .ContainerFromItem(childItem) as TreeViewItem;
+
+                    GetSelectedItems(titem.Items, list);
+                }
             }
-            return;
+
+            return list;
         }
 
-        // single click - we have to clear all but the new selection
-        ClearSelectedItems(TreeFolderBrowser.Items, pitem);
-    }
-    finally
-    {
-        lastSelectedPathItem = pitem;
-    }
-}
 
-/// <summary>
-/// Returns the first selected item in the tree from the top down.
-/// </summary>
-/// <param name="items">Root tree nodes or child nodes. Defaults to the root</param>
-/// <returns>Selected path item or null</returns>
-public PathItem GetSelectedItem(ItemCollection items = null)
-{
-    if (items == null)
-        items = TreeFolderBrowser.Items;
 
-    foreach (var childItem in items)
-    {
-        var pi = childItem as PathItem;
-        if (pi.IsSelected)
-            return pi;
 
-        if (pi.Files.Count > 0)
+        /// <summary>
+        /// Clears all selected items
+        /// </summary>
+        /// <param name="items">A node of the tree. Defaults to the root of the tree.</param>
+        /// <param name="except">Optional - A PathItem that should stay selected.</param>
+        public void ClearSelectedItems(ItemCollection items = null, PathItem except = null)
         {
-            var titem = TreeFolderBrowser
-                .ItemContainerGenerator
-                .ContainerFromItem(childItem) as TreeViewItem;
+            if (items == null)
+                items = TreeFolderBrowser.Items;
 
-            pi = GetSelectedItem(titem.Items);
-            if(pi != null)
-                return pi;
+            foreach (var childItem in items)
+            {
+                var pi = childItem as PathItem;
+
+                if (pi?.FullPath != except?.FullPath)
+                    pi.IsSelected = false;
+                else
+                    pi.IsSelected = true;
+
+                if (pi.Files.Count == 0) continue;
+
+                var titem = TreeFolderBrowser
+                    .ItemContainerGenerator
+                    .ContainerFromItem(childItem) as TreeViewItem;
+
+                if (titem?.Items == null) continue;
+
+                ClearSelectedItems(titem.Items, except);
+            }
         }
-    }
-
-    return null;
-}
-
-/// <summary>
-/// Returns all selected Path Items in the folder tree
-/// </summary>
-/// <param name="items">Root tree nodes or child nodes. Defaults to the root</param>
-/// <param name="list">Optional list passed in for recursive child parsing</param>
-/// <returns></returns>
-public  List<PathItem> GetSelectedItems(ItemCollection items = null, List<PathItem> list = null)
-{
-    if (items == null)
-        items = TreeFolderBrowser.Items;
-
-    if (list == null)
-        list = new List<PathItem>();
-
-    foreach (var childItem in items)
-    {
-        var pi = childItem as PathItem;
-        if (pi.IsSelected)
-            list.Add(pi);
-
-        if (pi.Files.Count > 0)
-        {
-            var titem = TreeFolderBrowser
-                .ItemContainerGenerator
-                .ContainerFromItem(childItem) as TreeViewItem;
-
-            GetSelectedItems(titem.Items, list);
-        }
-    }
-
-    return list;
-}
-
-
-
-
-/// <summary>
-/// Clears all selected items
-/// </summary>
-/// <param name="items">A node of the tree. Defaults to the root of the tree.</param>
-/// <param name="except">Optional - A PathItem that should stay selected.</param>
-public void ClearSelectedItems(ItemCollection items = null, PathItem except = null)
-{
-    if (items == null)
-        items = TreeFolderBrowser.Items;
-
-    foreach (var childItem in items)
-    {
-        var pi = childItem as PathItem;
-
-        if (pi?.FullPath != except?.FullPath)
-            pi.IsSelected = false;
-        else
-            pi.IsSelected = true;
-
-        if (pi.Files.Count == 0 ) continue;
-
-        var titem = TreeFolderBrowser
-            .ItemContainerGenerator
-            .ContainerFromItem(childItem) as TreeViewItem;
-
-        if(titem?.Items == null) continue;
-
-        ClearSelectedItems(titem.Items, except);
-    }
-}
 
         #endregion
 
@@ -809,6 +812,7 @@ public void ClearSelectedItems(ItemCollection items = null, PathItem except = nu
                     FolderBrowserContextMenu.MenuAddFile_Click(sender, null);
                     e.Handled = true;
                 }
+
                 return;
             }
 
@@ -830,7 +834,7 @@ public void ClearSelectedItems(ItemCollection items = null, PathItem except = nu
                     HandleItemSelection(forceEditorFocus: true);
                 else
                     RenameOrCreateFileOrFolder();
-                
+
 
                 e.Handled = true;
             }
@@ -928,7 +932,7 @@ public void ClearSelectedItems(ItemCollection items = null, PathItem except = nu
 
         private void TreeViewItem_PreviewKeyUp(object sender, KeyEventArgs e)
         {
-     
+
             var titem = sender as TreeViewItem;
             var selected = titem?.DataContext as PathItem; //TreeFolderBrowser.SelectedItem as PathItem;
 
@@ -952,11 +956,11 @@ public void ClearSelectedItems(ItemCollection items = null, PathItem except = nu
 
                 e.Handled = true;
             }
-             // Copy File to 'clipboard'
+            // Copy File to 'clipboard'
             else if ((e.Key == Key.C || e.Key == Key.X) && Keyboard.IsKeyDown(Key.LeftCtrl))
             {
                 var menu = new FolderBrowserContextMenu(this);
-                menu.FileBrowserCopyFile( e.Key == Key.X);
+                menu.FileBrowserCopyFile(e.Key == Key.X);
                 e.Handled = true;
             }
             // Paste Files(s) from clipboard
@@ -970,7 +974,7 @@ public void ClearSelectedItems(ItemCollection items = null, PathItem except = nu
             //{
             //    // do nothing - no tree view selection for 
             //}
-            else if(e.Key == Key.Down || e.Key == Key.Up )
+            else if (e.Key == Key.Down || e.Key == Key.Up)
             {
                 // select the item if not already selected
                 TreeViewSelection(titem, e.Key);
@@ -984,10 +988,12 @@ public void ClearSelectedItems(ItemCollection items = null, PathItem except = nu
             // select the item including multi-item selection
             TreeViewSelection(sender as TreeViewItem);
 
-            HandleItemSelection(forceEditorFocus:true);
+            HandleItemSelection(forceEditorFocus: true);
         }
 
-        private void TreeViewItem_MouseUpClick(object sender, MouseButtonEventArgs e)
+        
+
+    private void TreeViewItem_MouseUpClick(object sender, MouseButtonEventArgs e)
         {
             if (e.ClickCount == 2)
                 return;
@@ -1031,8 +1037,18 @@ public void ClearSelectedItems(ItemCollection items = null, PathItem except = nu
 
         }
 
+    private void TreeViewItem_PreviewMouseRightButtonUp(object sender, MouseButtonEventArgs e)
+    {
+        var item = ElementHelper.FindVisualTreeParent<TreeViewItem>(e.OriginalSource as FrameworkElement);
+        if (item != null)
+            item.IsSelected = true;
 
-        private void TreeFolderBrowser_Expanded(object sender, RoutedEventArgs e)
+        var ctx = new FolderBrowserContextMenu(this);
+        ctx.ShowContextMenu();
+    }
+
+
+    private void TreeFolderBrowser_Expanded(object sender, RoutedEventArgs e)
         {
             var tvi = e.OriginalSource as TreeViewItem;
             if (tvi == null)
@@ -1054,13 +1070,6 @@ public void ClearSelectedItems(ItemCollection items = null, PathItem except = nu
         private void Files_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
         {
             return;
-        }
-
-        private void TreeViewItem_PreviewMouseRightButtonUp(object sender, MouseButtonEventArgs e)
-        {
-            var item = ElementHelper.FindVisualTreeParent<TreeViewItem>(e.OriginalSource as FrameworkElement);
-            if (item != null)
-                item.IsSelected = true;
         }
 
 

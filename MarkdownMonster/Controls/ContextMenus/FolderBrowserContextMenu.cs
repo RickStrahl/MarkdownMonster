@@ -25,7 +25,7 @@ using System.Windows;
         {
             private ContextMenu ContextMenu = new ContextMenu();
 
-            private FolderBrowerSidebar Sidebar { get; }
+            private FolderBrowerSidebar FolderBrowser { get; }
             private TreeView TreeFolderBrowser { get; set; }
 
             private AppModel Model;
@@ -36,10 +36,10 @@ using System.Windows;
             /// </summary>
             public static event EventHandler<ContextMenu> ContextMenuOpening;
 
-            public FolderBrowserContextMenu(FolderBrowerSidebar sidebar)
+            public FolderBrowserContextMenu(FolderBrowerSidebar folderBrowser)
             {
-                Sidebar = sidebar;
-                TreeFolderBrowser = sidebar.TreeFolderBrowser;
+                FolderBrowser = folderBrowser;
+                TreeFolderBrowser = folderBrowser.TreeFolderBrowser;
                 Model = mmApp.Model;
             }
 
@@ -253,7 +253,7 @@ using System.Windows;
                 ci.Header = "Find in Files";
                 ci.Name = "FBCM_FindInFiles";
                 ci.InputGestureText = "Ctrl-F";
-                ci.Click += Sidebar.MenuFindFiles_Click;
+                ci.Click += FolderBrowser.MenuFindFiles_Click;
                 cm.Items.Add(ci);
 
                 ci = new MenuItem();
@@ -353,45 +353,58 @@ using System.Windows;
 
             public void MenuDeleteFile_Click(object sender, RoutedEventArgs e)
             {
-                var selected = TreeFolderBrowser.SelectedItem as PathItem;
-                if (selected == null)
+                //var selected = TreeFolderBrowser.SelectedItem as PathItem;
+                //if (selected == null)
+                //    return;
+
+                var selectedFiles = FolderBrowser.GetSelectedItems();
+                if (selectedFiles.Count < 0)
                     return;
 
+                StringBuilder sb = new StringBuilder();
+                foreach (var file in selectedFiles)
+                    sb.AppendLine(file.DisplayName);
+
                 if (MessageBox.Show(
-                        "Delete:\r\n" +
-                        selected.FullPath + "\r\n\r\n" +
+                        sb + "\r\n" +
                         "Are you sure?",
-                        "Delete File",
+                        "Delete File(s)",
                         MessageBoxButton.YesNo,
                         MessageBoxImage.Question) != MessageBoxResult.Yes)
                     return;
 
                 try
                 {
-                    //Directory.Delete(selected.FullPath, true);
-                    //File.Delete(selected.FullPath);
+                    foreach (var selected in selectedFiles)
+                    {
+                        // Recyle Bin Code can handle both files and directories
+                        mmFileUtils.MoveToRecycleBin(selected.FullPath);
+                    }
 
-                    // Recyle Bin Code can handle both files and directories
-                    if (!mmFileUtils.MoveToRecycleBin(selected.FullPath))
-                        return;
-
-                    var parent = selected.Parent;
+                    var parent = selectedFiles[0].Parent;
 
                     var index = -1;
-
-                    var file = parent?.Files?.FirstOrDefault(fl => fl.FullPath == selected.FullPath);
-                    if (file != null)
+                    foreach (var selected in selectedFiles)
                     {
-                        var tab = Model.Window.GetTabFromFilename(file.FullPath);
-                        if (tab != null)
-                            Model.Window.CloseTab(tab, dontPromptForSave: true);
-
-                        if (parent != null)
+                        var file = parent?.Files?.FirstOrDefault(fl => fl.FullPath == selected.FullPath);
+                        bool firstFile = true;
+                        if (file != null)
                         {
-                            index = parent.Files.IndexOf(selected);
-                            parent.Files.Remove(file);
-                            if (index > 0)
-                                Sidebar.SetTreeViewSelectionByItem(parent.Files[index]);
+                            var tab = Model.Window.GetTabFromFilename(file.FullPath);
+                            if (tab != null)
+                                Model.Window.CloseTab(tab, dontPromptForSave: true);
+
+                            if (parent != null)
+                            {
+                                index = parent.Files.IndexOf(selected);
+                                parent.Files.Remove(file);
+
+                                if (firstFile && index > 0)
+                                {
+                                    FolderBrowser.SetTreeViewSelectionByItem(parent.Files[index]);
+                                    firstFile = false;
+                                }
+                            }
                         }
                     }
 
@@ -410,15 +423,15 @@ using System.Windows;
                 if (selected == null)
                 {
                     // No files/folders
-                    selected = new PathItem() {IsFolder = true, FullPath = Sidebar.FolderPath};
-                    Sidebar.ActivePathItem = selected;
+                    selected = new PathItem() {IsFolder = true, FullPath = FolderBrowser.FolderPath};
+                    FolderBrowser.ActivePathItem = selected;
                 }
 
                 string path;
-                TreeViewItem parentTreeViewItem = Sidebar.GetNestedTreeviewItem(selected);
+                TreeViewItem parentTreeViewItem = FolderBrowser.GetNestedTreeviewItem(selected);
 
                 if (selected.FullPath == "..")
-                    path = Path.Combine(Sidebar.FolderPath, "README.md");
+                    path = Path.Combine(FolderBrowser.FolderPath, "README.md");
                 else if (!selected.IsFolder)
                     path = Path.Combine(Path.GetDirectoryName(selected.FullPath), "README.md");
                 else
@@ -455,7 +468,7 @@ using System.Windows;
                 item.SetIcon();
 
                 if (selected.FullPath == "..")
-                    item.Parent = Sidebar.ActivePathItem; // current path
+                    item.Parent = FolderBrowser.ActivePathItem; // current path
                 else if (!selected.IsFolder)
                     item.Parent = selected.Parent;
                 else
@@ -464,7 +477,7 @@ using System.Windows;
                 item.Parent.Files.Insert(0, item);
 
                 Model.Window.Dispatcher.InvokeAsync(
-                    ()=> Sidebar.SetTreeViewSelectionByItem(item, parentTreeViewItem),
+                    ()=> FolderBrowser.SetTreeViewSelectionByItem(item, parentTreeViewItem),
                     DispatcherPriority.ApplicationIdle);
             }
 
@@ -477,11 +490,11 @@ using System.Windows;
                     selected = new PathItem()
                     {
                         IsFolder = true,
-                        FullPath = Sidebar.FolderPath,
-                        Parent = Sidebar.ActivePathItem.Parent,
-                        Files = Sidebar.ActivePathItem.Files
+                        FullPath = FolderBrowser.FolderPath,
+                        Parent = FolderBrowser.ActivePathItem.Parent,
+                        Files = FolderBrowser.ActivePathItem.Files
                     };
-                    Sidebar.ActivePathItem = selected;
+                    FolderBrowser.ActivePathItem = selected;
                 }
 
                 string path;
@@ -489,7 +502,7 @@ using System.Windows;
                     path = Path.Combine(Path.GetDirectoryName(selected.FullPath), "NewFolder");
                 else
                 {
-                    var treeItem = Sidebar.GetNestedTreeviewItem(selected);
+                    var treeItem = FolderBrowser.GetNestedTreeviewItem(selected);
                     if (treeItem != null)
                         treeItem.IsExpanded = true;
 
@@ -510,7 +523,7 @@ using System.Windows;
 
                 item.Parent.Files.Insert(0, item);
 
-                Sidebar.SetTreeViewSelectionByItem(item);
+                FolderBrowser.SetTreeViewSelectionByItem(item);
 
 
             }
@@ -530,7 +543,7 @@ using System.Windows;
                 selected.OriginalRenamePath = selected.FullPath;
                 selected.IsEditing = true;
 
-                var tvItem = Sidebar.GetNestedTreeviewItem(selected);
+                var tvItem = FolderBrowser.GetNestedTreeviewItem(selected);
                 if (tvItem != null)
                 {
                     var tb = WindowUtilities.FindVisualChild<TextBox>(tvItem);
@@ -684,7 +697,7 @@ using System.Windows;
 
             private void MenuGitClient_Click(object sender, RoutedEventArgs e)
             {
-                var selected = TreeFolderBrowser.SelectedItem as PathItem;
+                var selected = FolderBrowser.GetSelectedItem();
                 if (selected == null)
                     return;
 
@@ -703,9 +716,10 @@ using System.Windows;
 
             public void MenuOpenInExplorer_Click(object sender, RoutedEventArgs e)
             {
-                string folder = Sidebar.FolderPath;
+                string folder = FolderBrowser.FolderPath;
 
-                var selected = TreeFolderBrowser.SelectedItem as PathItem;
+                var selected = FolderBrowser.GetSelectedItem();
+
                 if (selected != null)
                     folder = selected.FullPath; // Path.GetDirectoryName(selected.FullPath);
 
@@ -720,27 +734,27 @@ using System.Windows;
 
             public void MenuOpenFolderBrowserHere_Click(object sender, RoutedEventArgs e)
             {
-                var selected = TreeFolderBrowser.SelectedItem as PathItem;
+                var selected = FolderBrowser.GetSelectedItem();
                 if (selected == null)
                     return;
 
                 if (selected.FullPath == "..")
-                    Sidebar.FolderPath = Path.GetDirectoryName(Sidebar.FolderPath.TrimEnd('\\'));
+                    FolderBrowser.FolderPath = Path.GetDirectoryName(FolderBrowser.FolderPath.TrimEnd('\\'));
                 else
                 {
-                    if (Directory.Exists(Sidebar.FolderPath))
-                        Sidebar.FolderPath = selected.FullPath;
+                    if (Directory.Exists(FolderBrowser.FolderPath))
+                        FolderBrowser.FolderPath = selected.FullPath;
                     else
-                        Sidebar.FolderPath = Path.GetDirectoryName(Sidebar.FolderPath);
+                        FolderBrowser.FolderPath = Path.GetDirectoryName(FolderBrowser.FolderPath);
                 }
 
             }
 
             public void MenuOpenTerminal_Click(object sender, RoutedEventArgs e)
             {
-                string folder = Sidebar.FolderPath;
+                string folder = FolderBrowser.FolderPath;
 
-                var selected = TreeFolderBrowser.SelectedItem as PathItem;
+                var selected = FolderBrowser.GetSelectedItem();
                 if (selected != null)
                     folder = Path.GetDirectoryName(selected.FullPath);
 
@@ -752,30 +766,32 @@ using System.Windows;
 
             public void MenuOpenWithShell_Click(object sender, RoutedEventArgs e)
             {
-                var selected = TreeFolderBrowser.SelectedItem as PathItem;
-                if (selected == null)
+                var selectedItems = FolderBrowser.GetSelectedItems();
+                if (selectedItems.Count < 1)
                     return;
 
-                try
+                foreach (var selected in selectedItems)
                 {
-                    ShellUtils.GoUrl(selected.FullPath);
-                }
-                catch
-                {
-                    Model.Window.ShowStatusError($"Unable to open file {selected.FullPath}");
-
+                    try
+                    {
+                        ShellUtils.GoUrl(selected.FullPath);
+                    }
+                    catch
+                    {
+                        Model.Window.ShowStatusError($"Unable to open file {selected.FullPath}");
+                    }
                 }
             }
 
             public void MenuCopyPathToClipboard_Click(object sender, RoutedEventArgs e)
             {
-                var selected = TreeFolderBrowser.SelectedItem as PathItem;
+                var selected = FolderBrowser.GetSelectedItem();
 
                 string clipText = null;
                 if (selected == null)
-                    clipText = Sidebar.FolderPath;
+                    clipText = FolderBrowser.FolderPath;
                 else if (selected.FullPath == "..")
-                    clipText = Path.GetDirectoryName(Sidebar.FolderPath);
+                    clipText = Path.GetDirectoryName(FolderBrowser.FolderPath);
                 else
                     clipText = selected.FullPath;
 
@@ -791,14 +807,17 @@ using System.Windows;
 
             public void MenuOpenInEditor_Click(object sender, RoutedEventArgs e)
             {
-                var selected = TreeFolderBrowser.SelectedItem as PathItem;
-                if (selected == null)
+                var selectedItems = FolderBrowser.GetSelectedItems();
+                if (selectedItems.Count < 1)
                     return;
 
-                if (selected.IsFolder)
-                    ShellUtils.GoUrl(selected.FullPath);
-                else
-                    Model.Window.OpenTab(selected.FullPath, rebindTabHeaders: true);
+                foreach (var selected in selectedItems)
+                {
+                    if (selected.IsFolder)
+                        ShellUtils.GoUrl(selected.FullPath);
+                    else
+                        Model.Window.OpenTab(selected.FullPath, rebindTabHeaders: true);
+                }
             }
 
             #endregion
@@ -808,7 +827,7 @@ using System.Windows;
 
             public void MenuShowImage_Click(object sender, RoutedEventArgs e)
             {
-                var selected = TreeFolderBrowser.SelectedItem as PathItem;
+                var selected = FolderBrowser.GetSelectedItem();
                 if (selected == null)
                     return;
 
@@ -817,42 +836,54 @@ using System.Windows;
 
             public void MenuEditImage_Click(object sender, RoutedEventArgs e)
             {
-                var selected = TreeFolderBrowser.SelectedItem as PathItem;
-                if (selected == null)
+
+                var selectedItems = FolderBrowser.GetSelectedItems();
+                if (selectedItems.Count < 1)
                     return;
 
-                mmFileUtils.OpenImageInImageEditor(selected.FullPath);
+                foreach (var selected in selectedItems)
+                {
+                    if (mmFileUtils.IsImage(selected.FullPath))
+                        mmFileUtils.OpenImageInImageEditor(selected.FullPath);
+                }
             }
 
             public void MenuOptimizeImage_Click(object sender, RoutedEventArgs e)
             {
-                var selected = TreeFolderBrowser.SelectedItem as PathItem;
-                if (selected == null)
+                var selectedItems = FolderBrowser.GetSelectedItems();
+                if (selectedItems.Count < 1)
                     return;
 
-                long filesize = new FileInfo(selected.FullPath).Length;
-                Model.Window.ShowStatusProgress("Optimizing image " + selected.FullPath, 10000);
-
-                mmFileUtils.OptimizeImage(selected.FullPath, 0, new Action<bool>((res) =>
+                foreach (var selected in selectedItems)
                 {
-                    Sidebar.Dispatcher.Invoke(() =>
-                    {
-                        var fi = new FileInfo(selected.FullPath);
-                        long filesize2 = fi.Length;
+                    if (!mmFileUtils.IsImage(selected.FullPath))
+                        continue;
 
-                        decimal diff = 0;
-                        if (filesize2 < filesize)
-                            diff = (Convert.ToDecimal(filesize2) / Convert.ToDecimal(filesize)) * 100;
-                        if (diff > 0)
+                    long filesize = new FileInfo(selected.FullPath).Length;
+                    Model.Window.ShowStatusProgress("Optimizing image " + selected.FullPath, 10000);
+
+                    mmFileUtils.OptimizeImage(selected.FullPath, 0, new Action<bool>((res) =>
+                    {
+                        FolderBrowser.Dispatcher.Invoke(() =>
                         {
-                            mmApp.Model.Window.ShowStatusSuccess(
-                                $"Image size reduced by {(100 - diff):n2}%. New size: {(Convert.ToDecimal(filesize2) / 1000):n1}kb");
-                            Model.Window.OpenBrowserTab(selected.FullPath, isImageFile: true);
-                        }
-                        else
-                            mmApp.Model.Window.ShowStatusError("Image optimization couldn't improve image size.", 5000);
-                    }, DispatcherPriority.ApplicationIdle);
-                }));
+                            var fi = new FileInfo(selected.FullPath);
+                            long filesize2 = fi.Length;
+
+                            decimal diff = 0;
+                            if (filesize2 < filesize)
+                                diff = (Convert.ToDecimal(filesize2) / Convert.ToDecimal(filesize)) * 100;
+                            if (diff > 0)
+                            {
+                                mmApp.Model.Window.ShowStatusSuccess(
+                                    $"Image size reduced by {(100 - diff):n2}%. New size: {(Convert.ToDecimal(filesize2) / 1000):n1}kb");
+                                Model.Window.OpenBrowserTab(selected.FullPath, isImageFile: true);
+                            }
+                            else
+                                mmApp.Model.Window.ShowStatusError("Image optimization couldn't improve image size.",
+                                    5000);
+                        }, DispatcherPriority.ApplicationIdle);
+                    }));
+                }
             }
 
             #endregion

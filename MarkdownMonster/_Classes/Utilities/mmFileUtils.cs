@@ -646,6 +646,36 @@ namespace MarkdownMonster
             Process.Start("rundll32.exe", args);
         }
 
+        /// <summary>
+        /// Determines if a file is one of the common image extensions
+        /// "jpg", "png", "gif", "bmp", "jpeg", "jp2", "apng", "tif", "tiff", "heif", "heic", "webp", "raw" 
+        /// </summary>
+        /// <param name="selectedFullPath"></param>
+        /// <param name="extraExtensions">Any additional file extensions as lower case extension without the .</param>
+        /// <returns>true or false</returns>
+        public static bool IsImage(string selectedFullPath, params string[] extraExtensions )
+        {
+            if (string.IsNullOrEmpty(selectedFullPath))
+                return false;
+
+            string ext;
+            try
+            {
+                ext = Path.GetExtension(selectedFullPath);
+            }
+            catch
+            {
+                return false;
+            }
+
+            ext = ext.ToLower().TrimStart('.');
+            string[] extensions = { "jpg", "png", "gif", "bmp", "jpeg", "jp2", "apng", "tif", "tiff", "heif", "heic", "webp", "raw" };
+            if (extraExtensions != null)
+                extensions =  extensions.Union(extraExtensions).ToArray();
+
+            return extensions.Any(e => e == ext);
+        }
+
         #endregion
 
         #region Git Operations

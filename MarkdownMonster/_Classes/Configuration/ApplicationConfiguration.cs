@@ -159,11 +159,17 @@ namespace MarkdownMonster
         public TitlebarDisplayModes TitlebarDisplay { get; set; } = TitlebarDisplayModes.FilenameOnly;
 
         /// <summary>
-        /// String that holds any of the following as a comma delimited string
-        /// in all lower case:
-        /// "toolbar,statusbar,menu,preview,tabs";
+        /// String that holds a comma delimited list of values:
+        /// 
+        /// toolbar,statusbar,menu,tabs,preview
         ///
-        /// Any of those are hidden in distraction free mode.
+        /// Any of the elements provided are hidden in distraction free mode.
+        /// Additionally you can also set:
+        ///
+        /// maximized,maxwidth:970
+        ///
+        /// which determines whether the window is maximized and the editor display width.
+        /// All values are optional.
         /// </summary>
         public string DistractionFreeModeHideOptions
         {
@@ -180,7 +186,7 @@ namespace MarkdownMonster
                 OnPropertyChanged(nameof(DistractionFreeModeHideOptions));
             }
         }
-        private string _DistractionFreeModeHideOptions = "toolbar,statusbar,menu,preview,tabs,maximized,maxwidth:1000";
+        private string _DistractionFreeModeHideOptions = "toolbar,statusbar,menu,preview,tabs,maximized,maxwidth:960";
 
         /// <summary>
         /// Determines whether documents are automatically saved
