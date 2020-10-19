@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
@@ -371,6 +372,10 @@ namespace MarkdownMonster.Windows
 
         #region Folder Button and Text Handling
 
+        public void OpenFile(string file, bool forceEditorFocus = false)
+        {
+            Window.OpenFile(file, noFocus: !forceEditorFocus );
+        }
 
         /// <summary>
         /// Sets the tree's content from a folderOrFilePath or filename.
@@ -559,7 +564,7 @@ namespace MarkdownMonster.Windows
         #endregion
 
 
-#region TreeView Selection Handling
+#region TreeView Selections
 
 /// <summary>
 /// Returns the Active Selected Path Item
@@ -587,7 +592,7 @@ public List<PathItem> GetSelectedPathItems()
 /// <param name="forceEditorFocus"></param>
 public void HandleItemSelection(bool forceEditorFocus = false)
 {
-    var fileItem = TreeFolderBrowser.SelectedItem as PathItem;
+    var fileItem = GetSelectedPathItem(); //TreeFolderBrowser.SelectedItem as PathItem;
     if (fileItem == null)
         return;
 
@@ -615,11 +620,17 @@ public TreeViewItem GetNestedTreeviewItem(object item, ItemsControl treeItem = n
     return WindowUtilities.GetNestedTreeviewItem(item, treeItem);
 }
 
+/// <summary>
+/// Used for TreeViewSelection() - will hold current selection after
+/// </summary>
 private PathItem lastSelectedPathItem = PathItem.Empty;
 
-private void TreeView_SelectionChanged(object sender, RoutedEventArgs e)
+
+/// <summary>
+/// This selects the item including multi-file selections
+/// </summary>
+private void TreeViewSelection(TreeViewItem titem, Key key = Key.None)
 {
-    var titem = sender as TreeViewItem;
     if (titem == null) return;
     
     var pitem = titem.DataContext as PathItem;
@@ -629,10 +640,19 @@ private void TreeView_SelectionChanged(object sender, RoutedEventArgs e)
     {
         pitem.IsSelected = true;
 
-        if (Keyboard.Modifiers.HasFlag(ModifierKeys.Control))
-            return; // don't need to clear any items additive
+        if (pitem.IsFolder)
+        {
+            foreach(var pi in pitem.Files)
+                pi.IsSelected = true;
+        }
 
-        if (Keyboard.Modifiers.HasFlag(ModifierKeys.Shift))
+
+        if (Keyboard.IsKeyDown(Key.LeftCtrl) || key == Key.LeftCtrl)
+        {
+            return; // don't need to clear any items additive
+        }
+
+        if (Keyboard.IsKeyDown(Key.LeftShift) || key == Key.LeftShift)
         {
             // select items between cursor position
             var items = pitem.Parent?.Files;
@@ -684,15 +704,18 @@ public PathItem GetSelectedItem(ItemCollection items = null)
     {
         var pi = childItem as PathItem;
         if (pi.IsSelected)
-            
-            if (pi.Files.Count > 0)
-            {
-                var titem = TreeFolderBrowser
-                    .ItemContainerGenerator
-                    .ContainerFromItem(childItem) as TreeViewItem;
+            return pi;
 
-                GetSelectedItem(titem.Items);
-            }
+        if (pi.Files.Count > 0)
+        {
+            var titem = TreeFolderBrowser
+                .ItemContainerGenerator
+                .ContainerFromItem(childItem) as TreeViewItem;
+
+            pi = GetSelectedItem(titem.Items);
+            if(pi != null)
+                return pi;
+        }
     }
 
     return null;
@@ -747,19 +770,30 @@ public void ClearSelectedItems(ItemCollection items = null, PathItem except = nu
     foreach (var childItem in items)
     {
         var pi = childItem as PathItem;
-        if (pi != except)
+
+        if (pi?.FullPath != except?.FullPath)
             pi.IsSelected = false;
-        if (pi.Files.Count == 0) continue;
+        else
+            pi.IsSelected = true;
+
+        if (pi.Files.Count == 0 ) continue;
 
         var titem = TreeFolderBrowser
             .ItemContainerGenerator
             .ContainerFromItem(childItem) as TreeViewItem;
 
+        if(titem?.Items == null) continue;
+
         ClearSelectedItems(titem.Items, except);
     }
 }
 
-private string searchFilter = string.Empty;
+        #endregion
+
+        #region TreeView Selection Events
+
+
+        private string searchFilter = string.Empty;
         private DateTime searchFilterLast = DateTime.MinValue;
 
 
@@ -892,9 +926,11 @@ private string searchFilter = string.Empty;
 
         }
 
-        private void FolderBrowserGrid_PreviewKeyDown(object sender, KeyEventArgs e)
+        private void TreeViewItem_PreviewKeyUp(object sender, KeyEventArgs e)
         {
-            var selected = TreeFolderBrowser.SelectedItem as PathItem;
+     
+            var titem = sender as TreeViewItem;
+            var selected = titem?.DataContext as PathItem; //TreeFolderBrowser.SelectedItem as PathItem;
 
             if (e.Key == Key.F1)
             {
@@ -930,17 +966,25 @@ private string searchFilter = string.Empty;
                 menu.FileBrowserPasteFile();
                 e.Handled = true;
             }
-
-
+            //else if( e.Key == Key.LeftShift || e.Key == Key.LeftCtrl)
+            //{
+            //    // do nothing - no tree view selection for 
+            //}
+            else if(e.Key == Key.Down || e.Key == Key.Up )
+            {
+                // select the item if not already selected
+                TreeViewSelection(titem, e.Key);
+            }
         }
 
-        private void TreeViewItem_MouseDownClick(object sender, MouseButtonEventArgs e)
+        private void TreeViewItem_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
-            if (e.ClickCount == 2) // double-click
-            {
-                LastClickTime = DateTime.MinValue;
-                HandleItemSelection(forceEditorFocus:true);
-            }
+            LastClickTime = DateTime.MinValue;
+
+            // select the item including multi-item selection
+            TreeViewSelection(sender as TreeViewItem);
+
+            HandleItemSelection(forceEditorFocus:true);
         }
 
         private void TreeViewItem_MouseUpClick(object sender, MouseButtonEventArgs e)
@@ -948,16 +992,19 @@ private string searchFilter = string.Empty;
             if (e.ClickCount == 2)
                 return;
 
-            // single click - image preview  MUST BE ON MOUSEUP so we can still drag
-            dynamic s = sender;
-            var selected = s.DataContext as PathItem;
+            var titem = sender as TreeViewItem;
+            if (titem == null) return;
 
+            var selected = titem.DataContext as PathItem;
             if (selected == null)
                 return;
 
-            var filePath = selected.FullPath;
-            selected.IsSelected = true;
+            // select the item including multi-item selection
+            TreeViewSelection(titem);
+            e.Handled = true;
 
+            var filePath = selected.FullPath;
+            
             if (string.IsNullOrEmpty(filePath))
                 return;
 
@@ -1124,12 +1171,7 @@ private string searchFilter = string.Empty;
             fileItem.IsEditing = false;
         }
 
-        public void OpenFile(string file, bool forceEditorFocus = false)
-        {
-            Window.OpenFile(file, noFocus: !forceEditorFocus );
-        }
-
-#endregion
+        #endregion
 
 #region Search Textbox
 
@@ -1287,7 +1329,7 @@ private string searchFilter = string.Empty;
         {
             if (e.LeftButton == MouseButtonState.Pressed)
             {
-                var selected = TreeFolderBrowser.SelectedItem as PathItem;
+                var selected = GetSelectedItem();  //TreeFolderBrowser.SelectedItem as PathItem;
 
                 // Only allow the items to be dragged
                 var src = e.OriginalSource as TextBlock;
@@ -1309,7 +1351,7 @@ private string searchFilter = string.Empty;
                     if (treeView == null || treeViewItem == null)
                         return;
 
-                    var files = new[] {selected.FullPath};
+                    var files = GetSelectedItems().Select(p=> p.FullPath).ToArray();
                     var dragData = new DataObject(DataFormats.FileDrop, files);
 
                     DragDrop.DoDragDrop(treeViewItem, dragData, DragDropEffects.Copy);

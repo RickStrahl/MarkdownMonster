@@ -17,7 +17,7 @@
         <!--DataType="{x:Type local:PathItem}"-->
         <HierarchicalDataTemplate x:Key="FolderTemplate"  ItemsSource="{Binding Path=Files}" >
             <!--<Grid  Width="300" >-->
-            <Grid MouseUp="TreeViewItem_MouseUpClick" MouseDown="TreeViewItem_MouseDownClick" >
+            <Grid  >
                 <Grid.Resources>
                    
                 </Grid.Resources>
@@ -99,7 +99,7 @@
     </UserControl.Resources>
 
 
-    <Grid Name="FolderBrowserMainGrid" PreviewKeyDown="FolderBrowserGrid_PreviewKeyDown">
+    <Grid Name="FolderBrowserMainGrid" >
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
@@ -257,13 +257,19 @@
                 </TreeView.ContextMenu>
                 <TreeView.ItemContainerStyle>
                     <Style TargetType="{x:Type TreeViewItem}">
+                        
                         <Setter Property="Visibility" Value="{Binding IsVisible,Mode=TwoWay,Converter={StaticResource BooleanToVisibilityConverter}}" />
                         <!--<Setter Property="IsSelected" Value="{Binding IsSelected,Mode=OneWay}" />-->
                         
                         <Setter Property="IsExpanded" Value="{Binding IsExpanded,Mode=TwoWay}" />
 
-                        <EventSetter Event="Selected" Handler="TreeView_SelectionChanged" />
-                        <EventSetter Event="Unselected" Handler="TreeView_SelectionChanged" />
+                        <EventSetter Event="MouseUp" Handler="TreeViewItem_MouseUpClick" />
+                        <!--<EventSetter Event="MouseDown" Handler="TreeViewItem_MouseDownClick" />-->
+                        <EventSetter Event="MouseDoubleClick" Handler="TreeViewItem_MouseDoubleClick" />
+                        <EventSetter Event="PreviewKeyUp" Handler="TreeViewItem_PreviewKeyUp" />
+
+                        <!--<EventSetter Event="Selected" Handler="TreeView_SelectionChanged" />-->
+                        <!--<EventSetter Event="Unselected" Handler="TreeView_SelectionChanged" />-->
 
                         <!-- We have to select the item which is right-clicked on -->
                         <EventSetter Event="TreeViewItem.PreviewMouseRightButtonUp" Handler="TreeViewItem_PreviewMouseRightButtonUp"/>
