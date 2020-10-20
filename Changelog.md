@@ -4,11 +4,17 @@
 [![Chocolatey](https://img.shields.io/chocolatey/dt/markdownmonster.svg)](https://chocolatey.org/packages/MarkdownMonster)
 [![Web Site](https://img.shields.io/badge/Markdown_Monster-WebSite-blue.svg)](https://markdownmonster.west-wind.com)
 
-### 1.24.12
+### 1.24.14
 <small>not released yet</small>
+
+* **Multi-File Selection in Folder Browser**  
+You can now select multiple files in the folder browser and perform many of the common operations on multiple files. You can open multiple files, drag and drop multiple files among folders or to Explorer, delete multiple files and so on. Also updated FolderBrowser API for addins to allow `GetSelectedItem()` and `GetSelectedItems()` as well as access to the `ActivePathItem` (drop targets for example).
 
 * **[Updated Markdown Monster Add-in Project Visual Studio Extension](https://markdownmonster.west-wind.com/docs/_4ne0s0qoi.htm)**  
 The [Markdown Monster Addin Project Extension](https://marketplace.visualstudio.com/items?itemname=rickstrahl.markdownmonsteraddinproject) now creates much simpler, SDK style .NET projects. Projects now run and debug out of the box after running the New Project Template without additional manual configuration, as was required by the older version. It's also considerably easier now to configure for custom MM install locations using the raw XML Project file.
+
+### 1.24.8
+<small>October 11th, 2020</small>
 
 * **Add `pagebreak` Default Snippet to Snippet Manager**  
 Added a `pagebreak` default snippet to the Snippet Manager Addin, so it's there by default when MM first creates the Snippet Manager defaults. This is optional and can be removed but is one useful use-case of using a snippet.
