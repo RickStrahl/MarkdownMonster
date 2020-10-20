@@ -715,6 +715,9 @@ namespace MarkdownMonster.Windows
                         .ItemContainerGenerator
                         .ContainerFromItem(childItem) as TreeViewItem;
 
+                    if (titem == null)
+                        continue;
+
                     pi = GetSelectedItem(titem.Items);
                     if (pi != null)
                         return pi;
@@ -1352,6 +1355,10 @@ namespace MarkdownMonster.Windows
                 var mousePos = e.GetPosition(null);
                 var diff = startPoint - mousePos;
 
+                DragDropEffects effect = DragDropEffects.Move;
+                if (Keyboard.IsKeyDown(Key.LeftCtrl))
+                    effect = DragDropEffects.Copy;
+
                 if (Math.Abs(diff.X) > SystemParameters.MinimumHorizontalDragDistance
                     || Math.Abs(diff.Y) > SystemParameters.MinimumVerticalDragDistance)
                 {
@@ -1363,15 +1370,15 @@ namespace MarkdownMonster.Windows
                     var files = GetSelectedItems().Select(p=> p.FullPath).ToArray();
                     var dragData = new DataObject(DataFormats.FileDrop, files);
 
-                    DragDrop.DoDragDrop(treeViewItem, dragData, DragDropEffects.Copy);
+                    DragDrop.DoDragDrop(treeViewItem, dragData, effect);
                 }
             }
         }
 
         private void TreeViewItem_Drop(object sender, DragEventArgs e)
         {
-            PathItem targetItem = ActivePathItem;
-
+            PathItem dropTargetPathItem = ActivePathItem;
+            var npi = GetSelectedItem();
 
             var formats = e.Data.GetFormats();
 
@@ -1381,8 +1388,8 @@ namespace MarkdownMonster.Windows
             }
             else
             {
-                targetItem = (e.OriginalSource as FrameworkElement)?.DataContext as PathItem;
-                if (targetItem == null)
+                dropTargetPathItem = (e.OriginalSource as FrameworkElement)?.DataContext as PathItem;
+                if (dropTargetPathItem == null)
                     return;
             }
             e.Handled = true;
@@ -1390,13 +1397,12 @@ namespace MarkdownMonster.Windows
 
             if (formats.Contains("FileDrop"))
             {
-                HandleDroppedFiles(e.Data.GetData("FileDrop") as string[]);
+                HandleDroppedFiles(e.Data.GetData("FileDrop") as string[],dropTargetPathItem, e.Effects );
                 return;
             }
 
-
-            if (!targetItem.IsFolder)
-                targetItem = targetItem.Parent;
+            if (!dropTargetPathItem.IsFolder)
+                dropTargetPathItem = dropTargetPathItem.Parent;
 
             var path = e.Data.GetData(DataFormats.UnicodeText) as string;
             if (string.IsNullOrEmpty(path))
@@ -1411,7 +1417,7 @@ namespace MarkdownMonster.Windows
                 // Handle dropped new files (from Explorer perhaps)
                 if (File.Exists(path))
                 {
-                    newPath = Path.Combine(targetItem.FullPath, Path.GetFileName(path));
+                    newPath = Path.Combine(dropTargetPathItem.FullPath, Path.GetFileName(path));
                     File.Copy(path, newPath);
                     AppModel.Window.ShowStatusSuccess($"File copied.");
                 }
@@ -1419,7 +1425,7 @@ namespace MarkdownMonster.Windows
                 return;
             }
 
-            newPath = Path.Combine(targetItem.FullPath, sourceItem.DisplayName);
+            newPath = Path.Combine(dropTargetPathItem.FullPath, sourceItem.DisplayName);
 
             if (sourceItem.FullPath.Equals(newPath, StringComparison.InvariantCultureIgnoreCase))
             {
@@ -1438,7 +1444,7 @@ namespace MarkdownMonster.Windows
                     mmApp.Configuration.StatusMessageTimeout);
                 return;
             }
-            targetItem.IsExpanded = true;
+            dropTargetPathItem.IsExpanded = true;
 
             // wait for file watcher to pick up the file
             Dispatcher.Delay(200,(p) =>
@@ -1456,7 +1462,7 @@ namespace MarkdownMonster.Windows
         /// Handles files that were dropped on the tree view
         /// </summary>
         /// <param name="files">array of files</param>
-        void HandleDroppedFiles(string[] files)
+        void HandleDroppedFiles(string[] files,PathItem target, DragDropEffects effect)
         {
             if (files == null)
                 return;
@@ -1478,17 +1484,30 @@ namespace MarkdownMonster.Windows
                     string nPath;
                     if (isFile)
                     {
-                        nPath = Path.Combine(ActivePathItem.FullPath, Path.GetFileName(file));
-                        if (!LanguageUtils.IgnoreErrors(() => File.Copy(file, nPath, overwrite: true)))
+                        nPath = Path.Combine(target.FullPath, Path.GetFileName(file));
+                        if (!LanguageUtils.IgnoreErrors(() =>
+                        {
+                            // only move if EXPLICITLY using MOVE operation
+                            if(effect == DragDropEffects.Move)  
+                                File.Move(file, nPath);
+                            else
+                                File.Copy(file, nPath, overwrite: true);
+                        }))
                             errors += $"{nPath},";
                     }
                     else
                     {
                         nPath = Path.Combine(ActivePathItem.FullPath, Path.GetFileName(file));
-                        if (!LanguageUtils.IgnoreErrors(() => FileUtils.CopyDirectory(file, nPath)))
+                        if(nPath != file)
+                        {
+                            if (!LanguageUtils.IgnoreErrors(() => FileUtils.CopyDirectory(file, nPath)))
                             errors += $"{nPath},";
+                        }
                     }
                 }
+                ClearSelectedItems();
+                target.IsSelected = true;
+
                 Dispatcher.InvokeAsync(() =>
                 {
                     if (string.IsNullOrEmpty(errors))

@@ -93,8 +93,11 @@ using System.Windows;
             {
                 ClearMenu();
 
+                var selectedItems = FolderBrowser.GetSelectedItems();
+                bool multipleItemsSelected = selectedItems.Count > 1;
+                
                 var cm = ContextMenu;
-                var pathItem = TreeFolderBrowser.SelectedItem as PathItem;
+                var pathItem = FolderBrowser.GetSelectedItem();
                 if (pathItem == null)
                     return;
 
@@ -165,12 +168,11 @@ using System.Windows;
                 ci = new MenuItem();
                 ci.Header = "Open With...";
                 ci.Name = "FBCM_OpenWith";
+                ci.IsEnabled = !multipleItemsSelected;
                 ci.Command = Model.Commands.OpenWithCommand;
                 ci.CommandParameter = pathItem.FullPath;
                 ciOpen.Items.Add(ci);
-
-                
-
+            
                 ci = new MenuItem();
                 ci.Header = "Show in Explorer";
                 ci.Name = "FBCM_ShowInExplorer";
@@ -353,10 +355,6 @@ using System.Windows;
 
             public void MenuDeleteFile_Click(object sender, RoutedEventArgs e)
             {
-                //var selected = TreeFolderBrowser.SelectedItem as PathItem;
-                //if (selected == null)
-                //    return;
-
                 var selectedFiles = FolderBrowser.GetSelectedItems();
                 if (selectedFiles.Count < 0)
                     return;
@@ -531,7 +529,7 @@ using System.Windows;
 
             public void MenuRenameFile_Click(object sender, RoutedEventArgs e)
             {
-                var selected = TreeFolderBrowser.SelectedItem as PathItem;
+                var selected = FolderBrowser.GetSelectedItem();
                 if (selected == null)
                     return;
 
@@ -567,32 +565,30 @@ using System.Windows;
 
             public void FileBrowserCopyFile(bool isCut = false)
             {
-                var selected = TreeFolderBrowser.SelectedItem as PathItem;
-                if (selected == null)
-                    selected = Model.Window.FolderBrowser.ActivePathItem;
-                if (selected == null)
+                var selectedFiles = FolderBrowser.GetSelectedItems();
+                if (selectedFiles.Count < 1)
                     return;
 
-                if (selected.IsEditing)
-                    return;
-
-                var files = new string[] {selected.FullPath};
+                var files = selectedFiles.Select(pi => pi.FullPath).ToArray();
 
                 IDataObject data = new DataObject(DataFormats.FileDrop, files);
                 MemoryStream memo = new MemoryStream(4);
-                byte[] bytes = new byte[]{(byte)(isCut ? 2 : 5), 0, 0, 0};
+                byte[] bytes = new byte[] {(byte) (isCut ? 2 : 5), 0, 0, 0};
                 memo.Write(bytes, 0, bytes.Length);
                 data.SetData("Preferred DropEffect", memo);
                 Clipboard.SetDataObject(data);
 
                 if (isCut)
-                    selected.IsCut = true;
+                {
+                    foreach (var selectedFile in selectedFiles)
+                        selectedFile.IsCut = true;
+                }
 
                 Model.Window.ShowStatusSuccess("File copied to clipboard.");
             }
 
             public void FileBrowserPasteFile(){
-                var selected = TreeFolderBrowser.SelectedItem as PathItem;
+                var selected = FolderBrowser.GetSelectedItem();
                 if (selected == null)
                     selected = Model.Window.FolderBrowser.ActivePathItem;
                 if (selected == null)
@@ -662,7 +658,7 @@ using System.Windows;
 
             public void MenuCommitGit_Click(object sender, RoutedEventArgs e)
             {
-                var selected = TreeFolderBrowser.SelectedItem as PathItem;
+                var selected = FolderBrowser.GetSelectedItem();
                 if (selected == null)
                     return;
 
@@ -679,17 +675,23 @@ using System.Windows;
 
             public void MenuUndoGit_Click(object sende, RoutedEventArgs e)
             {
-                var selected = TreeFolderBrowser.SelectedItem as PathItem;
-                if (selected == null)
-                    return;
-
-                if (selected.FileStatus != LibGit2Sharp.FileStatus.ModifiedInIndex &&
-                    selected.FileStatus != LibGit2Sharp.FileStatus.ModifiedInWorkdir)
+                var selectedFiles = FolderBrowser.GetSelectedItems();
+                if(selectedFiles.Count < 1)
                     return;
 
                 var gh = new GitHelper();
-                gh.UndoChanges(selected.FullPath);
 
+                foreach (var selected in selectedFiles)
+                {
+                    if (selected == null)
+                        continue;
+
+                    if (selected.FileStatus != LibGit2Sharp.FileStatus.ModifiedInIndex &&
+                        selected.FileStatus != LibGit2Sharp.FileStatus.ModifiedInWorkdir)
+                        continue;
+
+                    gh.UndoChanges(selected.FullPath);
+                }
 
                 // force editors to update
                 DocumentFileWatcher.CheckFileChangeInOpenDocuments();
@@ -747,7 +749,6 @@ using System.Windows;
                     else
                         FolderBrowser.FolderPath = Path.GetDirectoryName(FolderBrowser.FolderPath);
                 }
-
             }
 
             public void MenuOpenTerminal_Click(object sender, RoutedEventArgs e)
@@ -801,7 +802,6 @@ using System.Windows;
                         Model.Window.ShowStatus($"Path '{clipText}' has been copied to the Clipboard.",
                             mmApp.Configuration.StatusMessageTimeout);
                 }
-
             }
 
 
@@ -836,7 +836,6 @@ using System.Windows;
 
             public void MenuEditImage_Click(object sender, RoutedEventArgs e)
             {
-
                 var selectedItems = FolderBrowser.GetSelectedItems();
                 if (selectedItems.Count < 1)
                     return;

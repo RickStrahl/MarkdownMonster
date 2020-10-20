@@ -23,13 +23,13 @@
     <PackageReference Include="FontAwesome.WPF" Version="4.7.0.9">
       <IncludeAssets>compile</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="HtmlAgilityPack" Version="1.11.24">
+    <PackageReference Include="HtmlAgilityPack" Version="1.11.25">
       <IncludeAssets>compile</IncludeAssets>
     </PackageReference>
     <PackageReference Include="Westwind.Utilities" Version="3.0.48">
       <IncludeAssets>compile</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Markdig" Version="0.21.1">
+    <PackageReference Include="Markdig" Version="0.22.0">
       <IncludeAssets>compile</IncludeAssets>
     </PackageReference>
 
