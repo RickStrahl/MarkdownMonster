@@ -13,6 +13,9 @@ You can now select multiple files in the folder browser and perform many of the 
 * **[Updated Markdown Monster Add-in Project Visual Studio Extension](https://markdownmonster.west-wind.com/docs/_4ne0s0qoi.htm)**  
 The [Markdown Monster Addin Project Extension](https://marketplace.visualstudio.com/items?itemname=rickstrahl.markdownmonsteraddinproject) now creates much simpler, SDK style .NET projects. Projects now run and debug out of the box after running the New Project Template without additional manual configuration, as was required by the older version. It's also considerably easier now to configure for custom MM install locations using the raw XML Project file.
 
+* **Fix: File Encoding bug in the Embed Url Dialog**  
+Fixed issue where files with spaces in the filename would not URL encode correctly. New behavior doesn't encode but replaces spaces with `%20` in order to allow the Markdown Parser to properly parse Urls.
+
 ### 1.24.8
 <small>October 11th, 2020</small>
 
