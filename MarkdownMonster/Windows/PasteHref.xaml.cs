@@ -24,7 +24,7 @@ namespace MarkdownMonster.Windows
             set
             {
                 if (value == _link) return;
-                _link = value.Replace(" ","%20");
+                _link = value;
                 OnPropertyChanged(nameof(Link));
             }
         }
@@ -186,7 +186,7 @@ namespace MarkdownMonster.Windows
                     Link = "file:///" + Link;
             }
 
-            Link = StringUtils.UrlEncode(Link);
+            Link = Link.Replace(" ", "%20");
 
             mmApp.Configuration.LastLinkFolder = System.IO.Path.GetDirectoryName(fd.FileName);
             mmApp.Configuration.LastLinkExternal = IsExternal;
