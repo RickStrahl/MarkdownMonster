@@ -1039,7 +1039,7 @@ namespace MarkdownMonster.Windows
 
         private void TreeViewItem_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
-            LastClickTime = DateTime.MinValue;
+            //LastClickTime = DateTime.MinValue;   // 
 
             // select the item including multi-item selection
             TreeViewSelection(sender as TreeViewItem);
@@ -1121,11 +1121,6 @@ namespace MarkdownMonster.Windows
                 var subfolder = FolderStructure.GetFilesAndFolders(selected.FullPath, nonRecursive: true, parentPathItem: selected);
                 FolderStructure.UpdateGitFileStatus(subfolder);
             }
-        }
-
-        private void Files_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
-        {
-            return;
         }
 
 
@@ -1299,34 +1294,33 @@ namespace MarkdownMonster.Windows
 
 #region Items and Item Selection
 
-        private DateTime LastClickTime;
-        private PathItem LastItem;
+        //private DateTime LastClickTime;
+        //private PathItem LastItem;
 
         /// <summary>
-        /// Handle edit click
+        /// Handle renaming double click
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void TextFileOrFolderName_MouseUpToEdit(object sender, MouseButtonEventArgs e)
         {
-            // only
-            if (e.ChangedButton == MouseButton.Left)
-            {
-                var selected = TreeFolderBrowser.SelectedItem as PathItem;
-                var t = DateTime.Now;
+            //if (e.ChangedButton == MouseButton.Left)
+            //{
+            //    var selected = TreeFolderBrowser.SelectedItem as PathItem;
+            //    var t = DateTime.Now;
 
-                if (LastItem == selected)
-                {
-                    if (t >= LastClickTime.AddMilliseconds(System.Windows.Forms.SystemInformation.DoubleClickTime + 200) &&
-                        t <= LastClickTime.AddMilliseconds(System.Windows.Forms.SystemInformation.DoubleClickTime * 2 + 200))
-                    {
-                        FolderBrowserContextMenu.MenuRenameFile_Click(null, null);
-                    }
-                }
+            //    if (LastItem == selected)
+            //    {
+            //        if (t >= LastClickTime.AddMilliseconds(System.Windows.Forms.SystemInformation.DoubleClickTime + 200) &&
+            //            t <= LastClickTime.AddMilliseconds(System.Windows.Forms.SystemInformation.DoubleClickTime * 2 + 200))
+            //        {
+            //            FolderBrowserContextMenu.MenuRenameFile_Click(null, null);
+            //        }
+            //    }
 
-                LastItem = selected;
-                LastClickTime = t;
-            }
+            //    LastItem = selected;
+            //    LastClickTime = t;
+            //}
         }
 
         /// <summary>
