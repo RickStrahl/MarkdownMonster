@@ -642,12 +642,15 @@ namespace MarkdownMonster.Windows
             {
                 pitem.IsSelected = true;
 
+                // clear all selections except in current folder
+                var selItems = pitem.Parent?.Files.Where(p => p.IsSelected).ToArray();
+                ClearSelectedItems(except: selItems );
+
                 if (pitem.IsFolder)
                 {
                     foreach (var pi in pitem.Files)
-                        pi.IsSelected = true;
+                        pi.IsSelected = pitem.IsSelected;
                 }
-
 
                 if (Keyboard.IsKeyDown(Key.LeftCtrl) || key == Key.LeftCtrl)
                 {
@@ -678,7 +681,7 @@ namespace MarkdownMonster.Windows
 
                     for (int i = start; i < stop; i++)
                     {
-                        items[i].IsSelected = true;
+                        items[i].IsSelected = pitem.IsSelected;
                     }
 
                     return;
@@ -761,32 +764,29 @@ namespace MarkdownMonster.Windows
         }
 
 
-
-
         /// <summary>
         /// Clears all selected items
         /// </summary>
         /// <param name="items">A node of the tree. Defaults to the root of the tree.</param>
         /// <param name="except">Optional - A PathItem that should stay selected.</param>
-        public void ClearSelectedItems(ItemCollection items = null, PathItem except = null)
+        public void ClearSelectedItems(ItemCollection items = null, params  PathItem[] except)
         {
             if (items == null)
                 items = TreeFolderBrowser.Items;
 
+            
             foreach (var childItem in items)
             {
                 var pi = childItem as PathItem;
 
-                if (pi?.FullPath != except?.FullPath)
-                    pi.IsSelected = false;
-                else
+                if (except != null && except.Contains(pi))
                     pi.IsSelected = true;
+                else
+                    pi.IsSelected = false;
 
                 if (pi.Files.Count == 0) continue;
 
-                var titem = TreeFolderBrowser
-                    .ItemContainerGenerator
-                    .ContainerFromItem(childItem) as TreeViewItem;
+                var titem = GetTreeViewItem(pi);
 
                 if (titem?.Items == null) continue;
 
@@ -794,14 +794,53 @@ namespace MarkdownMonster.Windows
             }
         }
 
+        /// <summary>
+        /// Clears all selected items
+        /// </summary>
+        /// <param name="items">A node of the tree. Defaults to the root of the tree.</param>
+        /// <param name="except">Optional - A PathItem that should stay selected.</param>
+        /// <param name="noClearParent">Optional - a parent folder that should not be cleared</param>
+        /// 
+        public void ClearSelectedItems(IEnumerable<PathItem> items, params PathItem[] except)
+        {
+            if (items == null)
+                items = ActivePathItem.Files;
+
+            foreach (var childItem in items)
+            {
+                var pi = childItem as PathItem;
+
+                if (except != null && except.Contains(pi))
+                    pi.IsSelected = true;
+                else
+                    pi.IsSelected = false;
+                
+                ClearSelectedItems(pi.Files, except);
+            }
+        }
+
+        /// <summary>
+        /// Returns a TreeViewItem from a Path Item
+        /// </summary>
+        /// <param name="pathItem">A path item</param>
+        /// <returns></returns>
+        public TreeViewItem GetTreeViewItem(PathItem pathItem)
+        {
+            if(pathItem == null)
+                return null;
+
+            var titem = TreeFolderBrowser
+                .ItemContainerGenerator
+                .ContainerFromItem(pathItem) as TreeViewItem;
+
+            return titem;
+        }
+
         #endregion
 
         #region TreeView Selection Events
-
-
         private string searchFilter = string.Empty;
         private DateTime searchFilterLast = DateTime.MinValue;
-
 
         private void TreeView_Keydown(object sender, KeyEventArgs e)
         {
@@ -1377,7 +1416,7 @@ namespace MarkdownMonster.Windows
 
         private void TreeViewItem_Drop(object sender, DragEventArgs e)
         {
-            PathItem dropTargetPathItem = ActivePathItem;
+            PathItem dropTargetPathItem = ActivePathItem; // assume root
             var npi = GetSelectedItem();
 
             var formats = e.Data.GetFormats();
