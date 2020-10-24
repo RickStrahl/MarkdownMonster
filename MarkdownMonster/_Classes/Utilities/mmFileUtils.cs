@@ -166,6 +166,27 @@ namespace MarkdownMonster
             return fileContent;
         }
 
+        public static void CopyDirectory(string sourcePath, string targetPath, bool deleteFirst = false, bool deepCopy = true)
+        {
+            if (deleteFirst && Directory.Exists(targetPath))
+                Directory.Delete(targetPath, true);
+
+            var searchOption = SearchOption.TopDirectoryOnly;
+            if (deepCopy)
+                searchOption = SearchOption.AllDirectories;
+
+            var dirs = Directory.GetDirectories(sourcePath, "*", searchOption);
+            foreach (string dirPath in dirs)
+            {
+                Directory.CreateDirectory(dirPath.Replace(sourcePath, targetPath));
+            }
+
+            foreach (string oldPath in Directory.GetFiles(sourcePath, "*.*", searchOption))
+            {
+                var newPath = oldPath.Replace(sourcePath, targetPath);
+                File.Copy(oldPath, newPath , true);
+            }
+        }
 
         #endregion
 

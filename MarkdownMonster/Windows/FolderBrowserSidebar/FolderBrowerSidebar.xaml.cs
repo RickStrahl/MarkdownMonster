@@ -633,10 +633,8 @@ namespace MarkdownMonster.Windows
         /// </summary>
         private void TreeViewSelection(TreeViewItem titem, Key key = Key.None)
         {
-            if (titem == null) return;
-
-            var pitem = titem.DataContext as PathItem;
-            if (pitem == null) return;
+            var pitem = titem?.DataContext as PathItem;
+            if (pitem == null || ActivePathItem == null) return;
 
             try
             {
@@ -644,7 +642,7 @@ namespace MarkdownMonster.Windows
 
                 // clear all selections except in current folder
                 var selItems = pitem.Parent?.Files.Where(p => p.IsSelected).ToArray();
-                ClearSelectedItems(except: selItems );
+                ClearSelectedItems(ActivePathItem?.Files, except: selItems );
 
                 if (pitem.IsFolder)
                 {
@@ -688,7 +686,7 @@ namespace MarkdownMonster.Windows
                 }
 
                 // single click - we have to clear all but the new selection
-                ClearSelectedItems(TreeFolderBrowser.Items, pitem);
+                ClearSelectedItems(ActivePathItem?.Files, pitem);
             }
             finally
             {
@@ -752,10 +750,8 @@ namespace MarkdownMonster.Windows
 
                 if (pi.Files.Count > 0)
                 {
-                    var titem = TreeFolderBrowser
-                        .ItemContainerGenerator
-                        .ContainerFromItem(childItem) as TreeViewItem;
-
+                    var titem = GetTreeViewItem(pi);
+                    if (titem == null) continue;
                     GetSelectedItems(titem.Items, list);
                 }
             }
@@ -800,7 +796,6 @@ namespace MarkdownMonster.Windows
         /// <param name="items">A node of the tree. Defaults to the root of the tree.</param>
         /// <param name="except">Optional - A PathItem that should stay selected.</param>
         /// <param name="noClearParent">Optional - a parent folder that should not be cleared</param>
-        /// 
         public void ClearSelectedItems(IEnumerable<PathItem> items, params PathItem[] except)
         {
             if (items == null)
@@ -820,19 +815,38 @@ namespace MarkdownMonster.Windows
         }
 
         /// <summary>
-        /// Returns a TreeViewItem from a Path Item
+        /// Returns a TreeViewItem from a Path Item recursively
         /// </summary>
         /// <param name="pathItem">A path item</param>
         /// <returns></returns>
-        public TreeViewItem GetTreeViewItem(PathItem pathItem)
+        public TreeViewItem GetTreeViewItem(PathItem pathItem, ItemsControl parentContainer = null, bool nonRecursive = false)
         {
             if(pathItem == null)
                 return null;
 
-            var titem = TreeFolderBrowser
+            if (parentContainer == null)
+                parentContainer = TreeFolderBrowser;
+
+            var titem = parentContainer
                 .ItemContainerGenerator
                 .ContainerFromItem(pathItem) as TreeViewItem;
 
+            if (titem != null || nonRecursive) return titem;
+
+            foreach (var item in parentContainer.Items)
+            {
+                var folder = item as PathItem;
+                if (folder == null || !folder.IsFolder) continue;
+
+                var folderItem = GetTreeViewItem(folder, parentContainer);
+                if (folderItem != null)
+                {
+                    titem = GetTreeViewItem(pathItem, folderItem);
+                    if (titem != null)
+                        break;
+                }
+            }
+            
             return titem;
         }
 
@@ -1120,7 +1134,8 @@ namespace MarkdownMonster.Windows
             var fileItem = TreeFolderBrowser.SelectedItem as PathItem;
             if (fileItem == null)
                 return;
-            if (string.IsNullOrEmpty(fileItem?.EditName) || fileItem.DisplayName == fileItem.EditName)
+            if (string.IsNullOrEmpty(fileItem?.EditName) ||
+                fileItem.DisplayName == fileItem.EditName  && File.Exists(fileItem.FullPath))
             {
                 fileItem.IsEditing = false;
                 return;
@@ -1129,6 +1144,7 @@ namespace MarkdownMonster.Windows
             string oldFile = fileItem.FullPath;
             string oldPath = Path.GetDirectoryName(fileItem.FullPath);
             string newPath = Path.Combine(oldPath, fileItem.EditName);
+            bool isNewFile = false;
 
             if (fileItem.IsFolder)
             {
@@ -1187,12 +1203,12 @@ namespace MarkdownMonster.Windows
                             return;
                         }
 
+                        isNewFile = true;
                         fileItem.IsEditing = false;
                         fileItem.FullPath = newPath; // force assignment so file watcher doesn't add another
 
                         File.WriteAllText(newPath, "");
                         fileItem.UpdateGitFileStatus();
-
 
                         var parent = fileItem.Parent;
                         fileItem.Parent.Files.Remove(fileItem);
@@ -1206,7 +1222,7 @@ namespace MarkdownMonster.Windows
                     {
                         Window.CloseTab(oldFile);
                         WindowUtilities.DoEvents();
-                        Window.OpenFile(newPath, isPreview: true) ;
+                        Window.OpenFile(newPath, isPreview: true);
                         WindowUtilities.DoEvents();
                     }
                 }
@@ -1220,6 +1236,14 @@ namespace MarkdownMonster.Windows
 
             fileItem.FullPath = newPath;
             fileItem.IsEditing = false;
+            fileItem.IsSelected = true;
+
+            ClearSelectedItems(ActivePathItem.Files, fileItem);
+            
+            var titem = GetTreeViewItem(fileItem,TreeFolderBrowser);
+            titem?.Focus();
+            if(isNewFile)
+               Window.OpenFile(newPath);
         }
 
         #endregion
@@ -1312,7 +1336,7 @@ namespace MarkdownMonster.Windows
         /// <param name="e"></param>
         private void TextEditFileItem_LostFocus(object sender, RoutedEventArgs e)
         {
-            var selected = TreeFolderBrowser.SelectedItem as PathItem;
+            var selected = GetSelectedItem();
             if (selected != null)
             {
                 
@@ -1388,7 +1412,7 @@ namespace MarkdownMonster.Windows
                     return;
 
                 // only drag image files
-                if (selected == null || selected.IsFolder)
+                if (selected == null)
                     return;
 
                 var mousePos = e.GetPosition(null);
@@ -1406,7 +1430,9 @@ namespace MarkdownMonster.Windows
                     if (treeView == null || treeViewItem == null)
                         return;
 
-                    var files = GetSelectedItems().Select(p=> p.FullPath).ToArray();
+                    var files = GetSelectedItems()
+                            .Where(p=> !string.IsNullOrEmpty(p.FullPath)) // dont move root or parent paths
+                            .Select(p=> p.FullPath).ToArray();
                     var dragData = new DataObject(DataFormats.FileDrop, files);
 
                     DragDrop.DoDragDrop(treeViewItem, dragData, effect);
@@ -1417,7 +1443,7 @@ namespace MarkdownMonster.Windows
         private void TreeViewItem_Drop(object sender, DragEventArgs e)
         {
             PathItem dropTargetPathItem = ActivePathItem; // assume root
-            var npi = GetSelectedItem();
+            var npi = GetSelectedItems();
 
             var formats = e.Data.GetFormats();
 
@@ -1536,11 +1562,23 @@ namespace MarkdownMonster.Windows
                     }
                     else
                     {
-                        nPath = Path.Combine(ActivePathItem.FullPath, Path.GetFileName(file));
-                        if(nPath != file)
+                        if(target.FullPath != file)
                         {
-                            if (!LanguageUtils.IgnoreErrors(() => FileUtils.CopyDirectory(file, nPath)))
-                            errors += $"{nPath},";
+                            if (MessageBox.Show($"Moving:\r\n{file}\r\nto\r\n{target.FullPath}\r\n\r\nAre you sure?",
+                                "Move directory",
+                                MessageBoxButton.YesNo,
+                                MessageBoxImage.Question) == MessageBoxResult.Yes)
+                            {
+                                try
+                                {
+                                    mmFileUtils.CopyDirectory(file, target.FullPath, deepCopy: true);
+                                    FileUtils.DeleteFiles(file, "*.*", true);
+                                }
+                                catch
+                                {
+                                    errors += $"{target.FullPath},";
+                                }
+                            }
                         }
                     }
                 }
