@@ -331,6 +331,9 @@ EndSelection:<<<<<<<<4";
                 return null;
 
             var dataObject = Clipboard.GetDataObject();
+            if (dataObject == null)
+                return null;
+
             var formats = dataObject.GetFormats(true);
             var first = formats[0];
 

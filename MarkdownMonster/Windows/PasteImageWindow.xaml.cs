@@ -709,6 +709,19 @@ namespace MarkdownMonster.Windows
                 return;
             }
 
+            if (image == null)
+            {
+                var data = System.Windows.Forms.Clipboard.GetDataObject();
+                var formats = data?.GetFormats();
+                string formatStrings = null;
+                if (formats != null && formats.Length > 0)
+                    formatStrings = "Formats: " + string.Join(",", formats);
+
+                mmApp.Log($"Couldn't retrieve image from Clipboard. {formatStrings}",logLevel: LogLevels.Warning);
+                StatusBar.ShowStatusError("Image retrieval from clipboard failed.");
+                return;
+            }
+
             ImagePreview.Source = image;
 
             SetImagePreview(image);

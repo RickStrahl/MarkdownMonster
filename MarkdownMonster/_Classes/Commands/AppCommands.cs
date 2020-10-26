@@ -154,7 +154,7 @@ namespace MarkdownMonster
             NewDocumentCommand = new CommandBase((parameter, e) =>
             {
                 Model.Window.OpenTab("untitled");
-
+                
                 if (parameter is string)
                 {
                     Model.Window.Dispatcher.InvokeAsync(() =>
@@ -454,11 +454,14 @@ namespace MarkdownMonster
                 if (doc == null)
                     return;
 
+                // preset folder: Current doc (if open), Last Used Folder, folder browser Path
                 var filename = doc.MarkdownDocument.Filename;
                 var folder = Path.GetDirectoryName(doc.MarkdownDocument.Filename);
                 if (string.IsNullOrEmpty(folder) || !Directory.Exists(folder))
                 {
                     folder = mmApp.Configuration.LastFolder;
+                    if (string.IsNullOrEmpty(folder) || !Directory.Exists(folder))
+                        folder = Model.Window?.FolderBrowser?.FolderPath;
                     if (string.IsNullOrEmpty(folder) || !Directory.Exists(folder))
                         folder = KnownFolders.GetPath(KnownFolder.Libraries);
                 }

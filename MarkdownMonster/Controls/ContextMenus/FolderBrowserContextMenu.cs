@@ -105,7 +105,7 @@ using System.Windows;
 
                 var ci = new MenuItem();
                 ci.Header = "_New File";
-                ci.InputGestureText = "Shift-F2";
+                ci.InputGestureText = "Ctrl-N";
                 ci.Click += MenuAddFile_Click;
                 cm.Items.Add(ci);
 
@@ -622,20 +622,48 @@ using System.Windows;
 
                     if (sourceFile == targetFile)
                     {
-                        Model.Window.ShowStatusError("Can't copy file: Source and target are the same.");
-                        return;
+                        if (File.Exists(targetFile))
+                        {
+                            var dir = Path.GetDirectoryName(targetFile);
+                            var justfname = Path.GetFileNameWithoutExtension(targetFile);
+                            var ext = Path.GetExtension(targetFile);
+                            targetFile = Path.Combine(dir, $"{justfname} - Copy{ext}");
+                        }
+                        else if (Directory.Exists(targetFile))
+                        {
+                            var dir = Path.GetDirectoryName(targetFile);
+                            var dirName = Path.GetFileName(targetFile);
+                            targetFile = Path.Combine(dir, $"{dirName} - Copy");
+                        }
+                        else
+                        {
+                            Model.Window.ShowStatusError("Can't copy file: Source and target are the same.");
+                            return;
+                        }
                     }
 
                     try
                     {
-                        if (!isCut)
-                            File.Copy(sourceFile, targetFile, true);
-                        else
+                        if (File.Exists(sourceFile))
                         {
-                            if (File.Exists(targetFile))
-                                File.Delete(targetFile);
+                            if (!isCut)
+                                File.Copy(sourceFile, targetFile, true);
+                            else
+                            {
+                                if (File.Exists(targetFile))
+                                    File.Delete(targetFile);
 
-                            File.Move(sourceFile, targetFile);
+                                File.Move(sourceFile, targetFile);
+                            }
+                        }
+                        else if (Directory.Exists(sourceFile))
+                        {
+                            var foldername = Path.GetFileName(sourceFile);
+
+                            if (!isCut)
+                                mmFileUtils.CopyDirectory(sourceFile, targetFile);
+                            else
+                                Directory.Move(sourceFile, targetFile);
                         }
                     }
                     catch (Exception ex)

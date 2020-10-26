@@ -166,27 +166,81 @@ namespace MarkdownMonster
             return fileContent;
         }
 
-        public static void CopyDirectory(string sourcePath, string targetPath, bool deleteFirst = false, bool deepCopy = true)
+        
+        /// <summary>
+        /// Copies a directory, and its files. Creates the top level directory if it doesn't exist
+        /// </summary>
+        /// <param name="sourceDirectory">Source folder</param>
+        /// <param name="targetDirectory">Target folder </param>
+        /// <param name="deleteFirst">if set deletes the folder before copying</param>
+        /// <param name="recursive">if set copies files recursively</param>
+        /// <returns>null on success or error string of files and errors that failed</returns> 
+        public static string CopyDirectory(string sourceDirectory, string targetDirectory, bool deleteFirst = false, bool recursive = true )
         {
-            if (deleteFirst && Directory.Exists(targetPath))
-                Directory.Delete(targetPath, true);
+            var diSource = new DirectoryInfo(sourceDirectory);
+            if (!diSource.Exists)
+                return "Source directory doesn't exist.";
 
-            var searchOption = SearchOption.TopDirectoryOnly;
-            if (deepCopy)
-                searchOption = SearchOption.AllDirectories;
-
-            var dirs = Directory.GetDirectories(sourcePath, "*", searchOption);
-            foreach (string dirPath in dirs)
-            {
-                Directory.CreateDirectory(dirPath.Replace(sourcePath, targetPath));
-            }
-
-            foreach (string oldPath in Directory.GetFiles(sourcePath, "*.*", searchOption))
-            {
-                var newPath = oldPath.Replace(sourcePath, targetPath);
-                File.Copy(oldPath, newPath , true);
-            }
+            var diTarget = new DirectoryInfo(targetDirectory);
+            return CopyDirectory(diSource, diTarget, deleteFirst, recursive);
         }
+
+        /// <summary>
+        /// Copies directories using either top level only or deep merge copy.
+        /// 
+        /// Copies a directory by copying files from source folder to target folder.
+        /// If folder(s) don't exist they are created.
+        /// </summary>
+        /// <param name="source"></param>
+        /// <param name="target"></param>
+        /// <param name="deleteFirst"></param>
+        /// <param name="recursive"></param>
+        /// <returns>null on success or error string of files and errors that failed</returns>
+        public static string CopyDirectory(DirectoryInfo source, DirectoryInfo target, bool deleteFirst = false, bool recursive = true )
+        {
+            if (!source.Exists)
+                return "{source} Folder doesn't exist.";
+
+
+            if (deleteFirst && target.Exists)
+                target.Delete(true);
+            
+            Directory.CreateDirectory(target.FullName);  // create if it doesn't exist
+
+
+            StringBuilder sbErrors = new StringBuilder();
+            // Copy each file into the new directory.
+            foreach (FileInfo fi in source.GetFiles())
+            {
+                for (int i = 0; i < 3; i++)
+                {
+                    var copyTo = Path.Combine(target.FullName, fi.Name);
+                    try
+                    {
+                        fi.CopyTo(copyTo, true);
+                        break;
+                    }
+                    catch(Exception ex)
+                    {
+                        sbErrors.AppendLine($"{copyTo} - {ex.Message}");
+                    }
+                }
+            }
+
+            if (recursive)
+            {
+                // Copy each subdirectory using recursion.
+                foreach (DirectoryInfo diSourceSubDir in source.GetDirectories())
+                {
+                    DirectoryInfo nextTargetSubDir =
+                        target.CreateSubdirectory(diSourceSubDir.Name);
+                    CopyDirectory(diSourceSubDir, nextTargetSubDir);
+                }
+            }
+
+            return sbErrors.Length > 0 ?  sbErrors.ToString() : null;
+        }
+
 
         #endregion
 

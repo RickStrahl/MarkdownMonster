@@ -7,6 +7,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -861,7 +862,8 @@ namespace MarkdownMonster.Windows
             var selected = TreeFolderBrowser.SelectedItem as PathItem;
 
             // this works without a selection
-            if (e.Key == Key.F2 && Keyboard.IsKeyDown(Key.LeftShift))
+            if ((e.Key == Key.F2 && Keyboard.IsKeyDown(Key.LeftShift)) ||
+                (e.Key == Key.N && Keyboard.IsKeyDown(Key.LeftCtrl)))
             {
                 if (selected == null || !selected.IsEditing)
                 {
@@ -934,7 +936,37 @@ namespace MarkdownMonster.Windows
                     e.Handled = true;
                 }
             }
+            // Copy, Cut
+            else if ((e.Key == Key.C || e.Key == Key.X) && Keyboard.IsKeyDown(Key.LeftCtrl))
+            {
+                var menu = new FolderBrowserContextMenu(this);
+                menu.FileBrowserCopyFile(e.Key == Key.X);
+                e.Handled = true;
+            }
+            // Paste Files(s) from clipboard
+            else if (e.Key == Key.V && Keyboard.IsKeyDown(Key.LeftCtrl))
+            {
+                var menu = new FolderBrowserContextMenu(this);
+                menu.FileBrowserPasteFile();
+                e.Handled = true;
+            }
+            // Find
+            else if (e.Key == Key.F && Keyboard.IsKeyDown(Key.LeftCtrl))
+            {
+                if (SearchPanel.Visibility == Visibility.Collapsed)
+                {
+                    SearchPanel.Visibility = Visibility.Visible;
+                    TextSearch.Focus();
+                }
+                else
+                {
+                    SearchPanel.Visibility = Visibility.Collapsed;
+                    TextSearch.Text = string.Empty;
+                }
 
+                e.Handled = true;
+            }
+       
             if (selected.IsEditing)
                 return;
 
@@ -986,6 +1018,11 @@ namespace MarkdownMonster.Windows
 
         }
 
+        /// <summary>
+        /// Handle certain keys that aren't triggering in KeyDown
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void TreeViewItem_PreviewKeyUp(object sender, KeyEventArgs e)
         {
 
@@ -997,39 +1034,6 @@ namespace MarkdownMonster.Windows
                 AppModel.Commands.HelpCommand.Execute("_4xs10gaui.htm");
                 e.Handled = true;
             }
-            else if (e.Key == Key.F && Keyboard.IsKeyDown(Key.LeftCtrl))
-            {
-                if (SearchPanel.Visibility == Visibility.Collapsed)
-                {
-                    SearchPanel.Visibility = Visibility.Visible;
-                    TextSearch.Focus();
-                }
-                else
-                {
-                    SearchPanel.Visibility = Visibility.Collapsed;
-                    TextSearch.Text = string.Empty;
-                }
-
-                e.Handled = true;
-            }
-            // Copy File to 'clipboard'
-            else if ((e.Key == Key.C || e.Key == Key.X) && Keyboard.IsKeyDown(Key.LeftCtrl))
-            {
-                var menu = new FolderBrowserContextMenu(this);
-                menu.FileBrowserCopyFile(e.Key == Key.X);
-                e.Handled = true;
-            }
-            // Paste Files(s) from clipboard
-            else if (e.Key == Key.V && Keyboard.IsKeyDown(Key.LeftCtrl))
-            {
-                var menu = new FolderBrowserContextMenu(this);
-                menu.FileBrowserPasteFile();
-                e.Handled = true;
-            }
-            //else if( e.Key == Key.LeftShift || e.Key == Key.LeftCtrl)
-            //{
-            //    // do nothing - no tree view selection for 
-            //}
             else if (e.Key == Key.Down || e.Key == Key.Up)
             {
                 // select the item if not already selected
@@ -1526,13 +1530,16 @@ namespace MarkdownMonster.Windows
             if (files == null)
                 return;
 
+            WindowUtilities.DoEvents();
+
             Window.ShowStatusProgress("Copying files and folders...");
+
             WindowUtilities.DoEvents();
 
             string errors = "";
 
-            Task.Run(() =>
-            {
+            //Task.Run(() =>
+            //{
                 foreach (var file in files)
                 {
                     var isFile = File.Exists(file);
@@ -1544,38 +1551,51 @@ namespace MarkdownMonster.Windows
                     if (isFile)
                     {
                         nPath = Path.Combine(target.FullPath, Path.GetFileName(file));
-                        if (!LanguageUtils.IgnoreErrors(() =>
+                        try
                         {
                             // only move if EXPLICITLY using MOVE operation
-                            if(effect == DragDropEffects.Move)  
-                                File.Move(file, nPath);
+                            if (effect == DragDropEffects.Move)
+                            {
+                                if (File.Exists(nPath) &&
+                                    MessageBox.Show(
+                                        Path.GetFileName(nPath) + "\n\nFile exists. Do you want to overwrite it?",
+                                        "File Copy: File exists", MessageBoxButton.YesNo, MessageBoxImage.Question) ==
+                                    MessageBoxResult.No)
+                                    continue;
+
+                                File.Copy(file, nPath, overwrite: true);
+                                File.Delete(file);
+                            }
                             else
                                 File.Copy(file, nPath, overwrite: true);
-                        }))
+                        }
+                        catch
+                        {
                             errors += $"{nPath},";
+                        }
+                            
                     }
                     else
                     {
-                        if(target.FullPath != file)
+                        if (target.FullPath != file)
                         {
-                            if (MessageBox.Show($"Moving:\r\n{file}\r\nto\r\n{target.FullPath}\r\n\r\nAre you sure?",
-                                "Move directory",
-                                MessageBoxButton.YesNo,
-                                MessageBoxImage.Question) == MessageBoxResult.Yes)
+                            var sourceFolderName = Path.GetFileName(file);
+
+                            // 3 retries
+                            try
                             {
-                                try
-                                {
-                                    mmFileUtils.CopyDirectory(file, target.FullPath, deepCopy: true);
-                                    FileUtils.DeleteFiles(file, "*.*", true);
-                                }
-                                catch
-                                {
-                                    errors += $"{target.FullPath},";
-                                }
+                                errors += mmFileUtils.CopyDirectory(file, Path.Combine(target.FullPath, sourceFolderName), recursive: true);
+                                Directory.Delete(file, true);
+                                break;
+                            }
+                            catch
+                            {
+                                errors += $"{Path.GetFileName(file)},";
                             }
                         }
                     }
                 }
+
                 ClearSelectedItems();
                 target.IsSelected = true;
 
@@ -1586,7 +1606,7 @@ namespace MarkdownMonster.Windows
                     else
                         Window.ShowStatusError($"There were errors copying files and folders.");
                 });
-            });
+           
         }
 #endregion
 
