@@ -172,6 +172,8 @@ using System.Windows;
                 ci.Command = Model.Commands.OpenWithCommand;
                 ci.CommandParameter = pathItem.FullPath;
                 ciOpen.Items.Add(ci);
+
+
             
                 ci = new MenuItem();
                 ci.Header = "Show in Explorer";
@@ -184,6 +186,16 @@ using System.Windows;
                 ci.Name = "FBCM_OpenInTerminal";
                 ci.Click += MenuOpenTerminal_Click;
                 cm.Items.Add(ci);
+
+                if (pathItem.IsFolder)
+                {
+                    ci = new MenuItem();
+                    ci.Header = "Open Folder Browser here";
+                    ci.Name = "FBCM_OpenFolderBrowser";
+                    ci.Click += MenuOpenFolderBrowserHere_Click;
+                    cm.Items.Add(ci);
+                }
+
 
                 cm.Items.Add(new Separator());
 
@@ -332,17 +344,7 @@ using System.Windows;
                 ci.Click += MenuCopyPathToClipboard_Click;
                 cm.Items.Add(ci);
 
-                if (pathItem.IsFolder)
-                {
-                    cm.Items.Add(new Separator());
-
-                    ci = new MenuItem();
-                    ci.Header = "Open Folder Browser here";
-                    ci.Name = "FBCM_OpenFolderBrowser";
-                    ci.Click += MenuOpenFolderBrowserHere_Click;
-                    cm.Items.Add(ci);
-                }
-
+               
                 cm.IsOpen = true;
 
                 Show();
@@ -584,10 +586,12 @@ using System.Windows;
                         selectedFile.IsCut = true;
                 }
 
-                Model.Window.ShowStatusSuccess("File copied to clipboard.");
+                string fileString = files.Length == 1 ? "1 item" : files.Length + " items";
+                Model.Window.ShowStatusSuccess($"{fileString} {(isCut ? "cut" : "copied")} to the clipboard.");
             }
 
-            public void FileBrowserPasteFile(){
+            public void FileBrowserPasteFile()
+            {
                 var selected = FolderBrowser.GetSelectedItem();
                 if (selected == null)
                     selected = Model.Window.FolderBrowser.ActivePathItem;
@@ -615,6 +619,8 @@ using System.Windows;
                 if (selected.IsFile)
                     path = Path.GetDirectoryName(selected.FullPath);
 
+                string errors = string.Empty;
+
                 foreach (var sourceFile in dl)
                 {
                     string filename = Path.GetFileName(sourceFile);
@@ -637,15 +643,17 @@ using System.Windows;
                         }
                         else
                         {
-                            Model.Window.ShowStatusError("Can't copy file: Source and target are the same.");
+                            Model.Window.ShowStatusError("Can't copy item: Source and target are the same.");
                             return;
                         }
                     }
+
 
                     try
                     {
                         if (File.Exists(sourceFile))
                         {
+
                             if (!isCut)
                                 File.Copy(sourceFile, targetFile, true);
                             else
@@ -655,29 +663,40 @@ using System.Windows;
 
                                 File.Move(sourceFile, targetFile);
                             }
+
                         }
                         else if (Directory.Exists(sourceFile))
                         {
-                            var foldername = Path.GetFileName(sourceFile);
-
-                            if (!isCut)
-                                mmFileUtils.CopyDirectory(sourceFile, targetFile);
+                           if (!isCut)
+                            {
+                                errors += mmFileUtils.CopyDirectory(sourceFile, targetFile, recursive: true);
+                            }
                             else
+                            {
+                                if (Directory.Exists(targetFile))
+                                    Directory.Delete(targetFile, true);
+
                                 Directory.Move(sourceFile, targetFile);
+                            }
+
                         }
+
+                        selected.IsExpanded = true;
                     }
                     catch (Exception ex)
                     {
+                        errors += $"{Path.GetFileName(targetFile)},";
                         Model.Window.ShowStatusError($"Can't copy to {targetFile}: {ex.Message}");
-                        return;
                     }
                 }
 
                 path = Path.GetDirectoryName(path);
+
+                string fileString = dl.Length == 1 ? "1 item has" : dl.Length + " items have";
                 if (isCut)
-                    Model.Window.ShowStatus($"{dl.Length} file(s) have been cut and copied into to {path}.");
+                    Model.Window.ShowStatus($"{fileString} been cut and copied into {path}.");
                 else
-                    Model.Window.ShowStatus($"{dl.Length} file(s) have been copied into to {path}.");
+                    Model.Window.ShowStatus($"{fileString} been copied into {path}.");
             }
 
             #endregion

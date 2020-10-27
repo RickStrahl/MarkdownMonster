@@ -241,15 +241,19 @@
                 </b:Interaction.Behaviors>
             </ComboBox>
 
-            <!--ContextMenuOpening="TreeFolderBrowser_ContextMenuOpening"-->
+            <!--ContextMenuOpening="TreeFolderBrowser_ContextMenuOpening"
+            
+                    PreviewMouseLeftButtonDown="TreeFolderBrowser_PreviewMouseLeftButtonDown"                                         
+		            PreviewMouseMove="TreeFolderBrowser_MouseMove"     
+                    Drop="TreeViewItem_Drop"
+            -->
             <TreeView Grid.Row="3" x:Name="TreeFolderBrowser" x:FieldModifier="public"
 				  ItemTemplate="{StaticResource FolderTemplate}" 
 				  KeyDown="TreeView_Keydown" 
                   ScrollViewer.HorizontalScrollBarVisibility="Disabled" 
-		          PreviewMouseLeftButtonDown="TreeFolderBrowser_PreviewMouseLeftButtonDown"                                         
-		          PreviewMouseMove="TreeFolderBrowser_MouseMove"                  
+		                      
                   TreeViewItem.Expanded="TreeFolderBrowser_Expanded"                       
-                  Drop="TreeViewItem_Drop"
+                  
 				  ItemsSource="{Binding ActivePathItem.Files}"  
                   BorderThickness="0" ContextMenuOpening="TreeFolderBrowser_ContextMenuOpening">
                 <TreeView.ContextMenu>
@@ -275,7 +279,7 @@
                         <EventSetter Event="TreeViewItem.PreviewMouseRightButtonUp" Handler="TreeViewItem_PreviewMouseRightButtonUp"/>
 
                         <!--<EventSetter Event="DragOver" Handler="TreeViewItem_DragOver" />-->
-                        <EventSetter Event="Drop" Handler="TreeViewItem_Drop" />
+                        <!--<EventSetter Event="Drop" Handler="TreeViewItem_Drop" />-->
                     </Style>
                 </TreeView.ItemContainerStyle>
             </TreeView>

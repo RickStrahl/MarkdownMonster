@@ -599,10 +599,11 @@ namespace MarkdownMonster.Windows
             if (fileItem == null)
                 return;
 
+
             if (fileItem.FullPath == "..")
                 FolderPath = Path.GetDirectoryName(FolderPath.Trim('\\'));
             else if (fileItem.IsFolder)
-                FolderPath = fileItem.FullPath;
+                fileItem.IsExpanded = !fileItem.IsExpanded;
             else
                 OpenFile(fileItem.FullPath, forceEditorFocus);
         }
@@ -966,8 +967,9 @@ namespace MarkdownMonster.Windows
 
                 e.Handled = true;
             }
-       
-            if (selected.IsEditing)
+
+            
+            if (e.Handled || selected.IsEditing || Keyboard.IsKeyDown(Key.LeftCtrl))
                 return;
 
             // search key
@@ -1378,6 +1380,7 @@ namespace MarkdownMonster.Windows
 #endregion
 
 #region Drag Operations
+#if false
 
         private System.Windows.Point startPoint;
 
@@ -1608,6 +1611,7 @@ namespace MarkdownMonster.Windows
                 });
            
         }
+#endif
 #endregion
 
 #region INotifyPropertyChanged
