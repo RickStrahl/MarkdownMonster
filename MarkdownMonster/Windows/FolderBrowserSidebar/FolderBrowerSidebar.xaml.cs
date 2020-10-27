@@ -714,9 +714,7 @@ namespace MarkdownMonster.Windows
 
                 if (pi.Files.Count > 0)
                 {
-                    var titem = TreeFolderBrowser
-                        .ItemContainerGenerator
-                        .ContainerFromItem(childItem) as TreeViewItem;
+                    var titem =GetTreeViewItem(pi);
 
                     if (titem == null)
                         continue;
@@ -1296,9 +1294,9 @@ namespace MarkdownMonster.Windows
         }
 
 
-#endregion
+        #endregion
 
-#region Items and Item Selection
+        #region Items and Item Selection
 
         //private DateTime LastClickTime;
         //private PathItem LastItem;
@@ -1380,7 +1378,7 @@ namespace MarkdownMonster.Windows
 #endregion
 
 #region Drag Operations
-#if false
+
 
         private System.Windows.Point startPoint;
 
@@ -1422,13 +1420,12 @@ namespace MarkdownMonster.Windows
                 DragDropEffects effect = DragDropEffects.Move;
                 if (Keyboard.IsKeyDown(Key.LeftCtrl))
                     effect = DragDropEffects.Copy;
-
+                 
                 if (Math.Abs(diff.X) > SystemParameters.MinimumHorizontalDragDistance
                     || Math.Abs(diff.Y) > SystemParameters.MinimumVerticalDragDistance)
                 {
-                    var treeView = sender as TreeView;
-                    var treeViewItem = WindowUtilities.FindAnchestor<TreeViewItem>((DependencyObject) e.OriginalSource) ;
-                    if (treeView == null || treeViewItem == null)
+                    var treeViewItem = GetTreeViewItem(selected);
+                    if (treeViewItem == null)
                         return;
 
                     var files = GetSelectedItems()
@@ -1464,6 +1461,9 @@ namespace MarkdownMonster.Windows
             if (formats.Contains("FileDrop"))
             {
                 HandleDroppedFiles(e.Data.GetData("FileDrop") as string[],dropTargetPathItem, e.Effects );
+
+                ClearSelectedItems(ActivePathItem.Files, dropTargetPathItem);
+                dropTargetPathItem.IsExpanded = true;
                 return;
             }
 
@@ -1484,10 +1484,11 @@ namespace MarkdownMonster.Windows
                 if (File.Exists(path))
                 {
                     newPath = Path.Combine(dropTargetPathItem.FullPath, Path.GetFileName(path));
-                    File.Copy(path, newPath);
+                    mmFileUtils.CopyFileOrFolder(path, newPath,true);
                     AppModel.Window.ShowStatusSuccess($"File copied.");
                 }
 
+              
                 return;
             }
 
@@ -1502,7 +1503,7 @@ namespace MarkdownMonster.Windows
 
             try
             {
-                File.Move(sourceItem.FullPath, newPath);
+                mmFileUtils.MoveFileOrFolder(sourceItem.FullPath, newPath,true);
             }
             catch (Exception ex)
             {
@@ -1550,27 +1551,29 @@ namespace MarkdownMonster.Windows
                     if (!isDir && !isFile)
                         continue;
 
-                    string nPath;
+                    string nPath = target.FullPath;
                     if (isFile)
                     {
-                        nPath = Path.Combine(target.FullPath, Path.GetFileName(file));
+                        if (!target.IsFolder)
+                        {
+                            var par = target.Parent == null ? ActivePathItem : target.Parent;
+                            nPath = Path.Combine(Path.GetDirectoryName(target.FullPath), Path.GetFileName(file) );
+                        }
+                            
+                        if (file == nPath)
+                            continue;
+
                         try
                         {
                             // only move if EXPLICITLY using MOVE operation
                             if (effect == DragDropEffects.Move)
                             {
-                                if (File.Exists(nPath) &&
-                                    MessageBox.Show(
-                                        Path.GetFileName(nPath) + "\n\nFile exists. Do you want to overwrite it?",
-                                        "File Copy: File exists", MessageBoxButton.YesNo, MessageBoxImage.Question) ==
-                                    MessageBoxResult.No)
-                                    continue;
-
-                                File.Copy(file, nPath, overwrite: true);
-                                File.Delete(file);
+                                mmFileUtils.MoveFileOrFolder(file, nPath, confirmation: true);
                             }
                             else
-                                File.Copy(file, nPath, overwrite: true);
+                            {
+                                mmFileUtils.CopyFileOrFolder(file, nPath, confirmation: true);
+                            }
                         }
                         catch
                         {
@@ -1580,15 +1583,21 @@ namespace MarkdownMonster.Windows
                     }
                     else
                     {
-                        if (target.FullPath != file)
-                        {
-                            var sourceFolderName = Path.GetFileName(file);
+                        var sourceFolderName = Path.GetFileName(file);
+                        var targetFolder = Path.Combine(target.FullPath, sourceFolderName);
 
-                            // 3 retries
+                        if (targetFolder != file)
+                        {
                             try
                             {
-                                errors += mmFileUtils.CopyDirectory(file, Path.Combine(target.FullPath, sourceFolderName), recursive: true);
-                                Directory.Delete(file, true);
+                                if (effect == DragDropEffects.Move)
+                                {
+                                    mmFileUtils.MoveFileOrFolder(file, targetFolder);
+                                }
+                                else
+                                {
+                                    mmFileUtils.CopyFileOrFolder(file, targetFolder);
+                                }
                                 break;
                             }
                             catch
@@ -1597,6 +1606,8 @@ namespace MarkdownMonster.Windows
                             }
                         }
                     }
+
+                    
                 }
 
                 ClearSelectedItems();
@@ -1611,7 +1622,7 @@ namespace MarkdownMonster.Windows
                 });
            
         }
-#endif
+
 #endregion
 
 #region INotifyPropertyChanged

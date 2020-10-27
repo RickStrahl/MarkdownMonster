@@ -652,29 +652,22 @@ using System.Windows;
                     {
                         if (File.Exists(sourceFile))
                         {
-
                             if (!isCut)
-                                File.Copy(sourceFile, targetFile, true);
+                                mmFileUtils.CopyFileOrFolder(sourceFile, targetFile, confirmation: true);
                             else
                             {
-                                if (File.Exists(targetFile))
-                                    File.Delete(targetFile);
-
-                                File.Move(sourceFile, targetFile);
+                                mmFileUtils.MoveFileOrFolder(sourceFile, targetFile, confirmation: true);
                             }
                         }
                         else if (Directory.Exists(sourceFile))
                         {
                             if (!isCut)
                             {
-                                errors += mmFileUtils.CopyDirectory(sourceFile, targetFile, recursive: true);
+                                 mmFileUtils.CopyFileOrFolder(sourceFile, targetFile, confirmation: true);
                             }
                             else
                             {
-                                if (Directory.Exists(targetFile))
-                                    Directory.Delete(targetFile, true);
-
-                                Directory.Move(sourceFile, targetFile);
+                                mmFileUtils.MoveFileOrFolder(sourceFile, targetFile, confirmation: true);
                             }
 
                             Dispatcher.CurrentDispatcher.InvokeAsync(() =>

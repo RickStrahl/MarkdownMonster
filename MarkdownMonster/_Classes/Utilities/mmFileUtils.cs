@@ -1052,10 +1052,19 @@ namespace MarkdownMonster
         [DllImport("shell32.dll", CharSet = CharSet.Unicode)]
         public static extern int SHFileOperation(ref SHFILEOPSTRUCT FileOp);
 
+        public const int FO_RENAME = 4;
         public const int FO_DELETE = 3;
+        public const int FO_COPY = 2;
+        public const int FO_MOVE = 1;
         public const int FOF_ALLOWUNDO = 0x40;
         public const int FOF_NOCONFIRMATION = 0x10; // Don't prompt the user
 
+
+        /// <summary>
+        /// Uses the Windows Shell API to delete files and put them into the recycle bin
+        /// </summary>
+        /// <param name="filename">File, folder or wildcard path</param>
+        /// <returns>true or false</returns>
         public static bool MoveToRecycleBin(string filename)
         {
             var shf = new SHFILEOPSTRUCT();
@@ -1067,6 +1076,52 @@ namespace MarkdownMonster
             return result == 0;
         }
 
+        /// <summary>
+        /// Uses the Window Shell UI to move files which behaves similar to Explorer behavior
+        /// warning for errors and supports undo.
+        /// </summary>
+        /// <param name="sourceFolder">Source file (or files via wildcard) or folder name</param>
+        /// <param name="targetFolder">Target Folder</param>
+        /// <param name="confirmation">If true prompts for overwrites</param>
+        /// <returns>true or false</returns>
+        public static bool CopyFileOrFolder(string sourceFolder, string targetFolder, bool confirmation = false)
+        {
+            var shf = new SHFILEOPSTRUCT();
+            shf.wFunc = FO_COPY;
+            if (confirmation)
+                shf.fFlags = FOF_ALLOWUNDO | FOF_NOCONFIRMATION;
+            else
+                shf.fFlags = FOF_ALLOWUNDO;
+
+            shf.pFrom = sourceFolder + '\0'; // required!
+            shf.pTo = targetFolder + '\0';
+            int result = SHFileOperation(ref shf);
+
+            return result == 0;
+        }
+
+        /// <summary>
+        /// Uses the Window Shell UI to move files which behaves similar to Explorer behavior
+        /// warning for errors and supports undo.
+        /// </summary>
+        /// <param name="sourceFolder">Source file (or files via wildcard) or folder name</param>
+        /// <param name="targetFolder">Target Folder</param>
+        /// <param name="confirmation">If true prompts for overwrites</param>
+        /// <returns>true or false</returns>
+        public static bool MoveFileOrFolder(string sourceFolder, string targetFolder, bool confirmation = false)
+        {
+            var shf = new SHFILEOPSTRUCT();
+            shf.wFunc = FO_MOVE;
+            if (confirmation)
+                shf.fFlags = FOF_ALLOWUNDO | FOF_NOCONFIRMATION;
+            else
+                shf.fFlags = FOF_ALLOWUNDO;
+            shf.pFrom = sourceFolder + '\0'; // required!
+            shf.pTo = targetFolder + '\0';
+            int result = SHFileOperation(ref shf);
+
+            return result == 0;
+        }
         #endregion
     }
 }

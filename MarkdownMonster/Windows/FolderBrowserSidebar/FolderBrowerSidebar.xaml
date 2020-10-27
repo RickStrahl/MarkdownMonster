@@ -251,9 +251,10 @@
 				  ItemTemplate="{StaticResource FolderTemplate}" 
 				  KeyDown="TreeView_Keydown" 
                   ScrollViewer.HorizontalScrollBarVisibility="Disabled" 
-		                      
-                  TreeViewItem.Expanded="TreeFolderBrowser_Expanded"                       
-                  
+                  TreeViewItem.Expanded="TreeFolderBrowser_Expanded"    
+
+                  Drop="TreeViewItem_Drop"     
+
 				  ItemsSource="{Binding ActivePathItem.Files}"  
                   BorderThickness="0" ContextMenuOpening="TreeFolderBrowser_ContextMenuOpening">
                 <TreeView.ContextMenu>
@@ -279,7 +280,9 @@
                         <EventSetter Event="TreeViewItem.PreviewMouseRightButtonUp" Handler="TreeViewItem_PreviewMouseRightButtonUp"/>
 
                         <!--<EventSetter Event="DragOver" Handler="TreeViewItem_DragOver" />-->
-                        <!--<EventSetter Event="Drop" Handler="TreeViewItem_Drop" />-->
+
+                        <EventSetter Event="Drop" Handler="TreeViewItem_Drop" />
+                        <EventSetter Event="MouseMove" Handler="TreeFolderBrowser_MouseMove" />
                     </Style>
                 </TreeView.ItemContainerStyle>
             </TreeView>
