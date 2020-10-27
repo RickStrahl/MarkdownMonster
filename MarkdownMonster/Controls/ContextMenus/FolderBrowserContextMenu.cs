@@ -679,9 +679,32 @@ using System.Windows;
                                 Directory.Move(sourceFile, targetFile);
                             }
 
+                           Dispatcher.CurrentDispatcher.InvokeAsync(() =>
+                           {
+                               selected.IsSelected = true;
+                               selected.IsExpanded = true;
+
+                           },DispatcherPriority.ApplicationIdle);
+                           
+                           ////Dispatcher.CurrentDispatcher.DelayAsync(800, (sel) =>
+                           ////{
+                           ////    var selItem = sel as PathItem;
+                           ////    var parent = selItem.Parent;
+                           ////    var files = parent == null ? FolderBrowser?.ActivePathItem.Files : parent.Files;
+                           ////    if (files == null) return;
+
+                           ////    var item = files.FirstOrDefault(pi => pi.FullPath == selItem.FullPath);
+                           ////    if (item != null)
+                           ////    {
+                           ////        item.IsSelected = true;
+                           ////        item.IsExpanded = true;
+                           ////    }
+                           ////}, selected );
+
+                            
                         }
 
-                        selected.IsExpanded = true;
+                        
                     }
                     catch (Exception ex)
                     {
