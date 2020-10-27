@@ -1273,7 +1273,7 @@ $('#hrefShow').click(function () {{ $('#detail').show(); }});
         /// </summary>
         /// <param name="basePath">base folder from which to start searching **up** the hierarchy.</param>
         /// <returns></returns>
-        private string GetWebRootPathFromMarkerFiles(string basePath)
+        public string GetWebRootPathFromMarkerFiles(string basePath)
         {
             if (string.IsNullOrEmpty(basePath))
                 return basePath;

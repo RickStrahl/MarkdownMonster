@@ -262,6 +262,50 @@ namespace MarkdownMonster.Utilities
             return urlToOpen;
         }
 
+        public MarkdownDocument OpenMarkdownDocumentFromUrl(string url)
+        {
+            if (string.IsNullOrEmpty(url))
+                return null;
+
+            var urlToOpen = ParseMarkdownUrl(url);
+
+            if (urlToOpen == null)
+                return null;
+
+            string markdownText = null;
+            var settings = new HttpRequestSettings { Url = urlToOpen };
+
+            while (true)
+            {
+                try
+                {
+                    markdownText = HttpUtils.HttpRequestString(settings);
+                    break;
+                }
+                catch
+                {
+                    // try different README variations
+                    if (settings.Url.Contains("README.md"))
+                        settings.Url = settings.Url.Replace("README.md", "readme.md");
+                    else if (settings.Url.Contains("readme.md"))
+                        settings.Url = settings.Url.Replace("readme.md", "Readme.md");
+                    else
+                        break;
+                }
+            }
+
+            if (settings.ResponseStatusCode == System.Net.HttpStatusCode.OK || string.IsNullOrEmpty(markdownText))
+            {
+                mmApp.Model.Window.ShowStatusError($"Couldn't open url: {url}");
+                return null;
+            }
+
+
+            var doc = new MarkdownDocument();
+            doc.CurrentText = markdownText;
+            return doc;
+        }
+
         /// <summary>
         /// Saves a bitmap image to file using a standard mechanism that
         /// prompts for a filename (unless you pass one in), optionally
@@ -292,15 +336,19 @@ namespace MarkdownMonster.Utilities
 
             var document = editor.MarkdownDocument;
 
-            string initialFolder = document.LastImageFolder;
+            string initialFolder = document?.LastImageFolder;
             string documentPath = null;
-            if (!string.IsNullOrEmpty(document.Filename) && document.Filename != "untitled")
+            if (!string.IsNullOrEmpty(document?.Filename) && document.Filename != "untitled")
             {
                 documentPath = Path.GetDirectoryName(document.Filename);
                 if (string.IsNullOrEmpty(initialFolder))
                     initialFolder = documentPath;
             }
-
+            if (string.IsNullOrEmpty(initialFolder) && !string.IsNullOrEmpty(document.Filename))
+                initialFolder = document.GetWebRootPathFromMarkerFiles(document.Filename);
+            if (string.IsNullOrEmpty(initialFolder))
+                initialFolder = mmApp.Model.Window.FolderBrowser?.FolderPath;
+            
             //WindowUtilities.DoEvents();
 
             var sd = new SaveFileDialog
@@ -382,6 +430,10 @@ namespace MarkdownMonster.Utilities
             return imageFilename;
         }
 
+        /// <summary>
+        /// Saves a markdown document captured from a URL to a file prompting for a filename to save to
+        /// </summary>
+        /// <param name="url"></param>
         public static void SaveMarkdownFileFromUrl(string url)
         {
             if (string.IsNullOrEmpty(url))
@@ -425,50 +477,6 @@ namespace MarkdownMonster.Utilities
             
             SaveMarkdownDocumentToFile(doc);
 
-        }
-
-        public MarkdownDocument OpenMarkdownDocumentFromUrl(string url)
-        {
-            if (string.IsNullOrEmpty(url))
-                return null;
-
-            var urlToOpen = ParseMarkdownUrl(url);
-
-            if (urlToOpen == null)
-                return null;
-
-            string markdownText = null;
-            var settings = new HttpRequestSettings { Url = urlToOpen };
-
-            while (true)
-            {
-                try
-                {
-                    markdownText = HttpUtils.HttpRequestString(settings);
-                    break;
-                }
-                catch
-                {
-                    // try different README variations
-                    if (settings.Url.Contains("README.md"))
-                        settings.Url = settings.Url.Replace("README.md", "readme.md");
-                    else if (settings.Url.Contains("readme.md"))
-                        settings.Url = settings.Url.Replace("readme.md", "Readme.md");
-                    else
-                        break;
-                }
-            }
-
-            if (settings.ResponseStatusCode == System.Net.HttpStatusCode.OK || string.IsNullOrEmpty(markdownText))
-            {
-                mmApp.Model.Window.ShowStatusError($"Couldn't open url: {url}");
-                return null;
-            }
-
-
-            var doc = new MarkdownDocument();
-            doc.CurrentText = markdownText;
-            return doc;
         }
 
 
