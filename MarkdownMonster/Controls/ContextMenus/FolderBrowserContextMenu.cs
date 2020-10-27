@@ -648,7 +648,6 @@ using System.Windows;
                         }
                     }
 
-
                     try
                     {
                         if (File.Exists(sourceFile))
@@ -663,11 +662,10 @@ using System.Windows;
 
                                 File.Move(sourceFile, targetFile);
                             }
-
                         }
                         else if (Directory.Exists(sourceFile))
                         {
-                           if (!isCut)
+                            if (!isCut)
                             {
                                 errors += mmFileUtils.CopyDirectory(sourceFile, targetFile, recursive: true);
                             }
@@ -679,32 +677,12 @@ using System.Windows;
                                 Directory.Move(sourceFile, targetFile);
                             }
 
-                           Dispatcher.CurrentDispatcher.InvokeAsync(() =>
-                           {
-                               selected.IsSelected = true;
-                               selected.IsExpanded = true;
-
-                           },DispatcherPriority.ApplicationIdle);
-                           
-                           ////Dispatcher.CurrentDispatcher.DelayAsync(800, (sel) =>
-                           ////{
-                           ////    var selItem = sel as PathItem;
-                           ////    var parent = selItem.Parent;
-                           ////    var files = parent == null ? FolderBrowser?.ActivePathItem.Files : parent.Files;
-                           ////    if (files == null) return;
-
-                           ////    var item = files.FirstOrDefault(pi => pi.FullPath == selItem.FullPath);
-                           ////    if (item != null)
-                           ////    {
-                           ////        item.IsSelected = true;
-                           ////        item.IsExpanded = true;
-                           ////    }
-                           ////}, selected );
-
-                            
+                            Dispatcher.CurrentDispatcher.InvokeAsync(() =>
+                            {
+                                selected.IsSelected = true;
+                                selected.IsExpanded = true;
+                            }, DispatcherPriority.ApplicationIdle);
                         }
-
-                        
                     }
                     catch (Exception ex)
                     {
