@@ -288,9 +288,16 @@ namespace MarkdownMonster.Windows
                     {
                         FullPath = file, IsFolder = isFolder, IsFile = !isFolder, Parent = parentPathItem
                     };
+                    // make sure we pick up the child items so the node shows as expandable if there are items
+                    if (isFolder) 
+                    {
+                        var newPi = FolderStructure.GetFilesAndFolders(pi.FullPath, nonRecursive: true);
+                        pi.Files = newPi.Files;
+                    }
                     pi.SetIcon();
 
                     FolderStructure.InsertPathItemInOrder(pi, parentPathItem);
+                 
                 }, DispatcherPriority.ApplicationIdle);
             }
 

@@ -973,7 +973,9 @@ namespace MarkdownMonster
 
                 bool? res = form.ShowDialog();
                 string html = null;
-
+                if(string.IsNullOrEmpty(form.Image))
+                    res = null;
+                
                 if (res != null && res.Value)
                 {
                     var image = form.Image;
