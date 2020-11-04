@@ -879,7 +879,7 @@ namespace MarkdownMonster
             foreach (var fileArgs in args)
             {
                 var file = fileArgs;
-                if (string.IsNullOrEmpty(file))
+                if (string.IsNullOrEmpty(file) )
                     continue;
 
                 // handle file closing
@@ -969,6 +969,10 @@ namespace MarkdownMonster
 
                     // open empty document, or fill with App.StartupText is set
                     Model.Commands.NewDocumentCommand.Execute(docText);
+                }
+                else if (FileUtils.HasInvalidPathCharacters(file))
+                {
+                    mmApp.Model.Window.ShowStatusError($"Can't open file: {file}");
                 }
                 else if (File.Exists(file))
                 {

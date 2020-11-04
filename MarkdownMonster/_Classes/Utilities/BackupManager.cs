@@ -72,7 +72,7 @@ namespace MarkdownMonster.Utilities
                 return false;
             }
 
-            FileUtils.CopyDirectory(common, outputFolder, deepCopy: true);
+            FileUtils.CopyDirectory(common, outputFolder, recursive: true);
 
             FileUtils.DeleteFiles(outputFolder, "*Copy.*", recursive: true);
             FileUtils.DeleteFiles(outputFolder, "*Backup*.*", recursive: true);
