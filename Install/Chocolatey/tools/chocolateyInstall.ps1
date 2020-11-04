@@ -1,8 +1,8 @@
 $packageName = 'markdownmonster'
 $fileType = 'exe'
-$url = 'https://github.com/RickStrahl/MarkdownMonsterReleases/raw/master/v1.24/MarkdownMonsterSetup-1.24.12.18.exe'
+$url = 'https://github.com/RickStrahl/MarkdownMonsterReleases/raw/master/v1.24/MarkdownMonsterSetup-1.24.14.exe'
 
 $silentArgs = '/VERYSILENT'
 $validExitCodes = @(0)
 
-Install-ChocolateyPackage "$packageName" "$fileType" "$silentArgs" "$url"  -validExitCodes  $validExitCodes  -checksum "7DACDAF7052068DC8E8848B84ACAC9A5B7C508DA8002AAB40443C14A91533B5D" -checksumType "sha256"
+Install-ChocolateyPackage "$packageName" "$fileType" "$silentArgs" "$url"  -validExitCodes  $validExitCodes  -checksum "70824AD9B2828B4258D74D08F1CCE96607A2A25BEEE7FFD2651F42F0206ABD7F" -checksumType "sha256"

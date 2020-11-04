@@ -7,7 +7,7 @@
     <UseWPF>true</UseWPF>
     <TargetFramework>net472</TargetFramework>
 
-    <Version>1.24.12.18</Version>
+    <Version>1.24.14.2</Version>
     <AssemblyName>MarkdownMonster</AssemblyName>
     <Product>Markdown Monster</Product>
     <Authors>Rick Strahl, West Wind Technologies</Authors>
@@ -47,12 +47,12 @@
 
 
   <ItemGroup>
-    <PackageReference Include="Dragablz" Version="0.0.3.203" />
+    <PackageReference Include="Dragablz" Version="0.0.3.223" />
     <PackageReference Include="FontAwesome.WPF" Version="4.7.0.9" />
-    <PackageReference Include="HtmlAgilityPack" Version="1.11.25" />
+    <PackageReference Include="HtmlAgilityPack" Version="1.11.26" />
     <PackageReference Include="LibGit2Sharp" Version="0.26.2" />
     <PackageReference Include="LumenWorksCsvReader" Version="4.0.0" />
-    <PackageReference Include="MahApps.Metro" Version="2.3.0" />
+    <PackageReference Include="MahApps.Metro" Version="2.3.3" />
     <PackageReference Include="Markdig" Version="0.22.0" />
     <PackageReference Include="Microsoft.ApplicationInsights" Version="2.15.0" />
     <PackageReference Include="Microsoft.DocAsCode.MarkdigEngine.Extensions" Version="2.56.4" />
@@ -60,7 +60,7 @@
     <PackageReference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform" Version="2.0.1" />
     <PackageReference Include="Mono.Cecil" Version="0.11.3" />
     <PackageReference Include="ReverseMarkdown" Version="3.14.0" />
-    <PackageReference Include="westwind.utilities" Version="3.0.48" />
+    <PackageReference Include="westwind.utilities" Version="3.0.49" />
   </ItemGroup>
 
   <ItemGroup>
