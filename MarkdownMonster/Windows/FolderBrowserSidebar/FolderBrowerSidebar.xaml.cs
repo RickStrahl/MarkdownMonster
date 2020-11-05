@@ -1140,10 +1140,19 @@ namespace MarkdownMonster.Windows
             var fileItem = TreeFolderBrowser.SelectedItem as PathItem;
             if (fileItem == null)
                 return;
+
+            fileItem.EditName = fileItem.EditName.Trim();
+
             if (string.IsNullOrEmpty(fileItem?.EditName) ||
                 fileItem.DisplayName == fileItem.EditName  && File.Exists(fileItem.FullPath))
             {
                 fileItem.IsEditing = false;
+                return;
+            }
+
+            if (FileUtils.HasInvalidPathCharacters(fileItem.DisplayName))
+            {
+                Window.ShowStatusError($"Invalid filename for renaming: {fileItem.DisplayName}");
                 return;
             }
 
@@ -1172,9 +1181,6 @@ namespace MarkdownMonster.Windows
 
                         fileItem.FullPath = newPath;
                         FolderStructure.InsertPathItemInOrder(fileItem, parent);
-
-
-                       
 
                         Dispatcher.Invoke(() => {
                             Directory.CreateDirectory(newPath);
