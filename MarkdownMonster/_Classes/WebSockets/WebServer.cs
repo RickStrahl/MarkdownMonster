@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading;
 using MarkdownMonster.Controls;
 using Newtonsoft.Json;
+using Westwind.Utilities;
 
 namespace MarkdownMonster.Services
 {
@@ -34,7 +35,7 @@ namespace MarkdownMonster.Services
         /// </summary>
         bool Secure { get; set; }
 
-        public Action<WebServerOperation> OnMarkdownMonsterOperation { get; set; }
+        public Func<WebServerOperation,WebServerResult> OnMarkdownMonsterOperation { get; set; }
 
         /// <summary>
         /// Last exception that occurred when starting the server or intercepting
@@ -141,19 +142,19 @@ namespace MarkdownMonster.Services
                     // Send CORS header so this can be accessed
                     if (RequestContext.Verb == "OPTIONS")
                     {
-                        WriteResponse(null,
+                        WriteResponseInternal(null,
                             "HTTP/1.1 200 OK\r\n" +
                             "Access-Control-Allow-Origin: *\r\n" +
                             "Access-Control-Allow-Methods: GET,POST,PUT,OPTIONS\r\n" +
                             "Access-Control-Allow-Headers: *\r\n");
-
-                        //wrapper.Stream.Write(response, 0, response.Length);
 
                         continue; // done here
                     }
                     else if (RequestContext.Verb == "POST" &&
                             (RequestContext.Path == "/markdownmonster" || RequestContext.Path.StartsWith("/markdownmonster/")))
                     {
+                        WebServerResult result = new WebServerResult();
+
                         try
                         {
                             var operation = JsonConvert.DeserializeObject(RequestContext.RequestContent, typeof(WebServerOperation)) as WebServerOperation;
@@ -162,7 +163,7 @@ namespace MarkdownMonster.Services
 
                             try
                             {
-                                OnMarkdownMonsterOperation?.Invoke(operation);
+                                result = OnMarkdownMonsterOperation?.Invoke(operation);
                             }
                             catch
                             {
@@ -175,32 +176,17 @@ namespace MarkdownMonster.Services
                                                RequestContext.RequestContent);
                             continue;
                         }
-                        
-                        string headers =
-                            "HTTP/1.1 200 OK\r\n" +
-                            "Access-Control-Allow-Origin: *\r\n" +
-                            "Access-Control-Allow-Methods: GET,POST,PUT,OPTIONS\r\n" +
-                            "Access-Control-Allow-Headers: *\r\n" +
-                            "Content-Type: application/json\r\n";
 
-                        WriteResponse(JsonConvert.SerializeObject(new {result = "OK"}, Newtonsoft.Json.Formatting.Indented),
-                            headers);
+                        WriteResponse(result);
                     }
                     else if (RequestContext.Path.StartsWith("/ping"))
                     {
-                        string headers =
-                            "HTTP/1.1 200 OK\r\n" +
-                            "Access-Control-Allow-Origin: *\r\n" +
-                            "Access-Control-Allow-Methods: GET,POST,PUT,OPTIONS\r\n" +
-                            "Access-Control-Allow-Headers: *\r\n" +
-                            "Content-Type: text/plain\r\n";
-                        WriteResponse("OK", headers);
+                        WriteDataResponse("OK");
                     }
                     else
                     {
-                        WriteResponse("Invalid URL access.",
-                            "HTTP/1.1 404 Not Found\r\n" +
-                            "Content-Type: text/plain\r\n");
+                        var result = new WebServerResult("Invalid URL access", 404M);
+                        WriteResponse(result);
                     }
                 }
                 catch (Exception ex)
@@ -373,7 +359,7 @@ namespace MarkdownMonster.Services
         #endregion
 
         #region Response Output Wrappers
-        public void WriteResponse(string data, string headers)
+        internal void WriteResponseInternal(string data, string headers)
         {
             byte[] content = null;
 
@@ -382,7 +368,7 @@ namespace MarkdownMonster.Services
 
             if (string.IsNullOrEmpty(headers))
                 headers = "HTTP/1.1 200 OK\r\n" +
-                          "Content-Type: text/html\r\n";
+                          "Content-Type: application/json\r\n";
 
             if (content != null)
                 headers += "Content-Length: " + content.Length;
@@ -405,29 +391,65 @@ namespace MarkdownMonster.Services
             }
         }
 
-        public void WriteResponse(string data)
+
+
+        /// <summary>
+        /// Creates a response with a data result
+        /// </summary>
+        /// <param name="data"></param>
+        public void WriteDataResponse(object data)
         {
-            WriteResponse(data, string.Empty);
+            var result = new WebServerResult(data);
+            WriteResponse(result);
         }
 
-        public void WriteContentTypeResponse(string data, string contentType)
+        /// <summary>
+        /// Writes a 204 response with no data
+        /// </summary>
+        public void WriteNoDataResponse()
         {
-            WriteResponse(data, "HTTP/1.1 200 OK\r\n" + "Content-Type: " + contentType);
+            var result = new WebServerResult();
+            WriteResponse(result);
         }
 
-        public void WriteErrorResponse(string message = null)
-        {
-            if (message == null)
-                message = "An unknown error occurred processing this request.";
+        /// <summary>
+        /// Writes a response with a full WebServerResult structure
+        /// that allows maximum control over the response output.
+        /// </summary>
+        /// <param name="result"></param>
 
+        public void WriteResponse(WebServerResult result)
+        {
             string headers =
-                "HTTP/1.1 500 Server Error\r\n" +
+                $"HTTP/1.1 {result.HttpStatusCode} Server Error\r\n" +
                 "Access-Control-Allow-Origin: *\r\n" +
                 "Access-Control-Allow-Methods: GET,POST,PUT,OPTIONS\r\n" +
                 "Access-Control-Allow-Headers: *\r\n";
-                
-            WriteResponse(message,  headers + "Content-Type: text/plain\r\n" );
+
+            if (result.hasNoData)
+            {
+                WriteResponseInternal(null, headers);
+            }
+            else
+            {
+                var json = JsonSerializationUtils.Serialize(result, formatJsonOutput: true);
+                headers =
+                    $"HTTP/1.1 {result.HttpStatusCode} Server Error\r\n" +
+                    "Access-Control-Allow-Origin: *\r\n" +
+                    "Access-Control-Allow-Methods: GET,POST,PUT,OPTIONS\r\n" +
+                    "Access-Control-Allow-Headers: *\r\n";
+
+                WriteResponseInternal(json, headers + "Content-Type: application/json\r\n");
+            }
         }
+
+
+        public void WriteErrorResponse(string message = null)
+        {
+            var result = new WebServerResult(message);
+            WriteResponse(result);
+        }
+
 
         #endregion
 
@@ -478,71 +500,9 @@ namespace MarkdownMonster.Services
     public class WebServerOperation
     {
         public string Operation { get; set; } = "open";
+
         public string Data { get; set; }
 
         public string Type { get; set; } = "text";   // text, json
-    }
-
-    public static class WebServerLauncher
-    {
-        #region Markdown Monster Start/Stop Helpers
-
-        /// <summary>
-        /// Starts the Web Socket server and attaches an instance to
-        /// the Markdown Monster main window.
-        /// </summary>
-        public static WebServer StartMarkdownMonsterWebServer(bool force = false)
-        {
-
-            var window = mmApp.Model.Window;
-
-            if (!force && window.WebServer != null)
-                return window.WebServer; // already running
-
-            // if already running stop first then restart
-            window.WebServer?.StopServer();
-
-            var server = new WebServer();
-            window.WebServer = server;
-            server.OnMarkdownMonsterOperation = OnMarkdownMonsterOperationHandler;
-
-            server.StartServer();
-
-            window.ShowStatusSuccess("The WebSocket server has been started.");
-            return window.WebServer;
-        }
-
-        /// <summary>
-        /// Shuts down the Web Socket server on the Markdown Monster instance
-        /// </summary>
-        public static void StopMarkdownMonsterWebServer()
-        {
-            var window = mmApp.Model.Window;
-
-            var ws = window.WebServer;
-            if (ws != null)
-            {
-                ws.OnMarkdownMonsterOperation = null;
-                ws.StopServer();
-                window.WebServer = null;
-            }
-            mmApp.Model.Configuration.WebServer.IsRunning = false;
-            window.ShowStatusSuccess("WebSocket server has been stopped.");
-        }
-
-        private static void OnMarkdownMonsterOperationHandler(WebServerOperation operation)
-        {
-            if (operation.Operation == "open" && !string.IsNullOrEmpty(operation.Data))
-            {
-                // Open Markdown Monster documents
-                App.CommandArgs = new[]
-                {
-                    operation.Data
-                };
-                mmApp.Model.Window.Dispatcher.InvokeAsync(() => mmApp.Model.Window.OpenFilesFromCommandLine());
-            }
-        }
-
-        #endregion
     }
 }
