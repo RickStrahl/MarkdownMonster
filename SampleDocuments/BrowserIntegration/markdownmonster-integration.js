@@ -1,8 +1,8 @@
 var mm;
-window.MarkdownMonster =  {    
+window.MarkdownMonster =  {
     serverUrl: 'http://localhost:5009/',
-    isServerAvailable: false,    
-    lastSendData: null,     
+    isServerAvailable: false,
+    lastSendData: null,
     // one time load attempt flag - unset after a prompt has been made
     // recommend you set this true right before an operation that requires access
     tryToLoadMarkdownMonster: false,
@@ -12,7 +12,7 @@ window.MarkdownMonster =  {
     },
     checkServer: function(onCompleted) {
         var config = { method: "GET"}
-   
+
         return fetch(mm.serverUrl + "ping",config)
                 .then(
                     function(response) {
@@ -21,14 +21,14 @@ window.MarkdownMonster =  {
                         mm.isServerAvailable = true;
 
                         if (onCompleted)
-                            onCompleted(mm);                        
+                            onCompleted(mm);
                     },
                     function(error) {
                         console.warn("Markdown Monster: Web Server is not available.");
                         mm.isServerAvailable = false;
-                        
+
                         if (onCompleted)
-                            onCompleted(mm);                        
+                            onCompleted(mm);
                     });
     },
     openNewDocument: function(docText, forceOpen) {
@@ -36,7 +36,7 @@ window.MarkdownMonster =  {
         this.checkServer(function() {
             if (!mm.isServerAvailable) {
                 mm.loadMarkdownMonster();
-                return; 
+                return;
             }
             var openCommandLine = "untitled.base64," + btoa(docText);
 
@@ -47,7 +47,7 @@ window.MarkdownMonster =  {
                 })
                 .catch(function(error) {
                     console.warn("Document opening in Markdown Monster failed.");
-                });                                      
+                });
         });
     },
     loadMarkdownMonster: function() {
@@ -60,19 +60,32 @@ window.MarkdownMonster =  {
                         mm.openAppProtocol("markdownmonster:webserver");
                     }
     },
+    getActiveDocumentText: function(callback) {
+        this.checkServer(function() {
+            if (!mm.isServerAvailable) {
+                mm.loadMarkdownMonster();
+                return;
+            }
+
+            var text = "this is the result";
+
+            if(callback)
+               callback(text,mm);
+        });
+    },
 
     /*
-        * opens an application protocol URL without navigating the window 
+        * opens an application protocol URL without navigating the window
     */
     openAppProtocol: function(url) {
-        // this works         
+        // this works
         var iframe = document.createElement("iframe");
         iframe.src = url;
         iframe.width = 100;
         iframe.height = 100;
         iframe.style.display = "block";
         document.body.appendChild(iframe);
-        
+
         setTimeout(function() { document.body.removeChild(iframe)},800);
     },
 
