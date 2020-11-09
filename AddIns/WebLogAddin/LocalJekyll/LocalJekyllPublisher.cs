@@ -399,24 +399,28 @@ namespace WebLogAddin.LocalJekyll
 
             string yaml = serializer.Serialize(jkMeta);
 
-            // serialize extra fields that aren't part of the scheme explicitly
-            var root = new YamlMappingNode();
-            var doc = new YamlDocument(root);
+            if (PostMetadata.ExtraValues.Count > 0)
+            {
+                // serialize extra fields that aren't part of the scheme explicitly
+                var root = new YamlMappingNode();
+                var doc = new YamlDocument(root);
 
-            foreach (var extra in PostMetadata.ExtraValues)
-            {
-                root.Add(extra.Key.ToString(), extra.Value?.ToString().Trim());
+                foreach (var extra in PostMetadata.ExtraValues)
+                {
+                    root.Add(extra.Key.ToString(), extra.Value?.ToString().Trim());
+                }
+
+                var yamlStream = new YamlStream(doc);
+                var buffer = new StringBuilder();
+                string yamlText;
+                using (var writer = new StringWriter(buffer))
+                {
+                    yamlStream.Save(writer);
+                    yamlText = writer.ToString();
+                }
+
+                yaml += yamlText.TrimEnd('\r', '\n', '.') + mmApp.NewLine;
             }
-                
-            var yamlStream = new YamlStream(doc);
-            var buffer = new StringBuilder();
-            string yamlText;
-            using (var writer = new StringWriter(buffer))
-            {
-                yamlStream.Save(writer);
-                yamlText = writer.ToString();
-            }
-            yaml += yamlText.TrimEnd('\r','\n','.') + mmApp.NewLine;
 
 
             var folder = Path.Combine(blogRoot,"_posts");

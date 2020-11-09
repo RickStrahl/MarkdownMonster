@@ -15,12 +15,12 @@ namespace WeblogAddin.Test
     [TestClass]
     public class JekyllPublisherTests
     {
-        private const string STR_MM_POST_FILE_NAME =
-            "C:\\Users\\rstrahl\\DropBox\\Markdown Monster Weblog Posts\\2020-05\\Jekyll-Test-Blog-Post\\JekyllTestBlogPost.md";
-
+        //private const string STR_MM_POST_FILE_NAME = "c:\\users\\rstrahl\\DropBox\\Markdown Monster Weblog Posts\\2020-05\\Jekyll-Test-Blog-Post\\JekyllTestBlogPost.md";
+        private const string STR_MM_POST_FILE_NAME = @"C:\Users\rstrahl\DropBox\Markdown Monster Weblog Posts\2020-11\Model-Driven-Mixed-Reality\ModelDrivenMixedReality.md";
+        
         private const string STR_JEKYLL_PROJECT_FOLDER = "C:\\projects\\Test\\jekyll\\help";
 
-        private const string STR_JEKYLL_POST_ID = "2020-05-21-Jekyll-Test-Post";
+        private const string STR_JEKYLL_POST_ID = "2020-11-09-Model-Driven-Reality";
 
         [TestMethod]
         public void PublishTest()
