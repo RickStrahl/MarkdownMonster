@@ -236,11 +236,14 @@ namespace MarkdownMonster
                 if (file.Equals("untitled", StringComparison.OrdinalIgnoreCase) ||
                     file.StartsWith("untitled.", StringComparison.OrdinalIgnoreCase) ||
                     file.StartsWith("markdownmonster:") ||
-                    file.StartsWith("markdown:"))
+                    file.StartsWith("markdown:") ||
+                    file.Equals("-startwebserver",StringComparison.OrdinalIgnoreCase) ||
+                    file.Equals("-stopwebserver",StringComparison.OrdinalIgnoreCase))
                 {
                     // just append as is - form file opener will decode
                     sb.AppendLine(file);
                 }
+                // ignore other command lines and assume it's a file
                 else if (!file.StartsWith("-"))
                 {
                     file = file.TrimEnd('\\');
