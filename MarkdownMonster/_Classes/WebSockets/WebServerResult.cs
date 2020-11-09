@@ -14,7 +14,7 @@
         public WebServerResult()
         {
             hasNoData = true;
-            HttpStatusCode = 204M;
+            HttpStatusCode = 204;
         }
 
         /// <summary>
@@ -31,10 +31,10 @@
         /// </summary>
         /// <param name="errorMessage"></param>
         /// <param name="httpStatusCode"></param>
-        public WebServerResult(string errorMessage, decimal httpStatusCode)
+        public WebServerResult(string errorMessage, int httpStatusCode)
         {
             if (httpStatusCode == 0)
-                httpStatusCode = 500M;
+                httpStatusCode = 500;
 
             ErrorMessage = errorMessage;
             HttpStatusCode = httpStatusCode;
@@ -63,7 +63,7 @@
         /// <summary>
         /// Optional HTTP status code - defaults: 200 for success, 500 for errors
         /// </summary>
-        public decimal HttpStatusCode { get; set; }= 200M;
+        public int HttpStatusCode { get; set; }= 200;
 
         /// <summary>
         /// The requests content type. Typically will be JSON object unless no

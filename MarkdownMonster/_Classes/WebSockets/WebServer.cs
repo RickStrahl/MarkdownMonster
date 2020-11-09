@@ -185,7 +185,7 @@ namespace MarkdownMonster.Services
                     }
                     else
                     {
-                        var result = new WebServerResult("Invalid URL access", 404M);
+                        var result = new WebServerResult("Invalid URL access", 404);
                         WriteResponse(result);
                     }
                 }
@@ -420,8 +420,18 @@ namespace MarkdownMonster.Services
 
         public void WriteResponse(WebServerResult result)
         {
+            var status = "OK";
+            if (result.HttpStatusCode == 500)
+                status = "Server Error";
+            else if (result.HttpStatusCode == 404)
+                status = "Not Found";
+            else if (result.HttpStatusCode == 401)
+                status = "Unauthorized";
+            else if (result.HttpStatusCode == 204)
+                status = "No Content";
+
             string headers =
-                $"HTTP/1.1 {result.HttpStatusCode} Server Error\r\n" +
+                $"HTTP/1.1 {result.HttpStatusCode} {status}\r\n" +
                 "Access-Control-Allow-Origin: *\r\n" +
                 "Access-Control-Allow-Methods: GET,POST,PUT,OPTIONS\r\n" +
                 "Access-Control-Allow-Headers: *\r\n";
@@ -433,12 +443,6 @@ namespace MarkdownMonster.Services
             else
             {
                 var json = JsonSerializationUtils.Serialize(result, formatJsonOutput: true);
-                headers =
-                    $"HTTP/1.1 {result.HttpStatusCode} Server Error\r\n" +
-                    "Access-Control-Allow-Origin: *\r\n" +
-                    "Access-Control-Allow-Methods: GET,POST,PUT,OPTIONS\r\n" +
-                    "Access-Control-Allow-Headers: *\r\n";
-
                 WriteResponseInternal(json, headers + "Content-Type: application/json\r\n");
             }
         }

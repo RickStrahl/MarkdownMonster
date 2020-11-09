@@ -106,12 +106,25 @@ namespace MarkdownMonster._Classes
                 if (file.StartsWith("markdownmonster:webserver"))
                 {
                     if (Window.WebServer == null)
+                    {
                         WebServerLauncher.StartMarkdownMonsterWebServer();
+                    }
                     else
                         WebServerLauncher.StopMarkdownMonsterWebServer();
                     
                     continue;
                 }
+                if (file.Equals("-startwebserver", StringComparison.OrdinalIgnoreCase))
+                {
+                    WebServerLauncher.StartMarkdownMonsterWebServer();
+                    continue;
+                }
+                if (file.Equals("-stopwebserver", StringComparison.OrdinalIgnoreCase))
+                {
+                    WebServerLauncher.StopMarkdownMonsterWebServer();
+                    continue;
+                }
+
                 if (file.StartsWith("markdownmonster:"))
                     file = WebUtility.UrlDecode(file.Replace("markdownmonster:",String.Empty));
                 else if (file.StartsWith("markdown:"))

@@ -48,7 +48,7 @@ namespace MarkdownMonster.Services
                 else if (operation.Operation == "getDocument")
                 {
                     var md = mmApp.Model?.ActiveEditor?.GetMarkdown();
-                    var r =  new WebServerResult(md);
+                    var r =  new WebServerResult((object) md);
                     return r;
                 }
 

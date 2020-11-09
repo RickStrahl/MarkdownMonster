@@ -21,7 +21,10 @@ namespace MarkdownMonster.Services
             var window = mmApp.Model.Window;
 
             if (!force && window.WebServer != null)
+            {
+                window.ShowStatusSuccess("The Web server is already running.");
                 return window.WebServer; // already running
+            }
 
             // if already running stop first then restart
             window.WebServer?.StopServer();
@@ -32,7 +35,7 @@ namespace MarkdownMonster.Services
 
             server.StartServer();
 
-            window.ShowStatusSuccess("The WebSocket server has been started.");
+            window.ShowStatusSuccess("The Web server  has been started.");
             return window.WebServer;
         }
 
@@ -51,7 +54,7 @@ namespace MarkdownMonster.Services
                 window.WebServer = null;
             }
             mmApp.Model.Configuration.WebServer.IsRunning = false;
-            window.ShowStatusSuccess("WebSocket server has been stopped.");
+            window.ShowStatusSuccess("The Web server has been stopped.");
         }
 
        
