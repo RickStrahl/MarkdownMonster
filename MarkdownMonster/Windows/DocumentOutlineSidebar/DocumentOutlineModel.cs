@@ -259,9 +259,12 @@ namespace MarkdownMonster.Windows.DocumentOutlineSidebar
 
             int lastLevel = 0;  // check that we don't skip multiple levels - won't work in Markdown
 
+
             for (var index = 0; index < headers.Count; index++)
             {
                 var header = headers[index];
+               
+
                 string leadin = null;
                 int level = header.Level - startOffset;
 
@@ -284,7 +287,13 @@ namespace MarkdownMonster.Windows.DocumentOutlineSidebar
                 if (level > 0)
                     leadin = StringUtils.Replicate("\t", level - 1);
 
-                sb.AppendLine($"{leadin}* [{header.Text}](#{header.LinkId})");
+                var text = header.Text;
+
+                // handle trailing backslash which escapes the bracket  `\]` and turn into `\\]`
+                if (!string.IsNullOrEmpty(text) && text.EndsWith("\\"))
+                    text = text.TrimEnd('\\') + "\\\\";
+                
+                sb.AppendLine($"{leadin}* [{text}](#{header.LinkId})");
             }
 
             return sb.ToString();
