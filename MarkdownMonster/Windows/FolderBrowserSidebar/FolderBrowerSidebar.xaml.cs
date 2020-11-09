@@ -1433,7 +1433,7 @@ namespace MarkdownMonster.Windows
                 DragDropEffects effect = DragDropEffects.Move;
                 if (Keyboard.IsKeyDown(Key.LeftCtrl))
                     effect = DragDropEffects.Copy;
-                 
+
                 if (Math.Abs(diff.X) > SystemParameters.MinimumHorizontalDragDistance
                     || Math.Abs(diff.Y) > SystemParameters.MinimumVerticalDragDistance)
                 {
@@ -1444,7 +1444,11 @@ namespace MarkdownMonster.Windows
                     var files = GetSelectedItems()
                             .Where(p=> !string.IsNullOrEmpty(p.FullPath)) // dont move root or parent paths
                             .Select(p=> p.FullPath).ToArray();
+
                     var dragData = new DataObject(DataFormats.FileDrop, files);
+                    if (files.Length > 0)
+                        dragData.SetText(files[0]);   // so Web Browser can drop files
+                        //dragData.SetText(string.Join("\n",files));   // so Web Browser can drop files
 
                     DragDrop.DoDragDrop(treeViewItem, dragData, effect);
                 }
