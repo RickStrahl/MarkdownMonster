@@ -1,10 +1,12 @@
 ﻿
 using System;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Windows;
+using System.Windows.Controls;
 using MarkdownMonster.Annotations;
 
 namespace MarkdownMonster.Windows {
@@ -197,20 +199,36 @@ namespace MarkdownMonster.Windows {
         private bool _isPreviewVisible = true;
 
 
-
         public GridLength PreviewWidth
         {
             get => _previewWidth;
             set
-                {
+            {
                 if (value.Equals(_previewWidth)) return;
                 _previewWidth = value;
                 OnPropertyChanged();
 
                 if (value.IsAbsolute && value.Value > 20)
                     Model.Configuration.WindowPosition.InternalPreviewWidth = Convert.ToInt32(_previewWidth.Value);
+
+
+                // HACK: Don't allow preview width to get larger than the container grid.
+                // Force resizing to actual width rather than START (*) sizing which causes window sizing/border issues
+                try
+                {
+                    var editorPreviewPane = Model?.ActiveEditor?.EditorPreviewPane;
+                    var contentGrid = editorPreviewPane?.ContentGrid;
+                    if (contentGrid == null) return;
+                    var sepWidth = editorPreviewPane.EditorWebBrowserSeparatorColumn.ActualWidth;
+                    if (_previewWidth.Value > editorPreviewPane.ContentGrid.ActualWidth - sepWidth)
+                    {
+                        _previewWidth = new GridLength(editorPreviewPane.ContentGrid.ActualWidth - sepWidth);
+                    }
+                }
+                catch { }
             }
         }
+
         private GridLength _previewWidth;
 
         

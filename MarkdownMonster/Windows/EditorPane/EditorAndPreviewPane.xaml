@@ -24,12 +24,13 @@
         <WebBrowser x:Name="EditorWebBrowser">
         </WebBrowser>
 
-        <GridSplitter Grid.Column="1" Name="Separator" x:FieldModifier="public"                              
-                      HorizontalAlignment="Center"          ShowsPreview="False"      
+        <GridSplitter Grid.Column="1" Name="EditorSeparator" x:FieldModifier="public"       
+                      HorizontalAlignment="Center" ShowsPreview="False"      
                       BorderThickness="0" IsTabStop="False"
                       controls:VisibilityHelper.IsVisible="{Binding IsPreviewBrowserVisible}"
                       MouseDoubleClick="Separator_MouseDoubleClick"
-                      VerticalAlignment="Stretch" >
+                      VerticalAlignment="Stretch" 
+        >
             <GridSplitter.Template>
                 <ControlTemplate TargetType="{x:Type GridSplitter}">
                     <Grid Background="Transparent">
