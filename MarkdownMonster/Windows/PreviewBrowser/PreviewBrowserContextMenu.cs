@@ -105,9 +105,15 @@ namespace MarkdownMonster.Windows.PreviewBrowser
                     }
                     else
                     {
-                        image = new Uri(parms.Src).LocalPath;
-                        image = mmFileUtils.NormalizeFilenameWithBasePath(image,
-                            Path.GetDirectoryName(model.ActiveDocument.Filename));
+                        try
+                        {
+                            image = new Uri(parms.Src).LocalPath;
+                        }
+                        catch
+                        {
+                            image = FileUtils.NormalizePath(parms.Src);
+                        }
+                        image = mmFileUtils.NormalizeFilenameWithBasePath(image, Path.GetDirectoryName(model.ActiveDocument.Filename));
                     }
          
                     mmFileUtils.OpenImageInImageEditor(image);

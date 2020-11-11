@@ -4,45 +4,21 @@
 [![Chocolatey](https://img.shields.io/chocolatey/dt/markdownmonster.svg)](https://chocolatey.org/packages/MarkdownMonster)
 [![Web Site](https://img.shields.io/badge/Markdown_Monster-WebSite-blue.svg)](https://markdownmonster.west-wind.com)
 
-### 1.24.18
-<small>October 29,2020</small>
+### 1.25
+<small>November 12, 2020</small>
 
 * **Multi-File Selection in Folder Browser**  
-You can now select multiple files in the folder browser and perform many of the common operations on multiple files. You can open multiple files, copy and paste and drag and drop multiple files among folders or to Explorer, delete multiple files and so on. Also updated FolderBrowser API for addins to allow `GetSelectedItem()` and `GetSelectedItems()`. Multi-select also works with keyboard using `Ctrl-arrow` or `Shift-Arrow` for multi-select and range selects respectively. 
+You can now select multiple files in the folder browser and perform many of the common operations on multiple files. You can open multiple files, copy and paste and drag and drop multiple files among folders or to Explorer, delete multiple files and so on. Also updated FolderBrowser API for addins to allow `GetSelectedItem()` and `GetSelectedItems()`. Multi-select also works with keyboard using `Ctrl-arrow` or `Shift-Arrow` for multi-select and range selects respectively.
+
+* **Default Image Location for Untitled Doc Images**   
+When saving images into a new document that has no filename, the default image save folder now defaults to the open folder browser location (instead of *Documents*). Subsequent saves for the same document remember the last image save location.
 
 * **Updates to Folder Browser Operations**  
 Cleaned up folder browser file management tasks: New file now focuses the editor with the new empty document. Folder browser navigation now stays focused on the active selected item in more situations so you can perform another task like edit and then jump back to the Folder Browser (`alt-v-f`) and continue navigating the tree. Improved keyboard navigation functionality. `Ctrl-N` is now used as the default key in the Folder browser for new files. New files are created with a name editor in the folder browser and are then opened in the editor. This differs from `Ctrl-N`/**File -> New** in the editor which creates an `Untitled` document which prompts for filename only when saving.
 
 * **File Stem Selection in Folder Browser**  
 When selecting files for renaming in the folder browser, the filename without extension is now highlighted when first entering the name editor. Makes it quicker and more reliable to rename a file. Also fix file renaming message when edited filename is not changed.
-
-* **Default Image Location for Untitled Doc Images**   
-When saving images into a new document that has no filename, the default image save folder now defaults to the open folder browser location (instead of *Documents*). Subsequent saves for the same document remember the last image save location.
-
-* **[Updated Markdown Monster Add-in Project Visual Studio Extension](https://markdownmonster.west-wind.com/docs/_4ne0s0qoi.htm)**  
-The [Markdown Monster Addin Project Extension](https://marketplace.visualstudio.com/items?itemname=rickstrahl.markdownmonsteraddinproject) now creates much simpler, SDK style .NET projects. Projects now run and debug out of the box after running the New Project Template without additional manual configuration, as was required by the older version. It's also considerably easier now to configure for custom MM install locations using the raw XML Project file.
-
-* **Fix: File Encoding bug in the Embed Url Dialog**  
-Fixed issue where files with spaces in the filename would not URL encode correctly. New behavior doesn't encode but replaces spaces with `%20` in order to allow the Markdown Parser to properly parse Urls.
-
-### 1.24.8
-<small>October 11th, 2020</small>
-
-* **Add `pagebreak` Default Snippet to Snippet Manager**  
-Added a `pagebreak` default snippet to the Snippet Manager Addin, so it's there by default when MM first creates the Snippet Manager defaults. This is optional and can be removed but is one useful use-case of using a snippet.
-
-* **Allow for `.markdownmonster` as Root Indicator and External Configuration**  
-Set up addin handlers that can find `.markdownmonster` file and use it for custom project level addin configuration. For example this JSON file can contain custom, project level configuration that can be used to stored for an addin. For example, a Deployment addin might hold server/auth configuration.
-
-* **Fix: Window Outline showing on multiple Windows desktops**  
-Provided a workaround for a problem whereby MM casts an 'outline frame' onto any other Windows desktops on which MM is not actually running. Fixed by removing the 'glow window' outline functionality and using a flat frame 1 pixel border instead.
-
-* **Fix: Window Focus when externally activating**  
-Fix issue where externally opened documents would not receive focus if MM was already running. Fixed so that focus now always goes into the editor when opening documents from Explorer or other shell executed applications.
-
-### 1.24.8
-<small>September 24th, 2020</small>
-
+  
 * **New command line option to open MM document at specific Line**  
 You can now use the new `-line` command line option to open a document loaded from the command line at the specified line number.
 
@@ -52,6 +28,18 @@ Added support for preserving top level properties in FrontMatter when Weblog Met
 * **Improve Jekyll Post MetaData Handling**  
 Related to the FrontMatter improvements for blog posts, the meta data for Jekyll blog content has been updated to better support the category and tags lists.
 
+* **Allow for `.markdownmonster` as Root Folder Indicator and External Configuration**  
+Set up addin handlers that can find `.markdownmonster` file and use it for custom project level addin configuration. For example this JSON file can contain custom, project level configuration that can be used to stored for an addin. For example, a Deployment addin might hold server/auth configuration.
+
+* **Add `pagebreak` Default Snippet to Snippet Manager**  
+Added a `pagebreak` default snippet to the Snippet Manager Addin, so it's there by default when MM first creates the Snippet Manager defaults. This is optional and can be removed but is one useful use-case of using a snippet.
+
+* **[Markdown Monster Web Server Enhancements](https://markdownmonster.west-wind.com/docs/_5s1009yx1.htm)**  
+Markdown Monster includes a local Web server that can now be used to open new or existing documents and retrieve document content from the active document. Added support for retrieving the active document's content. Added Web page examples that interact with Markdown Monster. There are also new `-startwebserver` and `-stopwebserver` flags to start and stop the Web server to ensure that the local server is running. Added Web Browser HTML samples in  `SampleDocuments\BrowserIntegration` that demonstrate how to interact with MM from a Web page.
+
+* **[Addins: Updated Markdown Monster Add-in Project Visual Studio Extension](https://markdownmonster.west-wind.com/docs/_4ne0s0qoi.htm)**  
+The [Markdown Monster Addin Project Extension](https://marketplace.visualstudio.com/items?itemname=rickstrahl.markdownmonsteraddinproject) now creates much simpler, SDK style .NET projects. Projects now run and debug out of the box after running the New Project Template without additional manual configuration, as was required by the older version. It's also considerably easier now to configure for custom MM install locations using the raw XML Project file.
+
 * **Addins: Add `ContextMenuOpening` Events to various Context Menu Renderers**  
 Added static  `ContextMenuOpening` events to the various context menus that are dynamically generated such as the editor, tab, folder browser preview context menus. These events can be hooked and allow adding (or removing) of menu options at runtime, typically from Addin code. Handler is passed the ContextMenuWrapper class and the actual `ContextMenu` instance as Event parameters.
 
@@ -60,6 +48,18 @@ Fix odd bug where the MM icon would not show on the correct screen in some multi
 
 * **Fix: Set Editor Position offset to be properly 1 based**  
 The editor position now properly shows the Line and Row position in the status bar as 1 based. ie top of the document is `Ln 1, Col 1` rather than `Ln 0, Col 0`.
+
+
+* **Fix: File Encoding bug in the Embed Url Dialog**  
+Fixed issue where files with spaces in the filename would not URL encode correctly. New behavior doesn't encode but replaces spaces with `%20` in order to allow the Markdown Parser to properly parse Urls.
+
+
+* **Fix: Window Outline showing on multiple Windows desktops**  
+Provided a workaround for a problem whereby MM casts an 'outline frame' onto any other Windows desktops on which MM is not actually running. Fixed by removing the 'glow window' outline functionality and using a flat frame 1 pixel border instead.
+
+* **Fix: Window Focus when externally activating**  
+Fix issue where externally opened documents would not receive focus if MM was already running. Fixed so that focus now always goes into the editor when opening documents from Explorer or other shell executed applications.
+
 
 ### 1.24
 <small>September  3rd, 2020</small> 
