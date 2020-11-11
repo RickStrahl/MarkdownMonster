@@ -28,7 +28,9 @@
         ResizeMode="CanResizeWithGrip"		
         Height="600" Width="1000"  
         MinWidth="390" MinHeight="220" 
-        WindowTransitionsEnabled="False">
+        WindowTransitionsEnabled="False"
+        SizeChanged="MainApplicationWindow_SizeChanged"
+        >
     <Window.Resources>
         <localwindows:InvertedBooleanConverter x:Key="InvertedBooleanConverter" />
         <localwindows:NotEmptyStringToBooleanConverter x:Key="NotEmptyStringToBooleanConverter" />
@@ -1018,6 +1020,7 @@
                 </GridSplitter.Template>
             </GridSplitter>
 
+            <!-- Main Content - Editor and Preview Tab -->
             <dragablz:TabablzControl x:Name="TabControl" x:FieldModifier="public" Grid.Column="2"
                                      Margin="0,5,2,0"
                                      FontSize="13"
@@ -1036,6 +1039,7 @@
                 </TabControl.ContextMenu>
             </dragablz:TabablzControl>
 
+            <!-- Start Screen - conditionally shown if no docs are open -->
             <mmcontrols:StartMenuUserControl Grid.Column="2"  controls:VisibilityHelper.IsCollapsed="{Binding IsTabOpen}" />
 
             <GridSplitter Grid.Column="3"  x:Name="RightSidebarContainerSeparator"                                                                   

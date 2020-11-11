@@ -3010,7 +3010,10 @@ Do you want to continue anyway?", "Disable Markdown Script Rendering",
             Model.Commands.SettingsVisualCommand?.Execute("Linefeed");
         }
 
-        
+        private void MainApplicationWindow_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            mmApp.Model.WindowLayout.FixUpEditorSize();
+        }
     }
 
     public class RecentDocumentListItem

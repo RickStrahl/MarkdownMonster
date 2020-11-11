@@ -206,32 +206,46 @@ namespace MarkdownMonster.Windows {
             {
                 if (value.Equals(_previewWidth)) return;
                 _previewWidth = value;
-                OnPropertyChanged();
-
+                
                 if (value.IsAbsolute && value.Value > 20)
                     Model.Configuration.WindowPosition.InternalPreviewWidth = Convert.ToInt32(_previewWidth.Value);
 
+                // fix sizing so editor is not STAR sized but uses explicit widths
+                FixUpEditorSize();
 
-                // HACK: Don't allow preview width to get larger than the container grid.
-                // Force resizing to actual width rather than START (*) sizing which causes window sizing/border issues
-                try
-                {
-                    var editorPreviewPane = Model?.ActiveEditor?.EditorPreviewPane;
-                    var contentGrid = editorPreviewPane?.ContentGrid;
-                    if (contentGrid == null) return;
-                    var sepWidth = editorPreviewPane.EditorWebBrowserSeparatorColumn.ActualWidth;
-                    if (_previewWidth.Value > editorPreviewPane.ContentGrid.ActualWidth - sepWidth)
-                    {
-                        _previewWidth = new GridLength(editorPreviewPane.ContentGrid.ActualWidth - sepWidth);
-                    }
-                }
-                catch { }
+                OnPropertyChanged();
             }
         }
 
         private GridLength _previewWidth;
 
-        
+
+        /// <summary>
+        /// Fixes Preview Pane sizing when the editor size reaches 0 to avoid preview oversizing
+        /// which corrupts the Window borders. Call this whenever the window or editor is resized
+        /// and the preview has to be adjusted.
+        ///
+        /// Very hacky but required to force the editor to use non-STAR sizing to avoid negative
+        /// sizing of the splitter pane.
+        /// </summary>
+        public void FixUpEditorSize()
+        {
+            // HACK: Don't allow preview width to get larger than the container grid.
+            // Force resizing to actual width rather than START (*) sizing which causes window sizing/border issues
+            try
+            {
+                var editorPreviewPane = Model?.ActiveEditor?.EditorPreviewPane;
+                var contentGrid = editorPreviewPane?.ContentGrid;
+                if (contentGrid == null) return;
+                var sepWidth = editorPreviewPane.EditorWebBrowserSeparatorColumn.ActualWidth;
+                if (_previewWidth.Value > editorPreviewPane.ContentGrid.ActualWidth - sepWidth)
+                    _previewWidth = new GridLength(editorPreviewPane.ContentGrid.ActualWidth - sepWidth);
+                
+                //Debug.WriteLine("Preview Width: " + _previewWidth + " Editor Width: " + editorPreviewPane.EditorWebBrowser.ActualWidth +  "  Content Width: "  + editorPreviewPane.ContentGrid.ActualWidth + " Sep: " + sepWidth );
+            }
+            catch { }
+        }
+
 
         public GridLength PreviewSeparatorWidth
         {
