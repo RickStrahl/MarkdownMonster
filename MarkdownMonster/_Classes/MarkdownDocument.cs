@@ -1275,7 +1275,7 @@ $('#hrefShow').click(function () {{ $('#detail').show(); }});
         /// <returns></returns>
         public string GetWebRootPathFromMarkerFiles(string basePath)
         {
-            if (string.IsNullOrEmpty(basePath))
+            if (string.IsNullOrEmpty(basePath) || basePath == "untitled")
                 return basePath;
 
             string projectFileFallback = null;

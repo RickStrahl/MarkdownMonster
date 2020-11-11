@@ -344,8 +344,9 @@ namespace MarkdownMonster.Utilities
                 if (string.IsNullOrEmpty(initialFolder))
                     initialFolder = documentPath;
             }
-            if (string.IsNullOrEmpty(initialFolder) && !string.IsNullOrEmpty(document.Filename))
-                initialFolder = document.GetWebRootPathFromMarkerFiles(document.Filename);
+            if (string.IsNullOrEmpty(initialFolder) &&
+                !string.IsNullOrEmpty(document.Filename) && document.Filename != "untitled" && File.Exists(document.Filename))
+                initialFolder = document.GetWebRootPathFromMarkerFiles(Path.GetDirectoryName(document.Filename));
             if (string.IsNullOrEmpty(initialFolder))
                 initialFolder = mmApp.Model.Window.FolderBrowser?.FolderPath;
             
