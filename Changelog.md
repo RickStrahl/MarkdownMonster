@@ -10,14 +10,14 @@
 * **Multi-File Selection in Folder Browser**  
 You can now select multiple files in the folder browser and perform many of the common operations on multiple files. You can open multiple files, copy and paste and drag and drop multiple files among folders or to Explorer, delete multiple files and so on. Also updated FolderBrowser API for addins to allow `GetSelectedItem()` and `GetSelectedItems()`. Multi-select also works with keyboard using `Ctrl-arrow` or `Shift-Arrow` for multi-select and range selects respectively.
 
-* **Default Image Location for Untitled Doc Images**   
-When saving images into a new document that has no filename, the default image save folder now defaults to the open folder browser location (instead of *Documents*). Subsequent saves for the same document remember the last image save location.
-
 * **Updates to Folder Browser Operations**  
 Cleaned up folder browser file management tasks: New file now focuses the editor with the new empty document. Folder browser navigation now stays focused on the active selected item in more situations so you can perform another task like edit and then jump back to the Folder Browser (`alt-v-f`) and continue navigating the tree. Improved keyboard navigation functionality. `Ctrl-N` is now used as the default key in the Folder browser for new files. New files are created with a name editor in the folder browser and are then opened in the editor. This differs from `Ctrl-N`/**File -> New** in the editor which creates an `Untitled` document which prompts for filename only when saving.
 
 * **File Stem Selection in Folder Browser**  
 When selecting files for renaming in the folder browser, the filename without extension is now highlighted when first entering the name editor. Makes it quicker and more reliable to rename a file. Also fix file renaming message when edited filename is not changed.
+
+* **Default Image Location for Untitled Doc Images**   
+When saving images into a new document that has no filename, the default image save folder now defaults to the open folder browser location (instead of *Documents*). Subsequent saves for the same document remember the last image save location.
   
 * **New command line option to open MM document at specific Line**  
 You can now use the new `-line` command line option to open a document loaded from the command line at the specified line number.
