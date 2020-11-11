@@ -36,6 +36,10 @@
             background: #333;
             background: linear-gradient(to bottom, #393939, #222);
         }
+        #ActionButtons a:hover {
+            filter: brightness(130%) saturate(140%);    
+            background: linear-gradient(to bottom, #222, #393939);
+        }
         #Carousel .carousel-inner > img { height: 845px; }
         #Carousel2 .carousel-inner > .item {
             margin: 5px 11%;
@@ -100,26 +104,24 @@
             <a href="download.aspx" class="hidable" title="Download Markdown Monster">                
                 Download
             </a>
-            <a href="https://www.youtube.com/watch?v=XjFf57Ap9VE">                
-                Video
-            </a>
+            <a href="purchase.aspx" title="Purchase Markdown Monster">                
+                Buy
+            </a>      
             <a href="docs/_4rd0xigys.htm" title="Markdown Monster Features">                
                 Features
             </a>
             <%--<a href="features.aspx">Features</a>--%>           
-            <a href="purchase.aspx" title="Purchase Markdown Monster">                
-                Buy
-            </a>                 
-            <a href="https://support.west-wind.com/Thread4NM0M17RC.wwt" class="hidable" title="Support for Markdown Monster">                
+                   
+            <a href="https://markdownmonster.west-wind.com/docs/" title="Markdown Monster Documentation">                
+                Docs
+            </a>  
+            <a href="https://support.west-wind.com/Thread4NM0M17RC.wwt" class="hidable" title="Support for Markdown Monster">          
                 Support
             </a>
-        
-            <a href="docs/" title="Markdown Monster Documentation">                
-                Docs
-            </a>            
-            <a href="https://medium.com/markdown-monster-blog/" title="Markdown Monster Weblog" class="hidable">                
+                    
+<%--            <a href="https://medium.com/markdown-monster-blog/" title="Markdown Monster Weblog" class="hidable">                
                 Blog
-            </a>
+            </a>--%>
             <%--<a href="pricing.aspx">License</a>--%>
         </nav>
     </div>
@@ -140,20 +142,22 @@
                           </a>
                         
                         
+                        <style>
+                      
+                        </style>
                          <nav id="ActionButtons" >                            
                             <a href="download.aspx" class="btn btn-lg btn-success"  >
-                                <i class="fa fa-download"></i>
+                                <i class="fa fa-download text-success"></i>
                                 <b style="color: cornsilk">Free Download</b>
                             </a>
-                            <a href="http://github.com/rickstrahl/MarkdownMonster" class="btn btn-lg btn-success">
-                                <i class="fa fa-github"></i>
+                            <a href="https://github.com/rickstrahl/MarkdownMonster" class="btn btn-lg btn-success">
+                                <i class="fa fa-github text-info"></i>
                                 GitHub
                             </a>
                        
-                            <a href="https://www.youtube.com/watch?v=XjFf57Ap9VE" class="btn btn-lg btn-success"
-                               >
-                                <i class="fa fa-youtube"></i>
-                                Video
+                            <a href="https://markdownmonster.west-wind.com/docs" class="btn btn-lg btn-success">
+                                <i class="fa fa-info-circle" style="color: goldenrod"></i>
+                                Documentation
                             </a>                            
                             <br />
                             <small style="font-size: 8pt;"><i>version <%= Version %> - <%= ReleaseDate%></i></small>
@@ -673,9 +677,8 @@
                                     </div>
                                  
                                     <p>
-                                        <i class="fa fa-newspaper-o" style="color: gold"></i>
+                                        <i class="fa fa-newspaper-o" style="color: goldenrod"></i>
                                         <a href="https://github.com/RickStrahl/MarkdownMonster/blob/master/Changelog.md">
-                                            
                                             Check out what's new
                                         </a>
                                     </p>

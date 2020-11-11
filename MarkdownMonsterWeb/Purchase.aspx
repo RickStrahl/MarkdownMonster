@@ -82,9 +82,6 @@
         <a href="./">
             Home
         </a>
-        <a href="https://www.youtube.com/watch?v=XjFf57Ap9VE" >                
-            Video
-        </a>        
         <a href="download.aspx" class="hidable" title="Download Markdown Monster">                
             Download
         </a>

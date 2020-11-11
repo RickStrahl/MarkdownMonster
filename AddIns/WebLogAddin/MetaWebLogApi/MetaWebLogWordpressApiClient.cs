@@ -236,6 +236,7 @@ namespace WebLogAddin.MetaWebLogApi
                         if (imgFile == null)
                             continue;
 
+                        // local image that needs uploading
                         if (!imgFile.StartsWith("http://") && !imgFile.StartsWith("https://"))
                         {
                             if (!imgFile.Contains(":\\"))
@@ -272,11 +273,14 @@ namespace WebLogAddin.MetaWebLogApi
                                             .Replace($"=\"{origImageLink}\"", $"=\"{mediaResult.URL}\"");
                                 }
                             }
-                            else
-                            {
-
-                            }
                         }
+                        // https:// online image link
+                        else 
+                        {
+                            if(!DontInferFeaturedImage && string.IsNullOrEmpty(FeaturedImageUrl))
+                                FeaturedImageUrl = imgFile;
+                        }
+
 						WindowUtilities.DoEvents();
                     }
 
