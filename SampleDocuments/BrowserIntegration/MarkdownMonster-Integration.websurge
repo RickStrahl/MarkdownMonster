@@ -3,28 +3,12 @@ Accept-Encoding: gzip,deflate
 User-Agent: West Wind HTTP .NET Client
 Content-Type: application/json
 Expect: 100-continue
-Connection: Keep-Alive
-Websurge-Request-Name: GetDocument
-
-{
-   Operation: "getDocument",
-   Data: null,
-   Type: "json"
-}
-
-------------------------------------------------------------------
-
-POST http://localhost:5009/markdownmonster HTTP/1.1
-Accept-Encoding: gzip,deflate
-User-Agent: West Wind HTTP .NET Client
-Content-Type: application/json
-Expect: 100-continue
 Websurge-Request-Name: Open (command line mode)
 
 {
-  "Operation": "open",
-  "Data": "untitled.json,'# New Document\n\n\"This\" is a test **document**!'",
-  "Type": "text"
+  "operation": "open",
+  "data": "untitled.json,'# New Document\n\n\"This\" is a test **document**!'",
+  "type": "text"
 }
 
 ------------------------------------------------------------------
@@ -52,6 +36,22 @@ Websurge-Request-Name: Open File
 {
   "Operation": "openDocument",
   "Data": "c:\\temp\\test.md",
+  "Type": "text"
+}
+
+------------------------------------------------------------------
+
+POST http://localhost:5009/markdownmonster HTTP/1.1
+Accept-Encoding: gzip,deflate
+User-Agent: West Wind HTTP .NET Client
+Content-Type: application/json
+Expect: 100-continue
+Connection: Keep-Alive
+Websurge-Request-Name: GetDocument
+
+{
+  "Operation": "getDocument",
+  "Data": null,
   "Type": "text"
 }
 

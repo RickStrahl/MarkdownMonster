@@ -1,13 +1,15 @@
 cd "$PSScriptRoot" 
 
 # Major version
-$release = "v1.24" 
+$release = "v1.25" 
 $releaseFile = "$PSScriptRoot\builds\currentrelease\MarkdownMonsterSetup.exe"
 $versionFile = "$PSScriptRoot\builds\currentrelease\MarkdownMonster_Version.xml"
 $portableFile = "$PSScriptRoot\builds\currentrelease\MarkdownMonsterPortable.zip"
 
-$version = [System.Diagnostics.FileVersionInfo]::GetVersionInfo($releaseFile).FileVersion
-"Raw version: " + $version
+$fileVersion = [System.Diagnostics.FileVersionInfo]::GetVersionInfo($releaseFile)
+$version = $fileVersion.FileVersion
+$release = "v" + $fileVersion.FileMajorPart + "." + $fileVersion.FileMinorPart
+"Raw version: " + $version + "  Release: " + $release
 $version = $version.Trim().Replace(".0","") 
 "Writing Version File for: " + $version
 
