@@ -240,6 +240,10 @@ namespace WeblogAddin
 				var result = await Task.Run<bool>(() => client.PublishCompletePost(WeblogModel.ActivePost, basePath,
 					sendAsDraft, markdown));
 
+
+                meta.FeaturedImageUrl = client.FeaturedImageUrl;
+                meta.FeaturedImageId = client.FeatureImageId;
+
 				//if (!client.PublishCompletePost(WeblogModel.ActivePost, basePath,
 				//    sendAsDraft, markdown))
 				if (!result)
@@ -257,7 +261,7 @@ namespace WeblogAddin
 				{
 					postUrl = post.Url;
 					meta.Permalink = post.Permalink;
-				}
+                }
 			}
 			if (type == WeblogTypes.Medium)
 			{
