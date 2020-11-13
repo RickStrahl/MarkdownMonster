@@ -46,14 +46,10 @@ namespace MarkdownMonster.RenderExtensions
         /// <param name="args"></param>
         public void AfterDocumentRendered(ModifyHtmlArguments args)
         {
-
         }
 
-
-
-        private const string MermaidHeaderScript =
-            @"<script src=""https://cdnjs.cloudflare.com/ajax/libs/mermaid/7.1.2/mermaid.min.js""></script>
-<script>
+        private static string MermaidHeaderScript = $"\n<script src=\"{mmApp.Configuration.MarkdownOptions.MermaidDiagramsUrl}\"></script>\n" +
+@"<script>
 mermaid.initialize({startOnLoad:false});
 </script>
 <script>
