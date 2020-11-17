@@ -140,6 +140,7 @@ namespace WeblogAddin
 		/// <returns></returns>
 		public async Task<bool> SendPost(WeblogInfo weblogInfo, bool sendAsDraft = false)
 		{
+            
 			var editor = Model.ActiveEditor;
 			if (editor == null)
 				return false;
@@ -211,7 +212,7 @@ namespace WeblogAddin
 			var kv = config.Weblogs.FirstOrDefault(kvl => kvl.Value.Name == meta.WeblogName);
 			if (kv.Equals(default(KeyValuePair<string, WeblogInfo>)))
 			{
-				MessageBox.Show("Invalid Weblog configuration selected.",
+				MessageBox.Show(WeblogForm, "Invalid Weblog configuration selected.",
 					"Weblog Posting Failed",
 					MessageBoxButton.OK, MessageBoxImage.Exclamation);
 				return false;
@@ -249,7 +250,7 @@ namespace WeblogAddin
 				if (!result)
 				{
 					mmApp.Log($"Error sending post to Weblog at {weblogInfo.ApiUrl}: " + client.ErrorMessage);
-					MessageBox.Show("Error sending post to Weblog: " + client.ErrorMessage,
+					MessageBox.Show(WeblogForm, "Error sending post to Weblog: " + client.ErrorMessage,
 						mmApp.ApplicationName,
 						MessageBoxButton.OK,
 						MessageBoxImage.Exclamation);
@@ -270,7 +271,7 @@ namespace WeblogAddin
 				if (post == null)
 				{
 					mmApp.Log($"Error sending post to Weblog at {weblogInfo.ApiUrl}: " + client.ErrorMessage);
-					MessageBox.Show(client.ErrorMessage,
+					MessageBox.Show(WeblogForm, client.ErrorMessage,
 						"Error Sending Post to Medium",
 						MessageBoxButton.OK,
 						MessageBoxImage.Exclamation);
@@ -447,7 +448,7 @@ namespace WeblogAddin
 
 			if (msg != null)
 			{
-				MessageBox.Show($"Couldn't write new Weblog Post file:\r\n\r\n{outputFile}\r\n\r\n{msg}",
+				MessageBox.Show(WeblogForm, $"Couldn't write new Weblog Post file:\r\n\r\n{outputFile}\r\n\r\n{msg}",
 					"New Weblog Post", MessageBoxButton.OK, MessageBoxImage.Error);
 				mmApp.Log($"New Weblog Post Creation Error\r\n{outputFile}", ex, false, LogLevels.Warning);
 				return;
@@ -586,7 +587,7 @@ namespace WeblogAddin
 			}
 			catch (Exception ex)
 			{
-				MessageBox.Show($@"Couldn't write new file at:
+				MessageBox.Show(WeblogForm, $@"Couldn't write new file at:
 {outputFile}
 
 {ex.Message}
