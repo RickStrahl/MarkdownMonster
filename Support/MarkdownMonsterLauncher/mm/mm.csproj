@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
-    <Version>1.24</Version>
+    <Version>1.25</Version>
     <TargetFramework>net472</TargetFramework>
     
     <Product>Markdown Monster</Product>

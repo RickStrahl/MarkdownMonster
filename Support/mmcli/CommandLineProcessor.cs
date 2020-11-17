@@ -95,7 +95,7 @@ namespace mmcli.CommandLine
                                 MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
                         {
                             FileUtils.CopyDirectory(oldCommonFolder,
-                                portableSettingsFolder, deepCopy: true);
+                                portableSettingsFolder, recursive: true);
 
                             mmApp.Configuration.CommonFolder = portableSettingsFolder;
                             mmApp.Configuration.Read();
