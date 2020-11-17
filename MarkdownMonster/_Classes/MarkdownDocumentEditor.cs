@@ -2044,6 +2044,13 @@ public bool PreviewLinkNavigation(string url, string src = null)
     if (AddinManager.Current.RaiseOnPreviewLinkNavigation(url, src))
         return true;
 
+    // if preview links are passed here navigate externally
+    if (url.Contains("_MarkdownMonster_Preview.html"))
+    {
+        ShellUtils.GoUrl(url);
+        return true;
+    }
+
     // file urls are fully qualified paths with file:/// syntax
     var urlPath = url.Replace("file:///", "");
     urlPath = StringUtils.UrlDecode(urlPath);

@@ -696,7 +696,30 @@ namespace MarkdownMonster
                     !File.Exists(mmApp.Configuration.WebBrowserPreviewExecutable))
                 {
                     mmApp.Configuration.WebBrowserPreviewExecutable = null;
-                    ShellUtils.GoUrl(url);
+
+                    //ShellUtils.GoUrl(url);
+
+                    WindowsUtils.TryGetRegistryKey(@"SOFTWARE\Microsoft\Windows\Shell\Associations\UrlAssociations\http\UserChoice", "ProgId", out dynamic value,Registry.CurrentUser);
+                    var progId = value as string;
+                    Console.WriteLine(progId);
+	
+                    WindowsUtils.TryGetRegistryKey(@"MSEdgeHTM\shell\open\command", "", out value,Registry.ClassesRoot);
+	
+                    var exe = value as string;
+                    if (exe == null)
+                    {
+                        ShellUtils.GoUrl(url); // truy
+                        return;
+                    }
+                    ShellUtils.ExecuteCommandLine(exe);
+
+                    //exe = exe.Replace("%1", $"{url}");
+                    
+                    //var tokens = exe.Split(new string[] { "\" " },StringSplitOptions.RemoveEmptyEntries);
+
+                    
+                    //tokens[0] = tokens[0].Replace("\"","");
+                    //Process.Start(tokens[0],tokens[1]);
                 }
                 else
                 {
@@ -709,6 +732,27 @@ namespace MarkdownMonster
             }
         }
 
+
+        public static void OpenBrowser(string url) {
+            WindowsUtils.TryGetRegistryKey(@"SOFTWARE\Microsoft\Windows\Shell\Associations\UrlAssociations\http\UserChoice", "ProgId", out dynamic value,Registry.CurrentUser);
+            var progId = value as string;
+            Console.WriteLine(progId);
+	
+            if (!WindowsUtils.TryGetRegistryKey(@"MSEdgeHTM\shell\open\command", "", out value,Registry.ClassesRoot))
+                return;
+	
+            var exe = value as string;
+            Console.WriteLine(exe);
+
+            exe = exe.Replace("%1", $"{url}");
+            Console.WriteLine(exe);
+
+            var tokens = exe.Split(new string[] { "\" " },StringSplitOptions.RemoveEmptyEntries);
+
+            tokens[0] = tokens[0].Replace("\"","");
+            Process.Start(tokens[0],tokens[1]);
+	
+        }
 
         /// <summary>
         /// Displays the Windows Open With dialog with options.
