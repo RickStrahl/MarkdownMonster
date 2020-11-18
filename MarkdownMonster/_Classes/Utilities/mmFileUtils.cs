@@ -732,7 +732,11 @@ namespace MarkdownMonster
             }
         }
 
-
+        /// <summary>
+        /// Opens the user's default browser explicitly from shell association and passes the URL to the
+        /// command line. This has more features (like # support) than shell Execute.
+        /// </summary>
+        /// <param name="url">Url to open</param>
         public static void OpenBrowser(string url) {
             WindowsUtils.TryGetRegistryKey(@"SOFTWARE\Microsoft\Windows\Shell\Associations\UrlAssociations\http\UserChoice", "ProgId", out dynamic value,Registry.CurrentUser);
             var progId = value as string;
@@ -751,7 +755,6 @@ namespace MarkdownMonster
 
             tokens[0] = tokens[0].Replace("\"","");
             Process.Start(tokens[0],tokens[1]);
-	
         }
 
         /// <summary>

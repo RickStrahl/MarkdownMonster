@@ -2047,7 +2047,8 @@ public bool PreviewLinkNavigation(string url, string src = null)
     // if preview links are passed here navigate externally
     if (url.Contains("_MarkdownMonster_Preview.html"))
     {
-        ShellUtils.GoUrl(url);
+        mmFileUtils.OpenBrowser(url);
+        //ShellUtils.GoUrl(url);
         return true;
     }
 
