@@ -120,13 +120,6 @@ namespace WeblogAddin
             }
 
             var editor = Model.AppModel.ActiveEditor;
-            // Update the Markdown document first
-            string markdown = Model.ActivePostMetadata.SetPostYamlFromMetaData();
-            editor.SetMarkdown(markdown, updateDirtyFlag: true, keepUndoBuffer: true);
-
-            if (Model.Configuration.AutoSavePost)
-                editor.SaveDocument();
-
             WeblogAddinConfiguration.Current.LastWeblogAccessed = Model.ActivePostMetadata.WeblogName;
 
             var window = Model.AppModel.Window;
@@ -142,9 +135,17 @@ namespace WeblogAddin
                 }
                 else
                     window.ShowStatusError("Upload of blog post failed.");
+
             }
             finally
             {
+                // Update the Markdown document after posting so we can capture downloaded values
+                string markdown = Model.ActivePostMetadata.SetPostYamlFromMetaData();
+                editor.SetMarkdown(markdown, updateDirtyFlag: true, keepUndoBuffer: true);
+
+                if (Model.Configuration.AutoSavePost)
+                    editor.SaveDocument();
+
                 StatusBar.ShowStatus();
             }
         }
