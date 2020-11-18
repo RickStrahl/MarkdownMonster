@@ -29,8 +29,7 @@ function initializeinterop(editor) {
 }
 
 $(document).ready(function() {
-    highlightCode();
-    fixMermaidInInternetExplorer();
+  highlightCode();
 
     // navigate all links externally in default browser
     $(document).on("click",
@@ -227,27 +226,7 @@ function highlightCode(lineno) {
         window.highlightJsBadge();
 }
 
-// Mermaid code no longer renders in IE - let's replace it with a link to view
-// in the browser
-function fixMermaidInInternetExplorer() {
 
-  if (!isIE())
-    return;
-
-  var html = "<div style='border: 1px solid #ccc; padding: 5px;'>" +
-    "<a href='" + location.href + "#another-chart'>" +
-    "Mermaid Diagram: Show in external browser</a>" +
-    "</div>";
-
-  var $div = $("div.mermaid");
-    $div.before(html);
-    $div.remove();
-}
-function isIE() {
-  if (navigator.userAgent.indexOf("MSIE") > -1 || navigator.userAgent.indexOf("Trident") > -1)
-    return true;
-  return false;
-}
 // this works, but async updates of code blocks is too jumpy
 //function highlightCodeWebWorker() {
 //    var script = document.getElementById("PreviewScript");
