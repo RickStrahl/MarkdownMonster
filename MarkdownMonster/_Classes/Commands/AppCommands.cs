@@ -1597,13 +1597,13 @@ namespace MarkdownMonster
                 switch (mode)
                 {
                     case "Beside":
-                        editor.AceEditor?.Split("Beside");
+                        editor.SplitEditor(EditorSplitModes.Beside);
                         break;
                     case "Below":
-                        editor.AceEditor?.Split("Below");
+                        editor.SplitEditor(EditorSplitModes.Below);
                         break;
                     case "None":
-                        editor.AceEditor?.Split("None");
+                        editor.SplitEditor(EditorSplitModes.None);
                         break;
                 }
             }, (p, c) => Model.IsEditorActive);

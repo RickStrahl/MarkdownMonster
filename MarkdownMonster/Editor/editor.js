@@ -313,8 +313,6 @@
                 style = JSON.parse(styleJson);
 
             te.lastStyle = style;
-
-            
             editor.container.style.lineHeight = style.lineHeight;
 
             var activeTheme = editor.getTheme();
@@ -1006,9 +1004,8 @@
         // Below or Beside or None
         split: function (value) {
             var split = te.splitInstance;
-
-            if (value === "Below" || value === "Beside") {
-
+          
+            if (value === "Below" || value === "Beside") { 
                 split.setOrientation(value == "Below" ? split.BELOW : split.BESIDE);
                 split.setSplits(2);
 
@@ -1027,11 +1024,8 @@
 
                 // Update editor to match current settings (app specific - cached JSON settings from WPF host)
                 te.editor = editor2;
-
-                te.configureAceEditor(editor2);
-                te.setEditorStyle(te.lastStyle, editor2);
+                te.configureAceEditor(te.editor, te.lastStyle);
                 te.keyBindings.setupKeyBindings();
-
             } else {
                 te.editor = te.mainEditor;
                 split.setSplits(1);
