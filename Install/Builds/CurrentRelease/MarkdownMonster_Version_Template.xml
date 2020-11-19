@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<VersionInfo>
+   <Version>{{version}}</Version>   
+   <PreviewVersion>{{preview-version}}</PreviewVersion>
+   <ReleaseDate>{{date}}</ReleaseDate>
+   <Title>Markdown Monster {{version}} is now available</Title>
+   <Detail>
+Recent updates add Project Support, Find in Files, Open in New Window, Drag and Drop between Instances, Improved Favorites and Git Integration and much more.
+
+For more detailed release info please see:
+https://github.com/RickStrahl/MarkdownMonster/blob/master/Changelog.md
+</Detail>
+</VersionInfo>
