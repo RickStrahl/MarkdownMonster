@@ -254,7 +254,11 @@ namespace MarkdownMonster
         /// </summary>
         public MarkdownSymbolsConfiguration MarkdownSymbolsConfiguration { get; set; } = new MarkdownSymbolsConfiguration();
 
-        public string MermaidDiagramsUrl { get; set; } = "https://cdn.jsdelivr.net/npm/mermaid@7.1.2/dist/mermaid.min.js";
+
+        /// <summary>
+        /// The URL to use for Mermaid Rendering - default uses evergreen url/non-version specific
+        /// </summary>
+        public string MermaidDiagramsUrl { get; set; } = "https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js";
 
         #endregion
 

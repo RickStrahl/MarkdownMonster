@@ -50,25 +50,31 @@ namespace MarkdownMonster.RenderExtensions
 
         private static string MermaidHeaderScript = $"\n<script src=\"{mmApp.Configuration.MarkdownOptions.MermaidDiagramsUrl}\"></script>\n" +
 @"<script>
+var _isIE = navigator.userAgent.indexOf(""MSIE"") > -1 || navigator.userAgent.indexOf(""Trident"") > -1;
+if(_isIE) return;
 mermaid.initialize({startOnLoad:false});
 </script>
 <script>
-function renderMermaid(){
-    mermaid.init(undefined,document.querySelectorAll("".mermaid""));
-}
+var _isIE = navigator.userAgent.indexOf(""MSIE"") > -1 || navigator.userAgent.indexOf(""Trident"") > -1;
+function renderMermaid() {
+    if (!_isIE) { 
+        mermaid.init(undefined,document.querySelectorAll("".mermaid""));
+    }
+}   
 $(function() {
-    fixMermaidInInternetExplorer();
-    if (isIE()) return;
- 
+    fixMermaidInInternetExplorer();    
+
     $(document).on('previewUpdated', function() {        
+        if (_isIE) fixMermaidInInternetExplorer();  // removes .mermaid tags
         renderMermaid();
     });
+
+    if (_isIE) return;
     renderMermaid();
 
     // Mermaid code no longer renders in IE - let's replace it with a link to view
     // in the browser
-    function fixMermaidInInternetExplorer() {
-      var ie = isIE();
+    function fixMermaidInInternetExplorer() {      
       var count = 0;
 
       var $div = $(""div.mermaid"");
@@ -82,7 +88,7 @@ $(function() {
           $el.attr(""id"", id);
         }
 
-        if (!ie)
+        if (!_isIE)
           return;
 
         var html = ""<div style='border: 1px solid #ccc; padding: 5px;'>"" +
@@ -95,12 +101,8 @@ $(function() {
         $el.remove();
       });
     }
-    function isIE() {
-      if (navigator.userAgent.indexOf(""MSIE"") > -1 || navigator.userAgent.indexOf(""Trident"") > -1)
-        return true;
-      return false;
-    }
 });
+
 </script>";
 
     }
