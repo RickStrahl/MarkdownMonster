@@ -124,6 +124,10 @@ namespace WeblogAddin
 
             var window = Model.AppModel.Window;
 
+            // save before sending just in case
+            if (Model.Configuration.AutoSavePost)
+                editor.SaveDocument();
+
             try
             {
                 bool result = await Model.Addin.SendPost(Model.ActiveWeblogInfo,
@@ -136,17 +140,14 @@ namespace WeblogAddin
                 else
                     window.ShowStatusError("Upload of blog post failed.");
 
-            }
-            finally
-            {
-                // Update the Markdown document after posting so we can capture downloaded values
-                string markdown = Model.ActivePostMetadata.SetPostYamlFromMetaData();
-                editor.SetMarkdown(markdown, updateDirtyFlag: true, keepUndoBuffer: true);
-
+                // Sendpost updated the editor - save to disk
                 if (Model.Configuration.AutoSavePost)
                     editor.SaveDocument();
-
-                StatusBar.ShowStatus();
+            }
+            catch(Exception ex)
+            {
+                
+                window.ShowStatusError($"An unhandled error occurred sending the post: {ex.Message}");
             }
         }
 

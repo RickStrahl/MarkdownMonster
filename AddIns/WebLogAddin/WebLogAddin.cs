@@ -262,6 +262,9 @@ namespace WeblogAddin
 				{
 					postUrl = post.Url;
 					meta.Permalink = post.Permalink;
+                    meta.PostId = post.PostId?.ToString();
+                    WeblogModel.ActivePost.PostId = meta.PostId;
+                    WeblogModel.ActivePost.Permalink = post.Permalink;
                 }
 			}
 			if (type == WeblogTypes.Medium)
