@@ -4,14 +4,14 @@
 [![Chocolatey](https://img.shields.io/chocolatey/dt/markdownmonster.svg)](https://chocolatey.org/packages/MarkdownMonster)
 [![Web Site](https://img.shields.io/badge/Markdown_Monster-WebSite-blue.svg)](https://markdownmonster.west-wind.com)
 
-### 1.25.4
+### 1.25.6
 <small>November 19, 2020</small>
 
 * **Update Mermaid Rendering in the Preview**  
 Mermaid support in MM has always been minimal since it uses the Internet Explorer engine for the preview pane. Mermaid recently removed their already terrible support for Mermaid completely, so MM now renders a placeholder rather than the Mermaid chart in the previewer. The placeholder includes a clickable link that opens your default browser and displays the document containing the diagram and navigates to the Id of the mermaid diagram.
 
 * **Fix: Blog Post MetaData**   
-Fixed a regression in posting to a blog where server generated values on new posts - the PermaLink and FeaturedImageUrl - were not updated in the meta data. These values are now updated and written back into the FrontMatter meta data again.
+Fixed a regression in posting to a blog where server generated values on new posts - the PermaLink and FeaturedImageUrl - were not updated in the meta data. These values are now updated and written back into the FrontMatter meta data again. Fix bug where PostId was not updating in captured meta data after posting.
 
 * **Fix: Split View Editor Styling**  
 Fix bug where split view would not open with the same styling as the main view if the theme was not the default theme.
