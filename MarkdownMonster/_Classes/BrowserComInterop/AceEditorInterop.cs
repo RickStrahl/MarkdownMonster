@@ -450,7 +450,13 @@ namespace MarkdownMonster
         /// <param name="syntax">Syntax like markdown, xmls, csharp and so on</param>
         public void SetLanguage(string syntax)
         {
-            Invoke("setlanguage", syntax);
+
+            try
+            {
+                Invoke("setlanguage", syntax);
+            }
+            catch
+            { }
         }
 
 

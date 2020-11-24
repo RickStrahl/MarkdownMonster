@@ -531,36 +531,36 @@ namespace MarkdownMonster
             }
             if (action == "bold")
             {
-                html = WrapValue(input, "**", "**", stripSpaces: true);
+                html = WrapValue(input, "**", "**", stripExtraSpaces: true);
             }
             else if (action == "italic")
             {
                 var italic = mmApp.Configuration.MarkdownOptions.MarkdownSymbolsConfiguration.Italic;
-                html = WrapValue(input, italic, italic, stripSpaces: true);
+                html = WrapValue(input, italic, italic, stripExtraSpaces: true);
             }
             else if (action == "small")
             {
                 // :-( no markdown spec for this - use HTML
-                html = WrapValue(input, "<small>", "</small>", stripSpaces: true);
+                html = WrapValue(input, "<small>", "</small>", stripExtraSpaces: true);
             }
             else if (action == "underline")
             {
                 // :-( no markdown spec for this - use HTML
-                html = WrapValue(input, "<u>", "</u>", stripSpaces: true);
+                html = WrapValue(input, "<u>", "</u>", stripExtraSpaces: true);
             }
             else if (action == "strikethrough")
             {
-                html = WrapValue(input, "~~", "~~", stripSpaces: true);
+                html = WrapValue(input, "~~", "~~", stripExtraSpaces: true);
             }
             else if (action == "mark")
             {
-                html = WrapValue(input, "<mark>", "</mark>", stripSpaces: true);
+                html = WrapValue(input, "<mark>", "</mark>", stripExtraSpaces: true);
             }
             else if (action == "pagebreak")
                 html = "\n<div style='page-break-after: always'></div>\n";
             else if (action == "inlinecode")
             {
-                html = WrapValue(input, "`", "`", stripSpaces: true);
+                html = WrapValue(input, "`", "`", stripExtraSpaces: true);
             }
             else if (action == "h1")
             {
@@ -815,7 +815,7 @@ namespace MarkdownMonster
                     html = action.Replace("{0}", input);
                 else
                     // html|cite  (html keyword)
-                    html = WrapValue(input, $"<{action}>", $"</{action}>", stripSpaces: true);
+                    html = WrapValue(input, $"<{action}>", $"</{action}>", stripExtraSpaces: true);
 
                 cursorMovement = (action.Length + 3) * -1;
             }
@@ -838,14 +838,14 @@ namespace MarkdownMonster
         /// Wraps a string with beginning and ending delimiters.
         /// Fixes up accidental leading and trailing spaces.
         /// </summary>
-        /// <param name="input"></param>
-        /// <param name="delim1"></param>
-        /// <param name="delim2"></param>
-        /// <param name="stripSpaces"></param>
+        /// <param name="input">string to wrap</param>
+        /// <param name="delim1">start delimiter</param>
+        /// <param name="delim2">end delimiter</param>
+        /// <param name="stripExtraSpaces">strips 'extra' spaces or more than one and leaves only one</param>
         /// <returns></returns>
-        public string WrapValue(string input, string delim1, string delim2, bool stripSpaces = true)
+        public string WrapValue(string input, string delim1, string delim2, bool stripExtraSpaces = true)
         {
-            if (!stripSpaces)
+            if (!stripExtraSpaces)
                 return delim1 + input + delim2;
 
             if (input.StartsWith(" "))
@@ -1729,6 +1729,8 @@ namespace MarkdownMonster
             // invoke out of sync in order to force out of scope of the editor - affects weird key behavior otherwise
             Window.Dispatcher.InvokeAsync(() =>
             {
+
+                // Editor Commands like Ctrl-B, Ctrl-I etc. that expand text in the editor embed images etc.
                 if (key == "EditorCommand")
                 {
                     //Window.Model.Commands.ToolbarInsertMarkdownCommand.Execute(action);
