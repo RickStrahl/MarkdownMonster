@@ -243,7 +243,7 @@ namespace MarkdownMonster
         {
             try
             {
-                if (Configuration.SendTelemetry &&
+                if (Configuration.System.SendTelemetry &&
                     Telemetry.UseApplicationInsights &&
                     AppInsights == null)
                 {
@@ -276,7 +276,7 @@ namespace MarkdownMonster
         /// </summary>
         public static void ShutdownLogging()
         {
-            if (Configuration.SendTelemetry &&
+            if (Configuration.System.SendTelemetry &&
                 Telemetry.UseApplicationInsights &&
                 AppInsights != null)
             {

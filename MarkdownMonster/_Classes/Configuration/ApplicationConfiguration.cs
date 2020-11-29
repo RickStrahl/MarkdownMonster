@@ -259,6 +259,7 @@ namespace MarkdownMonster
             ApplicationUpdates = new ApplicationUpdatesConfiguration();
             PdfOutputWindow = new  PdfOutputConfiguration();
             WebServer = new WebServerConfiguration();
+            System = new SystemConfiguration();
 
             OpenDocuments = new List<OpenFileDocument>();
 
@@ -279,7 +280,7 @@ namespace MarkdownMonster
             //BugReportUrl = "https://markdownmonster.west-wind.com/bugreport/bugreport.ashx?method=ReportBug";
             //BugReportUrl = "http://localhost.fiddler/MarkdownMonster/bugreport/bugreport.ashx?method=ReportBug";
             //TelemetryUrl = "https://markdownmonster.west-wind.com/bugreport/bugreport.ashx?method=Telemetry";
-            SendTelemetry = true;
+            
 
             ApplicationTheme = Themes.Dark;
             PreviewTheme = "Dharkan";
@@ -296,19 +297,12 @@ namespace MarkdownMonster
             OpenFolderCommand = "explorer.exe";
 
             WebBrowserPreviewExecutable = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ProgramFilesX86),@"Google\Chrome\Application\chrome.exe");
-
-            ReportErrors = true;
-
             UseSingleWindow = true;
 
             IsPreviewVisible = true;
             IsDocumentOutlineVisible = true;
             OpenInPresentationMode = false;
             AlwaysUsePreviewRefresh = false;
-
-            // Disable for better stability and compatibility
-            // We're not doing anything that pushes the hardware to bring benefits
-            DisableHardwareAcceleration = true;
         }
 
 
@@ -497,23 +491,11 @@ namespace MarkdownMonster
 
         public WebServerConfiguration WebServer {get; set; }
 
+
+        public SystemConfiguration System {get; set; }
         #endregion
 
 
-        #region Bug Reporting and Telemetry
-
-        /// <summary>
-        /// Determines whether errors are reported anonymously
-        /// </summary>
-        public bool ReportErrors { get; set; }
-
-
-		/// <summary>
-		/// Flag to determine whether telemetry is sent
-		/// </summary>
-		public bool SendTelemetry { get; set; }
-
-        #endregion
 
         #region Miscellaneous Settings
         /// <summary>
@@ -586,16 +568,6 @@ namespace MarkdownMonster
         public bool ShowVersionNumberInTitle {get; set;}
 
 
-
-        /// <summary>
-        /// If set makes the application not use GPU accelleration.
-        /// Set this setting if you have problems with MM starting up
-        /// with a black screen. A very few  video drivers are known to
-        /// have render problems and this setting allows getting around
-        /// this driver issue.
-        /// </summary>
-        public bool DisableHardwareAcceleration { get; set; }
-
         /// <summary>
         /// By default passwords in addins are encrypted with machine encryption
         /// keys which means they are not portable. When false a fixed password
@@ -654,7 +626,7 @@ namespace MarkdownMonster
         /// </summary>
         public string LastFolder { get; set; }
 
-
+        
 	    /// <summary>
 	    /// Common folder where configuration files are stored. Can be moved
 	    /// to an alternate location to allow sharing.
@@ -676,6 +648,7 @@ namespace MarkdownMonster
 
         internal string AddinsFolder => Path.Combine(CommonFolder, "Addins");
 
+        
         #endregion
 
 

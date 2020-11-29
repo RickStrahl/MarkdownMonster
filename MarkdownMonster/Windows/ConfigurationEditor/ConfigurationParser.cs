@@ -48,6 +48,7 @@ namespace MarkdownMonster.Windows.ConfigurationEditor
             ParseConfigurationObject(typeof(WindowPositionConfiguration), true);
             ParseConfigurationObject(typeof(ApplicationUpdatesConfiguration), true);
             ParseConfigurationObject(typeof(WebServerConfiguration), true);
+            ParseConfigurationObject(typeof(SystemConfiguration), true);
         }
 
     

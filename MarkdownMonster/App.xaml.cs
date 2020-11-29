@@ -179,7 +179,7 @@ namespace MarkdownMonster
             }
 #endif
 
-            if (mmApp.Configuration.DisableHardwareAcceleration)
+            if (mmApp.Configuration.System.DisableHardwareAcceleration)
                 RenderOptions.ProcessRenderMode = System.Windows.Interop.RenderMode.SoftwareOnly;
 
             // always set directory tocurrent location
