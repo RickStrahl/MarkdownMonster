@@ -18,15 +18,20 @@ var isDebug = false;
 // editor instance that allows the parent to make
 // calls into this component
 function initializeinterop(editor) {
-    if (window.dotnetProxy) {
-        te.mmEditor = window.dotnetProxy;
-    } else
+  if (window.dotnetProxy) {
+      te.mmEditor = window.dotnetProxy;
+    }
+    else if (window.chrome) {
+      te.mmEditor = window.chrome.webview.hostObjects.sync.mm;   // WebView Proxy
+      te.mmEditorAsync = window.chrome.webview.hostObjects.mm;
+    }
+    else
         te.mmEditor = editor;
 
-    te.isPreviewEditorSync = te.mmEditor.isPreviewToEditorSync();
+    te.isPreviewEditorSync = te.mmEditor.IsPreviewToEditorSync();
     scroll();
-
 }
+
 
 $(document).ready(function() {
   highlightCode();
@@ -78,9 +83,10 @@ $(document).on("contextmenu",
         }
         
         if (te.mmEditor) {
-            te.mmEditor.previewContextMenu(parm);
-            return false;
+          te.mmEditor.PreviewContextMenu(JSON.stringify(parm));
+          return false;
         }
+
         return true;
         // inside of WebBrowser control don't show context menu
         //return navigator.userAgent.indexOf("Trident") > -1 ? false : true;
@@ -227,7 +233,9 @@ function highlightCode(lineno) {
 }
 
 function updateDocumentContent(html, lineno) {
-  te.isPreviewEditorSync = te.mmEditor.isPreviewToEditorSync();
+
+  if (te.mmEditor)
+      te.isPreviewEditorSync  = te.mmEditor.IsPreviewToEditorSync();
   
   var el = document.getElementById("MainContent");
   if (!el)
@@ -239,7 +247,6 @@ function updateDocumentContent(html, lineno) {
   // Raise a previewUpdated event on the document
   var event = document.createEvent("Event");
   event.initEvent("previewUpdated", false, true);
-
   event.target = el;
   event.currentTarget = el;
   document.dispatchEvent(event);

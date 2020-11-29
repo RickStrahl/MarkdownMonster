@@ -11,8 +11,20 @@ html, body {
   scrollbar-arrow-color: silver;
   scrollbar-face-color: #555;
   -ms-overflow-style: -ms-autohiding-scrollbar !important;
+
+  scrollbar-width: thin;
 }
 
+body::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+  background: #444;
+}
+
+body::-webkit-scrollbar-thumb {
+  background: #999;
+  border-radius: 3px;
+} 
 b, strong {
   font-weight: 600;
 }

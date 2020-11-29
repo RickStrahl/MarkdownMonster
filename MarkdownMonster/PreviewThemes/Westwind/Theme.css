@@ -6,13 +6,26 @@ html, body {
   -webkit-font-smoothing: antialiased;
   height: 100%;
   margin: 0;
+  /* ie*/
   scrollbar-track-color: Whitesmoke;
   scrollbar-arrow-color: silver;
   scrollbar-base-color: #ddd;
   scrollbar-face-color: #ddd;
   scrollbar-width: 8px;
   -ms-overflow-style: -ms-autohiding-scrollbar !important;
+
+  scrollbar-width: thin;
 }
+
+body::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+  background: #444;
+}
+  body::-webkit-scrollbar-thumb {
+    background: #999;
+    border-radius: 3px;
+  }  
 
 #MainContent {
   margin: 20px 25px 0 40px;
