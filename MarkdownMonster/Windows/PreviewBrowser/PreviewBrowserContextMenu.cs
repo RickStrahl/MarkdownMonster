@@ -21,9 +21,11 @@ namespace MarkdownMonster.Windows.PreviewBrowser
         /// <param name="parms"></param>
         /// <param name="model"></param>
         /// <param name="webBrowser"></param>
-        public void ShowContextMenu(PositionAndDocumentType parms, AppModel model, WebBrowser webBrowser)
+        public void ShowContextMenu(PositionAndDocumentType parms, AppModel model, FrameworkElement webBrowser)
         {
-            
+            if (webBrowser == null)
+                return;
+
             var ctm = new ContextMenu();
             MenuItem mi;
 
@@ -254,16 +256,24 @@ namespace MarkdownMonster.Windows.PreviewBrowser
             };
             ctm.Items.Add(mi);
 
-            webBrowser.ContextMenu = ctm;
+            if (model.Configuration.System.ShowPreviewDeveloperTools)
+            {
+                ctm.Items.Add(new Separator());
+                mi = new MenuItem()
+                {
+                    Header = "Show Browser Developer Tools"
+                };
+                mi.Click += (s, a) => model.Window.PreviewBrowser.ShowDeveloperTools();
+                ctm.Items.Add(mi);
+            }
 
+            webBrowser.ContextMenu = ctm;
             ContextMenuOpening?.Invoke(this, ctm);
 
             ctm.Placement = System.Windows.Controls.Primitives.PlacementMode.MousePoint;
             ctm.PlacementTarget = webBrowser;
             ctm.IsOpen = true;
         }
-
-
     }
 
     public class PositionAndDocumentType

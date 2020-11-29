@@ -467,6 +467,13 @@ namespace MarkdownMonster.Windows.PreviewBrowser
             }
         }
 
+        public void ShowDeveloperTools()
+        {
+            MessageBox.Show(mmApp.Model.Window,
+                "This browser doesn't support Developer tools.", "Developer Tools",
+                MessageBoxButton.OK,
+                MessageBoxImage.Exclamation);
+        }
         #endregion
     }
 

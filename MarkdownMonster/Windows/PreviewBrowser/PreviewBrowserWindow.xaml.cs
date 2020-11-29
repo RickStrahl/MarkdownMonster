@@ -213,6 +213,14 @@ namespace MarkdownMonster.Windows
         {
             PreviewBrowser.ExecuteCommand(command, args);
         }
+
+        public void ShowDeveloperTools()
+        {
+            MessageBox.Show(mmApp.Model.Window,
+                "This browser doesn't support Developer tools.", "Developer Tools",
+                MessageBoxButton.OK,
+                MessageBoxImage.Exclamation);
+        }
         #endregion
 
         public void Dispose()

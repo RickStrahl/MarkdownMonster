@@ -1595,7 +1595,7 @@ namespace MarkdownMonster
                 GetMarkdown();
             
             //Debug.WriteLine(DateTime.Now.ToString("HH:mm:ss.ms") + "  - Preview Markdown  called");
-            Window.PreviewBrowser.PreviewMarkdownAsync(keepScrollPosition: !noPreviewScrolling, editorLineNumber: editorLineNumber);
+            Window.PreviewBrowser.PreviewMarkdownAsync(editor: this, keepScrollPosition: !noPreviewScrolling, editorLineNumber: editorLineNumber);
             
 
             var isDocumentOutlineActive = Window.SidebarContainer?.SelectedItem == Window.TabDocumentOutline;
@@ -1702,7 +1702,7 @@ namespace MarkdownMonster
                 }
 
                 if (previewIfDirty)
-                    Window.PreviewBrowser?.PreviewMarkdownAsync(keepScrollPosition: true);
+                    Window.PreviewBrowser?.PreviewMarkdownAsync(editor: this, keepScrollPosition: true);
             }
 
             return MarkdownDocument.IsDirty;

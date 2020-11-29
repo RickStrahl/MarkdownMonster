@@ -99,6 +99,14 @@ namespace MarkdownMonster.Windows.PreviewBrowser
             PreviewBrowserHandler.ExecuteCommand(command, args);
         }
 
+        public void ShowDeveloperTools()
+        {
+            MessageBox.Show(mmApp.Model.Window,
+                "This browser doesn't support Developer tools.", "Developer Tools",
+                MessageBoxButton.OK,
+                MessageBoxImage.Exclamation);
+        }
+
         void IDisposable.Dispose()
         {
             WebBrowser?.Dispose();

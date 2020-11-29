@@ -37,6 +37,8 @@ namespace MarkdownMonster.Windows.PreviewBrowser
         bool IsVisible { get; }
 
 
-        void ExecuteCommand(string command, params dynamic[] args);        
+        void ExecuteCommand(string command, params dynamic[] args);
+
+        void ShowDeveloperTools();
     }
 }
