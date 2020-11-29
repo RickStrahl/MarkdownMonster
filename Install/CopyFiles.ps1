@@ -16,7 +16,7 @@ $target="$PSScriptRoot\Distribution"
 remove-item -recurse -force ${target}
 
 # copy but exclude libGit extra folders
-robocopy ${source} ${target} /MIR /XD lib /XD runtimes 
+robocopy ${source} ${target} /MIR /XD lib /XD runtimes /XD MarkdownMonster.exe.WebView2
 
 if ($netfull) {
     robocopy ${source}\lib\win32 ${target}\lib\win32 /MIR /XF *.pdb

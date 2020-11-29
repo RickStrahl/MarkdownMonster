@@ -11,6 +11,9 @@
 Remove-item ".\Distribution\roslyn\csi.exe" -Force
 Remove-item ".\Distribution\roslyn\vbc.exe" -Force
 
+# Remove WebView Cache
+Remove-item ".\Distribution\MarkdownMonster.exe.WebView2" -Recurse -Force
+
 # 
 out-file -filepath ".\Distribution\mmcli.exe.ignore"  -inputobject ""
 out-file -filepath ".\Distribution\mm.exe.ignore"  -inputobject ""
