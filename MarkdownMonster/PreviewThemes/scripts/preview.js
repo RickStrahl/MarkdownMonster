@@ -158,6 +158,8 @@ var scroll = debounce(function (event) {
 
     var line = (id * 1) - 4;
     te.mmEditor.gotoLine(line, true);
+
+    //te.mmEditor.gotoLine(line.toString() + "|" +"true");
 },50);
 window.onscroll = scroll;
 

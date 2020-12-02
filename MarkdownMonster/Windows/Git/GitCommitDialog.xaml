@@ -21,7 +21,8 @@
                        WindowStyle="SingleBorderWindow"                    
                        WindowStartupLocation="CenterOwner"                        
                        IsMinButtonEnabled="False" IsMaxRestoreButtonEnabled="False"                       
-                       Width="850"  MinWidth="850" MinHeight="500" Height="700"
+                       Width="915"  MinWidth="915" 
+                       MinHeight="500" Height="700"
                        WindowTransitionsEnabled="True" >
     <Window.InputBindings>
         <KeyBinding Key="F1" Command="{Binding AppModel.Commands.HelpCommand}" CommandParameter="_4xp0yygt2.htm"/>
@@ -80,6 +81,7 @@
                     <Button Click="ButtonPull_Click">
                         <StackPanel Orientation="Horizontal">
                             <fa:FontAwesome Margin="0,2,5,0" Icon="Download"                                             
+                                            Foreground="DarkGoldenrod"
                                             FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" />
                             <TextBlock>Pull</TextBlock>
                         </StackPanel>
@@ -87,7 +89,8 @@
 
                     <Button Click="ButtonPush_Click">
                         <StackPanel Orientation="Horizontal">
-                            <fa:FontAwesome Margin="0,2,5,0" Icon="Upload"                                             
+                            <fa:FontAwesome Margin="0,2,5,0" Icon="Upload"  
+                                            Foreground="DarkGoldenrod"
                                             FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" />
                             <TextBlock>Push</TextBlock>
                         </StackPanel>
@@ -95,7 +98,8 @@
 
                     <Button Click="ButtonRefresh_Click">
                         <StackPanel Orientation="Horizontal">
-                            <fa:FontAwesome Margin="0,2,5,0" Icon="Refresh"                                             
+                            <fa:FontAwesome Margin="0,2,5,0" Icon="Refresh"  
+                                            Foreground="Green"
                                             FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" />
                             <TextBlock>Refresh</TextBlock>
                         </StackPanel>
@@ -106,6 +110,7 @@
                             Command="{Binding AppModel.Commands.Git.OpenGitClientCommand}" CommandParameter="{Binding Filename}" >
                         <StackPanel Orientation="Horizontal">
                             <fa:FontAwesome Margin="0,2,5,0" Icon="ExternalLink"                                             
+                                            Foreground="#EF5033"
                                             FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" />
                             <TextBlock>Git Client</TextBlock>
                         </StackPanel> 
@@ -113,7 +118,9 @@
 
                     <Button Name="ButtonOpenRemote"  ToolTip="Open Git remote in web browser" Click="ButtonOpenRemote_Click">
                         <StackPanel Orientation="Horizontal">
-                            <fa:FontAwesome Margin="0,2,5,0" Icon="Github" FontSize="18"                                       
+                            <fa:FontAwesome Margin="0,2,5,0" Icon="Github" 
+                                            Foreground="SteelBlue"
+                                            FontSize="18"                                      
                                             FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" />
                             <TextBlock>Remote</TextBlock>
                         </StackPanel>
@@ -123,13 +130,14 @@
                     <Button controls:VisibilityHelper.IsCollapsed="{Binding ShowUserInfo}" 
                             Click="ButtonShowUserInfo_Click" ToolTip="Show Git Commit User Info - stored in settings after update">
                         <StackPanel Orientation="Horizontal">
-                            <fa:FontAwesome Margin="0,2,5,0" Icon="UserOutline"                                             
+                            <fa:FontAwesome Margin="0,2,5,0" Icon="UserOutline"    
+                                            Foreground="DarkGoldenrod"
                                             FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" />
                         </StackPanel>
                     </Button>
                     <Button  Name="ButtonGitToolsContext" ToolTip="More Options" Click="ButtonGitToolsContext_Click">
                         <StackPanel Orientation="Horizontal">
-                            <fa:FontAwesome Margin="0,2,5,0" Icon="Gear"                                             
+                            <fa:FontAwesome Margin="0,2,5,0" Icon="Gear" Foreground="DarkGray"                                            
                                             FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" />
                         </StackPanel>
                     </Button>
@@ -137,6 +145,7 @@
                              Command="{Binding AppModel.Commands.HelpCommand}" CommandParameter="_4xp0yygt2.htm">
                         <StackPanel Orientation="Horizontal">
                             <fa:FontAwesome Margin="0,2,5,0" Icon="QuestionCircleOutline"                                             
+                                            Foreground="SteelBlue"
                                             FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" />
                         </StackPanel>
                     </Button>

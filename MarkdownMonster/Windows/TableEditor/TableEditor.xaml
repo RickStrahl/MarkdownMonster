@@ -19,7 +19,7 @@
         WindowStartupLocation="CenterOwner" 
         FontSize="15"
         IsMinButtonEnabled="False" IsMaxRestoreButtonEnabled="False"                       
-        Width="1020" Height="700">
+        Width="1020" Height="700" MinWidth="700">
     <Window.Resources>
         <ContextMenu x:Key="ColumnContextMenu">
             <MenuItem Name="MenuInsertRowBelow" Header="Insert Row _Below" Click="Button_Click" />
@@ -42,16 +42,17 @@
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
-        <ToolBarPanel>
-            <ToolBarPanel.Resources>
+        <ToolBarTray>
+            <ToolBarTray.Resources>
                 <Style x:Key="{x:Static ToolBar.ButtonStyleKey}" TargetType="Button">
                     <Setter Property="Margin" Value="0" />
                     <Setter Property="Padding" Value="6,4"/>
                     <Setter Property="FontSize" Value="17" />
                 </Style>
-            </ToolBarPanel.Resources>
-            <StackPanel Orientation="Horizontal">
-                    <ToolBar FontWeight="Normal" Padding="0,2,0,2">
+            </ToolBarTray.Resources>
+            <!--<StackPanel Orientation="Horizontal">-->
+                    <ToolBar FontWeight="Normal"  ToolBarTray.IsLocked="True">
+                    
                         <Button Name="ButtonOk"  IsDefault="True"  Click="Button_Click">
                             <StackPanel Orientation="Horizontal">
                                 <fa:FontAwesome Margin="5,2,5,0" Icon="CheckCircleOutline"                                             
@@ -71,7 +72,8 @@
                         </Button>
                     </ToolBar>
 
-                <ToolBar>
+                <ToolBar ToolBarTray.IsLocked="True">
+                    <Separator />
 
                     <Button Name="ButtonPasteHtml" Click="Button_Click" ToolTip="Paste a table from clipboard from HTML or Pipe or Grid Tables"  >
                         <StackPanel Orientation="Horizontal">
@@ -97,8 +99,8 @@
                             ToolTip="Documentation for the Table Editor"
                             Command="{Binding AppModel.Commands.HelpCommand}" CommandParameter="_53a0pfz0t.htm"/>
                 </ToolBar>
-            </StackPanel>
-        </ToolBarPanel>
+            <!--</StackPanel>-->
+        </ToolBarTray>
 
         <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled"  Grid.Row="1" 
                       Margin="20,30">

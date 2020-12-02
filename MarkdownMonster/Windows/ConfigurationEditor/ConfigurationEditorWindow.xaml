@@ -17,7 +17,8 @@
                        WindowStartupLocation="CenterOwner"         
                        WindowTransitionsEnabled="False"
                        IsMinButtonEnabled="False" IsMaxRestoreButtonEnabled="False"                       
-                       Width="870" Height="700" MinHeight="400" MinWidth="820">
+                       Width="860" Height="700" 
+                       MinHeight="400" MinWidth="860">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
@@ -25,16 +26,16 @@
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
-        <ToolBarPanel Grid.Row ="0">
-            <ToolBarPanel.Resources>
+        <ToolBarTray Grid.Row ="0">
+            <ToolBarTray.Resources>
                 <Style x:Key="{x:Static ToolBar.ButtonStyleKey}" TargetType="Button">
                     <Setter Property="Margin" Value="0" />
-                    <Setter Property="Padding" Value="6,4"/>
+                    <Setter Property="Padding" Value="6,2"/>
                     <Setter Property="FontSize" Value="17" />
                 </Style>
-            </ToolBarPanel.Resources>
-            <StackPanel Orientation="Horizontal" >
-                <ToolBar >
+            </ToolBarTray.Resources>
+            <!--<StackPanel Orientation="Horizontal" >-->
+                <ToolBar ToolBarTray.IsLocked="True">
                     <Button Name="ButtonExit" IsCancel="True" Click="ButtonExit_Click"
                             ToolTip="Closes the form. Note: Any changes made are applied and saved immediately.">
                         <StackPanel Orientation="Horizontal">
@@ -45,10 +46,9 @@
                             <TextBlock>Exit</TextBlock>
                         </StackPanel>
                     </Button>
-                    </ToolBar >
 
-                    <ToolBar >
-
+                    <Separator/>
+                    
                     <!--<TextBlock VerticalAlignment="Center" Margin="5,0,5,0">Search Filter:</TextBlock>-->
                     <TextBox Name="TextSearch" 
                              controls:TextBoxHelper.Watermark="Search settings..."  
@@ -58,7 +58,9 @@
                              Width="180" Margin="10,0,0,0">
                     </TextBox>
                 </ToolBar>
-                <ToolBar>
+                <ToolBar ToolBarTray.IsLocked="True">
+                    <Separator/>
+
                     <Button Name="ButtonManualSettings" 
                             Click="ButtonManualSettings_Click">
                         <StackPanel Orientation="Horizontal">
@@ -142,9 +144,9 @@
                         </StackPanel>
                     </Button>
                 </ToolBar>
-            </StackPanel>
+            <!--</StackPanel>-->
 
-        </ToolBarPanel>
+        </ToolBarTray>
 
 
 

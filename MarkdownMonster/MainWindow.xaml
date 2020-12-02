@@ -27,7 +27,7 @@
 
         ResizeMode="CanResizeWithGrip"		
         Height="600" Width="1000"  
-        MinWidth="390" MinHeight="220" 
+        MinWidth="820" MinHeight="500" 
         WindowTransitionsEnabled="False"
         SizeChanged="MainApplicationWindow_SizeChanged"
         >
@@ -631,15 +631,15 @@
         
         
         <StackPanel Grid.Row="1">
-			<ToolBarPanel Name="ToolbarPanelMain" >
-                <ToolBarPanel.Resources>
+			<ToolBarTray Name="ToolbarPanelMain" >
+                <ToolBarTray.Resources>
                     <Style x:Key="{x:Static ToolBar.ButtonStyleKey}" TargetType="Button">
                         <Setter Property="Margin" Value="0" />
                         <Setter Property="Padding" Value="6,4"/>
                         <Setter Property="FontSize" Value="17" />
                     </Style>
-                </ToolBarPanel.Resources>
-                <StackPanel Orientation="Horizontal">
+                </ToolBarTray.Resources>
+                <!--<StackPanel Orientation="Horizontal">-->
                     
                     <ToolBar Name="ToolbarFile">
                         
@@ -695,7 +695,9 @@
 
 
 
-                    <ToolBar FontWeight="Light" Name="ToolbarEdit" FontSize="17" Margin="0,0">
+                    <ToolBar FontWeight="Light" 
+                             Name="ToolbarEdit" 
+                             FontSize="17" Margin="0,0">
 
                         <Button Name="ButtonBold"  
                                 ToolTip="Bold (Ctrl+B)"                                   
@@ -931,8 +933,8 @@
                         
 					</ToolBar>
 					
-                </StackPanel>
-            </ToolBarPanel>
+                <!--</StackPanel>-->
+            </ToolBarTray>
         </StackPanel>
 
 
