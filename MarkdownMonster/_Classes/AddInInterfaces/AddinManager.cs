@@ -128,6 +128,9 @@ namespace MarkdownMonster.AddIns
                 {
                     try
                     {
+                        if (addinMenuItem.Execute == null)
+                            continue;  // nothing to do
+
                         var mitem = new MenuItem
                         {
                             Header = addinMenuItem.Caption,
@@ -269,7 +272,8 @@ namespace MarkdownMonster.AddIns
                                     // Uninstall Addin
                                     if (!addin.Id.Equals("screencapture", StringComparison.InvariantCultureIgnoreCase) &&
                                         !addin.Id.Equals("weblog", StringComparison.InvariantCultureIgnoreCase) &&
-                                        !addin.Id.Equals("snippets", StringComparison.InvariantCultureIgnoreCase))
+                                        !addin.Id.Equals("snippets", StringComparison.InvariantCultureIgnoreCase) &&
+                                        !addin.Id.Equals("webviewpreviewer", StringComparison.InvariantCultureIgnoreCase))
                                     {
                                         configMenuItem = new MenuItem()
                                         {

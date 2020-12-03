@@ -20,10 +20,10 @@ namespace MarkdownMonster.AddIns
         where T:AppConfiguration,  new()
     {
         /// <summary>
-        /// Just the file name of the configuraiton file in which to store configuration
+        /// Just the file name of the configuration file in which to store configuration
         /// settings. This file will be auto-created in the MM Common folder.
         /// </summary>
-        protected string ConfigurationFilename  { get; set;  } = typeof(T).Name + ".json";
+        public string ConfigurationFilename  = typeof(T).Name + ".json";
 
         /// <summary>
         /// The current configuration instance. 
