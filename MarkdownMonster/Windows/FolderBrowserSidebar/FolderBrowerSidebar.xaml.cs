@@ -1,4 +1,4 @@
-﻿using System;
+﻿    using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
@@ -1141,9 +1141,9 @@ namespace MarkdownMonster.Windows
             if (fileItem == null)
                 return;
 
-            fileItem.EditName = fileItem.EditName.Trim();
+            fileItem.EditName = fileItem.EditName?.Trim();
 
-            if (string.IsNullOrEmpty(fileItem?.EditName) ||
+            if (string.IsNullOrEmpty(fileItem.EditName) ||
                 fileItem.DisplayName == fileItem.EditName  && File.Exists(fileItem.FullPath))
             {
                 fileItem.IsEditing = false;
