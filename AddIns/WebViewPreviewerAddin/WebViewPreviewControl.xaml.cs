@@ -21,12 +21,18 @@ namespace WebViewPreviewerAddin
 
             Model = mmApp.Model;
             Window = Model.Window;
-
-            PreviewBrowser = new WebViewPreviewHandler(WebBrowser);
+            Loaded += WebViewPreviewControl_Loaded;
             
             DataContext = Model;
+
+            PreviewBrowser = new WebViewPreviewHandler(WebBrowser);
         }
-        
+
+        private void WebViewPreviewControl_Loaded(object sender, System.Windows.RoutedEventArgs e)
+        {
+            
+        }
+
         public AppModel Model { get; set; }
 
         public MainWindow Window { get; set; }

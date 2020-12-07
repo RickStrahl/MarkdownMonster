@@ -86,6 +86,8 @@ namespace MarkdownMonster.Windows.PreviewBrowser
             {
                 editor = Window.GetActiveMarkdownEditor();
                 dnInterop = new PreviewBrowserDotnetInterop(Model, WebBrowser);
+                dnInterop.InitializeInterop();
+
                 dnInterop.JsInterop.SetHighlightTimeout(Model.Configuration.Editor.PreviewHighlightTimeout);
 
                 //window.previewer.highlightTimeout = Model.Configuration.Editor.PreviewHighlightTimeout;
@@ -201,6 +203,7 @@ namespace MarkdownMonster.Windows.PreviewBrowser
                         if (keepScrollPosition)
                         {
                             dotnetInterop = new PreviewBrowserDotnetInterop(Model, WebBrowser);
+                            dotnetInterop.InitializeInterop();
                         }
                         else
                         {
@@ -396,6 +399,7 @@ namespace MarkdownMonster.Windows.PreviewBrowser
 
         {
             var interop = new PreviewBrowserDotnetInterop(Model, WebBrowser);
+            interop.InitializeInterop();
 
             // let's make sure the doc is loaded
             if(interop.JsInterop?.Instance == null)

@@ -19,9 +19,12 @@ namespace WebViewPreviewerAddin
             WebBrowser = interop.WebBrowser as WebView2;
         }
 
-        public async void InitializeInterop()
+
+
+        public void InitializeInterop()
         {
-            await CallMethod("initializeinterop");
+            _ = CallMethod("initializeinterop");
+            
         }
 
 

@@ -46,10 +46,6 @@ namespace MarkdownMonster.BrowserComInterop
         {
             Model = model;
             WebBrowser = webBrowser;
-
-            // pass this object into the Preview Browser
-            // or otherwise initialize via `initializeInterop in JS)
-            InitializeInterop();
         }
 
         /// <summary>
@@ -74,7 +70,7 @@ namespace MarkdownMonster.BrowserComInterop
         /// <summary>
         /// Initial call into JavaScript to 
         /// </summary>
-        public void InitializeInterop()
+        public virtual void InitializeInterop()
         {
             JsInterop.InitializeInterop(this);
         }

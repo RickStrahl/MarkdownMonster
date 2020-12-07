@@ -65,9 +65,7 @@ namespace WebViewPreviewerAddin
             Model = mmApp.Model;
             Window = Model.Window;
 
-            DotnetInterop = new WebViewPreviewDotnetInterop(Model, WebBrowser, WebBrowser.CoreWebView2);
-            JsInterop = new WebViewPreviewJavaScriptInterop(DotnetInterop);
-
+            DotnetInterop = new WebViewPreviewDotnetInterop(Model, WebBrowser);
             WebBrowser.NavigationCompleted += WebBrowser_NavigationCompleted;
             
             InitializeAsync();
@@ -76,7 +74,9 @@ namespace WebViewPreviewerAddin
 
         private void WebBrowser_NavigationCompleted(object sender, CoreWebView2NavigationCompletedEventArgs e)
         {
+
             WebBrowser.CoreWebView2.AddHostObjectToScript("mm", DotnetInterop);
+            JsInterop = DotnetInterop.JsInterop;
             JsInterop.InitializeInterop();
         }
 
