@@ -85,8 +85,7 @@ namespace MarkdownMonster.Windows.PreviewBrowser
             try
             {
                 editor = Window.GetActiveMarkdownEditor();
-                dnInterop = new PreviewBrowserDotnetInterop(Model, WebBrowser, PreviewBrowserDotnetInterop.GetWebBrowserWindow(WebBrowser));
-                dnInterop.InitializeInterop();
+                dnInterop = new PreviewBrowserDotnetInterop(Model, WebBrowser);
                 dnInterop.JsInterop.SetHighlightTimeout(Model.Configuration.Editor.PreviewHighlightTimeout);
 
                 //window.previewer.highlightTimeout = Model.Configuration.Editor.PreviewHighlightTimeout;
@@ -201,7 +200,7 @@ namespace MarkdownMonster.Windows.PreviewBrowser
                     {
                         if (keepScrollPosition)
                         {
-                            dotnetInterop = new PreviewBrowserDotnetInterop(Model, WebBrowser, PreviewBrowserDotnetInterop.GetWebBrowserWindow(WebBrowser));
+                            dotnetInterop = new PreviewBrowserDotnetInterop(Model, WebBrowser);
                         }
                         else
                         {
@@ -396,11 +395,11 @@ namespace MarkdownMonster.Windows.PreviewBrowser
         public void ScrollToEditorLine(int editorLineNumber = -1, bool updateCodeBlocks = false, bool noScrollTimeout = false, bool noScrollTopAdjustment = false)
 
         {
-            var doc = PreviewBrowserDotnetInterop.GetWebBrowserWindow(WebBrowser);
-            if (doc == null)
-                return;
+            var interop = new PreviewBrowserDotnetInterop(Model, WebBrowser);
 
-            var interop = new PreviewBrowserDotnetInterop(Model, WebBrowser, PreviewBrowserDotnetInterop.GetWebBrowserWindow(WebBrowser));
+            // let's make sure the doc is loaded
+            if(interop.JsInterop?.Instance == null)
+                return;
 
             var editor = Window.GetActiveMarkdownEditor();
             if (editor == null)

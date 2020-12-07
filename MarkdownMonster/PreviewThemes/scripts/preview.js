@@ -18,13 +18,16 @@ var isDebug = false;
 // editor instance that allows the parent to make
 // calls into this component
 function initializeinterop(editor) {
-  if (window.dotnetProxy) {
-      te.mmEditor = window.dotnetProxy;
-    }
-    else if (window.chrome) {
+    // WebView2
+    if (window.chrome) {
       te.mmEditor = window.chrome.webview.hostObjects.sync.mm;   // WebView Proxy
       te.mmEditorAsync = window.chrome.webview.hostObjects.mm;
     }
+    // CEF
+    else if (window.dotnetProxy) {
+      te.mmEditor = window.dotnetProxy;
+    }
+    // value passed
     else
         te.mmEditor = editor;
 
