@@ -7,6 +7,15 @@ using Westwind.Utilities;
 
 namespace WebViewPreviewerAddin
 {
+
+    /// <summary>
+    /// This class is used to call into the JavaScript document and perform
+    /// operations there.
+    ///
+    /// Note there's no inheritance/Composition as this interface requires
+    /// Async operation, while the COM interface for WebBrowser control
+    /// requires sync operation.
+    /// </summary>
     public class WebViewPreviewJavaScriptInterop
     {
         private WebViewPreviewDotnetInterop _webViewPreviewDotnetInterop;
@@ -20,25 +29,38 @@ namespace WebViewPreviewerAddin
         }
 
 
-
+        /// <summary>
+        /// Initialize the document
+        /// </summary>
         public void InitializeInterop()
         {
             _ = CallMethod("initializeinterop");
-            
         }
 
 
+        /// <summary>
+        /// Update the document with an HTML string. Optional line number
+        /// on where to scroll the document to.
+        /// </summary>
+        /// <param name="html"></param>
+        /// <param name="lineNo"></param>
         public async void UpdateDocumentContent(string html, int lineNo)
         {
             if (_webViewPreviewDotnetInterop.WebBrowser == null)
                 return;
-
-            //_webViewPreviewDotnetInterop.htmlToUpdate = html;
-
             await CallMethod("updateDocumentContent", html, lineNo);
         }
 
 
+        /// <summary>
+        /// Scroll to a specific line in the document
+        /// </summary>
+        /// <param name="editorLineNumber"></param>
+        /// <param name="headerId"></param>
+        /// <param name="updateCodeBlocks"></param>
+        /// <param name="noScrollTimeout"></param>
+        /// <param name="noScrollTopAdjustment"></param>
+        /// <returns></returns>
         public async Task ScrollToPragmaLine(int editorLineNumber = -1,
             string headerId = null,
             bool updateCodeBlocks = true,
@@ -145,8 +167,6 @@ namespace WebViewPreviewerAddin
             }
 
             string result = await WebBrowser.CoreWebView2.ExecuteScriptAsync(cmd);
-
-
             return JsonSerializationUtils.Deserialize(result, typeof(TResult), true);
         }
         #endregion

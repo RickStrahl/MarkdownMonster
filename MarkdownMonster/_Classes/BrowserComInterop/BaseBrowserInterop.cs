@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Threading.Tasks;
-
-using System.Diagnostics;
 using System.Reflection;
 using Westwind.Utilities;
 
@@ -86,7 +83,6 @@ namespace MarkdownMonster
                 throw ex;
             }
 #endif
-            //return ReflectionUtils.CallMethod(Instance, method, parameters);
         }
 
 

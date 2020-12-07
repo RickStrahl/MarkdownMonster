@@ -1,16 +1,6 @@
-﻿
-using System;
-using System.IO;
-using System.Threading.Tasks;
-using System.Windows.Threading;
-using MahApps.Metro.Controls;
-using MarkdownMonster;
-using MarkdownMonster.AddIns;
+﻿using MarkdownMonster;
 using MarkdownMonster.BrowserComInterop;
-using MarkdownMonster.Windows.PreviewBrowser;
-using Microsoft.Web.WebView2.Wpf;
-using WebViewPreviewerAddin;
-using Westwind.Utilities;
+
 
 namespace WebViewPreviewerAddin
 {
@@ -33,7 +23,7 @@ namespace WebViewPreviewerAddin
         /// JS code internally as well as for .NET browser initialization
         /// code which needs both directions of Interop.
         /// </summary>
-        public new  WebViewPreviewJavaScriptInterop JsInterop
+        public new WebViewPreviewJavaScriptInterop JsInterop
         {
             get
             {
@@ -44,7 +34,9 @@ namespace WebViewPreviewerAddin
             }
         }
         private WebViewPreviewJavaScriptInterop _jsInterop;
-        
+
+
+
         /// <summary>
         /// Initial call into JavaScript to 
         /// </summary>
@@ -52,51 +44,6 @@ namespace WebViewPreviewerAddin
         {
             JsInterop.InitializeInterop();
         }
-
-        //public void gotoLine(object editorLine, object noRefresh)
-        //{
-        //    Dispatcher.CurrentDispatcher.Invoke(()=>
-        //    {
-        //        Model.ActiveEditor?.GotoLine((int) editorLine,(bool) noRefresh);
-        //    });
-        //}
-
-        //public void GotoBottom(object noRefresh, object noSelection)
-        //{
-        //    Dispatcher.CurrentDispatcher.Invoke(()=>
-        //    {
-        //        Model.ActiveEditor?.GotoBottom((bool) noRefresh,(bool) noSelection);
-        //    });
-        //}
-
-
-        //public void  PreviewContextMenu(string positionAndElementType)
-        //{
-        //    var pos = JsonSerializationUtils.Deserialize(positionAndElementType, typeof(PositionAndDocumentType));
-        //    mmApp.Model.Window.PreviewBrowser.ExecuteCommand("PreviewContextMenu", pos);
-        //}
-
-      
-        //public bool PreviewLinkNavigation(string url, string src = null)
-        //{
-        //    var editor = Model.ActiveEditor;
-        //    return editor.PreviewLinkNavigation(url, src);
-        //}
-
-
-        //public bool IsPreviewToEditorSync()
-        //{
-        //    var result = Model.Window.Dispatcher.Invoke(()=>
-        //    {
-        //        if (Model.ActiveEditor != null )
-        //            return Model.ActiveEditor.IsPreviewToEditorSync();
-
-        //        return false;
-        //    });
-
-        //    return result;
-        //}
-
     }
 }
 
