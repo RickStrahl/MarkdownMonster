@@ -19,8 +19,7 @@ remove-item -recurse -force ${target}
 robocopy ${source} ${target} /MIR /XD lib /XD runtimes /XD MarkdownMonster.exe.WebView2
 
 if ($netfull) {
-    robocopy ${source}\lib\win32 ${target}\lib\win32 /MIR /XF *.pdb
-    robocopy ${source}\lib\win64 ${target}\lib\win64 /MIR /XF *.pdb
+    robocopy ${source}\lib\win32 ${target}\lib\win32 /MIR /XF *.pdb    
 }
 else {
     robocopy ${source}\runtimes\win-x86 ${target}\runtimes\win-x86 /MIR 
@@ -62,3 +61,6 @@ Remove-item ${target}\mono.Cecil.*.dll
 get-childitem ${target}\Addins\*.pdb -Recurse | Remove-Item
 get-childitem ${target}\Addins\*.config -Recurse | Remove-Item
 get-childitem ${target}\Addins\*.xml -Recurse | Remove-Item
+
+remove-item ${target}\Addins\WebViewPreviewer\arm64 -Recurse
+remove-item ${target}\Addins\WebViewPreviewer\Microsoft.Web.WebView2.WinForms.dll

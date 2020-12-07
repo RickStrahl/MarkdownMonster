@@ -50,6 +50,7 @@ using MarkdownMonster.Annotations;
 using MarkdownMonster.Controls.ContextMenus;
 using MarkdownMonster.Utilities;
 using MarkdownMonster.Windows;
+using MarkdownMonster.Windows.PreviewBrowser;
 using Microsoft.Win32;
 using Westwind.Utilities;
 using Image = System.Drawing.Image;
@@ -2025,97 +2026,101 @@ namespace MarkdownMonster
 
 #region Previewer Operations
 
-/// <summary>
-/// Pre-processing for HREF link clicks in the Preview document
-///
-/// .md documents are navigated by opening
-/// http links are navigated with Shell browsers if PreviewExternal is enabled
-/// Addins can intercept and if return true handle navigation completely.
-/// </summary>
-/// <param name="url">URL value</param>
-/// <param name="src">Full URL captured by browser and translated. Can be null.</param>
-/// <returns>true if the navigation is handled, false to continue letting app handle navigation</returns>
-public bool PreviewLinkNavigation(string url, string src = null)
-{
-    if (string.IsNullOrEmpty(url))
-        return false;
-
-    if (string.IsNullOrEmpty(src))
-        src = url;
-
-    if (AddinManager.Current.RaiseOnPreviewLinkNavigation(url, src))
-        return true;
-
-    // if preview links are passed here navigate externally
-    if (url.Contains("_MarkdownMonster_Preview.html"))
-    {
-        mmFileUtils.OpenBrowser(url);
-        //ShellUtils.GoUrl(url);
-        return true;
-    }
-
-    // file urls are fully qualified paths with file:/// syntax
-    var urlPath = url.Replace("file:///", "");
-    urlPath = StringUtils.UrlDecode(urlPath);
-    urlPath = FileUtils.NormalizePath(urlPath);
-
-    if (url.StartsWith("http://", StringComparison.InvariantCultureIgnoreCase) || url.StartsWith("https://", StringComparison.InvariantCultureIgnoreCase))
-    {
-        if (mmApp.Configuration.PreviewHttpLinksExternal)
+        /// <summary>
+        /// Pre-processing for HREF link clicks in the Preview document
+        ///
+        /// .md documents are navigated by opening
+        /// http links are navigated with Shell browsers if PreviewExternal is enabled
+        /// Addins can intercept and if return true handle navigation completely.
+        /// </summary>
+        /// <param name="url">URL value</param>
+        /// <param name="src">Full URL captured by browser and translated. Can be null.</param>
+        /// <returns>true if the navigation is handled, false to continue letting app handle navigation</returns>
+        public bool PreviewLinkNavigation(string url, string src = null)
         {
-            ShellUtils.GoUrl(url);
-            return true;
-        }
-    }
-    // it's a relative URL and ends with .md open in editor
-    else if (urlPath.EndsWith(".md", StringComparison.InvariantCultureIgnoreCase) ||
-             urlPath.Contains(".md#", StringComparison.InvariantCultureIgnoreCase))
-    {
-        bool linkHasAnchor = false;
-        if (urlPath.Contains(".md#", StringComparison.InvariantCultureIgnoreCase))
-        {
-            int numSignIndex = urlPath.IndexOf('#');
-            urlPath = urlPath.Remove(numSignIndex);
-            linkHasAnchor = true;
-        }
+            if (string.IsNullOrEmpty(url))
+                return false;
 
-        if (!File.Exists(urlPath))
-            // relative path
-            urlPath = Path.Combine(Path.GetDirectoryName(MarkdownDocument.Filename), urlPath);
+            if (string.IsNullOrEmpty(src))
+                src = url;
 
-        // full or relative path
-        if (File.Exists(urlPath))
-        {
-            var tab = Window.ActivateTab(urlPath, openIfNotFound: true); // open or activate
-            if (tab != null)
+            if (AddinManager.Current.RaiseOnPreviewLinkNavigation(url, src))
+                return true;
+
+            // if preview links are passed here navigate externally
+            if (url.Contains("_MarkdownMonster_Preview.html"))
             {
-                // TODO: This doesn't navigate the new tab's preview if false
-                return !linkHasAnchor;  // let Preview Browser navigate to the anchor, if the link has one
+                mmFileUtils.OpenBrowser(url);
+                //ShellUtils.GoUrl(url);
+                return true;
             }
+
+            // file urls are fully qualified paths with file:/// syntax
+            var urlPath = url.Replace("file:///", "");
+            urlPath = StringUtils.UrlDecode(urlPath);
+            urlPath = FileUtils.NormalizePath(urlPath);
+
+            if (url.StartsWith("http://", StringComparison.InvariantCultureIgnoreCase) || url.StartsWith("https://", StringComparison.InvariantCultureIgnoreCase))
+            {
+                if (mmApp.Configuration.PreviewHttpLinksExternal)
+                {
+                    ShellUtils.GoUrl(url);
+                    return true;
+                }
+            }
+            // it's a relative URL and ends with .md open in editor
+            else if (urlPath.EndsWith(".md", StringComparison.InvariantCultureIgnoreCase) ||
+                     urlPath.Contains(".md#", StringComparison.InvariantCultureIgnoreCase))
+            {
+                bool linkHasAnchor = false;
+                if (urlPath.Contains(".md#", StringComparison.InvariantCultureIgnoreCase))
+                {
+                    int numSignIndex = urlPath.IndexOf('#');
+                    urlPath = urlPath.Remove(numSignIndex);
+                    linkHasAnchor = true;
+                }
+
+                if (!File.Exists(urlPath))
+                    // relative path
+                    urlPath = Path.Combine(Path.GetDirectoryName(MarkdownDocument.Filename), urlPath);
+
+                // full or relative path
+                if (File.Exists(urlPath))
+                {
+                    var tab = Window.ActivateTab(urlPath, openIfNotFound: true); // open or activate
+                    if (tab != null)
+                    {
+                        // TODO: This doesn't navigate the new tab's preview if false
+                        return !linkHasAnchor;  // let Preview Browser navigate to the anchor, if the link has one
+                    }
+                }
+            }
+            else if (src.StartsWith("#"))
+            {
+                return false; // let browser navigate
+            }
+            else
+            {
+                if (!File.Exists(urlPath))
+                    // relative path
+                    urlPath = Path.Combine(Path.GetDirectoryName(MarkdownDocument.Filename), urlPath);
+
+                Window.OpenFile(urlPath);
+                return true;
+            }
+
+            // default browser behavior
+            return false;
         }
-    }
-    else if (src.StartsWith("#"))
-    {
-        return false; // let browser navigate
-    }
-    else
-    {
-        if (!File.Exists(urlPath))
-            // relative path
-            urlPath = Path.Combine(Path.GetDirectoryName(MarkdownDocument.Filename), urlPath);
 
-        Window.OpenFile(urlPath);
-        return true;
-    }
+        public void PreviewContextMenu(object positionAndElementType)
+        {
+            if (positionAndElementType is string)
+                positionAndElementType =
+                    JsonSerializationUtils.Deserialize(positionAndElementType as string, typeof(PositionAndDocumentType));
 
-    // default browser behavior
-    return false;
-}
-
-public void PreviewContextMenu(object positionAndElementType)
-{
-    Window.PreviewBrowser.ExecuteCommand("PreviewContextMenu", positionAndElementType);
-}
+            Window.PreviewBrowser.ExecuteCommand("PreviewContextMenu", positionAndElementType);
+        }
 
 #endregion
 

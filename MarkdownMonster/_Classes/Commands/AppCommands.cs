@@ -1204,16 +1204,11 @@ namespace MarkdownMonster
                 if (!Model.IsPreviewBrowserVisible && Model.IsPresentationMode)
                     PresentationModeCommand.Execute(null);
 
-
                 window.ShowPreviewBrowser(!Model.IsPreviewBrowserVisible);
                 if (Model.IsPreviewBrowserVisible)
                     window.PreviewMarkdown(editor);
             }, null);
         }
-
-
-
-
 
 
         public CommandBase WordWrapCommand { get; set; }

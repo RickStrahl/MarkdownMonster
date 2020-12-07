@@ -11,6 +11,7 @@ using System.Windows.Input;
 using System.Windows.Navigation;
 using System.Windows.Threading;
 using Markdig.Helpers;
+using MarkdownMonster.BrowserComInterop;
 using Westwind.Utilities;
 
 namespace MarkdownMonster.Windows.PreviewBrowser
@@ -79,15 +80,14 @@ namespace MarkdownMonster.Windows.PreviewBrowser
             bool shouldScrollToEditor = WebBrowser.Tag != null && WebBrowser.Tag.ToString() == "EDITORSCROLL";
             WebBrowser.Tag = null;
 
-            PreviewBrowserInterop interop = null;
+            PreviewBrowserDotnetInterop dnInterop = null;
             MarkdownDocumentEditor editor = null;
             try
             {
                 editor = Window.GetActiveMarkdownEditor();
-                interop = new PreviewBrowserInterop(PreviewBrowserInterop.GetWindow(WebBrowser));
-
-                interop.InitializeInterop(editor);
-                interop.SetHighlightTimeout(Model.Configuration.Editor.PreviewHighlightTimeout);
+                dnInterop = new PreviewBrowserDotnetInterop(Model, WebBrowser, PreviewBrowserDotnetInterop.GetWebBrowserWindow(WebBrowser));
+                dnInterop.InitializeInterop();
+                dnInterop.JsInterop.SetHighlightTimeout(Model.Configuration.Editor.PreviewHighlightTimeout);
 
                 //window.previewer.highlightTimeout = Model.Configuration.Editor.PreviewHighlightTimeout;
 
@@ -111,9 +111,9 @@ namespace MarkdownMonster.Windows.PreviewBrowser
                                 }
 
                                 if (editor.MarkdownDocument.EditorSyntax == "markdown")
-                                    interop.ScrollToPragmaLine(lineno, headerId);
+                                    dnInterop.JsInterop.ScrollToPragmaLine(lineno, headerId);
                                 else if (editor.MarkdownDocument.EditorSyntax == "html")
-                                    interop.ScrollToHtmlBlock(lineText);
+                                    dnInterop.JsInterop.ScrollToHtmlBlock(lineText);
                             }
                         }
                     }
@@ -128,17 +128,17 @@ namespace MarkdownMonster.Windows.PreviewBrowser
                 // try again after a short wait
                 Model.Window.Dispatcher.Delay(500,(i)=>
                 {
-                    var introp = i as PreviewBrowserInterop;
+                    var introp = i as PreviewBrowserDotnetInterop;
                     try
                     {
-                        introp.InitializeInterop(editor);
-                        introp.SetHighlightTimeout(Model.Configuration.Editor.PreviewHighlightTimeout);
+                        introp.InitializeInterop();
+                        introp.JsInterop.SetHighlightTimeout(Model.Configuration.Editor.PreviewHighlightTimeout);
                     }
                     catch
                     {
                         //mmApp.Log("Preview InitializeInterop failed: " + url, ex);
                     }
-                },interop);
+                },dnInterop);
             }
         }
 
@@ -193,7 +193,7 @@ namespace MarkdownMonster.Windows.PreviewBrowser
                     mappedTo = editor.MarkdownDocument.EditorSyntax;
 
                 
-                PreviewBrowserInterop interop = null;
+                PreviewBrowserDotnetInterop dotnetInterop = null;
                 if (string.IsNullOrEmpty(ext) || mappedTo == "markdown" || mappedTo == "html")
                 {
 
@@ -201,7 +201,7 @@ namespace MarkdownMonster.Windows.PreviewBrowser
                     {
                         if (keepScrollPosition)
                         {
-                            interop = new PreviewBrowserInterop(PreviewBrowserInterop.GetWindow(WebBrowser));
+                            dotnetInterop = new PreviewBrowserDotnetInterop(Model, WebBrowser, PreviewBrowserDotnetInterop.GetWebBrowserWindow(WebBrowser));
                         }
                         else
                         {
@@ -302,7 +302,7 @@ namespace MarkdownMonster.Windows.PreviewBrowser
                                             var lineText = editor.GetLine(editorLineNumber).Trim();
 
                                             if (mmApp.Configuration.PreviewSyncMode != PreviewSyncMode.NavigationOnly)
-                                              interop.UpdateDocumentContent(renderedHtml,highlightLineNo);
+                                              dotnetInterop.JsInterop.UpdateDocumentContent(renderedHtml,highlightLineNo);
 
                                             // TODO: We need to get Header Ids
                                             var headerId = string.Empty; // headers may not have pragma lines
@@ -316,12 +316,12 @@ namespace MarkdownMonster.Windows.PreviewBrowser
                                             }
 
                                             if (editor.MarkdownDocument.EditorSyntax == "markdown")
-                                                interop.ScrollToPragmaLine(editorLineNumber, headerId);
+                                                dotnetInterop.JsInterop.ScrollToPragmaLine(editorLineNumber, headerId);
                                             else if (editor.MarkdownDocument.EditorSyntax == "html")
-                                                interop.ScrollToHtmlBlock(lineText);
+                                                dotnetInterop.JsInterop.ScrollToHtmlBlock(lineText);
                                         }
                                         else
-                                            interop.UpdateDocumentContent(renderedHtml,0);
+                                            dotnetInterop.JsInterop.UpdateDocumentContent(renderedHtml,0);
                                     }
                                     catch
                                     {
@@ -396,11 +396,11 @@ namespace MarkdownMonster.Windows.PreviewBrowser
         public void ScrollToEditorLine(int editorLineNumber = -1, bool updateCodeBlocks = false, bool noScrollTimeout = false, bool noScrollTopAdjustment = false)
 
         {
-            var doc = PreviewBrowserInterop.GetWindow(WebBrowser);
+            var doc = PreviewBrowserDotnetInterop.GetWebBrowserWindow(WebBrowser);
             if (doc == null)
                 return;
 
-            var interop = new PreviewBrowserInterop(doc);
+            var interop = new PreviewBrowserDotnetInterop(Model, WebBrowser, PreviewBrowserDotnetInterop.GetWebBrowserWindow(WebBrowser));
 
             var editor = Window.GetActiveMarkdownEditor();
             if (editor == null)
@@ -426,9 +426,9 @@ namespace MarkdownMonster.Windows.PreviewBrowser
             }
 
             if (editor.MarkdownDocument.EditorSyntax == "markdown")
-                interop.ScrollToPragmaLine(editorLineNumber, headerId, noScrollTimeout, noScrollTopAdjustment);
+                interop.JsInterop.ScrollToPragmaLine(editorLineNumber, headerId, noScrollTimeout, noScrollTopAdjustment);
             else if (editor.MarkdownDocument.EditorSyntax == "html")
-                interop.ScrollToHtmlBlock(lineText ?? editor.GetLine(editorLineNumber) );
+                interop.JsInterop.ScrollToHtmlBlock(lineText ?? editor.GetLine(editorLineNumber) );
         }
 
         #endregion

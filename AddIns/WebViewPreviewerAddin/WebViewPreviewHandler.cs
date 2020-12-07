@@ -7,7 +7,6 @@ using System.Windows;
 
 using System.Windows.Media;
 using System.Windows.Threading;
-using ChromiumPreviewerAddin;
 using FontAwesome.WPF;
 using Markdig.Helpers;
 using MarkdownMonster;
@@ -50,13 +49,13 @@ namespace WebViewPreviewerAddin
         /// The object passed into the JavaScript page to allow for callbacks from
         /// JavaScript into .NET code/MM
         /// </summary>
-        public PreviewDotnetInterop PreviewDotnetInterop { get; set; }
+        public WebViewPreviewDotnetInterop DotnetInterop { get; set; }
 
         /// <summary>
         /// Object that can be used to access JavaScript operations on the
         /// Preview window. Runs global functions in the document using CallMethod()
         /// </summary>
-        public PreviewJavaScriptInterop JsInterop {get; set; }
+        public WebViewPreviewJavaScriptInterop JsInterop {get; set; }
         
 
         public WebViewPreviewHandler(WebView2 webViewBrowser)
@@ -66,22 +65,18 @@ namespace WebViewPreviewerAddin
             Model = mmApp.Model;
             Window = Model.Window;
 
-            PreviewDotnetInterop = new PreviewDotnetInterop(Model, null, WebBrowser);
-            JsInterop = new PreviewJavaScriptInterop(PreviewDotnetInterop);
+            DotnetInterop = new WebViewPreviewDotnetInterop(Model, WebBrowser, WebBrowser.CoreWebView2);
+            JsInterop = new WebViewPreviewJavaScriptInterop(DotnetInterop);
 
-            WebBrowser.Loaded += WebBrowser_Loaded;
             WebBrowser.NavigationCompleted += WebBrowser_NavigationCompleted;
-
+            
             InitializeAsync();
         }
 
-        private void WebBrowser_Loaded(object sender, RoutedEventArgs e)
-        {
-        }
 
         private void WebBrowser_NavigationCompleted(object sender, CoreWebView2NavigationCompletedEventArgs e)
         {
-            WebBrowser.CoreWebView2.AddHostObjectToScript("mm", PreviewDotnetInterop);
+            WebBrowser.CoreWebView2.AddHostObjectToScript("mm", DotnetInterop);
             JsInterop.InitializeInterop();
         }
 
@@ -92,6 +87,7 @@ namespace WebViewPreviewerAddin
             var env = await CoreWebView2Environment.CreateAsync(
                 userDataFolder: browserFolder
             );
+            
             await WebBrowser.EnsureCoreWebView2Async(env);
 
             if (Model.Configuration.System.ShowDeveloperToolsOnStartup)
@@ -350,6 +346,7 @@ namespace WebViewPreviewerAddin
 
         public void Navigate(string url)
         {
+            WebBrowser.Source = null;   //  force Url Change
             WebBrowser.Source = new Uri(url);
         }
 
@@ -367,6 +364,11 @@ namespace WebViewPreviewerAddin
                 object parms = null;
                 if (args != null && args.Length > 0)
                     parms = args[0];
+
+                if (parms is string)
+                {
+                    
+                }
 
                 var menu = new PreviewBrowserContextMenu();
                 menu.ShowContextMenu(new PositionAndDocumentType(parms),

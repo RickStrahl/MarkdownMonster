@@ -1,23 +1,8 @@
-﻿using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
+﻿using System.ComponentModel;
 using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using MarkdownMonster;
-using MarkdownMonster.Windows;
 using MarkdownMonster.Windows.PreviewBrowser;
-using WebViewPreviewerAddin;
-using Westwind.Utilities;
 
 namespace WebViewPreviewerAddin
 {
@@ -41,19 +26,12 @@ namespace WebViewPreviewerAddin
             
             DataContext = Model;
         }
-
-        private void WebViewPreviewControl_Loaded(object sender, RoutedEventArgs e)
-        {
-            
-        }
-
+        
         public AppModel Model { get; set; }
 
         public MainWindow Window { get; set; }
 
         IPreviewBrowser PreviewBrowser { get; set; }
-
-
 
         public void PreviewMarkdownAsync(MarkdownDocumentEditor editor = null, bool keepScrollPosition = false,
             string renderedHtml = null, int editorLineNumber = -1)
@@ -101,16 +79,7 @@ namespace WebViewPreviewerAddin
             WebBrowser.CoreWebView2.OpenDevToolsWindow();
         }
 
-        private void WebBrowser_SizeChanged(object sender, SizeChangedEventArgs e)
-        {
-            //if (e.NewSize.Width > 100)
-            //{
-            //    int width = Convert.ToInt32(Window.MainWindowPreviewColumn.Width.Value);
-            //    if (width > 100)
-            //        mmApp.Configuration.WindowPosition.SplitterPosition = width;
-            //}
-        }
-
+        
         public void ScrollToEditorLine(int editorLineNumber = -1, bool updateCodeBlocks = false, bool noScrollContentTimeout = false, bool noScrollTopAdjustment = false)
         {
             PreviewBrowser.ScrollToEditorLine(editorLineNumber, updateCodeBlocks, noScrollContentTimeout,
@@ -147,7 +116,7 @@ namespace WebViewPreviewerAddin
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        protected virtual void OnPropertyChanged(string propertyName)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }

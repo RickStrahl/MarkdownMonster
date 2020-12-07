@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Threading.Tasks;
+
 using System.Diagnostics;
 using System.Reflection;
 using Westwind.Utilities;
@@ -6,10 +8,13 @@ using Westwind.Utilities;
 namespace MarkdownMonster
 {
     /// <summary>
-    /// Base COM Interop class used for browser interop. Uses an internal Instance property
-    /// to hold COM reference that's used as a base for other operations.
+    /// Base COM Interop class used for browser interop.
+    ///
+    /// Uses an internal Instance property to hold COM reference that's used as a base for other operations.
     /// </summary>
     public class BaseBrowserInterop {
+        
+
         /// <summary>
         /// The actual raw COM instance of the `te` instance
         /// inside of  `editor.js`. The internal members use
@@ -25,17 +30,31 @@ namespace MarkdownMonster
         ///
         /// Note methods with no parameters should pass `false`
         /// </summary>
-        public object Instance { get; set; }
+        public object Instance
+        {
+            get => _instance;
+            set
+            {
+                _instance = value;
+                InstanceType = _instance.GetType();
+            }
+        }
+        private object _instance;
 
         public Type InstanceType { get; set; }
 
-        
+
 
         public BaseBrowserInterop(object instance)
         {
             Instance = instance;
-            InstanceType = instance.GetType();
         }
+
+        public BaseBrowserInterop()
+        {
+
+        }
+
 
         private const BindingFlags flags =
             BindingFlags.Public | BindingFlags.NonPublic |
@@ -215,6 +234,5 @@ namespace MarkdownMonster
         {
             ReflectionUtils.SetPropertyExCom(Instance, propertyName, value);
         }
-        
     }
 }

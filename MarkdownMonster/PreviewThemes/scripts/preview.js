@@ -70,7 +70,7 @@ $(document).ready(function() {
 
 $(document).on("contextmenu",
     function (e) {
-        var parm = { Top: 1, Left: 1, Id: '', Type: '', Src:'', Href: '' };
+      var parm = { Top: 1, Left: 1, Id: '', Type: '', Src:'', Href: '' };
 
         if (e.target) {
             parm.Id = e.target.id;

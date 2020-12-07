@@ -1,24 +1,22 @@
 ﻿using System;
 using System.Text;
 using System.Threading.Tasks;
-using ChromiumPreviewerAddin;
 using MarkdownMonster;
 using Microsoft.Web.WebView2.Wpf;
 using Westwind.Utilities;
 
 namespace WebViewPreviewerAddin
 {
-    public class PreviewJavaScriptInterop
+    public class WebViewPreviewJavaScriptInterop
     {
-        private PreviewDotnetInterop _previewDotnetInterop;
+        private WebViewPreviewDotnetInterop _webViewPreviewDotnetInterop;
         private WebView2 WebBrowser;
 
 
-        public PreviewJavaScriptInterop(PreviewDotnetInterop interop)
+        public WebViewPreviewJavaScriptInterop(WebViewPreviewDotnetInterop interop)
         {
-            _previewDotnetInterop = interop;
-            WebBrowser = interop.WebBrowser;
-
+            _webViewPreviewDotnetInterop = interop;
+            WebBrowser = interop.WebBrowser as WebView2;
         }
 
         public async void InitializeInterop()
@@ -29,12 +27,12 @@ namespace WebViewPreviewerAddin
 
         public async void UpdateDocumentContent(string html, int lineNo)
         {
-            if (_previewDotnetInterop.WebBrowser == null)
+            if (_webViewPreviewDotnetInterop.WebBrowser == null)
                 return;
 
-            _previewDotnetInterop.htmlToUpdate = html;
+            //_webViewPreviewDotnetInterop.htmlToUpdate = html;
 
-            await CallMethod("updateDocumentContent", _previewDotnetInterop.htmlToUpdate, lineNo);
+            await CallMethod("updateDocumentContent", html, lineNo);
         }
 
 
@@ -46,6 +44,7 @@ namespace WebViewPreviewerAddin
             await CallMethod("scrollToPragmaLine", editorLineNumber, headerId, noScrollTimeout, noScrollTopAdjustment);
         }
 
+        #region Async Invocation Utilities
         /// <summary>
         /// Calls a method with simple or no parameters: string, boolean, numbers
         /// </summary>
@@ -147,6 +146,7 @@ namespace WebViewPreviewerAddin
 
             return JsonSerializationUtils.Deserialize(result, typeof(TResult), true);
         }
+        #endregion
 
     }
 }

@@ -250,8 +250,9 @@ namespace MarkdownMonster.Windows.PreviewBrowser
             {
                 Header = "Toggle Preview Window",
                 Command = model.Commands.TogglePreviewBrowserCommand,
-                IsCheckable = true,
+                CommandParameter = "Toggle",
                 InputGestureText = model.Commands.TogglePreviewBrowserCommand.KeyboardShortcut,
+                IsCheckable = true,
                 IsChecked = model.IsPreviewBrowserVisible
             };
             ctm.Items.Add(mi);
