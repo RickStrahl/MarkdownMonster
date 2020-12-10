@@ -6,7 +6,9 @@ using System.IO;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
+using MarkdownMonster.Windows;
 using MarkdownMonster.Windows.PreviewBrowser;
+using Microsoft.Web.WebView2.Core;
 using Westwind.Utilities;
 
 namespace WebViewPreviewerAddin
@@ -125,12 +127,12 @@ namespace WebViewPreviewerAddin
         /// <param name="sender"></param>
         public override void OnExecute(object sender)
         {
-            if (Model.Window == null)
+            if (Model.Window == null || !IsWebViewVersionInstalled(true))
                 return;
 
             IsActive = !IsActive;
-
             Model.Window.LoadPreviewBrowser();
+
             if (IsActive)
                 Model.Window.ShowStatusSuccess("Switched to Chromium based Preview Browser.");
             else
@@ -177,15 +179,66 @@ namespace WebViewPreviewerAddin
 
         public override IPreviewBrowser GetPreviewBrowserUserControl()
         {
-            if (!IsActive)
+            if (!IsActive || !IsWebViewVersionInstalled())
                 return null;  // use the default
-
+            
             return new WebViewPreviewControl();
         }
 
         public override void OnApplicationShutdown()
         {
             Configuration.Write();
+        }
+
+        private bool IsWebViewVersionInstalled(bool showDownloadUi = false)
+        {
+
+            string versionNo = string.Empty;
+            try
+            {
+                versionNo = CoreWebView2Environment.GetAvailableBrowserVersionString();
+
+                // strip off 'canary' or 'stable' verison
+                versionNo = StringUtils.ExtractString(versionNo, "", " ", allowMissingEndDelimiter: true)?.Trim();
+                var ver = new Version(versionNo);
+
+                var assVersion = typeof(CoreWebView2Environment).Assembly.GetName().Version;
+
+                if (ver.Build >= assVersion.Build)
+                    return true;
+            }
+            catch {}
+
+            IsActive = false;
+
+            if (!showDownloadUi)
+                return false;
+
+            var form = new BrowserMessageBox() {Owner = mmApp.Model.Window, Width = 600};
+
+                var markdown = $@"
+### Edge WebView Runtime not installed or out of Date
+The Microsoft Edge WebView Runtime is either not installed
+or is the wrong version { (versionNo != null ? " (" + versionNo + ") " : "") }.
+
+In order to use the Chromium preview you need to install this runtime.
+
+Do you want to download and install the Edge WebView Runtime?";
+
+                form.ClearButtons();
+                var okButton = form.AddButton("Yes", FontAwesomeIcon.CheckCircle, Brushes.Green);
+                form.AddButton("No", FontAwesomeIcon.Remove, Brushes.Firebrick);
+                form.ShowMarkdown(markdown);
+            
+
+                form.ShowDialog();
+                if (form.ButtonResult == okButton)
+                {
+                    mmFileUtils.OpenBrowser("https://developer.microsoft.com/en-us/microsoft-edge/webview2/");
+                }
+
+                return false;
+            
         }
     }
 }

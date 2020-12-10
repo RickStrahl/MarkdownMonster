@@ -67,7 +67,7 @@ namespace MarkdownMonster.BrowserComInterop
         {
             Dispatcher.CurrentDispatcher.Invoke(() =>
             {
-                Model.ActiveEditor?.GotoLine((int)editorLine, (bool)noRefresh);
+                Model.ActiveEditor?.GotoLine(Convert.ToInt32(editorLine), (bool)noRefresh);
             });
         }
 
