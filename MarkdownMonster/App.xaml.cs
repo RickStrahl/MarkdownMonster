@@ -186,6 +186,16 @@ namespace MarkdownMonster
             var dir = Assembly.GetExecutingAssembly().Location;
             Directory.SetCurrentDirectory(Path.GetDirectoryName(dir));
 
+            // TODO: TEMPORARY OPERATION: Remove the WebViewerPreview Addin
+            var previewAddinPath = Path.Combine(mmApp.Configuration.CommonFolder, "Addins", "WebViewPreviewerAddin");
+            if (Directory.Exists(previewAddinPath))
+            {
+                try
+                {
+                    Directory.Delete(previewAddinPath, true);
+                }catch{ }
+            }
+            
             if (!mmApp.Configuration.DisableAddins)
                 ThreadPool.QueueUserWorkItem(p => LoadAddins());
 
