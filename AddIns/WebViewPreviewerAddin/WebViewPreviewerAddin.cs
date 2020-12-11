@@ -193,16 +193,19 @@ namespace WebViewPreviewerAddin
         private bool IsWebViewVersionInstalled(bool showDownloadUi = false)
         {
 
-            string versionNo = string.Empty;
+            string versionNo = null;
+            Version assVersion = null;
+            Version ver = null;
+
             try
             {
                 versionNo = CoreWebView2Environment.GetAvailableBrowserVersionString();
 
                 // strip off 'canary' or 'stable' verison
                 versionNo = StringUtils.ExtractString(versionNo, "", " ", allowMissingEndDelimiter: true)?.Trim();
-                var ver = new Version(versionNo);
+                ver = new Version(versionNo);
 
-                var assVersion = typeof(CoreWebView2Environment).Assembly.GetName().Version;
+                assVersion = typeof(CoreWebView2Environment).Assembly.GetName().Version;
 
                 if (ver.Build >= assVersion.Build)
                     return true;
@@ -214,25 +217,42 @@ namespace WebViewPreviewerAddin
             if (!showDownloadUi)
                 return false;
 
-            var form = new BrowserMessageBox() {Owner = mmApp.Model.Window, Width = 600};
 
-                var markdown = $@"
-### Edge WebView Runtime not installed or out of Date
-The Microsoft Edge WebView Runtime is either not installed
-or is the wrong version { (versionNo != null ? " (" + versionNo + ") " : "") }.
+            var form = new BrowserMessageBox() {
+                Owner = mmApp.Model.Window,
+                Width = 600,
+                Height= 440,
+                Title="WebView Runtime Installation",
+            };
 
-In order to use the Chromium preview you need to install this runtime.
+            form.Dispatcher.Invoke(() => form.Icon = new ImageSourceConverter()
+                .ConvertFromString("pack://application:,,,/WebViewPreviewerAddin;component/icon_32.png") as ImageSource);
 
-Do you want to download and install the Edge WebView Runtime?";
+            var markdown = $@"
+### WebView Runtime not installed or out of Date
+The Microsoft Edge WebView Runtime is
+{ ( !string.IsNullOrEmpty(versionNo) ?
+                "out of date\n\nYour Build: " + ver.Build +
+                "   -   Required Build: " + assVersion.Build :
+                "not installed")  }.
+
+In order to use the Chromium preview you need to install this runtime by downloading from the [Microsoft Download Site](https://developer.microsoft.com/en-us/microsoft-edge/webview2/).
+
+**Do you want to download and install the Edge WebView Runtime?**
+
+*<small>clicking **Yes** sends you to the Microsoft download site.  
+choose the **Evergreen Bootstrapper** download.</small>*";
 
                 form.ClearButtons();
-                var okButton = form.AddButton("Yes", FontAwesomeIcon.CheckCircle, Brushes.Green);
-                form.AddButton("No", FontAwesomeIcon.Remove, Brushes.Firebrick);
+                var yesButton = form.AddButton("Yes", FontAwesomeIcon.CheckCircle, Brushes.Green);
+                yesButton.Width = 90;
+                var noButton = form.AddButton("No", FontAwesomeIcon.TimesCircle, Brushes.Firebrick);
+                noButton.Width = 90;
                 form.ShowMarkdown(markdown);
             
 
                 form.ShowDialog();
-                if (form.ButtonResult == okButton)
+                if (form.ButtonResult == yesButton)
                 {
                     mmFileUtils.OpenBrowser("https://developer.microsoft.com/en-us/microsoft-edge/webview2/");
                 }
