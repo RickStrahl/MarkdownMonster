@@ -36,8 +36,8 @@ namespace MarkdownMonster.Windows
         
         public BrowserMessageBox()
         {
-            
             InitializeComponent();
+            TitleCharacterCasing = System.Windows.Controls.CharacterCasing.Normal;
 
             Browser.LoadCompleted += Browser_LoadCompleted;
 
