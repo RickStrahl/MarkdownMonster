@@ -28,10 +28,14 @@ function initializeinterop(editor) {
       te.mmEditor = window.dotnetProxy;
     }
     // value passed
-    else
-        te.mmEditor = editor;
+    else {
+      te.mmEditor = editor;
+    }
 
-    te.isPreviewEditorSync = te.mmEditor.IsPreviewToEditorSync();
+    if (te.mmEditor) {
+      te.isPreviewEditorSync = te.mmEditor.IsPreviewToEditor();
+    }
+
     scroll();
 }
 
@@ -239,9 +243,14 @@ function highlightCode(lineno) {
 
 function updateDocumentContent(html, lineno) {
 
-  if (te.mmEditor)
-      te.isPreviewEditorSync  = te.mmEditor.IsPreviewToEditorSync();
-  
+  if (te.mmEditor) {
+    try {
+      te.isPreviewEditorSync = te.mmEditor.IsPreviewToEditor2();
+    } catch (ex) {
+      console.log(ex.message);
+    }
+  }
+
   var el = document.getElementById("MainContent");
   if (!el)
     return;

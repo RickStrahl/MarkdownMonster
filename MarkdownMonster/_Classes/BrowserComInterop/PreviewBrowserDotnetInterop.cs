@@ -116,7 +116,7 @@ namespace MarkdownMonster.BrowserComInterop
         /// the preview needs to scroll the editor.
         /// </summary>
         /// <returns></returns>
-        public bool IsPreviewToEditorSync()
+        public bool IsPreviewToEditor()
         {
             var result = Model.Window.Dispatcher.Invoke(() =>
             {
@@ -128,6 +128,20 @@ namespace MarkdownMonster.BrowserComInterop
 
             return result;
         }
+
+        public bool IsPreviewToEditor2()
+        {
+            var result = Model.Window.Dispatcher.Invoke(() =>
+            {
+                if (Model.ActiveEditor != null)
+                    return Model.ActiveEditor.IsPreviewToEditorSync();
+
+                return false;
+            });
+
+            return result;
+        }
+
 
     }
 }
