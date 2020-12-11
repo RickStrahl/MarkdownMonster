@@ -33,7 +33,7 @@ function initializeinterop(editor) {
     }
 
     if (te.mmEditor) {
-      te.isPreviewEditorSync = te.mmEditor.IsPreviewToEditor();
+      te.isPreviewEditorSync = te.mmEditor.IsPreviewToEditorSync();
     }
 
     scroll();
@@ -243,13 +243,13 @@ function highlightCode(lineno) {
 
 function updateDocumentContent(html, lineno) {
 
-  if (te.mmEditor) {
-    try {
-      te.isPreviewEditorSync = te.mmEditor.IsPreviewToEditor2();
-    } catch (ex) {
-      console.log(ex.message);
-    }
-  }
+  //if (te.mmEditor) {
+  //  try {
+  //    te.isPreviewEditorSync = te.mmEditor.IsPreviewToEditorSync();
+  //  } catch (ex) {
+  //    console.log(ex.message);
+  //  }
+  //}
 
   var el = document.getElementById("MainContent");
   if (!el)

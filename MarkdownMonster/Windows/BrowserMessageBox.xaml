@@ -8,6 +8,7 @@
         xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
         xmlns:fa="http://schemas.fontawesome.io/icons/"
         mc:Ignorable="d"
+        TitleCharacterCasing="Normal"
         WindowTransitionsEnabled="False"
         ShowInTaskbar="False"        
         MinWidth="500"

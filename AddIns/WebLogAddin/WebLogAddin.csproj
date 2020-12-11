@@ -14,7 +14,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="MahApps.Metro" Version="2.3.3">
+    <PackageReference Include="MahApps.Metro" Version="2.4.3">
       <IncludeAssets>compile</IncludeAssets>
     </PackageReference>
     <PackageReference Include="Dragablz" Version="0.0.3.203">
@@ -23,13 +23,13 @@
     <PackageReference Include="FontAwesome.WPF" Version="4.7.0.9">
       <IncludeAssets>compile</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="HtmlAgilityPack" Version="1.11.26">
+    <PackageReference Include="HtmlAgilityPack" Version="1.11.28">
       <IncludeAssets>compile</IncludeAssets>
     </PackageReference>
     <PackageReference Include="Westwind.Utilities" Version="3.0.49.3">
       <IncludeAssets>compile</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Markdig" Version="0.22.0">
+    <PackageReference Include="Markdig" Version="0.22.1">
       <IncludeAssets>compile</IncludeAssets>
     </PackageReference>
 

@@ -4,11 +4,19 @@
 [![Chocolatey](https://img.shields.io/chocolatey/dt/markdownmonster.svg)](https://chocolatey.org/packages/MarkdownMonster)
 [![Web Site](https://img.shields.io/badge/Markdown_Monster-WebSite-blue.svg)](https://markdownmonster.west-wind.com)
 
-### 1.25.6
-<small>November 19, 2020</small>
+### 1.25.12
+
+* **Chromium Previewer Browser Addin (Preview)**  
+Added a built-in addin that can toggle between the native IE based preview browser and a new WebView2 based Edge Chromium  Preview browser. 
 
 * **Update Mermaid Rendering in the Preview**  
 Mermaid support in MM has always been minimal since it uses the Internet Explorer engine for the preview pane. Mermaid recently removed their already terrible support for Mermaid completely, so MM now renders a placeholder rather than the Mermaid chart in the previewer. The placeholder includes a clickable link that opens your default browser and displays the document containing the diagram and navigates to the Id of the mermaid diagram.
+
+* **[Markdown Monster Web Server Enhancements](https://markdownmonster.west-wind.com/docs/_5s1009yx1.htm)**  
+Markdown Monster includes a local Web server that can now be used to open new or existing documents and retrieve document content from the active document. Added support for retrieving the active document's content. Added Web page examples that interact with Markdown Monster. There are also new `-startwebserver` and `-stopwebserver` flags to start and stop the Web server to ensure that the local server is running. Added Web Browser HTML samples in  `SampleDocuments\BrowserIntegration` that demonstrate how to interact with MM from a Web page. 
+
+### 1.25.6
+<small>November 19, 2020</small>
 
 * **Fix: Blog Post MetaData**   
 Fixed a regression in posting to a blog where server generated values on new posts - the PermaLink and FeaturedImageUrl - were not updated in the meta data. These values are now updated and written back into the FrontMatter meta data again. Fix bug where PostId was not updating in captured meta data after posting.
@@ -46,8 +54,7 @@ Set up addin handlers that can find `.markdownmonster` file and use it for custo
 * **Add `pagebreak` Default Snippet to Snippet Manager**  
 Added a `pagebreak` default snippet to the Snippet Manager Addin, so it's there by default when MM first creates the Snippet Manager defaults. This is optional and can be removed but is one useful use-case of using a snippet.
 
-* **[Markdown Monster Web Server Enhancements](https://markdownmonster.west-wind.com/docs/_5s1009yx1.htm)**  
-Markdown Monster includes a local Web server that can now be used to open new or existing documents and retrieve document content from the active document. Added support for retrieving the active document's content. Added Web page examples that interact with Markdown Monster. There are also new `-startwebserver` and `-stopwebserver` flags to start and stop the Web server to ensure that the local server is running. Added Web Browser HTML samples in  `SampleDocuments\BrowserIntegration` that demonstrate how to interact with MM from a Web page.
+
 
 * **[Addins: Updated Markdown Monster Add-in Project Visual Studio Extension](https://markdownmonster.west-wind.com/docs/_4ne0s0qoi.htm)**  
 The [Markdown Monster Addin Project Extension](https://marketplace.visualstudio.com/items?itemname=rickstrahl.markdownmonsteraddinproject) now creates much simpler, SDK style .NET projects. Projects now run and debug out of the box after running the New Project Template without additional manual configuration, as was required by the older version. It's also considerably easier now to configure for custom MM install locations using the raw XML Project file.
