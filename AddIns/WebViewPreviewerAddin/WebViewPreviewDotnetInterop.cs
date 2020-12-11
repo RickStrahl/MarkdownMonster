@@ -66,7 +66,7 @@ namespace WebViewPreviewerAddin
         /// <param name="noRefresh"></param>
         public void gotoLine(object editorLine, object noRefresh)
         {
-            Dispatcher.CurrentDispatcher.Invoke(() =>
+            Model.Window.Dispatcher.Invoke(() =>
             {
                 Model.ActiveEditor?.GotoLine(Convert.ToInt32(editorLine), (bool)noRefresh);
             });
@@ -79,7 +79,7 @@ namespace WebViewPreviewerAddin
         /// <param name="noSelection"></param>
         public void GotoBottom(object noRefresh, object noSelection)
         {
-            Dispatcher.CurrentDispatcher.Invoke(() =>
+            Model.Window.Dispatcher.Invoke(() =>
             {
                 Model.ActiveEditor?.GotoBottom((bool)noRefresh, (bool)noSelection);
             });
@@ -92,8 +92,12 @@ namespace WebViewPreviewerAddin
         /// <param name="positionAndElementType"></param>
         public void PreviewContextMenu(string positionAndElementType)
         {
-            var pos = JsonSerializationUtils.Deserialize(positionAndElementType, typeof(PositionAndDocumentType));
-            mmApp.Model.Window.PreviewBrowser.ExecuteCommand("PreviewContextMenu", pos);
+            Model.Window.Dispatcher.Invoke(() =>
+            {
+                var pos = JsonSerializationUtils.Deserialize(positionAndElementType, typeof(PositionAndDocumentType));
+                mmApp.Model.Window.PreviewBrowser.ExecuteCommand("PreviewContextMenu", pos);
+            });
+
         }
 
 
@@ -107,8 +111,11 @@ namespace WebViewPreviewerAddin
         /// <returns></returns>
         public bool PreviewLinkNavigation(string url, string src = null)
         {
-            var editor = Model.ActiveEditor;
-            return editor.PreviewLinkNavigation(url, src);
+            return Model.Window.Dispatcher.Invoke(() =>
+            {
+                var editor = Model.ActiveEditor;
+                return editor.PreviewLinkNavigation(url, src);
+            });
         }
 
 
@@ -119,17 +126,20 @@ namespace WebViewPreviewerAddin
         /// <returns></returns>
         public bool IsPreviewToEditorSync()
         {
-            try
+            return Model.Window.Dispatcher.Invoke(() =>
             {
-                if (Model.ActiveEditor != null)
-                    return Model.ActiveEditor.IsPreviewToEditorSync();
+                try
+                {
+                    if (Model.ActiveEditor != null)
+                        return Model.ActiveEditor.IsPreviewToEditorSync();
 
-                return false;
-            }
-            catch
-            {
-                return false;
-            }
+                    return false;
+                }
+                catch
+                {
+                    return false;
+                }
+            });
         }
     }
 }
