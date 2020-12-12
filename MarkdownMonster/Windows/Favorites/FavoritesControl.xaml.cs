@@ -242,38 +242,38 @@ namespace MarkdownMonster.Windows
         }
 
         private void TreeViewItem_Drop(object sender, DragEventArgs e)
-        {
-            string rawFilename = null;
-
-            // avoid double drop events?
-            if (IsDragging)
-            {
-                // Explorer Drag and Drop - just look for the filename 
-                var tkens = e.Data.GetData(DataFormats.FileDrop) as string[];
-                if (tkens == null)
-                {
-                    return;
-                }
-
-                rawFilename = tkens[0] as string;
-            }
-            IsDragging = false;
-
-            FavoriteItem targetItem;            
-            e.Handled = true;
-
+        {   
             if (sender is TreeView)
             {
                 // dropped into treeview open space
                 return; //targetItem = ActivePathItem;
             }
 
+            string rawFilename = null;
+
+            if (e.Data.GetDataPresent(DataFormats.FileDrop))
+            {
+                var tkens = e.Data.GetData(DataFormats.FileDrop) as string[];
+                if (tkens == null)
+                {
+                    return;
+                }
+                rawFilename  = tkens[0];
+            }
+            IsDragging = false;
+
+            FavoriteItem targetItem;            
+            e.Handled = true;
+
             targetItem = (e.OriginalSource as FrameworkElement)?.DataContext as FavoriteItem;
             if (targetItem == null)
                 return;
 
-            //  "path|title"
-            var path = rawFilename ?? e.Data.GetData(DataFormats.UnicodeText) as string;
+            string path = rawFilename;
+            if (string.IsNullOrEmpty(rawFilename))
+                //  "path|title"
+                path = e.Data.GetData(DataFormats.UnicodeText) as string;
+            
             if (string.IsNullOrEmpty(path))
                 return;
 
