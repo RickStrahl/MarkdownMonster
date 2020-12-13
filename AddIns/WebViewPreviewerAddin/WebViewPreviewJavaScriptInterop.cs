@@ -32,9 +32,9 @@ namespace WebViewPreviewerAddin
         /// <summary>
         /// Initialize the document
         /// </summary>
-        public void InitializeInterop()
+        public async Task InitializeInterop()
         {
-            _ = CallMethod("initializeinterop");
+            await CallMethod("initializeinterop");
         }
 
 
@@ -44,7 +44,7 @@ namespace WebViewPreviewerAddin
         /// </summary>
         /// <param name="html"></param>
         /// <param name="lineNo"></param>
-        public async void UpdateDocumentContent(string html, int lineNo)
+        public async Task UpdateDocumentContent(string html, int lineNo)
         {
             if (_webViewPreviewDotnetInterop.WebBrowser == null)
                 return;

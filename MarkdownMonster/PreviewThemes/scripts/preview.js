@@ -1,5 +1,6 @@
 var te = window.previewer = {
   mmEditor: null,
+  mmEditorAsync: null,   // WebViewPreviewer
   isPreviewEditorSync: false,
   highlightTimeout: 1800,
   codeScrolled: new Date().getTime() + 2500,
@@ -9,7 +10,54 @@ var te = window.previewer = {
   isCodeScrolled: function() {
     var t = new Date().getTime() - 350;
     return te.codeScrolled > t ? true : false;
+  },
+  // all dotnet calls go through this class
+  dotnetInterop: {
+    getEditor: function() {
+      if (te.mmEditorAsync)
+        return te.mmEditorAsync;
+      if (te.mmEditor)
+        return te.mmEditor;
+
+      return null;
+    },
+    previewContextMenu: function(parm) {
+      var editor = te.dotnetInterop.getEditor();
+      if (!editor)
+          return;
+      editor.PreviewContextMenu(JSON.stringify(parm));
+    },
+    previewLinkNavigation: function(url, rawHref) {
+      var editor = te.dotnetInterop.getEditor();
+      if (!editor)
+        return false;
+
+      return editor.PreviewLinkNavigation(url, rawHref);
+    },
+    gotoBottom: function(updateEditor) {
+      var editor = te.dotnetInterop.getEditor();
+      if (!editor)
+        return;
+
+      editor.GotoBottom(updateEditor || false);
+    },
+    gotoLine: function(line, updateEditor) {
+      var editor = te.dotnetInterop.getEditor();
+      if (!editor)
+        return;
+
+      editor.GotoLine(line, updateEditor || false);
+    },
+    isPreviewEditorToSync: function() {
+      var editor = te.dotnetInterop.getEditor();
+      if (!editor)
+        return false;
+      te.isPreviewEditorSync = editor.IsPreviewToEditorSync();
+
+      return te.isPreviewEditorSync;
+    }
   }
+
 };
 var isDebug = false;
 
@@ -33,7 +81,8 @@ function initializeinterop(editor) {
     }
 
     if (te.mmEditor) {
-      te.isPreviewEditorSync = te.mmEditor.IsPreviewToEditorSync();
+      // te.mmEditor.IsPreviewToEditorSync();
+      te.isPreviewEditorSync = te.dotnetInterop.isPreviewEditorToSync(); 
     }
 
     scroll();
@@ -53,7 +102,7 @@ $(document).ready(function() {
 
             // Notify of link navigation and handle external urls
             // if not handled elsewhere
-            if (te.mmEditor && te.mmEditor.PreviewLinkNavigation(url, rawHref)) {
+            if (te.mmEditor && te.dotnetInterop.previewLinkNavigation(url, rawHref)) { //te.mmEditor.PreviewLinkNavigation(url, rawHref)) {
                 // it true editor handled the navigation
                 e.preventDefault();
                 return false;
@@ -90,7 +139,8 @@ $(document).on("contextmenu",
         }
         
         if (te.mmEditor) {
-          te.mmEditor.PreviewContextMenu(JSON.stringify(parm));
+          te.dotnetInterop.previewContextMenu(JSON.stringify(parm));
+          //te.mmEditor.PreviewContextMenu(JSON.stringify(parm));
           return false;
         }
 
@@ -133,12 +183,14 @@ var scroll = debounce(function (event) {
     var sh = window.document.documentElement.scrollHeight - window.document.documentElement.clientHeight;
 
     if (st < 3) {
-      te.mmEditor.gotoLine(0, true);
+      te.dotnetInterop.gotoLine(0, true);
+      //te.mmEditor.gotoLine(0, true);
         return;
     }
     //// if we're on the last page
     if (sh === st) {
-      te.mmEditor.gotoBottom(true, true);
+      te.dotnetInterop.gotoBottom(true, true);
+      //te.mmEditor.gotoBottom(true, true);
       return;
     }
 
@@ -164,7 +216,8 @@ var scroll = debounce(function (event) {
     id = id.replace("pragma-line-", "");
 
     var line = (id * 1) - 4;
-    te.mmEditor.gotoLine(line, true);
+    te.dotnetInterop.gotoLine(line, true);
+    //te.mmEditor.gotoLine(line, true);
 
     //te.mmEditor.gotoLine(line.toString() + "|" +"true");
 },50);
@@ -214,6 +267,7 @@ function highlightCode(lineno) {
             $code.hasClass("language-plain")) {
                 $code.addClass("hljs");
                 continue;
+
         }
 
         // render only matched lines that are in viewport + padding

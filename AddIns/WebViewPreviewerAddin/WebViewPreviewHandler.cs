@@ -67,7 +67,7 @@ namespace WebViewPreviewerAddin
 
             WebBrowser.NavigationCompleted += WebBrowser_NavigationCompleted;
             
-            InitializeAsync();
+            _ = InitializeAsync();
         }
 
 
@@ -78,10 +78,10 @@ namespace WebViewPreviewerAddin
 
             WebBrowser.CoreWebView2.AddHostObjectToScript("mm", DotnetInterop);
             JsInterop = DotnetInterop.JsInterop;
-            JsInterop.InitializeInterop();
+            DotnetInterop.InitializeInterop();
         }
 
-        async void InitializeAsync()
+        async Task InitializeAsync()
         {
             var browserFolder = Path.Combine(mmApp.Configuration.CommonFolder, "WebView_Browser");
             // must create a data folder if running out of a secured folder that can't write like Program Files
@@ -213,7 +213,7 @@ namespace WebViewPreviewerAddin
                                 try
                                 {
                                     int lineno = editor.GetLineNumber();
-                                    JsInterop.UpdateDocumentContent(renderedHtml, lineno);
+                                    _ = JsInterop.UpdateDocumentContent(renderedHtml, lineno);
 
                                     try
                                     {

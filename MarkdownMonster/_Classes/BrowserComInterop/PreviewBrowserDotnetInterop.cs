@@ -63,7 +63,7 @@ namespace MarkdownMonster.BrowserComInterop
         /// </summary>
         /// <param name="editorLine"></param>
         /// <param name="noRefresh"></param>
-        public void gotoLine(object editorLine, object noRefresh)
+        public void GotoLine(object editorLine, object noRefresh)
         {
             Dispatcher.CurrentDispatcher.Invoke(() =>
             {
