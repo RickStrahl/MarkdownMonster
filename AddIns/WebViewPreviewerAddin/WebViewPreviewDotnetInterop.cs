@@ -119,9 +119,9 @@ namespace WebViewPreviewerAddin
         /// <param name="url"></param>
         /// <param name="src"></param>
         /// <returns></returns>
-        public async Task<bool> PreviewLinkNavigation(string url, string src = null)
+        public bool PreviewLinkNavigation(string url, string src = null)
         {
-            bool handled = await Model.Window.Dispatcher.InvokeAsync(() =>
+            bool handled =  Model.Window.Dispatcher.Invoke(() =>
             {
                 var editor = Model.ActiveEditor;
                 return editor.PreviewLinkNavigation(url, src);
@@ -134,10 +134,11 @@ namespace WebViewPreviewerAddin
         /// Checks to see if the editor and preview are synced and if scrolling
         /// the preview needs to scroll the editor.
         /// </summary>
+        /// <remarks>Note this method is called SYNCHRONOUS</remarks>
         /// <returns></returns>
-        public async Task<bool> IsPreviewToEditorSync()
+        public bool IsPreviewToEditorSync()
         {
-            bool result =  await Model.Window.Dispatcher.InvokeAsync(() =>
+            bool result =  Model.Window.Dispatcher.Invoke(() =>
             {
                 try
                 {

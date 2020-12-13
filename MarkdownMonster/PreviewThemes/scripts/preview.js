@@ -13,9 +13,19 @@ var te = window.previewer = {
   },
   // all dotnet calls go through this class
   dotnetInterop: {
+    // return async instance if available, otherwise sync
     getEditor: function() {
       if (te.mmEditorAsync)
         return te.mmEditorAsync;
+      if (te.mmEditor)
+        return te.mmEditor;
+
+      return null;
+    },
+    // TODO: Make all this work with Async/Await once IE is dropped
+    // always return the sync instance for callbacks that return
+    // values (2 funcs). All others use the async version.
+    getEditorSync: function() {
       if (te.mmEditor)
         return te.mmEditor;
 
@@ -28,18 +38,18 @@ var te = window.previewer = {
       editor.PreviewContextMenu(JSON.stringify(parm));
     },
     previewLinkNavigation: function(url, rawHref) {
-      var editor = te.dotnetInterop.getEditor();
+      var editor = te.dotnetInterop.getEditorSync();
       if (!editor)
         return false;
 
       return editor.PreviewLinkNavigation(url, rawHref);
     },
-    gotoBottom: function(updateEditor) {
+    gotoBottom: function(noRefresh, noSelection) {
       var editor = te.dotnetInterop.getEditor();
       if (!editor)
         return;
 
-      editor.GotoBottom(updateEditor || false);
+      editor.GotoBottom(noRefresh || false, noSelection || false);
     },
     gotoLine: function(line, updateEditor) {
       var editor = te.dotnetInterop.getEditor();
@@ -49,11 +59,12 @@ var te = window.previewer = {
       editor.GotoLine(line, updateEditor || false);
     },
     isPreviewEditorToSync: function() {
-      var editor = te.dotnetInterop.getEditor();
+      var editor = te.dotnetInterop.getEditorSync();
       if (!editor)
         return false;
-      te.isPreviewEditorSync = editor.IsPreviewToEditorSync();
 
+      te.isPreviewEditorSync = editor.IsPreviewToEditorSync();
+      console.log("te.isPreviewEditorSync: " + te.isPreviewEditorSync);
       return te.isPreviewEditorSync;
     }
   }
@@ -82,7 +93,9 @@ function initializeinterop(editor) {
 
     if (te.mmEditor) {
       // te.mmEditor.IsPreviewToEditorSync();
-      te.isPreviewEditorSync = te.dotnetInterop.isPreviewEditorToSync(); 
+      te.isPreviewEditorSync = te.dotnetInterop.isPreviewEditorToSync();
+     
+      console.log("isEditorPreviewSync value set to: " + te.isPreviewEditorSync);
     }
 
     scroll();
