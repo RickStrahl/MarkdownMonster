@@ -15,57 +15,60 @@ var te = window.previewer = {
   dotnetInterop: {
     // return async instance if available, otherwise sync
     getEditor: function() {
-      if (te.mmEditorAsync)
-        return te.mmEditorAsync;
-      if (te.mmEditor)
-        return te.mmEditor;
-
-      return null;
+      return te.mmEditorAsync || te.mmEditor || null;
     },
     // TODO: Make all this work with Async/Await once IE is dropped
     // always return the sync instance for callbacks that return
     // values (2 funcs). All others use the async version.
     getEditorSync: function() {
-      if (te.mmEditor)
-        return te.mmEditor;
-
-      return null;
+      return te.mmEditor || null;
     },
     previewContextMenu: function(parm) {
       var editor = te.dotnetInterop.getEditor();
       if (!editor)
           return;
-      editor.PreviewContextMenu(JSON.stringify(parm));
+
+      try {
+        editor.PreviewContextMenu(JSON.stringify(parm));
+      } catch(ex)  { }
     },
     previewLinkNavigation: function(url, rawHref) {
       var editor = te.dotnetInterop.getEditorSync();
       if (!editor)
         return false;
-
-      return editor.PreviewLinkNavigation(url, rawHref);
+      try {
+        return editor.PreviewLinkNavigation(url, rawHref);
+      } catch (ex) { return false; }
     },
     gotoBottom: function(noRefresh, noSelection) {
-      var editor = te.dotnetInterop.getEditor();
+      let editor = te.dotnetInterop.getEditor();
       if (!editor)
         return;
 
-      editor.GotoBottom(noRefresh || false, noSelection || false);
+      try {
+        editor.GotoBottom(noRefresh || false, noSelection || false);
+      } catch(ex)  { }
     },
     gotoLine: function(line, updateEditor) {
-      var editor = te.dotnetInterop.getEditor();
+      let editor = te.dotnetInterop.getEditor();
       if (!editor)
         return;
-
-      editor.GotoLine(line, updateEditor || false);
+      try {
+        editor.GotoLine(line, updateEditor || false);
+      } catch (ex) {
+        console.log("Gotoline Error: " + ex.message);
+      }
     },
     isPreviewEditorToSync: function() {
       var editor = te.dotnetInterop.getEditorSync();
       if (!editor)
         return false;
 
-      te.isPreviewEditorSync = editor.IsPreviewToEditorSync();
-      console.log("te.isPreviewEditorSync: " + te.isPreviewEditorSync);
-      return te.isPreviewEditorSync;
+      try {
+        te.isPreviewEditorSync = editor.IsPreviewToEditorSync();
+        console.log("te.isPreviewEditorSync: " + te.isPreviewEditorSync);
+        return te.isPreviewEditorSync;
+      } catch(ex) { return false; }
     }
   }
 
@@ -86,7 +89,7 @@ function initializeinterop(editor) {
     else if (window.dotnetProxy) {
       te.mmEditor = window.dotnetProxy;
     }
-    // value passed
+    // value passed explicitly from host as parameter
     else {
       te.mmEditor = editor;
     }
@@ -94,8 +97,6 @@ function initializeinterop(editor) {
     if (te.mmEditor) {
       // te.mmEditor.IsPreviewToEditorSync();
       te.isPreviewEditorSync = te.dotnetInterop.isPreviewEditorToSync();
-     
-      console.log("isEditorPreviewSync value set to: " + te.isPreviewEditorSync);
     }
 
     scroll();

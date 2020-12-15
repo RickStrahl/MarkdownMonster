@@ -60,6 +60,8 @@ namespace WebViewPreviewerAddin
             _ = JsInterop.InitializeInterop();
         }
 
+        #region Async Callbacks that don't return a value
+
         /// <summary>
         /// Intial Call into JavaScript
         /// </summary>
@@ -96,7 +98,6 @@ namespace WebViewPreviewerAddin
             });
         }
 
-
         /// <summary>
         /// Shows the WPF Preview menu
         /// </summary>
@@ -110,6 +111,10 @@ namespace WebViewPreviewerAddin
             });
         }
 
+        #endregion
+
+
+        #region Sync Calls that return a value for now
 
         /// <summary>
         /// Fired when a link is clicked in the preview editor. Opens a new
@@ -121,7 +126,7 @@ namespace WebViewPreviewerAddin
         /// <returns></returns>
         public bool PreviewLinkNavigation(string url, string src = null)
         {
-            bool handled =  Model.Window.Dispatcher.Invoke(() =>
+            bool handled = Model.Window.Dispatcher.Invoke(() =>
             {
                 var editor = Model.ActiveEditor;
                 return editor.PreviewLinkNavigation(url, src);
@@ -134,7 +139,6 @@ namespace WebViewPreviewerAddin
         /// Checks to see if the editor and preview are synced and if scrolling
         /// the preview needs to scroll the editor.
         /// </summary>
-        /// <remarks>Note this method is called SYNCHRONOUS</remarks>
         /// <returns></returns>
         public bool IsPreviewToEditorSync()
         {
@@ -154,6 +158,8 @@ namespace WebViewPreviewerAddin
             });
             return result;
         }
+
+        #endregion
     }
 }
 

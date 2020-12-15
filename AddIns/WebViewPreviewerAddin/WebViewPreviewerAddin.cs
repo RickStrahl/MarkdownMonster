@@ -127,10 +127,17 @@ namespace WebViewPreviewerAddin
         /// <param name="sender"></param>
         public override void OnExecute(object sender)
         {
-            if (Model.Window == null || !IsWebViewVersionInstalled(true))
+            if (Model.Window == null)
                 return;
 
             IsActive = !IsActive;
+            if (IsActive &&
+                 !IsWebViewVersionInstalled(true))
+            {
+                IsActive = false;
+                return;
+            }
+                
             Model.Window.LoadPreviewBrowser();
 
             if (IsActive)
