@@ -319,9 +319,9 @@ namespace WebViewPreviewerAddin
             var headerId = string.Empty; // headers may not have pragma lines
             if (editorLineNumber > -1)
             {
-                lineText = editor.GetLine(editorLineNumber).Trim();
+                lineText = editor.GetLine(editorLineNumber)?.Trim();
 
-                if (lineText.StartsWith("#") && lineText.Contains("# ")) // it's header
+                if (lineText != null && lineText.StartsWith("#") && lineText.Contains("# ")) // it's header
                 {
                     lineText = lineText.TrimStart(new[] {' ', '#', '\t'});
                     headerId = LinkHelper.UrilizeAsGfm(lineText);
