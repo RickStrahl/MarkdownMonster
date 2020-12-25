@@ -7,10 +7,10 @@
 ### 1.25.12
 
 * **Chromium Previewer Browser Addin (Preview)**  
-Added a built-in addin that can toggle between the native IE based preview browser and a new WebView2 based Edge Chromium  Preview browser. 
+Added a built-in addin that can toggle between the native IE based preview browser and a new WebView2 based Edge Chromium  Preview browser. This addin provides better compatibility with common browsers and allows support for some related technologies like Mermaid Charts to render natively.
 
 * **Update Mermaid Rendering in the Preview**  
-Mermaid support in MM has always been minimal since it uses the Internet Explorer engine for the preview pane. Mermaid recently removed their already terrible support for Mermaid completely, so MM now renders a placeholder rather than the Mermaid chart in the previewer. The placeholder includes a clickable link that opens your default browser and displays the document containing the diagram and navigates to the Id of the mermaid diagram.
+Mermaid support in MM has always been minimal since it uses the Internet Explorer engine for the preview pane. Mermaid recently removed their already terrible support for IE completely, so MM now renders a placeholder rather than the Mermaid chart in the default (IE based) previewer. The placeholder includes a clickable link that opens your default browser and displays the document containing the diagram and navigates to the Id of the mermaid diagram. Note in the Chromium addin previewer, Mermaid charts are properly rendered inline.
 
 * **[Markdown Monster Web Server Enhancements](https://markdownmonster.west-wind.com/docs/_5s1009yx1.htm)**  
 Markdown Monster includes a local Web server that can now be used to open new or existing documents and retrieve document content from the active document. Added support for retrieving the active document's content. Added Web page examples that interact with Markdown Monster. There are also new `-startwebserver` and `-stopwebserver` flags to start and stop the Web server to ensure that the local server is running. Added Web Browser HTML samples in  `SampleDocuments\BrowserIntegration` that demonstrate how to interact with MM from a Web page. 
