@@ -58,11 +58,8 @@ namespace WebViewPreviewerAddin
         /// </summary>
         public WebViewPreviewJavaScriptInterop JsInterop {get; set; }
 
-        private Task JSInteropInitTask; 
-
         public WebViewPreviewHandler(WebView2 webViewBrowser)
         {
-
             WebBrowser = webViewBrowser; 
             Model = mmApp.Model;
             Window = Model.Window;
@@ -344,8 +341,6 @@ namespace WebViewPreviewerAddin
                 }
             }
 
-            mmApp.LogLocal($"ScrollToPragmaLine: {editorLineNumber} - {headerId} - {editor.MarkdownDocument.EditorSyntax} ");
-
             if (editor.MarkdownDocument.EditorSyntax == "markdown")
             {
                 _ = JsInterop.ScrollToPragmaLine(editorLineNumber, headerId, noScrollTimeout, noScrollTopAdjustment);
@@ -354,10 +349,6 @@ namespace WebViewPreviewerAddin
                 _ = JsInterop.CallMethod("scrollToHtmlBlock", lineText ?? editor.GetLine(editorLineNumber));
             else
                 _ = JsInterop.ScrollToPragmaLine(editorLineNumber, headerId);
-
-
-            mmApp.LogLocal($"Done ScrollToPragmaLine");
-
         }
 
         public async void ScrollToEditorLineAsync(int editorLineNumber = -1, bool updateCodeBlocks = false,
