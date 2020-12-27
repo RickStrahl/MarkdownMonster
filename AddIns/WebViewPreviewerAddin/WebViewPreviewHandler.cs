@@ -2,6 +2,7 @@
 using System.Diagnostics;
 using System.IO;
 using System.Net.Mime;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 
@@ -56,7 +57,8 @@ namespace WebViewPreviewerAddin
         /// Preview window. Runs global functions in the document using CallMethod()
         /// </summary>
         public WebViewPreviewJavaScriptInterop JsInterop {get; set; }
-        
+
+        private Task JSInteropInitTask; 
 
         public WebViewPreviewHandler(WebView2 webViewBrowser)
         {
@@ -73,16 +75,20 @@ namespace WebViewPreviewerAddin
 
         private void WebBrowser_NavigationCompleted(object sender, CoreWebView2NavigationCompletedEventArgs e)
         {
-
+            // Assign interop objects for each request
             DotnetInterop = new WebViewPreviewDotnetInterop(Model, WebBrowser);
+            JsInterop = DotnetInterop.JsInterop;
 
             WebBrowser.CoreWebView2.AddHostObjectToScript("mm", DotnetInterop);
-            JsInterop = DotnetInterop.JsInterop;
-            DotnetInterop.InitializeInterop();
+            DotnetInterop.InitializeInteropAsync().ConfigureAwait(false).GetAwaiter();
         }
 
         async Task InitializeAsync()
         {
+            // initial assignment of interop objects
+            //DotnetInterop = new WebViewPreviewDotnetInterop(Model, WebBrowser);
+            //JsInterop = DotnetInterop.JsInterop;
+            
             var browserFolder = Path.Combine(mmApp.Configuration.CommonFolder, "WebView_Browser");
             // must create a data folder if running out of a secured folder that can't write like Program Files
             var env = await CoreWebView2Environment.CreateAsync(
@@ -93,6 +99,10 @@ namespace WebViewPreviewerAddin
 
             if (Model.Configuration.System.ShowDeveloperToolsOnStartup)
                 WebBrowser.CoreWebView2.OpenDevToolsWindow();
+
+            // initialize here 'initially' then re-initialize for each navigation
+            DotnetInterop = new WebViewPreviewDotnetInterop(Model, WebBrowser);
+            JsInterop = DotnetInterop.JsInterop;
         }
         
 
@@ -103,10 +113,14 @@ namespace WebViewPreviewerAddin
 
 
         private DateTime invoked = DateTime.MinValue;
-        public void PreviewMarkdown(MarkdownDocumentEditor editor = null, bool keepScrollPosition = false, bool showInBrowser = false,
+        public void PreviewMarkdown(MarkdownDocumentEditor editor = null,
+            bool keepScrollPosition = false, bool showInBrowser = false,
             string renderedHtml = null, int editorLineNumber = -1)
         {
-             try
+            if(DotnetInterop == null)
+                return;
+
+            try
             {
                 // only render if the preview is actually visible and rendering in Preview Browser
                 if (!Model.IsPreviewBrowserVisible && !showInBrowser)
@@ -204,14 +218,15 @@ namespace WebViewPreviewerAddin
                                                   .ToLower();
                         if (browserUrl == documentFile)
                         {
-                            
-
                             if (string.IsNullOrEmpty(renderedHtml))
                                 PreviewMarkdown(editor, false, false); // fully reload document
                             else
                             {
                                 try
                                 {
+
+                                    JsInterop = DotnetInterop.JsInterop;
+                                    
                                     int lineno = editor.GetLineNumber();
                                     _ = JsInterop.UpdateDocumentContent(renderedHtml, lineno);
 
@@ -240,6 +255,7 @@ namespace WebViewPreviewerAddin
 
 
                                     WebBrowser.Source = new Uri(editor.MarkdownDocument.HtmlRenderFilename);
+                                    mmApp.Log("Document Update Crash", null, false, LogLevels.Information);
                                 }
                             }
 
@@ -328,12 +344,20 @@ namespace WebViewPreviewerAddin
                 }
             }
 
+            mmApp.LogLocal($"ScrollToPragmaLine: {editorLineNumber} - {headerId} - {editor.MarkdownDocument.EditorSyntax} ");
+
             if (editor.MarkdownDocument.EditorSyntax == "markdown")
+            {
                 _ = JsInterop.ScrollToPragmaLine(editorLineNumber, headerId, noScrollTimeout, noScrollTopAdjustment);
+            }
             else if (editor.MarkdownDocument.EditorSyntax == "html")
                 _ = JsInterop.CallMethod("scrollToHtmlBlock", lineText ?? editor.GetLine(editorLineNumber));
             else
-                _ = JsInterop.ScrollToPragmaLine(editorLineNumber);
+                _ = JsInterop.ScrollToPragmaLine(editorLineNumber, headerId);
+
+
+            mmApp.LogLocal($"Done ScrollToPragmaLine");
+
         }
 
         public async void ScrollToEditorLineAsync(int editorLineNumber = -1, bool updateCodeBlocks = false,
@@ -359,7 +383,6 @@ namespace WebViewPreviewerAddin
         
         public void ExecuteCommand(string command, params dynamic[] args)
         {
-            
             if (command ==  "PreviewContextMenu")
             {
                 object parms = null;

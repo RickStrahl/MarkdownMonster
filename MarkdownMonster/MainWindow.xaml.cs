@@ -405,8 +405,6 @@ namespace MarkdownMonster
 
         protected void OnActivated(object sender, EventArgs e)
         {
-            DocumentFileWatcher.CheckFileChangeInOpenDocuments();
-
             // Active Menu Item deactivation don't refocus
             if (MainMenu.Items.OfType<MenuItem>().Any(item => item.IsHighlighted))
                 return;

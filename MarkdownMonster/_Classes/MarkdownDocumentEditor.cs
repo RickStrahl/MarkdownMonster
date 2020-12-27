@@ -40,10 +40,12 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Text;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Navigation;
 using System.Windows.Threading;
+using FontAwesome.WPF;
 using Markdig;
 using MarkdownMonster.AddIns;
 using MarkdownMonster.Annotations;
@@ -435,6 +437,9 @@ namespace MarkdownMonster
                 }
             }
 
+            if(!CheckForFileChanges())
+                return true;
+
             if (!MarkdownDocument.Save())
                 return false;
 
@@ -480,7 +485,105 @@ namespace MarkdownMonster
             return true;
         }
 
-       
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns>true - if Save() code should run, false if Save is handled</returns>
+        private bool CheckForFileChanges()
+        {
+            if (MarkdownDocument.HasFileCrcChanged())
+            {
+                var document = MarkdownDocument;
+
+                var msgMd =
+                    $@"The underlying file *{document.FilenameWithIndicator.Replace("*", "")}* has been changed by another application. If you save the file as is, it will overwrite those changes.
+
+You can compare files using a Diff tool to compare and merge changes.
+
+**Do you want to compare files**?
+
+<small>*Please close the Diff application to apply changes.*</small>
+";
+
+                var form = new BrowserMessageBox();
+                form.Width = 620;
+                form.Height = 380;
+                form.Title = "Document Save: File Conflicts";
+                form.ShowMarkdown(msgMd);
+
+                form.Icon = mmApp.Model.Window.Icon;
+                form.ClearButtons();
+                var btnYours = form.AddButton("Use Yours", FontAwesomeIcon.ArrowCircleLeft,
+                    System.Windows.Media.Brushes.Green);
+                var btnTheirs = form.AddButton("Use Theirs", FontAwesomeIcon.ArrowCircleRight,
+                    System.Windows.Media.Brushes.Green);
+                var btnCompare = form.AddButton("Compare", FontAwesomeIcon.Exchange,
+                    System.Windows.Media.Brushes.SteelBlue);
+                var btnCancel = form.AddButton("Cancel", FontAwesome.WPF.FontAwesomeIcon.Remove,
+                    System.Windows.Media.Brushes.Firebrick);
+                var dialogResult = form.ShowDialog();
+
+                if (dialogResult == null ||  form.ButtonResult == btnCancel)
+                    return false;
+
+                if (form.ButtonResult == btnTheirs)
+                {
+                    mmApp.Model.Window.ShowStatusSuccess("Loading external content. Content is not saved yet.");
+                    document.Load(); // reload but don't save yet
+                    return false;  // don't save again
+                }
+
+                if (form.ButtonResult == btnYours)
+                {
+                    mmApp.Model.Window.ShowStatusSuccess("Saving your content and overwriting external changes.");
+                    return true; // run Save() operation on existing document
+                }
+                // compare
+
+                Task.Run(() =>
+                {
+                    mmApp.Model.Window.Dispatcher.Invoke(() =>
+                    {
+                        var tempFile = document.Filename + "Ours.diff.md";
+                        document.Save(tempFile);
+
+                        var tempCrc = FileUtils.GetChecksumFromFile(tempFile);
+                        var crc = FileUtils.GetChecksumFromFile(document.Filename);
+
+                        var diff = mmApp.Configuration.Git.GitDiffExecutable;
+                        ShellUtils.ExecuteProcess(diff,
+                            "\"" + document.Filename + "Ours.diff.md" + "\" \"" + document.Filename + "\"", 999999999);
+
+                        // Reload document if the right file has been saved (theirs with our changes)
+                        if (crc != FileUtils.GetChecksumFromFile(document.Filename))
+                        {
+                            document.Load(document.Filename);
+                            mmApp.Model.Window.ShowStatusSuccess("Document updated with merged external changes.");
+                        }
+                        // Reload document with the changes from the file
+                        else if (tempCrc != FileUtils.GetChecksumFromFile(tempFile))
+                        {
+                            document.CurrentText = File.ReadAllText(tempFile, document.Encoding);
+                            mmApp.Model.Window.ShowStatusSuccess("Document updated with from your local merged changes.");
+                        }
+                        else
+                        {
+                            mmApp.Model.Window.ShowStatusSuccess("Document not updated - no changes detected.");
+                        }
+
+                        try
+                        {
+                            File.Delete(tempFile);
+                        }catch { }
+
+                    });
+                });
+                
+                return false;  // Don't save yet
+            }
+            return true;  // run save()
+        }
         #endregion
 
 

@@ -55,9 +55,7 @@ var te = window.previewer = {
         return;
       try {
         editor.GotoLine(line, updateEditor || false);
-      } catch (ex) {
-        console.log("Gotoline Error: " + ex.message);
-      }
+      } catch (ex) {}
     },
     isPreviewEditorToSync: function() {
       var editor = te.dotnetInterop.getEditorSync();
@@ -66,7 +64,6 @@ var te = window.previewer = {
 
       try {
         te.isPreviewEditorSync = editor.IsPreviewToEditorSync();
-        console.log("te.isPreviewEditorSync: " + te.isPreviewEditorSync);
         return te.isPreviewEditorSync;
       } catch(ex) { return false; }
     }
@@ -342,7 +339,7 @@ function scrollToPragmaLine(lineno, headerId, noScrollTimeout, noScrollTopAdjust
         te.setCodeScrolled();
 
       if (lineno < 2) {
-        $("html").scrollTop(0);
+        $(document).scrollTop(0);
         return;
       }
 
@@ -376,7 +373,7 @@ function scrollToPragmaLine(lineno, headerId, noScrollTimeout, noScrollTopAdjust
               break;
           }
         }
-        if ($el.length < 1)
+        if ($el.length < 1)  // couldn't match anything
           return;
       }
 
@@ -391,7 +388,7 @@ function scrollToPragmaLine(lineno, headerId, noScrollTimeout, noScrollTopAdjust
         if (lineno > 1)
           scrollTop = $el.offset().top - 25; // -150
 
-        $("html").scrollTop(scrollTop);
+        $(document).scrollTop(scrollTop);
       }
 //  }, 10);
 }

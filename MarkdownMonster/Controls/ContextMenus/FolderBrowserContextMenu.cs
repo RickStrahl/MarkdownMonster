@@ -733,9 +733,6 @@ using System.Windows;
 
                     gh.UndoChanges(selected.FullPath);
                 }
-
-                // force editors to update
-                DocumentFileWatcher.CheckFileChangeInOpenDocuments();
             }
 
             private void MenuGitClient_Click(object sender, RoutedEventArgs e)

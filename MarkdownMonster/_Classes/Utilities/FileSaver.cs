@@ -125,6 +125,25 @@ namespace MarkdownMonster.Utilities
                     folder = KnownFolders.GetPath(KnownFolder.Libraries);
             }
 
+            if (doc.HasFileCrcChanged())
+            {
+                if(MessageBox.Show(mmApp.Model.Window,
+                    "The underlying file has been changed by another application and if you save as is it will overwrite those changes.\n\n" +
+                    "Do you want to compare files?\n\n" +
+                    "If you reply 'Yes' your preferred Diff tool is opened for you to review changes. Please save changes in the diff tool to apply changes."
+                    ,"File on Disk has changed",MessageBoxButton.YesNo) == MessageBoxResult.No)
+                    return false;
+
+                doc.Save(doc.Filename + ".diff");
+
+                var diff = mmApp.Configuration.Git.GitDiffExecutable;
+                ShellUtils.ExecuteCommandLine(diff, "\"" + doc.Filename + "Ours.diff" + "\" \"" + doc.Filename + "\"",999999999);
+
+                // reload the doc
+                doc.Load(doc.Filename);
+                return true;
+            }
+
 
             SaveFileDialog sd = new SaveFileDialog
             {

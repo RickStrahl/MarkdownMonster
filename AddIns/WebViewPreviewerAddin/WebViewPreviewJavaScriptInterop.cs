@@ -66,7 +66,11 @@ namespace WebViewPreviewerAddin
             bool updateCodeBlocks = true,
             bool noScrollTimeout = false, bool noScrollTopAdjustment = false)
         {
-            await CallMethod("scrollToPragmaLine", editorLineNumber, headerId, noScrollTimeout, noScrollTopAdjustment);
+            mmApp.LogLocal($"JS Interop ScrollToPragmaLine {editorLineNumber} - {headerId} ");
+            await CallMethod("scrollToPragmaLine",
+                editorLineNumber, headerId,
+                noScrollTimeout, noScrollTopAdjustment);
+            mmApp.LogLocal($"JS Interop ScrollToPragmaLine done");
         }
 
         #region Async Invocation Utilities
@@ -79,7 +83,7 @@ namespace WebViewPreviewerAddin
         public async Task<TResult> CallMethod<TResult>(string method, params object[] parameters)
         {
             StringBuilder sb = new StringBuilder();
-            sb.Append("textEditor." + method + "(");
+            sb.Append(method + "(");
 
             if (parameters != null)
             {

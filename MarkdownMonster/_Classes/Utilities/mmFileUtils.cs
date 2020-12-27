@@ -878,7 +878,9 @@ namespace MarkdownMonster
         {
             string diff = null;
 
+            // since we are 32 bit SpecialFolder.ProgramFiles doesn't return the 64 bit folder
             var path64 = Environment.GetEnvironmentVariable("ProgramW6432");
+            
             if (string.IsNullOrEmpty(path64))
                 path64 = Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles);
 

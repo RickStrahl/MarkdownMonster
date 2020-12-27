@@ -156,7 +156,7 @@ namespace MarkdownMonster.Windows
             {                
                 doc.Filename = "test.html";
                 doc.CurrentText = html;
-                doc.RenderHtmlToFile(noBanner:true);
+                doc.RenderHtmlToFile(noBanner: true); 
             }
             else
             {

@@ -57,7 +57,7 @@ namespace WebViewPreviewerAddin
         public void InitializeInterop()
         {
             // async - fire and forget we don't have to wait
-            _ = JsInterop.InitializeInterop();
+            _ = JsInterop.InitializeInterop().ConfigureAwait(false).GetAwaiter();
         }
 
         #region Async Callbacks that don't return a value

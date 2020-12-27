@@ -220,10 +220,6 @@ namespace MarkdownMonster.Favorites
         public bool SaveFavorites()
         {
             bool result = JsonSerializationUtils.SerializeToFile(Favorites, FavoritesFile, throwExceptions: false, formatJsonOutput: true);
-            if (result)
-                // if we have the editor open show the change of the JSON file
-                DocumentFileWatcher.CheckFileChangeInOpenDocuments();
-
             return result;
         }
        
