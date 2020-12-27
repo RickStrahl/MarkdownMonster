@@ -10,6 +10,10 @@
 * **Update Open Document Change Detection**  
 Updated logic to handle change detection on open documents. When documents are open and unchanged, the document is immediately updated with changes from disk. If the open document has changes and the underlying document changes, nothing happens until you save. A new dialog allows you to choose between your version, their version or to run the configure Git Diff tool to compare versions and merge changes.
 
+* **Add PDF Page Sizes to Save To PDF**  
+Added all additional supported PDF print formats to the paper type dropdown on the PDF Export dialog. Adds all Ax and Bx types as well as various named types.
+
+
 ### 1.25.12
 <small>December 5th, 2020</small>
 
