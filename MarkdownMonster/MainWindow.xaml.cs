@@ -2658,6 +2658,7 @@ Do you want to continue anyway?", "Disable Markdown Script Rendering",
 
         private void PreviewTheme_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            Model.ActiveEditor?.AceEditor?.SetEditorStyling();
             PreviewBrowser?.PreviewMarkdownAsync();
         }
 

@@ -425,6 +425,7 @@ namespace MarkdownMonster
                 config.Editor.EnableBulletAutoCompletion,
                 config.Editor.TabSize,
                 config.Editor.UseSoftTabs,
+                config.PreviewSyncMode,
                 RightToLeft = config.Editor.EnableRightToLeft,
                 config.Editor.ClickableLinks,
                 LinefeedMode = (config.Editor.LinefeedMode == Configuration.LinefeedModes.CrLf ? "windows" : "unix")
@@ -434,7 +435,8 @@ namespace MarkdownMonster
             {
                 ContractResolver = new CamelCasePropertyNamesContractResolver(),
             };
-            return JsonConvert.SerializeObject(style, settings);
+            var json =  JsonConvert.SerializeObject(style, settings);
+            return json;
         }
 
 

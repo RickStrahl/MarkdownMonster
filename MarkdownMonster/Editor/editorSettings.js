@@ -19,6 +19,7 @@ var editorSettings = {
   "keyboardHandler": "ace", 
   "tabSize": 4,
   "useSoftTabs": true,
+  "previewSyncMode": 2,
   "enableBulletAutoCompletion": false,
   "isDebug": false
 };

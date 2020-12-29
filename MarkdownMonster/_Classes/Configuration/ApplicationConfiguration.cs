@@ -997,11 +997,11 @@ namespace MarkdownMonster
 
     public enum PreviewSyncMode
     {
-        EditorAndPreview,
-        EditorToPreview,
-        PreviewToEditor,
-        NavigationOnly,
-        None
+        EditorAndPreview = 4,
+        PreviewToEditor = 3,
+        EditorToPreview = 2,
+        NavigationOnly = 1,
+        None = 0
     }
 
     public enum GitCommitBehaviors

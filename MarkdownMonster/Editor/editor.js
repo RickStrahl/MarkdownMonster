@@ -45,7 +45,7 @@
         codeScrolled: 0,
         initialize: function (styleSettings) {
             if (!styleSettings)
-            styleSettings = editorSettings;
+              styleSettings = editorSettings;
 
             // attach ace to formatted code controls if they are loaded and visible
             var $el = $("pre[lang]");
@@ -87,8 +87,8 @@
                 editor = te.editor;
             if (!editorSettings)
                 editorSettings = te.settings;
-
-            var session = editor.getSession();
+    
+          var session = editor.getSession();
             session.name = "markdownmonster_" + new Date().getTime();
 
             editor.setReadOnly(false);
@@ -136,18 +136,27 @@
               if (!te.mm) return;
               te.mm.textbox.PreviewMarkdownCallback(true);
             }, 100);
-            var scrollPreviewRefresh = debounce(function(editorLine, noScrollTimeout, noScrollTopAdjustment) {
+            var scrollPreviewRefresh = debounce(function(editorLine, noScrollTimeout, noScrollTopAdjustment, force) {
                 if (!te.mm) return;
-                if (typeof editorLine !== "number")
-                  editorLine = -1;
 
-                // by default there is a scroll timeout so we don't recursively scroll in two-way mode
-                noScrollTimeout = noScrollTimeout ? true : false;
+                if (force ||
+                  te.settings.previewSyncMode === 2 ||
+                  te.settings.previewSyncMode === 4) {
 
-                if (!noScrollTimeout)
-                  te.setCodeScrolled();
+                  if (typeof editorLine !== "number")
+                    editorLine = -1;
 
-                te.mm.textbox.ScrollPreviewToEditorLineCallback(editorLine,true,noScrollTimeout, noScrollTopAdjustment);
+                  // by default there is a scroll timeout so we don't recursively scroll in two-way mode
+                  noScrollTimeout = noScrollTimeout ? true : false;
+
+                  if (!noScrollTimeout)
+                    te.setCodeScrolled();
+
+                  te.mm.textbox.ScrollPreviewToEditorLineCallback(editorLine,
+                    true,
+                    noScrollTimeout,
+                    noScrollTopAdjustment);
+                }
               },
               100);
             $("pre[lang]").on("keyup",
@@ -227,8 +236,10 @@
               });
             editor.on("mouseup",
               function() {
-                if (te.mm)
-                  scrollPreviewRefresh();
+                if (te.mm) {
+                  // explicitly force Preview positioning (last (force) parm)
+                  scrollPreviewRefresh(-1, false, true, true);
+                }
 
                 // spellcheck - force recheck on next cycle
                 if (te.spellcheck)
@@ -312,7 +323,9 @@
             else
                 style = JSON.parse(styleJson);
 
+            te.settings = style;
             te.lastStyle = style;
+
             editor.container.style.lineHeight = style.lineHeight;
 
             var activeTheme = editor.getTheme();
