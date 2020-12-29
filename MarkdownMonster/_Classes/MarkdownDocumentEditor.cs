@@ -1707,7 +1707,18 @@ You can compare files using a Diff tool to compare and merge changes.
                 Window.UpdateDocumentOutline(editorLineNumber);
         }
 
-        public void ScrollPreviewToEditorLineCallback(int editorLineNumber = -1, bool updateCodeBlocks = true, bool noScrollTimeout = false, bool noScrollTopAdjustment = false)
+        /// <summary>
+        /// Scrolls the preview editor - typically in response to editor scroll
+        /// or click operations based on the PreviewSyncMode setting
+        /// </summary>
+        /// <param name="editorLineNumber">Line number or -1 to use current editor line</param>
+        /// <param name="updateCodeBlocks">if true reformats code blocks</param>
+        /// <param name="noScrollTimeout">if true does not adjust the editor scroll timeout so that a preview scroll will not scroll the editor. In effect if true the preview is scrolled and the editor adjusted which results in a 'double' scroll which generally is not desired, but used internally in some situations for explict preview scrolling.</param>
+        /// <param name="noScrollTopAdjustment">if true the preview scroll position is not updated at all</param>
+        public void ScrollPreviewToEditorLineCallback(int editorLineNumber = -1,
+            bool updateCodeBlocks = true,
+            bool noScrollTimeout = false,
+            bool noScrollTopAdjustment = false)
         {
             var syncMode = Window.Model.Configuration.PreviewSyncMode;
             if (syncMode != PreviewSyncMode.EditorAndPreview &&

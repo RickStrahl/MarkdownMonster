@@ -148,6 +148,8 @@
 
                   // by default there is a scroll timeout so we don't recursively scroll in two-way mode
                   noScrollTimeout = noScrollTimeout ? true : false;
+                  noScrollTopAdjustment = noScrollTopAdjustment ? true : false;
+
 
                   if (!noScrollTimeout)
                     te.setCodeScrolled();
@@ -238,7 +240,7 @@
               function() {
                 if (te.mm) {
                   // explicitly force Preview positioning (last (force) parm)
-                  scrollPreviewRefresh(-1, false, true, true);
+                  scrollPreviewRefresh(-1, undefined, undefined, true); // force
                 }
 
                 // spellcheck - force recheck on next cycle
