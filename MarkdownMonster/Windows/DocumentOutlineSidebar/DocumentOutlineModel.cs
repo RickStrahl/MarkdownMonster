@@ -101,7 +101,16 @@ namespace MarkdownMonster.Windows.DocumentOutlineSidebar
                         else if (inl is CodeInline)
                         {
                             var codeInline = inl as CodeInline;
-                            sb.Append(WebUtility.HtmlDecode(codeInline.Content.ToString()));
+                            sb.Append(WebUtility.HtmlDecode(codeInline.Content));
+                        }
+                        else if (inl is LinkInline)
+                        {
+                            var link = inl as LinkInline;
+                            var textInline = link?.FirstOrDefault(l => l is LiteralInline)?.ToString();
+                            if (textInline == null)
+                                textInline = "-- non-text header --";
+
+                            sb.Append(WebUtility.HtmlDecode(textInline));
                         }
                         else
                             sb.Append(inl.ToString());
