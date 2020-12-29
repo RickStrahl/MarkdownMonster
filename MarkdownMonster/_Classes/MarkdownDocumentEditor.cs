@@ -1709,6 +1709,12 @@ You can compare files using a Diff tool to compare and merge changes.
 
         public void ScrollPreviewToEditorLineCallback(int editorLineNumber = -1, bool updateCodeBlocks = true, bool noScrollTimeout = false, bool noScrollTopAdjustment = false)
         {
+            var syncMode = Window.Model.Configuration.PreviewSyncMode;
+            if (syncMode != PreviewSyncMode.EditorAndPreview &&
+                syncMode != PreviewSyncMode.EditorToPreview &&
+                syncMode != PreviewSyncMode.NavigationOnly)
+                return;
+
             if (Window.PreviewBrowser == null ||
                 (MarkdownDocument.EditorSyntax != "markdown" && MarkdownDocument.EditorSyntax != "html") )
                 return;
