@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using System.Threading.Tasks;
 using System.Windows.Controls;
 using MarkdownMonster;
 using MarkdownMonster.Windows.PreviewBrowser;
@@ -92,9 +93,10 @@ namespace WebViewPreviewerAddin
                 noScrollTopAdjustment);
         }
 
-        public void ScrollToEditorLineAsync(int editorLineNumber = -1, bool updateCodeBlocks = false, bool noScrollContentTimeout = false, bool noScrollTopAdjustment = false)
+        public async Task ScrollToEditorLineAsync(int editorLineNumber = -1, bool updateCodeBlocks = false, bool noScrollContentTimeout = false, bool noScrollTopAdjustment = false)
         {
-            PreviewBrowser.ScrollToEditorLineAsync(editorLineNumber, updateCodeBlocks, noScrollContentTimeout,
+            await PreviewBrowser.ScrollToEditorLineAsync(editorLineNumber, updateCodeBlocks,
+                noScrollContentTimeout,
                 noScrollTopAdjustment);
         }
         
