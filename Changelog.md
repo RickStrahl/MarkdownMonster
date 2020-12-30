@@ -13,6 +13,10 @@ Updated logic to handle change detection on open documents. When documents are o
 * **Add PDF Page Sizes to Save To PDF**  
 Added all additional supported PDF print formats to the paper type dropdown on the PDF Export dialog. Adds all Ax and Bx types as well as various named types.
 
+* **Chromium Previewer Updates**  
+There have been a number of updates to the Chromium Previewer Addin to improve stability and performance.  
+*Unfortunately, there are a few issues in the current version of the WebView2 runtime (.644) that affect preview->editor sync, and that are fixed in preview versions that are not available yet for GA downloads. These issues will be fixed as soon as a newer runtime becomes available.*
+
 
 ### 1.25.12
 <small>December 5th, 2020</small>

@@ -81,7 +81,10 @@ namespace WebViewPreviewerAddin
         {
             await Model.Window.Dispatcher.InvokeAsync(() =>
             {
-                Model.ActiveEditor?.GotoLine(Convert.ToInt32(editorLine), (bool)noRefresh);
+                try
+                {
+                    Model.ActiveEditor?.GotoLine(Convert.ToInt32(editorLine), (bool) noRefresh);
+                }catch {}
             });
         }
 

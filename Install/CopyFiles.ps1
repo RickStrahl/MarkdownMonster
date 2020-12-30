@@ -29,6 +29,7 @@ else {
 }
 
 Copy-Item ${cur}\license.md ${target}\license.md
+#Copy-Item ${cur}\MicrosoftEdgeWebview2Setup.exe ${target}\MicrosoftEdgeWebview2Setup.exe
 
 # Cleanup output
 Remove-Item ${target}\*.vshost.*

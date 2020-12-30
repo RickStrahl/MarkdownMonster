@@ -349,8 +349,10 @@ namespace WebViewPreviewerAddin
                 _ = JsInterop.ScrollToPragmaLine(editorLineNumber, headerId);
         }
 
-        public async Task ScrollToEditorLineAsync(int editorLineNumber = -1, bool updateCodeBlocks = false,
-            bool noScrollTimeout = false, bool noScrollTopAdjustment = false)
+        public async Task ScrollToEditorLineAsync(int editorLineNumber = -1,
+            bool updateCodeBlocks = false,
+            bool noScrollTimeout = false,
+            bool noScrollTopAdjustment = false)
         {
             await mmApp.Model?.Window?.Dispatcher?.InvokeAsync(() =>
                                 ScrollToEditorLine(editorLineNumber,

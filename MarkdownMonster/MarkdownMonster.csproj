@@ -6,14 +6,13 @@
     <StartupObject>StartUp</StartupObject>
     <UseWPF>true</UseWPF>
     <TargetFramework>net472</TargetFramework>
-    
 
-    <Version>1.25.13.5</Version>
+    <Version>1.25.14</Version>
     <AssemblyName>MarkdownMonster</AssemblyName>
     <Product>Markdown Monster</Product>
     <Authors>Rick Strahl, West Wind Technologies</Authors>
     <Company>West Wind Technologies</Company>
-    <Copyright>West Wind Technologies, 2016-2020</Copyright>
+    <Copyright>West Wind Technologies, 2016-2021</Copyright>
     <Description>Markdown Monster is an easy to use Markdown Editor and Weblog Publisher.</Description>
 
     <PackageProjectUrl>https://markdownmonster.west-wind.com</PackageProjectUrl>
@@ -50,7 +49,7 @@
   <ItemGroup>
     <PackageReference Include="Dragablz" Version="0.0.3.223" />
     <PackageReference Include="FontAwesome.WPF" Version="4.7.0.9" />
-    <PackageReference Include="HtmlAgilityPack" Version="1.11.28" />
+    <PackageReference Include="HtmlAgilityPack" Version="1.11.29" />
     <PackageReference Include="LibGit2Sharp" Version="0.26.2" />
     <PackageReference Include="LumenWorksCsvReader" Version="4.0.0" />
     <PackageReference Include="MahApps.Metro" Version="2.4.3" />
