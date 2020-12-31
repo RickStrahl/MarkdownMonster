@@ -394,7 +394,7 @@ namespace WebLogAddin.LocalJekyll
             }
             
             var serializer = new SerializerBuilder()
-                .WithNamingConvention(new CamelCaseNamingConvention())
+                .WithNamingConvention(CamelCaseNamingConvention.Instance)
                 .Build();
 
             string yaml = serializer.Serialize(jkMeta);

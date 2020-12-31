@@ -85,7 +85,7 @@ namespace MarkdownMonster.Test
 		public void SetYamlFormat()
 		{
 			var serializer = new SerializerBuilder()
-				.WithNamingConvention(new CamelCaseNamingConvention())
+				.WithNamingConvention(CamelCaseNamingConvention.Instance)
 				.Build();
 
 			Dictionary<string, string> val = new Dictionary<string, string>();
