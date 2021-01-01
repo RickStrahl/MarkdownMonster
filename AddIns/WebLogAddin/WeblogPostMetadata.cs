@@ -421,7 +421,7 @@ namespace WeblogAddin
                 meta = this;
 
             var serializer = new SerializerBuilder()
-                .WithNamingConvention(new CamelCaseNamingConvention())
+                .WithNamingConvention(CamelCaseNamingConvention.Instance)
                 .Build();
 
             // hide fields  if none are set
