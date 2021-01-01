@@ -5,7 +5,7 @@
 [![Web Site](https://img.shields.io/badge/Markdown_Monster-WebSite-blue.svg)](https://markdownmonster.west-wind.com)
 
 ### 1.25.14
-<small>not released yet</small>
+<small>December 28th, 2020</small>
 
 * **Update Open Document Change Detection**  
 Updated logic to handle change detection on open documents. When documents are open and unchanged, the document is immediately updated with changes from disk. If the open document has changes and the underlying document changes, nothing happens until you save. A new dialog allows you to choose between your version, their version or to run the configure Git Diff tool to compare versions and merge changes.
@@ -16,6 +16,9 @@ Added all additional supported PDF print formats to the paper type dropdown on t
 * **Chromium Previewer Updates**  
 There have been a number of updates to the Chromium Previewer Addin to improve stability and performance.  
 *Unfortunately, there are a few issues in the current version of the WebView2 runtime (.644) that affect preview->editor sync, and that are fixed in preview versions that are not available yet for GA downloads. These issues will be fixed as soon as a newer runtime becomes available.*
+
+* **Fix: Links in Headers for Document Outline**  
+Fix bug where links in headers where showing incorrectly in the Document viewer. Fix parses links and retrieves the text properly for display in the Document Outline. Also fixed in the TOC embedding logic.
 
 
 ### 1.25.12
