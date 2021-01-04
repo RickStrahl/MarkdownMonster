@@ -150,7 +150,6 @@
                   noScrollTimeout = noScrollTimeout ? true : false;
                   noScrollTopAdjustment = noScrollTopAdjustment ? true : false;
 
-
                   if (!noScrollTimeout)
                     te.setCodeScrolled();
 
@@ -163,15 +162,22 @@
               100);
             $("pre[lang]").on("keyup",
                 function (event) {
+                  status(event.keyCode + " - " + event.ctrlKey);
+
                     // up and down handling - force a preview refresh
-                  if (event.keyCode === 38 || event.keyCode === 40) {
+                    // ctrl key for ctrl-y/z and copy/paste/cut ops
+                  if(event.keyCode === 17 || event.keyCode === 38 || event.keyCode === 40) {
                     scrollPreviewRefresh(-1, false, false);  // noScrollTopAdjustment
                     te.updateDocumentStats();
+
+                    if (te.spellcheck && event.keyCode === 17)
+                        te.spellcheck.spellCheck(true);
                   }
                   // left right
                   else if (event.keyCode === 37 || event.keyCode === 39) {
                     te.updateDocumentStats();
-                  } else if (te.editor.$keybindingId === "ace/keyboard/vim" &&
+                  }
+                  else if (te.editor.$keybindingId === "ace/keyboard/vim" &&
                     (event.keyCode === 74 || event.keyCode == 75)) {
                     if (!te.editor.state.cm.state.vim.insertMode) {
                       scrollPreviewRefresh();
