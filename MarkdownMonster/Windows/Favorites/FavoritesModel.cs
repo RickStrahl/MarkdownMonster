@@ -16,7 +16,9 @@ namespace MarkdownMonster.Favorites
 {
     public class FavoritesModel : INotifyPropertyChanged
     {
-        
+        // File that holds favorites in the Common folder
+        public static string FavoritesFile { get; set;  }
+
 
         public ObservableCollection<FavoriteItem> Favorites
         {
@@ -40,13 +42,15 @@ namespace MarkdownMonster.Favorites
                 OnPropertyChanged();
             }
         }
-        private FavoriteItem _editedFavorite;
+        private FavoriteItem _editedFavorite = new FavoriteItem();
 
 
         public AppModel AppModel { get; set; }
+
+
         public MainWindow Window { get; set; }
 
-        public static string FavoritesFile { get; set;  }
+        
 
         
         public string SearchText
@@ -63,8 +67,8 @@ namespace MarkdownMonster.Favorites
 
         public FavoritesModel()
         {
-            //Model = mmApp.Model;
-            //Window = Model.Window;
+            AppModel = mmApp.Model;
+            Window = AppModel?.Window;
         }
 
         static FavoritesModel()

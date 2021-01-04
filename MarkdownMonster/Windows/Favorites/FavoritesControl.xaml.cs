@@ -1,20 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Diagnostics;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using MarkdownMonster.Controls;
 using MarkdownMonster.Favorites;
 using Microsoft.Win32;
@@ -31,25 +20,13 @@ namespace MarkdownMonster.Windows
         public FavoritesModel FavoritesModel { get; set; }
 
         public FavoritesControl()
-        {   
+        {
             InitializeComponent();
-        
-            //Dispatcher.InvokeAsync(() =>
-            //{
-                FavoritesModel = new FavoritesModel()
-                {
-                    AppModel = mmApp.Model,
-                    Window = mmApp.Model.Window
-                };
 
-                FavoritesModel.LoadFavorites();
+            FavoritesModel = new FavoritesModel() {AppModel = mmApp.Model, Window = mmApp.Model.Window};
+            FavoritesModel.LoadFavorites();
 
-                DataContext = FavoritesModel;
-
-                EditPanel.Visibility = Visibility.Collapsed;
-
-
-            //},System.Windows.Threading.DispatcherPriority.ApplicationIdle);
+            DataContext = FavoritesModel;
         }
 
 
@@ -58,7 +35,7 @@ namespace MarkdownMonster.Windows
 
             if (stopEditing)
             {
-                FavoritesModel.EditedFavorite = null;                
+                FavoritesModel.EditedFavorite = new FavoriteItem();
             }
             else
             {
@@ -69,13 +46,14 @@ namespace MarkdownMonster.Windows
             
         }
 
+        #region Button Event Handlers
+
+        
+
         private void ButtonFavorite_Click(object sender, RoutedEventArgs e)
         {
             var button = sender as Button;
-            if (button == null)
-                return;
-
-            var favorite = button.DataContext as FavoriteItem;
+            var favorite = button?.DataContext as FavoriteItem;
             if (favorite == null)
                 return;
 
@@ -89,10 +67,31 @@ namespace MarkdownMonster.Windows
                 FavoritesModel.AppModel.Commands.OpenFolderBrowserCommand.Execute(favorite.File);
             else
             {
-                FavoritesModel.AppModel.Window.OpenFile(favorite.File);              
+                var tab = FavoritesModel.AppModel.Window.GetTabFromFilename(favorite.File);
+                if (tab == null)
+                    FavoritesModel.AppModel.Window.OpenFile(favorite.File, isPreview: true);
+                else
+                    FavoritesModel.AppModel.Window.ActivateTab(tab);
             }
         }
 
+
+        private void ButtonFavorite_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            var button = sender as Button;
+            var favorite = button?.DataContext as FavoriteItem;
+            if (favorite == null)
+                return;
+
+            Dispatcher.InvokeAsync(() =>
+            {
+                if (!Directory.Exists(favorite.File))
+                {
+                   FavoritesModel.AppModel.Window.OpenFile(favorite.File, isPreview: false, noFocus: false);
+                }
+            }, System.Windows.Threading.DispatcherPriority.ApplicationIdle);
+
+        }
 
         private void ButtonAddFavorite_Click(object sender, RoutedEventArgs e)
         {
@@ -196,7 +195,20 @@ namespace MarkdownMonster.Windows
             FavoritesModel.EditedFavorite.File = dlg.FileName;
         }
 
-   
+        private void ButtonOpenFolder_Click(object sender, RoutedEventArgs e)
+        {
+            var button = sender as MenuItem;
+            if (button == null)
+                return;
+
+            var favorite = button.DataContext as FavoriteItem;
+            if (favorite == null)
+                return;
+
+            FavoritesModel.AppModel.Commands.OpenInExplorerCommand.Execute(favorite.File);
+        }
+
+        #endregion
 
         #region Drag Operations
 
@@ -382,4 +394,7 @@ namespace MarkdownMonster.Windows
             }
         }
     }
+
+
+
 }

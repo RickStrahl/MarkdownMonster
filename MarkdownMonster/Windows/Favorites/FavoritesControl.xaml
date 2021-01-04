@@ -27,14 +27,12 @@
                         <MenuItem Name="ButtonDeleteFavorite" Header="Delete" Click="ButtonDeleteFavorite_Click" InputGestureText="Del"/>
                         <MenuItem Name="ButtonEditFavorite" Header="Edit" Click="ButtonStartEditing_Click" InputGestureText="F2" />
                         <Separator/>
-                        <MenuItem Name="ButtonOpenFolder" Header="Open in Explorer" 
-                                  Command="{Binding AppModel.Commands.OpenInExplorerCommand}"
-                                  CommandParameter="{Binding DataContext.File}"/>
+                        <MenuItem Name="ButtonOpenFolder" Header="Open in Explorer" Click="ButtonOpenFolder_Click"/>
                     </ContextMenu>
                 </Grid.ContextMenu>
 
                 <Button Cursor="Hand" Background="Transparent" Name="ButtonFavorite" HorizontalAlignment="Stretch"                       
-                    Click="ButtonFavorite_Click">
+                    Click="ButtonFavorite_Click" MouseDoubleClick="ButtonFavorite_MouseDoubleClick">
                
                     <Button.Template>
                         <ControlTemplate TargetType="Button">
