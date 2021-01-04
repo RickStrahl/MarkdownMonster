@@ -1,8 +1,18 @@
 # Markdown Monster Change Log
 
+
 [![download](https://img.shields.io/badge/Download-Installer-blue.svg)](https://markdownmonster.west-wind.com/download.aspx)
 [![Chocolatey](https://img.shields.io/chocolatey/dt/markdownmonster.svg)](https://chocolatey.org/packages/MarkdownMonster)
 [![Web Site](https://img.shields.io/badge/Markdown_Monster-WebSite-blue.svg)](https://markdownmonster.west-wind.com)
+
+### 1.25.15
+<small>not released yet</small>
+
+* **Favorites Click Behavior Update**  
+Favorite clicks now open documents initially in preview mode until you type into the editor. Preview mode documents close as soon as another tab is opened or accessed. This behavior is now the same as the main folder browser. Double clicking forces the opened document to be a permanently open document. Unlike the folder browser, a single click forces the cursor into the Favorite document selected.
+
+* **Fix: Preview Refresh for Ctrl-key operations**  
+Fix issue where some common ctrl-key operations (ctrl-z, ctrl-x etc.) would not immediately update the preview until manual key entry into the editor is performed. Changed operation that the `ctrl` key now triggers a preview refresh for all ctrl-key operations. This also means that the `ctrl` key becomes the effective 'immediate refresh' key that you can use to force a preview refresh even when no preview sync is in use.
 
 ### 1.25.14
 <small>December 28th, 2020</small>
