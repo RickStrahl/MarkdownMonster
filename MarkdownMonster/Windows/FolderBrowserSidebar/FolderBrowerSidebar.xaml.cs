@@ -153,35 +153,22 @@ using UserControl = System.Windows.Controls.UserControl;
 
             public FolderBrowerSidebar()
             {
-
                 InitializeComponent();
                 Focusable = true;
 
+                DataContext = null;
 
                 Loaded += FolderBrowerSidebar_Loaded;
                 Unloaded += (s, e) => ReleaseFileWatcher();
-
             }
 
-            /// <summary>
-            /// Updates the Git status of the files currently active
-            /// in the tree.
-            /// </summary>
-            /// <param name="pathItem"></param>
-            public void UpdateGitStatus(PathItem pathItem = null)
-            {
-                if (pathItem == null)
-                    pathItem = ActivePathItem;
-
-                FolderStructure.UpdateGitFileStatus(pathItem);
-            }
 
             private void FolderBrowerSidebar_Loaded(object sender, RoutedEventArgs e)
             {
                 AppModel = mmApp.Model;
                 Window = AppModel.Window;
                 DataContext = this;
-
+                
                 FolderBrowserContextMenu = new FolderBrowserContextMenu(this);
 
                 // Load explicitly here to fire *after* behavior has attached
@@ -197,6 +184,19 @@ using UserControl = System.Windows.Controls.UserControl;
                 // ensure that directory wasn't deleted under us
                 if (!Directory.Exists(FolderPath))
                     FolderPath = null;
+            }
+
+            /// <summary>
+            /// Updates the Git status of the files currently active
+            /// in the tree.
+            /// </summary>
+            /// <param name="pathItem"></param>
+            public void UpdateGitStatus(PathItem pathItem = null)
+            {
+                if (pathItem == null)
+                    pathItem = ActivePathItem;
+
+                FolderStructure.UpdateGitFileStatus(pathItem);
             }
 
             #endregion

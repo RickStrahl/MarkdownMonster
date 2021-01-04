@@ -28,6 +28,7 @@ namespace MarkdownMonster.Windows
         public DocumentOutlineSidebarControl()
         {
             InitializeComponent();
+            DataContext = null;
             Loaded += DocumentOutlineSidebarControl_Loaded;
         }
 

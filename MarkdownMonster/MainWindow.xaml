@@ -301,7 +301,7 @@
                     <Separator />
                     <MenuItem Header="Open Folder in Git Client"
                               Command="{Binding Commands.Git.OpenGitClientCommand}"  
-                              IsEnabled="{Binding Configuration.GitClientExecutable, Converter={StaticResource NotEmptyStringToBooleanConverter}}" />
+                              IsEnabled="{Binding Configuration.Git.GitClientExecutable, Converter={StaticResource NotEmptyStringToBooleanConverter}}" />
                 </MenuItem>
 
                 <Separator/>
@@ -388,7 +388,7 @@
                 <MenuItem Name="ButtonUseReferenceLinks" 
                           Header="Use Link References"                          
                           IsCheckable="True"
-                          IsChecked="{Binding Configuration.UseReferenceLinks}" />
+                          IsChecked="{Binding Configuration.LastUseReferenceLinks}" />
 
                 
                 <!--<MenuItem Name="Button_MarkdownLinting" Header="Markdown Linting"  Command="{Binding Commands.MarkdownLintingCommand}"  />-->
@@ -1235,7 +1235,7 @@
 
             <StatusBarItem Grid.Column="7">
                 <ComboBox  HorizontalAlignment="Right"  
-                           ToolTip="Registered Markdown Parsers" Width="{Binding MarkdownParserColumnWidth}"
+                           ToolTip="Registered Markdown Parsers" Width="Auto"
                            SelectedItem="{Binding Configuration.MarkdownOptions.MarkdownParserName}" 
                            IsSynchronizedWithCurrentItem="True"   FontSize="13"  Padding="3,0"
                            ItemsSource="{Binding MarkdownParserNames}"

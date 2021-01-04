@@ -106,6 +106,7 @@
         </Grid.RowDefinitions>
 
         <StackPanel Name="SearchPanel" Visibility="Collapsed">
+            <TextBlock Text="{Binding SearchText}" />
             <Grid Background="{StaticResource SidebarHeaderBackground}">
 
                 <Grid.ColumnDefinitions>
@@ -262,7 +263,6 @@
                 </TreeView.ContextMenu>
                 <TreeView.ItemContainerStyle>
                     <Style TargetType="{x:Type TreeViewItem}">
-                        
                         <Setter Property="Visibility" Value="{Binding IsVisible,Mode=TwoWay,Converter={StaticResource BooleanToVisibilityConverter}}" />
                         <!--<Setter Property="IsSelected" Value="{Binding IsSelected,Mode=OneWay}" />-->
                         
