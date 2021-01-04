@@ -417,9 +417,7 @@ namespace MarkdownMonster.Utilities
                     Key="Ctrl-4",
                     CommandName = "SidebarTabActivationCommand",
                     CommandParameter = "4"
-                },
-                
-
+                }
 
             };
         }
