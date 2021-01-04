@@ -17,7 +17,7 @@
     <PackageReference Include="MahApps.Metro" Version="2.4.3">
       <IncludeAssets>compile</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Dragablz" Version="0.0.3.203">
+    <PackageReference Include="Dragablz" Version="0.0.3.223">
       <IncludeAssets>compile</IncludeAssets>
     </PackageReference>
     <PackageReference Include="FontAwesome.WPF" Version="4.7.0.9">
@@ -34,7 +34,7 @@
     </PackageReference>
 
     <PackageReference Include="xmlrpcnet" Version="3.0.0.266" />
-    <PackageReference Include="YamlDotNet" Version="6.0.0" />
+    <PackageReference Include="YamlDotNet" Version="9.1.0" />
   </ItemGroup>
 
 <!--  <ItemGroup Condition=" '$(TargetFramework)' == 'netcoreapp3.0' ">-->

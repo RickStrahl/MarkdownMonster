@@ -601,15 +601,15 @@ namespace MarkdownMonster
         /// </summary>
         public bool LastUseReferenceLinks
         {
-            get => _useReferenceLinks;
+            get => _lastUseReferenceLinks;
             set
             {
-                if (value == _useReferenceLinks) return;
-                _useReferenceLinks = value;
+                if (value == _lastUseReferenceLinks) return;
+                _lastUseReferenceLinks = value;
                 OnPropertyChanged();
             }
         }
-
+        private bool _lastUseReferenceLinks;
 
         /// <summary>
         /// Remember the last folder used for linking a file in the
@@ -642,7 +642,6 @@ namespace MarkdownMonster
 		    set { _commonFolder = value; }
 	    }
 	    private string _commonFolder;
-        private bool _useReferenceLinks;
 
         internal string InternalCommonFolder { get; set; }
 
