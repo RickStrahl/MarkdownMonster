@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using Westwind.Utilities;
 
@@ -23,6 +24,7 @@ namespace MarkdownMonster.Utilities
 
         private byte[] SearchPhraseBytes { get; set;  }
 
+
         public FindInFilesFinder(string path, string searchFilePattern, params string[] extensions)
         {
             Path = path;
@@ -32,11 +34,10 @@ namespace MarkdownMonster.Utilities
             
         }
 
-
         public Task<List<SearchFileResult>> SearchFilesAsync(string searchPhrase = null,
             SearchTypes searchType = SearchTypes.SearchCaseInsensitiveText)
         {
-            return Task.Run( ()=> SearchFiles(searchPhrase, searchType) );
+            return Task.Run( ()=> SearchFiles(searchPhrase, searchType));
         }
 
 
@@ -46,8 +47,8 @@ namespace MarkdownMonster.Utilities
             if (searchPhrase != null)
                 SearchPhrase = searchPhrase;
 
-            if (SearchPhrase == null)
-                return null;
+            if (string.IsNullOrEmpty(SearchPhrase))
+                return  new List<SearchFileResult>();
             
             SearchPhraseBytes = Encoding.UTF8.GetBytes(searchPhrase);
 

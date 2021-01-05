@@ -64,10 +64,12 @@
                     FocusManager.FocusedElement="{Binding ElementName=SearchPhrase}">
 
             <TextBox x:Name="SearchPhrase"  Margin="10,10,10,5" Grid.Row="1"             
-                     Text="{Binding SearchPhrase, UpdateSourceTrigger=PropertyChanged}" 
+                     Text="{Binding SearchPhrase, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
                      BorderThickness="0.3" Padding="1"
                      mah:TextBoxHelper.SelectAllOnFocus="True"
                      Opacity="0.8"  FontSize="13" FontWeight="Normal"    
+                     
+                     TextChanged="SearchPhrase_OnTextChanged"
                      mah:TextBoxHelper.Watermark="Search text in files" 
                      mah:TextBoxHelper.ClearTextButton="True" />
 
@@ -106,34 +108,39 @@
 
                 <CheckBox x:Name="SearchSubFolders" Grid.Column="1"
                           IsChecked="{Binding SearchSubFolders}" 
-                          FontSize="14" FontWeight="Normal" Margin="5,0,10,10" Style="{StaticResource CompactCheckBox}" 
+                          FontSize="15" FontWeight="Normal" Margin="5,9,10,10" 
+                          Style="{StaticResource CompactCheckBox}" 
                           Content="search sub-folders"
                 />
             </Grid>
 
-            <Button Name="ButtonSearch"  FontSize="13" 
+            <!--<Button Name="ButtonSearch"  FontSize="13" 
                     Width="80" HorizontalAlignment="Left"  Margin="10,0,0,10"
                     IsEnabled="{Binding IsSearchValid}" Click="Search_Click" >
                 <StackPanel Orientation="Horizontal">
                     <fa:FontAwesome Icon="Search" FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" 
                                     Foreground="Green" FontSize="15"/>
-                    <TextBlock Margin="5,0,0,0">Search</TextBlock>
+                    <TextBlock Margin="5,0,0,0" InputScope="">Search</TextBlock>
                 </StackPanel>
-            </Button>
+            </Button>-->
         </StackPanel>
 
         <Grid Name="ResultPane" Grid.Row="2">
             <ListBox Name="ListResults" ItemsSource="{Binding SearchResults}">
                 <ListBox.ItemTemplate>
                     <DataTemplate>
-                        <Border Padding="3,3" MouseUp="Border_MouseUp">
+                        <Border Padding="5,3" MouseUp="Border_MouseUp">
                             <StackPanel>
                                 <StackPanel Orientation="Horizontal">
-                                    <TextBlock Text="{Binding FileOnly}" />
-                                    <TextBlock Text="{Binding Matches.Count,StringFormat=({0})}" 
-                                               Margin="8,2,0,0" FontSize="11" Foreground="Silver"/>
+                                    <TextBlock Text="{Binding FileOnly}" FontWeight="Medium" />
+                                    <TextBlock Text="{Binding Matches.Count}" 
+                                               Margin="5,2,0,0" 
+                                               FontSize="11" FontStyle="Italic" FontWeight="Bold" 
+                                               Foreground="DarkGoldenrod"/>
                                 </StackPanel>
-                                <TextBlock Text="{Binding FilePath}" FontSize="11" Foreground="Silver" />
+                                <TextBlock Text="{Binding FilePath}" Margin="0,3,0,0"
+                                           FontSize="10.5"
+                                           Foreground="#999" />
                             </StackPanel>
                         </Border>
                     </DataTemplate>

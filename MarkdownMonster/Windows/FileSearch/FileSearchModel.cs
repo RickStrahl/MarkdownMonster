@@ -166,10 +166,12 @@ namespace MarkdownMonster.Windows.FileSearch
             else
                 SearchResults = new ObservableCollection<SearchFileResult>();
 
-            if (result.Count < 1)
-                Window.ShowStatusError("No matching files found.");
+            if(string.IsNullOrEmpty(SearchPhrase))
+                Window.ShowStatus();  // clear
+            else if (SearchResults.Count < 1)
+                Window.ShowStatusError($"{SearchPhrase}: No matching files found.");
             else
-                Window.ShowStatusSuccess($"{result.Count} file{(result.Count > 1 ? "s" : "")} found.");
+                Window.ShowStatusSuccess($"{SearchPhrase}: {result.Count} file{(result.Count > 1 ? "s" : "")} found.");
         }
 
 

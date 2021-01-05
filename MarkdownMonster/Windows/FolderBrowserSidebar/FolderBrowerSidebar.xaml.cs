@@ -608,8 +608,7 @@ using UserControl = System.Windows.Controls.UserControl;
                 var fileItem = GetSelectedPathItem(); //TreeFolderBrowser.SelectedItem as PathItem;
                 if (fileItem == null)
                     return;
-
-
+                
                 if (fileItem.FullPath == "..")
                     FolderPath = Path.GetDirectoryName(FolderPath.Trim('\\'));
                 else if (fileItem.IsFolder)
@@ -988,43 +987,88 @@ using UserControl = System.Windows.Controls.UserControl;
                     e.Key == Key.OemPeriod ||
                     e.Key == Key.Space ||
                     e.Key == Key.Separator ||
-                    e.Key == Key.OemMinus &&
+                    e.Key == Key.OemMinus ||
+                    e.Key == Key.OemPipe ||
+                    e.Key == Key.Back &&
+                    // ignore control/alt keys
                     (!Keyboard.IsKeyDown(Key.LeftCtrl) && !Keyboard.IsKeyDown(Key.LeftAlt)))
                 {
                     //Debug.WriteLine("Treeview TreeDown: " + e.Key + " shfit: " + Keyboard.IsKeyDown(Key.LeftShift));
                     var keyConverter = new KeyConverter();
 
-                    string k;
+                    string k = null;
+                    bool isShiftDown = Keyboard.IsKeyDown(Key.LeftShift);
+                    bool isBack = false;
 
+                    // special key mapping
                     if (e.Key == Key.OemPeriod)
                         k = ".";
-                    else if (e.Key == Key.OemMinus && Keyboard.IsKeyDown(Key.LeftShift))
-                        k = "_";
                     else if (e.Key == Key.OemMinus)
                         k = "-";
                     else if (e.Key == Key.Space)
                         k = " ";
+                    else if(e.Key == Key.OemPipe)
+                        k = "|";
+                    else if (isShiftDown)
+                    {
+                        if (e.Key == Key.OemMinus)
+                            k = "_";
+                        else if (e.Key == Key.D1)
+                            k = "!";
+                        else if (e.Key == Key.D2)
+                            k = "@";
+                        else if (e.Key == Key.D3)
+                            k = "#";
+                        else if (e.Key == Key.D4)
+                            k = "$";
+                        else if (e.Key == Key.D5)
+                            k = "%";
+                        else if (e.Key == Key.D7)
+                            k = "&";
+                    }
+                    else if (e.Key == Key.Back)
+                    {
+                        isBack = true;
+                        if (searchFilter.Length > 0)
+                            searchFilter = searchFilter.Substring(0,searchFilter.Length-1);
+                    }
                     else
                         k = keyConverter.ConvertToString(e.Key);
 
                     if (searchFilterLast > DateTime.Now.AddSeconds(-1.2))
-                        searchFilter += k.ToLower();
+                    {
+                        if (!isBack)
+                            searchFilter += k.ToLower();
+                    }
                     else
-                        searchFilter = k.ToLower();
-
-                    Window.ShowStatus("File search filter: " + searchFilter, 2000);
-
-                    var lowerFilter = searchFilter.ToLower();
+                    {
+                        if(isBack)
+                            searchFilter = string.Empty;
+                        else
+                            searchFilter = k.ToLower();
+                    }
 
                     var parentPath = selected.Parent;
                     if (parentPath == null)
                         parentPath = ActivePathItem; // root
 
+                    ClearSelectedItems(parentPath.Files);
+                    selected.IsSelected = false;
+
+                    Window.ShowStatus("File search filter: " + searchFilter, 2000);
+
+                    var lowerFilter = searchFilter.ToLower();
+                
                     var item = parentPath.Files.FirstOrDefault(sf => sf.DisplayName.ToLower().StartsWith(lowerFilter));
                     if (item != null)
+                    {
                         item.IsSelected = true;
 
-
+                        // force the native selection to release the old selection
+                        var tvItem = GetTreeViewItem(item);
+                        if (tvItem != null) tvItem.IsSelected = true;
+                    }
+                    
                     searchFilterLast = DateTime.Now;
                 }
 

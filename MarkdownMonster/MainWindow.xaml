@@ -331,7 +331,7 @@
                           Command="{Binding Commands.CopyAsHtmlCommand}" 
                           ToolTip="Copies the selected markdown from the editor as HTML to the clipboard"
                           InputGestureText="{Binding Commands.CopyAsHtmlCommand.KeyboardShortcut}"  />
-                <MenuItem Header="Remove Markdown _Formatting" IsEnabled="{Binding IsEditorActive}" 
+                <MenuItem Header="_Remove Markdown Formatting" IsEnabled="{Binding IsEditorActive}" 
                           Command="{Binding Commands.RemoveMarkdownFormattingCommand}"
                           ToolTip="Removes Markdown formatting from a selection." 
                           InputGestureText="{Binding Commands.RemoveMarkdownFormattingCommand.KeyboardShortcut}" />
@@ -411,7 +411,8 @@
                           ToolTip="Find text in the active document" 
                           Click="Button_Handler"
                           InputGestureText="Ctrl+H" />
-                <MenuItem Header="Find in Files" 
+                <Separator/>
+                <MenuItem Header="_Find in Files" 
                           Command="{Binding Commands.OpenSearchSidebarCommand}"
                 />
             </MenuItem>

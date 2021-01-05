@@ -31,22 +31,33 @@ namespace MarkdownMonster.Windows
             Model = new FileSearchModel();
             DataContext = Model;
             Loaded += FileSearchControl_Loaded;
-            
+
 
         }
 
         private void FileSearchControl_Loaded(object sender, RoutedEventArgs e)
         {
-         
+
         }
 
         private async void Search_Click(object sender, RoutedEventArgs e)
         {
             // clear list
             Model.SearchResults = new System.Collections.ObjectModel.ObservableCollection<SearchFileResult>();
-
             await Model.SearchAsync();
         }
+
+        private DebounceDispatcher debounce = new DebounceDispatcher();
+
+        private void SearchPhrase_OnTextChanged(object sender, TextChangedEventArgs e)
+        {
+            debounce.Debounce(400, (p) =>
+            {
+                //Model.SearchPhrase =  (sender as TextBox)?.Text;
+                Search_Click(this, null);
+            });
+        }
+
 
         private void Border_MouseUp(object sender, MouseButtonEventArgs e)
         {
@@ -61,10 +72,10 @@ namespace MarkdownMonster.Windows
             {
                 var editor = tab.Tag as MarkdownDocumentEditor;
                 // TODO: Fire Search And Replace Logic
-                
+
                 editor?.AceEditor.OpenSearch(Model.SearchPhrase);
 
-            },System.Windows.Threading.DispatcherPriority.ApplicationIdle);
+            }, System.Windows.Threading.DispatcherPriority.ApplicationIdle);
 
         }
 
@@ -118,5 +129,6 @@ namespace MarkdownMonster.Windows
 
             Model.AppModel.Commands.OpenFolderBrowserCommand.Execute(null);
         }
+
     }
 }
