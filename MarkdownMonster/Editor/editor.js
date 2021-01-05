@@ -771,13 +771,14 @@
                 80);
         },
         openSearchAndReplace: function (searchText, replaceText) {
-            te.editor.execCommand("find");
-            setTimeout(function () {
-                var el$ = $(".ace_search_form  .ace_search_field").val(searchText);
-                el$.val(searchText);
-                el$.focus();
-                $(".ace_replace_form  .ace_search_field").val(replaceText);
-                te.editor.searchBox.findNext();
+            te.editor.execCommand("replace");
+            setTimeout(function() {
+              var el$ = $(".ace_search_form .ace_search_field");
+              el$.val(searchText);
+              $(".ace_replace_form .ace_search_field").val(replaceText);
+              te.editor.searchBox.findNext();
+
+              setTimeout(function() { el$.focus(); }, 200);
             }, 80);
         },
 
