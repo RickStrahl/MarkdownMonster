@@ -22,6 +22,11 @@ namespace MarkdownMonster.Utilities
 
         public bool SearchSubFolders { get; set; } = true;
 
+        public bool SearchContent {get; set; }
+
+
+
+
         private byte[] SearchPhraseBytes { get; set;  }
 
 
@@ -78,11 +83,10 @@ namespace MarkdownMonster.Utilities
                 foreach (var file in files)
                 {
                     var result = new SearchFileResult {Filename = file};
-                    if (SearchFile(result) > 0 ||
+                    if ((SearchContent && SearchFile(result) > 0) ||
                         System.IO.Path.GetFileName(file)
                             .Contains(SearchPhrase, StringComparison.InvariantCultureIgnoreCase))
                         list.Add(result);
-                    
                 }
             }
 
@@ -101,6 +105,9 @@ namespace MarkdownMonster.Utilities
 
         private int SearchFile(SearchFileResult result)
         {
+            if (!SearchContent)
+                return 0;
+
             var text = File.ReadAllText(result.Filename);
 
             int matches = 0;

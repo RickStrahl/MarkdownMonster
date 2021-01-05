@@ -83,13 +83,15 @@
 
 
             <TextBox x:Name="SearchFolder"  Margin="10,0,10,5" Grid.Row="1"             
-                     Text="{Binding SearchFolder, UpdateSourceTrigger=PropertyChanged, Delay=200}" 
+                     Text="{Binding SearchFolder}" 
                      ToolTip="{Binding SearchFolder}" 
                      BorderThickness="0.3" Padding="1"
                      mah:TextBoxHelper.SelectAllOnFocus="True"
                      Opacity="0.8"  FontSize="13" FontWeight="Normal"    
                      mah:TextBoxHelper.Watermark="Folder to search" 
-                     mah:TextBoxHelper.ClearTextButton="True" />
+                     mah:TextBoxHelper.ClearTextButton="True"
+                     TextChanged="SearchPhrase_OnTextChanged"
+                     />
 
             <Grid>
                 <Grid.ColumnDefinitions>
@@ -104,14 +106,24 @@
                      mah:TextBoxHelper.SelectAllOnFocus="True"
                      Opacity="0.8"  FontSize="13" FontWeight="Normal"    
                      mah:TextBoxHelper.Watermark="File Filters" 
-                     mah:TextBoxHelper.ClearTextButton="True" />
+                     mah:TextBoxHelper.ClearTextButton="True"
+                     TextChanged="SearchPhrase_OnTextChanged" />
 
-                <CheckBox x:Name="SearchSubFolders" Grid.Column="1"
-                          IsChecked="{Binding SearchSubFolders}" 
-                          FontSize="15" FontWeight="Normal" Margin="5,9,10,10" 
-                          Style="{StaticResource CompactCheckBox}" 
-                          Content="search sub-folders"
-                />
+                <StackPanel Grid.Column="1">
+                    <CheckBox x:Name="SearchSubFolders" Grid.Column="1"
+                              IsChecked="{Binding SearchSubFolders}" 
+                              FontSize="15" FontWeight="Normal" Margin="5,0,10,0" 
+                              Style="{StaticResource CompactCheckBox}" 
+                              Content="search sub-folders" 
+                              Click="Search_Click" />
+                    <CheckBox x:Name="SearchContent" Grid.Column="1"
+                              IsChecked="{Binding SearchContent}" 
+                              FontSize="15" FontWeight="Normal" Margin="5,2,10,0" 
+                              Style="{StaticResource CompactCheckBox}" 
+                              Content="search content" 
+                              Click="Search_Click"/>
+                </StackPanel>
+                
             </Grid>
 
             <!--<Button Name="ButtonSearch"  FontSize="13" 
@@ -133,10 +145,12 @@
                             <StackPanel>
                                 <StackPanel Orientation="Horizontal">
                                     <TextBlock Text="{Binding FileOnly}" FontWeight="Medium" />
-                                    <TextBlock Text="{Binding Matches.Count}" 
+
+                                    <TextBlock Text="{Binding Matches.Count,StringFormat=0;;\'file\'}" 
                                                Margin="5,2,0,0" 
                                                FontSize="11" FontStyle="Italic" FontWeight="Bold" 
                                                Foreground="DarkGoldenrod"/>
+
                                 </StackPanel>
                                 <TextBlock Text="{Binding FilePath}" Margin="0,3,0,0"
                                            FontSize="10.5"

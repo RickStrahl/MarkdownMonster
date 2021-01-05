@@ -73,6 +73,19 @@ namespace MarkdownMonster.Windows.FileSearch
         private bool _SearchSubFolders = true;
 
 
+        public bool SearchContent
+        {
+            get { return _SearchContent; }
+            set
+            {
+                if (value == _SearchContent) return;
+                _SearchContent = value;
+                OnPropertyChanged(nameof(SearchContent));
+            }
+        }
+
+        private bool _SearchContent = true;
+
 
 
         public bool SearchChildFolders
@@ -159,6 +172,8 @@ namespace MarkdownMonster.Windows.FileSearch
 
             var finder = new FindInFilesFinder(SearchFolder,FileFilters);
             finder.SearchSubFolders = SearchSubFolders;
+            finder.SearchContent = SearchContent;
+
             var result = await finder.SearchFilesAsync(SearchPhrase);
 
             if (result != null)

@@ -31,8 +31,6 @@ namespace MarkdownMonster.Windows
             Model = new FileSearchModel();
             DataContext = Model;
             Loaded += FileSearchControl_Loaded;
-
-
         }
 
         private void FileSearchControl_Loaded(object sender, RoutedEventArgs e)
@@ -51,9 +49,10 @@ namespace MarkdownMonster.Windows
 
         private void SearchPhrase_OnTextChanged(object sender, TextChangedEventArgs e)
         {
+            var origText = Model.SearchPhrase;
+
             debounce.Debounce(400, (p) =>
             {
-                //Model.SearchPhrase =  (sender as TextBox)?.Text;
                 Search_Click(this, null);
             });
         }
@@ -71,12 +70,11 @@ namespace MarkdownMonster.Windows
             Model.Window.Dispatcher.InvokeAsync(() =>
             {
                 var editor = tab.Tag as MarkdownDocumentEditor;
-                // TODO: Fire Search And Replace Logic
-
-                editor?.AceEditor.OpenSearch(Model.SearchPhrase);
-
+                if (string.IsNullOrEmpty(Model.ReplaceText))
+                    editor?.AceEditor.OpenSearch(Model.SearchPhrase);
+                else
+                    editor?.AceEditor.OpenSearchAndReplace(Model.SearchPhrase, Model.ReplaceText);
             }, System.Windows.Threading.DispatcherPriority.ApplicationIdle);
-
         }
 
         private void ButtonProjectOrDocumentPath_Click(object sender, RoutedEventArgs e)
