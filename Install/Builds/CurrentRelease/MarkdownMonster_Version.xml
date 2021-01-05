@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <VersionInfo>
-   <Version>1.25.14</Version>   
-   <PreviewVersion>1.25.14</PreviewVersion>
-   <ReleaseDate>December 29, 2020</ReleaseDate>
-   <Title>Markdown Monster 1.25.14 is now available</Title>
+   <Version>1.25.14.5</Version>   
+   <PreviewVersion>1.25.14.5</PreviewVersion>
+   <ReleaseDate>January 4, 2021</ReleaseDate>
+   <Title>Markdown Monster 1.25.14.5 is now available</Title>
    <Detail>
 Recent updates add Project Support, Find in Files, Open in New Window, Drag and Drop between Instances, Improved Favorites and Git Integration and much more.
 

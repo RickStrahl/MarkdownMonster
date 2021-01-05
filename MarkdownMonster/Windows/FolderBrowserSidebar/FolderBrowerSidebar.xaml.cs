@@ -996,35 +996,35 @@ using UserControl = System.Windows.Controls.UserControl;
                     //Debug.WriteLine("Treeview TreeDown: " + e.Key + " shfit: " + Keyboard.IsKeyDown(Key.LeftShift));
                     var keyConverter = new KeyConverter();
 
-                    string k = null;
+                    string keyText = string.Empty;
                     bool isShiftDown = Keyboard.IsKeyDown(Key.LeftShift);
                     bool isBack = false;
 
                     // special key mapping
                     if (e.Key == Key.OemPeriod)
-                        k = ".";
+                        keyText = ".";
                     else if (e.Key == Key.OemMinus)
-                        k = "-";
+                        keyText = "-";
                     else if (e.Key == Key.Space)
-                        k = " ";
+                        keyText = " ";
                     else if(e.Key == Key.OemPipe)
-                        k = "|";
+                        keyText = "|";
                     else if (isShiftDown)
                     {
                         if (e.Key == Key.OemMinus)
-                            k = "_";
+                            keyText = "_";
                         else if (e.Key == Key.D1)
-                            k = "!";
+                            keyText = "!";
                         else if (e.Key == Key.D2)
-                            k = "@";
+                            keyText = "@";
                         else if (e.Key == Key.D3)
-                            k = "#";
+                            keyText = "#";
                         else if (e.Key == Key.D4)
-                            k = "$";
+                            keyText = "$";
                         else if (e.Key == Key.D5)
-                            k = "%";
+                            keyText = "%";
                         else if (e.Key == Key.D7)
-                            k = "&";
+                            keyText = "&";
                     }
                     else if (e.Key == Key.Back)
                     {
@@ -1033,19 +1033,19 @@ using UserControl = System.Windows.Controls.UserControl;
                             searchFilter = searchFilter.Substring(0,searchFilter.Length-1);
                     }
                     else
-                        k = keyConverter.ConvertToString(e.Key);
+                        keyText = keyConverter.ConvertToString(e.Key);
 
                     if (searchFilterLast > DateTime.Now.AddSeconds(-1.2))
                     {
                         if (!isBack)
-                            searchFilter += k.ToLower();
+                            searchFilter += keyText.ToLower();
                     }
                     else
                     {
                         if(isBack)
                             searchFilter = string.Empty;
                         else
-                            searchFilter = k.ToLower();
+                            searchFilter = keyText.ToLower();
                     }
 
                     var parentPath = selected.Parent;
