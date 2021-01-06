@@ -317,7 +317,7 @@ namespace WebViewPreviewerAddin
         {
 
             var editor = Window.GetActiveMarkdownEditor();
-            if (editor == null)
+            if (editor == null || editor.MarkdownDocument == null)
                 return;
 
             if (editorLineNumber < 0)
