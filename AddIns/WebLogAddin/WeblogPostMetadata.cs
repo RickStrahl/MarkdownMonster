@@ -320,7 +320,7 @@ namespace WeblogAddin
             {
                 parser.Load(new StringReader(yaml));
             }
-            catch(Exception ex)
+            catch
             {
                 return null;
             }
@@ -332,7 +332,7 @@ namespace WeblogAddin
             {
                 var key = entry.Key?.ToString();
 
-                if(string.IsNullOrEmpty(key))
+                if (string.IsNullOrEmpty(key))
                     continue;
                 if (key.Equals("Title", StringComparison.OrdinalIgnoreCase))
                 {
@@ -399,7 +399,7 @@ namespace WeblogAddin
                     {
                         fields = (YamlMappingNode) entry.Value;
                     }
-                    catch(Exception ex)
+                    catch
                     {
                         continue; // empty or missing
                     }

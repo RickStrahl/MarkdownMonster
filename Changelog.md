@@ -5,15 +5,19 @@
 [![Web Site](https://img.shields.io/badge/Markdown_Monster-WebSite-blue.svg)](https://markdownmonster.west-wind.com)
 
 ### 1.25.15
-<small>not released yet</small>
+<small>January 5th, 2021</small>
 
-* **Favorites Click Behavior Update**  Favorite clicks now open documents initially in preview mode until you type into the editor. Preview mode documents close as soon as another tab is opened or accessed. This behavior is now the same as the main folder browser. Double clicking forces the opened document to be a permanently open document. Unlike the folder browser, a single click forces the cursor into the Favorite document selected.
+* **Favorites Click Behavior Update**  
+Favorite clicks now open documents initially in preview mode until you type into the editor. Preview mode documents close as soon as another tab is opened or accessed. This behavior is now the same as the main folder browser. Double clicking forces the opened document to be a permanently open document. Unlike the folder browser, a single click forces the cursor into the Favorite document selected.
 
 * **Update Find in Files to Incremental Search**  
 Change the Find in Files sidebar to use live searching instead of using an explicit Search button. Better handle results display and navigation in the result view.
 
 * **Fix: Preview Refresh for Ctrl-key operations**  
 Fix issue where some common ctrl-key operations (ctrl-z, ctrl-x etc.) would not immediately update the preview until manual key entry into the editor is performed. Changed operation that the `ctrl` key now triggers a preview refresh for all ctrl-key operations. This also means that the `ctrl` key becomes the effective 'immediate refresh' key that you can use to force a preview refresh even when no preview sync is in use.
+
+* **Fix: Weblog YAML Parsing for customFields**  
+Fix bug where an empty `customFields` value would cause the Weblog Entry to not pre-load values back into the Weblog Publish dialog for repeated publishing. Fixed issue and changed defaults to not render empty field in the first place.
 
 ### 1.25.14
 <small>December 28th, 2020</small>
