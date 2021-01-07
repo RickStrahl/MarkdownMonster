@@ -38,8 +38,7 @@
         },
         // checks if code was recently scrolled and shouldn't be scrolled again (also used for context menu)
         isCodeScrolled: function(timeout) {
-            if (!timeout)
-            timeout = 300;
+            if (!timeout) timeout = previewScrollTimeout;
             return te.codeScrolled && te.codeScrolled > new Date().getTime() - timeout;
         },
         codeScrolled: 0,
@@ -164,13 +163,13 @@
                 function (event) {
                   // up and down handling - force a preview refresh
                   if(event.keyCode === 38 || event.keyCode === 40) {
-                    scrollPreviewRefresh(-1, false, false);  // noScrollTopAdjustment, force
+                    scrollPreviewRefresh(-1, false, false, false);  // noScrollTopAdjustment,
                     te.updateDocumentStats();
                   }
                   // Ctrl-Key forces preview refresh and spellcheck
                   // handles for ctrl-y/z and copy/paste/cut ops to refresh
                   else if (event.keyCode === 17) {
-                    scrollPreviewRefresh(-1, false, false, true);  // noScrollTopAdjustment, force
+                    scrollPreviewRefresh(-1, false, false, true);  // noScrollTopAdjustment, force update
                     te.updateDocumentStats();
                     te.spellcheck.spellCheck(true);
                   }
