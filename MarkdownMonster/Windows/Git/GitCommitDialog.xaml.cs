@@ -347,7 +347,7 @@ namespace MarkdownMonster.Windows
             if (selected == null)
                 return;
 
-            ShellUtils.OpenFileInExplorer(selected.FullPath);
+            ShellUtils.OpenFileInExplorer(FileUtils.NormalizePath(selected.FullPath));
         }
 
         private void MenuDeleteFile_Click(object sender, RoutedEventArgs e)
