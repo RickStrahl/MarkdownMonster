@@ -351,8 +351,12 @@
 
             session.setUseWrapMode(style.wrapText);
             session.setOption("indentedSoftWrap", true);
+          
 
             session.setOptions({ useSoftTabs: style.useSoftTabs, tabSize: style.tabSize });
+            // Disable Soft-Tab auto skip with arrow keys
+            editor.selection.wouldMoveIntoSoftTab = te.returnFalse;
+          
             session.setNewLineMode(style.linefeedMode);
 
             editor.setHighlightActiveLine(style.highlightActiveLine);
@@ -1055,6 +1059,9 @@
             }
 
             te.setfocus();
+        },
+        returnFalse: function() {
+          return false;
         }
     }
 
