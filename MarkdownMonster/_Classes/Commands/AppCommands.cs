@@ -2275,6 +2275,10 @@ We're now shutting down the application.
                 if(window == null)
                     return;
 
+                var config = mmApp.Configuration;
+                if ( config == null)
+                    return;
+
                 var selectedTheme = Themes.Dark;
 
                 // Parameter is text for a theme or empty in which case it's toggled
@@ -2282,13 +2286,13 @@ We're now shutting down the application.
                 if (string.IsNullOrEmpty(text))
                 {
                     // toggle theme
-                    if (mmApp.Configuration.ApplicationTheme == Themes.Dark)
+                    if (config.ApplicationTheme == Themes.Dark)
                         selectedTheme = Themes.Light;
                 }
                 else
                     selectedTheme = (Themes) Enum.Parse(typeof(Themes), text);
 
-                var oldVal = mmApp.Configuration.ApplicationTheme;
+                var oldVal = config.ApplicationTheme;
 
                 if (oldVal != selectedTheme &&
                     MessageBox.Show(
@@ -2296,18 +2300,22 @@ We're now shutting down the application.
                         "Theme Change", MessageBoxButton.YesNo,
                         MessageBoxImage.Question, MessageBoxResult.Yes) == MessageBoxResult.Yes)
                 {
-                    mmApp.Configuration.ApplicationTheme = selectedTheme;
-                    if (mmApp.Configuration.ApplicationTheme == Themes.Light)
+                    config.ApplicationTheme = selectedTheme;
+                    if (config.ApplicationTheme == Themes.Light)
                     {
-                        mmApp.Configuration.EditorTheme = "vscodelight";
-                        mmApp.Configuration.PreviewTheme = "Github";
+                        config.EditorTheme = "vscodelight";
+                        config.PreviewTheme = "Github";
                     }
                     else
-                        mmApp.Configuration.EditorTheme = "vscodedark";
+                        config.EditorTheme = "vscodedark";
 
-                    mmApp.Configuration.Write();
+                    config.Write();
 
-                    window.PipeManager.StopServer();
+                    // Force the Single Instance Manager to stop so restart can proceed
+                    window.PipeManager?.StopServer();
+                    window.ShowStatusProgress("Shutting down instance manager.");
+                    window.PipeManager?.WaitForThreadShutDown(3000);
+
                     window.ForceClose = true;
                     window.Close();
 

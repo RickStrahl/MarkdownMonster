@@ -46,9 +46,12 @@ namespace MarkdownMonster
         public bool OpenInPresentationMode { get; set; }
 
         /// <summary>
-        /// Determines whether Markdown Monster runs as a Singleton application.
-        /// If true only a single instance runs and parameters are forwarded to
-        /// open in the single instance.
+        /// Determines whether Markdown Monster runs as a Singleton application
+        /// where documents are **always** opened in the same single Markdown Monster
+        /// instance.
+        ///
+        /// If not set, launching MM or opening a file from Explorer
+        /// or the Terminal will open a new Markdown Monster instance.
         /// </summary>
         public bool UseSingleWindow { get; set; }
 
