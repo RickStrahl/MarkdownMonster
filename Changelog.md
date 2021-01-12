@@ -4,6 +4,16 @@
 [![Chocolatey](https://img.shields.io/chocolatey/dt/markdownmonster.svg)](https://chocolatey.org/packages/MarkdownMonster)
 [![Web Site](https://img.shields.io/badge/Markdown_Monster-WebSite-blue.svg)](https://markdownmonster.west-wind.com)
 
+### 1.25.16
+<small>not released yet</small>
+
+* **Folder Browser Find Files Search Box**  
+Changed the Find Files Search Box to be always visible in the Folder browser. The search finds and filters file name matches in the tree. The search box is now always available and you can optionally specify sub folder searches.
+
+* **Updated Find in Files Operation** 
+Find in Files searches content inside of files to find matching content. The result displays a straight list with match counts for the files. Selected files are opened in the editor with the search term selected in the Find box (and Replace box if you specify Replace text).
+
+
 ### 1.25.15
 <small>January 5th, 2021</small>
 

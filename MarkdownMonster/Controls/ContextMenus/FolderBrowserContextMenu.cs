@@ -264,10 +264,20 @@ using System.Windows;
                 }
 
                 ci = new MenuItem();
-                ci.Header = "Find in Files";
+                ci.Header = "Find Files";
                 ci.Name = "FBCM_FindInFiles";
                 ci.InputGestureText = "Ctrl-F";
+                ci.ToolTip = "Search for files by name";
                 ci.Click += FolderBrowser.MenuFindFiles_Click;
+                cm.Items.Add(ci);
+
+                ci = new MenuItem();
+                ci.Header = "Find in Files";
+                ci.Name = "FBCM_FindInFiles";
+                ci.InputGestureText = "Ctrl-Shift-F";
+                ci.ToolTip = "Search for content in files.";
+                ci.Command= Model.Commands.OpenSearchSidebarCommand;
+                ci.CommandParameter = FolderBrowser.FolderPath;
                 cm.Items.Add(ci);
 
                 ci = new MenuItem();

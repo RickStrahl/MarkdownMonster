@@ -48,6 +48,16 @@ namespace MarkdownMonster.Windows
 
 		public PathItem Parent { get; set; }
 
+        /// <summary>
+        /// Flag to check if this path item is empty and not
+        /// set at all. This is true when setting a folder
+        /// place holder so folders show with a drop down box
+        /// </summary>
+        public bool IsEmpty
+        {
+            get => string.IsNullOrEmpty(DisplayName);
+        }
+        
 		public bool IsFolder
 		{
 			get => _isFolder;

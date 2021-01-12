@@ -66,7 +66,7 @@ namespace MarkdownMonster.Configuration
         /// <summary>
         /// Folders that are not shown by the Folder Browser. Defaults to some system folders.
         /// </summary>
-	    public string IgnoredFolders { get; set; } = ".git,node_modules,.vs";
+	    public string IgnoredFolders { get; set; } = ".git,node_modules,.vs,.idea";
 
 
         /// <summary>

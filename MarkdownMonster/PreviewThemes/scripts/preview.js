@@ -15,12 +15,20 @@ var te = window.previewer = {
   dotnetInterop: {
     // return async instance if available, otherwise sync
     getEditor: function() {
+      if (window.chrome) {
+        // WebView instance does not want to be cached
+        return window.chrome.webview.hostObjects.mm || window.chrome.webview.hostObjects.sync.mm;
+      }
       return te.mmEditorAsync || te.mmEditor || null;
     },
     // TODO: Make all this work with Async/Await once IE is dropped
     // always return the sync instance for callbacks that return
     // values (2 funcs). All others use the async version.
     getEditorSync: function() {
+      if (window.chrome) {
+        // WebView instance does not want to be cached
+        return window.chrome.webview.hostObjects.sync.mm;
+      }
       return te.mmEditor || null;
     },
     previewContextMenu: function(parm) {

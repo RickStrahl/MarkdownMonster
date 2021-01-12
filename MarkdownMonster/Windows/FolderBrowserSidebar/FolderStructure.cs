@@ -11,8 +11,14 @@ namespace MarkdownMonster.Windows
 {
     public class FolderStructure
 	{
-	    internal static AssociatedIcons IconList = new AssociatedIcons();
+        FolderBrowerSidebar FolderBrowser { get; }
 
+        internal static AssociatedIcons IconList = new AssociatedIcons();
+
+        public FolderStructure(FolderBrowerSidebar folderBrowser)
+        {
+            FolderBrowser = folderBrowser;
+        }
 
 		/// <summary>
 		/// Gets a folder hierarchy and attach to an existing folder item or
@@ -264,38 +270,50 @@ namespace MarkdownMonster.Windows
         /// <param name="pathItem"></param>
 	    public void SetSearchVisibility(string searchText, PathItem pathItem, bool recursive)
         {
+            var folderBrowser = FolderBrowser;
+
             if (searchText == null)
                 searchText = string.Empty;
-	        searchText = searchText.ToLower();
+            searchText = searchText.ToLower();
 
             // no items below
-	        if (pathItem.Files.Count == 1 && pathItem.Files[0] == PathItem.Empty)
+	        if (pathItem.Files.Count == 0 || pathItem.Files[0] == PathItem.Empty)
 	        {
                 if (!recursive)
 	                return;
 
                 // load items
 	            var files = GetFilesAndFolders(pathItem.FullPath, pathItem, nonRecursive: !recursive).Files;
-	            pathItem.Files.Clear();
-	            foreach (var file in files)
-	                pathItem.Files.Add(file);
+                pathItem.Files = files;
+	            //foreach (var file in files)
+	            //    pathItem.Files.Add(file);
 
+                if (pathItem.Files.Count == 0)
+                    pathItem.Files.Add(PathItem.Empty);
+             
                 // required so change is detected by tree
-	            //pathItem.OnPropertyChanged(nameof(PathItem.Files));
-	        }
+                //pathItem.OnPropertyChanged(nameof(PathItem.Files));
+            }
 
-	        foreach (var pi in pathItem.Files)
+            foreach (var pi in pathItem.Files)
 	        {
-	            if (string.IsNullOrEmpty(searchText) || pi.FullPath == "..")
+                if(pi.IsEmpty)  // it's a placeholder only
+                    continue;
+
+	            if (string.IsNullOrEmpty(searchText))
 	            {
 	                pi.IsVisible = true;
+                    pi.IsSelected = false;
                     pi.IsExpanded = false;
 	            }
+                else if(searchText == "..")
+                    pi.IsVisible = false;
                 else if (pi.DisplayName.ToLower().Contains(searchText))
 	            {
 	                pi.IsVisible = true;
-	                var parent = pi.Parent;
+                    var parent = pi.Parent;
 
+                    // make sure parents are expanded
 	                while (parent != null)
 	                {
 	                    parent.IsExpanded = true;
@@ -308,7 +326,7 @@ namespace MarkdownMonster.Windows
 	            else
                     pi.IsVisible = false;
 
-	            if (pi.IsFolder && recursive)
+	            if (recursive && pi.IsFolder && pi.DisplayName != ".." )
 	                SetSearchVisibility(searchText, pi, recursive);
 	        }
 

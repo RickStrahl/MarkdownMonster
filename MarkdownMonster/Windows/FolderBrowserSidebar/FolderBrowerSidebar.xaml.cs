@@ -66,7 +66,6 @@ using UserControl = System.Windows.Controls.UserControl;
 
                     SearchText = null;
                     SearchSubTrees = false;
-                    SearchPanel.Visibility = Visibility.Collapsed;
 
                     if (string.IsNullOrEmpty(_folderPath))
                         ActivePathItem = new PathItem(); // empty the folderOrFilePath browser
@@ -139,7 +138,12 @@ using UserControl = System.Windows.Controls.UserControl;
             /// <summary>
             /// Internal value
             /// </summary>
-            public FolderStructure FolderStructure { get; } = new FolderStructure();
+            public FolderStructure FolderStructure {
+                get
+                {
+                    return new FolderStructure(this);
+                }
+            } 
 
 
             /// <summary>
@@ -418,7 +422,8 @@ using UserControl = System.Windows.Controls.UserControl;
                     WindowUtilities.DoEvents();
 
                     var items = FolderStructure.GetFilesAndFolders(folderOrFilePath, nonRecursive: true,
-                        ignoredFolders: ".git");
+                                    ignoredFolders: mmApp.Configuration.FolderBrowser.IgnoredFolders,
+                                    ignoredFileExtensions: mmApp.Configuration.FolderBrowser.IgnoredFileExtensions);
                     ActivePathItem = items;
 
                     WindowUtilities.DoEvents();
@@ -960,23 +965,19 @@ using UserControl = System.Windows.Controls.UserControl;
                     menu.FileBrowserPasteFile();
                     e.Handled = true;
                 }
+                // Find in Files
+                else if (e.Key == Key.F && Keyboard.IsKeyDown(Key.LeftCtrl) && Keyboard.IsKeyDown(Key.LeftShift))
+                {
+                    AppModel.Commands.OpenSearchSidebarCommand.Execute(FolderPath);
+                    e.Handled = true;
+                }
                 // Find
                 else if (e.Key == Key.F && Keyboard.IsKeyDown(Key.LeftCtrl))
                 {
-                    if (SearchPanel.Visibility == Visibility.Collapsed)
-                    {
-                        SearchPanel.Visibility = Visibility.Visible;
-                        TextSearch.Focus();
-                    }
-                    else
-                    {
-                        SearchPanel.Visibility = Visibility.Collapsed;
-                        TextSearch.Text = string.Empty;
-                    }
-
+                    TextSearch.Focus();
                     e.Handled = true;
                 }
-
+                
 
                 if (e.Handled || selected.IsEditing || Keyboard.IsKeyDown(Key.LeftCtrl))
                     return;
@@ -1317,44 +1318,54 @@ using UserControl = System.Windows.Controls.UserControl;
 
             private DebounceDispatcher debounceTimer = new DebounceDispatcher();
 
-            private void TextSearch_PreviewKeyUp(object sender, KeyEventArgs e)
+            private void DoSearchOperation()
             {
-                debounceTimer.Debounce(500, (p) =>
+                debounceTimer.Debounce(500, async  (p) =>
                 {
                     Window.ShowStatusProgress("Filtering files...");
-                    WindowUtilities.DoEvents();
-                    FolderStructure.SetSearchVisibility(SearchText, ActivePathItem, SearchSubTrees);
-                    Window.ShowStatus(null);
+                    
+                    if (string.IsNullOrEmpty(SearchText))
+                    {
+                        ActivePathItem.Files.Clear();
+                        ActivePathItem.FullPath = FolderPath;
+                        ActivePathItem.IsFolder = true;
+                        SetTreeFromFolder(FolderPath, true);
+                        FolderStructure.GetFilesAndFolders(FolderPath);
+                        return;
+                    }
+
+                    await Dispatcher.InvokeAsync(() =>
+                    {
+                        FolderStructure.SetSearchVisibility(SearchText, ActivePathItem, SearchSubTrees);
+                        Window.ShowStatus();
+                    });
                 });
-
-
             }
-
-            private void CheckBox_Click(object sender, RoutedEventArgs e)
+        
+            private void TextSearch_TextChanged(object sender, TextChangedEventArgs e)
             {
-                Window.ShowStatusProgress("Filtering files...");
-                WindowUtilities.DoEvents();
-                FolderStructure.SetSearchVisibility(SearchText, ActivePathItem, SearchSubTrees);
-                Window.ShowStatus(null);
+                DoSearchOperation();
             }
-
-            private void Button_CloseSearch_Click(object sender, RoutedEventArgs e)
-            {
-                SearchPanel.Visibility = Visibility.Collapsed;
-                TreeFolderBrowser.Focus();
-            }
-
+        
             internal void MenuFindFiles_Click(object sender, RoutedEventArgs e)
             {
-                SearchPanel.Visibility = Visibility.Visible;
                 TextSearch.Focus();
             }
 
-            #endregion
+            private void CheckSearchTree_Click(object sender, RoutedEventArgs e)
+            {
+                SearchSubTrees = !SearchSubTrees;
+                TextSearch.Focus();
 
-            #region Context Menu Actions
+                if(!string.IsNullOrEmpty(SearchText))
+                    DoSearchOperation();
+            }
 
-            private void TreeFolderBrowser_ContextMenuOpening(object sender, ContextMenuEventArgs e)
+        #endregion
+
+        #region Context Menu Actions
+
+        private void TreeFolderBrowser_ContextMenuOpening(object sender, ContextMenuEventArgs e)
             {
                 FolderBrowserContextMenu.ShowContextMenu();
             }
@@ -1709,7 +1720,8 @@ using UserControl = System.Windows.Controls.UserControl;
             }
 
 
-            #endregion
-        }
+        #endregion
+        
+    }
 
     }

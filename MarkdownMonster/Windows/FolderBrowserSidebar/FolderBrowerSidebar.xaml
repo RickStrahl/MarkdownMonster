@@ -101,69 +101,10 @@
 
     <Grid Name="FolderBrowserMainGrid" >
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
 
-        <StackPanel Name="SearchPanel" Visibility="Collapsed">
-            <TextBlock Text="{Binding SearchText}" />
-            <Grid Background="{StaticResource SidebarHeaderBackground}">
-
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="auto" />
-                </Grid.ColumnDefinitions>
-                
-                <TextBlock Height="Auto" 
-                           Text="SEARCH" 
-                           FontWeight="Medium" FontSize="12"  
-                           Padding="4,5,2,5" />
-
-                <Button fa:Awesome.Content="Remove" Grid.Column="1" Background="Transparent"
-                        Foreground="{DynamicResource BlueItem}" Padding="5,0,5,0"
-                        Name="ButtonCloseSearchPanel" BorderThickness="0"  FontSize="12"
-                        ToolTip="Close Search"
-                        Click="Button_CloseSearch_Click" />
-            </Grid>
-
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="Auto"/>
-                </Grid.ColumnDefinitions>
-
-                <TextBox x:Name="TextSearch"  Margin="10,10,2,5"             
-                     Text="{Binding SearchText,UpdateSourceTrigger=PropertyChanged}" 
-                     BorderThickness="0.3"
-                     controls:TextBoxHelper.SelectAllOnFocus="True"
-                     Opacity="0.7"             
-                     PreviewKeyDown="TextSearch_PreviewKeyUp"
-                     controls:TextBoxHelper.Watermark="Search file names in folder"  
-                     controls:TextBoxHelper.ClearTextButton="True" />
-
-                <Button fa:Awesome.Content="SearchPlus" Grid.Column="1" 
-                        Background="Transparent"
-                        FontWeight="Thin"
-                        Name="ButtonSearchFiles2" BorderThickness="0"  
-                        FontSize="15" Foreground="#bbb"
-                        Height="32" Margin="0,5,2,1"
-                        ToolTip="Find in File Names and Content"
-                    Command="{Binding AppModel.Commands.OpenSearchSidebarCommand}"
-                    CommandParameter="{Binding ActivePathItem.FullPath}" />
-            </Grid>
-
-            <CheckBox IsChecked="{Binding SearchSubTrees}"
-                      Click="CheckBox_Click" Content="Search subtrees"                      
-                      Margin="17,0,10,10">
-                    <CheckBox.LayoutTransform>
-                        <ScaleTransform ScaleX="0.85" ScaleY="0.85" />
-                    </CheckBox.LayoutTransform>
-                </CheckBox>
-
-                
-        </StackPanel>
-
-        <Grid Name="GridFolderBrowser" Grid.Row="1" >
+        <Grid Name="GridFolderBrowser" Grid.Row="0" >
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
@@ -228,7 +169,37 @@
 
 
 
-            <ComboBox Grid.Row="1"
+            <Grid Grid.Row="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+
+                <TextBox x:Name="TextSearch"  Margin="2,4,2,0"             
+                         Text="{Binding SearchText,UpdateSourceTrigger=PropertyChanged}" 
+                         BorderThickness="0.3"
+                         controls:TextBoxHelper.SelectAllOnFocus="True"
+                         Opacity="0.7"          
+                         TextChanged="TextSearch_TextChanged"
+                         controls:TextBoxHelper.Watermark="Search file names in folder"  
+                         controls:TextBoxHelper.ClearTextButton="True" />
+
+                <ToggleButton fa:Awesome.Content="FolderOpen" 
+                              Foreground="DarkGoldenrod"
+                              Grid.Column="1" 
+                              Background="Transparent"
+                              FontWeight="Thin"
+                              Name="CheckSearchTree" BorderThickness="0"  
+                              Height="22" Width="24"
+                              Margin="0,5,2,1"
+                              ToolTip="Check to search in Sub Folders"
+                              Click="CheckSearchTree_Click"
+                />
+               
+            </Grid>
+
+            <ComboBox Grid.Row="2"
                  x:Name="ComboFolderPath"  controls:ComboBoxHelper.CharacterCasing="Upper"
                  Text="{Binding FolderPath,UpdateSourceTrigger=LostFocus}"
 	             Opacity="1" FontWeight="Medium"                         
@@ -252,6 +223,7 @@
 				  ItemTemplate="{StaticResource FolderTemplate}" 
 				  KeyDown="TreeView_Keydown" 
                   ScrollViewer.HorizontalScrollBarVisibility="Disabled" 
+                  ScrollViewer.VerticalScrollBarVisibility="Auto" 
                   TreeViewItem.Expanded="TreeFolderBrowser_Expanded"    
 
                   Drop="TreeViewItem_Drop"     
