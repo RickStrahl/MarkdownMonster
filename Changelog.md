@@ -5,10 +5,10 @@
 [![Web Site](https://img.shields.io/badge/Markdown_Monster-WebSite-blue.svg)](https://markdownmonster.west-wind.com)
 
 ### 1.25.16
-<small>not released yet</small>
+<small>January 12, 2021</small> 
 
 * **Folder Browser Find Files Search Box**  
-Changed the Find Files Search Box to be always visible in the Folder browser. The search finds and filters file name matches in the tree. The search box is now always available and you can optionally specify sub folder searches.
+Changed the Find Files Search Box to be always visible in the Folder browser above the browser instead of an explicit dropdown panel. This search finds and filters by file name in the tree and shows a tree based match filter. The search box sits above the directory tree is now always visible and accessible via Ctrl-F from within the browser. You can optionally specify to search in sub folders.
 
 * **Updated Find in Files Operation** 
 Find in Files searches content inside of files to find matching content. The result displays a straight list with match counts for the files. Selected files are opened in the editor with the search term selected in the Find box (and Replace box if you specify Replace text).
@@ -24,6 +24,10 @@ Preview to Editor sync was not working correctly due to an omission check.
 
 * **Fix: Chromium Previewer Addin ScrollSync**  
 Fixed scroll issue in the WebView2 control interop that would cause scroll failures when scrolling the preview and trying to sync the editor. Fixed with non-cached interop object instances to avoid potential operational overlap (WebView2 bug).
+
+* **Fix: mmCli Html Package Exports**  
+Fix issue where HTML self-contained Package exports were failing due to an assembly binding error. Added `.config` file to ensure correct bindings are used.
+
 
 ### 1.25.15
 <small>January 5th, 2021</small>
