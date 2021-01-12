@@ -412,8 +412,11 @@
                           Click="Button_Handler"
                           InputGestureText="Ctrl+H" />
                 <Separator/>
+                <MenuItem Header="Find Files" 
+                          Command="{Binding Commands.OpenSearchBoxCommand}" />
                 <MenuItem Header="_Find in Files" 
                           Command="{Binding Commands.OpenSearchSidebarCommand}"
+                          InputGestureText="{Binding Commands.OpenSearchSidebarCommand.KeyboardShortcut}"
                 />
             </MenuItem>
             <MenuItem Header="_Tools" Name="MainMenuTools" x:FieldModifier="public">                 

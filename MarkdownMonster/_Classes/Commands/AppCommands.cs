@@ -105,6 +105,7 @@ namespace MarkdownMonster
             // Miscellaneous
             OpenAddinManager();
             OpenSearchSidebar();
+            OpenSearchBox();
             ShowSidebarTab();
 
             Help();
@@ -1748,10 +1749,28 @@ namespace MarkdownMonster
                 if (!string.IsNullOrEmpty(path))
                     searchControl.Model.SearchFolder = path;
 
-                Model.Window.Dispatcher.InvokeAsync(() => searchControl.SearchPhrase.Focus(),
+                Model.Window.Dispatcher.InvokeAsync(
+                    () => searchControl.SearchPhrase.Focus(),
                     DispatcherPriority.ApplicationIdle);
             }, (p, c) => true);
         }
+
+
+
+        public CommandBase OpenSearchBoxCommand { get; set; }
+
+        void OpenSearchBox()
+        {
+            OpenSearchBoxCommand = new CommandBase((parameter, command) =>
+            {
+                OpenFolderBrowserCommand.Execute(null);
+                Model.Window.Dispatcher.InvokeAsync(
+                    () => Model.Window.FolderBrowser.FocusFileSearchBox(),
+                    DispatcherPriority.ApplicationIdle);
+
+            }, (p, c) => true);
+        }
+
 
 
         public CommandBase HelpCommand { get; set; }

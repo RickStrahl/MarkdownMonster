@@ -24,7 +24,7 @@ namespace MarkdownMonster.Test
 		public void GetFileHierarchyTest()
 		{
 
-			var folderStructure = new FolderStructure();
+			var folderStructure = new FolderStructure(null);
 			var item = folderStructure.GetFilesAndFolders(@"c:\wwapps\wwclient");
 
 			Assert.IsNotNull(item);
@@ -38,7 +38,7 @@ namespace MarkdownMonster.Test
 	    public void GetFileFlatFolderTest()
 	    {
 
-	        var folderStructure = new FolderStructure();
+	        var folderStructure = new FolderStructure(null);
 	        var item = folderStructure.GetFilesAndFolders(@"c:\wwapps\wwclient",nonRecursive: true);
 
 	        Assert.IsNotNull(item);
@@ -52,7 +52,7 @@ namespace MarkdownMonster.Test
         public void MyTestMethod()
         {
 
-            var folderStructure = new FolderStructure();
+            var folderStructure = new FolderStructure(null);
             var item = folderStructure.GetFilesAndFolders(@"c:\wwapps\wwclient", nonRecursive: false);
 
             Assert.IsNotNull(item);

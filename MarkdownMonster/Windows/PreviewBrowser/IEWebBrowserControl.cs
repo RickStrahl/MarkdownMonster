@@ -90,7 +90,18 @@ namespace MarkdownMonster.Windows.PreviewBrowser
 
         public void Refresh(bool noCache)
         {
-            WebBrowser.Refresh(noCache);
+            try
+            {
+                WebBrowser.Refresh(noCache);
+            }
+            catch(Exception ex)
+            {
+                mmApp.Log("IE WebBrowser Refresh Failed: " +
+                          ex.Message + " - " +
+                          WebBrowser.Source,
+                    logLevel: LogLevels.Error);
+            }
+
             PreviewMarkdownAsync();
         }
 

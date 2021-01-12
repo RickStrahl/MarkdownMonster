@@ -34,7 +34,7 @@ namespace MarkdownMonster.Test
             {
                 Assert.IsNotNull(repo);
 
-                var folder = new FolderStructure();
+                var folder = new FolderStructure(null);
                 var pathItem = folder.GetFilesAndFolders(path);
             
                 folder.UpdateGitFileStatus(pathItem);

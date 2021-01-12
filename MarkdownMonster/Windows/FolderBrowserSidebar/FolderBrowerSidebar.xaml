@@ -176,13 +176,14 @@
                     <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
 
-                <TextBox x:Name="TextSearch"  Margin="2,4,2,0"             
+                <TextBox x:Name="TextSearch" x:FieldModifier="public"
+                         Margin="2,4,2,0"             
                          Text="{Binding SearchText,UpdateSourceTrigger=PropertyChanged}" 
                          BorderThickness="0.3"
                          controls:TextBoxHelper.SelectAllOnFocus="True"
                          Opacity="0.7"          
                          TextChanged="TextSearch_TextChanged"
-                         controls:TextBoxHelper.Watermark="Search file names in folder"  
+                         controls:TextBoxHelper.Watermark="Search file names"  
                          controls:TextBoxHelper.ClearTextButton="True" />
 
                 <ToggleButton fa:Awesome.Content="FolderOpen" 

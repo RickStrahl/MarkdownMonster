@@ -1361,6 +1361,12 @@ using UserControl = System.Windows.Controls.UserControl;
                     DoSearchOperation();
             }
 
+
+            public void FocusFileSearchBox(string searchText = null)
+            {
+                SearchText = searchText ?? string.Empty;
+                TextSearch.Focus();
+            }
         #endregion
 
         #region Context Menu Actions
