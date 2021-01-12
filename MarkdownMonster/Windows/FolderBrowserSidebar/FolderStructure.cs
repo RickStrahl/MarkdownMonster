@@ -266,10 +266,18 @@ namespace MarkdownMonster.Windows
         /// <summary>
         /// Sets visibility of all items in the path item tree
         /// </summary>
-        /// <param name="searchText"></param>
-        /// <param name="pathItem"></param>
+        /// <param name="searchText">Text to search for or empty to reset list</param>
+        /// <param name="pathItem">
+        /// A PathItem nstance to start from.
+        /// 
+        /// typically the root node: FolderBrowser.ActivePathItem but can also
+        /// be a child node to start the search from.
+        /// </param>
 	    public void SetSearchVisibility(string searchText, PathItem pathItem, bool recursive)
         {
+            if (pathItem?.Files == null)
+                return;
+
             var folderBrowser = FolderBrowser;
 
             if (searchText == null)

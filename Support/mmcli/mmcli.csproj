@@ -12,6 +12,9 @@
     <Description>Markdown Monster CLI to automate a number of tasks from the command line.</Description>
 
     <ApplicationIcon>MarkdownMonster.ico</ApplicationIcon>
+    <RuntimeIdentifier>win-x86</RuntimeIdentifier>
+    <PlatformTarget>AnyCpu</PlatformTarget>
+    <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
 
   <ItemGroup>
@@ -19,7 +22,7 @@
   </ItemGroup>
 
   <Target Name="PostBuild" AfterTargets="PostBuildEvent">
-    <Exec Command="copy $(TargetPath) $(SolutionDir)\MarkdownMonster\mmcli.exe" />
+    <Exec Command="copy $(TargetPath) $(SolutionDir)\MarkdownMonster\mmcli.*" />
   </Target>
 
 </Project>

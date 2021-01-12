@@ -1,18 +1,17 @@
 {
   "profiles": {
+    "mmcli-markdowntohtml-package": {
+      "commandName": "Project",
+      "commandLineArgs": " markdowntohtml -i \\projects\\markdownmonster\\readme.md -o \\projects\\markdownmonster\\readme.html --renderMode packaged --theme westwind --open"
+    },
     "mmcli-noargs": {
       "commandName": "Project",
       "commandLineArgs": ""
     },
     "mmcli-htmltomarkdown": {
       "commandName": "Project",
-      "commandLineArgs": "htmltomarkdown -i \"C:\\Users\\rstrahl\\Dropbox\\Markdown Monster Weblog Posts\\2020-03\\Response-Rewriting-in-ASP-NET-Core-3x\\ContentInjecttionWithResponseRewritingInAspNetCore31.html\" -o \"C:\\Users\\rstrahl\\Dropbox\\Markdown Monster Weblog Posts\\2020-03\\Response-Rewriting-in-ASP-NET-Core-3x\\__ContentInjecttionWithResponseRewritingInAspNetCore31.md\" --rendermode packagedhtml --theme Blackout --open"
-    },
-    "mmcli-markdowntohtml-fragment": {
-      "commandName": "Project",
-      "commandLineArgs": "markdowntohtml -i \"C:\\Users\\rstrahl\\Dropbox\\Markdown Monster Weblog Posts\\2020-03\\Response-Rewriting-in-ASP-NET-Core-3x\\ContentInjecttionWithResponseRewritingInAspNetCore31.md\" -o \"C:\\Users\\rstrahl\\Dropbox\\Markdown Monster Weblog Posts\\2020-03\\Response-Rewriting-in-ASP-NET-Core-3x\\ContentInjecttionWithResponseRewritingInAspNetCore31.html\" --rendermode fragment --open"
+      "commandLineArgs":
+        "htmltomarkdown -i \\\"\\projects\\MarkdownMonster\\readme.md\\\" -o \\\"\\projects\\MarkdownMonster\\readme.html\\\" --rendermode packagedhtml --theme Westwind --open"
     }
-
-
   }
 }
