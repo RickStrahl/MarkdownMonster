@@ -249,27 +249,48 @@ Having a dedicated Markdown Editor that gets out of your way, yet provides a few
 Markdown Monster is a Markdown editor and Viewer for Windows that lets you create edit or simply preview Markdown text. It provides basic editing functionality with a few nice usability features for quickly embedding images, links, code, tables, screen shots and other markup. You get a responsive text editor that's got you covered with Markdown syntax highlighting, a collapsible live preview, so you can see what your output looks like, inline spellchecking and a handful of optimized menu options that help you mark up your text and embed and link content into your Markdown document. Additionally utility features let you quickly jump to the command line or an Explorer window, commit a document to Git, or even edit images in your favorite image editor.
 
 ### Weblog Publishing
-A common use case for Markdown is to create rich blog posts with embedded links and content and Markdown Monster makes it easy to pull together content from various sources. You can easily embed images either from the clipboard, or by linking images from URLs or files. You can also easily capture screen shots using the built in screen capture utility, or if you own [Techsmith's awesome SnagIt tool](https://www.techsmith.com/screen-capture.html) you can use our SnagIt integration directly from within the editor.
+A common use case for Markdown is to create rich blog posts with embedded links and content and Markdown Monster makes it easy to pull together content from various sources. You can easily embed images by pasting from the the clipboard, or by linking images from URLs or files or using the built-in Screen Capture addin or [SnagIt](https://techsmith.com/snagit) support.
 
-Writing long blog posts is one thing I do a lot of and this is one of the reasons I actually wanted an integrated solution in a Markdown editor. You can take any Markdown and turn it into a blog post by using the Weblog publishing feature. Click the Weblog button on the toolbar and set up your blog (MetaWebLog, WordPress or Medium), and then specify the Weblog specifics like title, abstract, tags and Web Site to publish to. You can also download existing blog posts from your blog and edit them as Markdown (with some conversion limitations) and then republish them.
+Writing long blog posts and articles, and coordinating lots of related content is one of the main reasons I built this tool in the first place as is publishing and updating content easily to various types of blogs and content generators.
+
+You can take any Markdown and turn it into a blog post by using the Weblog publishing feature. If you use WordPress, a MetaWeblog API Blog, Medium or Jekyll, you can click the Weblog button on the toolbar and set up your blog (MetaWebLog, WordPress or Medium), and then specify the Weblog specifics like title, abstract, tags and Web Site to publish to. Posts can be easily published and also re-published with the click of a button. You can also download existing blog posts from your blog and edit them as Markdown and then republish them.
 
 ![Weblog Publishing Addin](Assets/WebLogPublishingAddin.png)
 
 ![Weblog Publishing Addin Download](Assets/WebLogPublishingAddin_download.png)
 
-Posting is very fast and you can easily re-post existing content when you need to make changes (not supported for Medium).
-
 ### Git Integration
-These days working with Markdown often means working with Git repositories and Markdown Monster makes it easy to clone or create repositories, commit and push changes.
+These days working with Markdown often means working with Git repositories and Markdown Monster integrates common Git tasks that you need to perform during editing. You can easily review, commit and push changes, as well as cloning and creating of new repositories.
 
 ![](Assets/GitCommitDialog.png)
 
-### Folder Browser and Document Outline Sidebars
-There's also a folder browser which has built-in support for Git status so you can immediately see what documents have changed in your folder tree. The browser lets you navigate folders, create, delete and move files and there are many options to view and edit files. 
+### Folder Browser
+Markdown editing often requires managing related content like images, or multiple files for links etc. and Markdown Monster provides a folder browser to see and navigate files while in the editor. The browser has built-in Git status support so you can immediately see what documents have changed in your folder tree and you can easily review and undo changes. The browser lets you navigate folders, create, delete and move files and there are many options to view, open and edit files.
 
-The document outline provides an overview of headings in your documents that you can easily jump to as you are working with your document.
+The folder browser also supports searching, moving and renaming of files as you would expect of a file browser.
 
 ![](Assets/FolderBrowserAndDocOutline.png)
+
+### Document Outline
+When working with long documents it's important to have an easy way to navigate the document's structure quickly, and the Document Outline makes it easy to see the document's structure at a glance and jump to any section quickly. The outline also lets you pick up document Ids for quickly embedding same-document links.
+
+### Screen Captures
+The Screen Capture addin supports two separate capture modes: 
+
+* Techsmith's popular and versatile [SnagIt](http://techsmith.com/snagit) Screen Capture Tool
+* Built-in Screen Capture Addin 
+
+To capture, simply click the capture button (camera icon) and the main app minimizes and either SnagIt or the integrated capture tool pops up to let you select the object to capture. With SnagIt you can use most of SnagIt's native capture modes, for the built-in tool you can select Windows and Controls on the screen. Captures are previewed and have options for editing, and when finished the captured image is embedded and linked directly into the Markdown content.
+
+![SnagIt Screen Capture Add-in](Assets/SnagItCaptureAddin.png)
+
+Here's the **SnagIt Screen Capture** in action:
+
+![](Assets/SnagItScreenCapture.gif)
+
+And here is the self-contained, built-in Screen Capture Module:
+
+![](Assets/ClassicScreenCapture.gif)
 
 ### Customizable
 Most editing and UI features in Markdown Monster are optional and can be turned on and off. Want to work distraction free and see no preview or spell checking hints? You can turn them off. Want to store configuration data in a shared cloud folder? You can do that too.
@@ -331,21 +352,6 @@ You can find out more on how to publish your Addins in this GitHub repository:
 
 
 
-## Provided Add-ins
-Not only does Markdown Monster allow extension via Addins - it also uses Addins for some built-in features. Specifically the Screen Capture the Weblog Publishing modules are implemented as Add-ins and demonstrate the power of the Add-in model.
-
-### Screen Capture Addin
-The Screen Capture add-in supports two separate capture modes: Using Techsmith's popular and super versatile [SnagIt](http://techsmith.com/snagit) Screen Capture utility (which I **highly** recommend!) or using an integrated less featured Screen Capture module that allows capturing for Windows desktop windows and objects. To capture, simply click the capture button (camera icon) and the main app minimizes and either SnagIt or the integrate screen capture tool pops up to let you select the object to capture. You can preview and edit your captures, and when finished the captured image is linked directly into content.
-
-![SnagIt Screen Capture Add-in](Assets/SnagItCaptureAddin.png)
-
-Here's the **SnagIt Screen Capture** in action:
-
-![](Assets/SnagItScreenCapture.gif)
-
-If you don't have SnagIt installed or you simply prefer a more light weight but less full featured solution, you can use the **built-in Screen Capture** that's a native part of Markdown Monster and doesn't require any external software:
-
-![](Assets/ClassicScreenCapture.gif)
 
 ### Other Add-ins - What do you want to build?
 I can think of a few add-in ideas - a quick way to commit to Git and Push would be useful for documentation solutions, or Git based blogs, so you can easily persist changes to a GitHub repository. Embedding all sorts of content like reference links, AdSense links, Amazon product links, a new post template engine, etc., etc.
