@@ -13,6 +13,17 @@ Changed the Find Files Search Box to be always visible in the Folder browser. Th
 * **Updated Find in Files Operation** 
 Find in Files searches content inside of files to find matching content. The result displays a straight list with match counts for the files. Selected files are opened in the editor with the search term selected in the Find box (and Replace box if you specify Replace text).
 
+* **Fix: Theme Switching Issues**  
+Fixed bug that would crash MM when switching themes in MM Multi-Window mode. Also fixed timeout delay for forcing a restart after theme switching which previously would launch the updated instance too quickly and so fail to load in Single Use mode.
+
+* **Fix: Various Open In Explorer Operations**  
+Fixed various **Open In Explorer** operations where folders would not open properly in Explorer when the path contained inconsistent path delimiters. This broken in the Git Explorer as well as manually entered mixed paths.
+
+* **Fix: Preview to Editor Sync**  
+Preview to Editor sync was not working correctly due to an omission check.
+
+* **Fix: Chromium Previewer Addin ScrollSync**  
+Fixed scroll issue in the WebView2 control interop that would cause scroll failures when scrolling the preview and trying to sync the editor. Fixed with non-cached interop object instances to avoid potential operational overlap (WebView2 bug).
 
 ### 1.25.15
 <small>January 5th, 2021</small>
