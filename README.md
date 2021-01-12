@@ -13,7 +13,7 @@ Markdown Monster is an easy to use and extensible **Markdown Editor**, **Viewer*
 * [See what's new](https://github.com/RickStrahl/MarkdownMonster/blob/master/Changelog.md)  
 * [License](#license)
 
-> Note in order to open and build the Markdown Monster project you need at least [SDK Core 3.0 SDK Preview 5](https://dotnet.microsoft.com/download). For Visual Studio you need [Visual Studio 2019.2](https://visualstudio.microsoft.com/vs/preview/) or later and enable 'Use .NET Core Preview SDKs' in the **Preview Features** Options in VS).
+> Note in order to open and build the Markdown Monster project you need at least [SDK Core 3.1 SDK](https://dotnet.microsoft.com/download). For Visual Studio you need [Visual Studio 2019.3](https://visualstudio.microsoft.com/vs/preview/) or later.
 
 ## Installation
 
