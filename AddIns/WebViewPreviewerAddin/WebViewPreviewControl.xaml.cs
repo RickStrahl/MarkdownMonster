@@ -22,17 +22,13 @@ namespace WebViewPreviewerAddin
 
             Model = mmApp.Model;
             Window = Model.Window;
-            Loaded += WebViewPreviewControl_Loaded;
             
             DataContext = Model;
 
             PreviewBrowser = new WebViewPreviewHandler(WebBrowser);
         }
 
-        private void WebViewPreviewControl_Loaded(object sender, System.Windows.RoutedEventArgs e)
-        {
-            
-        }
+        
 
         public AppModel Model { get; set; }
 
@@ -50,7 +46,7 @@ namespace WebViewPreviewerAddin
                     return; // not ready
             }
             
-            PreviewBrowser.PreviewMarkdownAsync(editor, keepScrollPosition, renderedHtml);
+            PreviewBrowser?.PreviewMarkdownAsync(editor, keepScrollPosition, renderedHtml);
         }
 
         public void PreviewMarkdown(MarkdownDocumentEditor editor = null, bool keepScrollPosition = false, bool showInBrowser = false,
@@ -63,22 +59,22 @@ namespace WebViewPreviewerAddin
                     return; // not ready
             }
 
-            PreviewBrowser.PreviewMarkdown(editor, keepScrollPosition, showInBrowser, renderedHtml);
+            PreviewBrowser?.PreviewMarkdown(editor, keepScrollPosition, showInBrowser, renderedHtml);
         }
 
         public void Navigate(string url)
         {
-            PreviewBrowser.Navigate(url);
+            PreviewBrowser?.Navigate(url);
         }
 
         public void Refresh(bool forceRefresh)
         {
-            PreviewBrowser.Refresh(forceRefresh);
+            PreviewBrowser?.Refresh(forceRefresh);
         }
 
         public void ExecuteCommand(string command, params object[] args)
         {
-            PreviewBrowser.ExecuteCommand(command, args);
+            PreviewBrowser?.ExecuteCommand(command, args);
         }
 
         public void ShowDeveloperTools()
@@ -89,22 +85,23 @@ namespace WebViewPreviewerAddin
         
         public void ScrollToEditorLine(int editorLineNumber = -1, bool updateCodeBlocks = false, bool noScrollContentTimeout = false, bool noScrollTopAdjustment = false)
         {
-            PreviewBrowser.ScrollToEditorLine(editorLineNumber, updateCodeBlocks, noScrollContentTimeout,
+            PreviewBrowser?.ScrollToEditorLine(editorLineNumber, updateCodeBlocks, noScrollContentTimeout,
                 noScrollTopAdjustment);
         }
 
         public async Task ScrollToEditorLineAsync(int editorLineNumber = -1, bool updateCodeBlocks = false, bool noScrollContentTimeout = false, bool noScrollTopAdjustment = false)
         {
-            await PreviewBrowser.ScrollToEditorLineAsync(editorLineNumber, updateCodeBlocks,
+            await PreviewBrowser?.ScrollToEditorLineAsync(editorLineNumber, updateCodeBlocks,
                 noScrollContentTimeout,
                 noScrollTopAdjustment);
         }
-        
 
         public void Dispose()
         {
-            
+            PreviewBrowser.Dispose();
+            PreviewBrowser = null;
         }
+        
     }
 
     public class WebViewControlModel : INotifyPropertyChanged

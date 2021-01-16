@@ -1699,7 +1699,7 @@ You can compare files using a Diff tool to compare and merge changes.
                 GetMarkdown();
             
             //Debug.WriteLine(DateTime.Now.ToString("HH:mm:ss.ms") + "  - Preview Markdown  called");
-            Window.PreviewBrowser.PreviewMarkdownAsync(editor: this, keepScrollPosition: !noPreviewScrolling, editorLineNumber: editorLineNumber);
+            Window.PreviewBrowser?.PreviewMarkdownAsync(editor: this, keepScrollPosition: !noPreviewScrolling, editorLineNumber: editorLineNumber);
             
 
             var isDocumentOutlineActive = Window.SidebarContainer?.SelectedItem == Window.TabDocumentOutline;

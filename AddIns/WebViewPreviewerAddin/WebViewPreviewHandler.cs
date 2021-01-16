@@ -62,51 +62,44 @@ namespace WebViewPreviewerAddin
             Model = mmApp.Model;
             Window = Model.Window;
 
-            WebBrowser.NavigationCompleted += WebBrowser_NavigationCompleted;
-            
+            // externalize so we can use async in the method
             _ = InitializeAsync();
-        }
-
-
-        private void WebBrowser_NavigationCompleted(object sender, CoreWebView2NavigationCompletedEventArgs e)
-        {
-            // Assign interop objects for each request
-            DotnetInterop = new WebViewPreviewDotnetInterop(Model, WebBrowser);
-            JsInterop = DotnetInterop.JsInterop;
-
-            WebBrowser.CoreWebView2.AddHostObjectToScript("mm", DotnetInterop);
-            DotnetInterop.InitializeInteropAsync().ConfigureAwait(false).GetAwaiter();
         }
 
         async Task InitializeAsync()
         {
-            // initial assignment of interop objects
-            //DotnetInterop = new WebViewPreviewDotnetInterop(Model, WebBrowser);
-            //JsInterop = DotnetInterop.JsInterop;
-            
-            var browserFolder = Path.Combine(mmApp.Configuration.CommonFolder, "WebView_Browser");
             // must create a data folder if running out of a secured folder that can't write like Program Files
+            var browserFolder = Path.Combine(mmApp.Configuration.CommonFolder, "WebView_Browser");
             var env = await CoreWebView2Environment.CreateAsync(
                 userDataFolder: browserFolder
             );
             
             await WebBrowser.EnsureCoreWebView2Async(env);
 
+            WebBrowser.NavigationCompleted += WebBrowser_NavigationCompleted;
+
             if (Model.Configuration.System.ShowDeveloperToolsOnStartup)
                 WebBrowser.CoreWebView2.OpenDevToolsWindow();
 
-            // initialize here 'initially' then re-initialize for each navigation
+            // Set up interop object to pass into JavaScript
             DotnetInterop = new WebViewPreviewDotnetInterop(Model, WebBrowser);
             JsInterop = DotnetInterop.JsInterop;
+            WebBrowser.CoreWebView2.AddHostObjectToScript("mm", DotnetInterop);
+        }
+
+
+        private async void WebBrowser_NavigationCompleted(object sender, CoreWebView2NavigationCompletedEventArgs e)
+        {
+            // Call JavaScript method to initialize the document
+            // this essentially launches the editor, sets styles etc. 
+            await JsInterop.InitializeInterop();
         }
         
-
         public void Dispose()
         {
-            WebBrowser = null;
+            WebBrowser = null; // ensure reference cleared
         }
-
-
+        
         private DateTime invoked = DateTime.MinValue;
         public void PreviewMarkdown(MarkdownDocumentEditor editor = null,
             bool keepScrollPosition = false, bool showInBrowser = false,

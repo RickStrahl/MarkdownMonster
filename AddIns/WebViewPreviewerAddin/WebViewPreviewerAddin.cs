@@ -201,7 +201,7 @@ namespace WebViewPreviewerAddin
         {
 
             string versionNo = null;
-            Version assVersion = null;
+            Version asmVersion = null;
             Version ver = null;
 
             try
@@ -212,9 +212,9 @@ namespace WebViewPreviewerAddin
                 versionNo = StringUtils.ExtractString(versionNo, "", " ", allowMissingEndDelimiter: true)?.Trim();
                 ver = new Version(versionNo);
 
-                assVersion = typeof(CoreWebView2Environment).Assembly.GetName().Version;
+                asmVersion = typeof(CoreWebView2Environment).Assembly.GetName().Version;
 
-                if (ver.Build >= assVersion.Build)
+                if (ver.Build >= asmVersion.Build)
                     return true;
             }
             catch {}
@@ -240,7 +240,7 @@ namespace WebViewPreviewerAddin
 The Microsoft Edge WebView Runtime is
 { ( !string.IsNullOrEmpty(versionNo) ?
                 "out of date\n\nYour Build: " + ver.Build +
-                "   -   Required Build: " + assVersion.Build :
+                "   -   Required Build: " + asmVersion.Build :
                 "not installed")  }.
 
 In order to use the Chromium preview you need to install this runtime by downloading from the [Microsoft Download Site](https://developer.microsoft.com/en-us/microsoft-edge/webview2/).
