@@ -2240,7 +2240,7 @@ namespace MarkdownMonster
                     // close external window if it's open
                     if (_previewBrowserWindow != null && PreviewBrowserWindow.Visibility == Visibility.Visible)
                     {
-                        PreviewBrowserWindow.Close();
+                        PreviewBrowserWindow?.Close();
                         _previewBrowserWindow = null;
                         LoadPreviewBrowser();
                         return;
@@ -2255,13 +2255,13 @@ namespace MarkdownMonster
                 else if (Model.Configuration.PreviewMode == PreviewModes.ExternalPreviewWindow)
                 {
                     // make sure it's visible
-                    PreviewBrowserWindow.Show();
+                    PreviewBrowserWindow?.Show();
 
                     // check if we're already active - if not assign and preview immediately
                     if (!(PreviewBrowser is PreviewBrowserWindow))
                     {
                         PreviewBrowser = PreviewBrowserWindow;
-                        PreviewBrowser.PreviewMarkdownAsync();
+                        PreviewBrowser?.PreviewMarkdownAsync();
                     }
 
 
@@ -2281,7 +2281,7 @@ namespace MarkdownMonster
                 {
                     if (_previewBrowserWindow != null)
                     {
-                        PreviewBrowserWindow.Close();
+                        PreviewBrowserWindow?.Close();
                         _previewBrowserWindow = null;
                         PreviewBrowser = null;
                     }
