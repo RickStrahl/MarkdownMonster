@@ -908,6 +908,11 @@ namespace MarkdownMonster
                     return workFolder;
                 }
             }
+            else
+            {
+                if (string.IsNullOrEmpty(InternalCommonFolder))
+                    InternalCommonFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Markdown Monster");
+            }
 
             // Check for Common Folder override
             cfFile = Path.Combine(InternalCommonFolder, "CommonFolderLocation.txt");

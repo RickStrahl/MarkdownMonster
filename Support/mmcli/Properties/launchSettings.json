@@ -6,7 +6,7 @@
     },
     "mmcli-noargs": {
       "commandName": "Project",
-      "commandLineArgs": ""
+      "commandLineArgs": " -setportable"
     },
     "mmcli-htmltomarkdown": {
       "commandName": "Project",
