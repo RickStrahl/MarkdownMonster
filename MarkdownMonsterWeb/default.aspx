@@ -417,6 +417,12 @@
                         <div class="carousel-inner" >
                               
                             <div class="item active">
+                                <img src="Images/Tweets/EdCharbeneau.png" />
+                                <div class="carousel-caption">
+                                </div>
+                            </div>
+
+                            <div class="item">
                                 <img src="Images/Tweets/JeremyMorgan.png" />
                                 <div class="carousel-caption">
                                 </div>
@@ -489,12 +495,7 @@
                                 </div>
                             </div>
                             
-                            <div class="item">
-                                <img src="Images/Tweets/DougHennig.png" />
-                                <div class="carousel-caption">
-                                </div>
-                            </div>
-                            
+                                             
                             <div class="item">
                                 <img src="Images/Tweets/pence2.png" />
                                 <div class="carousel-caption">
