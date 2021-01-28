@@ -16,7 +16,7 @@ $target="$PSScriptRoot\Distribution"
 remove-item -recurse -force ${target}
 
 # copy but exclude libGit extra folders
-robocopy ${source} ${target} /MIR /XD lib /XD runtimes /XD MarkdownMonster.exe.WebView2
+robocopy ${source} ${target} /MIR /XD lib /XD runtimes
 
 if ($netfull) {
     robocopy ${source}\lib\win32 ${target}\lib\win32 /MIR /XF *.pdb    
@@ -44,10 +44,13 @@ if ([System.IO.Directory]::Exists($target + "\.vs")) {
 
 # Roslyn - remove extra files
 # Remove-Item ${target}\Addins\Snippets\roslyn -Recurse -Force
-
 Remove-Item ${target}\roslyn\Microsoft.CodeAnalysis.VisualBasic.dll
 Remove-Item ${target}\roslyn\Microsoft.DiaSymReader.Native.amd64.dll
 Remove-Item ${target}\roslyn\Microsoft.DiaSymReader.Native.x86.dll
+Remove-Item ${target}\roslyn\Microsoft.VisualBasic.Core.targets
+Remove-Item ${target}\roslyn\csi.exe
+Remove-Item ${target}\roslyn\vbc.exe
+
 
 # Ship MM PDB but none of the others
 Remove-Item ${target}\*.pdb -Exclude markdownmonster.pdb

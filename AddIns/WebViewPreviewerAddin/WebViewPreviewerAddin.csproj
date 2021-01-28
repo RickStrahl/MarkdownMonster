@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
 
   <PropertyGroup>
-    <Version>0.1.2</Version>
+    <Version>1.25</Version>
     <TargetFramework>net472</TargetFramework>
     <UseWPF>true</UseWPF>
 
@@ -16,7 +16,7 @@
   </ItemGroup>
 
   <ItemGroup> 
-    <PackageReference Include="Microsoft.Web.WebView2" Version="1.0.664.37" />
+    <PackageReference Include="Microsoft.Web.WebView2" Version="1.0.705.50" />
   </ItemGroup>
 
  <ItemGroup>

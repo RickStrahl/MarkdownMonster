@@ -304,7 +304,9 @@ c:\> choco install markdownmonster.portable
             try
             {
                 WebClient client = new WebClient();
-                string xml = client.DownloadString("http://west-wind.com/files/MarkdownMonster_version.xml");
+                string xml = client.DownloadString("https://west-wind.com/files/MarkdownMonster_version.xml");
+                if (string.IsNullOrEmpty(xml))
+                   return string.Empty;
                 Regex regex = new Regex(@"<Version>(.*)<\/Version>");
                 MatchCollection matches = regex.Matches(xml);
                 if (matches != null && matches.Count > 0)
@@ -331,7 +333,7 @@ c:\> choco install markdownmonster.portable
             return _version;
         }
     }
-    private static string _version;
+    private static string _version = null;
     private static DateTime _lastAccess = DateTime.UtcNow;
     public static string ReleaseDate;
 
@@ -352,9 +354,15 @@ c:\> choco install markdownmonster.portable
                 return _latestVersion;
             }
 
-            var version = FileVersionInfo.GetVersionInfo(path);
-            _latestVersion = version.FileVersion.ToString();
-            _lastAccess = DateTime.UtcNow;
+            try 
+            {
+                var version = FileVersionInfo.GetVersionInfo(path);
+                _latestVersion = version.FileVersion.ToString();
+                _lastAccess = DateTime.UtcNow;
+            }
+            catch {
+                return string.Empty;
+            }
 
             return LatestVersion;
         }

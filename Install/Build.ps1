@@ -7,14 +7,8 @@
 & ".\signtool.exe" sign /v /n "West Wind Technologies"  /tr "http://timestamp.digicert.com" /td SHA256 /fd SHA256 ".\Distribution\mmcli.exe"
 
 
-# Remove unused Roslyn Executables
-Remove-item ".\Distribution\roslyn\csi.exe" -Force
-Remove-item ".\Distribution\roslyn\vbc.exe" -Force
-
-# Remove WebView Cache
-Remove-item ".\Distribution\MarkdownMonster.exe.WebView2" -Recurse -Force
-
-# 
+# Write out executable ignore files so they don't gets shortcuts in chocolatey
+# We're doing this as part of app startup
 out-file -filepath ".\Distribution\mmcli.exe.ignore"  -inputobject ""
 out-file -filepath ".\Distribution\mm.exe.ignore"  -inputobject ""
 out-file -filepath ".\Distribution\MarkdownMonster.exe.ignore"  -inputobject ""

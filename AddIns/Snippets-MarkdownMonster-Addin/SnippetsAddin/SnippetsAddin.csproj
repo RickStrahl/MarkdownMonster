@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
 
   <PropertyGroup>
-    <Version>1.24</Version>
+    <Version>1.25</Version>
     <TargetFramework>net472</TargetFramework>
     <!--<TargetFrameworks>net472;netcoreapp3.0</TargetFrameworks>-->
     <AssemblyName>SnippetsAddin</AssemblyName>
@@ -25,10 +25,10 @@
     <PackageReference Include="Westwind.Utilities" Version="3.0.49.6">
       <IncludeAssets>compile</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform" Version="2.0.1">
+    <PackageReference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform" Version="3.6.0">
       <IncludeAssets>compile</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Westwind.Scripting" Version="0.2.0">
+    <PackageReference Include="Westwind.Scripting" Version="0.3.0">
       <IncludeAssets>compile</IncludeAssets>
     </PackageReference>
 

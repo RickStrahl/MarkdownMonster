@@ -388,26 +388,22 @@ namespace MarkdownMonster
             if (mmApp.Configuration.ApplicationTheme == Themes.Dark)
             {
                 ThemeManager.Current.ChangeTheme(Application.Current, "Dark.Blue");
-                
+
                 var dragablzLightStyles = new Uri("Styles/DragablzGenericDark.xaml", UriKind.RelativeOrAbsolute);
-                Current.Resources.MergedDictionaries.Add(
-                    new ResourceDictionary() { Source = dragablzLightStyles });
+                Current.Resources.MergedDictionaries.Add(new ResourceDictionary() {Source = dragablzLightStyles});
 
                 resourceUri = new Uri("Styles/MahDarkResources.xaml", UriKind.RelativeOrAbsolute);
-                Current.Resources.MergedDictionaries.Add(
-                    new ResourceDictionary() { Source = resourceUri });
+                Current.Resources.MergedDictionaries.Add(new ResourceDictionary() {Source = resourceUri});
             }
             else
             {
                 ThemeManager.Current.ChangeTheme(Application.Current, "Light.Blue");
 
                 var dragablzLightStyles = new Uri("Styles/DragablzGenericLight.xaml", UriKind.RelativeOrAbsolute);
-                Current.Resources.MergedDictionaries.Add(
-                    new ResourceDictionary() {Source = dragablzLightStyles});
+                Current.Resources.MergedDictionaries.Add(new ResourceDictionary() {Source = dragablzLightStyles});
 
                 resourceUri = new Uri("Styles/MahLightResources.xaml", UriKind.RelativeOrAbsolute);
-                Current.Resources.MergedDictionaries.Add(
-                    new ResourceDictionary() {Source = resourceUri});
+                Current.Resources.MergedDictionaries.Add(new ResourceDictionary() {Source = resourceUri});
             }
 
             mmApp.SetTheme(mmApp.Configuration.ApplicationTheme, App.Current.MainWindow as MetroWindow);

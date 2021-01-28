@@ -7,14 +7,13 @@
     <UseWPF>true</UseWPF>
     <TargetFramework>net472</TargetFramework>
 
-    <Version>1.25.16</Version>
+    <Version>1.25.16.2</Version>
     <AssemblyName>MarkdownMonster</AssemblyName>
     <Product>Markdown Monster</Product>
     <Authors>Rick Strahl, West Wind Technologies</Authors>
     <Company>West Wind Technologies</Company>
     <Copyright>West Wind Technologies, 2016-2021</Copyright>
-    <Description>Markdown Monster is an easy to use Markdown Editor and Weblog Publisher.</Description>
-
+    <Description>Markdown Monster is an easy to use Markdown Editor and Weblog Publisher for Windows.</Description>
     <PackageProjectUrl>https://markdownmonster.west-wind.com</PackageProjectUrl>
     <PackageIconUrl>https://markdownmonster.west-wind.com/Images/MarkdownMonster_Icon_256.png</PackageIconUrl>
     <RepositoryUrl>https://github.com/rickstrahl/MarkdownMonster</RepositoryUrl>
@@ -40,7 +39,7 @@
     <Reference Include="System.Windows" />
     <Reference Include="System.Windows.Presentation" />
     <Reference Include="System.Windows.Forms" />
-    <PackageReference Include="Westwind.Scripting" Version="0.2.0" />
+    <PackageReference Include="Westwind.Scripting" Version="0.3.0" />
     <PackageReference Include="Microsoft-WindowsAPICodePack-Shell" Version="1.1.4" />
   </ItemGroup>
 
@@ -57,7 +56,7 @@
     <PackageReference Include="Microsoft.ApplicationInsights" Version="2.16.0" />
     <PackageReference Include="Microsoft.DocAsCode.MarkdigEngine.Extensions" Version="2.56.6" />
     <PackageReference Include="NHunspell" Version="1.2.5554.16953" />
-    <PackageReference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform" Version="2.0.1" />
+    <PackageReference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform" Version="3.6.0" />
     <PackageReference Include="Mono.Cecil" Version="0.11.3" />
     <PackageReference Include="ReverseMarkdown" Version="3.14.0" />
     <PackageReference Include="westwind.utilities" Version="3.0.49.6" />
