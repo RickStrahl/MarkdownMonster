@@ -266,8 +266,10 @@ namespace MarkdownMonster
 
             OpenDocuments = new List<OpenFileDocument>();
 
+            // Make sure common folder points at AppData\Markdown Monster or PortableSettings
+            InternalCommonFolder = FindCommonFolder();
+            
 
-            InternalCommonFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Markdown Monster");
             CommonFolder = InternalCommonFolder;
             LastFolder = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
 
