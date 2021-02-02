@@ -314,7 +314,7 @@ using UserControl = System.Windows.Controls.UserControl;
                 if (mmApp.Model == null || mmApp.Model.Window == null)
                     return;
 
-                Dispatcher.Invoke(() =>
+                Dispatcher.Invoke(async () =>
                 {
                     var file = e.FullPath;
 
@@ -322,8 +322,21 @@ using UserControl = System.Windows.Controls.UserControl;
                     if (pi == null)
                         return;
 
-                    var gh = new GitHelper();
-                    pi.FileStatus = gh.GetGitStatusForFile(pi.FullPath);
+                    int errorCount = 0;
+                    while (errorCount < 3)
+                    {
+                        try
+                        {
+                            var gh = new GitHelper();
+                            pi.FileStatus = gh.GetGitStatusForFile(pi.FullPath);
+                            break;
+                        }
+                        catch
+                        {
+                            await Task.Delay(25);
+                            errorCount++;
+                        }
+                    }
 
                 }, DispatcherPriority.ApplicationIdle);
             }
