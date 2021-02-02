@@ -368,11 +368,14 @@ namespace WebLogAddin.LocalJekyll
 
         public bool WritePostFile(string postText, string blogName, string blogRoot)
         {
+            string publishStatus = PostMetadata.PostStatus?.ToLower();
+            bool pubStatus = string.IsNullOrEmpty(publishStatus) || publishStatus == "publish" || publishStatus == "published";
+
             var jkMeta = new JekyllMetaData
             {
                 Title = PostMetadata.Title,
                 Date = PostMetadata.PostDate.Date,
-                Published = PostMetadata.PostStatus.Equals("published", StringComparison.OrdinalIgnoreCase),
+                Published = pubStatus,
                 Permalink = PostMetadata.Permalink,
                 FeaturedImageUrl = PostMetadata.FeaturedImageUrl
             };
