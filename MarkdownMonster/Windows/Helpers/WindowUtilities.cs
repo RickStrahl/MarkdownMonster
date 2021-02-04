@@ -496,8 +496,7 @@ namespace MarkdownMonster.Windows
                 return;
 
             control.Focus();
-            DoEvents();
-            ctl.Focus();
+            window.Dispatcher.Invoke(() => ctl.Focus(), DispatcherPriority.ApplicationIdle);
         }
 
         /// <summary>
