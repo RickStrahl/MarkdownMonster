@@ -310,10 +310,13 @@ namespace MarkdownMonster.Windows
         {
             WindowUtilities.FixFocus(this, CheckPasteAsBase64Content);
 
-            if (sender == ButtonCancel)
-                DialogResult = false;
-            else
-                DialogResult = true;
+            if (DialogResult != null)  // avoid multi-click setting
+            {
+                if (sender == ButtonCancel)
+                    DialogResult = false;
+                else
+                    DialogResult = true;
+            }
 
             Close();
         }
