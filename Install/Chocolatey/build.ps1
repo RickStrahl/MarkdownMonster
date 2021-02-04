@@ -6,7 +6,7 @@
 
 cd "$PSScriptRoot" 
 
-$release="v1.25"
+$release="v1.26"
 $releasePath = "C:\projects\MarkdownMonsterAddins\MarkdownMonsterReleases\$release"
 
 #$file = "MarkdownMonsterSetup-0.55.exe"

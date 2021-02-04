@@ -4,14 +4,52 @@
 [![Chocolatey](https://img.shields.io/chocolatey/dt/markdownmonster.svg)](https://chocolatey.org/packages/MarkdownMonster)
 [![Web Site](https://img.shields.io/badge/Markdown_Monster-WebSite-blue.svg)](https://markdownmonster.west-wind.com)
 
-### 1.25.16
-<small>January 12, 2021</small> 
+### 1.26
+<small>February 4, 2020</small>
+
+* **Chromium Previewer Browser Addin**  
+Added a built-in addin that can toggle between the native IE based preview browser and a new WebView2 based Edge Chromium  Preview browser. This addin provides better compatibility with common browsers and allows support for some related technologies like Mermaid Charts to render natively.
 
 * **Folder Browser Find Files Search Box**  
 Changed the Find Files Search Box to be always visible in the Folder browser above the browser instead of an explicit dropdown panel. This search finds and filters by file name in the tree and shows a tree based match filter. The search box sits above the directory tree is now always visible and accessible via Ctrl-F from within the browser. You can optionally specify to search in sub folders.
 
+* **Update Find in Files to Incremental Search**  
+Change the Find in Files sidebar to use live searching instead of using an explicit Search button. Better handle results display and navigation in the result view.
+
 * **Updated Find in Files Operation** 
 Find in Files searches content inside of files to find matching content. The result displays a straight list with match counts for the files. Selected files are opened in the editor with the search term selected in the Find box (and Replace box if you specify Replace text).
+
+* **Update Open Document Change Detection**  
+Updated logic to handle change detection on open documents. When documents are open and unchanged, the document is immediately updated with changes from disk. If the open document has changes and the underlying document changes, nothing happens until you save. A new dialog allows you to choose between your version, their version or to run the configure Git Diff tool to compare versions and merge changes.
+
+* **Add PDF Page Sizes to Save To PDF**  
+Added all additional supported PDF print formats to the paper type dropdown on the PDF Export dialog. Adds all Ax and Bx types as well as various named types.
+
+* **Favorites Click Behavior Update**  
+Favorite clicks now open documents initially in preview mode until you type into the editor. Preview mode documents close as soon as another tab is opened or accessed. This behavior is now the same as the main folder browser. Double clicking forces the opened document to be a permanently open document. Unlike the folder browser, a single click forces the cursor into the Favorite document selected.
+
+* **[Markdown Monster Web Server Enhancements](https://markdownmonster.west-wind.com/docs/_5s1009yx1.htm)**  
+Markdown Monster includes a local Web server that can now be used to open new or existing documents and retrieve document content from the active document. Added support for retrieving the active document's content. Added Web page examples that interact with Markdown Monster. There are also new `-startwebserver` and `-stopwebserver` flags to start and stop the Web server to ensure that the local server is running. Added Web Browser HTML samples in  `SampleDocuments\BrowserIntegration` that demonstrate how to interact with MM from a Web page. 
+
+* **Update Mermaid Rendering in the Preview**  
+Mermaid support in MM has always been minimal since it uses the Internet Explorer engine for the preview pane. Mermaid recently removed their already terrible support for IE completely, so MM now renders a placeholder rather than the Mermaid chart in the default (IE based) previewer. The placeholder includes a clickable link that opens your default browser and displays the document containing the diagram and navigates to the Id of the mermaid diagram. Note in the Chromium addin previewer, Mermaid charts are properly rendered inline.
+
+
+* **Fix: Preview Refresh for Ctrl-key operations**  
+Fix issue where some common ctrl-key operations (ctrl-z, ctrl-x etc.) would not immediately update the preview until manual key entry into the editor is performed. Changed operation that the `ctrl` key now triggers a preview refresh for all ctrl-key operations. This also means that the `ctrl` key becomes the effective 'immediate refresh' key that you can use to force a preview refresh even when no preview sync is in use.
+
+* **Fix: Weblog YAML Parsing for customFields**  
+Fix bug where an empty `customFields` value would cause the Weblog Entry to not pre-load values back into the Weblog Publish dialog for repeated publishing. Fixed issue and changed defaults to not render empty field in the first place.
+
+
+* **Fix: Links in Headers for Document Outline**  
+Fix bug where links in headers where showing incorrectly in the Document viewer. Fix parses links and retrieves the text properly for display in the Document Outline. Also fixed in the TOC embedding logic.
+
+* **Fix: Blog Post MetaData**   
+Fixed a regression in posting to a blog where server generated values on new posts - the PermaLink and FeaturedImageUrl - were not updated in the meta data. These values are now updated and written back into the FrontMatter meta data again. Fix bug where PostId was not updating in captured meta data after posting.
+
+* **Fix: Split View Editor Styling**  
+Fix bug where split view would not open with the same styling as the main view if the theme was not the default theme.
 
 * **Fix: Theme Switching Issues**  
 Fixed bug that would crash MM when switching themes in MM Multi-Window mode. Also fixed timeout delay for forcing a restart after theme switching which previously would launch the updated instance too quickly and so fail to load in Single Use mode.
@@ -28,59 +66,11 @@ Fixed scroll issue in the WebView2 control interop that would cause scroll failu
 * **Fix: mmCli Html Package Exports**  
 Fix issue where HTML self-contained Package exports were failing due to an assembly binding error. Added `.config` file to ensure correct bindings are used.
 
+* **Fix: mmCli Relative File Paths**  
+Fix file path translation for relative paths.
 
-### 1.25.15
-<small>January 5th, 2021</small>
-
-* **Favorites Click Behavior Update**  
-Favorite clicks now open documents initially in preview mode until you type into the editor. Preview mode documents close as soon as another tab is opened or accessed. This behavior is now the same as the main folder browser. Double clicking forces the opened document to be a permanently open document. Unlike the folder browser, a single click forces the cursor into the Favorite document selected.
-
-* **Update Find in Files to Incremental Search**  
-Change the Find in Files sidebar to use live searching instead of using an explicit Search button. Better handle results display and navigation in the result view.
-
-* **Fix: Preview Refresh for Ctrl-key operations**  
-Fix issue where some common ctrl-key operations (ctrl-z, ctrl-x etc.) would not immediately update the preview until manual key entry into the editor is performed. Changed operation that the `ctrl` key now triggers a preview refresh for all ctrl-key operations. This also means that the `ctrl` key becomes the effective 'immediate refresh' key that you can use to force a preview refresh even when no preview sync is in use.
-
-* **Fix: Weblog YAML Parsing for customFields**  
-Fix bug where an empty `customFields` value would cause the Weblog Entry to not pre-load values back into the Weblog Publish dialog for repeated publishing. Fixed issue and changed defaults to not render empty field in the first place.
-
-### 1.25.14
-<small>December 28th, 2020</small>
-
-* **Update Open Document Change Detection**  
-Updated logic to handle change detection on open documents. When documents are open and unchanged, the document is immediately updated with changes from disk. If the open document has changes and the underlying document changes, nothing happens until you save. A new dialog allows you to choose between your version, their version or to run the configure Git Diff tool to compare versions and merge changes.
-
-* **Add PDF Page Sizes to Save To PDF**  
-Added all additional supported PDF print formats to the paper type dropdown on the PDF Export dialog. Adds all Ax and Bx types as well as various named types.
-
-* **Chromium Previewer Updates**  
-There have been a number of updates to the Chromium Previewer Addin to improve stability and performance.  
-*Unfortunately, there are a few issues in the current version of the WebView2 runtime (.644) that affect preview->editor sync, and that are fixed in preview versions that are not available yet for GA downloads. These issues will be fixed as soon as a newer runtime becomes available.*
-
-* **Fix: Links in Headers for Document Outline**  
-Fix bug where links in headers where showing incorrectly in the Document viewer. Fix parses links and retrieves the text properly for display in the Document Outline. Also fixed in the TOC embedding logic.
-
-
-### 1.25.12
-<small>December 5th, 2020</small>
-
-* **Chromium Previewer Browser Addin (Preview)**  
-Added a built-in addin that can toggle between the native IE based preview browser and a new WebView2 based Edge Chromium  Preview browser. This addin provides better compatibility with common browsers and allows support for some related technologies like Mermaid Charts to render natively.
-
-* **Update Mermaid Rendering in the Preview**  
-Mermaid support in MM has always been minimal since it uses the Internet Explorer engine for the preview pane. Mermaid recently removed their already terrible support for IE completely, so MM now renders a placeholder rather than the Mermaid chart in the default (IE based) previewer. The placeholder includes a clickable link that opens your default browser and displays the document containing the diagram and navigates to the Id of the mermaid diagram. Note in the Chromium addin previewer, Mermaid charts are properly rendered inline.
-
-* **[Markdown Monster Web Server Enhancements](https://markdownmonster.west-wind.com/docs/_5s1009yx1.htm)**  
-Markdown Monster includes a local Web server that can now be used to open new or existing documents and retrieve document content from the active document. Added support for retrieving the active document's content. Added Web page examples that interact with Markdown Monster. There are also new `-startwebserver` and `-stopwebserver` flags to start and stop the Web server to ensure that the local server is running. Added Web Browser HTML samples in  `SampleDocuments\BrowserIntegration` that demonstrate how to interact with MM from a Web page. 
-
-### 1.25.6
-<small>November 19, 2020</small>
-
-* **Fix: Blog Post MetaData**   
-Fixed a regression in posting to a blog where server generated values on new posts - the PermaLink and FeaturedImageUrl - were not updated in the meta data. These values are now updated and written back into the FrontMatter meta data again. Fix bug where PostId was not updating in captured meta data after posting.
-
-* **Fix: Split View Editor Styling**  
-Fix bug where split view would not open with the same styling as the main view if the theme was not the default theme.
+* **Fix: Jekyll Publish Flag**  
+When publishing to a Jekyll flag, fix the publish flag to correctly set the publish status as published or hidden.
 
 ### 1.25
 <small>November 12, 2020</small>

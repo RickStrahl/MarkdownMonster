@@ -1,4 +1,6 @@
 ﻿using System;
+using System.IO;
+using System.Reflection;
 
 namespace mmcli.CommandLine
 {
@@ -52,6 +54,11 @@ namespace mmcli.CommandLine
             HtmlRenderMode = ParseStringParameterSwitch("-rm") ?? ParseStringParameterSwitch("--rendermode");
             OpenOutputFile = ParseParameterSwitch("-open");
             Theme = ParseStringParameterSwitch("--theme");
+
+            if (!string.IsNullOrEmpty(InputFile))
+                InputFile = Path.GetFullPath(InputFile);
+            if(!string.IsNullOrEmpty(OutputFile))
+                InputFile = Path.GetFullPath(OutputFile);
         }
 
     }

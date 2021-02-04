@@ -23,7 +23,8 @@ out-file -filepath ".\Distribution\wkhtmltopdf.exe.ignore"  -inputobject ""
 # Create the installer
 "Running Inno Setup..."
 # & "C:\Program Files (x86)\Inno Setup 5\iscc.exe" "MarkdownMonster.iss" 
-& "c:\users\rstrahl\appdata\local\programs\inno setup 6\iscc.exe" "MarkdownMonster.iss"
+# & "c:\users\rstrahl\appdata\local\programs\inno setup 6\iscc.exe" "MarkdownMonster.iss"
+& "C:\Program Files (x86)\Inno Setup 6\iscc.exe" "MarkdownMonster.iss"
 
 "Signing the main EXE..."
 & ".\signtool.exe" sign /v /n "West Wind Technologies"  /tr "http://timestamp.digicert.com" /td SHA256 /fd SHA256 ".\Builds\CurrentRelease\MarkdownMonsterSetup.exe"

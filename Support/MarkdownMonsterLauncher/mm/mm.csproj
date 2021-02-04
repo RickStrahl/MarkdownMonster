@@ -2,13 +2,13 @@
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
-    <Version>1.25</Version>
+    <Version>1.26</Version>
     <TargetFramework>net472</TargetFramework>
     
     <Product>Markdown Monster</Product>
     <Authors>Rick Strahl, West Wind Technologies</Authors>
     <Company>West Wind Technologies</Company>
-    <Copyright>West Wind Technologies, 2016-2020</Copyright>
+    <Copyright>West Wind Technologies, 2016-2021</Copyright>
     <Description>Markdown Monster Quick Launcher</Description>
 
     <ApplicationIcon>MarkdownMonster.ico</ApplicationIcon>

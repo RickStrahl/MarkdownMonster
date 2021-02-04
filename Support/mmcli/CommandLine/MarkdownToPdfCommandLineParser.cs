@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using MarkdownMonster;
 
 namespace mmcli.CommandLine
@@ -79,6 +80,11 @@ namespace mmcli.CommandLine
                     Orientation = orientation;
             }
 
+
+            if (!string.IsNullOrEmpty(InputFile))
+                InputFile = Path.GetFullPath(InputFile);
+            if(!string.IsNullOrEmpty(OutputFile))
+                InputFile = Path.GetFullPath(OutputFile);
         }
 
     }
