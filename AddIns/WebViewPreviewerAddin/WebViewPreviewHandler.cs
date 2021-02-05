@@ -355,7 +355,6 @@ namespace WebViewPreviewerAddin
 
         public void Navigate(string url)
         {
-            WebBrowser.Source = null;   //  force Url Change
             WebBrowser.Source = new Uri(url);
         }
 
