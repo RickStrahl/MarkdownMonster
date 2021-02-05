@@ -668,6 +668,7 @@ namespace WeblogAddin
 		{
 			// create commands
 			Command_WeblogForm();
+            Command_WebLogSearch();
 
 
 			MainMenuItem = new MenuItem
@@ -710,6 +711,8 @@ namespace WeblogAddin
 			};
 			MainMenuItem.Items.Add(mi);
 
+            MainMenuItem.Items.Add(new Separator());
+
 			mi = new MenuItem
 			{
 				Header = "_Open Weblog Posts Folder",
@@ -718,6 +721,13 @@ namespace WeblogAddin
 			};
 			MainMenuItem.Items.Add(mi);
 
+            mi = new MenuItem
+            {
+                Header = "_Search Weblog Posts Folder",
+                Command = WebLogSearchCommand
+            };
+            MainMenuItem.Items.Add(mi);
+            
 			MainMenuItem.Items.Add(new Separator());
 
 			var curText = Model.ActiveDocument?.CurrentText;
@@ -805,8 +815,22 @@ namespace WeblogAddin
 			});
 		}
 
-		#endregion
-	}
+
+        public CommandBase WebLogSearchCommand { get; set; }
+
+        void Command_WebLogSearch()
+        {
+            WebLogSearchCommand = new CommandBase((parameter, command) =>
+            {
+                var searchControl = Model.Window.OpenSearchPane();
+                searchControl.Model.SearchFolder = WeblogModel.Configuration.PostsFolder;
+                searchControl.Model.FileFilters = "*.md,*.markdown";
+            }, (p, c) => true);
+        }
+
+
+        #endregion
+    }
 
 
 
