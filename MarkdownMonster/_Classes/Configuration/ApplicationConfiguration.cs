@@ -320,10 +320,10 @@ namespace MarkdownMonster
 
         /// <summary>
         /// Command Processing Executable to bring up a terminal window
-        /// Command or Powershell, but could also be Console or ConEmu
-        /// cmd.exe            /k \"cd {0}\"
-        /// powershell.exe     -NoExit -Command  "&amp; cd 'c:\program files'"
-        /// wt.exe             (leave blank) &amp; set Profile "startingDirectory" : "%__CD__%",
+        /// using a command and arguments. Examples (Windows Terminal, PowerShell, Command):
+        /// wt.exe             -d "{0}"
+        /// powershell.exe     -NoExit -Command  "&amp; cd '{0}'"
+        /// cmd.exe            /k "cd {0}"
         /// </summary>
         public string TerminalCommand { get; set; }
 
