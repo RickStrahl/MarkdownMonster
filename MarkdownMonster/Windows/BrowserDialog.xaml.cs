@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Threading;
+using System.Threading.Tasks;
 using System.Windows;
 
 namespace MarkdownMonster.Windows
@@ -26,21 +27,24 @@ namespace MarkdownMonster.Windows
             Browser.Navigate(url);
         }
 
-        public bool NavigateAndWaitForCompletion(string url)
+        public bool NavigateAndWaitForCompletion(string url, int timeout = 2000)
         {
             IsLoaded = false;
             Browser.Navigate(url);
 
-            WindowUtilities.DoEvents();
+            //WindowUtilities.DoEvents();
 
-            for (int i = 0; i < 200; i++)
+            Dispatcher.Invoke( () =>
             {
-                if (!IsLoaded)
+                for (int i = 0; i < timeout/10; i++)
                 {
-                    Task.Delay(10);
-                    WindowUtilities.DoEvents();
+                    if (!IsLoaded)
+                    {
+                        Thread.Sleep(10);
+                        WindowUtilities.DoEvents();
+                    }
                 }
-            }
+            });
 
             return IsLoaded;
         }

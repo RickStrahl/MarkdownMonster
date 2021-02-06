@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.IO;
+using System.Linq;
 using System.Net;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -10,6 +12,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Threading;
 using Markdig.Parsers;
+using MarkdownMonster.Utilities;
 using MarkdownMonster.Windows;
 using MarkdownMonster.Windows.DocumentOutlineSidebar;
 using Microsoft.Win32;
@@ -212,6 +215,64 @@ namespace MarkdownMonster.Controls.ContextMenus
                     miRemoveFormatting.Command = Model.Commands.RemoveMarkdownFormattingCommand;
                     ContextMenu.Items.Add(miRemoveFormatting);
                 }
+
+                ContextMenu.Items.Add(new Separator());
+
+                var miSearch = new MenuItem() { Header = "Web Search of Selection..." };
+                miSearch.Click += (o, args) =>
+                {
+                    var engine = new SearchEngine();
+                    engine.OpenSearchEngine(selText);
+                };
+                ContextMenu.Items.Add(miSearch);
+
+
+                
+                var miSearchWords = new MenuItem() { Header = "Web Search and Link..." };
+                miSearchWords.Click += async (o, args) =>
+                {
+                    var engine = new SearchEngine();
+                    var list = await engine.GetSearchLinks(selText);
+                    if (list == null)
+                    {
+                        model.Window.ShowStatusError("Failed to retrieve search matches.");
+                        return;
+                    }
+
+                    foreach (var item in list.Take(10))
+                    {
+                        var sp = new StackPanel() {};
+                        sp.Children.Add(new TextBlock()
+                        {
+                            Text = item.Title,
+                            FontWeight = FontWeight.FromOpenTypeWeight(600)
+                        });
+                        sp.Children.Add(new TextBlock()
+                        {
+                            Text = item.Url,
+                            FontStyle = FontStyles.Italic,
+                            FontSize = 12,
+                            Margin = new Thickness(0, 1, 0, 0),
+                            Foreground = System.Windows.Media.Brushes.SteelBlue
+                        });
+                        var si = new MenuItem {Header = sp};
+                        si.Click += (s, e) =>
+                        {
+                            var md = $"[{selText}]({item.Url})";
+                            model.ActiveEditor.SetSelection(md);
+                            e.Handled = true;
+                        };
+                        miSearchWords.Items.Add(si);
+                        
+                    }
+
+                    model.Window.Dispatcher.Invoke(() =>
+                    {
+                        ContextMenu.IsOpen = true;
+                        miSearchWords.IsSubmenuOpen = true;
+                    });
+                };
+                ContextMenu.Items.Add(miSearchWords);
             }
 
             AddSpeech();
@@ -458,7 +519,7 @@ namespace MarkdownMonster.Controls.ContextMenus
 
                         var mi2 = new MenuItem
                         {
-                            Header = "Edit Image Link"
+                            Header = "Edit Image Url"
                         };
                         mi2.Click += (o, args) =>
                         {
