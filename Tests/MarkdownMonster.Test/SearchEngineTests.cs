@@ -19,6 +19,8 @@ namespace MarkdownMonster.Test
             engine.OpenSearchEngine("anti-trust Punk Rock");
         }
 
+
+        // UI test doesn't work
         [TestMethod]
         public async Task GetSearchLinksTest()
         {
@@ -32,7 +34,7 @@ namespace MarkdownMonster.Test
             {
                 Console.WriteLine(link.Title + "\n\t" + link.Url);
             }
-           
+
         }
 
 

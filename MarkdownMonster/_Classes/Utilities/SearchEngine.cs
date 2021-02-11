@@ -58,6 +58,7 @@ namespace MarkdownMonster.Utilities
             {
                 dynamic document = window.Browser.Document;
                 var html = document.Body.InnerHtml as string;
+                window?.Close();
 
                 if (string.IsNullOrEmpty((html)))
                     return;
@@ -82,7 +83,7 @@ namespace MarkdownMonster.Utilities
                 }
             }, DispatcherPriority.ApplicationIdle);
 
-            window?.Close();
+            
             return list;
         }
 

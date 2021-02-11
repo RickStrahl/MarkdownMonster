@@ -218,7 +218,7 @@ namespace MarkdownMonster.Controls.ContextMenus
 
                 ContextMenu.Items.Add(new Separator());
 
-                var miSearch = new MenuItem() { Header = "Web Search of Selection..." };
+                var miSearch = new MenuItem() { Header = "Web Keyword Search..." };
                 miSearch.Click += (o, args) =>
                 {
                     var engine = new SearchEngine();
@@ -228,7 +228,7 @@ namespace MarkdownMonster.Controls.ContextMenus
 
 
                 
-                var miSearchWords = new MenuItem() { Header = "Web Search and Link..." };
+                var miSearchWords = new MenuItem() { Header = "Web Keyword Search Quick Link" };
                 miSearchWords.Click += async (o, args) =>
                 {
                     var engine = new SearchEngine();
