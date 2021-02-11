@@ -242,11 +242,13 @@ namespace MarkdownMonster
 
         /// <summary>
         /// Web Browser Preview Executable - use this to force
-        /// a specific browser since Windows seems to not be able
-        /// to maintain a proper association long term.
+        /// a specific Web browser for Web links, since Windows
+        /// often breaks default browser associations. This
+        /// forces a specific browser. Also allows navigation
+        /// of `#hash` links.
         ///
-        /// If not set or path doesn't exist, uses Windows default
-        /// configuration.
+        /// If not set or invalid path doesn't exist, the default
+        /// Windows system Web Browser is used.
         /// </summary>
         public string WebBrowserPreviewExecutable { get; set; }
 
