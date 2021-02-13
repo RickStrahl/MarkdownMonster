@@ -695,31 +695,7 @@ namespace MarkdownMonster
                 if (string.IsNullOrEmpty(mmApp.Configuration.WebBrowserPreviewExecutable) ||
                     !File.Exists(mmApp.Configuration.WebBrowserPreviewExecutable))
                 {
-                    mmApp.Configuration.WebBrowserPreviewExecutable = null;
-
-                    //ShellUtils.GoUrl(url);
-
-                    WindowsUtils.TryGetRegistryKey(@"SOFTWARE\Microsoft\Windows\Shell\Associations\UrlAssociations\http\UserChoice", "ProgId", out dynamic value,Registry.CurrentUser);
-                    var progId = value as string;
-                    Console.WriteLine(progId);
-	
-                    WindowsUtils.TryGetRegistryKey(@"MSEdgeHTM\shell\open\command", "", out value,Registry.ClassesRoot);
-	
-                    var exe = value as string;
-                    if (exe == null)
-                    {
-                        ShellUtils.GoUrl(url); // truy
-                        return;
-                    }
-                    ShellUtils.ExecuteCommandLine(exe);
-
-                    //exe = exe.Replace("%1", $"{url}");
-                    
-                    //var tokens = exe.Split(new string[] { "\" " },StringSplitOptions.RemoveEmptyEntries);
-
-                    
-                    //tokens[0] = tokens[0].Replace("\"","");
-                    //Process.Start(tokens[0],tokens[1]);
+                    OpenBrowser(url);
                 }
                 else
                 {
@@ -728,7 +704,10 @@ namespace MarkdownMonster
             }
             catch (Exception ex)
             {
-                mmApp.Log($"External Preview failed: {url}", ex, logLevel: LogLevels.Warning);
+                try
+                {
+                    ShellUtils.GoUrl(url);
+                }catch{}
             }
         }
 
@@ -740,17 +719,14 @@ namespace MarkdownMonster
         public static void OpenBrowser(string url) {
             WindowsUtils.TryGetRegistryKey(@"SOFTWARE\Microsoft\Windows\Shell\Associations\UrlAssociations\http\UserChoice", "ProgId", out dynamic value,Registry.CurrentUser);
             var progId = value as string;
-            Console.WriteLine(progId);
-	
-            if (!WindowsUtils.TryGetRegistryKey(@"MSEdgeHTM\shell\open\command", "", out value,Registry.ClassesRoot))
+            if (!WindowsUtils.TryGetRegistryKey($@"{progId}\shell\open\command", "", out value, Registry.ClassesRoot))
+            {
+                ShellUtils.GoUrl(url);
                 return;
-	
+            }
             var exe = value as string;
-            Console.WriteLine(exe);
-
             exe = exe.Replace("%1", $"{url}");
-            Console.WriteLine(exe);
-
+            
             var tokens = exe.Split(new string[] { "\" " },StringSplitOptions.RemoveEmptyEntries);
 
             tokens[0] = tokens[0].Replace("\"","");
