@@ -63,11 +63,9 @@ pre {
   border-radius: 5px;
   overflow-x: auto;
   max-width: 98%;
-  white-space: pre;
-  word-break: normal;
-  word-wrap: normal;
   background: #1E1E1E;
   color: #DCDCDC;
+  white-space: pre; /* pre-line if you want to wrap*/
 }
 
   pre > code {
@@ -76,6 +74,7 @@ pre {
     display: block;
     background: transparent;
     font-weight: normal;
+    white-space: pre; /* pre-line if you want to wrap*/
   }
   pre>code::-webkit-scrollbar {
     width: 8px;

@@ -83,11 +83,9 @@ pre {
   border: 1px solid silver;
   border-radius: 4px;
   overflow-x: auto;
-  white-space: pre;
-  word-break: normal;
-  word-wrap: normal;
   background: #333;
   color: #eee;
+  white-space: pre; /* pre-line if you want to wrap*/
 }
 
   pre > code {

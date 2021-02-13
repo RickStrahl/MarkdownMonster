@@ -20,4 +20,4 @@ $pwd = [Runtime.InteropServices.Marshal]::PtrToStringAuto(
        [Runtime.InteropServices.Marshal]::SecureStringToBSTR($pwd))
 if(!$pwd) {Exit;}
 
-c:\utl\curl.exe -T ".\Builds\CurrentRelease\MarkdownMonsterSetup.exe"  "ftps://west-wind.com/Westwind_sysroot/Ftp/Files/MarkdownMonsterSetup_Latest.exe" -u ${uid}:${pwd} -k
+~\OneDrive\utl\curl.exe -T ".\Builds\CurrentRelease\MarkdownMonsterSetup.exe"  "ftps://west-wind.com/Westwind_sysroot/Ftp/Files/MarkdownMonsterSetup_Latest.exe" -u ${uid}:${pwd} -k

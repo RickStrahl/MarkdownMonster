@@ -181,11 +181,10 @@ pre {
   border: 1px solid silver;
   border-radius: 4px;
   overflow-x: auto;
-  white-space: pre;
-  word-break: normal;
-  word-wrap: normal;
+  white-space: pre-line; /* pre-line if you want to wrap*/
+  word-break: break-all;
 
-   /* handles non-formatted code snippets, but won't work with light syntax */
+  /* handles non-formatted code snippets, but won't work with light syntax */
   /* background: #252525;
   color: #eee; */
 }
@@ -196,7 +195,9 @@ pre {
     display: block;
     color: #f5f5f5 !important;
 
-     /* handles non-formatted code snippets, but won't work with light syntax */
+    white-space: pre-line; /* pre-line if you want to wrap*/
+    
+    /* handles non-formatted code snippets, but won't work with light syntax */
     /* background: transparent;
     font-weight: normal; */
   }

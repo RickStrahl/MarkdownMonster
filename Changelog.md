@@ -4,14 +4,16 @@
 [![Chocolatey](https://img.shields.io/chocolatey/dt/markdownmonster.svg)](https://chocolatey.org/packages/MarkdownMonster)
 [![Web Site](https://img.shields.io/badge/Markdown_Monster-WebSite-blue.svg)](https://markdownmonster.west-wind.com)
 
-### 1.26.1 
+### 1.26.2
 <small>*not released yet*</small>
 
-* **Search Web and Search Web and Link on Editor Context Selection Menu**  
-New option to allow searching for content on the Web by opening the browser from the selected text and another option that performs a search and displays a list of matches with URLs on a sub menu that can be auto-linked to the selected text.
+* **Search Web and Search Web and Link on Editor Context Selection Menu** New option to allow searching for content on the Web by opening the browser from the selected text and another option that performs a search and displays a list of matches with URLs on a sub menu that can be auto-linked to the selected text.
 
 * **Search Weblog Folder**  
 New Menu option on the Weblog folder that lets you search the WebLog folder for posts using the built-in [Find in Files Search](https://markdownmonster.west-wind.com/docs/_5y715t8co.htm#find-in-files) functionality.
+
+* **Fix: Browser Executable using Default Browser**  
+Fix *View in External Browser* when the default browser executable is left blank - defaults to the system browser but executes using command line to allow for URLs with `#hash` extensions.
 
 ### 1.26
 <small>February 4, 2020</small>

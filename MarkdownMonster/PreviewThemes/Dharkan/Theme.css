@@ -215,10 +215,8 @@ pre {
   border-radius: 5px;
   overflow-x: auto;
   max-width: 98%;
-  white-space: pre;
-  word-break: normal;
-  word-wrap: normal;
 
+  white-space: pre; /* pre-line if you want to wrap*/
 
   /* handles non-formatted code snippets, but won't work with light syntax */
   /* background: #252525;
@@ -230,6 +228,8 @@ pre {
     padding: 0.8em !important;
     display: block;
     font-weight: normal;
+
+    white-space: pre; /* pre-line if you want to wrap*/
 
     /* handles non-formatted code snippets, but won't work with light syntax */
     /* background: transparent;

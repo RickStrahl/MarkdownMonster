@@ -97,9 +97,7 @@ pre {
   border: none;
   overflow: auto;
   border-radius: 3px;
-  white-space: pre;
-  word-break: normal;
-  word-wrap: normal;
+  white-space: pre; /* pre-line if you want to wrap*/
   background: #f2f2f2f2;
 }
 
@@ -109,6 +107,8 @@ pre {
     display: block;
     background: transparent;
     font-weight: normal;
+
+    white-space: pre; /* pre-line if you want to wrap*/
   }
   pre>code::-webkit-scrollbar {
     width: 8px;
