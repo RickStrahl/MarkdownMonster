@@ -146,10 +146,9 @@ namespace MarkdownMonster
                 catch
                 {
                     // write in the common folder
-                    File.WriteAllText(RegisterFile, key);
+                    LanguageUtils.IgnoreErrors(() => File.WriteAllText(RegisterFile, key));
                 }
-                
-                
+
                 _regType = RegTypes.Professional;
             }
             return true;
@@ -159,7 +158,9 @@ namespace MarkdownMonster
         {
             _unlocked = false;
             _regType = RegTypes.Free;
-            File.WriteAllText(RegisterFile, "");
+
+            LanguageUtils.IgnoreErrors(() => File.Delete(RegisterFile));
+            LanguageUtils.IgnoreErrors(() => File.Delete(RegisterFileInstall));
         }
 
         /// <summary>
