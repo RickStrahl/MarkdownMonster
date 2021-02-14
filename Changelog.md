@@ -5,7 +5,7 @@
 [![Web Site](https://img.shields.io/badge/Markdown_Monster-WebSite-blue.svg)](https://markdownmonster.west-wind.com)
 
 ### 1.26.2
-<small>*not released yet*</small>
+<small>ongoing releases</small>
 
 * **Search Web and Search Web and Link on Editor Context Selection Menu** New option to allow searching for content on the Web by opening the browser from the selected text and another option that performs a search and displays a list of matches with URLs on a sub menu that can be auto-linked to the selected text.
 
