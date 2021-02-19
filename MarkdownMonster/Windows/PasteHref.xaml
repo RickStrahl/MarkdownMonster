@@ -14,7 +14,7 @@
         WindowStyle="SingleBorderWindow" ResizeMode="NoResize"                      
         WindowStartupLocation="CenterOwner"         
         IsMinButtonEnabled="False" IsMaxRestoreButtonEnabled="False"                       
-        Width="620" Height="330">
+        Width="620" Height="350">
 
     <Window.InputBindings>
         <KeyBinding Key="F1" Command="{Binding AppModel.Commands.HelpCommand}" CommandParameter="_4xs10gaui.htm"/>
@@ -26,6 +26,26 @@
                      HorizontalAlignment="Stretch" Width="Auto" Margin="0,0,3,0"  
                      controls:TextBoxHelper.Watermark="Enter the link text to display"
                      ToolTip="Set the link text for the link."/>
+
+        <StackPanel Orientation="Horizontal" Margin="0,8,0,0" >
+            <TextBlock> 
+                <Hyperlink x:Name="SearchTheWeb" NavigateUri="https://invalid.com" 
+                           RequestNavigate="SearchTheWeb_OnRequestNavigate" 
+                           Foreground="SteelBlue"
+                           ToolTip="Open Web Browser and search for the Link Text. Copy link to Clipboard and return to fill the URL."
+                           >
+                    Search the Web...
+                </Hyperlink>
+            </TextBlock>
+
+            <TextBlock Margin="10,0,0,0"  > 
+                <Hyperlink x:Name="SearchWebAndLink" NavigateUri="https://invalid.com" RequestNavigate="SearchWebAndLink_OnRequestNavigate" Foreground="SteelBlue">
+                    Search and Link...
+                </Hyperlink>
+            </TextBlock>
+        </StackPanel>
+
+
 
         <Label Margin="0,10,0,0">Link:</Label>
         <Grid>

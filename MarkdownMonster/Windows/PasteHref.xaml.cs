@@ -1,8 +1,13 @@
 ﻿using System;
 using System.ComponentModel;
+using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Input;
+using System.Windows.Navigation;
 using MahApps.Metro.Controls;
+using MarkdownMonster.Utilities;
 using Microsoft.Win32;
 using Westwind.Utilities;
 
@@ -237,5 +242,73 @@ namespace MarkdownMonster.Windows
             
             return text[0] == '#' && !char.IsWhiteSpace(text[1]);
         }
+
+        private void SearchTheWeb_OnRequestNavigate(object sender, RequestNavigateEventArgs e)
+        {
+            if (string.IsNullOrEmpty(LinkText))
+                return;
+
+            var search = new SearchEngine();
+            search.OpenSearchEngine(LinkText);
+            e.Handled = true;
+        }
+
+        private async void SearchWebAndLink_OnRequestNavigate(object sender, RequestNavigateEventArgs e)
+        {
+
+            if (string.IsNullOrEmpty(LinkText))
+                return;
+
+            var model = AppModel;
+            model.Window.ShowStatusProgress($"Looking on Web for: {LinkText}...");
+            Mouse.SetCursor(Cursors.Wait);
+
+            var ci = new ContextMenu();
+            
+            var engine = new SearchEngine();
+            var list = await engine.GetSearchLinks(LinkText);
+
+            Mouse.SetCursor(Cursors.Arrow);
+
+            if (list == null || list.Count < 1)
+            {
+                model.Window.ShowStatusError("Failed to retrieve search matches.");
+                return;
+            }
+            model.Window.ShowStatusSuccess($"Retrieved {list.Count} match(es).");
+
+            foreach (var item in list.Take(10))
+            {
+                var sp = new StackPanel() {};
+                sp.Children.Add(new TextBlock()
+                {
+                    Text = item.Title,
+                    FontWeight = FontWeight.FromOpenTypeWeight(600)
+                });
+                sp.Children.Add(new TextBlock()
+                {
+                    Text = item.Url,
+                    FontStyle = FontStyles.Italic,
+                    FontSize = 12,
+                    Margin = new Thickness(0, 1, 0, 0),
+                    Foreground = System.Windows.Media.Brushes.SteelBlue
+                });
+                var si = new MenuItem {Header = sp};
+                si.Click += (s, ea) =>
+                {
+                    Link = item.Url;
+                };
+                ci.Items.Add(si);
+            }
+
+            model.Window.Dispatcher.Invoke(() =>
+            {
+                
+                ci.PlacementTarget = SearchWebAndLink.Parent as TextBlock;
+                ci.Placement = System.Windows.Controls.Primitives.PlacementMode.Bottom;
+                ci.IsOpen = true;
+            });
+        }
+
     }
 }
