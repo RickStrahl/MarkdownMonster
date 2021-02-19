@@ -181,7 +181,7 @@ pre {
   border: 1px solid silver;
   border-radius: 4px;
   overflow-x: auto;
-  white-space: pre-line; /* pre-line if you want to wrap*/
+  white-space: pre; /* pre-line if you want to wrap*/
   word-break: break-all;
 
   /* handles non-formatted code snippets, but won't work with light syntax */
@@ -190,12 +190,11 @@ pre {
 }
 
   pre > code {
-    white-space: pre;
     padding: 0.8em !important;
     display: block;
     color: #f5f5f5 !important;
 
-    white-space: pre-line; /* pre-line if you want to wrap*/
+    white-space: pre; /* pre-line if you want to wrap*/
     
     /* handles non-formatted code snippets, but won't work with light syntax */
     /* background: transparent;

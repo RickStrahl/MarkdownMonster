@@ -7,7 +7,8 @@
 ### 1.26.2
 <small>ongoing releases</small>
 
-* **Search Web and Search Web and Link on Editor Context Selection Menu** New option to allow searching for content on the Web by opening the browser from the selected text and another option that performs a search and displays a list of matches with URLs on a sub menu that can be auto-linked to the selected text.
+* **Search Web and Search Web and Link on Editor Context Selection Menu**  
+New option to allow searching for content on the Web by opening the browser from the selected text and another option that performs a search and displays a list of matches with URLs on a sub menu that can be auto-linked to the selected text.
 
 * **Search Weblog Folder**  
 New Menu option on the Weblog folder that lets you search the WebLog folder for posts using the built-in [Find in Files Search](https://markdownmonster.west-wind.com/docs/_5y715t8co.htm#find-in-files) functionality.
