@@ -6,12 +6,12 @@
     },
     "mmcli-noargs": {
       "commandName": "Project",
-      "commandLineArgs": " -setportable"
+      "commandLineArgs": "markdowntohtml -i \"test.md\" -o \"test.html\" --theme \"Dharkan\" --rendermode packagedhtml --open",
+      "workingDirectory": "c:\\temp"
     },
     "mmcli-htmltomarkdown": {
       "commandName": "Project",
-      "commandLineArgs":
-        "htmltomarkdown -i \\\"\\projects\\MarkdownMonster\\readme.md\\\" -o \\\"\\projects\\MarkdownMonster\\readme.html\\\" --rendermode packagedhtml --theme Westwind --open"
+      "commandLineArgs": "htmltomarkdown -i \\\"\\projects\\MarkdownMonster\\readme.md\\\" -o \\\"\\projects\\MarkdownMonster\\readme.html\\\" --rendermode packagedhtml --theme Westwind --open"
     }
   }
 }
