@@ -22,7 +22,7 @@
   </ItemGroup>
 
   <Target Name="PostBuild" AfterTargets="PostBuildEvent">
-    <Exec Command="copy $(TargetPath) $(SolutionDir)\MarkdownMonster\mmcli.*" />
+    <Exec Command="copy $(TargetDir)\mmcli.* $(SolutionDir)\MarkdownMonster\mmcli.*" />
   </Target>
 
 </Project>

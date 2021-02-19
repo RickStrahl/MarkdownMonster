@@ -58,7 +58,7 @@ namespace mmcli.CommandLine
             if (!string.IsNullOrEmpty(InputFile))
                 InputFile = Path.GetFullPath(InputFile);
             if(!string.IsNullOrEmpty(OutputFile))
-                InputFile = Path.GetFullPath(OutputFile);
+                OutputFile = Path.GetFullPath(OutputFile);
         }
 
     }
