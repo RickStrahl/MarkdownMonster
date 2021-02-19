@@ -184,7 +184,8 @@
                          Opacity="0.7"          
                          TextChanged="TextSearch_TextChanged"
                          controls:TextBoxHelper.Watermark="Search file names"  
-                         controls:TextBoxHelper.ClearTextButton="True" />
+                         controls:TextBoxHelper.ClearTextButton="True" 
+                         AutomationProperties.HelpText="Search file names" />
 
                 <ToggleButton fa:Awesome.Content="FolderOpen" 
                               Foreground="DarkGoldenrod"
@@ -241,6 +242,8 @@
                         
                         <Setter Property="IsExpanded" Value="{Binding IsExpanded,Mode=TwoWay}" />
 
+                        <!--<Setter Property="AutomationProperties.HelpText" Value="{Binding DisplayName}" />-->
+
                         <EventSetter Event="MouseUp" Handler="TreeViewItem_MouseUpClick" />
                         <!--<EventSetter Event="MouseDown" Handler="TreeViewItem_MouseDownClick" />-->
                         <EventSetter Event="MouseDoubleClick" Handler="TreeViewItem_MouseDoubleClick" />
@@ -256,6 +259,8 @@
 
                         <EventSetter Event="Drop" Handler="TreeViewItem_Drop" />
                         <EventSetter Event="MouseMove" Handler="TreeFolderBrowser_MouseMove" />
+
+
                     </Style>
                 </TreeView.ItemContainerStyle>
             </TreeView>

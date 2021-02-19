@@ -63,7 +63,8 @@
         <StackPanel Name="SearchBox" Grid.Row="1" PreviewKeyDown="SearchBox_PreviewKeyDown"
                     FocusManager.FocusedElement="{Binding ElementName=SearchPhrase}">
 
-            <TextBox x:Name="SearchPhrase"  Margin="10,10,10,5" Grid.Row="1"             
+            <TextBox x:Name="SearchPhrase"  
+                     Margin="10,10,10,5" Grid.Row="1"             
                      Text="{Binding SearchPhrase, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
                      BorderThickness="0.3" Padding="1"
                      mah:TextBoxHelper.SelectAllOnFocus="True"
@@ -71,7 +72,9 @@
                      
                      TextChanged="SearchPhrase_OnTextChanged"
                      mah:TextBoxHelper.Watermark="Search text in files" 
-                     mah:TextBoxHelper.ClearTextButton="True" />
+                     mah:TextBoxHelper.ClearTextButton="True" 
+                     AutomationProperties.HelpText="Text to search for in files"
+                     />
 
             <TextBox x:Name="ReplaceText"  Margin="10,0,10,10" Grid.Row="1"             
                      Text="{Binding ReplaceText}" 
@@ -79,7 +82,10 @@
                      mah:TextBoxHelper.SelectAllOnFocus="True"
                      Opacity="0.8"  FontSize="13" FontWeight="Normal"    
                      mah:TextBoxHelper.Watermark="Replace text" 
-                     mah:TextBoxHelper.ClearTextButton="True" />
+                     mah:TextBoxHelper.ClearTextButton="True"
+                     AutomationProperties.HelpText="Optional text to replace after search"
+                     
+                     />
 
 
             <TextBox x:Name="SearchFolder"  Margin="10,0,10,5" Grid.Row="1"             
@@ -91,6 +97,7 @@
                      mah:TextBoxHelper.Watermark="Folder to search" 
                      mah:TextBoxHelper.ClearTextButton="True"
                      TextChanged="SearchPhrase_OnTextChanged"
+                     AutomationProperties.HelpText="Folder to search"
                      />
 
             <Grid>
@@ -107,7 +114,9 @@
                      Opacity="0.8"  FontSize="13" FontWeight="Normal"    
                      mah:TextBoxHelper.Watermark="File Filters" 
                      mah:TextBoxHelper.ClearTextButton="True"
-                     TextChanged="SearchPhrase_OnTextChanged" />
+                     TextChanged="SearchPhrase_OnTextChanged"
+                     
+                     />
 
                 <StackPanel Grid.Column="1">
                     <CheckBox x:Name="SearchSubFolders" Grid.Column="1"
@@ -115,13 +124,18 @@
                               FontSize="15" FontWeight="Normal" Margin="5,0,10,0" 
                               Style="{StaticResource CompactCheckBox}" 
                               Content="search sub-folders" 
-                              Click="Search_Click" />
+                              Click="Search_Click"
+                              
+                              
+                              />
                     <CheckBox x:Name="SearchContent" Grid.Column="1"
                               IsChecked="{Binding SearchContent}" 
                               FontSize="15" FontWeight="Normal" Margin="5,2,10,0" 
                               Style="{StaticResource CompactCheckBox}" 
                               Content="search content" 
-                              Click="Search_Click"/>
+                              Click="Search_Click" 
+                              
+                              />
                 </StackPanel>
                 
             </Grid>
@@ -139,10 +153,17 @@
 
         <Grid Name="ResultPane" Grid.Row="2">
             <ListBox Name="ListResults" ItemsSource="{Binding SearchResults}">
+                <ListBox.ItemContainerStyle>
+                    <Style TargetType="ListBoxItem" BasedOn="{StaticResource {x:Type ListBoxItem}}">
+                        <Setter Property="AutomationProperties.HelpText" Value="{Binding FileOnly}"/>
+                        <Setter Property="Margin" Value="0,0,0,0" />
+                        <Setter Property="BorderThickness" Value="0" />
+                    </Style>
+                </ListBox.ItemContainerStyle>
                 <ListBox.ItemTemplate>
                     <DataTemplate>
                         <Border Padding="5,3" MouseUp="Border_MouseUp">
-                            <StackPanel>
+                            <StackPanel >
                                 <StackPanel Orientation="Horizontal">
                                     <TextBlock Text="{Binding FileOnly}" FontWeight="Medium" />
 

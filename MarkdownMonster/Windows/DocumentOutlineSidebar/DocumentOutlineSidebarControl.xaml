@@ -64,6 +64,7 @@
                     <Setter Property="BorderThickness" Value="0"/>
                     <Setter Property="Focusable" Value="True" />
                     <Setter Property="ToolTip" Value="{Binding LinkId}" />
+                    <Setter Property="AutomationProperties.HelpText" Value="{Binding Text}"/>
                 </Style>
             </ListBox.ItemContainerStyle>
             <ListBox.ContextMenu>
