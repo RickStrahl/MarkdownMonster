@@ -366,7 +366,8 @@
                                             <ColumnDefinition Width="*" />
                                         </Grid.ColumnDefinitions>
 
-                                        <Button fa:Awesome.Content="CloudDownload" Foreground="#00A100" Name="ButtonDownloadPost" 
+                                        <Button fa:Awesome.Content="CloudDownload" 
+                                                Foreground="#00A100" Name="ButtonDownloadPost" 
                                                 Height="32" Width="32" FontSize="17" Margin="15,0,5,0" 
                                                 Click="ButtonDownloadPost_Click"
                                                 BorderThickness="0" ToolTip="Download Weblog post"/>
@@ -407,14 +408,20 @@
                            IsSynchronizedWithCurrentItem="True"  
                            SelectionChanged="ComboWebLogName_SelectionChanged"                               
                            ItemsSource="{Binding Configuration.Weblogs}" 
+
+                           AutomationProperties.Name="Weblog Selection" 
                            />
-                        <Button Grid.Column="1" Margin="5,0,0,0" Name="ButtonNewWeblog" Click="Button_NewWeblog">
+                        <Button Grid.Column="1" Margin="5,0,0,0" Name="ButtonNewWeblog" 
+                                AutomationProperties.Name="New Weblog" 
+                                Click="Button_NewWeblog">
                             <StackPanel Orientation="Horizontal">
                                 <fa:FontAwesome Icon="PlusCircle" FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" Foreground="#FF0E7E28" Margin="0,2,5,0" />
                                 <TextBlock>New</TextBlock>
                             </StackPanel>
                         </Button>
-                        <Button Grid.Column="2" Margin="5,0,0,0" Click="Button_DeleteWeblog">
+                        <Button Grid.Column="2" Margin="5,0,0,0" Click="Button_DeleteWeblog"
+                                AutomationProperties.Name="Delete Weblog" 
+                                >
                             <StackPanel Orientation="Horizontal">
                                 <fa:FontAwesome Icon="Remove" FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" Foreground="DarkRed" Margin="0,2,5,0" />
                                 <TextBlock>Delete</TextBlock>
@@ -434,15 +441,17 @@
                             <ColumnDefinition Width="25" />
                         </Grid.ColumnDefinitions>
                         
-                        <Label  Grid.Row="0" Grid.Column="0">Name:</Label>
-                        <Label  Grid.Row="0" Grid.Column="1" Margin="7,0,0,0" 
+                        <Label Name="lblWeblogName"  Grid.Row="0" Grid.Column="0">Name:</Label>
+                        <Label Name="lblWeblogId" Grid.Row="0" Grid.Column="1" Margin="7,0,0,0" 
                                 controls:VisibilityHelper.IsVisible="{Binding IsBlogIdVisible}">Weblog Id or Publication:</Label>
 
                         <TextBox Grid.Column="0" Grid.Row="1"  Text="{Binding ActiveWeblogInfo.Name}" 
-FontSize="15"  Style="{StaticResource HeaderStyle}" />
+                                FontSize="15"  Style="{StaticResource HeaderStyle}" 
+                                AutomationProperties.LabeledBy="{Binding ElementName=lblWeblogName}"/>
                         <TextBox Grid.Column="1" Grid.Row="1"  Text="{Binding ActiveWeblogInfo.BlogId}"  
                                  controls:VisibilityHelper.IsVisible="{Binding IsBlogIdVisible}" 
-                                 FontSize="15" Margin="7,0,0,0" Style="{StaticResource HeaderStyle}" />
+                                 FontSize="15" Margin="7,0,0,0" Style="{StaticResource HeaderStyle}" 
+                                 AutomationProperties.LabeledBy="{Binding ElementName=lblWeblogId}" />
                         
                         <Button Name="ButtonBlogsList" Margin="-2,0,0,0"
                                 controls:VisibilityHelper.IsVisible="{Binding IsBlogIdVisible}"
@@ -453,17 +462,19 @@ FontSize="15"  Style="{StaticResource HeaderStyle}" />
                                 ToolTip="Lookup Weblog Id or Publication. Make sure the API Url and token or username/password are set before making a selection.">
                             <b:Interaction.Behaviors>
                                 <local:DropDownButtonBehavior />
-                            </b:Interaction.Behaviors>
+                            </b:Interaction.Behaviors>  
                         </Button>
 
                     </Grid>
 
-                    <Label Margin="0,10,0,0">Weblog type:</Label>
+                    <Label Name="lblWerblogType" Margin="0,10,0,0">Weblog type:</Label>
                     <ComboBox Name="ComboWeblogType"                            
                               SelectedValue="{Binding ActiveWeblogInfo.Type}"
                               IsSynchronizedWithCurrentItem="True" 
                               ItemsSource="{Binding WeblogNames}"
                               SelectionChanged="ComboWeblogType_SelectionChanged"
+                              AutomationProperties.Name="Weblog Type" 
+                              AutomationProperties.LabeledBy="{Binding ElementName=lblWeblogType}"
                     >
                         <ComboBox.ItemTemplate>
                             <DataTemplate>
@@ -522,10 +533,11 @@ FontSize="15"  Style="{StaticResource HeaderStyle}" />
                     </StackPanel>
 
                     <StackPanel  >
-                        <Label Margin="0,10,0,0">Preview Url</Label>
+                        <Label Name="lblPreviewUrl" Margin="0,10,0,0">Preview Url</Label>
                         <TextBox 
                             ToolTip="An optional URL that can preview the current post or blog. Necessary only for blogs that don't return the URL generated."
-                            Text="{Binding ActiveWeblogInfo.PreviewUrl}"  FontSize="15" />
+                            Text="{Binding ActiveWeblogInfo.PreviewUrl}"  FontSize="15" 
+                            AutomationProperties.LabeledBy="{Binding ElementName=lblPreviewUrl}"/>
                     </StackPanel>
 
 
@@ -538,10 +550,11 @@ FontSize="15"  Style="{StaticResource HeaderStyle}" />
 
 
                     <StackPanel Visibility="{Binding IsUserPassVisible, Converter={StaticResource BooleanToVisibilityConverter}}" >
-                        <Label Margin="0,10,0,0">Username:</Label>
-                        <TextBox Text="{Binding ActiveWeblogInfo.Username}"  FontSize="15" />
+                        <Label Name="lblUsername" Margin="0,10,0,0">Username:</Label>
+                        <TextBox Text="{Binding ActiveWeblogInfo.Username}"  FontSize="15" 
+                                 AutomationProperties.LabeledBy="{Binding ElementName=lblUsername}"/>
 
-                        <Label Margin="0,10,0,0">Password: (only set if you need to change)</Label>
+                        <Label Name="lblPassword"  Margin="0,10,0,0">Password: (only set if you need to change)</Label>
 
                         <Grid >
 
@@ -550,7 +563,9 @@ FontSize="15"  Style="{StaticResource HeaderStyle}" />
                                 <ColumnDefinition Width="auto" />
                             </Grid.ColumnDefinitions>
 
-                            <PasswordBox  Name="TextWeblogPassword" FontSize="15" LostFocus="TextWeblogPassword_LostFocus" />
+                            <PasswordBox  Name="TextWeblogPassword" FontSize="15" 
+                                          LostFocus="TextWeblogPassword_LostFocus"
+                                          AutomationProperties.LabeledBy="{Binding ElementName=lblPassword}"/>
                             <Button Grid.Column="1" Margin="5,0,0,0" Name="ButtonValidatePassword" 
                                     Click="ButtonValidatePassword_Click"  
                                     ToolTip="Checks to see if the authentication is valid."
@@ -573,7 +588,10 @@ FontSize="15"  Style="{StaticResource HeaderStyle}" />
 
 
                     <Button Margin="0,20" Height="45" Width="170"  HorizontalAlignment="Right" 
-                            Name="ButtonSaveWebLogInfo" Click="ButtonSaveWebLogInfo_Click" >
+                            Name="ButtonSaveWebLogInfo" Click="ButtonSaveWebLogInfo_Click" 
+                            AutomationProperties.HelpText="Save Weblog Info"
+                            
+                            >
                         <StackPanel Orientation="Horizontal">
                             <fa:FontAwesome Icon="Check" FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" Foreground="#FF0E7E28" FontSize="20" />
                             <TextBlock Margin="10,0,0,0" FontSize="14">Save Weblog</TextBlock>
