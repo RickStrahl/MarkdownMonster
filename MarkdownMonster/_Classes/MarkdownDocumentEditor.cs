@@ -2106,7 +2106,8 @@ You can compare files using a Diff tool to compare and merge changes.
 
                 Window.Dispatcher.InvokeAsync(() =>
                 {
-                    SetSelectionAndFocus($"{mmApp.NewLine}![]({relFilePath.Replace(" ", "%20")}){mmApp.NewLine}");
+                    var relFile = relFilePath.Replace(" ", "%20");
+                    SetSelectionAndFocus($"{mmApp.NewLine}![]({relFile}){mmApp.NewLine}");
 
                     // Force the browser to refresh completely so image changes show up
                     Window.PreviewBrowser.Refresh(true);
@@ -2116,10 +2117,44 @@ You can compare files using a Diff tool to compare and merge changes.
 
                 Window.Activate();
             }
+            else if (IsLinkableFile(file))
+            {
+                var docPath = Path.GetDirectoryName(MarkdownDocument.Filename);
+                var relFilePath = FileUtils.GetRelativePath(file, docPath);
+
+                AceEditor.SetSelPositionFromMouse();
+
+                Window.Dispatcher.InvokeAsync(() =>
+                {
+                    var relFilePathUrl = relFilePath.Replace(" ", "%20");
+                    SetSelectionAndFocus($"{mmApp.NewLine}[{relFilePath}]({relFilePathUrl}){mmApp.NewLine}");
+
+                    // Force the browser to refresh completely so image changes show up
+                    Window.Dispatcher.InvokeAsync(()=>Window.PreviewBrowser.Refresh(true));
+                }, DispatcherPriority.ApplicationIdle);
+            }
             else if ( (","  + mmApp.AllowedFileExtensions + ",").Contains($",{ext},"))
             {
                 Window.OpenTab(file, rebindTabHeaders: true);
             }
+        }
+
+        private bool IsLinkableFile(string file)
+        {
+            if(MarkdownDocument == null)
+                return false;
+
+            if(string.IsNullOrEmpty(file))
+                return false;
+
+            if(!File.Exists(file))
+                return false;
+
+            var ext = Path.GetExtension(file).ToLower().TrimStart('.');
+            if (ext == "md" || ext == "markdown" || ext == "markdown" || ext == "html" || ext == "htm" || ext == "pdf" || ext == "zip")
+                return true;
+
+            return false;
         }
 
         //public void MarkdownEditorLinkClicked(string linkUrl)
