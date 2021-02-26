@@ -305,12 +305,11 @@ namespace MarkdownMonster.Windows
             }
         }
 
-
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             WindowUtilities.FixFocus(this, CheckPasteAsBase64Content);
 
-            if (DialogResult != null)  // avoid multi-click setting
+            if (DialogResult == null)  // avoid multi-click setting
             {
                 if (sender == ButtonCancel)
                     DialogResult = false;

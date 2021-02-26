@@ -126,14 +126,17 @@ namespace MarkdownMonster.Windows
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            //WindowUtilities.FixFocus(this, CheckExternalLink);
+            WindowUtilities.FixFocus(this, CheckExternalLink);
 
-            if (sender == ButtonCancel)
-                DialogResult = false;
-            else
+            if (DialogResult == null)
             {
-                mmApp.Configuration.LastLinkExternal = IsExternal;
-                DialogResult = true;                
+                if (sender == ButtonCancel)
+                    DialogResult = false;
+                else
+                {
+                    mmApp.Configuration.LastLinkExternal = IsExternal;
+                    DialogResult = true;
+                }
             }
 
             Close();
