@@ -39,7 +39,7 @@
     <PackageReference Include="MahApps.Metro" Version="2.4.3">
       <IncludeAssets>compile</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Westwind.Utilities" Version="3.0.49.6">
+    <PackageReference Include="Westwind.Utilities" Version="3.0.51.3">
       <IncludeAssets>compile</IncludeAssets>
     </PackageReference>
     <PackageReference Include="FontAwesome.WPF" Version="4.7.0.9">

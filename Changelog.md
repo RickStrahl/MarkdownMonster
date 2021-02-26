@@ -4,17 +4,29 @@
 [![Chocolatey](https://img.shields.io/chocolatey/dt/markdownmonster.svg)](https://chocolatey.org/packages/MarkdownMonster)
 [![Web Site](https://img.shields.io/badge/Markdown_Monster-WebSite-blue.svg)](https://markdownmonster.west-wind.com)
 
-### 1.26.2
+### 1.26.4
 <small>ongoing releases</small>
 
 * **Search Web and Search Web and Link on Editor Context Selection Menu**  
 New option to allow searching for content on the Web by opening the browser from the selected text and another option that performs a search and displays a list of matches with URLs on a sub menu that can be auto-linked to the selected text.
 
+* **Web Search and Search Web Links on the URL Dialog**  
+The same two search options from above are also available in the `ctrl-k` URL Link dialog as links below the text input. Clicking the links searches the Web with the display link. For the Browser search any URLs on the clipboard automatically replace the URL text if it's empty. For the inline search, a list selection fills the field.
+
 * **Search Weblog Folder**  
 New Menu option on the Weblog folder that lets you search the WebLog folder for posts using the built-in [Find in Files Search](https://markdownmonster.west-wind.com/docs/_5y715t8co.htm#find-in-files) functionality.
 
+* **Drag and Drop Files into Editor as Links**  
+When you drag and drop a document file (Markdown, html, pdf, zip) from Explorer or the File Browser into the editor, the file is now linked rather than 'opened'. The link is created as `[file.ext](file.ext) with a document relative path.
+
+* **Improved Large Document Support**  
+Added improvements to make MM work better with very large documents, by reducing preview refresh overhead, dynamically expanding the refresh timeout and tweaking the update process. Also - Using the built-in Chromium addin as the previewer now refreshes off the UI thread so that refreshes no longer freeze the editor while updating the preview for large documents.
+
 * **Fix: Browser Executable using Default Browser**  
 Fix *View in External Browser* when the default browser executable is left blank - defaults to the system browser but executes using command line to allow for URLs with `#hash` extensions.
+
+* **Accessibility Updates**  
+Some adjustments to the accessibility features in the file browser and search features.
 
 ### 1.26
 <small>February 4, 2020</small>
