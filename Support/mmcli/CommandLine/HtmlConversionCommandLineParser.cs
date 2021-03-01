@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Reflection;
+using Westwind.Utilities;
 
 namespace mmcli.CommandLine
 {
@@ -56,9 +57,16 @@ namespace mmcli.CommandLine
             Theme = ParseStringParameterSwitch("--theme");
 
             if (!string.IsNullOrEmpty(InputFile))
+            {
                 InputFile = Path.GetFullPath(InputFile);
-            if(!string.IsNullOrEmpty(OutputFile))
+                InputFile = FileUtils.ExpandPathEnvironmentVariables(InputFile);
+            }
+
+            if (!string.IsNullOrEmpty(OutputFile))
+            {
                 OutputFile = Path.GetFullPath(OutputFile);
+                OutputFile = FileUtils.ExpandPathEnvironmentVariables(OutputFile);
+            }
         }
 
     }

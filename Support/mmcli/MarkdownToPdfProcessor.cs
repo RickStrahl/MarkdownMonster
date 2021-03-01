@@ -4,6 +4,7 @@ using System.Windows.Forms;
 using MarkdownMonster;
 using Microsoft.Win32;
 using mmcli.CommandLine;
+using Westwind.Utilities;
 
 namespace mmcli
 {
@@ -45,7 +46,6 @@ namespace mmcli
                 var res = fd.ShowDialog();
                 if (res == System.Windows.Forms.DialogResult.Cancel || res == System.Windows.Forms.DialogResult.Abort)
                     return;
-                inputFile = fd.FileName;
             }
 
             if (string.IsNullOrEmpty(outputFile) || !File.Exists(outputFile))

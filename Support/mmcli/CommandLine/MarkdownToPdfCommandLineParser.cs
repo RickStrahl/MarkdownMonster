@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using MarkdownMonster;
+using Westwind.Utilities;
 
 namespace mmcli.CommandLine
 {
@@ -79,12 +80,18 @@ namespace mmcli.CommandLine
                 if (Enum.TryParse<PdfPageOrientation>(workValue, out PdfPageOrientation orientation))
                     Orientation = orientation;
             }
-
-
+            
             if (!string.IsNullOrEmpty(InputFile))
+            {
+                InputFile = FileUtils.ExpandPathEnvironmentVariables(InputFile);
                 InputFile = Path.GetFullPath(InputFile);
-            if(!string.IsNullOrEmpty(OutputFile))
-                InputFile = Path.GetFullPath(OutputFile);
+            }
+
+            if (!string.IsNullOrEmpty(OutputFile))
+            {
+                OutputFile = FileUtils.ExpandPathEnvironmentVariables(OutputFile);
+                OutputFile = Path.GetFullPath(OutputFile);
+            }
         }
 
     }
