@@ -58,14 +58,14 @@ namespace mmcli.CommandLine
 
             if (!string.IsNullOrEmpty(InputFile))
             {
-                InputFile = Path.GetFullPath(InputFile);
                 InputFile = FileUtils.ExpandPathEnvironmentVariables(InputFile);
+                InputFile = Path.GetFullPath(InputFile);
             }
 
             if (!string.IsNullOrEmpty(OutputFile))
             {
-                OutputFile = Path.GetFullPath(OutputFile);
                 OutputFile = FileUtils.ExpandPathEnvironmentVariables(OutputFile);
+                OutputFile = Path.GetFullPath(OutputFile);
             }
         }
 

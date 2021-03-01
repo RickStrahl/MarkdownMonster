@@ -2,7 +2,7 @@
   "profiles": {
     "mmcli-markdowntohtml-package": {
       "commandName": "Project",
-      "commandLineArgs": " markdowntohtml -i \\projects\\markdownmonster\\readme.md -o \\projects\\markdownmonster\\readme.html --renderMode packaged --theme westwind --open"
+      "commandLineArgs": " markdowntohtml -i ~\\tables.md -o ~\\tables.html --renderMode packaged --theme westwind --open"
     },
     "mmcli-noargs": {
       "commandName": "Project",

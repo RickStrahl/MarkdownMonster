@@ -22,6 +22,9 @@ When you drag and drop a document file (Markdown, html, pdf, zip) from Explorer 
 * **Improved Large Document Support**  
 Added improvements to make MM work better with very large documents, by reducing preview refresh overhead, dynamically expanding the refresh timeout and tweaking the update process. Also - Using the built-in Chromium addin as the previewer now refreshes off the UI thread so that refreshes no longer freeze the editor while updating the preview for large documents.
 
+* **Add mmCli Path Expansions for Environment Vars and ~ Home Path**  
+Fix `mmcli.exe` to respect current folder and relative files for input and output files as well as expand Environment Variables and `~` for the Home Directory folder.
+
 * **Fix: Browser Executable using Default Browser**  
 Fix *View in External Browser* when the default browser executable is left blank - defaults to the system browser but executes using command line to allow for URLs with `#hash` extensions.
 
