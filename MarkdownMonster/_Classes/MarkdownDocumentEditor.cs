@@ -636,36 +636,50 @@ You can compare files using a Diff tool to compare and merge changes.
             if (action == "bold")
             {
                 html = WrapValue(input, "**", "**", stripExtraSpaces: true);
+                if (string.IsNullOrEmpty(input))
+                    cursorMovement = -2;
             }
             else if (action == "italic")
             {
                 var italic = mmApp.Configuration.MarkdownOptions.MarkdownSymbolsConfiguration.Italic;
                 html = WrapValue(input, italic, italic, stripExtraSpaces: true);
+                if (string.IsNullOrEmpty(input))
+                    cursorMovement = -1;
+            }
+            else if (action == "inlinecode")
+            {
+                html = WrapValue(input, "`", "`", stripExtraSpaces: true);
+                cursorMovement = -1;
             }
             else if (action == "small")
             {
                 // :-( no markdown spec for this - use HTML
                 html = WrapValue(input, "<small>", "</small>", stripExtraSpaces: true);
+                if (string.IsNullOrEmpty(input))
+                    cursorMovement = -7;
             }
             else if (action == "underline")
             {
                 // :-( no markdown spec for this - use HTML
                 html = WrapValue(input, "<u>", "</u>", stripExtraSpaces: true);
+                if (string.IsNullOrEmpty(input))
+                    cursorMovement = -4;
             }
             else if (action == "strikethrough")
             {
                 html = WrapValue(input, "~~", "~~", stripExtraSpaces: true);
+                if (string.IsNullOrEmpty(input))
+                    cursorMovement = -2;
             }
             else if (action == "mark")
             {
                 html = WrapValue(input, "<mark>", "</mark>", stripExtraSpaces: true);
+                if (string.IsNullOrEmpty(input))
+                    cursorMovement = -7;
             }
             else if (action == "pagebreak")
                 html = "\n<div style='page-break-after: always'></div>\n";
-            else if (action == "inlinecode")
-            {
-                html = WrapValue(input, "`", "`", stripExtraSpaces: true);
-            }
+            
             else if (action == "h1")
             {
                 html = PrefixSelectedLine("# ", ' ', '#', '\t');
