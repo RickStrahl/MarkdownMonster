@@ -166,7 +166,13 @@ namespace MarkdownMonster.Controls.ContextMenus
             var model = Model;
 
             var miCut = new MenuItem { Header = "Cut", InputGestureText="Ctrl-X" };
-            miCut.Click += (o, args) => model.ActiveEditor.SetSelection("");
+            miCut.Click += (o, args) =>
+            {
+                var text = model.ActiveEditor.GetSelection();
+                model.ActiveEditor.SetSelection("");
+                text =StringUtils.NormalizeLineFeeds(text, LineFeedTypes.CrLf);
+                ClipboardHelper.SetText(text);
+            };
             ContextMenu.Items.Add(miCut);
 
             var miCopy = new MenuItem() { Header = "Copy", InputGestureText="Ctrl-C" };
@@ -225,8 +231,6 @@ namespace MarkdownMonster.Controls.ContextMenus
                     engine.OpenSearchEngine(selText);
                 };
                 ContextMenu.Items.Add(miSearch);
-
-
                 
                 var miSearchWords = new MenuItem() { Header = "Web Keyword Search Quick Link" };
                 miSearchWords.Click += async (o, args) =>
@@ -455,7 +459,10 @@ namespace MarkdownMonster.Controls.ContextMenus
                                 int lineNo =docModel.FindHeaderHeadline(Model.ActiveEditor?.GetMarkdown(), anchor);
 
                                 if (lineNo != -1)
+                                {
                                     Model.ActiveEditor.GotoLine(lineNo);
+                                    Model.ActiveEditor.SetSelectionRange(lineNo, 0, lineNo, 0);
+                                }
                             };
                             ContextMenu.Items.Add(mi2);
                         }
