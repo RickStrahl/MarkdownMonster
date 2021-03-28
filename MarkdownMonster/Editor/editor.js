@@ -652,19 +652,19 @@
 
             te.editor.gotoLine(pos.row, pos.column, true);
         },
-        setSelectionRange: function (startRow, startColumn, endRow, endColumn) {
+        setSelectionRange: function (startRowOrRange, startColumn, endRow, endColumn) {
             var sel = te.editor.getSelection();
 
             // assume a selection range if an object is passed
-            if (typeof startRow == "object") {
-              sel.setSelectionRange(startRow);
-                return;
+            if (typeof startRowOrRange == "object") {
+              sel.setRange(startRowOrRange);
+              return;
             }
-
+            
             var range = sel.getRange();
-            range.setStart({ row: startRow, column: startColumn });
+            range.setStart({ row: startRowOrRange, column: startColumn });
             range.setEnd({ row: endRow, column: endColumn });
-            sel.setSelectionRange(range);
+            sel.setRange(range);
         },
         // line < 0 means use current line
         selectLine: function(lineNo) {
@@ -748,6 +748,20 @@
             range.end.column = i + search.length;
 
             te.editor.session.replace(range, replace);
+        },
+        findAndSelectTextInCurrentLine: function (search) {
+          var range = te.editor.getSelectionRange();
+          var startLine = range.start.row;
+          var lineText = te.editor.session.getLine(startLine);
+
+          
+          var i = lineText.indexOf(search);
+          if (i === -1)
+            return;
+
+          range.start.column = i;
+          range.end.column = i + search.length;
+          te.editor.selection.setSelectionRange(range);
         },
         findText: function (search) {
             var range = te.editor.find(search,
