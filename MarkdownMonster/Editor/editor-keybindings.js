@@ -18,6 +18,7 @@ te.keyBindings = {
         if (!handler)
           continue;
 
+        
         //alert(kb.CommandName + ": " + kb.Key + " - " + handler + " " + typeof(handler));
         te.editor.commands.addCommand({
           name: kb.Id,
@@ -25,7 +26,6 @@ te.keyBindings = {
           exec: handler,
           hint: kb.CommandParameter
         });
-
       }
     }, 500);
   },
@@ -102,6 +102,9 @@ te.keyBindings = {
   },
   copy: function() {
     te.mm.textbox.CopyOperation();
+  },
+  cut: function() {
+    te.mm.textbox.CutOperation();
   },
   nextSpellCheckError: function () {
     var pos = te.getCursorPosition();
