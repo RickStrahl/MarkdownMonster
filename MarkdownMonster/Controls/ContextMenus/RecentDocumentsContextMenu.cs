@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 using System.Windows.Media;
 using FontAwesome.WPF;
 using MarkdownMonster.Utilities;
@@ -28,7 +29,7 @@ namespace MarkdownMonster.Controls.ContextMenus
         /// </summary>
         public void UpdateRecentDocumentsContextMenu(RecentFileDropdownModes mode)
         {
-            var contextMenu = new ContextMenu { FontSize = 12.5, Padding = new Thickness(0,8,8,8),  };
+            var contextMenu = new ContextMenu { FontSize = 13, Padding = new Thickness(0,8,8,8),  };
 
             if (mode == RecentFileDropdownModes.MenuDropDown)
                 Window.ButtonRecentFiles.Items.Clear();
@@ -77,7 +78,8 @@ namespace MarkdownMonster.Controls.ContextMenus
 
                 var content = new StackPanel
                 {
-                    Orientation = Orientation.Vertical
+                    Orientation = Orientation.Vertical,
+                    Margin = new Thickness(0, 2, 0, 2)
                 };
 
                 // image/textblock panel
@@ -85,7 +87,7 @@ namespace MarkdownMonster.Controls.ContextMenus
                 panel.Children.Add(new Image
                 {
                     Source = icon.GetIconFromFile(file),
-                    Height = 14
+                    Height = 15
                 });
                 panel.Children.Add(new TextBlock
                 {
@@ -95,16 +97,48 @@ namespace MarkdownMonster.Controls.ContextMenus
                 });
                 content.Children.Add(panel);
 
+                var sp = new StackPanel {Orientation = Orientation.Horizontal};
+
                 // folder
-                content.Children.Add(new TextBlock
+                sp.Children.Add(new TextBlock
                 {
                     Text = path,
                     FontStyle = FontStyles.Italic,
                     FontSize = 10.35,
-                    Margin = new Thickness(19, 0, 0, 2),
-                    Opacity = 0.80
+                    Margin = new Thickness(19, 0, 0, 0),
+                    Foreground = Brushes.SteelBlue
                 });
 
+                var button = new Button
+                {
+                    Height=10.35,
+                    FontSize = 10.35,
+                    BorderThickness = new Thickness(0),
+                    Padding = new Thickness(0),
+                    Margin = new Thickness( 0 , 0, 0,   0),
+                    Background = Brushes.Transparent,
+                    Style =  Application.Current.TryFindResource(ToolBar.ButtonStyleKey) as Style
+                };
+                var folderButton = new FontAwesome.WPF.FontAwesome
+                {
+                    Icon = FontAwesomeIcon.FolderOpen,
+                    FontSize = 11,
+                    Margin = new Thickness(4, 1, 0, 0),
+                    Padding = new Thickness(0),
+                    Foreground = Brushes.DarkGoldenrod,
+                    ToolTip = "Open folder in Folder Browser",
+                };
+                button.Click += (s, e) =>
+                {
+                    Window.Model.Commands.OpenFolderBrowserCommand.Execute(path);
+                    e.Handled = true;
+                    Window.Dispatcher.InvokeAsync(() => contextMenu.IsOpen = false,
+                        System.Windows.Threading.DispatcherPriority.ApplicationIdle);
+                };
+                button.Content = folderButton;
+                sp.Children.Add(button);
+
+                content.Children.Add(sp);
 
                 mi = new MenuItem
                 {
@@ -127,7 +161,7 @@ namespace MarkdownMonster.Controls.ContextMenus
                 mi = new MenuItem
                 {
                     IsEnabled = false,
-                    Header = "————————— Recent Folders —————————"
+                    Header = "—————————  Recent Folders  —————————"
                 };
 
                 if (mode == RecentFileDropdownModes.ToolbarDropdown)
@@ -142,7 +176,8 @@ namespace MarkdownMonster.Controls.ContextMenus
 
                     var content = new StackPanel()
                     {
-                        Orientation = Orientation.Vertical
+                        Orientation = Orientation.Vertical,
+                        Margin = new Thickness(0, 2, 0, 2)
                     };
 
                     // image/textblock panel
@@ -150,7 +185,7 @@ namespace MarkdownMonster.Controls.ContextMenus
                     panel.Children.Add(new Image
                     {
                         Source = icon.GetIconFromFile("folder.folder"),
-                        Height = 14
+                        Height = 15
                     });
                     panel.Children.Add(new TextBlock
                     {
@@ -166,7 +201,7 @@ namespace MarkdownMonster.Controls.ContextMenus
                         FontStyle = FontStyles.Italic,
                         FontSize = 10.35,
                         Margin = new Thickness(19, 1, 0, 0),
-                        Opacity = 0.8
+                        Foreground = Brushes.SteelBlue
                     });
 
                     mi = new MenuItem()
