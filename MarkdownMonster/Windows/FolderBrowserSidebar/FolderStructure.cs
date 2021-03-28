@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Windows.Media;
@@ -31,7 +32,8 @@ namespace MarkdownMonster.Windows
 		            PathItem parentPathItem = null,
 		            string ignoredFolders = null,
 		            string ignoredFileExtensions = null,
-		            bool nonRecursive = false)
+		            bool nonRecursive = false,
+                    int maxFiles = 1000)
 		{
 			if (string.IsNullOrEmpty(baseFolder) || !Directory.Exists(baseFolder) )
 				return new PathItem();
@@ -122,7 +124,15 @@ namespace MarkdownMonster.Windows
 			    if (!string.IsNullOrEmpty(ignoredFileExtensions))
 			        extensions = ignoredFileExtensions.Split(new[] {','}, StringSplitOptions.RemoveEmptyEntries);
 
-				foreach (var file in files.OrderBy(f=> f.ToLower()))
+                var fileList = files.OrderBy(f => f.ToLower()) as IEnumerable<string>;
+                if (files.Length > maxFiles)
+                {
+                    fileList = fileList.Take(maxFiles);
+                    mmApp.Model.Window.ShowStatusError(
+                        $"Too many files in directory. Directory listing truncated at {maxFiles} files.");
+                }
+
+				foreach (var file in fileList)
 				{
                     if (extensions != null &&
                         extensions.Any(ext => file.EndsWith(ext,StringComparison.InvariantCultureIgnoreCase)))
@@ -135,6 +145,7 @@ namespace MarkdownMonster.Windows
 				    activeItem.Files.Add(item);
 				}
 			}
+
 
 		    if (activeItem.FullPath.Length > 5 && isRootFolder )
 		    {
