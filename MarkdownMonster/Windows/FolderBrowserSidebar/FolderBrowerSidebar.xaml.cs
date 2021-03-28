@@ -1740,7 +1740,24 @@ using UserControl = System.Windows.Controls.UserControl;
 
 
         #endregion
-        
-    }
+
+            private void TextSearch_OnKeyDown(object sender, KeyEventArgs e)
+            {
+                if ( e.Key == Key.Tab && !string.IsNullOrWhiteSpace(TextSearch.Text))
+                {
+                    Dispatcher.Invoke(() =>
+                    {
+                        var pathItem = ActivePathItem.Files.FirstOrDefault(pi => pi.IsVisible);
+                        if (pathItem == null) return;
+
+                        var lvi = this.GetTreeViewItem(pathItem);
+                        TreeFolderBrowser.Focus();
+                        lvi?.Focus();
+
+                        e.Handled = true;
+                    }, DispatcherPriority.ApplicationIdle);
+                }
+            }
+        }
 
     }

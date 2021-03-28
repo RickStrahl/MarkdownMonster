@@ -118,6 +118,12 @@ namespace MarkdownMonster.Windows
             {
                 Search_Click(this, null);
             }
+
+            if (e.Key == Key.Tab && this.Model.SearchResults.Count > 0)
+            {
+                ListResults.Focus();
+
+            }
         }
 
         private void ButtonCloseSearch_Click(object sender, RoutedEventArgs e)
