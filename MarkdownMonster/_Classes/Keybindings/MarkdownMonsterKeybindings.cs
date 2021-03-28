@@ -117,7 +117,7 @@ namespace MarkdownMonster.Utilities
                     CommandName = "RefreshBrowserContentCommand",
                     Command = model.Commands.RefreshBrowserContentCommand
                 },
-            new AppKeyBinding
+                new AppKeyBinding
                 {
                     Key = "Ctrl+F4",
                     CommandName = "CloseActiveDocument",
@@ -367,6 +367,12 @@ namespace MarkdownMonster.Utilities
                     Key = "Ctrl+C",
                     CommandName = "Copy",
                     //Command = model.Commands.CopyToClipboardCommand,
+                    HasJavaScriptHandler= true
+                },
+                new AppKeyBinding
+                {
+                    Key = "Ctrl+X",
+                    CommandName = "Cut",
                     HasJavaScriptHandler= true
                 },
                 new AppKeyBinding
