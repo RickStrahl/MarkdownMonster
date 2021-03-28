@@ -649,7 +649,8 @@ You can compare files using a Diff tool to compare and merge changes.
             else if (action == "inlinecode")
             {
                 html = WrapValue(input, "`", "`", stripExtraSpaces: true);
-                cursorMovement = -1;
+                if (string.IsNullOrEmpty(input))
+                    cursorMovement = -1;
             }
             else if (action == "small")
             {
@@ -1537,6 +1538,16 @@ You can compare files using a Diff tool to compare and merge changes.
 
 
         /// <summary>
+        /// Finds search text in the current line and if found selects it
+        /// </summary>
+        /// <param name="search">Text to highlight/select</param>
+        public void FindAndSelectTextInCurrentLine(string search)
+        {
+            AceEditor?.Invoke("findAndSelectTextInCurrentLine", search);
+        }
+        
+
+        /// <summary>
         /// REturns the editor's cursor position as row and column values
         /// </summary>
         /// <returns></returns>
@@ -2017,6 +2028,14 @@ You can compare files using a Diff tool to compare and merge changes.
             ClipboardHelper.SetText(text,true);
         }
 
+        public void CutOperation()
+        {
+            var text = GetSelection();
+            text =StringUtils.NormalizeLineFeeds(text, LineFeedTypes.CrLf);
+            ClipboardHelper.SetText(text,true);
+            SetSelection("");
+        }
+
         /// <summary>
         /// Handle pasting and handle images
         /// </summary>
@@ -2141,7 +2160,10 @@ You can compare files using a Diff tool to compare and merge changes.
                 Window.Dispatcher.InvokeAsync(() =>
                 {
                     var relFilePathUrl = relFilePath.Replace(" ", "%20");
-                    SetSelectionAndFocus($"{mmApp.NewLine}[{relFilePath}]({relFilePathUrl}){mmApp.NewLine}");
+                    SetSelectionAndFocus($"[{relFilePath}]({relFilePathUrl})");
+
+                    FindAndSelectTextInCurrentLine(relFilePath);
+                    //Window.Dispatcher.Delay(2000, (p)=> FindAndSelectTextInCurrentLine(relFilePath), null);
 
                     // Force the browser to refresh completely so image changes show up
                     Window.Dispatcher.InvokeAsync(()=>Window.PreviewBrowser.Refresh(true));
