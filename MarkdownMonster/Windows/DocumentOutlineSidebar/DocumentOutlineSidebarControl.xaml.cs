@@ -172,12 +172,18 @@ namespace MarkdownMonster.Windows
 
             IgnoreSelection = DateTime.UtcNow;  // prevent editor navigating outline again
             Model.AppModel.ActiveEditor.GotoLine(selected.Line -1, noRefresh: false);  // refresh the preview
+            Model.AppModel.ActiveEditor.SetSelectionRange(selected.Line, 0, selected.Line, 0);
         }
 
         private void TextBlock_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Enter || e.Key == Key.Space)
                 ListOutlineItem_MouseUp(sender, null);
+
+            if (e.Key == Key.Tab)
+            {
+                Model.AppModel.ActiveEditor.SetEditorFocus();
+            }
         }
 
         private void MenuItem_CopyHeaderId_Click(object sender, RoutedEventArgs e)
