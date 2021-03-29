@@ -13,7 +13,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="MahApps.Metro" Version="2.4.3">
+    <PackageReference Include="MahApps.Metro" Version="2.4.4">
       <IncludeAssets>compile</IncludeAssets>
     </PackageReference>
     <PackageReference Include="Dragablz" Version="0.0.3.203">
@@ -22,7 +22,7 @@
     <PackageReference Include="FontAwesome.WPF" Version="4.7.0.9">
       <IncludeAssets>compile</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Westwind.Utilities" Version="3.0.53">
+    <PackageReference Include="Westwind.Utilities" Version="3.0.55">
       <IncludeAssets>compile</IncludeAssets>
     </PackageReference>
     <PackageReference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform" Version="3.6.0">

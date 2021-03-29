@@ -36,16 +36,16 @@
       <Private>false</Private>
     </Reference>
 
-    <PackageReference Include="MahApps.Metro" Version="2.4.3">
+    <PackageReference Include="MahApps.Metro" Version="2.4.4">
       <IncludeAssets>compile</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Westwind.Utilities" Version="3.0.53">
+    <PackageReference Include="Westwind.Utilities" Version="3.0.55">
       <IncludeAssets>compile</IncludeAssets>
     </PackageReference>
     <PackageReference Include="FontAwesome.WPF" Version="4.7.0.9">
       <IncludeAssets>compile</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Markdig" Version="0.23.0">
+    <PackageReference Include="Markdig" Version="0.24.0">
       <IncludeAssets>compile</IncludeAssets>
     </PackageReference>
   </ItemGroup>
