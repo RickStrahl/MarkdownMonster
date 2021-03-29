@@ -1827,17 +1827,37 @@ You can compare files using a Diff tool to compare and merge changes.
 
 
         /// <summary>
-        /// Determines whether current document is dirty and requires saving
+        /// This is multi-purpose function that:
+        ///
+        /// * Retrieves the text from the editor into the Document.CurrentText
+        /// * Checks to see if the previous CurrentText matches the retrieved text
+        ///   This is the current change dirty status and the value returned
+        /// * Updates the Document.IsDirty flag based on CurrentText == OriginalText
+        ///   This is the dirty status since last Save/Load - set only, not returned
         /// </summary>
-        /// <returns></returns>
+        /// <remarks>
+        /// Note: Different than the Document.IsDirty property which returns the
+        /// dirty status since last save - this returns whether the editor's text
+        /// and the WPF object text has changed.
+        /// 
+        /// Mainly called from the editor to determine whether the preview
+        /// needs to be refreshed as well as by WPF code that needs to explicitly
+        /// refresh the document save dirty status.
+        /// </remarks>
+        /// <returns>true or false</returns>
         public bool IsDirty(bool previewIfDirty = false)
         {
+            var origText = MarkdownDocument?.CurrentText;
             GetMarkdown();
 
+            // bool isDirty = this.MarkdownDocument.IsDirty;
+            bool isDirty = origText != MarkdownDocument?.CurrentText;
+            MarkdownDocument.IsDirty = MarkdownDocument?.CurrentText != MarkdownDocument?.OriginalText;
+            
             if (IsReadOnly)
                 return false;
 
-            if (MarkdownDocument.IsDirty)
+            if (isDirty)
             {
                 AddinManager.Current.RaiseOnDocumentChanged();
                 if (IsPreview)
@@ -1851,7 +1871,7 @@ You can compare files using a Diff tool to compare and merge changes.
                     Window.PreviewBrowser?.PreviewMarkdownAsync(editor: this, keepScrollPosition: true);
             }
 
-            return MarkdownDocument.IsDirty;
+            return isDirty;
         }
 
 
@@ -1905,7 +1925,7 @@ You can compare files using a Diff tool to compare and merge changes.
                 }
                 else if (key == "ReloadEditor")
                 {
-                    if (IsDirty())
+                    if (MarkdownDocument.IsDirty)
                     {
                         if (MessageBox.Show(
                                 "You have changes in this document that have not been saved.\r\n\r\n" +

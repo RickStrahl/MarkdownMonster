@@ -120,7 +120,7 @@ namespace MarkdownMonster.Controls.ContextMenus
                 mi.Click += (o, args) =>
                 {
                     model.ActiveEditor.AceEditor.Invoke("replaceSpellRange",range, sg);
-                    model.ActiveEditor.IsDirty();
+                    model.ActiveEditor.IsDirty();  // force document to udpate
                     model.ActiveEditor.SpellCheckDocument();
                 };
                 ContextMenu.Items.Add(mi);

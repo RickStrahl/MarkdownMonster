@@ -118,14 +118,12 @@
                 if (!te.mm)
                   return;
 
-                // check for dirty stats and preview
-                if (force) {
+                // retrieve document (in WPF) and check if the current state has changed
+                te.isDirty = te.mm.textbox.IsDirty(false);
+                               
+                if (force || te.isDirty) {
                   previewRefresh();
                   updateDocumentStats();
-                } else {
-                  te.isDirty = te.mm.textbox.IsDirty(true);
-                  if (te.isDirty || force)
-                    te.updateDocumentStats();
                 }
               }, te.previewRefreshTimeout);
             }
@@ -133,9 +131,11 @@
 
             var previewRefresh = debounce(function() {
               if (!te.mm) return;
-              te.mm.textbox.PreviewMarkdownCallback(true);
+              
+              var noPreviewScrolling =te.settings.previewSyncMode == 3 || te.settings.previewSyncMode == 0 ? true : false;                                                  
+              te.mm.textbox.PreviewMarkdownCallback(true, -1, noPreviewScrolling);
             }, 100);
-            var scrollPreviewRefresh = debounce(function(editorLine, noScrollTimeout, noScrollTopAdjustment, force) {
+            var scrollPreviewRefresh = debounce(function(editorLine, noScrollTimeout, noScrollTopAdjustment, force) {                
                 if (!te.mm) return;
 
                 if (force ||
@@ -160,7 +160,7 @@
               },
               100);
             $("pre[lang]").on("keyup",
-                function (event) {
+                function (event) {                    
                   // up and down handling - force a preview refresh
                   if(event.keyCode === 38 || event.keyCode === 40) {
                     scrollPreviewRefresh(-1, false, false, false);  // noScrollTopAdjustment,
@@ -168,10 +168,13 @@
                   }
                   // Ctrl-Key forces preview refresh and spellcheck
                   // handles for ctrl-y/z and copy/paste/cut ops to refresh
-                  else if (event.keyCode === 17) {
-                    scrollPreviewRefresh(-1, false, false, true);  // noScrollTopAdjustment, force update
-                    te.updateDocumentStats();
-                    te.spellcheck.spellCheck(true);
+                  else if (event.keyCode === 17 ) {
+                    previewRefresh();
+                    updateDocumentStats();
+                    // te.updateDocument();
+                    // scrollPreviewRefresh(-1, false, false, true);  // noScrollTopAdjustment, force update
+                    // te.updateDocumentStats();
+                    if (te.spellcheck) te.spellcheck.spellCheck(true);
                   }
                   // left right
                   else if (event.keyCode === 37 || event.keyCode === 39) {
@@ -187,17 +190,16 @@
                     // key typed into document
                     if (event.keyCode === 13 || event.keyCode === 8 || event.keyCode === 46) {
                       // Line feed, backspace, del should immediately spell check as errors shift
-                      if (te.spellcheck) te.spellcheck.spellCheck(true);
+                      //if (te.spellcheck) te.spellcheck.spellCheck(true);
                     }
                     // check number of lines and if over a certain number start refreshing less frequently
                     if (te.editor.session.getLength() > 1600 && te.previewRefreshTimeout != te.previewRefreshTimeoutSlow) {
                       te.previewRefreshTimeout = te.previewRefreshTimeoutSlow;
                       setUpdateDocument();
-                    }
-
+                    }                                    
                     te.updateDocument();
-                  }
-                  
+                  }   
+                  te.setCodeScrolled();               
                 });
 
    
