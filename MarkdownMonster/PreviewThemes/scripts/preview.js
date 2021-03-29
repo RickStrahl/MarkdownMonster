@@ -57,7 +57,7 @@ var te = window.previewer = {
         editor.GotoBottom(noRefresh || false, noSelection || false);
       } catch(ex)  { }
     },
-    gotoLine: function(line, updateEditor) {
+    gotoLine: function(line, updateEditor) {    
       let editor = te.dotnetInterop.getEditor();
       if (!editor)
         return;
@@ -187,9 +187,8 @@ window.ondragover = function (event) {
 
 // scroll editor to the scroll position of the preview
 var scroll = debounce(function (event) {
-
     if (!te.mmEditor || !te.isPreviewEditorSync) return;
-
+    
     // prevent repositioning editor scroll sync
     // when selecting line in editor (w/ two way sync)
     // te.codeScrolled is set in scrollToPragmaLines so that we don't
@@ -197,19 +196,17 @@ var scroll = debounce(function (event) {
     var isScrolled = te.isCodeScrolled();
     if (isScrolled)
       return;
-    
+
     var st = window.document.documentElement.scrollTop;
     var sh = window.document.documentElement.scrollHeight - window.document.documentElement.clientHeight;
 
     if (st < 3) {
-      te.dotnetInterop.gotoLine(0, true);
-      //te.mmEditor.gotoLine(0, true);
-        return;
+      te.dotnetInterop.gotoLine(0, true);      
+      return;
     }
     //// if we're on the last page
     if (sh === st) {
-      te.dotnetInterop.gotoBottom(true, true);
-      //te.mmEditor.gotoBottom(true, true);
+      te.dotnetInterop.gotoBottom(true, true);      
       return;
     }
 
@@ -221,11 +218,12 @@ var scroll = debounce(function (event) {
     if ($lines.length < 1)
         return;
 
+    // find the first line that is below the scrolltop+ position
     var id = null;
     for (var i = 0; i < $lines.length; i++) {
 
         if ($($lines[i]).position().top >= winTop) {
-            id = $lines[i].id;
+            id = $lines[i].id;          
             break;
         }
     }
@@ -233,12 +231,12 @@ var scroll = debounce(function (event) {
         return;
 
     id = id.replace("pragma-line-", "");
-
+  
     var line = (id * 1) - 4;
-    te.dotnetInterop.gotoLine(line, true);
-    //te.mmEditor.gotoLine(line, true);
 
-    //te.mmEditor.gotoLine(line.toString() + "|" +"true");
+    te.dotnetInterop.gotoLine(line, true);
+
+        
 },50);
 window.onscroll = scroll;
 
