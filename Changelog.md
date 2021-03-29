@@ -4,10 +4,11 @@
 [![Chocolatey](https://img.shields.io/chocolatey/dt/markdownmonster.svg)](https://chocolatey.org/packages/MarkdownMonster)
 [![Web Site](https://img.shields.io/badge/Markdown_Monster-WebSite-blue.svg)](https://markdownmonster.west-wind.com)
 
-
-
 ### 1.26.6
 <small>ongoing release</small>
+
+* **Preview Sync Improvements**  
+Refactored some of the logistics in Preview Sync which should improve responsiveness of preview refreshes. There should now be fewer odd instances where preview is not refreshing automatically. Also updated  `Left-ctrl` which forces an immediate refresh, spellcheck and stats update.  
 
 * **Document Outline Line Selection and Navigation**  
 Document Outline Navigation now moves the cursor position to the selected line in addition to scrolling to the appropriate Viewport position. When navigating by keyboard, ENTER and SPACE selects, and TAB moves the focus into the editor.
@@ -44,6 +45,9 @@ Some adjustments to the accessibility features in the file browser and search fe
 
 * **Fix Cut Behavior from Context Menu**  
 Fix broken Context Menu Cut behavior which was deleting the text but not putting it on the clipboard. 
+
+* **Fix: Preview To Editor Sync in IE Mode**  
+Fix issue where preview to editor sync mode jumps the cursor to the top of the editor when typing.
 
 ### 1.26
 <small>February 4, 2020</small>

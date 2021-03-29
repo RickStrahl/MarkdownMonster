@@ -173,6 +173,8 @@ namespace MarkdownMonster.Windows
             IgnoreSelection = DateTime.UtcNow;  // prevent editor navigating outline again
             Model.AppModel.ActiveEditor.GotoLine(selected.Line -1, noRefresh: false);  // refresh the preview
             Model.AppModel.ActiveEditor.SetSelectionRange(selected.Line, 0, selected.Line, 0);
+
+            // Model.AppModel.ActiveEditor.SetEditorFocus();
         }
 
         private void TextBlock_KeyDown(object sender, KeyEventArgs e)

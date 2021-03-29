@@ -1281,7 +1281,7 @@ namespace MarkdownMonster
                     var changedDoc = PreviewTab.Tag as MarkdownDocumentEditor;
                     if (changedDoc != null)
                     {
-                        if (changedDoc.IsDirty())
+                        if (changedDoc.MarkdownDocument.IsDirty)
                         {
                             // keep the document open
                             changedDoc.IsPreview = false;
