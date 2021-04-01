@@ -129,6 +129,12 @@
     </None>
   </ItemGroup>
 
+  <ItemGroup>
+    <Page Update="Windows\TableEditor\TableEditorHtml.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+    </Page>
+  </ItemGroup>
+
   <PropertyGroup Condition=" '$(TargetFramework)' == 'netcoreapp3.0'">
     <DefineConstants>NETCORE</DefineConstants>
   </PropertyGroup>
