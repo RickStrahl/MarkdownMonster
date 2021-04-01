@@ -757,7 +757,8 @@ You can compare files using a Diff tool to compare and merge changes.
             }
             else if (action == "table")
             {
-                var form = new TableEditor();
+                var form = new TableEditorHtml();
+                //var form = new TableEditor();
                 form.Owner = Window;
                 form.ShowDialog();
 
@@ -1166,6 +1167,7 @@ You can compare files using a Diff tool to compare and merge changes.
             else if (action == "table")
             {
                 var form = new TableEditor(text);
+                //var form = new TableEditor(text);
                 var res = form.ShowDialog();
 
                 if (res != null && res.Value)

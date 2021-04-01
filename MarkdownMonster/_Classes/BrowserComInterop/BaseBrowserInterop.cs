@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Reflection;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 using Westwind.Utilities;
 
 namespace MarkdownMonster
@@ -34,11 +36,11 @@ namespace MarkdownMonster
             set
             {
                 _instance = value;
-                InstanceType = _instance.GetType();
+                if (_instance != null)
+                    InstanceType = _instance.GetType();
             }
         }
         private object _instance;
-
         public Type InstanceType { get; set; }
 
 
@@ -51,6 +53,23 @@ namespace MarkdownMonster
         public BaseBrowserInterop()
         {
 
+        }
+
+        /// <summary>
+        /// Helper method that consistently serializes JavaScript with Camelcase
+        /// </summary>
+        /// <param name="data"></param>
+        /// <returns></returns>
+        public static string SerializeObject(object data)
+        {
+            var settings = new JsonSerializerSettings()
+            {
+                ContractResolver = new CamelCasePropertyNamesContractResolver(),
+            };
+#if DEBUG
+            settings.Formatting = Formatting.Indented;
+#endif
+            return JsonConvert.SerializeObject(data, settings);
         }
 
 

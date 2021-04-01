@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>    
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />   
+    <title>TableEditor</title>
+    <link  href="Westwind/Theme.css" rel="stylesheet" />
+    <style> 
+        body {
+            font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-size: 17px;
+            margin: 0;
+        }
+      
+        table td input, table th input, table td textarea, table th textarea {
+            width: 100%;
+            height: 2em;
+            background: transparent;
+            border: none;            
+            padding: 4px;
+            width: 100%;
+            x-resize:vertical;
+            
+        }
+        table th input, table th textarea {
+            color: #eee;
+            font-weight: bold;
+            font-size: 1.1em;            
+            padding: 2px;
+            width: 100%;
+            height: 1.25em;
+            x-resize:vertical;
+        }
+        .right-align {
+            text-align: right;
+        }
+        .center-align {
+            text-align: center;    
+        }
+        textarea:focus, textarea:bor {            
+            border: steelblue 1px solid;
+        }
+    </style>
+</head>
+<body>
+    <!-- <table>
+        <thead>
+        <tr>
+            <th><textarea id="row0_col1">Column 1:</textarea></th>
+            <th><input value="Column 2:" id="row0_col2" /></th>
+        </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><input value="Col Text 1" id="row1_col1"/></td>
+                <td><input value="Col Text 2" id="row1_col2"/></td>
+            </tr>
+            <tr>
+                <td><input value="Col Text 2 1" id="row2_col1"/></td>
+                <td><input value="Col Text 2 2" id="row2_col2"/></td>
+            </tr>
+        </tbody>
+    </table> -->    
+    <form>
+        <div id="RenderWrapper"></div>
+        
+        <hr>
+        <textarea  autofocus   >This is some text</textarea>
+    </form>
+    
+
+    <script src="scripts/jquery.min.js"></script>
+    <script src="TableEditor.js"></script>
+</body>
+</html>
