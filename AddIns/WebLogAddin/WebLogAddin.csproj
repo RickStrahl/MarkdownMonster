@@ -10,7 +10,6 @@
     <OutDir>$(SolutionDir)MarkdownMonster\bin\$(Configuration)\$(TargetFramework)\win-x86\Addins\Weblog</OutDir>
 
     <Authors>Rick Strahl, West Wind Technologies</Authors>
-
   </PropertyGroup>
 
   <ItemGroup>
