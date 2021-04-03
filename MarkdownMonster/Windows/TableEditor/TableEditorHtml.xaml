@@ -19,7 +19,8 @@
         WindowStartupLocation="CenterOwner" 
         FontSize="15"
         IsMinButtonEnabled="False" IsMaxRestoreButtonEnabled="False"                       
-        Width="1020" Height="700" MinWidth="700">
+        Width="1020" Height="700" MinWidth="700"
+     >
     <Window.Resources>
         <ContextMenu x:Key="ColumnContextMenu">
             <MenuItem Name="MenuInsertRowBelow" Header="Insert Row _Below" Click="Button_Click" />
@@ -42,7 +43,7 @@
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
-        <ToolBarTray>
+        <ToolBarTray >
             <ToolBarTray.Resources>
                 <Style x:Key="{x:Static ToolBar.ButtonStyleKey}" TargetType="Button">
                     <Setter Property="Margin" Value="0" />
@@ -53,16 +54,16 @@
             <!--<StackPanel Orientation="Horizontal">-->
                     <ToolBar FontWeight="Normal"  ToolBarTray.IsLocked="True">
                     
-                        <Button Name="ButtonOk"  IsDefault="True"  Click="Button_Click">
+                        <Button Name="ButtonOk"   Click="Button_Click">
                             <StackPanel Orientation="Horizontal">
                                 <fa:FontAwesome Margin="5,2,5,0" Icon="CheckCircleOutline"                                             
                                             FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" 
-                                            Foreground="#1F9B3C" />
+                                            Foreground="#1F9B3C" /> 
                                 <TextBlock>Embed Table</TextBlock>
                             </StackPanel>
                         </Button>
 
-                        <Button Name="ButtonCancel"  IsDefault="True"  Click="Button_Click"  >
+                        <Button Name="ButtonCancel"   Click="Button_Click"  >
                             <StackPanel Orientation="Horizontal">
                                 <fa:FontAwesome Margin="5,2,5,0" Icon="Times"                                             
                                             FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" 
@@ -95,16 +96,15 @@
                     </Button>
 
                     <Button Name="ButtonHelpCopyLastCommandToClipboard"       Margin="10,0,0,0"                 
-                            HorizontalAlignment="Left" IsDefault="True"   fa:Awesome.Content="QuestionCircle" Foreground="SteelBlue"
+                            HorizontalAlignment="Left"  fa:Awesome.Content="QuestionCircle" Foreground="SteelBlue"
                             ToolTip="Documentation for the Table Editor"
                             Command="{Binding AppModel.Commands.HelpCommand}" CommandParameter="_53a0pfz0t.htm"/>
                 </ToolBar>
             <!--</StackPanel>-->
         </ToolBarTray>
-
-        <WebBrowser Name="WebBrowser" Focusable="true"
-                    Grid.Row="1" Margin="20,0" />
-
+ 
+        <WebBrowser Name="WebBrowser" Focusable="True" 
+                    Grid.Row="1" Margin="20,10" />
 
 
         <StackPanel Grid.Row="2"  Orientation="Horizontal" Margin="10">

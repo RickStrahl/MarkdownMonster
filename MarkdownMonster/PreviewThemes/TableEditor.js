@@ -2,8 +2,8 @@ var page = {
     tableData: {
         activeCell: { row: 3, column: 1},
         headers: [
-            "Column 1",
-            "Colum 2:"
+            "Header 1",
+            "Header 2:"
         ],
         rows: [
             [
@@ -22,70 +22,108 @@ var page = {
 
     },
     dotnet: null, 
-    mousePos: { x: 0, y: 0 },
+    mousePos: { x: -1, y: -1, row: -1, col: -1 },
     workElement: null,
     initialize: function() {
         page.workElement = document.createElement("div");
 
-        $(document).on("keydown","td textarea, th textarea",page.tabHandler);
+        // handle tab insertion and up down key navigation
+        $(document).on("keydown","td textarea,th textarea",page.keydownHandler);
 
-        $(document).on("keyup","th textarea", page.headerAlignment);        
-        $("th textarea").trigger("keyup");
+        $(document).on("keyup","#RenderWrapper th textarea", page.headerAlignment);        
+        setTimeout(function() { $("th textarea").trigger("keyup"); },10);
 
-        $(document).on("blur",function(e) {
-            alert('doc blur');
-        });
-
-        $(document).on("mousemove",function(e) {
+      
+        $(document).on("mousemove","#RenderWrapper textarea",function(e) {
             page.mousePos.x = e.clientX;
             page.mousePos.y = e.clientY;
         });
-        $(document).on("contextmenu",function(e) {       
+        $(document).on("contextmenu","#RenderWrapper textarea",function(e) {                   
+            var textBox = e.target;
+            if (textBox.tagName != "TEXTAREA") return;
+            var pos = page.idToPos(textBox.id);
+
+            pos.x = page.mousePos.x;
+            pos.y = page.mousePos.y;
             if (page.dotnet)     
-                page.dotnet.ShowContextMenu(page.mousePos);
-        });
+            {                
+                page.dotnet.ShowContextMenu(pos);
+            }
+            else {
+                alert(JSON.stringify(pos));
+            }
+        });       
     },
-    tabHandler: function(e) {        
-        if (e.keyCode !== 9) return;
-        if (this.parentNode.tagName == "TH") return ;
+    keydownHandler: function(e) {
+        var text$ = $(this);
+        var id = this.id;
 
-        if (!e.shiftKey) {                 
-            // find next td
+        var pos = page.idToPos(id);
+        if(pos.row == -1) return;   
+        
+        // console.log("keyDown Key: " + e.keyCode);
+        
+        // tab end of list insertion
+        if (!e.shiftKey && e.keyCode === 9 && this.parentNode.tagName !== "TH") {                 
+            // find next td            
             var $next = $(this).parent().next();                
-            if ($next.length > 0)
+            if ($next.length > 0)  // not last textarea
                 return;
 
-            // find next tr
-            var $next = $(this).parent().parent().next();                
-            if ($next.length > 0)
+            // find next tr                     
+            var tr$ = $(this).parent().parent().next();
+            if (tr$.length > 0)  // not last tr
                 return;
 
-            var clonedTr$ =  $(this).parent().parent().clone();
-            clonedTr$.find("textarea").val("");
+            var clonedTr$ = $(this).parent().parent().clone();            
+            clonedTr$.find("textarea").each(function(i) {                 
+                var pos = page.idToPos(  this.id);
+                var row = pos.row + 1;
+                this.id = "id_" + row + "_" + pos.col;                
+                this.value = "";
+            });            
             $("tbody").append(clonedTr$);
         }
+
+        // down key navigates
+        else if (e.keyCode == 40) 
+        {
+            var hasReturns = this.value.indexOf("\n") > 0;
+            if ((hasReturns && !e.ctrlKey)) return false;  // line breaks - don't use arrows
+
+            var newRow = pos.row + 1;
+            var newId = "#id_" + newRow + "_" + pos.col;
+            $(newId).focus();
+            return false;
+        }
+
+        // up key navigation
+        else if (e.keyCode == 38) 
+        {                    
+            var hasReturns = this.value.indexOf("\n") > 0;
+            if (pos.row < 1 || (hasReturns && !e.ctrlKey) ) return false;  
+
+            var newRow = pos.row - 1;
+            var newId = "#id_" + newRow + "_" + pos.col;
+            $(newId).focus();
+            return false;
+        }               
     },
+
     headerAlignment: function() {
-        console.log('header alignment')
         var el$ = $(this);
         var text = el$.val();
+        
+        var pos = page.idToPos(this.id);
+        if (pos.row !== 0) return;
 
-        if (text.length < 2)
-            return;
+        var col = pos.col + 1;
+        var cols$ = $("#RenderWrapper thead th:nth-child(" +col + ") textarea," +
+                      "#RenderWrapper tbody td:nth-child(" + col + ") textarea");
 
-        var id = this.id;
-        var tokens = id.split("_");
-        for (let i = 0; i < tokens.length; i++) {
-            tokens[i] = tokens[i].replace("row","").replace("col","");
-        }   
-        var col = tokens[1] * 1;
-
-        var cols$ = $("tbody td:nth-child(" + col + ") textarea,"  +
-                      "thead th:nth-child(" + col + ") textarea");
         cols$.removeClass("center-align");
         cols$.removeClass("right-align");
-
-        
+                 
         if(text[text.length-1] == ":" && text[0] == ":") {                               
             cols$.addClass("center-align");
         }  
@@ -98,17 +136,19 @@ var page = {
         var html = "<table>\n";
         var headers = page.tableData.headers;
 
+        // row 0
         if (headers && headers.length > 0) {
             html += "<thead>\n<tr>"
 
             for (let i = 0; i < headers.length; i++) {
                 var colText = headers[i];              
-                var c =  i  + 1;  
-                html += "<th><textarea id='row0_col" + c  + "'>" + page.encodeText(colText) + "</textarea></th>";                
+                var c =  i;  
+                html += "<th><textarea id='id_0_" + c  + "'>" + page.encodeText(colText) + "</textarea></th>";                
             }
             html += "</tr>\n</thead>"
         }
 
+        // content rows are 1 based to account for row ids
         var rows = page.tableData.rows;
         if(rows && rows.length > 0)
         {
@@ -121,8 +161,8 @@ var page = {
                 for (var colIdx = 0; colIdx < rowArray.length; colIdx++) {
                     var colText = rowArray[colIdx];
                     var r = rowIdx * 1 + 1;
-                    var c = colIdx * 1 + 1;                    
-                    html += "<td><textarea id='row" + r  + "_col" +  c +  "'>" + page.encodeText(colText) + "</textarea></td>\n";                                
+                    var c = colIdx * 1;                    
+                    html += "<td><textarea id='id_" + r  + "_" +  c +  "'>" + page.encodeText(colText) + "</textarea></td>\n";                                
                 }
 
                 html += "</tr>\n"
@@ -131,7 +171,6 @@ var page = {
         }
 
         html += "</table>";
-
         $("#RenderWrapper").html(html);
         
         if (page.tableData.activeCell) {
@@ -139,7 +178,39 @@ var page = {
             console.log(sel);
             $(sel).focus();
         }
-    },    
+    },
+    parseTable: function() {
+        var td = {
+            activeCell: { row: 3, column: 1},
+            headers: [],
+            rows: [] 
+        };
+        $("#RenderWrapper thead th textarea").each(function(i) {
+            td.headers[i] = this.value;
+        });
+        $("#RenderWrapper tbody tr").each(function(i) {            
+            var row = [];
+            $(this).find("textarea").each(function(x) {
+                row[x] = this.value;
+            });
+            td.rows[i] = row;            
+        });
+
+        page.tableData = td;        
+        return td;
+    },
+
+    idToPos: function(id) {
+        var pos = { row: -1, col: -1};
+
+        var id = id.replace("id_","");
+        var tokens = id.split("_");
+        if (tokens.length < 2) return pos;
+           
+        pos.row = tokens[0] * 1;
+        pos.col = tokens[1] * 1;
+        return pos;
+    },
     encodeText: function(text) {
         page.workElement.innerText = text;
         return page.workElement.innerHTML;

@@ -1,0 +1,35 @@
+<!DOCTYPE HTML>
+<html>
+    <head>
+
+    </head>
+    <body>
+        <div>
+            <textarea>Text 1</textarea>
+        </div>
+        <div>
+            <textarea>Text 2</textarea>
+        </div>
+
+        <div>
+            <textarea>Text 3</textarea>
+        </div>
+        <div>
+            <textarea>Text 4</textarea>
+        </div>
+
+        <script src="scripts/jquery.min.js"></script>
+        <script>
+            $("textarea").on("keydown",function(e) {
+
+                if (e.keyCode == 38){                    
+                    return false;
+                }
+                if (e.keyCode == 40){      
+                                  
+                    return false;
+                }
+            });
+        </script>
+    </body>
+</html>

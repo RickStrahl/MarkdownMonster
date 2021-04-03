@@ -7,10 +7,12 @@ using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Forms;
 using System.Windows.Input;
+using System.Windows.Threading;
 using MahApps.Metro.Controls;
 using MarkdownMonster.Annotations;
 using MarkdownMonster.Windows.PreviewBrowser;
 using Control = System.Windows.Controls.Control;
+using KeyEventArgs = System.Windows.Input.KeyEventArgs;
 using TextBox = System.Windows.Controls.TextBox;
 
 namespace MarkdownMonster.Windows
@@ -34,7 +36,7 @@ namespace MarkdownMonster.Windows
                 OnPropertyChanged();
             }
         }
-        
+
         public bool EmbedAsHtml
         {
             get { return _embedAsHtml; }
@@ -45,18 +47,20 @@ namespace MarkdownMonster.Windows
                 OnPropertyChanged();
             }
         }
+
         private bool _embedAsHtml;
 
         public AppModel AppModel { get; set; }
 
         public TableData TableData { get; set; } = new TableData();
 
-        public ObservableCollection<string> TableModes { get; set; } = new ObservableCollection<string> { "Pipe Table", "Grid Table", "HTML Table" };
+        public ObservableCollection<string> TableModes { get; set; } =
+            new ObservableCollection<string> {"Pipe Table", "Grid Table", "HTML Table"};
 
 
-        private TableEditorDotnetInterop Interop {get; set;  }
+        private TableEditorDotnetInterop Interop { get; set; }
 
-        private TableEditorJavaScriptCallbacks JavaScriptCallbacks {get; set; } 
+        private TableEditorJavaScriptCallbacks JavaScriptCallbacks { get; set; }
 
         public string TableMode
         {
@@ -68,10 +72,9 @@ namespace MarkdownMonster.Windows
                 OnPropertyChanged();
             }
         }
-        private string _tableMode = "Pipe Table";
-        private  IEWebBrowserEditorHandler IEHandler { get; }
 
-        public CommandBase ColumnKeyCommand { get; set; }
+        private string _tableMode = "Pipe Table";
+        private IEWebBrowserEditorHandler IEHandler { get; }
 
         public TableEditorHtml(string tableHtml = null)
         {
@@ -81,16 +84,16 @@ namespace MarkdownMonster.Windows
 
             mmApp.SetThemeWindowOverride(this);
             Owner = AppModel.Window;
-            
+
             var data = new List<string[]>();
 
             if (tableHtml == null)
                 CreateInitialTableData();
             else
             {
-          
+
             }
-            
+
             DataContext = this;
             Loaded += TableEditorHtml_Loaded;
 
@@ -98,7 +101,7 @@ namespace MarkdownMonster.Windows
             IEHandler = new IEWebBrowserEditorHandler(WebBrowser);
         }
 
-        
+
 
         private void TableEditorHtml_Loaded(object sender, RoutedEventArgs e)
         {
@@ -109,29 +112,19 @@ namespace MarkdownMonster.Windows
         {
             if (!e.Uri.ToString().ToLower().Contains("tableeditor.html")) return;
 
-           
+
             var json = BaseBrowserInterop.SerializeObject(TableData);
             Debug.WriteLine(json);
 
-            JavaScriptCallbacks = new TableEditorJavaScriptCallbacks(WebBrowser);
-            var inst = WebBrowser.InvokeScript("InitializeInterop",JavaScriptCallbacks,json);
-
-            Interop = new TableEditorDotnetInterop(inst);
-            
             WebBrowser.Focus();
 
-            WebBrowser.
+            JavaScriptCallbacks = new TableEditorJavaScriptCallbacks(WebBrowser);
+            var inst = WebBrowser.InvokeScript("InitializeInterop", JavaScriptCallbacks, json);
+
+            Interop = new TableEditorDotnetInterop(inst);
+   
         }
-        
-        private void CreateTable()
-        {
-            //var cols = TableHeaders.Split(new[] {','}, StringSplitOptions.RemoveEmptyEntries);
-            
-            //foreach (var col in cols)
-            //{
-            //    TableData.Columns.Add(StringUtils.RandomString(5,false));
-            //}                        
-        }
+
 
         private void CreateInitialTableData()
         {
@@ -139,10 +132,10 @@ namespace MarkdownMonster.Windows
             td.Headers.Add("Header 1");
             td.Headers.Add("Header 2");
 
-            var colList = new List<string>( new [] { "Row 1 Column 1", "Row 1 Column 2"});
+            var colList = new List<string>(new[] {"Row 1 Column 1", "Row 1 Column 2"});
             td.Rows.Add(colList);
 
-            colList = new List<string>( new [] { "Row 2 Column 1", "Row 2 Column 2"});
+            colList = new List<string>(new[] {"Row 2 Column 1", "Row 2 Column 2"});
             td.Rows.Add(colList);
 
             TableData = td;
@@ -154,16 +147,12 @@ namespace MarkdownMonster.Windows
             //var url = @"c:\projects\markdownmonster\markdownmonster\PreviewThemes\TableEditor.html";
             var url = "https://localhost:5200/TableEditor.html";
 #else
-            var url =  Path.Combine(App.InitialStartDirectory, "PreviewThemes", "TableEditor.html");
+            var url = Path.Combine(App.InitialStartDirectory, "PreviewThemes", "TableEditor.html");
 #endif
             WebBrowser.Navigate(new System.Uri(url));
         }
 
 
-        private void Column_KeyUp(object sender, System.Windows.Input.KeyEventArgs e)
-        {
-            var txt = sender as TextBox;            
-        }
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -175,7 +164,7 @@ namespace MarkdownMonster.Windows
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-           
+
 
         }
 
@@ -216,7 +205,7 @@ namespace MarkdownMonster.Windows
 
         }
 
-        
+
     }
 
 
