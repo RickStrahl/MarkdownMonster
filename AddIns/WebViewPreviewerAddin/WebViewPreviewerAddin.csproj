@@ -3,6 +3,8 @@
   <PropertyGroup>
     <Version>1.25</Version>
     <TargetFramework>net472</TargetFramework>
+    <PlatformTarget>AnyCpu</PlatformTarget>
+
     <UseWPF>true</UseWPF>
 
     <!--<TargetFrameworks>netcoreapp3.0;net472</TargetFrameworks>-->
@@ -47,7 +49,7 @@
     <PackageReference Include="Markdig" Version="0.24.0">
       <IncludeAssets>compile</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Microsoft.Web.WebView2" Version="1.0.705.50" />
+    <PackageReference Include="Microsoft.Web.WebView2" Version="1.0.774.44" />
      
   </ItemGroup>
 
@@ -72,11 +74,4 @@
     <DebugSymbols>true</DebugSymbols>    
   </PropertyGroup>
 
- <!--<ItemGroup>
-    <Content Remove="C:\Users\rstrahl\.nuget\packages\microsoft.web.webview2\1.0.707-prerelease\build\\..\runtimes\win-arm\native\WebView2Loader.dll" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Content Remove="C:\Users\rstrahl\.nuget\packages\microsoft.web.webview2\1.0.707-prerelease\build\\..\runtimes\win-arm\native\WebView2Loader.dll" />
-  </ItemGroup>-->
 </Project>
