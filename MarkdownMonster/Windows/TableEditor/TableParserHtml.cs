@@ -2,10 +2,12 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Text;
 using HtmlAgilityPack;
+using LumenWorks.Framework.IO.Csv;
 using Westwind.Utilities;
 
 namespace MarkdownMonster.Windows
@@ -184,11 +186,11 @@ namespace MarkdownMonster.Windows
 
                 var align= string.Empty;
                 if (columnInfo[i].Justification == ColumnJustifications.Right)
-                    align = "style=\"text-align:right\"";
+                    align = " style=\"text-align:right\"";
                 else if (columnInfo[i].Justification == ColumnJustifications.Center)
-                    align = "style=\"text-align:center\"";
+                    align = " style=\"text-align:center\"";
 
-                sb.AppendLine($"\t\t<th {align}>{WebUtility.HtmlEncode(colInfo.Title.Trim(' ',':','\n','\r'))}</th>");
+                sb.AppendLine($"\t\t<th{align}>{WebUtility.HtmlEncode(colInfo.Title.Trim(' ',':','\n','\r'))}</th>");
             }
             sb.AppendLine("\t</tr>");
             sb.AppendLine("</thead>");
@@ -207,12 +209,12 @@ namespace MarkdownMonster.Windows
 
                     var align= string.Empty;
                     if (columnInfo[i].Justification == ColumnJustifications.Right)
-                        align = "style=\"text-align: right\"";
+                        align = " style=\"text-align: right\"";
                     else if (columnInfo[i].Justification == ColumnJustifications.Center)
-                        align = "style=\"text-align: center\"";
+                        align = " style=\"text-align: center\"";
 
-                    var text = mdParser.Parse(col.Trim()).Replace("<p>", "").Replace("</p>", "");
-                    sb.AppendLine($"\t\t<td {align}>{text}</td>");
+                    var text = mdParser.Parse(col.Trim()).Replace("<p>", "").Replace("</p>", "").Trim();
+                    sb.AppendLine($"\t\t<td{align}>{text}</td>");
                 }
 
                 sb.AppendLine("\t</tr>");
@@ -227,88 +229,97 @@ namespace MarkdownMonster.Windows
         #endregion
 
         #region Csv Processing
-        
-        //public ObservableCollection<ObservableCollection<CellContent>> ParseCsvFileToData(string filename, string delimiter = ",")
-        //{
-        //    if (string.IsNullOrEmpty(filename) || !File.Exists(filename))
-        //        return new ObservableCollection<ObservableCollection<CellContent>>();
 
-        //    FileStream fs = null;
-        //    try
-        //    {
-        //        fs = new FileStream(filename, FileMode.Open, FileAccess.Read, FileShare.Read);
-        //        return ParseCsvStreamToData(fs,delimiter);
-        //    }
-        //    catch
-        //    {
-        //        return new ObservableCollection<ObservableCollection<CellContent>>();
-        //    }
-        //    finally
-        //    {
-        //        fs?.Dispose();
-        //    }
-        //}
+        public TableData ParseCsvFileToData(string filename, string delimiter = ",")
+        {
+            if (string.IsNullOrEmpty(filename) || !File.Exists(filename))
+                return new TableData();
 
-        //public ObservableCollection<ObservableCollection<CellContent>> ParseCsvStringToData(string csvContent, string delimiter = ",")
-        //{
-        //    if (string.IsNullOrEmpty(csvContent))
-        //        return new ObservableCollection<ObservableCollection<CellContent>>();
+            FileStream fs = null;
+            try
+            {
+                fs = new FileStream(filename, FileMode.Open, FileAccess.Read, FileShare.Read);
+                return ParseCsvStreamToData(fs, delimiter);
+            }
+            catch
+            {
+                return new TableData();
+            }
+            finally
+            {
+                fs?.Dispose();
+            }
+        }
 
-        //    var bytes = Encoding.UTF8.GetBytes(csvContent);
-        //    using (var fs = new MemoryStream(bytes, 0, bytes.Length))
-        //    {
-        //        return ParseCsvStreamToData(fs, delimiter);
-        //    }
-        //}
+        public TableData ParseCsvStringToData(string csvContent, string delimiter = ",")
+        {
+            if (string.IsNullOrEmpty(csvContent))
+                return new TableData();
+
+            var bytes = Encoding.UTF8.GetBytes(csvContent);
+            using (var fs = new MemoryStream(bytes, 0, bytes.Length))
+            {
+                return ParseCsvStreamToData(fs, delimiter);
+            }
+        }
 
 
-        //public ObservableCollection<ObservableCollection<CellContent>> ParseCsvStreamToData(Stream stream, string delimiter = ",")
-        //{
-        //    if (string.IsNullOrEmpty(delimiter))
-        //        delimiter = ",";
-        //    if (delimiter == "\\t")
-        //        delimiter = "\t";
+        public TableData ParseCsvStreamToData(Stream stream, string delimiter = ",")
+        {
+            if (string.IsNullOrEmpty(delimiter))
+                delimiter = ",";
+            if (delimiter == "\\t")
+                delimiter = "\t";
 
-        //    char charDelimiter = delimiter[0];
+            char charDelimiter = delimiter[0];
 
-        //    using (var reader = new StreamReader(stream))
-        //    {
-        //        using (var csv = new CachedCsvReader(reader,true, charDelimiter))
-        //        {
-        //            var list = new ObservableCollection<ObservableCollection<CellContent>>();
+            bool firstLine = true;
+            using (var reader = new StreamReader(stream))
+            {
+                
+                using (var csv = new CachedCsvReader(reader, true, charDelimiter))
+                {
+                    var list = new TableData();
 
-        //            var colCount = csv.Columns.Count;
-        //            var columnCollection = new ObservableCollection<CellContent>();
+                    var colCount = csv.Columns.Count;
+                    var columnCollection = new List<string>();
 
-        //            if (!csv.ReadNextRecord())
-        //                return list;
+                    if (!csv.ReadNextRecord())
+                        return list;
 
-        //            for (var index = 0; index < csv.Columns.Count; index++)
-        //            {
-        //                Column column = csv.Columns[index];
-        //                columnCollection.Add(new CellContent(column.Name) {Column = index});
-        //            }
-        //            list.Add(columnCollection);
+                    for (var index = 0; index < csv.Columns.Count; index++)
+                    {
+                        Column column = csv.Columns[index];
+                        columnCollection.Add(column.Name);
+                    }
 
-        //            // Field headers will automatically be used as column names
-        //            while(true) {
-        //                columnCollection = new ObservableCollection<CellContent>();
-        //                for (int index = 0; index < csv.Columns.Count; index++)
-        //                {
-        //                    var colValue = csv[index];
-        //                    columnCollection.Add(new CellContent(colValue) { Column = index });
-        //                }
+                    if (firstLine)
+                    {
+                        list.Headers = columnCollection;
+                        firstLine = false;
+                    }
+                    else 
+                        list.Rows.Add(columnCollection);
 
-        //                list.Add(columnCollection);
+                    // Field headers will automatically be used as column names
+                    while (true)
+                    {
+                        columnCollection = new List<string>();
+                        for (int index = 0; index < csv.Columns.Count; index++)
+                        {
+                            var colValue = csv[index];
+                            columnCollection.Add(colValue);
+                        }
+                        list.Rows.Add(columnCollection);
 
-        //                if (!csv.ReadNextRecord())
-        //                    break;
-        //            }
+                        if (!csv.ReadNextRecord())
+                            break;
+                    }
 
-        //            return list;
-        //        }
-        //    }
-        //}
+                    return list;
+                }
+            }
+        }
 
         #endregion
 
@@ -413,7 +424,7 @@ namespace MarkdownMonster.Windows
                 if (rowText.Length == 0)
                     continue;
 
-                // header processing
+                // Skip over grid lines
                 if (rowText.StartsWith("+--") || rowText.StartsWith("+=="))
                 {
                     var columnData = new List<string>();
@@ -427,24 +438,28 @@ namespace MarkdownMonster.Windows
                     var cellText = new List<StringBuilder>();
                     string[] cols = new string[0];
 
-                    while (true)
+                    while (true)  // loop through multiple lines
                     {
                         cols = rowText.TrimEnd().Trim('|').Split(new[] { '|'}, StringSplitOptions.RemoveEmptyEntries);
 
-                        for (var i = 0; i < cols.Length; i++)
-                            cellText.Add(new StringBuilder());
-
-                        for (var i = 0; i < cols.Length; i++)
+                        if (cellText.Count < 1)
                         {
-                            var col = cols[i];
-                            cellText[i].AppendLine(col.Trim());
+                            for (var i = 0; i < cols.Length; i++)
+                                cellText.Add(new StringBuilder());
                         }
 
+                        for (var i = 0; i < cols.Length; i++)
+                        {
+                            var col = cols[i]?.Trim();
+                            if(!string.IsNullOrEmpty(col))
+                                cellText[i].AppendLine(col.Trim());
+                        }
+                        
                         // get the next line of this column
-                        if (lines[index + 1].StartsWith("|"))
+                        if (lines[index + 1].Trim().StartsWith("|"))
                         {
                             index++;
-                            rowText = lines[index];
+                            rowText = lines[index]?.Trim();  // process next line
                         }
                         else
                             break;
@@ -501,7 +516,19 @@ namespace MarkdownMonster.Windows
                 return data;
 
             foreach (var node in headerCols)
-                headerColumns.Add(node.InnerText);
+            {
+                var text = node.InnerText;
+                var attrStyle = node.Attributes["style"];
+                if (attrStyle != null)
+                {
+                    var style = attrStyle.Value;
+                    if (style.Contains("text-align: right"))
+                        text = text + ":";
+                    else if(style.Contains("text-align: center"))
+                        text = ":" + text + ":";
+                }
+                headerColumns.Add(text);
+            }
 
             data.Headers = headerColumns;
 
@@ -517,6 +544,8 @@ namespace MarkdownMonster.Windows
                 {
                     string text;
                     var nodeHtml = node.InnerHtml;
+
+                    // check for common replacements
                     if (!nodeHtml.Contains("<"))
                         text  = node.InnerText;
                     else
