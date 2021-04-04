@@ -33,7 +33,15 @@ var page = {
         $(document).on("keyup","#RenderWrapper th textarea", page.headerAlignment);        
         setTimeout(function() { $("th textarea").trigger("keyup"); },10);
 
-      
+        $(document).on("keyup","textarea", page.autogrowTextAreas); 
+
+
+        $(document).on("focus","textarea",function() { 
+            var el = this;
+            setTimeout(function() { el.select(); },1);
+        });
+        
+       
         $(document).on("mousemove","#RenderWrapper textarea",function(e) {
             page.mousePos.x = e.clientX;
             page.mousePos.y = e.clientY;
@@ -58,6 +66,8 @@ var page = {
             if(page.dotnet)
                 page.dotnet.UpdateTableData(page.parseTable(true));                
         });
+        
+       
     },
     keydownHandler: function(e) {
         var text$ = $(this);
@@ -94,11 +104,13 @@ var page = {
         else if (e.keyCode == 40) 
         {
             var hasReturns = this.value.indexOf("\n") > 0;
-            if ((hasReturns && !e.ctrlKey)) return false;  // line breaks - don't use arrows
+            if (hasReturns && !e.ctrlKey) return true;  // line breaks - don't use arrows
 
+            // move to new row
             var newRow = pos.row + 1;
             var newId = "#id_" + newRow + "_" + pos.col;
             $(newId).focus();
+
             return false;
         }
 
@@ -106,7 +118,7 @@ var page = {
         else if (e.keyCode == 38) 
         {                    
             var hasReturns = this.value.indexOf("\n") > 0;
-            if (pos.row < 1 || (hasReturns && !e.ctrlKey) ) return false;  
+            if (pos.row < 1 || (hasReturns && !e.ctrlKey) ) return true;  
 
             var newRow = pos.row - 1;
             var newId = "#id_" + newRow + "_" + pos.col;
@@ -179,10 +191,13 @@ var page = {
         $("#RenderWrapper").html(html);
         
         if (page.tableData.activeCell) {
-            var sel = "#row" + page.tableData.activeCell.row + "_col" + page.tableData.activeCell.column;
-            console.log(sel);
+            var sel = "#row" + page.tableData.activeCell.row + "_col" + page.tableData.activeCell.column;            
             $(sel).focus();
         }
+
+        $("textarea").each(function() {            
+            page.autogrowTextAreas(this);
+        });        
     },
     parseTable: function(asJson) {
         var td = {
@@ -231,6 +246,18 @@ var page = {
         pos.row = tokens[0] * 1;
         pos.col = tokens[1] * 1;
         return pos;
+    },
+    autogrowTextAreas: function autogrowTextAreas(sel) {
+        var element = this;        
+        if (!sel["currentTarget"])
+           element =sel;
+        
+        var text = element.value;    
+        if(!text)  return true;
+
+        var lines = 1 + (text.match(/\n/g) || []).length;        
+        element.rows = lines;
+        return true;
     },
     encodeText: function(text) {
         page.workElement.innerText = text;

@@ -538,9 +538,9 @@ namespace MarkdownMonster.Test
 
             string data = @"Name,Company,city,Test
 
-    Rick,West Wind,Paia,4
-    Markus,EPS,Kihei,20,11
-    Kevin,Oak Leaf,Bumstuck VA,4
+Rick,West Wind,Paia,4
+Markus,EPS,Kihei,20,11
+Kevin,Oak Leaf,Bumstuck VA,4
 ";
 
             var parser = new TableParserHtml();

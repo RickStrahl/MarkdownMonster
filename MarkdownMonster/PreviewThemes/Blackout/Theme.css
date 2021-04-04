@@ -5,22 +5,19 @@ html, body {
   font-size: 17px;
   height: 100%;
   line-height: 1.6;
-  padding: 5px 15px 5px 25px !important;
+  padding: 5px 10px 5px 20px;
   margin: 0;
   scrollbar-track-color: #535353;
   scrollbar-arrow-color: silver;
   scrollbar-face-color: #555;
   -ms-overflow-style: -ms-autohiding-scrollbar !important;
-
   scrollbar-width: thin;
 }
-
 body::-webkit-scrollbar {
   width: 8px;
   height: 8px;
   background: #444;
 }
-
 body::-webkit-scrollbar-thumb {
   background: #999;
   border-radius: 3px;
@@ -42,7 +39,6 @@ a {
 p {
   margin: 0.5rem 0 1em 0;
 }
-
 
 code {
   font-family: menlo,consolas,monospace;
@@ -89,12 +85,13 @@ table {
   overflow: auto;
   border-spacing: 0;
   border-collapse: collapse;
-  margin: 15px 0;
+  x-margin: 5px 0;
+  color: white;
   border-color: gray;
 }
 
 td, th {
-  border: 1px solid #555;
+  border: 1px solid #555;  
   padding: 6px 13px;
   display: table-cell;
   vertical-align: top;
@@ -102,8 +99,7 @@ td, th {
 
 th {
   font-weight: bold;
-  background: #252525;
-  border: none;
+  background: #252525;  
 }
 
 tbody > tr:nth-child(even) {

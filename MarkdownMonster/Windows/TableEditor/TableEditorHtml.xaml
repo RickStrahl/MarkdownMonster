@@ -15,9 +15,10 @@
         Title="Table Editor"
         TitleCharacterCasing="Normal"
         TitleBarHeight="30"                       
-        WindowStyle="SingleBorderWindow" ResizeMode="CanResize"                      
-        WindowStartupLocation="CenterOwner" 
-        FontSize="15"
+        WindowStyle="SingleBorderWindow" ResizeMode="CanResize"
+        WindowStartupLocation="CenterOwner"
+        WindowTransitionsEnabled="False"
+        FontSize="15"  
         IsMinButtonEnabled="False" IsMaxRestoreButtonEnabled="False"                       
         Width="1020" Height="700" MinWidth="700"
      >
@@ -63,15 +64,15 @@
                             </StackPanel>
                         </Button>
 
-                        <Button Name="ButtonCancel"   Click="Button_Click"  >
-                            <StackPanel Orientation="Horizontal">
-                                <fa:FontAwesome Margin="5,2,5,0" Icon="Times"                                             
+                <Button Name="ButtonCancel"   Click="Button_Click"  >
+                    <StackPanel Orientation="Horizontal">
+                        <fa:FontAwesome Margin="5,2,5,0" Icon="Times"                                             
                                             FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" 
                                             Foreground="Firebrick" />
-                                <TextBlock>Cancel</TextBlock>
-                            </StackPanel>
-                        </Button>wrecklesswrec
-                    </ToolBar>
+                        <TextBlock>Cancel</TextBlock>
+                    </StackPanel>
+                </Button>
+            </ToolBar>
 
                 <ToolBar ToolBarTray.IsLocked="True">
                     <Separator />

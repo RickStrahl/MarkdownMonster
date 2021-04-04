@@ -757,15 +757,18 @@ You can compare files using a Diff tool to compare and merge changes.
             }
             else if (action == "table")
             {
+                // This one display non-modal so you can access
+                // the document and move the cursor around
                 var form = new TableEditorHtml();
-                //var form = new TableEditor();
                 form.Owner = Window;
-                form.ShowDialog();
-
-                if (!form.Cancelled)
-                    html = form.TableHtml;
+                form.Show();     // html remains unchange = nothing updated
+                 
+                // if running modal
+                // var form = new TableEditor();
+                // DialogResult = form.ShowDialog();
+                //if (!form.Cancelled)
+                //    html = form.TableHtml;
             }
-
             else if (action == "emoji")
             {
                 var form = new EmojiWindow();
@@ -1166,7 +1169,7 @@ You can compare files using a Diff tool to compare and merge changes.
             }
             else if (action == "table")
             {
-                var form = new TableEditor(text);
+                var form = new TableEditorHtml(text);
                 //var form = new TableEditor(text);
                 var res = form.ShowDialog();
 

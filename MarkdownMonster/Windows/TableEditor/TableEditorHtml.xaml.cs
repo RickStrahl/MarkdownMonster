@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.Runtime.CompilerServices;
+using System.Security.Policy;
 using System.Windows;
 using System.Windows.Forms;
 using System.Windows.Input;
@@ -76,7 +77,7 @@ namespace MarkdownMonster.Windows
         private string _tableMode = "Pipe Table";
         private IEWebBrowserEditorHandler IEHandler { get; }
 
-        public TableEditorHtml(string tableHtml = null)
+        public TableEditorHtml(string tableMarkdownOrHtml = null)
         {
             InitializeComponent();
 
@@ -87,11 +88,11 @@ namespace MarkdownMonster.Windows
 
             var data = new List<string[]>();
 
-            if (tableHtml == null)
+            if (tableMarkdownOrHtml == null)
                 CreateInitialTableData();
             else
             {
-
+                ParseHtmlAndRender(tableMarkdownOrHtml);
             }
 
             DataContext = this;
@@ -112,17 +113,23 @@ namespace MarkdownMonster.Windows
         {
             if (!e.Uri.ToString().ToLower().Contains("tableeditor.html")) return;
 
-
             var json = BaseBrowserInterop.SerializeObject(TableData);
             Debug.WriteLine(json);
 
             WebBrowser.Focus();
 
-            JavaScriptCallbacks = new TableEditorJavaScriptCallbacks(this);
-            var inst = WebBrowser.InvokeScript("InitializeInterop", JavaScriptCallbacks, json);
+            try
+            {
+                JavaScriptCallbacks = new TableEditorJavaScriptCallbacks(this);
+                var inst = WebBrowser.InvokeScript("InitializeInterop", JavaScriptCallbacks, json);
 
-            Interop = new TableEditorDotnetInterop(inst);
-   
+                Interop = new TableEditorDotnetInterop(inst);
+            }
+            catch
+            {
+                mmApp.Model.Window.ShowStatusError("Unable to open table editor. Unable to navigate to editor template.");
+                this.Close();
+            }
         }
 
 
@@ -130,25 +137,44 @@ namespace MarkdownMonster.Windows
         {
             var td = new TableData();
             td.Headers.Add("Header 1");
-            td.Headers.Add("Header 2");
+            td.Headers.Add("Header 2:");
 
-            var colList = new List<string>(new[] {"Row 1 Column 1", "Row 1 Column 2"});
-            td.Rows.Add(colList);
-
-            colList = new List<string>(new[] {"Row 2 Column 1", "Row 2 Column 2"});
-            td.Rows.Add(colList);
+            for (int i = 0; i < 1; i++)
+            {
+                var colList = new List<string>(new[] { $"Row {i + 1} Column 1", $"Row {i + 1} Column 2"});
+                td.Rows.Add(colList);    
+            }
 
             TableData = td;
         }
 
         private void RenderTable()
         {
+            
 #if DEBUG
-            //var url = @"c:\projects\markdownmonster\markdownmonster\PreviewThemes\TableEditor.html";
-            var url = "https://localhost:5200/TableEditor.html";
+            var file = Path.Combine("c:\\projects\\MarkdownMonster\\MarkdownMonster", "PreviewThemes", "TableEditor.html");
+            var outputFile = file.Replace("TableEditor.html", "_TableEditor.html");
+
+            // IN DEBUG MODE USE LIVERELOAD SERVER while testing (if needed)
+            var url = "https://localhost:5200/_TableEditor.html";
 #else
-            var url = Path.Combine(App.InitialStartDirectory, "PreviewThemes", "TableEditor.html");
+            var file = Path.Combine(App.InitialStartDirectory, "PreviewThemes", "TableEditor.html");
+            var outputFile = file.Replace("TableEditor.html", "_TableEditor.html");
+            var url = outputFile;
 #endif
+
+            try
+            {
+                string template = File.ReadAllText(file);
+                template = template.Replace("{{Theme}}", mmApp.Configuration.PreviewTheme);
+                File.WriteAllText(outputFile, template);
+            }
+            catch
+            {
+                // if this fails use the template shipped
+            }
+
+      
             WebBrowser.Navigate(new System.Uri(url));
         }
 
@@ -164,6 +190,71 @@ namespace MarkdownMonster.Windows
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
+             var name = (sender as Control).Name;
+            
+            if (sender == ButtonOk)
+            {
+                var parser = new TableParserHtml();
+                
+                if (TableMode == "Grid Table")
+                    TableHtml = parser.ToGridTableMarkdown(TableData);
+                else if(TableMode == "HTML Table")
+                    TableHtml = parser.ToTableHtml(TableData);
+                else
+                    TableHtml = parser.ToPipeTableMarkdown(TableData);
+
+
+                mmApp.Model.ActiveEditor.SetSelectionAndFocus(TableHtml);
+
+                //Cancelled = false;
+                Close();
+            }
+            else if(sender == ButtonCancel)
+            {
+                Cancelled = true;
+                Close();
+            }
+            else if (sender == ButtonPasteHtml)
+            {
+                CreateTableFromClipboardHtml();
+            }
+            else if (sender == ButtonImportCsv)
+            {
+                var form = new TableEditorCsvImport();
+                form.Owner = this;
+                form.ShowDialog();
+
+                if (form.IsCancelled)
+                    return;
+
+                var parser = new TableParserHtml();
+
+                bool deleteCsvFile = false;
+                string csvFile = form.CsvFilename;
+
+                if (form.ImportFromClipboard)
+                {
+                    string csvText = ClipboardHelper.GetText();
+                    csvFile = Path.GetTempFileName();
+                    csvFile = Path.ChangeExtension(csvFile, "csv");
+                    File.WriteAllText(csvFile, csvText);
+                    deleteCsvFile = true;
+                }
+
+
+                var data = parser.ParseCsvFileToData(csvFile, form.CsvSeparator);
+                if (data == null || data.Headers.Count < 1 && data.Rows.Count < 1)
+                {
+                    AppModel.Window.ShowStatusError($"Couldn\'t open file {csvFile} or the file is empty.");
+                    return;
+                }
+
+                TableData = data;
+                RenderTable();
+
+                if (deleteCsvFile)
+                    File.Delete(csvFile);
+            }
 
 
         }
@@ -177,32 +268,42 @@ namespace MarkdownMonster.Windows
                     html = ClipboardHelper.GetText();
             }
 
-            var parser = new TableParser();
+            ParseHtmlAndRender(html);
+        }
 
-            ObservableCollection<ObservableCollection<CellContent>> data = null;
-            if (html.Contains("<tr>"))
-            {
-                data = parser.ParseHtmlToData(html);
-            }
-            else if (html.Contains("-|-") || html.Contains("- | -") || html.Contains(""))
-            {
-                data = parser.ParseMarkdownToData(html);
-            }
-            else if (html.Contains("-|-") || html.Contains("- | -") || html.Contains(""))
-            {
-                data = parser.ParseMarkdownToData(html);
-            }
-            else if (html.Contains("-+-"))
-            {
-                data = parser.ParseMarkdownGridTableToData(html);
-            }
+        private void ParseHtmlAndRender(string markdownOrHtmlTable)
+        {
+            var parser = new TableParserHtml();
 
-            if (data == null || data.Count < 1)
+            var data = parser.ParseMarkdownToData(markdownOrHtmlTable);
+
+
+            //TableData data = null;
+            //if (markdownOrHtmlTable.Contains("<tr>"))
+            //{
+            //    data = parser.ParseHtmlToData(markdownOrHtmlTable);
+            //}
+            //else if (markdownOrHtmlTable.Contains("-|-") || markdownOrHtmlTable.Contains("- | -") || markdownOrHtmlTable.Contains(""))
+            //{
+            //    data = parser.ParseMarkdownToData(markdownOrHtmlTable);
+            //}
+            //else if (markdownOrHtmlTable.Contains("-|-") || markdownOrHtmlTable.Contains("- | -") || markdownOrHtmlTable.Contains(""))
+            //{
+            //    data = parser.ParseMarkdownToData(markdownOrHtmlTable);
+            //}
+            //else if (markdownOrHtmlTable.Contains("-+-"))
+            //{
+            //    data = parser.ParseMarkdownGridTableToData(markdownOrHtmlTable);
+            //}
+
+            if (data == null || data.Headers.Count < 1 && data.Rows.Count < 1)
             {
                 AppModel.Window.ShowStatusError("No HTML Table to process found...");
                 return;
             }
 
+            TableData = data;
+            RenderTable();
         }
     }
 
