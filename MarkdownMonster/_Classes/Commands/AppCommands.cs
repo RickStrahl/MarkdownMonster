@@ -2446,14 +2446,7 @@ We're now shutting down the application.
         {
             TestButtonCommand = new CommandBase((parameter, command) =>
             {
-                if (WebServer == null)
-                {
-                    WebServerLauncher.StartMarkdownMonsterWebServer();
-                }
-                else
-                {
-                    WebServerLauncher.StopMarkdownMonsterWebServer();
-                }
+               
             });
         }
     }

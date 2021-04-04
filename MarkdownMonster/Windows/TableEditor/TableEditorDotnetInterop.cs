@@ -16,7 +16,25 @@ namespace MarkdownMonster.Windows
         public TableEditorDotnetInterop(object instance) : base(instance)
         {
 
+
+            
+           
+
         }
+
+        #region Call into JavaScript from .NET
+
+        public TableData GetJsonTableData()
+        {
+            string tdata = Invoke("parseTable", true) as string;  // asJson
+            if(string.IsNullOrEmpty(tdata))
+                return null;
+
+            var td = JsonSerializationUtils.Deserialize<TableData>(tdata);
+            return td;
+        }
+
+        #endregion
     }
 
     /// <summary>
@@ -25,11 +43,18 @@ namespace MarkdownMonster.Windows
     /// </summary>
     public class TableEditorJavaScriptCallbacks 
     {
-        WebBrowser WebBrowser;
+        TableEditorHtml Window;
 
-        public TableEditorJavaScriptCallbacks(WebBrowser browser)
+        public TableEditorJavaScriptCallbacks(TableEditorHtml window)
         {
-            WebBrowser = browser;    
+            Window = window;
+        }
+
+        public void UpdateTableData(string jsonTable)
+        {
+            var td = JsonSerializationUtils.Deserialize<TableData>(jsonTable);
+            if (td != null)
+                Window.TableData = td;
         }
 
         public void ShowContextMenu(object mousePosition)
@@ -40,7 +65,7 @@ namespace MarkdownMonster.Windows
             var cm = new ContextMenu();
             cm.Items.Add( new MenuItem() {Header = x + ":" + y});
 
-            cm.PlacementTarget = WebBrowser;
+            cm.PlacementTarget = Window.WebBrowser;
             cm.Placement = System.Windows.Controls.Primitives.PlacementMode.MousePoint;
 
             cm.Focus();
@@ -49,6 +74,9 @@ namespace MarkdownMonster.Windows
             var item = cm.Items[0] as MenuItem;
             item.Focus();
         }
+
+
+
 
     }
 }

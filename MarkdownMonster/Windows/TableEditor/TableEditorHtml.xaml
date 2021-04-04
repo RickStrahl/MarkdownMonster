@@ -70,7 +70,7 @@
                                             Foreground="Firebrick" />
                                 <TextBlock>Cancel</TextBlock>
                             </StackPanel>
-                        </Button>
+                        </Button>wrecklesswrec
                     </ToolBar>
 
                 <ToolBar ToolBarTray.IsLocked="True">
@@ -104,7 +104,8 @@
         </ToolBarTray>
  
         <WebBrowser Name="WebBrowser" Focusable="True" 
-                    Grid.Row="1" Margin="20,10" />
+                    Grid.Row="1" Margin="20,10" 
+        />
 
 
         <StackPanel Grid.Row="2"  Orientation="Horizontal" Margin="10">

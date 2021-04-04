@@ -118,7 +118,7 @@ namespace MarkdownMonster.Windows
 
             WebBrowser.Focus();
 
-            JavaScriptCallbacks = new TableEditorJavaScriptCallbacks(WebBrowser);
+            JavaScriptCallbacks = new TableEditorJavaScriptCallbacks(this);
             var inst = WebBrowser.InvokeScript("InitializeInterop", JavaScriptCallbacks, json);
 
             Interop = new TableEditorDotnetInterop(inst);
@@ -204,8 +204,6 @@ namespace MarkdownMonster.Windows
             }
 
         }
-
-
     }
 
 
@@ -218,6 +216,7 @@ namespace MarkdownMonster.Windows
         public List<List<string>> Rows { get; set; } = new List<List<string>>();
     }
 
+    [DebuggerDisplay("r{Row}:c{Column}")]
     public class ColLocation
     {
         public int Row {get; set; }

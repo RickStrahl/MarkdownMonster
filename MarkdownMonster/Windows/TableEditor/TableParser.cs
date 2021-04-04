@@ -150,6 +150,7 @@ namespace MarkdownMonster.Windows
             if (tableData == null || tableData.Count < 1)
                 return string.Empty;
 
+            // remove blank rows at the end
             for (int i = tableData.Count - 1; i > -1; i--)
             {
                 if (tableData[i] == null || tableData[i].Count == 0)
@@ -162,7 +163,6 @@ namespace MarkdownMonster.Windows
                 if (i >= columnInfo.Count)
                     break;
 
-                var colInf = columnInfo[i];
                 for (int j = 0; j < tableData.Count; j++)
                 {
                     var col = tableData[j][i];
@@ -173,8 +173,11 @@ namespace MarkdownMonster.Windows
                 }
             }
 
+            
             StringBuilder sb = new StringBuilder();
             sb.Clear();
+
+            // Headers
             string separatorLine = "+-";
             string line = "| ";
             for (int i = 0; i < columnInfo.Count; i++)
@@ -190,10 +193,11 @@ namespace MarkdownMonster.Windows
             sb.AppendLine(line.TrimEnd());
             sb.AppendLine(separatorLine.Replace("-", "="));
 
+
+            // Rows - figure out number of lines to render per row
             foreach (var row in tableData.Skip(1))
             {
                 int rowLines = row.Max(s => StringUtils.GetLines(s.Text).Length);
-
 
                 foreach (var col in row)
                 {
@@ -206,6 +210,7 @@ namespace MarkdownMonster.Windows
             }
 
 
+            // Rows
             foreach (var row in tableData.Skip(1))
             {
                 for (int j = 0; j < row[0].Lines.Length; j++)
@@ -719,6 +724,7 @@ namespace MarkdownMonster.Windows
     {
         public string Title;
         public int MaxWidth;
+        public ColumnJustifications Justification = ColumnJustifications.Left;
     }
 
     public enum MarkdownTableType
@@ -727,6 +733,13 @@ namespace MarkdownMonster.Windows
         Grid,
         Html,
         None
+    }
+
+    public enum ColumnJustifications
+    {
+        Left,
+        Right,
+        Center
     }
 
 

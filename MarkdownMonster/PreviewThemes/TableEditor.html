@@ -47,9 +47,7 @@
 
     <button id="btnParseTable" onclick="parseTable()">Parse Table</button>
     <hr>
-    <pre id="Message"></pre>
-    <script src="scripts/jquery.min.js"></script>
-    <script src="TableEditor.js"></script>
+    <div id="Message" style="font-family: monospace;"></pre>
     <script>
         function parseTable() {
             var tableData = page.parseTable();
@@ -57,5 +55,9 @@
             $("#Message").text(JSON.stringify(tableData));
         }
     </script>
+    
+    <script src="scripts/jquery.min.js"></script>
+    <script src="TableEditor.js"></script>
+
 </body>
 </html>

@@ -52,7 +52,12 @@ var page = {
             else {
                 alert(JSON.stringify(pos));
             }
-        });       
+        });    
+        
+        $(document).on("mouseleave",function() {
+            if(page.dotnet)
+                page.dotnet.UpdateTableData(page.parseTable(true));                
+        });
     },
     keydownHandler: function(e) {
         var text$ = $(this);
@@ -179,7 +184,7 @@ var page = {
             $(sel).focus();
         }
     },
-    parseTable: function() {
+    parseTable: function(asJson) {
         var td = {
             activeCell: { row: 3, column: 1},
             headers: [],
@@ -195,8 +200,24 @@ var page = {
             });
             td.rows[i] = row;            
         });
+        page.tableData = td;   
 
-        page.tableData = td;        
+        // strip out trailing lines
+        for (let i = td.rows.length-1; i > -1 ; i--) {
+            var row = td.rows[i];
+            var nonBlank =  false;
+            for (let x = 0; x < row.length; x++) {
+                if (row[x]) {
+                    nonBlank = true;
+                    break;
+                }                                
+            }
+            if (nonBlank)  break;
+            td.rows.pop();
+        }
+        
+        if (asJson)     
+            return JSON.stringify(td);
         return td;
     },
 
@@ -233,5 +254,5 @@ function InitializeInterop(dotnet, tableDataJson) {
     page.tableData = JSON.parse(tableDataJson);
     page.renderTable();
 
-    
+    return page;
 }

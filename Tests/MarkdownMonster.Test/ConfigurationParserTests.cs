@@ -1,150 +1,68 @@
 ﻿using System;
+using System.Collections.Generic;
 using Markdig;
 using Markdig.Helpers;
 using Markdig.Syntax;
+using MarkdownMonster.Windows.ConfigurationEditor;
 using MarkdownMonster.Windows.DocumentOutlineSidebar;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Westwind.TypeImporter;
 using Westwind.Utilities;
 
 namespace MarkdownMonster.Test
 {
     [TestClass]
-    public class MarkdownTests
+    public class ConfigurationParserTests
     {
         [TestMethod]
-        public void TestStrikeOut()
+        public void ParseAppConfiguration()
         {
-            string markdown =
-                "This is **bold** and this is ~~strike out text~~ and this is ~~too~~. This ~~ is text \r\n that continues~~.";
+            var parser = new ConfigurationParser();
+            var dotnetObject = parser.ParseConfigurationObject(typeof(ApplicationConfiguration));
 
-            var parser = MarkdownParserFactory.GetParser(true);
-            string html = parser.Parse(markdown);
-
-            Console.WriteLine(html);
+            RenderType(dotnetObject);
         }
 
         [TestMethod]
-        public void Urilize()
+        public void ParseAllConfigurationObjectsTest()
         {
-            string text = "This is a test - string-value. This_is_not_right?";
-            var link1 = LinkHelper.UrilizeAsGfm(text);
-            var link2 = LinkHelper.Urilize(text, false);
-            Console.WriteLine(link1);
-            Console.WriteLine(link2);
+            var parser = new ConfigurationParser();
 
-        }
+            parser.ParseAllConfigurationObjects();
 
-        [TestMethod]
-        public void PragmaLinesTest()
-        {
-            string markdown = @"# Item 1
-This is some Markdown text that is **bold**.
+            var list = parser.FindProperty("Theme");
 
-http://west-wind.com
-
-## header 2 
-This is ~~strike out text~~ and this is ~~too~~. This ~~is text \r\n that continues~~. 
-
-* Item 1   
-askdjlaks jdalksdjalskdj
-
-asdkljaslkdjalskdjasd
-
-<b>This is more text</b>";
-
-            var parser = MarkdownParserFactory.GetParser(usePragmaLines: true);
-            string html = parser.Parse(markdown);
-
-            Console.WriteLine(html);
-
-            Assert.IsTrue(html.Contains("pragma-line-13"));
-        }
-
-        [TestMethod]
-        public void FontAwesomeTest()
-        {
-            string markdown = @"
-this @icon-gear<span>Text</span>
-
-I can see that this is working @icon-warning";
-
-            var parser = MarkdownParserFactory.GetParser();
-            string html = parser.Parse(markdown);
-
-            Console.WriteLine(html);
-
-            Assert.IsTrue(html.Contains("fa-warning") && html.Contains("fa-gear"));
+            RenderPropertyItems(list);
         }
 
 
-
-        [TestMethod]
-        public void VisualizeMathExpressions()
+        void RenderType(DotnetObject type)
         {
-            string math = @"Math expressions
-
-$\frac{n!}{k!(n-k)!} = \binom{n}{k}$
-
-$$\frac{n!}{k!(n-k)!} = \binom{n}{k}$$
-
-$$
-\frac{n!}{k!(n-k)!} = \binom{n}{k}
-$$
-
-<div class=""math"">
-\begin{align}
-\sqrt{37} & = \sqrt{\frac{73^2-1}{12^2}} \\
- & = \sqrt{\frac{73^2}{12^2}\cdot\frac{73^2-1}{73^2}} \\ 
- & = \sqrt{\frac{73^2}{12^2}}\sqrt{\frac{73^2-1}{73^2}} \\
- & = \frac{73}{12}\sqrt{1 - \frac{1}{73^2}} \\ 
- & \approx \frac{73}{12}\left(1 - \frac{1}{2\cdot73^2}\right)
-\end{align}
-</div>
-";
-            Console.WriteLine("Math Expressions:\n");
-
-            var pl = new MarkdownPipelineBuilder().UseMathematics()
-                .Build(); // UseEmphasisExtras(EmphasisExtraOptions.Subscript).Build()
+            Console.WriteLine($"{type} -  - {type.Signature}");
 
 
-            var html = Markdown.ToHtml(math, pl);
-            Console.WriteLine(html);
-            Assert.IsTrue(html.Contains("\\[\n\frac"));
+            if (type.Properties.Count > 0)
+            {
+                Console.WriteLine("  *** Properties:");
+                foreach (var prop in type.Properties)
+                {
+                    Console.WriteLine($"* {prop}  -  {prop.Signature} - {prop.Type}");
+                    Console.WriteLine($"{prop.HelpText}");
+                    Console.WriteLine("---");
+                }
+            }
+
+
         }
 
-        [TestMethod]
-        public void InlineMathExpression()
+        void RenderPropertyItems(List<ConfigurationPropertyItem> items)
         {
-            string math = @"Math expressions
-
-$\frac{n!}{k!(n-k)!} = \binom{n}{k}$
-";
-            var pl = new MarkdownPipelineBuilder().UseMathematics().Build(); // UseEmphasisExtras(EmphasisExtraOptions.Subscript).Build()
-
-            var html = Markdown.ToHtml(math, pl);
-            Console.WriteLine(html);
-
-            Assert.IsTrue(html.Contains("<p><span class=\"math\">\\("), "Leading bracket missing");
-            Assert.IsTrue(html.Contains("\\)</span></p>"), "Trailing bracket missing");
-        }
-
-        [TestMethod]
-        public void BlockMathExpression()
-        {
-            string math = @"Math expressions
-
-$$
-\frac{n!}{k!(n-k)!} = \binom{n}{k}
-$$
-";
-            var pl = new MarkdownPipelineBuilder().UseMathematics().Build(); // UseEmphasisExtras(EmphasisExtraOptions.Subscript).Build()
-
-            var html = Markdown.ToHtml(math, pl);
-            Console.WriteLine(html);
-
-            Assert.IsTrue(html.Contains("<div class=\"math\">\n\\["), "Leading bracket missing");
-            Assert.IsTrue(html.Contains("\\]</div>"), "Trailing bracket missing");
+            foreach (var item in items)
+            {
+                Console.WriteLine(item.SectionDisplayName + " - " + item.Property.Name );
+                Console.WriteLine(item.Property.HelpText);
+                Console.WriteLine("---");
+            }
         }
     }
-
 }

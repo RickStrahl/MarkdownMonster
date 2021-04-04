@@ -81,7 +81,11 @@ namespace MarkdownMonster
         private static bool RegisteredCalled = false;
 
         /// <summary>
-        /// Figures out if this copy is registered
+        /// Figures out if this copy is registered.
+        ///
+        /// Checks:
+        /// * install folder first (since machine specific)
+        /// * common folder (can be problematic if shared across machines with dropbox/onedrive etc.)
         /// </summary>
         /// <returns></returns>
         internal static bool IsAppRegistered()
@@ -94,11 +98,16 @@ namespace MarkdownMonster
                 _regType = RegTypes.Free;
 
                 string key = null;
+
+                // install location first - since the key is machine specific
+                // this can fail if user installed to a non-writable location (ie. Program Files)
                 if (File.Exists(RegisterFileInstall))
                     key= File.ReadAllText(RegisterFileInstall);
 
+
                 if (string.IsNullOrEmpty(key))
                 {
+                    // Check in common folder second 
                     if (File.Exists(RegisterFile))
                         key = File.ReadAllText(RegisterFile);
                 }

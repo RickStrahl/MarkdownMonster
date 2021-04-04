@@ -15,69 +15,69 @@ namespace MarkdownMonster.Test
     public class TableEditorTests
     {
 
-        [TestMethod]
-        public void ColumnInfoTest()
-        {
-            var data = GetTableData();
+    [TestMethod]
+    public void ColumnInfoTest()
+    {
+        var data = GetTableData();
 
-            var parser = new TableParser();
-            var colInfo = parser.GetColumnInfo(data);
+        var parser = new TableParser();
+        var colInfo = parser.GetColumnInfo(data);
 
-            Assert.IsNotNull(colInfo);
-            Console.WriteLine(JsonSerializationUtils.Serialize(colInfo));
-        }
+        Assert.IsNotNull(colInfo);
+        Console.WriteLine(JsonSerializationUtils.Serialize(colInfo));
+    }
 
-        [TestMethod]
-        public void DataToMarkdownPipeTableTest()
-        {
-            var data = GetTableData();
+    [TestMethod]
+    public void DataToMarkdownPipeTableTest()
+    {
+        var data = GetTableData();
 
-            var parser = new TableParser();
-            string html = parser.ToPipeTableMarkdown(data);
+        var parser = new TableParser();
+        string html = parser.ToPipeTableMarkdown(data);
 
-            Console.WriteLine(html);
+        Console.WriteLine(html);
 
-            Assert.IsTrue(html.Contains("| Column 8   |"));
-        }
-
-
+        Assert.IsTrue(html.Contains("| Column 8   |"));
+    }
 
 
 
 
 
-        [TestMethod]
-        public void DataToMarkdownGridTableTest()
-        {
-            var data = GetTableData();
-
-            var parser = new TableParser();
-            string html = parser.ToGridTableMarkdown(data);
-
-            Console.WriteLine(html);
-
-            Assert.IsTrue(html.Contains("| ho ho and"));
-        }
-
-        [TestMethod]
-        public void DataToTableHtmlTest()
-        {
-            var data = GetTableData();
-
-            var parser = new TableParser();
-            string html = parser.ToTableHtml(data);
-
-            Console.WriteLine(html);
-
-            Assert.IsTrue(html.Contains("<td>Column 5 Text</td>"));
-        }
 
 
+    [TestMethod]
+    public void DataToMarkdownGridTableTest()
+    {
+        var data = GetTableData();
 
-        [TestMethod]
-        public void ParseMarkdownPipeTableToDataTest()
-        {
-            string md = @"
+        var parser = new TableParser();
+        string html = parser.ToGridTableMarkdown(data);
+
+        Console.WriteLine(html);
+
+        Assert.IsTrue(html.Contains("| ho ho and"));
+    }
+
+    [TestMethod]
+    public void DataToTableHtmlTest()
+    {
+        var data = GetTableData();
+
+        var parser = new TableParser();
+        string html = parser.ToTableHtml(data);
+
+        Console.WriteLine(html);
+
+        Assert.IsTrue(html.Contains("<td>Column 5 Text</td>"));
+    }
+
+
+
+    [TestMethod]
+    public void ParseMarkdownPipeTableToDataTest()
+    {
+        string md = @"
 | Header1              | Header 2 | Header 3 |
 |--------------------------------------------|
 | column 1             | Column 2 | Column 3 |
@@ -85,84 +85,84 @@ namespace MarkdownMonster.Test
 | Column 7             | Column 8 | Column 9 |
 ";
 
-            var parser = new TableParser();
-            var data = parser.ParseMarkdownToData(md);
+        var parser = new TableParser();
+        var data = parser.ParseMarkdownToData(md);
 
-            Console.WriteLine(data.Count);
-            Console.WriteLine(parser.ToPipeTableMarkdown(data));
+        Console.WriteLine(data.Count);
+        Console.WriteLine(parser.ToPipeTableMarkdown(data));
 
-            Assert.IsTrue(data.Count == 4, "Table should have returned 4 rows");
-            Assert.IsTrue(data[1][1].Text == "Column 2");
-        }
+        Assert.IsTrue(data.Count == 4, "Table should have returned 4 rows");
+        Assert.IsTrue(data[1][1].Text == "Column 2");
+    }
 
-        [TestMethod]
-        public void ParseMarkdownPipeTableToDataTest2()
-        {
-            string md = @"
+    [TestMethod]
+    public void ParseMarkdownPipeTableToDataTest2()
+    {
+        string md = @"
 a  | b 
 --|--
 0  | 1 
 3  | 4
 ";
 
-            var parser = new TableParser();
-            var data = parser.ParseMarkdownToData(md);
+        var parser = new TableParser();
+        var data = parser.ParseMarkdownToData(md);
 
-            Console.WriteLine(data.Count);
-            Console.WriteLine(parser.ToPipeTableMarkdown(data));
+        Console.WriteLine(data.Count);
+        Console.WriteLine(parser.ToPipeTableMarkdown(data));
 
-            Assert.IsTrue(data.Count == 3, "Table should have returned 3 rows");
-            Assert.IsTrue(data[1][1].Text == "1");
-        }
+        Assert.IsTrue(data.Count == 3, "Table should have returned 3 rows");
+        Assert.IsTrue(data[1][1].Text == "1");
+    }
 
 
-        [TestMethod]        
-        public void UnbalancedPipeTableParsingTest()
-        {
-            var md = @"| Header 1 | Header 2 |
+    [TestMethod]
+    public void UnbalancedPipeTableParsingTest()
+    {
+        var md = @"| Header 1 | Header 2 |
 |------------|------------|------------|
 | Column 1   | Column 2   | More Stuff |
 | Column 1.1 | Column 2.1 | More Stuff |";
 
-            
-            var parser = new TableParser();
-            var data = parser.ParseMarkdownToData(md);
 
-            Console.WriteLine(data.Count);
-            Console.WriteLine(parser.ToPipeTableMarkdown(data));
+        var parser = new TableParser();
+        var data = parser.ParseMarkdownToData(md);
 
-            Assert.IsTrue(data.Count == 3, "Table should have returned 3 rows");
-            Assert.IsTrue(data[1][1].Text == "Column 2");
-        }
+        Console.WriteLine(data.Count);
+        Console.WriteLine(parser.ToPipeTableMarkdown(data));
 
-        [TestMethod]        
-        public void ExtraUnbalancedPipeTableParsingTest()
-        {
-            var md = @"| Header 1 | Header 2 |
+        Assert.IsTrue(data.Count == 3, "Table should have returned 3 rows");
+        Assert.IsTrue(data[1][1].Text == "Column 2");
+    }
+
+    [TestMethod]
+    public void ExtraUnbalancedPipeTableParsingTest()
+    {
+        var md = @"| Header 1 | Header 2 |
 |------------|------------|------------|
 | Column 1   | Column 2   |
 | Column 1.1 | Column 2.1 | More Stuff | Even More Stuff |";
 
-            Console.WriteLine(md + "\n\n");
+        Console.WriteLine(md + "\n\n");
 
-            var parser = new TableParser();
-            var data = parser.ParseMarkdownToData(md);
+        var parser = new TableParser();
+        var data = parser.ParseMarkdownToData(md);
 
-            Console.WriteLine(data.Count);
-            Console.WriteLine(parser.ToPipeTableMarkdown(data));
+        Console.WriteLine(data.Count);
+        Console.WriteLine(parser.ToPipeTableMarkdown(data));
 
-            Assert.IsTrue(data.Count == 3, "Table should have returned 3 rows");
-            Assert.IsTrue( string.IsNullOrWhiteSpace(data[0][2].Text) );  // header
-            Assert.IsTrue( string.IsNullOrWhiteSpace(data[1][2].Text) );  
-            Assert.IsTrue(data[1][1].Text == "Column 2");
-            Assert.IsTrue(data[2][2].Text == "More Stuff");
-        }
+        Assert.IsTrue(data.Count == 3, "Table should have returned 3 rows");
+        Assert.IsTrue(string.IsNullOrWhiteSpace(data[0][2].Text)); // header
+        Assert.IsTrue(string.IsNullOrWhiteSpace(data[1][2].Text));
+        Assert.IsTrue(data[1][1].Text == "Column 2");
+        Assert.IsTrue(data[2][2].Text == "More Stuff");
+    }
 
 
-        [TestMethod]
-        public void ParseMarkdownGridTableToDataTest()
-        {
-            string md = @"
+    [TestMethod]
+    public void ParseMarkdownGridTableToDataTest()
+    {
+        string md = @"
 +------------------------------------------+----------------+------------+
 | Header 1                                 | Header 2       | Header 3   |
 +==========================================+================+============+
@@ -179,20 +179,20 @@ a  | b
 +------------------------------------------+----------------+------------+
 ";
 
-            var parser = new TableParser();
-            var data = parser.ParseMarkdownToData(md);
+        var parser = new TableParser();
+        var data = parser.ParseMarkdownToData(md);
 
-            Console.WriteLine(data.Count);
-            Console.WriteLine(parser.ToGridTableMarkdown(data));
+        Console.WriteLine(data.Count);
+        Console.WriteLine(parser.ToGridTableMarkdown(data));
 
-            Assert.IsTrue(data.Count == 5, "Table should have returned 5 rows");
-            Assert.IsTrue(data[2][0].Text.Contains("\nand a bottle of"));
-        }
+        Assert.IsTrue(data.Count == 5, "Table should have returned 5 rows");
+        Assert.IsTrue(data[2][0].Text.Contains("\nand a bottle of"));
+    }
 
-        [TestMethod]
-        public void ParseUnbalancedMarkdownGridTableToDataTest()
-        {
-            string md = @"
+    [TestMethod]
+    public void ParseUnbalancedMarkdownGridTableToDataTest()
+    {
+        string md = @"
 +------------------------------------------+----------------+------------+
 | Header 1                                 | Header 2       |
 +==========================================+================+============+
@@ -209,26 +209,26 @@ a  | b
 +------------------------------------------+----------------+------------+
 ";
 
-            var parser = new TableParser();
-            var data = parser.ParseMarkdownToData(md);
+        var parser = new TableParser();
+        var data = parser.ParseMarkdownToData(md);
 
-            Console.WriteLine(data.Count);
-            Console.WriteLine(parser.ToGridTableMarkdown(data));
+        Console.WriteLine(data.Count);
+        Console.WriteLine(parser.ToGridTableMarkdown(data));
 
-            Assert.IsTrue(data.Count == 5, "Table should have returned 5 rows");
+        Assert.IsTrue(data.Count == 5, "Table should have returned 5 rows");
 
-            Assert.IsTrue(string.IsNullOrWhiteSpace(data[0][0].Text));  // header filled
-            Assert.IsTrue(string.IsNullOrWhiteSpace(data[2][0].Text));  // 2nd row filled
+        Assert.IsTrue(string.IsNullOrWhiteSpace(data[0][0].Text)); // header filled
+        Assert.IsTrue(string.IsNullOrWhiteSpace(data[2][0].Text)); // 2nd row filled
 
-            Assert.IsTrue(data[2][0].Text.Contains("\nand a bottle of"));
-            
-        }
+        Assert.IsTrue(data[2][0].Text.Contains("\nand a bottle of"));
+
+    }
 
 
-        [TestMethod]
-        public void ParseComplexMarkdownGridTableToDataTest()
-        {
-            var md = @"
+    [TestMethod]
+    public void ParseComplexMarkdownGridTableToDataTest()
+    {
+        var md = @"
 +-----------------------------------+-----------------------------------+
 | Attribute                         | Function                          |
 +===================================+===================================+
@@ -278,22 +278,22 @@ a  | b
 +-----------------------------------+-----------------------------------+
 ";
 
-            var parser = new TableParser();
-            var data = parser.ParseMarkdownToData(md);
+        var parser = new TableParser();
+        var data = parser.ParseMarkdownToData(md);
 
-            Console.WriteLine(data.Count);
-            Console.WriteLine(parser.ToGridTableMarkdown(data));
+        Console.WriteLine(data.Count);
+        Console.WriteLine(parser.ToGridTableMarkdown(data));
 
-            Assert.IsTrue(data.Count == 8, "Table should have returned 8 rows");
-            Assert.IsTrue(data[2][0].Text.Contains("**flex-direction**"));
+        Assert.IsTrue(data.Count == 8, "Table should have returned 8 rows");
+        Assert.IsTrue(data[2][0].Text.Contains("**flex-direction**"));
 
 
-        }
+    }
 
-        [TestMethod]
-        public void SimpleHtmlTableToData()
-        {
-            string html = @"
+    [TestMethod]
+    public void SimpleHtmlTableToData()
+    {
+        string html = @"
 <table>
 <thead>
 <tr>
@@ -322,21 +322,21 @@ a  | b
 </html>
 ";
 
-            var parser = new TableParser();
-            var data = parser.ParseHtmlToData(html);
+        var parser = new TableParser();
+        var data = parser.ParseHtmlToData(html);
 
-            Assert.IsNotNull(data);
+        Assert.IsNotNull(data);
 
-            Console.WriteLine(data.Count);
-            Console.WriteLine(parser.ToGridTableMarkdown(data));
+        Console.WriteLine(data.Count);
+        Console.WriteLine(parser.ToGridTableMarkdown(data));
 
-        }
+    }
 
 
-        [TestMethod]
-        public void SimpleHtmlTableNoHeaderToData()
-        {
-            string html = @"
+    [TestMethod]
+    public void SimpleHtmlTableNoHeaderToData()
+    {
+        string html = @"
 <table>
 <tbody>
 <tr>
@@ -363,20 +363,20 @@ a  | b
 </html>
 ";
 
-            var parser = new TableParser();
-            var data = parser.ParseHtmlToData(html);
+        var parser = new TableParser();
+        var data = parser.ParseHtmlToData(html);
 
-            Assert.IsNotNull(data);
+        Assert.IsNotNull(data);
 
-            Console.WriteLine(data.Count);
-            Console.WriteLine(parser.ToGridTableMarkdown(data));
+        Console.WriteLine(data.Count);
+        Console.WriteLine(parser.ToGridTableMarkdown(data));
 
-        }
+    }
 
-        [TestMethod]
-        public void SimpleHtmlTableWithBasicMarkupToData()
-        {
-            string html = @"
+    [TestMethod]
+    public void SimpleHtmlTableWithBasicMarkupToData()
+    {
+        string html = @"
 <table>
 <tr>
     <th>Column1</th>
@@ -403,48 +403,48 @@ a  | b
 </table>
 ";
 
-            var parser = new TableParser();
-            var data = parser.ParseHtmlToData(html);
+        var parser = new TableParser();
+        var data = parser.ParseHtmlToData(html);
 
-            Assert.IsNotNull(data);
+        Assert.IsNotNull(data);
 
-            Console.WriteLine(data.Count);
-            Console.WriteLine(parser.ToGridTableMarkdown(data));
+        Console.WriteLine(data.Count);
+        Console.WriteLine(parser.ToGridTableMarkdown(data));
 
-        }
+    }
 
 
-        [TestMethod]
-        public void CsvTableParserFromStringTest()
-        {
+    [TestMethod]
+    public void CsvTableParserFromStringTest()
+    {
 
-            string data = @"Name,Company,city,Test
+        string data = @"Name,Company,city,Test
 
 Rick,West Wind,Paia,4
 Markus,EPS,Kihei,20,11
 Kevin,Oak Leaf,Bumfuck VA,4
 ";
 
-            var parser = new TableParser();
-            var tableData = parser.ParseCsvStringToData(data,",");
+        var parser = new TableParser();
+        var tableData = parser.ParseCsvStringToData(data, ",");
 
-            Console.WriteLine(parser.ToGridTableMarkdown(tableData));
-        }
+        Console.WriteLine(parser.ToGridTableMarkdown(tableData));
+    }
 
-        [TestMethod]
-        public void CsvTableParserFromFileTest()
-        {            
-            var parser = new TableParser();
-            var tableData = parser.ParseCsvFileToData(@"c:\temp\Names.csv",",");
-            Console.WriteLine(parser.ToGridTableMarkdown(tableData));
-        }
+    [TestMethod]
+    public void CsvTableParserFromFileTest()
+    {
+        var parser = new TableParser();
+        var tableData = parser.ParseCsvFileToData(@"c:\temp\Names.csv", ",");
+        Console.WriteLine(parser.ToGridTableMarkdown(tableData));
+    }
 
 
 
-        [TestMethod]
-        public void DetectTableTypeTest()
-        {
-            string mdPipe = @"
+    [TestMethod]
+    public void DetectTableTypeTest()
+    {
+        string mdPipe = @"
 | Header1              | Header 2 | Header 3 |
 |--------------------------------------------|
 | column 1             | Column 2 | Column 3 |
@@ -452,13 +452,13 @@ Kevin,Oak Leaf,Bumfuck VA,4
 | Column 7             | Column 8 | Column 9 |
 ";
 
-            var parser = new TableParser();
-            var type = parser.DetectTableType(mdPipe);
+        var parser = new TableParser();
+        var type = parser.DetectTableType(mdPipe);
 
-            Assert.IsTrue(type == MarkdownTableType.Pipe,"Not a Pipe Table");
+        Assert.IsTrue(type == MarkdownTableType.Pipe, "Not a Pipe Table");
 
 
-            string mdHtml = @"
+        string mdHtml = @"
 <table>
 <tbody>
 <tr>
@@ -485,10 +485,10 @@ Kevin,Oak Leaf,Bumfuck VA,4
 </html>
 ";
 
-            type = parser.DetectTableType(mdHtml);
-            Assert.IsTrue(type == MarkdownTableType.Html,"Not an HTML table");
+        type = parser.DetectTableType(mdHtml);
+        Assert.IsTrue(type == MarkdownTableType.Html, "Not an HTML table");
 
-            string mdGrid = @"
+        string mdGrid = @"
 +------------------------------------------+----------------+------------+
 | Header 1                                 | Header 2       | Header 3   |
 +==========================================+================+============+
@@ -505,15 +505,15 @@ Kevin,Oak Leaf,Bumfuck VA,4
 +------------------------------------------+----------------+------------+
 ";
 
-            type = parser.DetectTableType(mdGrid);
-            Assert.IsTrue(type == MarkdownTableType.Grid,"Not a Grid Table");
-        }
+        type = parser.DetectTableType(mdGrid);
+        Assert.IsTrue(type == MarkdownTableType.Grid, "Not a Grid Table");
+    }
 
 
-        [TestMethod]
-        public void FormatPipeTableTest()
-        {
-            string md = @"
+    [TestMethod]
+    public void FormatPipeTableTest()
+    {
+        string md = @"
 | Header1 | Header 2   | Header 3    |
 |--------------------------------------------|
 | column 1 | Column 2 | Column 3 |
@@ -521,17 +521,17 @@ Kevin,Oak Leaf,Bumfuck VA,4
 | Column 7  | Column 8 | Column 9 |
 ";
 
-            var parser = new TableParser();
-            var niceMd = parser.FormatMarkdownTable(md);
-            Console.WriteLine(niceMd);
-            Assert.IsTrue(niceMd.Contains("| Column 7             |"), "Pipe is not formatted as expected");
-        }
+        var parser = new TableParser();
+        var niceMd = parser.FormatMarkdownTable(md);
+        Console.WriteLine(niceMd);
+        Assert.IsTrue(niceMd.Contains("| Column 7             |"), "Pipe is not formatted as expected");
+    }
 
 
-        [TestMethod]
-        public void FormatGridTableTest()
-        {
-            string md= @"
+    [TestMethod]
+    public void FormatGridTableTest()
+    {
+        string md = @"
 +------------------------+----------------+------------+
 | Header 1 | Header 2       | Header 3   |
 +==========================================+================+============+
@@ -547,17 +547,18 @@ Kevin,Oak Leaf,Bumfuck VA,4
 | ho ho and a bottle of rum                |                |            |
 +------------------------------------------+----------------+------------+
 ";
-            var parser = new TableParser();
-            var niceMd = parser.FormatMarkdownTable(md);
+        var parser = new TableParser();
+        var niceMd = parser.FormatMarkdownTable(md);
 
-            Console.WriteLine(niceMd);
-            Assert.IsTrue(niceMd.Contains("| Column 1                                 |"), "Grid is not formatted as expected");
-        }
+        Console.WriteLine(niceMd);
+        Assert.IsTrue(niceMd.Contains("| Column 1                                 |"),
+            "Grid is not formatted as expected");
+    }
 
-        [TestMethod]
-        public void FormatHtmlTableTest()
-        {
-            string md = @"
+    [TestMethod]
+    public void FormatHtmlTableTest()
+    {
+        string md = @"
 <table>
 <tbody>
 <tr>    <td>Column1</td>     <td>Column2</td>     <td>Column3</td> </tr>
@@ -574,26 +575,45 @@ Kevin,Oak Leaf,Bumfuck VA,4
 </tr></tbody></table></html>
 ";
 
-            var parser = new TableParser();
-            var niceMd = parser.FormatMarkdownTable(md);
+        var parser = new TableParser();
+        var niceMd = parser.FormatMarkdownTable(md);
 
-            Console.WriteLine(niceMd);
-            Assert.IsTrue(niceMd.Contains("		<td>Column3 Row 3</td>"), "Pipe is not formatted as expected");
-        }
+        Console.WriteLine(niceMd);
+        Assert.IsTrue(niceMd.Contains("		<td>Column3 Row 3</td>"), "Pipe is not formatted as expected");
+    }
 
 
-        ObservableCollection<ObservableCollection<CellContent>> GetTableData()
+    ObservableCollection<ObservableCollection<CellContent>> GetTableData()
+    {
+        var parser = new TableParser();
+        var data = parser.TableData;
+        data.Add(new ObservableCollection<CellContent>
         {
-            var parser = new TableParser();
-            var data = parser.TableData;
-            data.Add(new ObservableCollection<CellContent> { new CellContent("Header 1"), new CellContent("Header 2"), new CellContent("Header 3") });
-            data.Add(new ObservableCollection<CellContent> { new CellContent("Column 1"), new CellContent("Column 2 Text"), new CellContent("Column 3") });
-            data.Add(new ObservableCollection<CellContent> { new CellContent("Column 4\nand a bottle of Russian rum\nwith broken glass"), new CellContent("Column 5 Text"), new CellContent("Column 5.5") });
-            data.Add(new ObservableCollection<CellContent> { new CellContent("Column 6"), new CellContent("Column 7 Text"), new CellContent("Column 8") });
-            data.Add(new ObservableCollection<CellContent> { new CellContent("Column 9\nho ho and a bottle of rum"), new CellContent("Column 10 Text"), new CellContent("Column 11") });
+            new CellContent("Header 1"), new CellContent("Header 2"), new CellContent("Header 3")
+        });
+        data.Add(new ObservableCollection<CellContent>
+        {
+            new CellContent("Column 1"), new CellContent("Column 2 Text"), new CellContent("Column 3")
+        });
+        data.Add(new ObservableCollection<CellContent>
+        {
+            new CellContent("Column 4\nand a bottle of Russian rum\nwith broken glass"),
+            new CellContent("Column 5 Text"),
+            new CellContent("Column 5.5")
+        });
+        data.Add(new ObservableCollection<CellContent>
+        {
+            new CellContent("Column 6"), new CellContent("Column 7 Text"), new CellContent("Column 8")
+        });
+        data.Add(new ObservableCollection<CellContent>
+        {
+            new CellContent("Column 9\nho ho and a bottle of rum"),
+            new CellContent("Column 10 Text"),
+            new CellContent("Column 11")
+        });
 
-            return data;
-        }
+        return data;
+    }
 
 
 

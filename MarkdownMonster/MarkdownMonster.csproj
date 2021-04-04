@@ -4,8 +4,12 @@
     <OutputType>WinExe</OutputType>
     <!--<TargetFramework>netcoreapp3.0</TargetFramework>-->
     <StartupObject>StartUp</StartupObject>
+
     <UseWPF>true</UseWPF>
     <TargetFramework>net472</TargetFramework>
+    <RuntimeIdentifier>win-x86</RuntimeIdentifier>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <Prefer32Bit>true</Prefer32Bit>
 
     <Version>1.26.6</Version>
     <AssemblyName>MarkdownMonster</AssemblyName>
@@ -24,9 +28,7 @@
     <ApplicationManifest>app.manifest</ApplicationManifest>
     <TieredCompilation>true</TieredCompilation> 
 
-    <RuntimeIdentifier>win-x86</RuntimeIdentifier>
-    <PlatformTarget>AnyCpu</PlatformTarget>
-    <Prefer32Bit>true</Prefer32Bit>
+
   </PropertyGroup>
 
   <PropertyGroup Condition=" '$(TargetFramework)' == 'netcoreapp3.0' ">
