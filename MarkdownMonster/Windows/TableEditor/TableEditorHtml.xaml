@@ -22,17 +22,6 @@
         IsMinButtonEnabled="False" IsMaxRestoreButtonEnabled="False"                       
         Width="1020" Height="700" MinWidth="700"
      >
-    <Window.Resources>
-        <ContextMenu x:Key="ColumnContextMenu">
-            <MenuItem Name="MenuInsertRowBelow" Header="Insert Row _Below" Click="Button_Click" />
-            <MenuItem Name="MenuInsertRowAbove" Header="Insert Row _Above" Click="Button_Click" />
-            <MenuItem Name="MenuDeleteRow" Header="_Delete Row" Click="Button_Click"  />
-            <Separator />
-            <MenuItem Name="MenuInsertColumnRight" Header="Insert Column _Right" Click="Button_Click" />
-            <MenuItem Name="MenuInsertColumnLeft" Header="Insert Column _Left" Click="Button_Click"/>
-            <MenuItem Name="MenuDeleteColumn" Header="Dele_te Column" Click="Button_Click" />
-        </ContextMenu>
-    </Window.Resources>
     <Window.InputBindings>
         <KeyBinding Key="F1" Command="{Binding AppModel.Commands.HelpCommand}" CommandParameter="_53a0pfz0t.htm"/>
     </Window.InputBindings>
@@ -41,7 +30,6 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
-            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
         <ToolBarTray >
@@ -53,20 +41,28 @@
                 </Style>
             </ToolBarTray.Resources>
             <!--<StackPanel Orientation="Horizontal">-->
-                    <ToolBar FontWeight="Normal"  ToolBarTray.IsLocked="True">
-                    
-                        <Button Name="ButtonOk"   Click="Button_Click">
-                            <StackPanel Orientation="Horizontal">
-                                <fa:FontAwesome Margin="5,2,5,0" Icon="CheckCircleOutline"                                             
+            <ToolBar FontWeight="Normal"  ToolBarTray.IsLocked="True">
+
+                <Button Name="ButtonOk"   Command="{Binding Commands.EmbedTableCommand}">
+                    <StackPanel Orientation="Horizontal">
+                        <fa:FontAwesome Margin="5,3,7,0" Icon="CheckCircleOutline"                                             
                                             FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" 
-                                            Foreground="#1F9B3C" /> 
-                                <TextBlock>Embed Table</TextBlock>
-                            </StackPanel>
-                        </Button>
+                                            Foreground="#1F9B3C" FontSize="18" />
+                        <TextBlock>Embed Table</TextBlock>
+                    </StackPanel>
+                </Button>
+
+                <TextBlock Margin="0,4, 10,0" 
+                           Foreground="#aaa"
+                           FontSize="18">as</TextBlock>
+                <ComboBox Name="ComboTableMode" ItemsSource="{Binding TableModes}" 
+                          SelectedItem="{Binding TableMode, Mode=TwoWay}" 
+                          Padding="3" Width="105"/>
+
 
                 <Button Name="ButtonCancel"   Click="Button_Click"  >
                     <StackPanel Orientation="Horizontal">
-                        <fa:FontAwesome Margin="5,2,5,0" Icon="Times"                                             
+                        <fa:FontAwesome Margin="5,3,4,0" Icon="Times"                                             
                                             FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" 
                                             Foreground="Firebrick" />
                         <TextBlock>Cancel</TextBlock>
@@ -74,7 +70,7 @@
                 </Button>
             </ToolBar>
 
-                <ToolBar ToolBarTray.IsLocked="True">
+            <ToolBar ToolBarTray.IsLocked="True">
                     <Separator />
 
                     <Button Name="ButtonPasteHtml" Click="Button_Click" ToolTip="Paste a table from clipboard from HTML or Pipe or Grid Tables"  >
@@ -106,13 +102,7 @@
  
         <WebBrowser Name="WebBrowser" 
                     Grid.Row="1" Focusable="True" 
-                    Margin="20,10"
+                    Margin="0,10 , 0, 0"
         />
-
-
-        <StackPanel Grid.Row="2"  Orientation="Horizontal" Margin="10">
-            <TextBlock Margin="0,3,10,0">generate as:</TextBlock>
-            <ComboBox Name="ComboTableMode" ItemsSource="{Binding TableModes}" SelectedItem="{Binding TableMode, Mode=TwoWay}" Padding="3" Width="300"/>
-        </StackPanel>
     </Grid>
 </controls:MetroWindow>

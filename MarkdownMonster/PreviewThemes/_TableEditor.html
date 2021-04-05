@@ -5,9 +5,7 @@
     <title>Markdown Monster Table Editor</title>
     <link  href="Westwind/Theme.css" rel="stylesheet" />
     <style> 
-        html, body{
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            font-size: 17px;
+        html, body{            
             margin: 0;
             padding: 0 0 0 0;
         }
@@ -22,9 +20,13 @@
             background: rgb(28, 75, 112);
             color: #eee;
         }
-        table { margin: 0 20px 0 0 !important; } 
+        table {
+             margin: 0 !important; 
+             margin-bottom: 4px;
+             padding: 0;
+        } 
         table td input, table th input, table td textarea, table th textarea {
-            width: 100%;
+            width: 100%;            
             height: auto;
             background: transparent;
             border: none;            
@@ -35,8 +37,8 @@
             overflow: hidden;            
         }        
         table th input, table th textarea {            
-            font-weight: 600;
-            font-size: 1.15em;                               
+            /* font-weight: 600;
+            font-size: 1.15em;                                */
         }
         textarea:focus, textarea:active {            
             border: #ccc 0.1px solid;

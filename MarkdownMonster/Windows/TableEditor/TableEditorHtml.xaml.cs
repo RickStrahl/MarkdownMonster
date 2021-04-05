@@ -51,6 +51,8 @@ namespace MarkdownMonster.Windows
 
         public TableData TableData { get; set; } = new TableData();
 
+        public TableEditorCommands Commands {get; }
+
         public ObservableCollection<string> TableModes { get; set; } =
             new ObservableCollection<string> {"Pipe Table", "Grid Table", "HTML Table"};
 
@@ -82,8 +84,8 @@ namespace MarkdownMonster.Windows
             mmApp.SetThemeWindowOverride(this);
             Owner = AppModel.Window;
 
-            var data = new List<string[]>();
-
+            Commands = new TableEditorCommands(this);
+            
             if (tableMarkdownOrHtml == null)
                 CreateInitialTableData();
             else
@@ -184,24 +186,7 @@ namespace MarkdownMonster.Windows
         {
              var name = (sender as Control).Name;
             
-            if (sender == ButtonOk)
-            {
-                var parser = new TableParserHtml();
-                
-                if (TableMode == "Grid Table")
-                    TableHtml = parser.ToGridTableMarkdown(TableData);
-                else if(TableMode == "HTML Table")
-                    TableHtml = parser.ToTableHtml(TableData);
-                else
-                    TableHtml = parser.ToPipeTableMarkdown(TableData);
-
-
-                mmApp.Model.ActiveEditor.SetSelectionAndFocus(TableHtml);
-
-                //Cancelled = false;
-                Close();
-            }
-            else if(sender == ButtonCancel)
+            if(sender == ButtonCancel)
             {
                 Cancelled = true;
                 Close();

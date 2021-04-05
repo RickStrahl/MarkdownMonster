@@ -68,7 +68,10 @@ namespace MarkdownMonster.Windows
                 Window.WebBrowser.ContextMenu = ContextMenu;
 
                 var item = ContextMenu.Items[0] as MenuItem;
-                item.Focus();
+
+                Window.Activate();
+                ContextMenu.Dispatcher.InvokeAsync(() => item.Focus(),
+                    System.Windows.Threading.DispatcherPriority.ApplicationIdle);
             }
             
         }

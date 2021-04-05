@@ -17,11 +17,6 @@ namespace MarkdownMonster.Windows
 
         public TableEditorDotnetInterop(object instance) : base(instance)
         {
-
-
-            
-           
-
         }
 
         #region Call into JavaScript from .NET
@@ -60,6 +55,11 @@ namespace MarkdownMonster.Windows
             Window = window;
         }
 
+        /// <summary>
+        /// Updates the stored table data. Called whenever the HTML form
+        /// loses focus
+        /// </summary>
+        /// <param name="jsonTable"></param>
         public void UpdateTableData(string jsonTable)
         {
             var td = JsonSerializationUtils.Deserialize<TableData>(jsonTable);
@@ -67,6 +67,10 @@ namespace MarkdownMonster.Windows
                 Window.TableData = td;
         }
 
+        /// <summary>
+        /// Pops up the context menu
+        /// </summary>
+        /// <param name="mousePosition"></param>
         public void ShowContextMenu(object mousePosition)
         {
             // get the latest editor table data
@@ -86,7 +90,19 @@ namespace MarkdownMonster.Windows
             ctx.ShowContextMenu();
         }
 
+
+        /// <summary>
+        /// Ctrl-Enter callback to force the form to save
+        /// </summary>
+        public void KeyboardCommand(string command)
+        {
+            if (command == "Ctrl-Enter")
+                Window.Commands.EmbedTableCommand.Execute(null);
+        }
     }
+
+
+
 
     
 }

@@ -106,6 +106,11 @@ var page = {
             $("tbody").append(clonedTr$);
         }
 
+        // ctrl-enter
+        else if (e.keyCode == 13 && e.ctrlKey) {
+            if (page.dotnet)
+               page.dotnet.KeyboardCommand("Ctrl-Enter");
+        }
         // down key navigates
         else if (e.keyCode == 40) 
         {
