@@ -1,6 +1,6 @@
 var page = {
     tableData: {
-        activeCell: { row: 3, column: 1},
+        activeCell: { row: 0, column: 0, isHeader: true },
         headers: [
             "Header 1",
             "Header 2:"
@@ -22,7 +22,13 @@ var page = {
 
     },
     dotnet: null, 
-    mousePos: { x: -1, y: -1, row: -1, col: -1 },
+    mousePos: { 
+        x: -1, 
+        y: -1, 
+        // row 0: Header, row -1: not set
+        row: -1,
+        col: -1
+    },
     workElement: null,
     initialize: function() {
         page.workElement = document.createElement("div");
@@ -42,10 +48,10 @@ var page = {
         });
         
        
-        $(document).on("mousemove","#RenderWrapper textarea",function(e) {
-            page.mousePos.x = e.clientX;
-            page.mousePos.y = e.clientY;
-        });
+        // $(document).on("mousemove","#RenderWrapper textarea",function(e) {
+        //     page.mousePos.x = e.clientX;
+        //     page.mousePos.y = e.clientY;
+        // });
         $(document).on("contextmenu","#RenderWrapper textarea",function(e) {                   
             var textBox = e.target;
             if (textBox.tagName != "TEXTAREA") return;
@@ -149,55 +155,74 @@ var page = {
         }   
         
     },
-    renderTable: function() {
-        var html = "<table>\n";
-        var headers = page.tableData.headers;
+    renderTable: function(tableData, focusLocation) {
 
-        // row 0
-        if (headers && headers.length > 0) {
-            html += "<thead>\n<tr>"
+        try {
+            if (typeof tableData === "string")
+                page.tableData = JSON.parse(tableData);
+            if(typeof focusLocation === "string")
+                focusLocation = JSON.parse(focusLocation);
+                
+            var html = "<table>\n";
+            var headers = page.tableData.headers;
 
-            for (let i = 0; i < headers.length; i++) {
-                var colText = headers[i];              
-                var c =  i;  
-                html += "<th><textarea id='id_0_" + c  + "'>" + page.encodeText(colText) + "</textarea></th>";                
-            }
-            html += "</tr>\n</thead>"
-        }
+            // row 0
+            if (headers && headers.length > 0) {
+                html += "<thead>\n<tr>"
 
-        // content rows are 1 based to account for row ids
-        var rows = page.tableData.rows;
-        if(rows && rows.length > 0)
-        {
-            html += "<tbody>\n"
-
-            for (let rowIdx = 0; rowIdx < rows.length; rowIdx++) {
-                var rowArray = rows[rowIdx];
-                html += "<tr>\n"
-    
-                for (var colIdx = 0; colIdx < rowArray.length; colIdx++) {
-                    var colText = rowArray[colIdx];
-                    var r = rowIdx * 1 + 1;
-                    var c = colIdx * 1;                    
-                    html += "<td><textarea id='id_" + r  + "_" +  c +  "'>" + page.encodeText(colText) + "</textarea></td>\n";                                
+                for (let i = 0; i < headers.length; i++) {
+                    var colText = headers[i];              
+                    var c =  i;  
+                    html += "<th><textarea id='id_0_" + c  + "'>" + page.encodeText(colText) + "</textarea></th>";                
                 }
-
-                html += "</tr>\n"
+                html += "</tr>\n</thead>"
             }
-            html += "</tbody>"
-        }
 
-        html += "</table>";
-        $("#RenderWrapper").html(html);
+            // content rows are 1 based to account for row ids
+            var rows = page.tableData.rows;
+            if(rows && rows.length > 0)
+            {
+                html += "<tbody>\n"
+
+                for (let rowIdx = 0; rowIdx < rows.length; rowIdx++) {
+                    var rowArray = rows[rowIdx];
+                    html += "<tr>\n"
         
-        if (page.tableData.activeCell) {
-            var sel = "#row" + page.tableData.activeCell.row + "_col" + page.tableData.activeCell.column;            
-            $(sel).focus();
-        }
+                    for (var colIdx = 0; colIdx < rowArray.length; colIdx++) {
+                        var colText = rowArray[colIdx];
+                        var r = rowIdx * 1 + 1;
+                        var c = colIdx * 1;                    
+                        html += "<td><textarea id='id_" + r  + "_" +  c +  "'>" + page.encodeText(colText) + "</textarea></td>\n";                                
+                    }
 
-        $("textarea").each(function() {            
-            page.autogrowTextAreas(this);
-        });        
+                    html += "</tr>\n"
+                }
+                html += "</tbody>"
+            }
+
+            html += "</table>";
+            $("#RenderWrapper").html(html);
+            
+            if (focusLocation) {
+                if(focusLocation.isHeader)
+                {
+                    $("th textarea").first().focus();
+                }else {
+                    var row = focusLocation.row + 1;
+                    var sel = "#id_" + row + "_" + focusLocation.column;            
+                    $(sel).focus();
+                }
+            }
+
+            setTimeout(function() { $("th textarea").trigger("keyup"); },10);
+            $("textarea").each(function() {            
+                page.autogrowTextAreas(this);
+            });  
+            
+        } catch(ex)   
+        {
+             alert("Error:\n" + ex.message);
+        }
     },
     parseTable: function(asJson) {
         var td = {
@@ -280,6 +305,12 @@ function InitializeInterop(dotnet, tableDataJson) {
     page.dotnet = dotnet;
     page.tableData = JSON.parse(tableDataJson);
     page.renderTable();
+
+    setTimeout(function() {
+        var first = $("th textarea");
+        if (first.length > 0)
+            setTimeout(function() { first[0].focus(); }, 320);
+    });
 
     return page;
 }

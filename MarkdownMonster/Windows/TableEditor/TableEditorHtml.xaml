@@ -104,8 +104,9 @@
             <!--</StackPanel>-->
         </ToolBarTray>
  
-        <WebBrowser Name="WebBrowser" Focusable="True" 
-                    Grid.Row="1" Margin="20,10" 
+        <WebBrowser Name="WebBrowser" 
+                    Grid.Row="1" Focusable="True" 
+                    Margin="20,10"
         />
 
 

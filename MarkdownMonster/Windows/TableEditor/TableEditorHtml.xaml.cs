@@ -4,11 +4,7 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.Runtime.CompilerServices;
-using System.Security.Policy;
 using System.Windows;
-using System.Windows.Forms;
-using System.Windows.Input;
-using System.Windows.Threading;
 using MahApps.Metro.Controls;
 using MarkdownMonster.Annotations;
 using MarkdownMonster.Windows.PreviewBrowser;
@@ -59,9 +55,9 @@ namespace MarkdownMonster.Windows
             new ObservableCollection<string> {"Pipe Table", "Grid Table", "HTML Table"};
 
 
-        private TableEditorDotnetInterop Interop { get; set; }
+        public TableEditorDotnetInterop Interop { get; set; }
 
-        private TableEditorJavaScriptCallbacks JavaScriptCallbacks { get; set; }
+        public TableEditorJavaScriptCallbacks JavaScriptCallbacks { get; set; }
 
         public string TableMode
         {
@@ -103,7 +99,6 @@ namespace MarkdownMonster.Windows
         }
 
 
-
         private void TableEditorHtml_Loaded(object sender, RoutedEventArgs e)
         {
             RenderTable();
@@ -114,8 +109,6 @@ namespace MarkdownMonster.Windows
             if (!e.Uri.ToString().ToLower().Contains("tableeditor.html")) return;
 
             var json = BaseBrowserInterop.SerializeObject(TableData);
-            Debug.WriteLine(json);
-
             WebBrowser.Focus();
 
             try
@@ -148,7 +141,7 @@ namespace MarkdownMonster.Windows
             TableData = td;
         }
 
-        private void RenderTable()
+        public void RenderTable()
         {
             
 #if DEBUG
@@ -174,7 +167,6 @@ namespace MarkdownMonster.Windows
                 // if this fails use the template shipped
             }
 
-      
             WebBrowser.Navigate(new System.Uri(url));
         }
 
@@ -255,8 +247,6 @@ namespace MarkdownMonster.Windows
                 if (deleteCsvFile)
                     File.Delete(csvFile);
             }
-
-
         }
 
         public void CreateTableFromClipboardHtml(string html = null)
@@ -276,26 +266,6 @@ namespace MarkdownMonster.Windows
             var parser = new TableParserHtml();
 
             var data = parser.ParseMarkdownToData(markdownOrHtmlTable);
-
-
-            //TableData data = null;
-            //if (markdownOrHtmlTable.Contains("<tr>"))
-            //{
-            //    data = parser.ParseHtmlToData(markdownOrHtmlTable);
-            //}
-            //else if (markdownOrHtmlTable.Contains("-|-") || markdownOrHtmlTable.Contains("- | -") || markdownOrHtmlTable.Contains(""))
-            //{
-            //    data = parser.ParseMarkdownToData(markdownOrHtmlTable);
-            //}
-            //else if (markdownOrHtmlTable.Contains("-|-") || markdownOrHtmlTable.Contains("- | -") || markdownOrHtmlTable.Contains(""))
-            //{
-            //    data = parser.ParseMarkdownToData(markdownOrHtmlTable);
-            //}
-            //else if (markdownOrHtmlTable.Contains("-+-"))
-            //{
-            //    data = parser.ParseMarkdownGridTableToData(markdownOrHtmlTable);
-            //}
-
             if (data == null || data.Headers.Count < 1 && data.Rows.Count < 1)
             {
                 AppModel.Window.ShowStatusError("No HTML Table to process found...");
@@ -310,18 +280,33 @@ namespace MarkdownMonster.Windows
 
     public class TableData
     {
-        public ColLocation ActiveCell { get; set; } = new ColLocation();
+        public TableLocation ActiveCell { get; set; } = new TableLocation();
 
         public List<string> Headers {get; set; }= new List<string>();
 
         public List<List<string>> Rows { get; set; } = new List<List<string>>();
+
+        public List<string> GetEmptyRow()
+        {
+            int count = 2;
+            if (Headers != null && Headers.Count > 0)
+                count = Headers.Count;
+            else if (Rows.Count > 0)
+                count = Rows[0].Count;
+
+            var list = new List<string>();
+            for (var i = 0; i < count; i++)
+                list.Add(string.Empty);
+
+            return list;
+        }
     }
 
     [DebuggerDisplay("r{Row}:c{Column}")]
-    public class ColLocation
+    public class TableLocation
     {
         public int Row {get; set; }
-
         public int Column {get; set; }
+        public bool IsHeader { get; set; }
     }
 }

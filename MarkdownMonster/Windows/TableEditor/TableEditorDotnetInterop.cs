@@ -13,6 +13,8 @@ namespace MarkdownMonster.Windows
     {
         private object Page;
 
+       
+
         public TableEditorDotnetInterop(object instance) : base(instance)
         {
 
@@ -34,6 +36,14 @@ namespace MarkdownMonster.Windows
             return td;
         }
 
+
+        public void UpdateHtmlTable(TableData data, TableLocation location)
+        {
+            Invoke("renderTable",
+                 BaseBrowserInterop.SerializeObject(data),
+                BaseBrowserInterop.SerializeObject(location));
+        }
+            
         #endregion
     }
 
@@ -59,24 +69,24 @@ namespace MarkdownMonster.Windows
 
         public void ShowContextMenu(object mousePosition)
         {
-            int x = (int) Convert.ToInt32(ReflectionUtils.GetPropertyCom(mousePosition, "x"));
-            int y = (int) Convert.ToInt32(ReflectionUtils.GetPropertyCom(mousePosition, "y"));
+            // get the latest editor table data
+            Window.Interop.GetJsonTableData();
 
-            var cm = new ContextMenu();
-            cm.Items.Add( new MenuItem() {Header = x + ":" + y});
+            // incoming row data is: row 0 = header, actual rows 1 based 
+            var loc = new TableLocation();
+            loc.Row = Convert.ToInt32( ReflectionUtils.GetPropertyCom(mousePosition, "row") );
+            loc.Column = Convert.ToInt32( ReflectionUtils.GetPropertyCom(mousePosition, "col") );
+            loc.IsHeader = loc.Row < 1;
 
-            cm.PlacementTarget = Window.WebBrowser;
-            cm.Placement = System.Windows.Controls.Primitives.PlacementMode.MousePoint;
-
-            cm.Focus();
-            cm.IsOpen = true;
-
-            var item = cm.Items[0] as MenuItem;
-            item.Focus();
+            // Fix up row number to 0 based
+            if (!loc.IsHeader)
+                loc.Row--;
+            
+            var ctx  = new TableEditorContextMenu(Window, loc);
+            ctx.ShowContextMenu();
         }
 
-
-
-
     }
+
+    
 }
