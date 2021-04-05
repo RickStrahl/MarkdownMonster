@@ -219,10 +219,12 @@ var page = {
                 }
             }
 
-            setTimeout(function() { $("th textarea").trigger("keyup"); },10);
-            $("textarea").each(function() {            
-                page.autogrowTextAreas(this);
-            });  
+            setTimeout(function() { 
+                $("th textarea").trigger("keyup"); 
+                $("#RenderWrapper textarea").each(function() {            
+                    page.autogrowTextAreas(this);
+                });  
+            },20);
             
         } catch(ex)   
         {
@@ -262,7 +264,10 @@ var page = {
         }
         
         if (asJson)     
-            return JSON.stringify(td);
+        {
+            var json = JSON.stringify(td);            
+            return json;
+        }
         return td;
     },
 
@@ -278,15 +283,19 @@ var page = {
         return pos;
     },
     autogrowTextAreas: function autogrowTextAreas(sel) {
-        var element = this;        
-        if (!sel["currentTarget"])
-           element =sel;
+        var element = sel;         
+        if (sel["currentTarget"])   // event object
+            element = this;           
         
-        var text = element.value;    
-        if(!text)  return true;
-
+        var text = element.value;      
+        if(!text)   {
+            element.rows = 1;
+            return;
+        }
+    
         var lines = 1 + (text.match(/\n/g) || []).length;        
         element.rows = lines;
+        
         return true;
     },
     encodeText: function(text) {

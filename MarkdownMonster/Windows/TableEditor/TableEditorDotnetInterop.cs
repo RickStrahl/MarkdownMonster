@@ -74,7 +74,7 @@ namespace MarkdownMonster.Windows
         public void ShowContextMenu(object mousePosition)
         {
             // get the latest editor table data
-            Window.Interop.GetJsonTableData();
+            Window.TableData = Window.Interop.GetJsonTableData();
 
             // incoming row data is: row 0 = header, actual rows 1 based 
             var loc = new TableLocation();

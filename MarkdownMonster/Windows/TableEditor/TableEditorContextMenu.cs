@@ -73,12 +73,14 @@ namespace MarkdownMonster.Windows
                 ContextMenu.Dispatcher.InvokeAsync(() => item.Focus(),
                     System.Windows.Threading.DispatcherPriority.ApplicationIdle);
             }
-            
+
         }
 
         public void ShowContextMenu()
         {
             ClearMenu();
+
+            var tableData = Window.TableData;
 
             var cm = ContextMenu;
             cm.Items.Clear();
@@ -90,58 +92,101 @@ namespace MarkdownMonster.Windows
             ci = new MenuItem() {Header = "Align Right"};
             ci.Click += (s, e) =>
             {
-                var text = Window.TableData.Headers[TableLocation.Column];
+                var text = tableData.Headers[TableLocation.Column];
                 text = text.Trim(':') + ":";
-                Window.TableData.Headers[TableLocation.Column] = text;
+                tableData.Headers[TableLocation.Column] = text;
 
-                Window.Interop.UpdateHtmlTable(Window.TableData, TableLocation);
+                Window.Interop.UpdateHtmlTable(tableData, TableLocation);
             };
             sub.Items.Add(ci);
 
             ci = new MenuItem() {Header = "Align Center"};
             ci.Click += (s, e) =>
             {
-                var text = Window.TableData.Headers[TableLocation.Column];
+                var text = tableData.Headers[TableLocation.Column];
                 text = ":" + text.Trim(':') + ":";
-                Window.TableData.Headers[TableLocation.Column] = text;
+                tableData.Headers[TableLocation.Column] = text;
 
-                Window.Interop.UpdateHtmlTable(Window.TableData, TableLocation);
+                Window.Interop.UpdateHtmlTable(tableData, TableLocation);
             };
             sub.Items.Add(ci);
 
             ci = new MenuItem() {Header = "Align Left"};
             ci.Click += (s, e) =>
             {
-                var text = Window.TableData.Headers[TableLocation.Column];
+                var text = tableData.Headers[TableLocation.Column];
                 text = text.Trim(':');
-                Window.TableData.Headers[TableLocation.Column] = text;
+                tableData.Headers[TableLocation.Column] = text;
 
-                Window.Interop.UpdateHtmlTable(Window.TableData, TableLocation);
+                Window.Interop.UpdateHtmlTable(tableData, TableLocation);
             };
             sub.Items.Add(ci);
             cm.Items.Add(sub);
 
+            sub = new MenuItem() {Header = "Sort Column..."};
 
+            ci = new MenuItem() {Header = "Ascending"};
+            ci.Click += (s, e) =>
+            {
+                var colData = new List<string>();
+                foreach (var rowValues in tableData.Rows)
+                {
+                    colData.Add(rowValues[TableLocation.Column]);
+                }
+                colData.Sort(SortAscending);
+
+                for (var index = 0; index < tableData.Rows.Count; index++)
+                {
+                    var rowValues = tableData.Rows[index];
+                    rowValues[TableLocation.Column] = colData[index];
+                }
+                
+                Window.Interop.UpdateHtmlTable(tableData, TableLocation);
+            };
+            sub.Items.Add(ci);
+
+            ci = new MenuItem() {Header = "Descending"};
+            ci.Click += (s, e) =>
+            {
+                var colData = new List<string>();
+                foreach (var rowValues in tableData.Rows)
+                {
+                    colData.Add(rowValues[TableLocation.Column]);
+                }
+                colData.Sort(SortDescending);
+
+                for (var index = 0; index < tableData.Rows.Count; index++)
+                {
+                    var rowValues = tableData.Rows[index];
+                    rowValues[TableLocation.Column] = colData[index];
+                }
+                
+                Window.Interop.UpdateHtmlTable(tableData, TableLocation);
+            };
+            sub.Items.Add(ci);
+
+
+            cm.Items.Add(sub);
             ci = new MenuItem();
             ci.Header = "Insert Row Below";
             ci.Click += (o, ev) =>
             {
-                List<string> row = Window.TableData.GetEmptyRow();
+                List<string> row = tableData.GetEmptyRow();
 
                 TableLocation.Row++;
                 if (TableLocation.IsHeader)
                 {
                     TableLocation.Row = 0;
                     TableLocation.IsHeader = false;
-                    Window.TableData.Rows.Insert(0, row );
+                    tableData.Rows.Insert(0, row);
                 }
-                else if (TableLocation.Row < Window.TableData.Rows.Count)
-                    Window.TableData.Rows.Insert(TableLocation.Row, row );
+                else if (TableLocation.Row < tableData.Rows.Count)
+                    tableData.Rows.Insert(TableLocation.Row, row);
                 else
-                    Window.TableData.Rows.Add(row);
+                    tableData.Rows.Add(row);
 
-                
-                Window.Interop.UpdateHtmlTable(Window.TableData, TableLocation);
+
+                Window.Interop.UpdateHtmlTable(tableData, TableLocation);
             };
             cm.Items.Add(ci);
 
@@ -152,9 +197,9 @@ namespace MarkdownMonster.Windows
                 ci.Header = "Insert Row Above";
                 ci.Click += (o, ev) =>
                 {
-                    List<string> row = Window.TableData.GetEmptyRow();
-                    Window.TableData.Rows.Insert(TableLocation.Row, row);
-                    Window.Interop.UpdateHtmlTable(Window.TableData, TableLocation);
+                    List<string> row = tableData.GetEmptyRow();
+                    tableData.Rows.Insert(TableLocation.Row, row);
+                    Window.Interop.UpdateHtmlTable(tableData, TableLocation);
                 };
                 cm.Items.Add(ci);
             }
@@ -165,8 +210,8 @@ namespace MarkdownMonster.Windows
                 ci.Header = "Delete Row";
                 ci.Click += (o, ev) =>
                 {
-                    Window.TableData.Rows.RemoveAt(TableLocation.Row);
-                    Window.Interop.UpdateHtmlTable(Window.TableData, TableLocation);
+                    tableData.Rows.RemoveAt(TableLocation.Row);
+                    Window.Interop.UpdateHtmlTable(tableData, TableLocation);
                 };
                 cm.Items.Add(ci);
             }
@@ -176,21 +221,63 @@ namespace MarkdownMonster.Windows
 
             ci = new MenuItem();
             ci.Header = "Insert Column Right";
-            ci.Click += (o, ev) => { };
+            ci.Click += (o, ev) => InsertColumn(true);
             cm.Items.Add(ci);
 
             ci = new MenuItem();
             ci.Header = "Insert Column Left";
-            ci.Click += (o, ev) => { };
+            ci.Click += (o, ev) => InsertColumn();
             cm.Items.Add(ci);
 
             ci = new MenuItem();
             ci.Header = "Delete Column";
-            ci.Click += (o, ev) => { };
+            ci.Click += (o, ev) =>
+            {
+                var deleteColumn = TableLocation.Column;
+                if (tableData.Headers.Count > 0)
+                    tableData.Headers.RemoveAt(deleteColumn);
+
+                foreach (var rowValues in tableData.Rows)
+                {
+                    rowValues.RemoveAt(deleteColumn);
+                }
+                Window.Interop.UpdateHtmlTable(tableData, TableLocation);
+            };
             cm.Items.Add(ci);
 
             Show();
         }
 
+        private void InsertColumn(bool insertRight = false)
+        {
+            var tableData = Window.TableData;
+            var insertColumn = TableLocation.Column;
+            if (insertRight)
+                insertColumn++;
+
+            if (tableData.Headers.Count > 0)
+            {
+                tableData.Headers.Insert(insertColumn, string.Empty);
+            }
+
+            foreach (var rowValues in tableData.Rows)
+            {
+                rowValues.Insert(insertColumn, string.Empty);
+            }
+
+            if (insertRight)
+                TableLocation.Column++;
+            
+            Window.Interop.UpdateHtmlTable(tableData, TableLocation);
+        }
+
+        public int SortAscending(string name1, string name2)
+        {
+            return name1.ToLower().CompareTo(name2.ToLower());
+        }
+        public int SortDescending(string name1, string name2)
+        {
+            return name1.ToLower().CompareTo(name2.ToLower()) * -1;
+        }
     }
 }
