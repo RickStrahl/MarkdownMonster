@@ -20,7 +20,7 @@
         WindowTransitionsEnabled="False"
         FontSize="15"  
         IsMinButtonEnabled="False" IsMaxRestoreButtonEnabled="False"                       
-        Width="1020" Height="700" MinWidth="700"
+        Width="920" Height="700" MinWidth="700"
      >
     <Window.InputBindings>
         <KeyBinding Key="F1" Command="{Binding AppModel.Commands.HelpCommand}" CommandParameter="_53a0pfz0t.htm"/>
@@ -57,7 +57,7 @@
                            FontSize="18">as</TextBlock>
                 <ComboBox Name="ComboTableMode" ItemsSource="{Binding TableModes}" 
                           SelectedItem="{Binding TableMode, Mode=TwoWay}" 
-                          Padding="3" Width="105"/>
+                          Padding="3" Width="114" FontSize="16"/>
 
 
                 <Button Name="ButtonCancel"   Click="Button_Click"  >
@@ -92,6 +92,19 @@
                         </StackPanel>
                     </Button>
 
+
+                    <ToggleButton Name="ButtonPreviewTable" Click="ButtonPreviewTable_OnClick"
+                            ToolTip="Preview the current table as the current template" IsChecked="{Binding IsPreview}"
+                    >
+                        <StackPanel Orientation="Horizontal">
+                            <fa:FontAwesome Margin="8,2,5,0" Icon="Chrome" Foreground="Steelblue"                                             
+                                            FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" 
+                            />
+                            <TextBlock>Preview</TextBlock>
+                        </StackPanel>
+                    </ToggleButton>
+
+
                     <Button Name="ButtonHelpCopyLastCommandToClipboard"       Margin="10,0,0,0"                 
                             HorizontalAlignment="Left"  fa:Awesome.Content="QuestionCircle" Foreground="SteelBlue"
                             ToolTip="Documentation for the Table Editor"
@@ -99,10 +112,26 @@
                 </ToolBar>
             <!--</StackPanel>-->
         </ToolBarTray>
- 
-        <WebBrowser Name="WebBrowser" 
-                    Grid.Row="1" Focusable="True" 
-                    Margin="0,10 , 0, 0"
-        />
+
+        <!--<WebBrowser Grid.Column="0" Name="WebBrowser" 
+                    Focusable="True" Grid.Row="1"/>-->
+
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="6*"/>
+                <ColumnDefinition Width="10"/>
+                <ColumnDefinition Name="PreviewColumn" Width="0"/>
+            </Grid.ColumnDefinitions>
+
+            <WebBrowser Grid.Column="0" Name="WebBrowser" 
+                        Focusable="True" Grid.Row="1"/>
+
+
+            <GridSplitter Grid.Column="1" Width="6" HorizontalAlignment="Center" ShowsPreview="False"   />
+
+            <WebBrowser  Grid.Column="2" 
+                         Name="WebBrowserPreview" />
+        </Grid>
+        
     </Grid>
 </controls:MetroWindow>

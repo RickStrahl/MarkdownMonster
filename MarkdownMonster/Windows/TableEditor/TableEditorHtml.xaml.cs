@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Diagnostics;
@@ -8,6 +9,7 @@ using System.Windows;
 using MahApps.Metro.Controls;
 using MarkdownMonster.Annotations;
 using MarkdownMonster.Windows.PreviewBrowser;
+using Westwind.Utilities;
 using Control = System.Windows.Controls.Control;
 using KeyEventArgs = System.Windows.Input.KeyEventArgs;
 using TextBox = System.Windows.Controls.TextBox;
@@ -44,6 +46,20 @@ namespace MarkdownMonster.Windows
                 OnPropertyChanged();
             }
         }
+
+
+        public bool IsPreviewActive
+        {
+            get { return _IsPreviewActive; }
+            set
+            {
+                if (value == _IsPreviewActive) return;
+                _IsPreviewActive = value;
+                OnPropertyChanged(nameof(IsPreviewActive));
+            }
+        }
+        private bool _IsPreviewActive;
+
 
         private bool _embedAsHtml;
 
@@ -151,7 +167,8 @@ namespace MarkdownMonster.Windows
             var outputFile = file.Replace("TableEditor.html", "_TableEditor.html");
 
             // IN DEBUG MODE USE LIVERELOAD SERVER while testing (if needed)
-            var url = "https://localhost:5200/_TableEditor.html";
+            // var url = "https://localhost:5200/_TableEditor.html";
+            var url = outputFile;
 #else
             var file = Path.Combine(App.InitialStartDirectory, "PreviewThemes", "TableEditor.html");
             var outputFile = file.Replace("TableEditor.html", "_TableEditor.html");
@@ -162,6 +179,7 @@ namespace MarkdownMonster.Windows
             {
                 string template = File.ReadAllText(file);
                 template = template.Replace("{{Theme}}", mmApp.Configuration.PreviewTheme);
+                template = template.Replace("{{Content}}", string.Empty);
                 File.WriteAllText(outputFile, template);
             }
             catch
@@ -260,6 +278,83 @@ namespace MarkdownMonster.Windows
             TableData = data;
             RenderTable();
         }
+
+        private void ButtonPreviewTable_OnClick(object sender, RoutedEventArgs e)
+        {
+            IsPreviewActive = !IsPreviewActive;
+
+            if (IsPreviewActive)
+            {
+                if (Width < 1000)
+                    Width =1150;
+
+                if (PreviewColumn.Width == GridLengthHelper.Zero)
+                    PreviewColumn.Width = new GridLength(5, GridUnitType.Star);
+                RefreshPreview();
+            }
+            else
+            {
+                PreviewColumn.Width = GridLengthHelper.Zero;
+            }
+        }
+
+        public void RefreshPreview(bool dontReloadData = false)
+        {
+            if (!IsPreviewActive)
+                return;
+
+            if (!dontReloadData)
+                TableData = Interop.GetJsonTableData();
+
+            var parser = new TableParserHtml();
+            parser.TableData = TableData;
+
+            string markdown = null;
+            if (TableMode == "Grid Table")
+                markdown = parser.ToGridTableMarkdown();
+            else if (TableMode == "Html Table")
+                markdown = parser.ToTableHtml();
+            else
+                markdown = parser.ToPipeTableMarkdown();
+
+#if DEBUG
+            var file = Path.Combine("c:\\projects\\MarkdownMonster\\MarkdownMonster", "PreviewThemes", "TableEditor.html");
+            var outputFile = file.Replace("TableEditor.html", "_TableEditorPreview.html");
+            var url = outputFile;
+#else
+            var file = Path.Combine(App.InitialStartDirectory, "PreviewThemes", "TableEditor.html");
+            var outputFile = file.Replace("TableEditor.html", "_TableEditorPreview.html");
+            var url = outputFile;
+#endif
+            var doc = new MarkdownDocument();
+            var html = doc.RenderHtml(markdown);
+
+            try
+            {
+                string template = File.ReadAllText(file);
+                template = template.Replace("{{Theme}}", mmApp.Configuration.PreviewTheme);
+                template = template.Replace("{{Content}}", html);
+                string body = StringUtils.ExtractString(template, "<body>", "</body>", returnDelimiters: true);
+
+                // replace the entire body with just the HTML and remove scripts
+                template = template.Replace(body, "<body>\n" + html + "\n</body>");
+
+                File.WriteAllText(outputFile, template);
+            }
+            catch
+            {
+                // if this fails use the template shipped
+            }
+            
+            WebBrowserPreview.Navigate(url);
+        }
+
+
+
+
+
+
+    
     }
 
 

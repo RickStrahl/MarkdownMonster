@@ -99,6 +99,12 @@ namespace MarkdownMonster.Windows
             if (command == "Ctrl-Enter")
                 Window.Commands.EmbedTableCommand.Execute(null);
         }
+
+        public void RefreshPreview()
+        {
+            Window.RefreshPreview();
+
+        }
     }
 
 

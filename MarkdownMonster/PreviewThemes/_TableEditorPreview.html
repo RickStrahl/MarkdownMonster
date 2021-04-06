@@ -3,7 +3,7 @@
 <head>    
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />   
     <title>Markdown Monster Table Editor</title>
-    <link  href="{{Theme}}/Theme.css" rel="stylesheet" />
+    <link  href="Westwind/Theme.css" rel="stylesheet" />
     <style> 
         html, body{            
             margin: 0;
@@ -52,21 +52,32 @@
     </style>
 </head>
 <body>
-    <div id="RenderWrapper">{{Content}}</div>     
+<table>
+<thead>
+<tr>
+<th>Header 1</th>
+<th>Header 2</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Column 1</strong> <code>test</code><br>One more line of text</td>
+<td>My new column Text</td>
+</tr>
+<tr>
+<td>Column 1 and more</td>
+<td>Column 2 and <strong>more</strong></td>
+</tr>
+<tr>
+<td>Column 1 and much more</td>
+<td>Column 3 and much more</td>
+</tr>
+<tr>
+<td>Column 1 and so much more</td>
+<td>Column3 and so much more</td>
+</tr>
+</tbody>
+</table>
 
-    <!-- <button id="btnParseTable" onclick="parseTable()">Parse Table</button>
-    <hr>
-    <div id="Message" style="font-family: monospace;"></pre> -->
-
-    <script>
-        function parseTable() {
-            var tableData = page.parseTable();
-            console.log(tableData);
-            $("#Message").text(JSON.stringify(tableData));
-        }
-    </script>
-    
-    <script src="scripts/jquery.min.js"></script>
-    <script src="TableEditor.js"></script>
 </body>
 </html>

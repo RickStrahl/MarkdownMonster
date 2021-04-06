@@ -41,11 +41,19 @@ var page = {
 
         $(document).on("keyup","textarea", page.autogrowTextAreas); 
 
-
         $(document).on("focus","textarea",function() { 
             var el = this;
             setTimeout(function() { el.select(); },1);
         });
+        
+        $(document).on("change","textarea",function() {
+            try{
+                if (page.dotnet)
+                    page.dotnet.RefreshPreview();
+            }
+            catch(ex) { alert("Preview update failed: " + ex.message); }
+        });
+
         
        
         // $(document).on("mousemove","#RenderWrapper textarea",function(e) {
@@ -301,9 +309,22 @@ var page = {
     encodeText: function(text) {
         page.workElement.innerText = text;
         return page.workElement.innerHTML;
+    },
+    debounce: function debounce(func, wait, immediate) {
+        var timeout;
+        return function () {
+            var context = this, args = arguments;
+            var later = function () {
+                timeout = null;
+                if (!immediate) func.apply(context, args);
+            };
+            var callNow = immediate && !timeout;
+            clearTimeout(timeout);
+            timeout = setTimeout(later, wait);
+            if (callNow)
+                func.apply(context, args);
+        };
     }
-
-
 
 };  // page
 
@@ -311,7 +332,6 @@ var page = {
 
 page.initialize();
 page.renderTable();
-
 
 
 
