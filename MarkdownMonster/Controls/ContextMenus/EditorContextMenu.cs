@@ -573,8 +573,10 @@ namespace MarkdownMonster.Controls.ContextMenus
 
                                 try
                                 {
-                                    var wc = new WebClient();
-                                    await wc.DownloadFileTaskAsync(new Uri(imageLink), sd.FileName);
+                                    using (var wc = new WebClient())
+                                    {
+                                        await wc.DownloadFileTaskAsync(new Uri(imageLink), sd.FileName);
+                                    }
 
                                     string filename;
                                     if (doc.Filename.Equals("untitled", StringComparison.OrdinalIgnoreCase))
