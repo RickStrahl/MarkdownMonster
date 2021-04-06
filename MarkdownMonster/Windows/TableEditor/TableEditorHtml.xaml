@@ -94,7 +94,7 @@
 
 
                     <ToggleButton Name="ButtonPreviewTable" Click="ButtonPreviewTable_OnClick"
-                            ToolTip="Preview the current table as the current template" IsChecked="{Binding IsPreview}"
+                            ToolTip="Preview the current table as the current template" 
                     >
                         <StackPanel Orientation="Horizontal">
                             <fa:FontAwesome Margin="8,2,5,0" Icon="Chrome" Foreground="Steelblue"                                             

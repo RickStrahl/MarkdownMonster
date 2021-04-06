@@ -47,20 +47,7 @@ namespace MarkdownMonster.Windows
             }
         }
 
-
-        public bool IsPreviewActive
-        {
-            get { return _IsPreviewActive; }
-            set
-            {
-                if (value == _IsPreviewActive) return;
-                _IsPreviewActive = value;
-                OnPropertyChanged(nameof(IsPreviewActive));
-            }
-        }
-        private bool _IsPreviewActive;
-
-
+        
         private bool _embedAsHtml;
 
         public AppModel AppModel { get; set; }
@@ -76,6 +63,17 @@ namespace MarkdownMonster.Windows
         public TableEditorDotnetInterop Interop { get; set; }
 
         public TableEditorJavaScriptCallbacks JavaScriptCallbacks { get; set; }
+
+        public bool IsPreviewActive
+        {
+            get { return _isPreviewActive; } 
+            set
+            {
+                TableData.IsPreviewActive = value;
+                _isPreviewActive = value;
+            }
+        }
+        private bool _isPreviewActive = false;
 
         public string TableMode
         {
@@ -290,6 +288,7 @@ namespace MarkdownMonster.Windows
 
                 if (PreviewColumn.Width == GridLengthHelper.Zero)
                     PreviewColumn.Width = new GridLength(5, GridUnitType.Star);
+
                 RefreshPreview();
             }
             else
@@ -300,7 +299,7 @@ namespace MarkdownMonster.Windows
 
         public void RefreshPreview(bool dontReloadData = false)
         {
-            if (!IsPreviewActive)
+            if (!TableData.IsPreviewActive)
                 return;
 
             if (!dontReloadData)
@@ -360,6 +359,14 @@ namespace MarkdownMonster.Windows
 
     public class TableData
     {
+        private bool _isPreviewActive;
+
+        public bool IsPreviewActive
+        {
+            get => _isPreviewActive;
+            set => _isPreviewActive = value;
+        }
+
         public TableLocation ActiveCell { get; set; } = new TableLocation();
 
         public List<string> Headers {get; set; }= new List<string>();

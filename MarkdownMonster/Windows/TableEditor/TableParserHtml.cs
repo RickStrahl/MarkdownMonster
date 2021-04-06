@@ -107,7 +107,7 @@ namespace MarkdownMonster.Windows
 
             var columnInfo = GetColumnInfo(tableData);
 
-            StringBuilder sb = new StringBuilder();
+            var sb = new StringBuilder();
             sb.Clear();
             string separatorLine = "+-";
             string line = "| ";
@@ -124,7 +124,7 @@ namespace MarkdownMonster.Windows
             sb.AppendLine(line.TrimEnd());
             sb.AppendLine(separatorLine.Replace("-", "="));
 
-            for (var rowIndex = 0; rowIndex < tableData.Rows.Count; rowIndex++) // rows
+            for(var rowIndex = 0; rowIndex < tableData.Rows.Count; rowIndex++) // rows
             {
                 var row = tableData.Rows[rowIndex];
                 var maxLineCount = row.Max(s => s.Count(s2 => s2 == '\n')) + 1;
@@ -228,101 +228,6 @@ namespace MarkdownMonster.Windows
 
         #endregion
 
-        #region Csv Processing
-
-        public TableData ParseCsvFileToData(string filename, string delimiter = ",")
-        {
-            if (string.IsNullOrEmpty(filename) || !File.Exists(filename))
-                return new TableData();
-
-            FileStream fs = null;
-            try
-            {
-                fs = new FileStream(filename, FileMode.Open, FileAccess.Read, FileShare.Read);
-                return ParseCsvStreamToData(fs, delimiter);
-            }
-            catch
-            {
-                return new TableData();
-            }
-            finally
-            {
-                fs?.Dispose();
-            }
-        }
-
-        public TableData ParseCsvStringToData(string csvContent, string delimiter = ",")
-        {
-            if (string.IsNullOrEmpty(csvContent))
-                return new TableData();
-
-            var bytes = Encoding.UTF8.GetBytes(csvContent);
-            using (var fs = new MemoryStream(bytes, 0, bytes.Length))
-            {
-                return ParseCsvStreamToData(fs, delimiter);
-            }
-        }
-
-
-        public TableData ParseCsvStreamToData(Stream stream, string delimiter = ",")
-        {
-            if (string.IsNullOrEmpty(delimiter))
-                delimiter = ",";
-            if (delimiter == "\\t")
-                delimiter = "\t";
-
-            char charDelimiter = delimiter[0];
-
-            bool firstLine = true;
-            using (var reader = new StreamReader(stream))
-            {
-                
-                using (var csv = new CachedCsvReader(reader, true, charDelimiter))
-                {
-                    var list = new TableData();
-
-                    var colCount = csv.Columns.Count;
-                    var columnCollection = new List<string>();
-
-                    if (!csv.ReadNextRecord())
-                        return list;
-
-                    for (var index = 0; index < csv.Columns.Count; index++)
-                    {
-                        Column column = csv.Columns[index];
-                        columnCollection.Add(column.Name);
-                    }
-
-                    if (firstLine)
-                    {
-                        list.Headers = columnCollection;
-                        firstLine = false;
-                    }
-                    else 
-                        list.Rows.Add(columnCollection);
-
-                    // Field headers will automatically be used as column names
-                    while (true)
-                    {
-                        columnCollection = new List<string>();
-                        for (int index = 0; index < csv.Columns.Count; index++)
-                        {
-                            var colValue = csv[index];
-                            columnCollection.Add(colValue);
-                        }
-                        list.Rows.Add(columnCollection);
-
-                        if (!csv.ReadNextRecord())
-                            break;
-                    }
-
-                    return list;
-                }
-            }
-        }
-
-        #endregion
-
         #region Parse Markdown to TableData
 
         /// <summary>
@@ -389,7 +294,12 @@ namespace MarkdownMonster.Windows
                 var cols = row.TrimEnd().Trim('|').Split('|');
                 var columnData = new List<string>();
                 foreach (var col in cols)
-                    columnData.Add(col.Trim());
+                {
+                    var txt = col.Trim()
+                        .Replace("<br>", "\n")
+                        .Replace("</br>", "\n");
+                    columnData.Add(txt);
+                }
 
                 if (index == 0)  // assume it's the header
                     data.Headers = columnData;
@@ -572,6 +482,101 @@ namespace MarkdownMonster.Windows
 
             return data;
         }
+        #endregion
+
+        #region Csv Processing
+
+        public TableData ParseCsvFileToData(string filename, string delimiter = ",")
+        {
+            if (string.IsNullOrEmpty(filename) || !File.Exists(filename))
+                return new TableData();
+
+            FileStream fs = null;
+            try
+            {
+                fs = new FileStream(filename, FileMode.Open, FileAccess.Read, FileShare.Read);
+                return ParseCsvStreamToData(fs, delimiter);
+            }
+            catch
+            {
+                return new TableData();
+            }
+            finally
+            {
+                fs?.Dispose();
+            }
+        }
+
+        public TableData ParseCsvStringToData(string csvContent, string delimiter = ",")
+        {
+            if (string.IsNullOrEmpty(csvContent))
+                return new TableData();
+
+            var bytes = Encoding.UTF8.GetBytes(csvContent);
+            using (var fs = new MemoryStream(bytes, 0, bytes.Length))
+            {
+                return ParseCsvStreamToData(fs, delimiter);
+            }
+        }
+
+
+        public TableData ParseCsvStreamToData(Stream stream, string delimiter = ",")
+        {
+            if (string.IsNullOrEmpty(delimiter))
+                delimiter = ",";
+            if (delimiter == "\\t")
+                delimiter = "\t";
+
+            char charDelimiter = delimiter[0];
+
+            bool firstLine = true;
+            using (var reader = new StreamReader(stream))
+            {
+                
+                using (var csv = new CachedCsvReader(reader, true, charDelimiter))
+                {
+                    var list = new TableData();
+
+                    var colCount = csv.Columns.Count;
+                    var columnCollection = new List<string>();
+
+                    if (!csv.ReadNextRecord())
+                        return list;
+
+                    for (var index = 0; index < csv.Columns.Count; index++)
+                    {
+                        Column column = csv.Columns[index];
+                        columnCollection.Add(column.Name);
+                    }
+
+                    if (firstLine)
+                    {
+                        list.Headers = columnCollection;
+                        firstLine = false;
+                    }
+                    else 
+                        list.Rows.Add(columnCollection);
+
+                    // Field headers will automatically be used as column names
+                    while (true)
+                    {
+                        columnCollection = new List<string>();
+                        for (int index = 0; index < csv.Columns.Count; index++)
+                        {
+                            var colValue = csv[index];
+                            columnCollection.Add(colValue);
+                        }
+                        list.Rows.Add(columnCollection);
+
+                        if (!csv.ReadNextRecord())
+                            break;
+                    }
+
+                    return list;
+                }
+            }
+        }
+
         #endregion
 
 

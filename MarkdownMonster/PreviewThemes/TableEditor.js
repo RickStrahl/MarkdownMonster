@@ -1,25 +1,19 @@
 var page = {
     tableData: {
+        isPreviewActive: false,
         activeCell: { row: 0, column: 0, isHeader: true },
         headers: [
             "Header 1",
-            "Header 2:"
+            "Header 2:",
+            "Header 3"
         ],
         rows: [
             [
-                "Col Text 1 1",
-                "Col Text 1 2",
-            ],
-            [
-                "Col Text 2 1",
-                "Col Text 2 2",
-            ],
-            [
-                "Col Text 3 1",
-                "Col Text 3 2",
-            ]
-        ],
-
+                "Column 1",
+                "Column 2",
+                "Column 3"
+            ]            
+        ]
     },
     dotnet: null, 
     mousePos: { 
@@ -30,37 +24,38 @@ var page = {
         col: -1
     },
     workElement: null,
-    initialize: function() {
+    initialize: function() {        
+        // if(page.tableData.rows.length < 3) {
+        //     for (let i = 0; i < 1000; i++) {
+        //         var rowValues = [
+        //             "Column 1  Row " + i,
+        //             "Column 2  Row " + i,
+        //             "Column 3  Row " + i,
+        //             "Column 4  Row " + i,
+        //             "Column 5  Row " + i
+        //         ];
+        //         page.tableData.rows[i] = rowValues;
+        //     }
+        // }
+        var div$ = $("#RenderWrapper");
         page.workElement = document.createElement("div");
 
         // handle tab insertion and up down key navigation
-        $(document).on("keydown","td textarea,th textarea",page.keydownHandler);
+        div$.on("keydown","td textarea,th textarea",page.keydownHandler);
 
-        $(document).on("keyup","#RenderWrapper th textarea", page.headerAlignment);        
+        div$.on("keyup","th textarea", page.headerAlignment);        
         setTimeout(function() { $("th textarea").trigger("keyup"); },10);
 
-        $(document).on("keyup","textarea", page.autogrowTextAreas); 
-
-        $(document).on("focus","textarea",function() { 
-            var el = this;
-            setTimeout(function() { el.select(); },1);
-        });
-        
-        $(document).on("change","textarea",function() {
-            try{
-                if (page.dotnet)
-                    page.dotnet.RefreshPreview();
+        div$.on("keyup","textarea", page.autogrowTextAreas); 
+        div$.on("change", "textarea", function () {
+            if (page.tableData.isPreviewActive && page.dotnet) {
+                var pos = page.idToPos(this.id);                
+                page.activeCell.row = pos.row;
+                page.activeCell.column = pos.column;
+                page.dotnet.RefreshPreview();
             }
-            catch(ex) { alert("Preview update failed: " + ex.message); }
         });
-
-        
-       
-        // $(document).on("mousemove","#RenderWrapper textarea",function(e) {
-        //     page.mousePos.x = e.clientX;
-        //     page.mousePos.y = e.clientY;
-        // });
-        $(document).on("contextmenu","#RenderWrapper textarea",function(e) {                   
+        div$.on("contextmenu","textarea",function(e) {                   
             var textBox = e.target;
             if (textBox.tagName != "TEXTAREA") return;
             var pos = page.idToPos(textBox.id);
@@ -75,18 +70,18 @@ var page = {
                 alert(JSON.stringify(pos));
             }
         });    
-        
+        div$.on("focus","textarea",function() {                   
+             this.select(); 
+        });        
         $(document).on("mouseleave",function() {
             if(page.dotnet)
                 page.dotnet.UpdateTableData(page.parseTable(true));                
         });
-        
-       
     },
     keydownHandler: function(e) {
         var text$ = $(this);
         var id = this.id;
-
+        
         var pos = page.idToPos(id);
         if(pos.row == -1) return;   
         
@@ -108,7 +103,7 @@ var page = {
             clonedTr$.find("textarea").each(function(i) {                 
                 var pos = page.idToPos(  this.id);
                 var row = pos.row + 1;
-                this.id = "id_" + row + "_" + pos.col;                
+                this.id = "id_" + row + "_" + pos.column;                
                 this.value = "";
             });            
             $("tbody").append(clonedTr$);
@@ -127,7 +122,7 @@ var page = {
 
             // move to new row
             var newRow = pos.row + 1;
-            var newId = "#id_" + newRow + "_" + pos.col;
+            var newId = "#id_" + newRow + "_" + pos.column;
             $(newId).focus();
 
             return false;
@@ -140,7 +135,7 @@ var page = {
             if (pos.row < 1 || (hasReturns && !e.ctrlKey) ) return true;  
 
             var newRow = pos.row - 1;
-            var newId = "#id_" + newRow + "_" + pos.col;
+            var newId = "#id_" + newRow + "_" + pos.column;
             $(newId).focus();
             return false;
         }               
@@ -169,7 +164,6 @@ var page = {
         
     },
     renderTable: function(tableData, focusLocation) {
-
         try {
             if (typeof tableData === "string")
                 page.tableData = JSON.parse(tableData);
@@ -204,7 +198,7 @@ var page = {
                     for (var colIdx = 0; colIdx < rowArray.length; colIdx++) {
                         var colText = rowArray[colIdx];
                         var r = rowIdx * 1 + 1;
-                        var c = colIdx * 1;                    
+                        var c = colIdx * 1;                                     
                         html += "<td><textarea id='id_" + r  + "_" +  c +  "'>" + page.encodeText(colText) + "</textarea></td>\n";                                
                     }
 
@@ -236,7 +230,7 @@ var page = {
             
         } catch(ex)   
         {
-             alert("Error:\n" + ex.message);
+             alert("RenderTable Error:\n" + ex.message);
         }
     },
     parseTable: function(asJson) {
@@ -287,7 +281,7 @@ var page = {
         if (tokens.length < 2) return pos;
            
         pos.row = tokens[0] * 1;
-        pos.col = tokens[1] * 1;
+        pos.column = tokens[1] * 1;
         return pos;
     },
     autogrowTextAreas: function autogrowTextAreas(sel) {
@@ -308,32 +302,12 @@ var page = {
     },
     encodeText: function(text) {
         page.workElement.innerText = text;
-        return page.workElement.innerHTML;
-    },
-    debounce: function debounce(func, wait, immediate) {
-        var timeout;
-        return function () {
-            var context = this, args = arguments;
-            var later = function () {
-                timeout = null;
-                if (!immediate) func.apply(context, args);
-            };
-            var callNow = immediate && !timeout;
-            clearTimeout(timeout);
-            timeout = setTimeout(later, wait);
-            if (callNow)
-                func.apply(context, args);
-        };
+        return page.workElement.innerHTML.replace(/<br>/g,"\n");        
     }
-
 };  // page
-
-
 
 page.initialize();
 page.renderTable();
-
-
 
 function InitializeInterop(dotnet, tableDataJson) {        
     page.dotnet = dotnet;
