@@ -500,7 +500,7 @@ namespace MarkdownMonster
                 return false;
 
 
-            if (imageFileOrUrl.StartsWith("https://") || imageFileOrUrl.StartsWith("https://"))
+            if (imageFileOrUrl.StartsWith("http://") || imageFileOrUrl.StartsWith("https://"))
             {
                 var imageFile = HttpUtils.DownloadImageToFile(imageFileOrUrl);
 
