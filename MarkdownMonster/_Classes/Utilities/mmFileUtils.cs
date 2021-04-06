@@ -517,7 +517,7 @@ namespace MarkdownMonster
             {
                 string exe = mmApp.Configuration.Images.ImageEditor;
                 if (!string.IsNullOrEmpty(exe))
-                    Process.Start(new ProcessStartInfo(exe, $"\"{imageFileOrUrl}\""));
+                    Process.Start(new ProcessStartInfo(exe, $"\"{Path.GetFullPath(imageFileOrUrl)}\""));
                 else
                 {
                     Process.Start(new ProcessStartInfo
