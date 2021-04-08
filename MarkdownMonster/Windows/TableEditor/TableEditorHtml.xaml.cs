@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Diagnostics;
@@ -11,8 +10,6 @@ using MarkdownMonster.Annotations;
 using MarkdownMonster.Windows.PreviewBrowser;
 using Westwind.Utilities;
 using Control = System.Windows.Controls.Control;
-using KeyEventArgs = System.Windows.Input.KeyEventArgs;
-using TextBox = System.Windows.Controls.TextBox;
 
 namespace MarkdownMonster.Windows
 {
@@ -113,6 +110,9 @@ namespace MarkdownMonster.Windows
             WebBrowser.LoadCompleted += WebBrowser_LoadCompleted;
             IEHandler = new IEWebBrowserEditorHandler(WebBrowser);
 
+            WebBrowserPreview.LoadCompleted += WebBrowserPreview_LoadCompleted;
+
+
             double width = Width;
             if (width < mmApp.Model.Window.Width - 25)
             {
@@ -123,11 +123,9 @@ namespace MarkdownMonster.Windows
                 if (Height < mmApp.Model.Window.Height - 80)
                     Height = mmApp.Model.Window.Height - 80;
             }
-
-
         }
 
-
+       
         private void TableEditorHtml_Loaded(object sender, RoutedEventArgs e)
         {
             RenderTable();
@@ -153,6 +151,8 @@ namespace MarkdownMonster.Windows
                 this.Close();
             }
         }
+
+
 
 
         private void CreateInitialTableData()
@@ -310,13 +310,18 @@ namespace MarkdownMonster.Windows
             }
         }
 
-        public void RefreshPreview(bool dontReloadData = false)
+
+        private TableLocation PreviewTableLocation { get; set; }
+
+        public void RefreshPreview(bool dontReloadData = false, TableLocation loc = null)
         {
             if (!IsPreviewActive)
                 return;
 
             if (!dontReloadData)
                 TableData = Interop.GetJsonTableData();
+
+            this.PreviewTableLocation = loc;
 
             var parser = new TableParserHtml();
             parser.TableData = TableData;
@@ -360,13 +365,31 @@ namespace MarkdownMonster.Windows
             
             WebBrowserPreview.Navigate(url);
         }
+        
+        /// <summary>
+        /// Handle Preview positioning for Table locations
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void WebBrowserPreview_LoadCompleted(object sender, System.Windows.Navigation.NavigationEventArgs e)
+        {
+            if (PreviewTableLocation == null) return;
 
-
-
-
-
-
-    
+            try
+            {
+                dynamic el = ((dynamic) WebBrowserPreview)
+                    .Document.documentElement
+                    .querySelector($"tbody tr:nth-child({PreviewTableLocation.Row}) td:nth-child({PreviewTableLocation.Column + 1})");
+                if (el != null)
+                {
+                    el.scrollIntoView();
+                    el.style.border = "solid 2px lightsteelblue";
+                }
+            }
+            catch
+            { }
+        }
+        
     }
 
 

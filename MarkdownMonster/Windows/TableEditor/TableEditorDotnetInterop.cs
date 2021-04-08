@@ -100,10 +100,19 @@ namespace MarkdownMonster.Windows
                 Window.Commands.EmbedTableCommand.Execute(null);
         }
 
-        public void RefreshPreview()
+        public void RefreshPreview(object pos)
         {
-            Window.RefreshPreview();
+            TableLocation loc = null;
+            if (pos != null)
+            {
+                loc = new TableLocation
+                {
+                    Column = Convert.ToInt32(ReflectionUtils.GetPropertyExCom(pos, "column")),
+                    Row = Convert.ToInt32(ReflectionUtils.GetPropertyExCom(pos, "row"))
+                };
+            }
 
+            Window.RefreshPreview(false, loc);
         }
     }
 

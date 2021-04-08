@@ -52,7 +52,7 @@ var page = {
                 var pos = page.idToPos(this.id);                                     
                 page.tableData.activeCell.row = pos.row;
                 page.tableData.activeCell.column = pos.column;                
-                page.dotnet.RefreshPreview();
+                page.dotnet.RefreshPreview(pos);
             }
         });
         div$.on("contextmenu","textarea",function(e) {                   
