@@ -500,7 +500,7 @@ namespace MarkdownMonster
                 return false;
 
 
-            if (imageFileOrUrl.StartsWith("https://") || imageFileOrUrl.StartsWith("https://"))
+            if (imageFileOrUrl.StartsWith("http://") || imageFileOrUrl.StartsWith("https://"))
             {
                 var imageFile = HttpUtils.DownloadImageToFile(imageFileOrUrl);
 
@@ -517,7 +517,7 @@ namespace MarkdownMonster
             {
                 string exe = mmApp.Configuration.Images.ImageEditor;
                 if (!string.IsNullOrEmpty(exe))
-                    Process.Start(new ProcessStartInfo(exe, $"\"{imageFileOrUrl}\""));
+                    Process.Start(new ProcessStartInfo(exe, $"\"{Path.GetFullPath(imageFileOrUrl)}\""));
                 else
                 {
                     Process.Start(new ProcessStartInfo
@@ -548,7 +548,7 @@ namespace MarkdownMonster
             {
                 string exe = mmApp.Configuration.Images.ImageViewer;
                 if (!string.IsNullOrEmpty(exe))
-                    Process.Start(new ProcessStartInfo(exe, $"\"{imageFile}\""));
+                    Process.Start(new ProcessStartInfo(exe, $"\"{Path.GetFullPath(imageFile)}\""));
                 else
                 {
                     Process.Start(new ProcessStartInfo {FileName = imageFile, UseShellExecute = true});

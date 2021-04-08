@@ -292,10 +292,6 @@ namespace MarkdownMonster.Windows
             {
                 data = parser.ParseMarkdownToData(html);
             }
-            else if (html.Contains("-|-") || html.Contains("- | -") || html.Contains(""))
-            {
-                data = parser.ParseMarkdownToData(html);
-            }
             else if (html.Contains("-+-"))
             {
                 data = parser.ParseMarkdownGridTableToData(html);

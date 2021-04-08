@@ -84,8 +84,9 @@ namespace MarkdownMonster.Windows
         {            
             IsClosed = true;
 
-            var config = mmApp.Model.Configuration.WindowPosition;
+            mmApp.Model.IsPreviewBrowserVisible = false;
 
+            var config = mmApp.Model.Configuration.WindowPosition;
 
             config.PreviewLeft = Convert.ToInt32(Left);
             config.PreviewTop = Convert.ToInt32(Top);

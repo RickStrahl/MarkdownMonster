@@ -175,14 +175,16 @@ namespace MarkdownMonster.Utilities
                         Directory.CreateDirectory(basePath);
 
                     var dicFile = Path.Combine(basePath, language + ".dic");
-                    var web = new WebClient();
-                    web.DownloadFile(new Uri(url), dicFile);
+                    using (var web = new WebClient())
+                    {
+                        web.DownloadFile(new Uri(url), dicFile);
 
-                    var affFile = dicFile.Replace(".dic", ".aff");
-                    url = url.Replace(".dic", ".aff");
-                    web.DownloadFile(new Uri(url), affFile);
+                        var affFile = dicFile.Replace(".dic", ".aff");
+                        url = url.Replace(".dic", ".aff");
+                        web.DownloadFile(new Uri(url), affFile);
 
-                    return File.Exists(dicFile) && File.Exists(affFile);
+                        return File.Exists(dicFile) && File.Exists(affFile);
+                    }
                 }
             }
             catch(Exception ex)
@@ -203,9 +205,6 @@ namespace MarkdownMonster.Utilities
             mmApp.Model.Window.ShowStatusProgress($"Downloading dictionary license for {language}");
 
             //download license
-            var wc = new WebClient();
-            wc.Encoding = Encoding.UTF8;
-
             var url = $"https://raw.githubusercontent.com/wooorm/dictionaries/main/dictionaries/{language}/license";
             
             var dd = DictionaryDownloads.FirstOrDefault(dx => dx.Code == language);
@@ -215,7 +214,11 @@ namespace MarkdownMonster.Utilities
             string md;
             try
             {
-                md = wc.DownloadString(url);
+                using (var wc = new WebClient())
+                {
+                    wc.Encoding = Encoding.UTF8;
+                    md = wc.DownloadString(url);
+                }
             }
             catch
             {
