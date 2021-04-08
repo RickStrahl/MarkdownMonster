@@ -112,6 +112,19 @@ namespace MarkdownMonster.Windows
 
             WebBrowser.LoadCompleted += WebBrowser_LoadCompleted;
             IEHandler = new IEWebBrowserEditorHandler(WebBrowser);
+
+            double width = Width;
+            if (width < mmApp.Model.Window.Width - 25)
+            {
+                Left = mmApp.Model.Window.Left;
+                Width = mmApp.Model.Window.Width;
+
+                Top = mmApp.Model.Window.Height - 60;
+                if (Height < mmApp.Model.Window.Height - 80)
+                    Height = mmApp.Model.Window.Height - 80;
+            }
+
+
         }
 
 
@@ -299,7 +312,7 @@ namespace MarkdownMonster.Windows
 
         public void RefreshPreview(bool dontReloadData = false)
         {
-            if (!TableData.IsPreviewActive)
+            if (!IsPreviewActive)
                 return;
 
             if (!dontReloadData)

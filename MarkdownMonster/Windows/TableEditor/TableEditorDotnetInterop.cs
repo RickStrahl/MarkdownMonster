@@ -79,7 +79,7 @@ namespace MarkdownMonster.Windows
             // incoming row data is: row 0 = header, actual rows 1 based 
             var loc = new TableLocation();
             loc.Row = Convert.ToInt32( ReflectionUtils.GetPropertyCom(mousePosition, "row") );
-            loc.Column = Convert.ToInt32( ReflectionUtils.GetPropertyCom(mousePosition, "col") );
+            loc.Column = Convert.ToInt32( ReflectionUtils.GetPropertyCom(mousePosition, "column") );
             loc.IsHeader = loc.Row < 1;
 
             // Fix up row number to 0 based

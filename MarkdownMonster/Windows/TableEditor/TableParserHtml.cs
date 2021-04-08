@@ -26,7 +26,7 @@ namespace MarkdownMonster.Windows
         public TableData TableData {get; set; }
 
 
-        #region Parsing Functions
+        #region Markdown Output Functions
          /// <summary>
         ///
         /// </summary>
@@ -169,8 +169,7 @@ namespace MarkdownMonster.Windows
             if (tableData == null || tableData.Rows.Count < 1 && tableData.Headers.Count < 1)
                 return string.Empty;
 
-            var mdParser = MarkdownParserFactory.GetParser();
-
+            var mdParser = MarkdownParserFactory.GetParser(usePragmaLines: false, forceLoad: true);
             var columnInfo = GetColumnInfo(tableData);
 
             StringBuilder sb = new StringBuilder();
@@ -204,8 +203,10 @@ namespace MarkdownMonster.Windows
                     var col = row[i];
                     if (string.IsNullOrEmpty(col))
                         col = string.Empty;
-                    else 
-                        col = col.Replace("\n", "<br>").Replace("\r", "");
+                    else
+                        col = col.Replace("\n", "<br>")
+                            .Replace("\r", "");
+                            
 
                     var align= string.Empty;
                     if (columnInfo[i].Justification == ColumnJustifications.Right)
@@ -213,7 +214,10 @@ namespace MarkdownMonster.Windows
                     else if (columnInfo[i].Justification == ColumnJustifications.Center)
                         align = " style=\"text-align: center\"";
 
-                    var text = mdParser.Parse(col.Trim()).Replace("<p>", "").Replace("</p>", "").Trim();
+                    var text = mdParser.Parse(col.Trim())
+                        .Replace("<p>", "")
+                        .Replace("</p>", "")
+                        .Trim();
                     sb.AppendLine($"\t\t<td{align}>{text}</td>");
                 }
 
@@ -465,6 +469,8 @@ namespace MarkdownMonster.Windows
                             .Replace("</b>", "**")
                             .Replace("<i>", "*")
                             .Replace("</i>", "*")
+                            .Replace("<code>", "`")
+                            .Replace("</code>", "`")
                             .Replace("<br>", "\n");
 
                         // convert links and images

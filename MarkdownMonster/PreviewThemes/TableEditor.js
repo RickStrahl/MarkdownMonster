@@ -47,11 +47,11 @@ var page = {
         setTimeout(function() { $("th textarea").trigger("keyup"); },10);
 
         div$.on("keyup","textarea", page.autogrowTextAreas); 
-        div$.on("change", "textarea", function () {
-            if (page.tableData.isPreviewActive && page.dotnet) {
-                var pos = page.idToPos(this.id);                
-                page.activeCell.row = pos.row;
-                page.activeCell.column = pos.column;
+        div$.on("change", "textarea", function () {            
+            if (page.dotnet) {                                
+                var pos = page.idToPos(this.id);                                     
+                page.tableData.activeCell.row = pos.row;
+                page.tableData.activeCell.column = pos.column;                
                 page.dotnet.RefreshPreview();
             }
         });
@@ -59,9 +59,7 @@ var page = {
             var textBox = e.target;
             if (textBox.tagName != "TEXTAREA") return;
             var pos = page.idToPos(textBox.id);
-
-            pos.x = page.mousePos.x;
-            pos.y = page.mousePos.y;
+            
             if (page.dotnet)     
             {                
                 page.dotnet.ShowContextMenu(pos);
@@ -118,7 +116,7 @@ var page = {
         else if (e.keyCode == 40) 
         {
             var hasReturns = this.value.indexOf("\n") > 0;
-            if (hasReturns && !e.ctrlKey) return true;  // line breaks - don't use arrows
+            if (hasReturns && !e.ctrlKey) return null;  // line breaks - don't use arrows
 
             // move to new row
             var newRow = pos.row + 1;
@@ -148,7 +146,7 @@ var page = {
         var pos = page.idToPos(this.id);
         if (pos.row !== 0) return;
 
-        var col = pos.col + 1;
+        var col = pos.column + 1;
         var cols$ = $("#RenderWrapper thead th:nth-child(" +col + ") textarea," +
                       "#RenderWrapper tbody td:nth-child(" + col + ") textarea");
 
@@ -274,7 +272,7 @@ var page = {
     },
 
     idToPos: function(id) {
-        var pos = { row: -1, col: -1};
+        var pos = { row: -1, column: -1};
 
         var id = id.replace("id_","");
         var tokens = id.split("_");

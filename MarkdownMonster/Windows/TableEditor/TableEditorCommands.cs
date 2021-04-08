@@ -17,6 +17,8 @@
         {
             EmbedTableCommand = new CommandBase((parameter, command) =>
             {
+                Window.TableData = Window.Interop.GetJsonTableData();
+
                 var parser = new TableParserHtml();
 
                 if (Window.TableMode == "Grid Table")

@@ -1,7 +1,8 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
 <head>    
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />   
+    <meta charset="utf-8" />
     <title>Markdown Monster Table Editor</title>
     <link  href="Westwind/Theme.css" rel="stylesheet" />
     <style> 
@@ -36,10 +37,6 @@
             outline: none;           
             overflow: hidden;            
         }        
-        table th input, table th textarea {            
-            /* font-weight: 600;
-            font-size: 1.15em;                                */
-        }
         textarea:focus, textarea:active {            
             border: #ccc 0.1px solid;
         }
@@ -56,13 +53,29 @@
 <thead>
 <tr>
 <th>Header 1</th>
-<th style="text-align: right;">Header 2</th>
+<th>Header 2asdasdasd</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>Row 1 Column 1</td>
-<td style="text-align: right;">Row 1 Column 2</td>
+<td><strong>Column 1</strong> <code>test</code><br>Another Line</td>
+<td>My new column Text</td>
+</tr>
+<tr>
+<td>Column 1 and more<br>two</td>
+<td>Column 2 and more</td>
+</tr>
+<tr>
+<td>Column 1 and much more</td>
+<td>Column 3 and much more</td>
+</tr>
+<tr>
+<td><a target="top" href="https://west-wind.com">West Wind</a></td>
+<td>Site Info</td>
+</tr>
+<tr>
+<td>Column 1 and so much more</td>
+<td>Column3 and so much more</td>
 </tr>
 </tbody>
 </table>
