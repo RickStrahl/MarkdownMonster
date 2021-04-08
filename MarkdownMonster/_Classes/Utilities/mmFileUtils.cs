@@ -702,7 +702,7 @@ namespace MarkdownMonster
                     ShellUtils.ExecuteProcess(mmApp.Configuration.WebBrowserPreviewExecutable, $"\"{url}\"");
                 }
             }
-            catch (Exception ex)
+            catch 
             {
                 try
                 {

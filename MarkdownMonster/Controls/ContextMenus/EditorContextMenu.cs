@@ -644,7 +644,7 @@ namespace MarkdownMonster.Controls.ContextMenus
                     if (string.IsNullOrEmpty(mdTableHtml))
                         return;
 
-                    var parser = new TableParser();
+                    var parser = new TableParserHtml();
                     var formatted = parser.FormatMarkdownTable(mdTableHtml);
                     if (formatted == null)
                         return;
@@ -689,7 +689,7 @@ namespace MarkdownMonster.Controls.ContextMenus
                     if (string.IsNullOrEmpty(mdTableHtml))
                         return;
 
-                    var parser = new TableParser();
+                    var parser = new TableParserHtml();
                     var formatted = parser.FormatMarkdownTable(mdTableHtml);
                     if (formatted == null)
                         return;

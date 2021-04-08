@@ -11,8 +11,6 @@ namespace MarkdownMonster.Windows
 {
     public class TableEditorDotnetInterop : BaseBrowserInterop
     {
-        private object Page;
-
        
 
         public TableEditorDotnetInterop(object instance) : base(instance)
@@ -30,7 +28,6 @@ namespace MarkdownMonster.Windows
             var td = JsonSerializationUtils.Deserialize<TableData>(tdata);
             return td;
         }
-
 
         public void UpdateHtmlTable(TableData data, TableLocation location)
         {

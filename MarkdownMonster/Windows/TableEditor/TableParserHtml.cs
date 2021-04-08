@@ -768,6 +768,27 @@ namespace MarkdownMonster.Windows
         #endregion
     }
 
+    [DebuggerDisplay("{Title} - {MaxWidth}")]
+    public class ColumnInfo
+    {
+        public string Title;
+        public int MaxWidth;
+        public ColumnJustifications Justification = ColumnJustifications.Left;
+    }
 
+    public enum MarkdownTableType
+    {
+        Pipe,
+        Grid,
+        Html,
+        None
+    }
+
+    public enum ColumnJustifications
+    {
+        Left,
+        Right,
+        Center
+    }
 
 }

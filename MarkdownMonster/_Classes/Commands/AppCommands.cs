@@ -2446,8 +2446,6 @@ We're now shutting down the application.
 
         public CommandBase TestButtonCommand { get; set; }
 
-        private WebServer WebServer = null;
-
         void TestButton()
         {
             TestButtonCommand = new CommandBase((parameter, command) =>
