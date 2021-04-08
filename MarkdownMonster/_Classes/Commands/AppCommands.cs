@@ -1120,9 +1120,15 @@ namespace MarkdownMonster
                     return;
 
                 if (action == "ExternalPreviewWindow")
+                {
                     Model.Configuration.PreviewMode = MarkdownMonster.PreviewModes.ExternalPreviewWindow;
+                    Model.IsExternalPreview = true;
+                }
                 else
+                {
                     Model.Configuration.PreviewMode = MarkdownMonster.PreviewModes.InternalPreview;
+                    Model.IsInternalPreview = true;
+                }
 
                 Model.IsPreviewBrowserVisible = true;
 

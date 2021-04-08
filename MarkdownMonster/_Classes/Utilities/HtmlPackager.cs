@@ -345,8 +345,10 @@ namespace Westwind.HtmlPackager
                 {
                     if (url.StartsWith("http"))
                     {
-                        var http = new WebClient();
-                        cssText = http.DownloadString(url);
+                        using (var http = new WebClient())
+                        {
+                            cssText = http.DownloadString(url);
+                        }
                     }
                     else if (url.StartsWith("file:///"))
                     {
@@ -359,8 +361,10 @@ namespace Westwind.HtmlPackager
                         url = uri.AbsoluteUri;
                         if (url.StartsWith("http") && url.Contains("://"))
                         {
-                            var http = new WebClient();
-                            cssText = http.DownloadString(url);
+                            using (var http = new WebClient())
+                            {
+                                cssText = http.DownloadString(url);
+                            }
                         }
                         else
                             cssText = File.ReadAllText(uri.LocalPath);
@@ -418,8 +422,10 @@ namespace Westwind.HtmlPackager
                 {
                     if (url.StartsWith("http"))
                     {
-                        var http = new WebClient();
-                        scriptData = http.DownloadData(url);
+                        using (var http = new WebClient())
+                        {
+                            scriptData = http.DownloadData(url);
+                        }
                     }
                     else if (url.StartsWith("file:///"))
                     {
@@ -432,8 +438,10 @@ namespace Westwind.HtmlPackager
                         url = uri.AbsoluteUri;
                         if (url.StartsWith("http") && url.Contains("://"))
                         {
-                            var http = new WebClient();
-                            scriptData = http.DownloadData(url);
+                            using (var http = new WebClient())
+                            {
+                                scriptData = http.DownloadData(url);
+                            }
                         }
                         else
                             scriptData = File.ReadAllBytes(uri.LocalPath);
@@ -483,9 +491,11 @@ namespace Westwind.HtmlPackager
                 {
                     if (url.StartsWith("http"))
                     {
-                        var http = new WebClient();
-                        imageData = http.DownloadData(url);
-                        contentType = http.ResponseHeaders[System.Net.HttpResponseHeader.ContentType];
+                        using (var http = new WebClient())
+                        {
+                            imageData = http.DownloadData(url);
+                            contentType = http.ResponseHeaders[System.Net.HttpResponseHeader.ContentType];
+                        }
                     }
                     else if (url.StartsWith("file:///"))
                     {
@@ -499,8 +509,10 @@ namespace Westwind.HtmlPackager
                         
                         if (uri.Scheme.StartsWith("http"))
                         {
-                            var http = new WebClient();
-                            imageData = http.DownloadData(uri.AbsoluteUri);
+                            using (var http = new WebClient())
+                            {
+                                imageData = http.DownloadData(uri.AbsoluteUri);
+                            }
                         }
                         else
                             imageData = File.ReadAllBytes(uri.LocalPath);
@@ -581,9 +593,11 @@ namespace Westwind.HtmlPackager
                 {
                     if (url.StartsWith("http"))
                     {
-                        var http = new WebClient();
-                        linkData = http.DownloadData(url);
-                        contentType = http.ResponseHeaders[HttpResponseHeader.ContentType];
+                        using (var http = new WebClient())
+                        {
+                            linkData = http.DownloadData(url);
+                            contentType = http.ResponseHeaders[HttpResponseHeader.ContentType];
+                        }
                     }
                     else if (url.StartsWith("file:///"))
                     {
@@ -602,8 +616,10 @@ namespace Westwind.HtmlPackager
                         url = uri.AbsoluteUri;
                         if (url.StartsWith("http") && url.Contains("://"))
                         {
-                            var http = new WebClient();
-                            linkData = http.DownloadData(url);
+                            using (var http = new WebClient())
+                            {
+                                linkData = http.DownloadData(url);
+                            }
                         }
                         else
                             linkData = File.ReadAllBytes(uri.LocalPath);
@@ -673,12 +689,14 @@ namespace Westwind.HtmlPackager
         {
             if (ex == null)
                 this.ErrorMessage = string.Empty;
+            else
+            {
+                Exception e = ex;
+                if (checkInner)
+                    e = e.GetBaseException();
 
-            Exception e = ex;
-            if (checkInner)
-                e = e.GetBaseException();
-
-            ErrorMessage = e.Message;
+                ErrorMessage = e.Message;
+            }
         }
         #endregion
     }

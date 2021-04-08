@@ -36,11 +36,11 @@ namespace MarkdownMonster
             set
             {
                 _instance = value;
-                if (_instance != null)
-                    InstanceType = _instance.GetType();
+                InstanceType = _instance?.GetType();
             }
         }
         private object _instance;
+
         public Type InstanceType { get; set; }
 
 
@@ -93,7 +93,7 @@ namespace MarkdownMonster
             try
             {
 #endif
-            return InstanceType.InvokeMember(method, flags | BindingFlags.InvokeMethod, null, Instance,
+            return InstanceType?.InvokeMember(method, flags | BindingFlags.InvokeMethod, null, Instance,
                 parameters );
 #if DEBUG
             }

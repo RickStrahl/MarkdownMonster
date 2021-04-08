@@ -1002,12 +1002,14 @@ namespace MarkdownMonster.Utilities
         {
             if (ex == null)
                 this.ErrorMessage = string.Empty;
+            else
+            {
+                Exception e = ex;
+                if (checkInner)
+                    e = e.GetBaseException();
 
-            Exception e = ex;
-            if (checkInner)
-                e = e.GetBaseException();
-
-            ErrorMessage = e.Message;
+                ErrorMessage = e.Message;
+            }
         }
         #endregion
 

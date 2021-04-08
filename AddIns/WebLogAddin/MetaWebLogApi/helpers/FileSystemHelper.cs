@@ -16,10 +16,12 @@ namespace WebLogAddin.MetaWebLogApi.helpers
         /// <returns></returns>
         public static byte[] GetFileBytes(string pathToFile)
         {
-            var fs = new FileStream(pathToFile, FileMode.Open, FileAccess.Read);
-            byte[] filebytes = new byte[fs.Length];
-            fs.Read(filebytes, 0, Convert.ToInt32(fs.Length));
-            return filebytes;
+            using (var fs = new FileStream(pathToFile, FileMode.Open, FileAccess.Read))
+            {
+                byte[] filebytes = new byte[fs.Length];
+                fs.Read(filebytes, 0, Convert.ToInt32(fs.Length));
+                return filebytes;
+            }
         }
     }
 }
