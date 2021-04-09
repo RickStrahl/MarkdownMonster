@@ -9,8 +9,8 @@
     <meta charset="utf-8" /> 
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />   
     
-    <title>Markdown Monster - A better Markdown Editor for Windows</title>
-    <meta name="description" content="Markdown Monster: A powerful, yet easy to use Markdown Editor, Viewer and Weblog Publisher for Windows. Create Markdown with a powerful yet low key interface that provides many helpful support features, but gets out of your way to keep you productive creating content quickly." />
+    <title>Markdown Monster - The Markdown Editor for Windows</title>
+    <meta name="description" content="Markdown Monster: A powerful, yet easy to use Markdown Editor, Viewer and Weblog Publisher for Windows that helps you to create Markdown content quickly and efficiently." />
     <meta name="keywords" content="markdown,editor,windows,documentation,weblog,blog,publishing,writing,open source,addins,wpf,dotnet,westwind,rick strahl" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     
@@ -72,8 +72,8 @@
     <meta property="og:type" content="website">
     <meta property="og:site_name" content="Markdown Monster">
 
-    <meta property="og:title" content="Markdown Monster: A better Markdown Editor for Windows">
-    <meta property="og:description" content="Markdown Monster is an easy to use Markdown Editor and Weblog Publisher for Windows.">
+    <meta property="og:title" content="Markdown Monster: The Markdown Editor for Windows">
+    <meta property="og:description" content="A powerful, yet easy to use Markdown Editor, Viewer and Weblog Publisher for Windows.">
     <meta property="og:url" content="https://markdownmonster.west-wind.com">
     
     <meta property="og:image" content="https://markdownmonster.west-wind.com/Images/MarkdownMonsterLogo.jpg">
@@ -83,8 +83,8 @@
 
     <meta name="twitter:card" content="https://markdownmonster.west-wind.com/Images/MarkdownMonsterLogo.jpg">
     <meta name="twitter:site" content="@markdownmonstr">
-    <meta name="twitter:title" content="Markdown Monster - a better Markdown Editor and Weblog Publisher for Windows">
-    <meta name="twitter:description" content="Markdown Monster is an interactive Markdown Editor dedicated to optimizing Markdown content creation with a capable sytnax highlighted editor, live preview, inline spell-checking and many out of your way helpers that facilitate embedding images, links, code, tables, emojiis and more.">
+    <meta name="twitter:title" content="Markdown Monster: The Markdown Editor for Windows">
+    <meta name="twitter:description" content="A powerful, yet easy to use Markdown Editor, Viewer and Weblog Publisher for Windows that helps you to create Markdown content quickly and efficiently.">
     <meta name="twitter:creator" content="@markdownmonstr">
     <meta name="twitter:image" content="https://markdownmonster.west-wind.com/Images/MarkdownMonsterLogo.jpg">
     <meta name="twitter:domain" content="markdownmonster.west-wind.com">
@@ -110,9 +110,7 @@
             <a href="docs/_4rd0xigys.htm" title="Markdown Monster Features">                
                 Features
             </a>
-            <%--<a href="features.aspx">Features</a>--%>           
-                   
-            <a href="https://markdownmonster.west-wind.com/docs/" title="Markdown Monster Documentation">                
+            <a href="https://markdownmonster.west-wind.com/docs/" title="Markdown Monster Documentation">        
                 Docs
             </a>  
             <a href="https://support.west-wind.com/Thread4NM0M17RC.wwt" class="hidable" title="Support for Markdown Monster">          
@@ -136,24 +134,26 @@
                 <div style="background: black; padding: 0 0; position: relative;">
                     <div >
                         <img src="Images/MarkdownMonsterLogo.jpg" alt="Markdown Monster"  style="max-width: 75%;margin: 0 15% 0 10%;" />
-                          <a href="https://github.com/rickstrahl/MarkdownMonster">
+                         <%-- <a href="https://github.com/rickstrahl/MarkdownMonster">
                              <img style="position: absolute; top:0; right: 0; border: 0;" 
                                   src="https://camo.githubusercontent.com/652c5b9acfaddf3a9c326fa6bde407b87f7be0f4/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f6f72616e67655f6666373630302e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_orange_ff7600.png">
-                          </a>
+                          </a>--%>
                         
-                        
-                        <style>
                       
-                        </style>
-                         <nav id="ActionButtons" >                            
+                        <h3 style="color: #ffd281; text-align: center; margin-top: 0.5em; margin-bottom: 1.2em;" >The Markdown Editor for Windows</h3>
+                        <nav id="ActionButtons" >                            
                             <a href="download.aspx" class="btn btn-lg btn-success"  >
                                 <i class="fa fa-download text-success"></i>
                                 <b style="color: cornsilk">Free Download</b>
                             </a>
-                            <a href="https://github.com/rickstrahl/MarkdownMonster" class="btn btn-lg btn-success">
+                            <%--a href="https://github.com/rickstrahl/MarkdownMonster" class="btn btn-lg btn-success">
                                 <i class="fa fa-github text-info"></i>
                                 GitHub
-                            </a>
+                            </a>--%>
+                             <a href="purchase.aspx" class="btn btn-lg btn-success">
+                                 <i class="fa fa-shopping-cart" style="color: steelblue"></i>
+                                 Buy
+                             </a>  
                        
                             <a href="https://markdownmonster.west-wind.com/docs" class="btn btn-lg btn-success">
                                 <i class="fa fa-info-circle" style="color: goldenrod"></i>
@@ -163,11 +163,12 @@
                             <small style="font-size: 8pt;"><i>version <%= Version %> - <%= ReleaseDate%></i></small>
                         </nav>
                         
-                        <h1 style="font-weight: bold; display: none">Markdown Monster</h1>                        
+                        <h1 style="font-weight: bold; display: none">Markdown Monster</h1>          
+                        
                     </div>
     
                     <div class="top-bullet-box" style="margin: 0;">
-                        <h3 style="color: #ffd281;">Markdown Editing and Weblog Publishing for Windows</h3>
+                        
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="bullet-box-items">
@@ -189,7 +190,11 @@
                                     </div>
                                     <div>
                                         <i class="fa fa-check" style="color: lightgreen"></i>
-                                        Paste images from Clipboard
+                                        Paste images from clipboard
+                                    </div>
+                                    <div>
+                                        <i class="fa fa-check" style="color: lightgreen"></i>
+                                        Sophisticated table editor
                                     </div>
                                     <div>
                                         <i class="fa fa-check" style="color: lightgreen"></i>
@@ -219,11 +224,15 @@
                                                                                                         
                                     <div>
                                         <i class="fa fa-check" style="color: lightgreen"></i>
-                                        Git Integration
+                                        Git integration
                                     </div>  
                                     <div>
                                         <i class="fa fa-check" style="color: lightgreen"></i>
-                                        Document Outline
+                                        Document outline
+                                    </div>
+                                    <div>
+                                        <i class="fa fa-check" style="color: lightgreen"></i>
+                                        Rich file management
                                     </div>
                                     <div>
                                         <i class="fa fa-check" style="color: lightgreen"></i>
@@ -288,11 +297,11 @@
 
             <h3 style="clear: both">Better Markdown Editing for Windows</h3>
             <p>                    
-                Markdown Monster is a Markdown editor and viewer that lets you edit Markdown with syntax highlighting
-                and fast text entry. A collapsible, synced, live preview lets you see your output as you type or scroll.
-                Easily embed images, links, emojis and code using Markdown text or use our gentle UI
-                helpers that simplify many operations with a couple of keystrokes. Paste images from the clipboard
-                or drag and drop from Explorer or our built-in folder browser. Inline spell-checking and word counts 
+                Markdown Monster is a powerful, yet easy to use Markdown editor and viewer with syntax highlighting
+                and sophisticated and fast edit features. A collapsible, synced, live preview lets you see your output
+                as you type and scroll. Easily embed images, links, tables, emojis and code using Markdown text or 
+                use our UI based helpers to simplify many operations with a few keystrokes. Paste images from the clipboard
+                or drag and drop from Explorer or our built-in file browser. Inline spell-checking and word counts 
                 keep your content streamlined unobtrusively.
             </p>
                 
@@ -301,12 +310,12 @@
                 You can export your Markdown to HTML or PDF by saving to disk or by copying Markdown selections as
                 HTML directly to the clipboard. The HTML preview can display syntax colored code snippets 
                 for most common coding languages, and can easily be customized with HTML and CSS template to match 
-                your own sites. You can choose from a light and dark app theme, and choose individual editor and  
+                your own sites. You can choose from a light and dark app themes, and choose individual editor and  
                 preview themes that are fully customizable. You can even use Vim or EMacs type conventions. 
                 Other convenience features let you browse for and select files in the built-in folder browser,
                 use the document outline to jump through sections in your Markdown, or shell out to Explorer,
                 Terminal or your favorite Git client. It's all about convenience - everything is at your finger 
-                tips, but it's out of your way until you need it.
+                tips, but <b>it's out of your way until you need it</b>.
             </p>
                 
                 <div class="content" style="padding: 0 0 20px">

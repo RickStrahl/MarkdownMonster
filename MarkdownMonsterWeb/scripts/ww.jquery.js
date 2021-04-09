@@ -1,7 +1,7 @@
 ﻿/// <reference path="../bower_components/jquery/dist/jquery.js" />
 /*
 ww.jQuery.js  
-Version 1.28 - 8/26/2018
+Version 1.30 - 8/20/2020
 West Wind jQuery plug-ins and utilities
 
 (c) 2008-2018 Rick Strahl, West Wind Technologies 
@@ -10,10 +10,14 @@ www.west-wind.com
 Licensed under MIT License
 http://en.wikipedia.org/wiki/MIT_License
 */
-(function($, undefined) {
-    HttpClient = function(opt) {
-        var self = this;
+"use strict"; 
 
+(function($, undefined) {
+    
+
+    window.HttpClient = function(opt) {
+        var self = this;
+        
         this.completed = null;
         this.errorHandler = null;
         this.errorMessage = "";
@@ -49,7 +53,7 @@ http://en.wikipedia.org/wiki/MIT_License
                     if (self.accepts)
                         xhr.setRequestHeader("Accept", self.accepts);
                 },
-                success: function success(result, status) {                    
+                success: function success(result, status) {
                     var errorException = null;
                     if (self.evalResult) {
                         try {
@@ -99,7 +103,7 @@ http://en.wikipedia.org/wiki/MIT_License
         };
     };
 
-    ServiceProxy = function(serviceUrl) {
+    window.ServiceProxy = function(serviceUrl) {
         /// <summary>
         /// Generic Service Proxy class that can be used to
         /// call JSON Services generically using jQuery
@@ -148,7 +152,7 @@ http://en.wikipedia.org/wiki/MIT_License
         }
     };
 
-    AjaxMethodCallback = function(controlId, url, opt) {
+    window.AjaxMethodCallback = function(controlId, url, opt) {
         var self = this;
         this.controlId = controlId;
         this.postbackMode = "PostMethodParametersOnly"; // Post,PostNoViewstate,Get
@@ -181,11 +185,12 @@ http://en.wikipedia.org/wiki/MIT_License
                         data["Parm" + (x + 1).toString()] = JSON.stringify(parameters[x]);
                     }
                 }
-                $.extend(data, {
-                    CallbackMethod: methodName,
-                    CallbackParmCount: parmCount,
-                    __WWEVENTCALLBACK: self.controlId
-                });
+                $.extend(data,
+                    {
+                        CallbackMethod: methodName,
+                        CallbackParmCount: parmCount,
+                        __WWEVENTCALLBACK: self.controlId
+                    });
 
                 data = $.param(data) + "&";
             }
@@ -210,7 +215,9 @@ http://en.wikipedia.org/wiki/MIT_License
         };
 
         this.onHttpCallback = function(result) {
-            if (result && (result.isCallbackError || result.iscallbackerror)) {
+            if (result &&
+                (result.isCallbackError || result.iscallbackerror || result.isError || result.iserror) &&
+                (result.message || result.Message)) {
                 if (self.errorHandler)
                     self.errorHandler(result, self);
                 return;
@@ -219,8 +226,8 @@ http://en.wikipedia.org/wiki/MIT_License
                 self.completed(result, self);
         };
     };
- 
-    ajaxJson = function(url, parm, cb, ecb, options) {
+
+    window.ajaxJson = function(url, parm, cb, ecb, options) {
         var ser = parm;
 
         if (typeof cb === 'object') {
@@ -242,13 +249,15 @@ http://en.wikipedia.org/wiki/MIT_License
         $.extend(opt, options);
 
         var http = new HttpClient(opt);
-        http.evalResult = true;        
-        if (parm !== null && !opt.noPostEncoding && (opt.method === "POST" || opt.method === "PUT" || opt.method == "PATCH"))
+        http.evalResult = true;
+        if (parm !== null &&
+            !opt.noPostEncoding &&
+            (opt.method === "POST" || opt.method === "PUT" || opt.method == "PATCH"))
             ser = JSON.stringify(parm);
 
         return http.send(url, ser, cb, ecb);
     };
-    ajaxCallMethod = function(url, method, parms, cb, ecb, opt) {
+    window.ajaxCallMethod = function(url, method, parms, cb, ecb, opt) {
         var proxy = new AjaxMethodCallback(null, url, opt);
         return proxy.callMethod(method, parms, cb, ecb);
     };
@@ -265,21 +274,22 @@ http://en.wikipedia.org/wiki/MIT_License
     $.fn.serializeObject = function() {
         var o = {};
         var a = this.serializeArray();
-        $.each(a, function() {
-            if (o[this.name] !== undefined) {
-                if (!o[this.name].push)
-                    o[this.name] = [o[this.name]];
+        $.each(a,
+            function() {
+                if (o[this.name] !== undefined) {
+                    if (!o[this.name].push)
+                        o[this.name] = [o[this.name]];
 
-                o[this.name].push(this.value || '');
-            } else
-                o[this.name] = this.value || '';
-        });
+                    o[this.name].push(this.value || '');
+                } else
+                    o[this.name] = this.value || '';
+            });
         return o;
     };
-    onPageError = function(err) {
-        showStatus(err.message || err.Message, 6000, true);
+    window.onPageError = function(err) {
+        window.showStatus(err.message || err.Message, 6000, true);
     };
-    CallbackException = function(message, detail, status) {
+    window.CallbackException = function(message, detail, status) {
         this.isCallbackError = true;
         if (status)
             this.status = status;
@@ -300,7 +310,7 @@ http://en.wikipedia.org/wiki/MIT_License
             this.detail = null;
     };
 
-    StatusBar = function(sel, opt) {
+    window.StatusBar = function(sel, opt) {
         var self = this;
         var _sb = null;
 
@@ -327,8 +337,12 @@ http://en.wikipedia.org/wiki/MIT_License
 
         // create statusbar object manually
         if (!_sb) {
-            _sb = $("<div id='_statusbar' class='" + self.cssClass + "'>" +
-                    "<div class='" + self.closeButtonClass + "'>" +
+            _sb = $("<div id='_statusbar' class='" +
+                    self.cssClass +
+                    "'>" +
+                    "<div class='" +
+                    self.closeButtonClass +
+                    "'>" +
                     (self.closable ? "</div></div>" : ""))
                 .appendTo(document.body)
                 .hide();
@@ -375,15 +389,16 @@ http://en.wikipedia.org/wiki/MIT_License
                     clearInterval(self.interval);
 
                 self.interval = setTimeout(function() {
-                    self.interval = 0;
-                    _sb.removeClass(self.highlightClass);
+                        self.interval = 0;
+                        _sb.removeClass(self.highlightClass);
 
-                    if (self.afterTimeoutText)
-                        self.show(self.afterTimeoutText);
-                    else if
-                    (self.autoClose)
-                        self.hide();
-                }, timeout);
+                        if (self.afterTimeoutText)
+                            self.show(self.afterTimeoutText);
+                        else if
+                        (self.autoClose)
+                            self.hide();
+                    },
+                    timeout);
             }
             return self;
         };
@@ -407,8 +422,8 @@ http://en.wikipedia.org/wiki/MIT_License
 
     // use this as a global instance to customize constructor
     // or do nothing and get a default status bar
-    __statusbar = null;
-    showStatus = function(message, timeout, isHighlighted, additive) {
+    window.__statusbar = null;
+    window.showStatus = function(message, timeout, isHighlighted, additive) {
         if (typeof message == "object") {
             if (__statusbar)
                 __statusbar.release();
@@ -500,14 +515,14 @@ http://en.wikipedia.org/wiki/MIT_License
     };
 
     // sums up CSS property values
-    sumDimensions = function($el, dims) {
+    window.sumDimensions = function($el, dims) {
         // Opera returns -1 for missing min/max width, turn into 0
         var sum = 0;
         for (var i = 1; i < arguments.length; i++)
             sum += Math.max(parseInt($el.css(arguments[i]), 10) || 0, 0);
         return sum;
     };
-    debounce = function(func, wait, immediate) {
+    window.debounce = function(func, wait, immediate) {
         var timeout;
         return function() {
             var context = this, args = arguments;
@@ -566,9 +581,10 @@ http://en.wikipedia.org/wiki/MIT_License
         /// http://weblog.west-wind.com/posts/2014/Feb/22/Using-CSS-Transitions-to-SlideUp-and-SlideDown
         /// </summary>         
         /// <returns type="jQuery" />
-        opt = $.extend(opt, {
-            cssHiddenClass: "height-transition-hidden"
-        });
+        opt = $.extend(opt,
+            {
+                cssHiddenClass: "height-transition-hidden"
+            });
 
         return this.each(function() {
             var $el = $(this);
@@ -590,9 +606,10 @@ http://en.wikipedia.org/wiki/MIT_License
         /// http://weblog.west-wind.com/posts/2014/Feb/22/Using-CSS-Transitions-to-SlideUp-and-SlideDown
         /// </summary>         
         /// <returns type="jQuery" />      
-        opt = $.extend(opt, {
-            cssHiddenClass: "height-transition-hidden"
-        });
+        opt = $.extend(opt,
+            {
+                cssHiddenClass: "height-transition-hidden"
+            });
 
         return this.each(function() {
             var $el = $(this);
@@ -606,8 +623,9 @@ http://en.wikipedia.org/wiki/MIT_License
             $el.css("max-height", "0");
 
             setTimeout(function() {
-                $el.css({ "max-height": height });
-            }, 1);
+                    $el.css({ "max-height": height });
+                },
+                1);
         });
     };
 
@@ -652,14 +670,20 @@ http://en.wikipedia.org/wiki/MIT_License
             var top = parseInt($el.css("top"));
             var height = 0;
             if ($cont[0] != window) {
-                var ds = sumDimensions($cont, "borderTopWidth", "borderBottomWidth", "paddingBottom", "paddingTop") +
-                    sumDimensions($el, "borderTopWidth", "borderBottomWidth", "marginBottom", "marginTop", "paddingBottom", "paddingTop");
+                var ds = window.sumDimensions($cont, "borderTopWidth", "borderBottomWidth", "paddingBottom", "paddingTop") +
+                    window.sumDimensions($el,
+                        "borderTopWidth",
+                        "borderBottomWidth",
+                        "marginBottom",
+                        "marginTop",
+                        "paddingBottom",
+                        "paddingTop");
                 ds = ds ? ds : 1;
                 bott = $cont.offset().top + $cont.outerHeight();
                 height = bott - top - Math.ceil(ds) - opt.bottomOffset;
                 //console.log("*id: " + this.id + "  bott: " + bott + " Top: " + top + " - " + $cont.offset().top  + " ds: " + ds + "  offset: " + opt.bottomOffset + " height: " + height + " cont height:" + $cont.innerHeight() + " " + $cont.outerHeight());
             } else {
-                var ds = sumDimensions($el, "borderTopWidth", "borderBottomWidth", "marginBottom", "marginTop");
+                var ds = window.sumDimensions($el, "borderTopWidth", "borderBottomWidth", "marginBottom", "marginTop");
                 height = bott - top - Math.ceil(ds) - opt.bottomOffset;
                 //console.log("id: " + this.id + "  bott: " + bott + " Top: " + top + " - " + $cont.offset().top + " ds: " + ds + "  offset: " + opt.bottomOffset + " height: " + height);
             }
@@ -758,10 +782,11 @@ http://en.wikipedia.org/wiki/MIT_License
 
                 if (timeout && timeout > 0)
                     setTimeout(function() {
-                        if (_I.onRelease)
-                            _I.onRelease.call(el, _I);
-                        _I.hide();
-                    }, timeout);
+                            if (_I.onRelease)
+                                _I.onRelease.call(el, _I);
+                            _I.hide();
+                        },
+                        timeout);
             };
             this.hide = function() {
                 if (tt.length > 0)
@@ -790,23 +815,24 @@ http://en.wikipedia.org/wiki/MIT_License
         /// <returns type="jQuery" /> 
 
         var opt = $.extend({
-            // CSS styles or Attributes to monitor as comma delimited list
-            // For attributes use a attr_ prefix
-            // Example: "top,left,opacity,attr_class"
-            properties: null,
+                // CSS styles or Attributes to monitor as comma delimited list
+                // For attributes use a attr_ prefix
+                // Example: "top,left,opacity,attr_class"
+                properties: null,
 
-            // interval for 'manual polling' (IE 10 and older)            
-            interval: 100,
+                // interval for 'manual polling' (IE 10 and older)            
+                interval: 100,
 
-            // a unique id for this watcher instance
-            id: "_watcher_" + new Date().getTime(),
+                // a unique id for this watcher instance
+                id: "_watcher_" + new Date().getTime(),
 
-            // flag to determine whether child elements are watched            
-            watchChildren: false,
+                // flag to determine whether child elements are watched            
+                watchChildren: false,
 
-            // Callback function if not passed in callback parameter   
-            callback: null
-        }, options);
+                // Callback function if not passed in callback parameter   
+                callback: null
+            },
+            options);
 
         return this.each(function() {
             var el = this;
@@ -826,15 +852,16 @@ http://en.wikipedia.org/wiki/MIT_License
                 intervalId: null
             };
             // store initial props and values
-            $.each(data.props, function(i) {
-                var propName = data.props[i];
-                if (data.props[i].startsWith('attr_'))
-                    data.vals[i] = el$.attr(propName.replace('attr_', ''));
-                else if (propName.startsWith('prop_'))
-                    data.vals[i] = el$.prop(propName.replace('props_', ''));
-                else
-                    data.vals[i] = el$.css(propName);
-            });
+            $.each(data.props,
+                function(i) {
+                    var propName = data.props[i];
+                    if (data.props[i].startsWith('attr_'))
+                        data.vals[i] = el$.attr(propName.replace('attr_', ''));
+                    else if (propName.startsWith('prop_'))
+                        data.vals[i] = el$.prop(propName.replace('props_', ''));
+                    else
+                        data.vals[i] = el$.css(propName);
+                });
 
             el$.data(opt.id, data);
 
@@ -851,12 +878,13 @@ http://en.wikipedia.org/wiki/MIT_License
                         observer = new MutationObserver(data.fnc);
                         el$.data('__watcherObserver' + opt.id, observer);
                     }
-                    observer.observe(this, {
-                        attributes: true,
-                        subtree: opt.watchChildren,
-                        childList: opt.watchChildren,
-                        characterData: true
-                    });
+                    observer.observe(this,
+                        {
+                            attributes: true,
+                            subtree: opt.watchChildren,
+                            childList: opt.watchChildren,
+                            characterData: true
+                        });
                 } else
                     data.intervalId = setInterval(data.fnc, opt.interval);
             });
@@ -928,7 +956,7 @@ http://en.wikipedia.org/wiki/MIT_License
     };
 
 
-    $.fn.listSetData = function (items, options) {
+    $.fn.listSetData = function(items, options) {
         var opt = {
             noClear: false, // don't clear the list first if true
             dataValueField: null, // optional value field for object lists
@@ -936,7 +964,7 @@ http://en.wikipedia.org/wiki/MIT_License
         };
         $.extend(opt, options);
 
-        return this.each(function () {
+        return this.each(function() {
             var el = $(this);
 
             if (items == null) {
@@ -964,14 +992,14 @@ http://en.wikipedia.org/wiki/MIT_License
             }
         });
     };
-    $.fn.listAddItem = function (text, value) {
-        return this.each(function () {
+    $.fn.listAddItem = function(text, value) {
+        return this.each(function() {
             $(this).append($("<option></option>")
-                   .attr("value", value)
-                   .text(text));
+                .attr("value", value)
+                .text(text));
         });
     };
-    $.fn.listSelectItem = function (value) {
+    $.fn.listSelectItem = function(value) {
         if (this.length < 1)
             return;
         var list = this.get(0);
@@ -986,7 +1014,7 @@ http://en.wikipedia.org/wiki/MIT_License
         }
         return this;
     };
-    $.fn.listGetSelections = function (singleValue) {
+    $.fn.listGetSelections = function(singleValue) {
         var opts = this.find("option:selected");
         if (singleValue)
             if (opts.length > 0)
@@ -1000,7 +1028,7 @@ http://en.wikipedia.org/wiki/MIT_License
         return sels;
     };
 
-    HoverPanel = function (sel, opt) {
+    window.HoverPanel = function(sel, opt) {
         var _I = this;
         var jEl = $(sel);
         var el = jEl.get(0);
@@ -1027,7 +1055,7 @@ http://en.wikipedia.org/wiki/MIT_License
         this.http = null;
         $.extend(_I, opt);
 
-        this.startCallback = function (e, queryString, postData, errorHandler) {
+        this.startCallback = function(e, queryString, postData, errorHandler) {
             try {
                 var key = new Date().getTime();
                 _I.busy = key;
@@ -1077,23 +1105,25 @@ http://en.wikipedia.org/wiki/MIT_License
                 }
 
                 if (_I.eventHandlerMode == 'ShowIFrameAtMousePosition' || _I.eventHandlerMode == 'ShowIFrameInPanel') {
-                    setTimeout(function () {
-                        if (_I.busy) _I.showIFrame.call(_I, url);
-                    }, _I.navigateDelay);
+                    setTimeout(function() {
+                            if (_I.busy) _I.showIFrame.call(_I, url);
+                        },
+                        _I.navigateDelay);
                     return;
                 }
 
                 // Send the request with navigate delay
-                setTimeout(function () {
-                    if (_I.busy === key)
-                        _I.http.send.call(_I, url, postData, _I.onHttpCallback, _I.onHttpCallback);
-                }, _I.navigateDelay);
+                setTimeout(function() {
+                        if (_I.busy === key)
+                            _I.http.send.call(_I, url, postData, _I.onHttpCallback, _I.onHttpCallback);
+                    },
+                    _I.navigateDelay);
             } catch (e) {
                 // Call with 'error message'
                 _I.onHttpCallback(new CallbackException(e.message));
             }
         };
-        this.onHttpCallback = function (result) {
+        this.onHttpCallback = function(result) {
             _I.busy = -1;
 
             if (_I.http && _I.http.status && _I.http.status != 200)
@@ -1108,7 +1138,7 @@ http://en.wikipedia.org/wiki/MIT_License
             }
             _I.displayResult(result);
         };
-        this.displayResult = function (result) {
+        this.displayResult = function(result) {
             if (_I.completed && _I.completed(result, _I) == false)
                 return;
             if (_I.eventHandlerMode == "ShowHtmlAtMousePosition") {
@@ -1120,10 +1150,10 @@ http://en.wikipedia.org/wiki/MIT_License
                 _I.show();
             }
         };
-        this.assignContent = function (result) {
+        this.assignContent = function(result) {
             $("#" + _I.htmlTargetId).html(result);
         };
-        this.movePanelToPosition = function (x, y) {
+        this.movePanelToPosition = function(x, y) {
             try {
                 jEl.css("position", "absolute");
 
@@ -1165,7 +1195,7 @@ http://en.wikipedia.org/wiki/MIT_License
                 window.status = 'Moving of window failed: ' + e.message;
             }
         };
-        this.showIFrame = function (Url) {
+        this.showIFrame = function(Url) {
             _I.busy = false;
             Url = Url ? Url : _I.serverUrl;
             $("#" + _I.controlId + '_IFrame').attr("src", Url).load(_I.completed);
@@ -1173,19 +1203,19 @@ http://en.wikipedia.org/wiki/MIT_License
             if (_I.eventHandlerMode == "ShowIFrameAtMousePosition")
                 _I.movePanelToPosition(_I.lastMouseLeft + _I.hoverOffsetRight, _I.lastMouseTop + _I.hoverOffsetBottom);
         };
-        this.hide = function () {
+        this.hide = function() {
             this.abort();
             jEl.hide();
         };
-        this.abort = function () {
+        this.abort = function() {
             _I.busy = -1;
         };
-        this.show = function () {
+        this.show = function() {
             jEl.show().css("opacity", _I.panelOpacity);
         };
     };
 
-    _ModalDialog = function (sel, opt) {
+    window._ModalDialog = function(sel, opt) {
         var _I = this;
         var jEl = $(sel);
         if (jEl.length < 1)
@@ -1206,7 +1236,7 @@ http://en.wikipedia.org/wiki/MIT_License
         $.extend(_I, opt);
         var hideLists = null;
 
-        this.show = function (msg, head, asHtml) {
+        this.show = function(msg, head, asHtml) {
             if (_I.contentId && typeof msg == "string")
                 !asHtml ? $("#" + _I.contentId).text(msg) : $("#" + _I.contentId).html(msg);
             if (_I.headerId && typeof head == "string")
@@ -1224,17 +1254,19 @@ http://en.wikipedia.org/wiki/MIT_License
             jEl.click(_I.callback);
 
             if (_I.keepCentered)
-                $(window).bind("resize.modal", function () {
-                    jEl.centerInClient();
-                }).bind("scroll.modal", function () {
-                    jEl.centerInClient();
-                });
+                $(window).bind("resize.modal",
+                    function() {
+                        jEl.centerInClient();
+                    }).bind("scroll.modal",
+                    function() {
+                        jEl.centerInClient();
+                    });
         };
-        this.hide = function () {
+        this.hide = function() {
             jEl.hide();
             if (_I.keepCentered)
                 $(window).unbind("resize.modal").unbind("scroll.modal");
-            opaqueOverlay("hide", { sel: "#" + _I.overlayId });
+            window.opaqueOverlay("hide", { sel: "#" + _I.overlayId });
             jEl.unbind("click");
 
             // restore IE list boxes
@@ -1243,24 +1275,26 @@ http://en.wikipedia.org/wiki/MIT_License
                 hideLists = null;
             }
         };
-        this.callback = function (e) {
+        this.callback = function(e) {
             // handle clicks only for buttons/links
             if ($(e.target).is(":button,a,.closebox")) {
                 if (_I.dialogHandler) {
                     if (_I.dialogHandler.call(e.target, e, _I) == false)
                         return;
-                    setTimeout(function () {
-                        _I.hide();
-                    }, 10);
+                    setTimeout(function() {
+                            _I.hide();
+                        },
+                        10);
                     return;
                 }
-                setTimeout(function () {
-                    _I.hide();
-                }, 10);
+                setTimeout(function() {
+                        _I.hide();
+                    },
+                    10);
             }
         };
     };
-    $.fn.modalDialog = function (opt, msg, head, asHtml, handler) {
+    $.fn.modalDialog = function(opt, msg, head, asHtml, handler) {
         if (this.length < 1)
             return this;
 
@@ -1284,7 +1318,7 @@ http://en.wikipedia.org/wiki/MIT_License
 
         return this;
     };
-    $.modalDialog = function (msg, header, aButtons, handler, isHtml) {
+    $.modalDialog = function(msg, header, aButtons, handler, isHtml) {
         var dl = $("#_MBOX");
         if (dl.length < 1) {
             dl = $("<div>").addClass("dialog dragwindow").attr("id", "_MBOX").css({ width: 400 });
@@ -1296,38 +1330,40 @@ http://en.wikipedia.org/wiki/MIT_License
             if (!aButtons)
                 aButtons = [" Close "];
             for (var i = 0; i < aButtons.length; i++) {
-                var btn = $("<input type='button' />").attr("id", "_BTN_" + i).css("margin-right", "5px").val(aButtons[i]);
+                var btn = $("<input type='button' />").attr("id", "_BTN_" + i).css("margin-right", "5px")
+                    .val(aButtons[i]);
                 btns.append(btn);
             }
             dl.append(btns).appendTo(document.body);
         }
         if (!handler)
-            handler = function () {
+            handler = function() {
                 if (this.id.substr(0, 5) == "_BTN_" || $(this).hasClass("closebox")) return true;
                 return false;
             };
         dl.modalDialog({ dialogHandler: handler, headerId: "_MBOXHEADER", contentId: "_MBOXCONTENT" },
-	                 msg, header, isHtml)
-	 .draggable({ handle: $("#_MBOX .dialog-header") })
-	 .closable({
-	     closeHandler: function closeHandler() {
-	         var close = true;
-	         if (handler)
-	             close = handler.call(this);
-	         if (close)
-	             $("#_MBOX").modalDialog("hide");
-	     }
-	 });
+                msg,
+                header,
+                isHtml)
+            .draggable({ handle: $("#_MBOX .dialog-header") })
+            .closable({
+                closeHandler: function closeHandler() {
+                    var close = true;
+                    if (handler)
+                        close = handler.call(this);
+                    if (close)
+                        $("#_MBOX").modalDialog("hide");
+                }
+            });
     };
-    opaqueOverlay = function (opt, p2) {
-        var _I = this;
+    window.opaqueOverlay = function (opt, p2) {
+
         var jWin = $(window);
 
-        this.sel = "#_ShadowOverlay";
-        this.opacity = 0.75;
-        this.zIndex = 10000;
-        $.extend(this, p2 || opt);
-
+        var sel = "#_ShadowOverlay";
+        var opacity = 0.75;
+        var zIndex = 10000;
+        
         var sh = $(sel);
         if (opt == "hide") {
             if (sh.length < 1)
@@ -1339,32 +1375,40 @@ http://en.wikipedia.org/wiki/MIT_License
         }
 
         if (sh.length < 1)
-            sh = $("<div>").attr("id", this.sel.substr(1))
-                           .css("background", "black")
-                       .appendTo(document.body);
+            sh = $("<div>").attr("id", sel.substr(1))
+                .css("background", "black")
+                .appendTo(document.body);
 
         var el = sh.get(0);
         sh.show();
 
         if (!el.opaqueOverlay)
-            jWin.bind("resize.opaque", function () {
-                opaqueOverlay(opt);
-            }).bind("scroll.opaque", function () {
-                opaqueOverlay(opt);
-            });
+            jWin.bind("resize.opaque",
+                function () {
+                    window.opaqueOverlay(opt);
+                }).bind("scroll.opaque",
+                    function () {
+                        window.opaqueOverlay(opt);
+                    });
 
         el.opaqueOverlay = true;
 
-        sh.css({ top: 0 + jWin.scrollTop(), left: 0 + jWin.scrollLeft(), position: "absolute", opacity: _I.opacity, zIndex: _I.zIndex })
-	  .width(jWin.width())
-	  .height(jWin.height());
+        sh.css({
+            top: 0 + jWin.scrollTop(),
+            left: 0 + jWin.scrollLeft(),
+            position: "absolute",
+            opacity: opacity,
+            zIndex: zIndex
+        })
+            .width(jWin.width())
+            .height(jWin.height());
 
         return sh;
     };
 
     if (!$.fn.draggable) {
-        $.fn.draggable = function (opt) {
-            return this.each(function () {
+        $.fn.draggable = function(opt) {
+            return this.each(function() {
                 var el = $(this);
                 var drag = el.data("draggable");
 
@@ -1383,7 +1427,7 @@ http://en.wikipedia.org/wiki/MIT_License
         };
         var __dragIndex = 1;
 
-        DragBehavior = function (sel, opt) {
+        window.DragBehavior = function(sel, opt) {
             var _I = this;
             var el = $(sel);
 
@@ -1409,10 +1453,10 @@ http://en.wikipedia.org/wiki/MIT_License
             var savedOpacity = 1;
             var savedzIndex = 0;
 
-            this.mouseDown = function (e) {
+            this.mouseDown = function(e) {
                 var dEl = _I.handle.get(0);
                 var s = false;
-                $(e.target).parents().each(function () {
+                $(e.target).parents().each(function() {
                     if (this == dEl) s = true;
                 });
                 if (isMouseDown || e.target != dEl && !s || $(e.target).is(".closebox,input,textara,a")) return;
@@ -1424,17 +1468,18 @@ http://en.wikipedia.org/wiki/MIT_License
                 deltaX = e.pageX - pos.left;
                 deltaY = e.pageY - pos.top;
 
-                setTimeout(function () {
-                    if (!isMouseDown) return;
-                    el.show().makeAbsolute(_I.forceAbsolute);
-                    _I.dragActivate(e);
-                }, _I.dragDelay);
+                setTimeout(function() {
+                        if (!isMouseDown) return;
+                        el.show().makeAbsolute(_I.forceAbsolute);
+                        _I.dragActivate(e);
+                    },
+                    _I.dragDelay);
             };
             var nf = function nf(e) {
                 e.stopPropagation();
                 e.preventDefault();
             };
-            this.dragActivate = function (e) {
+            this.dragActivate = function(e) {
                 if (!isMouseDown) return;
                 isDrag = true;
                 _I.moveToMouse(e);
@@ -1453,7 +1498,7 @@ http://en.wikipedia.org/wiki/MIT_License
                 if (_I.start)
                     _I.start(e, _I);
             };
-            this.dragDeactivate = function (e, noMove) {
+            this.dragDeactivate = function(e, noMove) {
                 if (!isMouseDown) return;
                 isMouseDown = false;
 
@@ -1478,16 +1523,16 @@ http://en.wikipedia.org/wiki/MIT_License
                         _I.stop(e, _I);
                 }
             };
-            this.mouseUp = function (e) {
+            this.mouseUp = function(e) {
                 _I.dragDeactivate(e);
             };
-            this.mouseMove = function (e) {
+            this.mouseMove = function(e) {
                 if (isMouseDown) _I.moveToMouse(e);
             };
-            this.moveToMouse = function (e) {
+            this.moveToMouse = function(e) {
                 el.css({ left: e.pageX - deltaX, top: e.pageY - deltaY });
             };
-            this.stopDragging = function () {
+            this.stopDragging = function() {
                 if (!isDrag) return;
                 _I.dragDeactivate(null, true);
                 $(document).unbind("mousedown", _I.mouseDown);
@@ -1521,24 +1566,24 @@ http://en.wikipedia.org/wiki/MIT_License
                 touchActionNone: true,
                 // instance id
                 instanceId: null
-        };
+            };
             if (typeof options == "object")
                 defaultOptions = $.extend(defaultOptions, options);
-    
-            return this.each(function () {
+
+            return this.each(function() {
                 var opt = $.extend({}, defaultOptions);
                 if (!opt.instanceId)
                     opt.instanceId = "rsz_" + new Date().getTime();
-    
+
                 console.log('set: ' + opt.instanceId);
-    
+
                 var startPos, startTransition;
-    
+
                 // get the element to resize 
                 var $el = $(this);
                 var $handle;
-    
-                if (options === 'destroy') {            
+
+                if (options === 'destroy') {
                     opt = $el.data('resizable');
                     if (!opt)
                         return;
@@ -1550,42 +1595,42 @@ http://en.wikipedia.org/wiki/MIT_License
                     $el.removeClass("resizable");
                     return;
                 }
-              
+
                 $el.data('resizable', opt);
-    
+
                 // get the drag handle
-    
+
                 $handle = getHandle(opt.handleSelector, $el);
-    
+
                 if (opt.touchActionNone)
                     $handle.css("touch-action", "none");
-    
+
                 $el.addClass("resizable");
                 $handle.on("mousedown." + opt.instanceId + " touchstart." + opt.instanceId, startDragging);
-    
+
                 function noop(e) {
                     e.stopPropagation();
                     e.preventDefault();
                 };
-    
+
                 function startDragging(e) {
                     // Prevent dragging a ghost image in HTML5 / Firefox and maybe others    
-                    if ( e.preventDefault ) {
-                      e.preventDefault();
+                    if (e.preventDefault) {
+                        e.preventDefault();
                     }
-                    
+
                     startPos = getMousePos(e);
                     startPos.width = parseInt($el.width(), 10);
                     startPos.height = parseInt($el.height(), 10);
-    
+
                     startTransition = $el.css("transition");
                     $el.css("transition", "none");
-    
+
                     if (opt.onDragStart) {
                         if (opt.onDragStart(e, $el, opt) === false)
                             return;
                     }
-                    
+
                     $(document).on('mousemove.' + opt.instanceId, doDrag);
                     $(document).on('mouseup.' + opt.instanceId, stopDragging);
                     if (window.Touch || navigator.maxTouchPoints) {
@@ -1595,53 +1640,53 @@ http://en.wikipedia.org/wiki/MIT_License
                     $(document).on('selectstart.' + opt.instanceId, noop); // disable selection
                     $("iframe").css("pointer-events", "none");
                 }
-    
+
                 function doDrag(e) {
-                    
+
                     var pos = getMousePos(e), newWidth, newHeight;
-    
+
                     if (opt.resizeWidthFrom === 'left')
                         newWidth = startPos.width - pos.x + startPos.x;
                     else
                         newWidth = startPos.width + pos.x - startPos.x;
-    
+
                     if (opt.resizeHeightFrom === 'top')
                         newHeight = startPos.height - pos.y + startPos.y;
                     else
                         newHeight = startPos.height + pos.y - startPos.y;
-    
+
                     if (!opt.onDrag || opt.onDrag(e, $el, newWidth, newHeight, opt) !== false) {
                         if (opt.resizeHeight)
-                            $el.height(newHeight);                    
-    
+                            $el.height(newHeight);
+
                         if (opt.resizeWidth)
-                            $el.width(newWidth);                    
+                            $el.width(newWidth);
                     }
                 }
-    
+
                 function stopDragging(e) {
                     e.stopPropagation();
                     e.preventDefault();
-    
+
                     $(document).off('mousemove.' + opt.instanceId);
                     $(document).off('mouseup.' + opt.instanceId);
-    
+
                     if (window.Touch || navigator.maxTouchPoints) {
                         $(document).off('touchmove.' + opt.instanceId);
                         $(document).off('touchend.' + opt.instanceId);
                     }
-                    $(document).off('selectstart.' + opt.instanceId, noop);     
+                    $(document).off('selectstart.' + opt.instanceId, noop);
                     $("iframe").css("pointer-events", "auto");
-    
+
                     // reset changed values
                     $el.css("transition", startTransition);
-    
+
                     if (opt.onDragEnd)
                         opt.onDragEnd(e, $el, opt);
-    
+
                     return false;
                 }
-    
+
                 function getMousePos(e) {
                     var pos = { x: 0, y: 0, width: 0, height: 0 };
                     if (typeof e.clientX === "number") {
@@ -1652,26 +1697,26 @@ http://en.wikipedia.org/wiki/MIT_License
                         pos.y = e.originalEvent.touches[0].clientY;
                     } else
                         return null;
-    
+
                     return pos;
                 }
-    
+
                 function getHandle(selector, $el) {
                     if (selector && selector.trim()[0] === ">") {
                         selector = selector.trim().replace(/^>\s*/, "");
                         return $el.find(selector);
                     }
-    
+
                     // Search for the selector, but only in the parent element to limit the scope
                     // This works for multiple objects on a page (using .class syntax most likely)
                     // as long as each has a separate parent container. 
                     return selector ? $el.parent().find(selector) : $el;
-                } 
+                }
             });
         };
     }
 
-    $.fn.closable = function (options) {
+    $.fn.closable = function(options) {
         var opt = {
             handle: null,
             closeHandler: null,
@@ -1681,7 +1726,7 @@ http://en.wikipedia.org/wiki/MIT_License
         };
         opt = $.extend(opt, options);
 
-        return this.each(function (i) {
+        return this.each(function(i) {
             var el = $(this);
             var pos = el.css("position");
             if (!pos || pos == "static")
@@ -1696,7 +1741,7 @@ http://en.wikipedia.org/wiki/MIT_License
                 div.addClass(opt.cssClass);
                 exists = false;
             }
-            div.click(function (e) {
+            div.click(function(e) {
                 if (opt.closeHandler && !opt.closeHandler.call(this, e))
                     return;
                 if (opt.fadeOut)
@@ -1711,7 +1756,7 @@ http://en.wikipedia.org/wiki/MIT_License
         });
     };
 
-    $.fn.contentEditable = function (opt) {
+    $.fn.contentEditable = function(opt) {
         if (this.length < 1)
             return;
         var oldPadding = "0px";
@@ -1722,13 +1767,15 @@ http://en.wikipedia.org/wiki/MIT_License
         };
         $.extend(def, opt);
 
-        this.each(function () {
+        this.each(function() {
             var jContent = $(this);
 
             if (this.contentEditable == "true")
                 return this; // already editing
 
-            var jButton = $("<input type='button' value='" + def.saveText + "' class='editablebutton' style='display: block;'/>");
+            var jButton = $("<input type='button' value='" +
+                def.saveText +
+                "' class='editablebutton' style='display: block;'/>");
 
             var cleanupEditor = function cleanupEditor() {
                 if (def.editClass)
@@ -1739,18 +1786,18 @@ http://en.wikipedia.org/wiki/MIT_License
                 jButton.remove();
             };
 
-            jButton.click(function (e) {
+            jButton.click(function(e) {
                 if (def.saveHandler.call(jContent.get(0), e))
                     cleanupEditor();
             });
-            jContent.keypress(function (e) {
+            jContent.keypress(function(e) {
                 if (e.keyCode == 27)
                     cleanupEditor();
             });
 
             jContent
-            	.after(jButton)
-            	.css("margin", 2);
+                .after(jButton)
+                .css("margin", 2);
 
             this.contentEditable = true;
 
@@ -1764,7 +1811,7 @@ http://en.wikipedia.org/wiki/MIT_License
         });
         return this;
     };
-    $.fn.editable = function (opt) {
+    $.fn.editable = function(opt) {
         if (this.length < 1) return this;
 
         var oldPadding = "0px";
@@ -1777,7 +1824,7 @@ http://en.wikipedia.org/wiki/MIT_License
         };
         $.extend(def, opt);
 
-        this.each(function () {
+        this.each(function() {
             var jContent = $(this);
 
             if (opt == "cleanup") {
@@ -1807,22 +1854,23 @@ http://en.wikipedia.org/wiki/MIT_License
                 .fadeIn("slow")
                 .data("editing", jContent.get(0))
                 .insertBefore(jContent)
-                .keypress(function (e) {
+                .keypress(function(e) {
                     if (e.keyCode == 27)
                         cleanupEditor();
                 });
 
             jContent.data("editing", true).hide();
 
-            jContent.data("cleanupEditor", function () {
-                jEdit.remove();
-                jButton.remove();
-                jContent.data("editing", false)
-                    .data("cleanupEditor", null)
-                    .fadeIn("slow");
-            });
+            jContent.data("cleanupEditor",
+                function() {
+                    jEdit.remove();
+                    jButton.remove();
+                    jContent.data("editing", false)
+                        .data("cleanupEditor", null)
+                        .fadeIn("slow");
+                });
 
-            jButton.click(function (e) {
+            jButton.click(function(e) {
                 var pass = {
                     text: jEdit.val(),
                     cleanup: jContent.data("cleanupEditor"),
@@ -1842,7 +1890,7 @@ http://en.wikipedia.org/wiki/MIT_License
         return this;
     };
 
-    $.maxZIndex = $.fn.maxZIndex = function (opt) {
+    $.maxZIndex = $.fn.maxZIndex = function(opt) {
         /// <summary>
         /// Returns the max zOrder in the document (no parameter)
         /// Sets max zOrder by passing a non-zero number
@@ -1856,14 +1904,14 @@ http://en.wikipedia.org/wiki/MIT_License
         var def = { inc: 10, group: "*" };
         $.extend(def, opt);
         var zmax = 0;
-        $(def.group).each(function () {
+        $(def.group).each(function() {
             var cur = parseInt($(this).css('z-index'));
             zmax = cur > zmax ? cur : zmax;
         });
         if (!this.jquery)
             return zmax;
 
-        return this.each(function () {
+        return this.each(function() {
             zmax += def.inc;
             $(this).css("z-index", zmax);
         });
@@ -1886,7 +1934,7 @@ http://en.wikipedia.org/wiki/MIT_License
     ///
     /// based on John Resig's Micro Templating engine
     var _tmplCache = {};
-    parseTemplate = function (str, data) {
+    window.parseTemplate = function(str, data) {
         /// <summary>
         /// Client side template parser that uses &lt;#= #&gt; and &lt;# code #&gt; expressions.
         /// and # # code blocks for template expansion.
@@ -1903,15 +1951,15 @@ http://en.wikipedia.org/wiki/MIT_License
             var func = _tmplCache[str];
             if (!func) {
                 var strFunc =
-            "var p=[];with(obj){p.push('" +
-            str.replace(/[\r\t\n]/g, " ")
-               .replace(/'(?=[^#]*#>)/g, "\t")
-               .split("'").join("\\'")
-               .split("\t").join("'")
-               .replace(/<#=(.+?)#>/g, "',$1,'")
-               .split("<#").join("');")
-               .split("#>").join("p.push('")
-               + "');}return p.join('');";
+                    "var p=[];with(obj){p.push('" +
+                        str.replace(/[\r\t\n]/g, " ")
+                        .replace(/'(?=[^#]*#>)/g, "\t")
+                        .split("'").join("\\'")
+                        .split("\t").join("'")
+                        .replace(/<#=(.+?)#>/g, "',$1,'")
+                        .split("<#").join("');")
+                        .split("#>").join("p.push('") +
+                        "');}return p.join('');";
                 func = new Function("obj", strFunc);
                 _tmplCache[str] = func;
             }
@@ -1923,22 +1971,23 @@ http://en.wikipedia.org/wiki/MIT_License
         return "< # ERROR: " + err.htmlEncode() + " # >";
     };
 
-    isElementInViewport = function (el) {
+    window.isElementInViewport = function(el) {
         var rect = el.getBoundingClientRect();
 
         return (
             rect.top >= 0 &&
                 rect.left >= 0 &&
-                rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) && /*or $(window).height() */
+                rect.bottom <=
+                (window.innerHeight || document.documentElement.clientHeight) && /*or $(window).height() */
                 rect.right <= (window.innerWidth || document.documentElement.clientWidth) /*or $(window).width() */
         );
     };
 
-    getBodyFromHtmlDocument = function (html) {
+    window.getBodyFromHtmlDocument = function(html) {
         return html.replace(/^[\s\S]*<body.*?>|<\/body>[\s\S]*$/ig, '').trimStart().trimEnd();
     }
 
-    $$ = function (id, context) {
+    window.$$ = function(id, context) {
         /// <summary>
         /// Searches for an ID based on ASP.NET naming container syntax.
         /// First search by ID as is, then uses attribute based lookup.
@@ -1955,7 +2004,7 @@ http://en.wikipedia.org/wiki/MIT_License
         return el;
     };
 
-    String.prototype.htmlEncode = function () {
+    String.prototype.htmlEncode = function() {
         var div = document.createElement('div');
         if (typeof (div.textContent) == 'string')
             div.textContent = this.toString();
@@ -1963,24 +2012,24 @@ http://en.wikipedia.org/wiki/MIT_License
             div.innerText = this.toString();
         return div.innerHTML;
     };
-    String.prototype.trimEnd = function (c) {
+    String.prototype.trimEnd = function(c) {
         if (c)
             return this.replace(new RegExp(c.escapeRegExp() + "*$"), '');
         return this.replace(/\s+$/, '');
     };
-    String.prototype.trimStart = function (c) {
+    String.prototype.trimStart = function(c) {
         if (c)
             return this.replace(new RegExp("^" + c.escapeRegExp() + "*"), '');
         return this.replace(/^\s+/, '');
     };
-    String.prototype.repeat = function (chr, count) {
+    String.prototype.repeat = function(chr, count) {
         var str = "";
         for (var x = 0; x < count; x++) {
             str += chr;
         };
         return str;
     };
-    String.prototype.padL = function (width, pad) {
+    String.prototype.padL = function(width, pad) {
         if (!width || width < 1)
             return this;
 
@@ -1990,7 +2039,7 @@ http://en.wikipedia.org/wiki/MIT_License
 
         return (this.repeat(pad, length) + this).substr(0, width);
     };
-    String.prototype.padR = function (width, pad) {
+    String.prototype.padR = function(width, pad) {
         if (!width || width < 1) return this;
 
         if (!pad) pad = " ";
@@ -1999,7 +2048,7 @@ http://en.wikipedia.org/wiki/MIT_License
 
         return (this + pad.repeat(length)).substr(0, width);
     }
-    String.prototype.startsWith = function (sub,nocase) {
+    String.prototype.startsWith = function(sub, nocase) {
         if (!this || this.length === 0) return false;
 
         if (sub && nocase)
@@ -2007,7 +2056,7 @@ http://en.wikipedia.org/wiki/MIT_License
 
         return sub === this.substr(0, sub.length);
     }
-    String.prototype.endsWith = function (sub, nocase) {
+    String.prototype.endsWith = function(sub, nocase) {
         if (!this || this.length === 0) return false;
 
         if (sub && nocase)
@@ -2045,29 +2094,33 @@ http://en.wikipedia.org/wiki/MIT_License
 
         return str.substr(i1 + startDelim.length, i2 - i1 - startDelim.length);
     };
-    String.prototype.escapeRegExp = function () {
+    String.prototype.escapeRegExp = function() {
         return this.replace(/[.*+?^${}()|[\]\/\\]/g, "\\$0");
     };
-    String.format = function (frmt, args) {
+    String.format = function(frmt, args) {
         for (var x = 0; x < arguments.length; x++) {
             frmt = frmt.replace(new RegExp("\\{" + x.toString() + "\\}", "g"), arguments[x + 1]);
         }
         return frmt;
     };
-    String.prototype.format = function () {
+    String.prototype.format = function() {
         var a = [this];
         $.merge(a, arguments);
         return String.format.apply(this, a);
     };
-    String.prototype.isNumber = function () {
+    String.prototype.isNumber = function() {
 
         if (this.length == 0) return false;
         if ("0123456789".indexOf(this.charAt(0)) > -1)
             return true;
         return false;
     };
-    var _monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
-    Date.prototype.formatDate = function (format) {
+
+    var _monthNames = [
+        'January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November',
+        'December'
+    ];
+    Date.prototype.formatDate = function(format) {
         var date = this;
         if (!format)
             format = "MM/dd/yyyy";
@@ -2110,7 +2163,7 @@ http://en.wikipedia.org/wiki/MIT_License
 
         return format;
     };
-    Number.prototype.formatNumber = function (format, option) {
+    Number.prototype.formatNumber = function(format, option) {
         var num = this;
         var fmt = Number.getNumberFormat();
         if (format == "c") {
@@ -2148,8 +2201,8 @@ http://en.wikipedia.org/wiki/MIT_License
         }
         return num.toString();
     };
-    Number.getNumberFormat = function (cur) {
-        var t = 1000.1.toLocaleString();
+    Number.getNumberFormat = function(cur) {
+        var t = 1000.1 .toLocaleString();
         var r = {};
         r.d = t.charAt(5);
         if (r.d.isNumber())
@@ -2160,7 +2213,9 @@ http://en.wikipedia.org/wiki/MIT_License
         r.s = cur || "$";
         return r;
     };
-    registerNamespace = function (ns) {
+
+
+    window.registerNamespace = function(ns) {
         var pts = ns.split('.');
         var stk = window;
         var nsp = "";
@@ -2172,7 +2227,7 @@ http://en.wikipedia.org/wiki/MIT_License
                 stk = stk[pt] = {};
         }
     };
-    getUrlEncodedKey = function (key, query) {
+    window.getUrlEncodedKey = function(key, query) {
         if (!query) query = window.location.search;
         var re = new RegExp("[?|&]" + key + "=(.*?)&");
         var matches = re.exec(query + "&");
@@ -2180,8 +2235,7 @@ http://en.wikipedia.org/wiki/MIT_License
             return "";
         return decodeURIComponent(matches[1].replace("+", " "));
     };
-    setUrlEncodedKey = function (key, value, query) {
-
+    window.setUrlEncodedKey = function(key, value, query) {
         query = query || window.location.search;
         var q = query + "&";
         var re = new RegExp("[?|&]" + key + "=.*?&");
@@ -2192,35 +2246,29 @@ http://en.wikipedia.org/wiki/MIT_License
         q = q.trimStart("&").trimEnd("&");
         return q.charAt(0) == "?" ? q : q = "?" + q;
     };
-    $.fn.serializeNoViewState = function () {
+
+    $.fn.serializeNoViewState = function() {
         return this.find("input,textarea,select,hidden").not("#__VIEWSTATE,#__EVENTVALIDATION").serialize();
     };
 
-    if (!this.assert) {
-        this.assert = function (cond, msg) {
-            if (cond) return;
-            if (!msg) msg = "";
-            alert("Assert failed\r\n" + (msg ? msg : "") + "\r\n" +
-              (arguments.callee.caller ? "in " + arguments.callee.caller.toString() : ""));
-        }
-    }
 
-    $.expr[":"].containsNoCase = function (el, i, m) {
+    $.expr[":"].containsNoCase = function(el, i, m) {
         var search = m[3];
         if (!search) return false;
         return new RegExp(search, "i").test($(el).text());
     };
 
-    $.fn.searchFilter = function (options) {
+    $.fn.searchFilter = function(options) {
         var opt = $.extend({
-            // target selector
-            targetSelector: "",
-            // number of characters before search is applied
-            charCount: 1,
-            onSelected: null
-        }, options);
+                // target selector
+                targetSelector: "",
+                // number of characters before search is applied
+                charCount: 1,
+                onSelected: null
+            },
+            options);
 
-        return this.each(function () {
+        return this.each(function() {
             var $el = $(this);
 
             function keyup() {
@@ -2245,63 +2293,193 @@ http://en.wikipedia.org/wiki/MIT_License
     2009-04-16
     Public Domain.
     */
-    if (!this.JSON) { this.JSON = {}; }
-    (function () {
+    if (!window.JSON) {
+        window.JSON = {};
+    }
+    (function() {
         function f(n) { return n < 10 ? '0' + n : n; }
+
         if (typeof Date.prototype.toJSON !== 'function') {
-            Date.prototype.toJSON = function (key) {
-                return isFinite(this.valueOf()) ? this.getUTCFullYear() + '-' +
-f(this.getUTCMonth() + 1) + '-' +
-f(this.getUTCDate()) + 'T' +
-f(this.getUTCHours()) + ':' +
-f(this.getUTCMinutes()) + ':' +
-f(this.getUTCSeconds()) + 'Z' : null;
-            }; String.prototype.toJSON = Number.prototype.toJSON = Boolean.prototype.toJSON = function (key) { return this.valueOf(); };
+            Date.prototype.toJSON = function(key) {
+                return isFinite(this.valueOf())
+                    ? this.getUTCFullYear() +
+                    '-' +
+                    f(this.getUTCMonth() + 1) +
+                    '-' +
+                    f(this.getUTCDate()) +
+                    'T' +
+                    f(this.getUTCHours()) +
+                    ':' +
+                    f(this.getUTCMinutes()) +
+                    ':' +
+                    f(this.getUTCSeconds()) +
+                    'Z'
+                    : null;
+            };
+            String.prototype.toJSON = Number.prototype.toJSON = Boolean.prototype.toJSON =
+                function(key) { return this.valueOf(); };
         }
-        var cx = /[\u0000\u00ad\u0600-\u0604\u070f\u17b4\u17b5\u200c-\u200f\u2028-\u202f\u2060-\u206f\ufeff\ufff0-\uffff]/g, escapable = /[\\\"\x00-\x1f\x7f-\x9f\u00ad\u0600-\u0604\u070f\u17b4\u17b5\u200c-\u200f\u2028-\u202f\u2060-\u206f\ufeff\ufff0-\uffff]/g, gap, indent, meta = { '\b': '\\b', '\t': '\\t', '\n': '\\n', '\f': '\\f', '\r': '\\r', '"': '\\"', '\\': '\\\\' }, rep; function quote(string) { escapable.lastIndex = 0; return escapable.test(string) ? '"' + string.replace(escapable, function (a) { var c = meta[a]; return typeof c === 'string' ? c : '\\u' + ('0000' + a.charCodeAt(0).toString(16)).slice(-4); }) + '"' : '"' + string + '"'; }
+        var cx =
+                /[\u0000\u00ad\u0600-\u0604\u070f\u17b4\u17b5\u200c-\u200f\u2028-\u202f\u2060-\u206f\ufeff\ufff0-\uffff]/g,
+            escapable =
+                /[\\\"\x00-\x1f\x7f-\x9f\u00ad\u0600-\u0604\u070f\u17b4\u17b5\u200c-\u200f\u2028-\u202f\u2060-\u206f\ufeff\ufff0-\uffff]/g,
+            gap,
+            indent,
+            meta = { '\b': '\\b', '\t': '\\t', '\n': '\\n', '\f': '\\f', '\r': '\\r', '"': '\\"', '\\': '\\\\' },
+            rep;
+
+        function quote(string) {
+            escapable.lastIndex = 0;
+            return escapable.test(string)
+                ? '"' +
+                string.replace(escapable,
+                    function(a) {
+                        var c = meta[a];
+                        return typeof c === 'string' ? c : '\\u' + ('0000' + a.charCodeAt(0).toString(16)).slice(-4);
+                    }) +
+                '"'
+                : '"' + string + '"';
+        }
+
         function str(key, holder) {
-            var i, k, v, length, mind = gap, partial, value = holder[key]; if (value && typeof value === 'object' && typeof value.toJSON === 'function') { value = value.toJSON(key); }
-            if (typeof rep === 'function') { value = rep.call(holder, key, value); }
+            var i, k, v, length, mind = gap, partial, value = holder[key];
+            if (value && typeof value === 'object' && typeof value.toJSON === 'function') {
+                value = value.toJSON(key);
+            }
+            if (typeof rep === 'function') {
+                value = rep.call(holder, key, value);
+            }
             switch (typeof value) {
-                case 'string': return quote(value); case 'number': return isFinite(value) ? String(value) : 'null'; case 'boolean': case 'null': return String(value); case 'object': if (!value) { return 'null'; }
-                    gap += indent; partial = []; if (Object.prototype.toString.apply(value) === '[object Array]') {
-                        length = value.length; for (i = 0; i < length; i += 1) { partial[i] = str(i, value) || 'null'; }
-                        v = partial.length === 0 ? '[]' : gap ? '[\n' + gap +
-partial.join(',\n' + gap) + '\n' +
-mind + ']' : '[' + partial.join(',') + ']'; gap = mind; return v;
+            case 'string':
+                return quote(value);
+            case 'number':
+                return isFinite(value) ? String(value) : 'null';
+            case 'boolean':
+            case 'null':
+                return String(value);
+            case 'object':
+                if (!value) {
+                    return 'null';
+                }
+                gap += indent;
+                partial = [];
+                if (Object.prototype.toString.apply(value) === '[object Array]') {
+                    length = value.length;
+                    for (i = 0; i < length; i += 1) {
+                        partial[i] = str(i, value) || 'null';
                     }
-                    if (rep && typeof rep === 'object') { length = rep.length; for (i = 0; i < length; i += 1) { k = rep[i]; if (typeof k === 'string') { v = str(k, value); if (v) { partial.push(quote(k) + (gap ? ': ' : ':') + v); } } } } else { for (k in value) { if (Object.hasOwnProperty.call(value, k)) { v = str(k, value); if (v) { partial.push(quote(k) + (gap ? ': ' : ':') + v); } } } }
-                    v = partial.length === 0 ? '{}' : gap ? '{\n' + gap + partial.join(',\n' + gap) + '\n' +
-mind + '}' : '{' + partial.join(',') + '}'; gap = mind; return v;
+                    v = partial.length === 0
+                        ? '[]'
+                        : gap
+                        ? '[\n' +
+                        gap +
+                        partial.join(',\n' + gap) +
+                        '\n' +
+                        mind +
+                        ']'
+                        : '[' + partial.join(',') + ']';
+                    gap = mind;
+                    return v;
+                }
+                if (rep && typeof rep === 'object') {
+                    length = rep.length;
+                    for (i = 0; i < length; i += 1) {
+                        k = rep[i];
+                        if (typeof k === 'string') {
+                            v = str(k, value);
+                            if (v) {
+                                partial.push(quote(k) + (gap ? ': ' : ':') + v);
+                            }
+                        }
+                    }
+                } else {
+                    for (k in value) {
+                        if (Object.hasOwnProperty.call(value, k)) {
+                            v = str(k, value);
+                            if (v) {
+                                partial.push(quote(k) + (gap ? ': ' : ':') + v);
+                            }
+                        }
+                    }
+                }
+                v = partial.length === 0
+                    ? '{}'
+                    : gap
+                    ? '{\n' +
+                    gap +
+                    partial.join(',\n' + gap) +
+                    '\n' +
+                    mind +
+                    '}'
+                    : '{' + partial.join(',') + '}';
+                gap = mind;
+                return v;
             }
         }
+
         if (typeof JSON.stringify !== 'function') {
-            JSON.stringify = function (value, replacer, space) {
-                var i; gap = ''; indent = ''; if (typeof space === 'number') { for (i = 0; i < space; i += 1) { indent += ' '; } } else if (typeof space === 'string') { indent = space; }
-                rep = replacer; if (replacer && typeof replacer !== 'function' && (typeof replacer !== 'object' || typeof replacer.length !== 'number')) { throw new Error('JSON.stringify'); }
+            JSON.stringify = function(value, replacer, space) {
+                var i;
+                gap = '';
+                indent = '';
+                if (typeof space === 'number') {
+                    for (i = 0; i < space; i += 1) {
+                        indent += ' ';
+                    }
+                } else if (typeof space === 'string') {
+                    indent = space;
+                }
+                rep = replacer;
+                if (replacer &&
+                    typeof replacer !== 'function' &&
+                    (typeof replacer !== 'object' || typeof replacer.length !== 'number')) {
+                    throw new Error('JSON.stringify');
+                }
                 return str('', { '': value });
             };
         }
         if (typeof JSON.parse !== 'function') {
-            JSON.parse = function (text, reviver) {
-                var j; function walk(holder, key) {
-                    var k, v, value = holder[key]; if (value && typeof value === 'object') { for (k in value) { if (Object.hasOwnProperty.call(value, k)) { v = walk(value, k); if (v !== undefined) { value[k] = v; } else { delete value[k]; } } } }
+            JSON.parse = function(text, reviver) {
+                var j;
+
+                function walk(holder, key) {
+                    var k, v, value = holder[key];
+                    if (value && typeof value === 'object') {
+                        for (k in value) {
+                            if (Object.hasOwnProperty.call(value, k)) {
+                                v = walk(value, k);
+                                if (v !== undefined) {
+                                    value[k] = v;
+                                } else {
+                                    delete value[k];
+                                }
+                            }
+                        }
+                    }
                     return reviver.call(holder, key, value);
                 }
-                cx.lastIndex = 0; if (cx.test(text)) {
-                    text = text.replace(cx, function (a) {
-                        return '\\u' +
-('0000' + a.charCodeAt(0).toString(16)).slice(-4);
-                    });
+
+                cx.lastIndex = 0;
+                if (cx.test(text)) {
+                    text = text.replace(cx,
+                        function(a) {
+                            return '\\u' +
+                                ('0000' + a.charCodeAt(0).toString(16)).slice(-4);
+                        });
                 }
-                if (/^[\],:{}\s]*$/.test(text.replace(/\\(?:["\\\/bfnrt]|u[0-9a-fA-F]{4})/g, '@').replace(/"[^"\\\n\r]*"|true|false|null|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?/g, ']').replace(/(?:^|:|,)(?:\s*\[)+/g, ''))) { j = eval('(' + text + ')'); return typeof reviver === 'function' ? walk({ '': j }, '') : j; }
+                if (/^[\],:{}\s]*$/.test(text.replace(/\\(?:["\\\/bfnrt]|u[0-9a-fA-F]{4})/g, '@')
+                    .replace(/"[^"\\\n\r]*"|true|false|null|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?/g, ']')
+                    .replace(/(?:^|:|,)(?:\s*\[)+/g, ''))) {
+                    j = eval('(' + text + ')');
+                    return typeof reviver === 'function' ? walk({ '': j }, '') : j;
+                }
                 throw new SyntaxError('JSON.parse');
             };
         }
     }());
 
 
-    if (this.JSON && !this.JSON.dateParser) {
+    if (window.JSON && !window.JSON.dateParser) {
         var reISO = /^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2}):(\d{2}(?:\.{0,1}\d*))(?:Z|(\+|-)([\d|:]*))?$/;
         var reMsAjax = /^\/Date\((d|-|.*)\)[\/|\\]$/;
 
@@ -2311,7 +2489,7 @@ mind + '}' : '{' + partial.join(',') + '}'; gap = mind; return v;
         /// </summary>
         JSON.parseMsAjaxDate = false;
 
-        JSON.useDateParser = function (reset) {
+        JSON.useDateParser = function(reset) {
             /// <summary>
             /// Globally enables JSON date parsing for JSON.parse().
             /// replaces the 
@@ -2332,7 +2510,7 @@ mind + '}' : '{' + partial.join(',') + '}'; gap = mind; return v;
             }
         };
 
-        JSON.dateParser = function (key, value) {
+        JSON.dateParser = function(key, value) {
             /// <summary>
             /// Globally enables JSON date parsing for JSON.parse().
             /// Replaces the default JSON.parse() method and adds
@@ -2358,7 +2536,7 @@ mind + '}' : '{' + partial.join(',') + '}'; gap = mind; return v;
             return value;
         };
 
-        JSON.parseWithDate = function (json) {
+        JSON.parseWithDate = function(json) {
             /// <summary>
             /// Wrapper around the JSON.parse() function that adds a date
             /// filtering extension. Returns all dates as real JavaScript dates.
@@ -2375,7 +2553,7 @@ mind + '}' : '{' + partial.join(',') + '}'; gap = mind; return v;
             }
         };
 
-        JSON.dateStringToDate = function (dtString, nullDateVal) {
+        JSON.dateStringToDate = function(dtString, nullDateVal) {
             /// <summary>
             /// Converts a JSON ISO or MSAJAX date or real date a date value.
             /// Supports both JSON encoded dates or plain date formatted strings
@@ -2396,7 +2574,7 @@ mind + '}' : '{' + partial.join(',') + '}'; gap = mind; return v;
                 return dtString; // already a date
 
             if (dtString[0] === '"' || dtString[0] === "'")
-                // strip off JSON quotes
+            // strip off JSON quotes
                 dtString = dtString.substr(1, dtString.length - 2);
 
             var a = reISO.exec(dtString);
@@ -2414,4 +2592,5 @@ mind + '}' : '{' + partial.join(',') + '}'; gap = mind; return v;
             return nullDateVal;
         };
     }
-})(jQuery);
+
+}) (jQuery);
