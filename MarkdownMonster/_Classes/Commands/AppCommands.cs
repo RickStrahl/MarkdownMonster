@@ -17,6 +17,7 @@ using MarkdownMonster.Services;
 using MarkdownMonster.Utilities;
 using MarkdownMonster.Windows;
 using MarkdownMonster.Windows.ConfigurationEditor;
+using MarkdownMonster.Windows.PreviewBrowser;
 using Microsoft.Win32;
 
 using Westwind.HtmlPackager;
@@ -1121,8 +1122,17 @@ namespace MarkdownMonster
 
                 if (action == "ExternalPreviewWindow")
                 {
-                    Model.Configuration.PreviewMode = MarkdownMonster.PreviewModes.ExternalPreviewWindow;
-                    Model.IsExternalPreview = true;
+                    if (Model.Window.PreviewBrowser is IEWebBrowserControl)
+                    {
+                        Model.Configuration.PreviewMode = MarkdownMonster.PreviewModes.ExternalPreviewWindow;
+                        Model.IsExternalPreview = true;
+                    }
+                    else
+                    {
+                        Model.IsExternalPreview = false;
+                        Model.Configuration.PreviewMode = MarkdownMonster.PreviewModes.InternalPreview;
+                        Model.Window.ShowStatusError("External preview is available only with the default IE previewer. Switch to default preview mode.");
+                    }
                 }
                 else
                 {

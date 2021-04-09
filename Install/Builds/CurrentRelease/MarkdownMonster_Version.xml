@@ -1,16 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <VersionInfo>
-<<<<<<< HEAD
-   <Version>1.26.8</Version>   
-   <PreviewVersion>1.26.8</PreviewVersion>
-   <ReleaseDate>April 7, 2021</ReleaseDate>
-   <Title>Markdown Monster 1.26.8 is now available</Title>
-=======
-   <Version>1.26.6</Version>   
-   <PreviewVersion>1.26.6</PreviewVersion>
-   <ReleaseDate>March 30, 2021</ReleaseDate>
-   <Title>Markdown Monster 1.26.6 is now available</Title>
->>>>>>> master
+   <Version>1.26.10</Version>   
+   <PreviewVersion>1.26.10</PreviewVersion>
+   <ReleaseDate>April 8, 2021</ReleaseDate>
+   <Title>Markdown Monster 1.26.10 is now available</Title>
    <Detail>
 Recent updates add Project Support, Find in Files, Open in New Window, Drag and Drop between Instances, Improved Favorites and Git Integration and much more.
 

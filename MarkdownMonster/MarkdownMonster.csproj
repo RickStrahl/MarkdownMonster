@@ -11,7 +11,7 @@
     <PlatformTarget>AnyCPU</PlatformTarget>
     <Prefer32Bit>true</Prefer32Bit>
 
-    <Version>1.26.8</Version>
+    <Version>1.26.10</Version>
     <AssemblyName>MarkdownMonster</AssemblyName>
     <Product>Markdown Monster</Product>
     <Authors>Rick Strahl, West Wind Technologies</Authors>
