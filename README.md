@@ -273,6 +273,11 @@ The folder browser also supports searching, moving and renaming of files as you 
 ### Document Outline
 When working with long documents it's important to have an easy way to navigate the document's structure quickly, and the Document Outline makes it easy to see the document's structure at a glance and jump to any section quickly. The outline also lets you pick up document Ids for quickly embedding same-document links.
 
+### Table Editor
+Markdown Monster includes a powerful two-way table editor that lets you interactively edit content in tables. You can use the rich table editor to enter your Table content, and re-open Markdown table code in the editor for later editing and re-formatting.
+
+![Markdown Monster Table Editor](https://github.com/RickStrahl/ImageDrop/raw/master/MarkdownMonster/MarkdownMonsterTableEditor.gif)
+
 ### Screen Captures
 The Screen Capture addin supports two separate capture modes: 
 
