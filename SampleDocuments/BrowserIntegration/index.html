@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Markdown Monster Launch From Web Page</title>
+
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="" />
+
+    <link rel="shortcut icon" href="./images/MarkdownMonster_Icon_32.png" type="image/x-icon" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+    <link rel="apple-touch-icon" href="./images/MarkdownMonster_Icon_256.png" />
+
+    <link rel="icon" href="./images/MarkdownMonster_Icon_256.png" />
+
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" rel="stylesheet" />    
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.13.0/css/all.css" integrity="sha384-IIED/eyOkM6ihtOiQsX2zizxFBphgnv1zbe1bKA+njdFzkr6cDNy16jfIKWu4FNH" crossorigin="anonymous">
+    <link href="<link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.13.0/css/all.css" integrity="sha384-IIED/eyOkM6ihtOiQsX2zizxFBphgnv1zbe1bKA+njdFzkr6cDNy16jfIKWu4FNH" crossorigin="anonymous">" rel="stylesheet" />
+    <link href="./application.css" rel="stylesheet" />
+    <style>
+        .section {
+            margin-top: 2em;
+        }
+    
+        .markdowntext, .markdowntext:focus {
+            font-family: monospace;
+            background: #333 !important;
+            color: #eee !important;
+        }
+    
+        </style>
+</head>
+<body>
+    <div class="banner">
+
+        <!-- Icon and Company Logo -->
+        <div class="title-bar no-slide-menu">
+            <a href="./">
+                <img class="title-bar-icon" src="./images/Icon.png" />
+                <div style="float: left; margin: 4px 5px; line-height: 1.0">
+                    <i style="color: #0092d0; font-size: 0.9em; font-weight: 600;">Launch from Web</i><br />
+                    <i style="color: whitesmoke; font-size: 1.65em; font-weight: 600;">Markdown Monster</i>
+                </div>
+            </a>
+        </div>
+
+        <!-- top right nav menu - .hidable for options that hide on small sizes -->
+        <nav class="banner-menu-top float-right">
+            <a href="https://markdownmonster.west-wind.com" class="hidable">
+                <i class="fab fa-markdown"></i>
+                Markdown Monster
+            </a>
+            <a href="https://markdownmonster.west-wind.com" class="hidable">
+                <i class="fas fa-info-circle"></i>
+                Docs
+            </a>
+            <a href="./">
+                <i class="fas fa-home"></i>
+                Home
+            </a>            
+        </nav>
+    </div>
+
+
+    <div id="MainView">
+        <div class="container">        
+
+            <div class="page-header-text"><i class="fab fa-markdown"></i> Markdown Monster Launch From Web Page</div>
+            <p>
+                
+                <div class="panel panel-default" style="margin-top: 50px;">
+                    
+                    <h2 class="section">Opening with Application Protocol Links</h2>
+
+                    <p class="small">
+                        This example uses the <code>markdownmonster:</code> Application Protocol to 
+                        via simple <code>&lt;a href&gt;</code> links. You can open empty documents
+                        or open documents with small blocks of text that is encoded.
+                    </p>
+
+                                    
+                  
+                    <div class="list-group">
+                        <a href="markdownmonster:c:\temp\test.md" class="list-group-item">
+                            <i class="far fa-file"></i> 
+                            Open a known file Markdown Monster
+                        </a>
+                 
+                        <a href="markdownmonster:untitled" class="list-group-item">
+                            <i class="fa fa-edit"></i> 
+                            Open New Document in Markdown Monster
+                        </a>
+                    </div>
+
+                    <h2 class="section">Opening Markdown with Application Protocol Script</h3>
+
+                    <p class="small">
+                        Like the link examples above, this sample uses the <code>markdownmonster:</code> Application Protocol to 
+                        open a <b>small document</b> in Markdown Monster. Unfortunately Application Protocols
+                        <b>are limited in size to 2045 bytes</b> that can be sent, due to Protocol
+                        restrictions. For larger documents you need to use the Markdown Monster Web Server
+                        shown in the next example.
+                    </p>
+    
+               
+                    
+                    <textarea id="MarkdownText" class="markdowntext form-control" rows="15" placeholder="Enter some Markdown text">A few years back I wrote a post about [Accepting Raw Request Content with ASP.NET Web API](https://weblog.west-wind.com/posts/2013/Dec/13/Accepting-Raw-Request-Body-Content-with-ASPNET-Web-API). The process to get at raw request data is rather indirext, with no easy, or official way to get it into Controller action parameters.
+
+The good news is that it's a bit easier to create custom formatters in ASP.NET Core to let you customize handling of  'unknown' content types in your controllers.
+
+### Creating a Simple Test Controller
+To check this out I created a new stock Core Web API project and changed the default `ValuesController` to this:
+
+```cs
+public class BodyTypesController : Controller 
+{ }
+
+The good news is that it's a bit easier to create custom formatters in ASP.NET Core to let you customize handling of  'unknown' content types in your controllers.
+
+### Creating a Simple Test Controller
+To check this out I created a new stock Core Web API project and changed the default `ValuesController` to this:
+
+```cs
+public class BodyTypesController : Controller 
+{ }
+
+The good news is that it's a bit easier to create custom formatters in ASP.NET Core to let you customize handling of  'unknown' content types in your controllers.
+</textarea>
+<button id="btnOpenInMarkdownMonster" class="btn btn-primary mt-2" onclick="openInMmWithAppProtocols()">
+    <img src="images/MarkdownMonster_Icon_32.png" style="height: 20px;margin-right: 10px" />
+    Open in Markdown Monster</button>
+<script>
+    function openInMmWithAppProtocols() {
+        var docText = document.getElementById("MarkdownText").value;     
+        
+        // Use command line syntax for a new document with base64 encoded content
+        var openCommandLine = "untitled.base64," + btoa(docText);
+        openAppProtocol("markdownmonster:" + openCommandLine);
+
+    }
+    function openAppProtocol(url) {
+        // this works         
+        var iframe = document.createElement("iframe");
+        iframe.src = url;
+        iframe.width = 100;
+        iframe.height = 100;
+        iframe.style.display = "block";
+        document.body.appendChild(iframe);
+        
+        setTimeout(function() { document.body.removeChild(iframe)},800);
+    }
+</script>
+
+
+
+    <!-- Using the Markdown Monster Web Server -->
+    <h2 class="section">Opening Markdown with the Markdown Monster Web Server</h3>
+
+    <p class="small">
+         This example can push larger documents into Markdown Monster by using the built-in
+         optionally enabled Web server that can be used to send open requests to Markdown Monster.
+
+         If the application isn't running the Application Protocol is used to launch it, and you
+         can then retry the transfer operation.
+    </p>
+
+               
+                    
+    <textarea id="MarkdownText2" class="markdowntext form-control" rows="15" placeholder="Enter some Markdown text">A few years back I wrote a post about [Accepting Raw Request Content with ASP.NET Web API](https://weblog.west-wind.com/posts/2013/Dec/13/Accepting-Raw-Request-Body-Content-with-ASPNET-Web-API). The process to get at raw request data is rather indirext, with no easy, or official way to get it into Controller action parameters.
+
+The good news is that it's a bit easier to create custom formatters in ASP.NET Core to let you customize handling of  'unknown' content types in your controllers.
+
+### Creating a Simple Test Controller
+To check this out I created a new stock Core Web API project and changed the default `ValuesController` to this:
+
+```cs
+public class BodyTypesController : Controller 
+{ }
+
+The good news is that it's a bit easier to create custom formatters in ASP.NET Core to let you customize handling of  'unknown' content types in your controllers.
+
+### Creating a Simple Test Controller
+To check this out I created a new stock Core Web API project and changed the default `ValuesController` to this:
+
+```cs
+public class BodyTypesController : Controller 
+{ }
+
+The good news is that it's a bit easier to create custom formatters in ASP.NET Core to let you customize handling of  'unknown' content types in your controllers.
+</textarea>
+<button id="btnOpenInMarkdownMonster2" class="btn btn-primary mt-2" onclick="openInMmWithWebServer()">
+<img src="images/MarkdownMonster_Icon_32.png" style="height: 20px;margin-right: 10px" />
+Open in Markdown Monster</button>
+
+<script src="markdownmonster-integration.js"></script>
+<script>
+    // initialize object during page load
+    var mm = window.MarkdownMonster;            // global instance
+    //mm.serverUrl = "http://localhost:15000"     // if you changed the port in mm :5009 is default
+    mm.initialize();                            // checks for server
+    function openInMmWithWebServer() {
+        
+
+        var text = document.getElementById("MarkdownText2").value;        
+        mm.openNewDocument(text);               
+    }
+</script>
+
+
+                </div>
+
+            </p>
+            </div>
+
+
+        </div>  <!-- end .container -->
+    </div> <!-- end #MainView -->
+
+
+    <footer>
+        <a href="http://www.west-wind.com/" class="pull-right">
+            <img src="./images/WestwindText.png" />
+        </a>      
+    </footer>
+   
+</body>
+</html>

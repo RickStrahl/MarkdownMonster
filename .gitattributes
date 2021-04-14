@@ -1,0 +1,6 @@
+*	text=auto
+
+*.cs diff=csharp
+*.js linguist-language=csharp
+*.csproj merge=union
+*.sln merge=union

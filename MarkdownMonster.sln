@@ -1,0 +1,114 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.28803.202
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MarkdownMonster", "MarkdownMonster\MarkdownMonster.csproj", "{CB4EAB0E-1796-476E-83A0-20DA826E1C02}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{D99D7B57-1FA8-43F4-99D5-DA37D316F960}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+		.gitignore = .gitignore
+		Install\Build.ps1 = Install\Build.ps1
+		Changelog.md = Changelog.md
+		Install\CopyFiles.ps1 = Install\CopyFiles.ps1
+		README.md = README.md
+		TipOfTheDay.md = TipOfTheDay.md
+		Todo.md = Todo.md
+	EndProjectSection
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ScreenCaptureAddin", "AddIns\ScreenCaptureAddin\ScreenCaptureAddin.csproj", "{3827411C-B50A-4696-9BD3-B7A71F25801A}"
+	ProjectSection(ProjectDependencies) = postProject
+		{CB4EAB0E-1796-476E-83A0-20DA826E1C02} = {CB4EAB0E-1796-476E-83A0-20DA826E1C02}
+	EndProjectSection
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebLogAddin", "AddIns\WebLogAddin\WebLogAddin.csproj", "{A9FDC380-DAB2-4E40-B5D1-563B5023AAFC}"
+	ProjectSection(ProjectDependencies) = postProject
+		{CB4EAB0E-1796-476E-83A0-20DA826E1C02} = {CB4EAB0E-1796-476E-83A0-20DA826E1C02}
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{DAF26FA7-FEE5-45D5-81D3-A473B858C7AA}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ScreenCaptureAdd.Test", "Tests\ScreenCaptureAddIn.Test\ScreenCaptureAdd.Test.csproj", "{7EDA8CFE-B576-480B-804E-63DC372CF41D}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WeblogAddin.Test", "Tests\WeblogAddin.Test\WeblogAddin.Test.csproj", "{4832D00A-BE3B-4F3B-93DB-D2FB6406F1B3}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MarkdownMonster.Test", "Tests\MarkdownMonster.Test\MarkdownMonster.Test.csproj", "{A3FCE345-F767-487F-86BF-DFA78B4BC218}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "AddIns", "AddIns", "{4F5BF002-399D-4830-BA4E-23EE97D97956}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SnippetsAddin", "AddIns\Snippets-MarkdownMonster-Addin\SnippetsAddin\SnippetsAddin.csproj", "{44A962C6-B414-4184-9E05-EFCCDB575D82}"
+	ProjectSection(ProjectDependencies) = postProject
+		{CB4EAB0E-1796-476E-83A0-20DA826E1C02} = {CB4EAB0E-1796-476E-83A0-20DA826E1C02}
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SupportProjects", "SupportProjects", "{D7DD7DBF-5809-40D3-8734-6C28178104E8}"
+	ProjectSection(SolutionItems) = preProject
+		Changelog.md = Changelog.md
+		Todo.md = Todo.md
+	EndProjectSection
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "mmcli", "Support\mmcli\mmcli.csproj", "{A18A2F37-81E3-472B-B404-62F215400A21}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "mm", "Support\MarkdownMonsterLauncher\mm\mm.csproj", "{CEC5B220-D8C8-4A2D-8974-CF2F09D89708}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebViewPreviewerAddin", "AddIns\WebViewPreviewerAddin\WebViewPreviewerAddin.csproj", "{04923315-CEF3-43AC-A7BF-C53E5DE18D0A}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{CB4EAB0E-1796-476E-83A0-20DA826E1C02}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CB4EAB0E-1796-476E-83A0-20DA826E1C02}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CB4EAB0E-1796-476E-83A0-20DA826E1C02}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CB4EAB0E-1796-476E-83A0-20DA826E1C02}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3827411C-B50A-4696-9BD3-B7A71F25801A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3827411C-B50A-4696-9BD3-B7A71F25801A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3827411C-B50A-4696-9BD3-B7A71F25801A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A9FDC380-DAB2-4E40-B5D1-563B5023AAFC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A9FDC380-DAB2-4E40-B5D1-563B5023AAFC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A9FDC380-DAB2-4E40-B5D1-563B5023AAFC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7EDA8CFE-B576-480B-804E-63DC372CF41D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7EDA8CFE-B576-480B-804E-63DC372CF41D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4832D00A-BE3B-4F3B-93DB-D2FB6406F1B3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4832D00A-BE3B-4F3B-93DB-D2FB6406F1B3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4832D00A-BE3B-4F3B-93DB-D2FB6406F1B3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A3FCE345-F767-487F-86BF-DFA78B4BC218}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A3FCE345-F767-487F-86BF-DFA78B4BC218}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A3FCE345-F767-487F-86BF-DFA78B4BC218}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A3FCE345-F767-487F-86BF-DFA78B4BC218}.Release|Any CPU.Build.0 = Release|Any CPU
+		{44A962C6-B414-4184-9E05-EFCCDB575D82}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{44A962C6-B414-4184-9E05-EFCCDB575D82}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{44A962C6-B414-4184-9E05-EFCCDB575D82}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A18A2F37-81E3-472B-B404-62F215400A21}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A18A2F37-81E3-472B-B404-62F215400A21}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A18A2F37-81E3-472B-B404-62F215400A21}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CEC5B220-D8C8-4A2D-8974-CF2F09D89708}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CEC5B220-D8C8-4A2D-8974-CF2F09D89708}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CEC5B220-D8C8-4A2D-8974-CF2F09D89708}.Release|Any CPU.Build.0 = Release|Any CPU
+		{04923315-CEF3-43AC-A7BF-C53E5DE18D0A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{04923315-CEF3-43AC-A7BF-C53E5DE18D0A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{04923315-CEF3-43AC-A7BF-C53E5DE18D0A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{04923315-CEF3-43AC-A7BF-C53E5DE18D0A}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{3827411C-B50A-4696-9BD3-B7A71F25801A} = {4F5BF002-399D-4830-BA4E-23EE97D97956}
+		{A9FDC380-DAB2-4E40-B5D1-563B5023AAFC} = {4F5BF002-399D-4830-BA4E-23EE97D97956}
+		{DAF26FA7-FEE5-45D5-81D3-A473B858C7AA} = {D7DD7DBF-5809-40D3-8734-6C28178104E8}
+		{7EDA8CFE-B576-480B-804E-63DC372CF41D} = {DAF26FA7-FEE5-45D5-81D3-A473B858C7AA}
+		{4832D00A-BE3B-4F3B-93DB-D2FB6406F1B3} = {DAF26FA7-FEE5-45D5-81D3-A473B858C7AA}
+		{A3FCE345-F767-487F-86BF-DFA78B4BC218} = {DAF26FA7-FEE5-45D5-81D3-A473B858C7AA}
+		{44A962C6-B414-4184-9E05-EFCCDB575D82} = {4F5BF002-399D-4830-BA4E-23EE97D97956}
+		{A18A2F37-81E3-472B-B404-62F215400A21} = {D7DD7DBF-5809-40D3-8734-6C28178104E8}
+		{CEC5B220-D8C8-4A2D-8974-CF2F09D89708} = {D7DD7DBF-5809-40D3-8734-6C28178104E8}
+		{04923315-CEF3-43AC-A7BF-C53E5DE18D0A} = {4F5BF002-399D-4830-BA4E-23EE97D97956}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {0295A474-5FDB-4E74-89E4-048C0F088903}
+	EndGlobalSection
+EndGlobal
