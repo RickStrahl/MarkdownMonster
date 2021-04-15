@@ -12,12 +12,9 @@ Markdown Monster is an easy to use and extensible **Markdown Editor**, **Viewer*
 * [See what's new](https://github.com/RickStrahl/MarkdownMonster/blob/master/Changelog.md)  
 * [License](#license)
 
-> Note in order to open and build the Markdown Monster project you need at least [SDK Core 3.1 SDK](https://dotnet.microsoft.com/download). For Visual Studio you need [Visual Studio 2019.3](https://visualstudio.microsoft.com/vs/preview/) or later.
-
 ## Installation
 
-### Download
-
+### Download Installer
 You can download Markdown Monster using the self-contained installer:
 
 [Download Markdown Monster](http://markdownmonster.west-wind.com/download)
@@ -31,12 +28,18 @@ c:\> choco install markdownmonster
 ```
 
 ### Scoop
-
 You can use [Scoop](https://scoop.sh/) to install and update from the Windows Command Prompt. You need to use the `extras` bucket. 
 
 ```ps
 c:\> scoop install markdown-monster
 ```
+
+## License
+Markdown Monster is a licensed product and while we provide a fully functional, free download, for continued use a reasonably priced license is required.
+
+For more detailed info on licensing please visit licensing information here:
+
+[Markdown Monster Licensing](https://markdownmonster.west-wind.com/purchase#License)
 
 ## Overview
 Here's what Markdown Monster looks like using the default **Dark Theme**: 
