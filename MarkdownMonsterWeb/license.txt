@@ -3,7 +3,7 @@ Markdown Monster License
 
 Markdown Monster comes in several license modes: Evaluation, Single User, Multiple User and Site License.
 
-Markdown Monster is **Source Open** with source code available on GitHub, but it is a licensed product that requires a paid-for license for continued use. The software is licensed as � Rick Strahl, West Wind Technologies, 2015-2020. 
+Markdown Monster is a licensed product that requires a paid-for license for continued use. The software is licensed as &copy; Rick Strahl, West Wind Technologies, 2015-2020. 
 
 A fully functional, free evaluation version is available for evaluation use, but continued use requires purchase of a license.
 
@@ -29,7 +29,17 @@ Any purchased license is valid for the duration of the major release that it was
 
 SOURCE CODE
 
-Markdown Monster is **Source Open** and source code is available on GitHub at https://github.com/RickStrahl/MarkdownMonster, but the licensing outlined above is applies regardless. We allow modification of source code for internal use of Markdown Monster in your organization or for submitting pull requests to the Markdown Monster main repository. Under no circumstances are you allowed to re-package and re-distribute any part of Markdown Monster outside of your organization.
+Due to rampant abuse of the original publicly accessible repository, public source code access is no longer available. Markdown Monster source code is now available on a **per request basis in a private GitHub repository** and you can request access to the private repository.  
+
+Licensing outlined above applies to the source code. We allow for modification of source code only for internal use of Markdown Monster in your organization or for submitting pull requests to the Markdown Monster main repository. 
+
+Under no circumstances are you allowed to re-package or re-distribute any part of Markdown Monster outside of your organization.
+
+To request access for the private repository please:
+
+* Provide a GitHub email address
+* A brief note what you plan to use access for
+* Send the request to `markdownmonster@west-wind.com`
 
 GET INVOLVED - GET A FREE LICENSE
 
