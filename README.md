@@ -12,6 +12,9 @@ Markdown Monster is an easy to use and extensible **Markdown Editor**, **Viewer*
 * [See what's new](https://github.com/RickStrahl/MarkdownMonster/blob/master/Changelog.md)  
 * [License](#license)
 
+> ### Show your Support
+> If you like what you see here, please consider **starring this repo** (click the :star: in the top right corner of this page). If you have a favorite feature in Markdown Monster, it'd be awesome if you could tweet about it and mention [@markdownmonstr](https://twitter.com/markdownmonstr). Please help us spread the word. 
+
 ## Installation
 
 ### Download Installer
@@ -35,11 +38,16 @@ c:\> scoop install markdown-monster
 ```
 
 ## License
-Markdown Monster is a licensed product and while we provide a fully functional, free download, for continued use a reasonably priced license is required.
+Markdown Monster is a licensed product and while we provide a fully functional, free download, **for continued use a reasonably priced license is required**.
 
 For more detailed info on licensing please visit licensing information here:
 
 [Markdown Monster Licensing](https://markdownmonster.west-wind.com/purchase#License)
+
+### Source code no longer available here
+Due to rampant license abuse and misuse of the source code by a few bad apples, this repository no longer holds any of Markdown Monster's source code. The source code has moved to a private repository and access is [available by request](https://markdownmonster.west-wind.com/purchase#License).
+
+This repository serves as the GitHub information page for downloads and features, as well as for feedback on bug reports and enhancement requests in the [Issues section](https://github.com/RickStrahl/MarkdownMonster/issues). For more general questions, you an also use our [support message board](https://support.west-wind.com?forum=Markdown+Monster) in the Markdown Monster section.
 
 ## Overview
 Here's what Markdown Monster looks like using the default **Dark Theme**: 
@@ -79,16 +87,11 @@ Markdown Monster's integrated Git features also work great for  any Git based se
 * **[Bug Reports & Feature Requests](https://github.com/rickstrahl/MarkdownMonster/issues)**
 * **[Support Forum for Questions & Discussions](http://support.west-wind.com?forum=Markdown+Monster)**
 * **[License](#license)**
-
-* **[Video: Getting Started with Markdown Monster ](https://www.youtube.com/watch?v=XjFf57Ap9VE)** (old) 
 * **[Follow @MarkdownMonstr on Twitter](https://twitter.com/markdownmonstr)**
 
 #### Addins
 * **[Markdown Monster Addin Registry](https://github.com/RickStrahl/MarkdownMonsterAddinsRegistry)**  
 * **[Create Addins with .NET](http://markdownmonster.west-wind.com/docs/_4ne0s0qoi.htm)**
-> ### Show your Support
-> If you like what you see here, please consider **starring this repo** (click the :star: in the top right corner of this page). If you have a favorite feature in Markdown Monster, it'd be awesome if you could tweet about it and mention [@markdownmonstr](https://twitter.com/markdownmonstr). Please help us spread the word. 
-
 
 > ### Please report any Issues you run into!
 > If you run into a problem with Markdown Monster, **please** let us know by [filing an issue](https://github.com/rickstrahl/MarkdownMonster/issues) or feature request here on GitHub. We want to know what doesn't work and get it fixed. **Help us make Markdown Monster better**! We know your time is valuable, but we really appreciate any feedback.
@@ -452,4 +455,4 @@ YOU EXPRESSLY ACKNOWLEDGE AND AGREE THAT USE OF THE LICENSED APPLICATION IS AT Y
 IN NO EVENT SHALL THE AUTHOR, OR ANY OTHER PARTY WHO MAY MODIFY AND/OR REDISTRIBUTE THIS PROGRAM AND DOCUMENTATION, BE LIABLE FOR ANY COMMERCIAL, SPECIAL, INCIDENTAL, OR CONSEQUENTIAL DAMAGES ARISING OUT OF THE USE OR INABILITY TO USE THE PROGRAM INCLUDING, BUT NOT LIMITED TO, LOSS OF DATA OR DATA BEING RENDERED INACCURATE OR LOSSES SUSTAINED BY YOU OR LOSSES SUSTAINED BY THIRD PARTIES OR A FAILURE OF THE PROGRAM TO OPERATE WITH ANY OTHER PROGRAMS, EVEN IF YOU OR OTHER PARTIES HAVE BEEN ADVISED OF THE POSSIBILITY OF SUCH DAMAGES.
    
 ---
-&copy; Rick Strahl, West Wind Technologies, 2016-2019
+&copy; Rick Strahl, West Wind Technologies, 2016-2021

@@ -4,8 +4,11 @@
 [![Chocolatey](https://img.shields.io/chocolatey/dt/markdownmonster.svg)](https://chocolatey.org/packages/MarkdownMonster)
 [![Web Site](https://img.shields.io/badge/Markdown_Monster-WebSite-blue.svg)](https://markdownmonster.west-wind.com)
 
-### 1.26.12
+### 1.26.13
 <small>ongoing release</small>
+
+* **Add Editor Option for No AutoCompletions**  
+You can now optionally disable all editor completions via a new `NoAutoComplete` Editor configuration option. This option disables all key expansions like quote and bracket completions, list bullet expansion etc. for a raw editor experience.
 
 * **Rewritten Table Editor**  
 Completely revamped the Table Editor to better support larger tables and quicker editing support. Editing now uses the current theme as view, there's an optional previewer, support for sorting and alignment, improved output and parsing support and much more.
