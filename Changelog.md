@@ -4,7 +4,7 @@
 [![Chocolatey](https://img.shields.io/chocolatey/dt/markdownmonster.svg)](https://chocolatey.org/packages/MarkdownMonster)
 [![Web Site](https://img.shields.io/badge/Markdown_Monster-WebSite-blue.svg)](https://markdownmonster.west-wind.com)
 
-### 1.26.13
+### 1.26.14
 <small>ongoing release</small>
 
 * **Add Editor Option for No AutoCompletions**  
@@ -54,6 +54,9 @@ Fix broken Context Menu Cut behavior which was deleting the text but not putting
 
 * **Fix: Preview To Editor Sync in IE Mode**  
 Fix issue where preview to editor sync mode jumps the cursor to the top of the editor when typing.
+
+* **Fix: Open Folder Browser when no Document Active**  
+Fix issue where the various folder browser menu options weren't enabled when no document was active. Also fixed hotkeys.
 
 ### 1.26
 <small>February 4, 2020</small>
