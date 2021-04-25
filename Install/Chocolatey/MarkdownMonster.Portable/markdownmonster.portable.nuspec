@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2015/06/nuspec.xsd">
+  <metadata>
+    <id>MarkdownMonster.Portable</id>
+    <version>1.26.14</version>
+    <title>Markdown Monster Portable Install</title>
+    <authors>Rick Strahl, West Wind Technologies</authors>
+    <owners>West Wind Technologies</owners>
+    <licenseUrl>https://markdownmonster.west-wind.com/purchase#Licensing</licenseUrl>
+    <projectUrl>https://markdownmonster.west-wind.com</projectUrl>    
+    <iconUrl>https://markdownmonster.west-wind.com/images/MarkdownMonster_icon_128.png</iconUrl>
+    <requireLicenseAcceptance>true</requireLicenseAcceptance>    
+    <description>Markdown Monster is an easy to use and extensible Markdown Editor and Viewer and Weblog Publisher by West Wind Technologies. 
+
+This portable installation doesn't run an installer, doesn't require admin mode and is self-contained in its install folder and saves settings in a `PortableSettings` folder in the install folder (more info on [Portable Installation](https://markdownmonster.west-wind.com/docs/_4t90rhfy9.htm)).
+
+Markdown Monster sports syntax colored editing of Markdown text, inline spell checking, live, synced HTML preview, embedding, dragging and pasting of images, code, links and Emoji and has built-in support for screen captures. There is support for text snippet expansion and C# script execution to automate and extend Markdown Monster. But above all the editor's goal is to get out of your way and let you focus on your content creation, and provide you with tools to get your job done efficiently.
+    
+You can save documents to Html and PDF files. Markdown Monster can also publish your Markdown directly to your Weblog that supports WordPress, MetaWebLog or Medium APIs. You can manage multiple blogs and even download existing HTML posts as Markdown.
+
+Markdown Monster can also be extended using an easy, but powerful .NET based add-in model and a few useful addins are available to provide features like storing images in Azure Blobs, a reusable Snippets manager, and more. You can also swap Markdown Parsers between Markdig and Pandoc and use another custom Markdown parser via addin integration.
+
+Markdown Monster can be downloaded and evaluated for free. This package is **unlimited and fully functional**, but a [license](http://store.west-wind.com/product/markdown_monster) is required for continued use. Although Markdown Monster is licensed software, the source code is available in the open on GitHub. Requires **.NET 4.7.2 or later**.
+
+This is a portable installation that doesn't run an installer installer and keeps all configuration data in a self-contained folder. The full desktop Chocolatey install is also available in the [MarkdownMonster Package](https://chocolatey.org/packages/MarkdownMonster).
+
+![Markdown Monster](https://markdownmonster.west-wind.com/Images/screenshot.png)
+    </description>
+    <summary>Markdown Monster is an easy to use and extensible Markdown Editor and viewer and Weblog Publisher</summary>
+    <releaseNotes>https://github.com/RickStrahl/MarkdownMonster/blob/master/Changelog.md</releaseNotes>
+    <copyright>West Wind Technologies, 2016-2021</copyright>    
+    <tags>markdown markdown-editor markdown-generator text-editor markdown-blogging publishing writing documentation markdown-documentation westwind</tags>
+    <bugTrackerUrl>https://github.com/rickstrahl/MarkdownMonster/issues</bugTrackerUrl>
+    <docsUrl>http://markdownmonster.west-wind.com/docs</docsUrl>
+    <mailingListUrl>https://support.west-wind.com</mailingListUrl>   
+  </metadata>
+  <files>
+      <file src="tools\**" target="tools" />        
+  </files>    
+</package>
