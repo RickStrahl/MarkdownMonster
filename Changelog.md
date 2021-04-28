@@ -7,11 +7,16 @@
 ### 1.26.14
 <small>ongoing release</small>
 
+* **Rewritten Table Editor**  
+Completely revamped the Table Editor to better support larger tables and quicker editing support. Editing now uses the current theme as view, there's an optional previewer, support for sorting and alignment, improved output and parsing support and much more.
+
+* **Track Active Document in Folder Browser**  
+After many requests for this feature, we've added support for optional document tracking in the folder browser. Using the `FolderBrowser.TrackDocumentInFolderBrowser` configuration switch (also via  a toggle button in the Folder Browser) any time you change the document the Folder Browser navigates to that file.
+
+
 * **Add Editor Option for No AutoCompletions**  
 You can now optionally disable all editor completions via a new `NoAutoComplete` Editor configuration option. This option disables all key expansions like quote and bracket completions, list bullet expansion etc. for a raw editor experience.
 
-* **Rewritten Table Editor**  
-Completely revamped the Table Editor to better support larger tables and quicker editing support. Editing now uses the current theme as view, there's an optional previewer, support for sorting and alignment, improved output and parsing support and much more.
 
 * **Preview Sync Improvements**  
 Refactored some of the logistics in Preview Sync which should improve responsiveness of preview refreshes. There should now be fewer odd instances where preview is not refreshing automatically. Also updated  `Left-ctrl` which forces an immediate refresh, spellcheck and stats update.  
