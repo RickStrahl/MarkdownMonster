@@ -13,21 +13,6 @@ Completely revamped the Markdown Table Editor to better support larger tables an
 * **Track Active Document in Folder Browser**  
 As a heavily requested feature, we've added support for optional document tracking in the folder browser. Using the `FolderBrowser.TrackDocumentInFolderBrowser` configuration switch (also via  a toggle button in the Folder Browser) any time you change the document the Folder Browser navigates to that file.
 
-* **Add Editor Option for No AutoCompletions**  
-You can now optionally disable all editor completions via a new `NoAutoComplete` Editor configuration option. This option disables all key expansions like quote and bracket completions, list bullet expansion etc. for a raw editor experience.
-
-* **Preview Sync Improvements**  
-Refactored some of the logistics in Preview Sync which should improve responsiveness of preview refreshes. There should now be fewer odd instances where preview is not refreshing automatically. Also updated  `Left-ctrl` which forces an immediate refresh, spellcheck and stats update.  
-
-* **Document Outline Line Selection and Navigation**  
-Document Outline Navigation now moves the cursor position to the selected line in addition to scrolling to the appropriate Viewport position. When navigating by keyboard, ENTER and SPACE selects, and TAB moves the focus into the editor.
-
-* **Add Folder Opening to Recent File List**  
-There are now small folder icons next to files in the Recent Files dialog to allow opening of the associated folder in the folder browser to facilitate quicker access to files.
-
-* **Markup for Empty Selections puts Cursor into Selections**   
-When using shortcuts for Markdown markup like `ctrl-b` or `ctrl-i` for empty selections, MM now moves the cursor into the generated empty Markup. So `Ctrl-b` generates `**~**` where `~` denotes the cursor position (`~` not generated).
-
 * **Search Web and Search Web and Link on Editor Context Selection Menu**  
 New option to allow searching for content on the Web by opening the browser from the selected text and another option that performs a search and displays a list of matches with URLs on a sub menu that can be auto-linked to the selected text.
 
@@ -37,14 +22,29 @@ The same two search options from above are also available in the `ctrl-k` URL Li
 * **Search Weblog Folder**  
 New Menu option on the Weblog folder that lets you search the WebLog folder for posts using the built-in [Find in Files Search](https://markdownmonster.west-wind.com/docs/_5y715t8co.htm#find-in-files) functionality.
 
+* **Preview Sync Improvements**  
+Refactored some of the logistics in Preview Sync which should improve responsiveness of preview refreshes. There should now be fewer odd instances where preview is not refreshing automatically. Also updated  `Left-ctrl` which forces an immediate refresh, spellcheck and stats update.  
+
 * **Drag and Drop Files into Editor as Links**  
 When you drag and drop a document file (Markdown, html, pdf, zip) from Explorer or the File Browser into the editor, the file is now linked rather than 'opened'. The link is created as `[file.ext](file.ext) with a document relative path. 
+
+* **Document Outline Line Selection and Navigation**  
+Document Outline Navigation now moves the cursor position to the selected line in addition to scrolling to the appropriate Viewport position. When navigating by keyboard, ENTER and SPACE selects, and TAB moves the focus into the editor.
+
+* **Add Folder Opening to Recent File List**  
+There are now small folder icons next to files in the Recent Files dialog to allow opening of the associated folder in the Folder Browser to facilitate quicker access to files.
+
+* **Markup for Empty Selections puts Cursor into Selections**   
+When using shortcuts for Markdown markup like `ctrl-b` or `ctrl-i` for empty selections, MM now moves the cursor into the generated empty Markup. So `Ctrl-b` generates `**~**` where `~` denotes the cursor position (`~` not generated).
 
 * **Improved Large Document Support**  
 Added improvements to make MM work better with very large documents, by reducing preview refresh overhead, dynamically expanding the refresh timeout and tweaking the update process. Also - Using the built-in Chromium addin as the previewer now refreshes off the UI thread so that refreshes no longer freeze the editor while updating the preview for large documents.
 
 * **Add mmCli Path Expansions for Environment Vars and ~ Home Path**  
 Fix `mmcli.exe` to respect current folder and relative files for input and output files as well as expand Environment Variables and `~` for the Home Directory folder.
+
+* **Add Editor Option for No AutoCompletions**  
+You can now optionally disable all editor completions via a new `NoAutoComplete` Editor configuration option. This option disables all key expansions like quote and bracket completions, list bullet expansion etc. for a raw editor experience.
 
 * **Fix: Browser Executable using Default Browser**  
 Fix *View in External Browser* when the default browser executable is left blank - defaults to the system browser but executes using command line to allow for URLs with `#hash` extensions.
