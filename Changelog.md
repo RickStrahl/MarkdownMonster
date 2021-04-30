@@ -7,16 +7,16 @@
 ### 1.27
 <small>April 30th, 2021</small>
 
-* **Rewritten Table Editor**  
+* **[Rewritten Table Editor](https://markdownmonster.west-wind.com/docs/_53a0pfz0t.htm)**  
 Completely revamped the Markdown Table Editor to better support larger tables and quicker editing support. Editing now uses the current theme in the editor, and there's an optional previewer which also uses the current Preview Theme. There's new support for sorting and alignment of columns, as well as improved output and parsing support, plus much more.
 
-* **Track Active Document in Folder Browser**  
+* **[Track Active Document in Folder Browser](https://markdownmonster.west-wind.com/docs/_4wu1cjyka.htm)**  
 As a heavily requested feature, we've added support for optional document tracking in the folder browser. Using the `FolderBrowser.TrackDocumentInFolderBrowser` configuration switch (also via  a toggle button in the Folder Browser) any time you change the document the Folder Browser navigates to that file.
 
-* **Search Web and Search Web and Link on Editor Context Selection Menu**  
+* **[Search Web and Search Web and Link on Editor Context Selection Menu](https://markdownmonster.west-wind.com/docs/_4xs10gaui.htm#embed-web-links)**  
 New option to allow searching for content on the Web by opening the browser from the selected text and another option that performs a search and displays a list of matches with URLs on a sub menu that can be auto-linked to the selected text.
 
-* **Web Search and Search Web Links on the URL Dialog**  
+* **[Web Search and Search Web Links on the URL Dialog](https://markdownmonster.west-wind.com/docs/_4xs10gaui.htm#embed-web-links)**  
 The same two search options from above are also available in the `ctrl-k` URL Link dialog as links below the text input. Clicking the links searches the Web with the display link. For the Browser search any URLs on the clipboard automatically replace the URL text if it's empty. For the inline search, a list selection fills the field.
 
 * **Search Weblog Folder**  
@@ -26,9 +26,9 @@ New Menu option on the Weblog folder that lets you search the WebLog folder for 
 Refactored some of the logistics in Preview Sync which should improve responsiveness of preview refreshes. There should now be fewer odd instances where preview is not refreshing automatically. Also updated  `Left-ctrl` which forces an immediate refresh, spellcheck and stats update.  
 
 * **Drag and Drop Files into Editor as Links**  
-When you drag and drop a document file (Markdown, html, pdf, zip) from Explorer or the File Browser into the editor, the file is now linked rather than 'opened'. The link is created as `[file.ext](file.ext) with a document relative path. 
+When you drag and drop a document file (Markdown, html, pdf, zip) from Explorer or the File Browser into the editor, the file is now linked rather than 'opened'. The link is created as `file.ext` with a document relative path. 
 
-* **Document Outline Line Selection and Navigation**  
+* **[Document Outline Line Selection and Navigation](https://markdownmonster.west-wind.com/docs/_55o1bd4n1.htm)**  
 Document Outline Navigation now moves the cursor position to the selected line in addition to scrolling to the appropriate Viewport position. When navigating by keyboard, ENTER and SPACE selects, and TAB moves the focus into the editor.
 
 * **Add Folder Opening to Recent File List**  
