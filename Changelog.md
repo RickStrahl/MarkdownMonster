@@ -4,19 +4,17 @@
 [![Chocolatey](https://img.shields.io/chocolatey/dt/markdownmonster.svg)](https://chocolatey.org/packages/MarkdownMonster)
 [![Web Site](https://img.shields.io/badge/Markdown_Monster-WebSite-blue.svg)](https://markdownmonster.west-wind.com)
 
-### 1.26.14
-<small>ongoing release</small>
+### 1.27
+<small>April 30th, 2021</small>
 
 * **Rewritten Table Editor**  
-Completely revamped the Table Editor to better support larger tables and quicker editing support. Editing now uses the current theme as view, there's an optional previewer, support for sorting and alignment, improved output and parsing support and much more.
+Completely revamped the Markdown Table Editor to better support larger tables and quicker editing support. Editing now uses the current theme in the editor, and there's an optional previewer which also uses the current Preview Theme. There's new support for sorting and alignment of columns, as well as improved output and parsing support, plus much more.
 
 * **Track Active Document in Folder Browser**  
-After many requests for this feature, we've added support for optional document tracking in the folder browser. Using the `FolderBrowser.TrackDocumentInFolderBrowser` configuration switch (also via  a toggle button in the Folder Browser) any time you change the document the Folder Browser navigates to that file.
-
+As a heavily requested feature, we've added support for optional document tracking in the folder browser. Using the `FolderBrowser.TrackDocumentInFolderBrowser` configuration switch (also via  a toggle button in the Folder Browser) any time you change the document the Folder Browser navigates to that file.
 
 * **Add Editor Option for No AutoCompletions**  
 You can now optionally disable all editor completions via a new `NoAutoComplete` Editor configuration option. This option disables all key expansions like quote and bracket completions, list bullet expansion etc. for a raw editor experience.
-
 
 * **Preview Sync Improvements**  
 Refactored some of the logistics in Preview Sync which should improve responsiveness of preview refreshes. There should now be fewer odd instances where preview is not refreshing automatically. Also updated  `Left-ctrl` which forces an immediate refresh, spellcheck and stats update.  
@@ -62,6 +60,15 @@ Fix issue where preview to editor sync mode jumps the cursor to the top of the e
 
 * **Fix: Open Folder Browser when no Document Active**  
 Fix issue where the various folder browser menu options weren't enabled when no document was active. Also fixed hotkeys.
+
+* **Fix: PreviewWebRootPath in `.mdproj` Files not respected**  
+* Fix issue where the `PreviewWebRootPath` value in the `.mdproj` files wasn't respected in some situations. The file is now checked on every render operation so changes in the `.mdproj` are immediately reflected.
+
+* **Fix: Multi-Selection Issues in Folder Browser**  
+Fixed several issues with inconsistent behavior with multi-selected files in the Folder browser. Reduced selection jitter and better handle accidental starting drag and drop operations.
+
+* **Fix: Chromium Initial Preview Refresh Issue**  
+Fix issue where the Chromium Previewer would occasionally not display content when first loading Markdown Monster or when switching from IE view to Chromium Preview. Caused by async load of the Preview browser, we now explicitly check for completion and if not ready wait for the browser to be ready to preview.
 
 ### 1.26
 <small>February 4, 2020</small>
