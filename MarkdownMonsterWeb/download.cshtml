@@ -21,6 +21,11 @@
     <link href="Css/application.css" rel="stylesheet" />
     <link href="https://netdna.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.css" rel="stylesheet" />
     
+    <meta property="og:title" content="Download Markdown Monster Markdown Editor and Weblog Publisher" />
+	<meta property="og:type" content="article" />
+	<meta property="og:url" content="https://markdownmonster.west-wind.com/download" />
+	<meta property="og:image" content="https://markdownmonster.west-wind.com/Images/MarkdownMonster_Icon_256.png"/>  
+    
     <style>
         dt { float: left;width: 90px; font-weight: normal}
         dd { font-size: 100% }        
@@ -29,8 +34,23 @@
         }
         #ContentContainer {
             max-width: 1000px;
+            padding: 1em 2.5em;
         }
-       
+        #DownloadButton {
+             border-radius: 4px;padding: 12px 20px; font-weight: 600;
+        }
+        @@media(max-width: 768px) {
+            #ChocolateyInstall {
+                    display: none;
+            }            
+            #ContentContainer {
+                max-width: 1000px;
+                padding: 0.75em 0.75em;
+            }
+            #DownloadButton {
+                font-size: 0.92em;
+            }
+        }       
     </style>
 </head>
 <body>
@@ -55,7 +75,7 @@
     
 
     <div id="MainContainer" class="background">
-        <div id="ContentContainer" class="content" style="padding: 10px 45px;">
+        <div id="ContentContainer" class="content" >
             
             <h2>Download Markdown Monster</h2>
             
@@ -100,11 +120,10 @@
                     </div>
                     <div class=" col-sm-7">
 	                    
-						<a class="btn btn-lg btn-primary" href="https://west-wind.com/files/MarkdownMonsterSetup.exe" 
-                           style=" border-radius: 4px;padding: 12px 20px; font-weight: 600;"
-                           title="Download the full Markdown Monster Setup Installation Executable.&#013;This Installer is the recommended way to install Markdown Monster."
-                           
-                           
+						<a id="DownloadButton"  href="https://west-wind.com/files/MarkdownMonsterSetup.exe" 
+                           class="btn btn-lg btn-primary"
+                           style=""
+                           title="Download the full Markdown Monster Setup Installation Executable.&#013;This Installer is the recommended way to install Markdown Monster."                           
                            >
                             <i class="fa fa-download text-success" style="font-size: 1.4em; color: #e2c271; "></i> &nbsp; 
                             Download Markdown Monster
@@ -164,11 +183,12 @@ user folder.">Portable Zip</a> |
                         
                         <div style="margin-top: 20px;">
                                                     
-                        <a href="http://chocolatey.org/packages/MarkdownMonster" style="display:block" >
+                            <a href="http://chocolatey.org/packages/MarkdownMonster" style="display:block" >
                                         <img src="images/chocolatey.png" style="width: 170px; margin-top: 10px;margin-bottom: 5px" alt="Chocolatey" />                                        
-                                    </a>  
-                          <p>
-                              You can also install Markdown Monster from the command line using <a href="https://chocolatey.org/packages/MarkdownMonster">Chocolatey</a>:
+                            </a>  
+                            <p>
+                                You can also install Markdown Monster from the command line using <a href="https://chocolatey.org/packages/MarkdownMonster">Chocolatey</a>.
+                                <div Id="ChocolateyInstall">
                                     <style>
                                         .comment-line { color: forestgreen; }
                                     </style>                                                                 
@@ -181,9 +201,10 @@ c:\> choco upgrade markdownmonster
 
 <span class="comment-line"># portable, non-admin installer</span>
 c:\> choco install markdownmonster.portable
-</code></pre>                                                                                                                    
-                                </p>
-                            </div>
+</code></pre>                                             
+                                </div>                                                                       
+                            </p>
+                        </div>
                     </div>
                 </div>                
             </div>
@@ -257,11 +278,7 @@ c:\> choco install markdownmonster.portable
    </div>
 
     <script src="scripts/highlightjs/highlight.pack.js"></script>
-    <link href="scripts/highlightjs/styles/vs2015.css" rel="stylesheet" /> 
-
-    
-    @* <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.13.1/styles/vs2015.min.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.13.1/highlight.min.js"></script> *@
+    @* <link href="scripts/highlightjs/styles/vs2015.css" rel="stylesheet" />  *@
 
     <script>
         function highlightCode() {

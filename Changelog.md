@@ -4,6 +4,13 @@
 [![Chocolatey](https://img.shields.io/chocolatey/dt/markdownmonster.svg)](https://chocolatey.org/packages/MarkdownMonster)
 [![Web Site](https://img.shields.io/badge/Markdown_Monster-WebSite-blue.svg)](https://markdownmonster.west-wind.com)
 
+### 1.28
+<small>not released yet</small>
+
+* **Hierarchical Configuration Settings for Project, Marker Files**  
+You can now override global configuration settings via JSON file settings in Markdown Monster Project Files (in the `Configuration` node), or in the `.markdownmonster` marker file. In both cases you can use JSON to override default configuration settings like font-size, editor and preview themes, formatting, line numbers etc.
+
+
 ### 1.27
 <small>April 30th, 2021</small>
 

@@ -4,16 +4,9 @@
 
 #### Enhancements
 * [ ] Update detect changes on file saving and show Comparison editor (#734)
-* [x] ~~Command Line option to open document at a given line~~
-* [ ] Refactor file names (rename and fix up relative links)
-* [ ] Commit/push all changes in the folder to Git
-* [x] ~~Undocking tabs? :smiley:  (won't implement)~~
-* [x] ~~Redesign the Addin Manager Load Behavior
-        * Addin Enabled/Disabled
-        * Check for Updates
-        * Check for incompatible versions
-        * Auto-Update?~~
-* [ ] Large, Large Document Performance  
+
+
+* [ ] Configuration settings overrides in Yaml header
 
 ### Nice to Have
 * [ ] Search for Blog Posts in Weblog Posts folder (walk tree and show titles)
