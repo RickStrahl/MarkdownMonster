@@ -10,6 +10,8 @@
 * **Hierarchical Configuration Settings for Project, Marker Files**  
 You can now override global configuration settings via JSON file settings in Markdown Monster Project Files (in the `Configuration` node), or in the `.markdownmonster` marker file. In both cases you can use JSON to override default configuration settings like font-size, editor and preview themes, formatting, line numbers etc.
 
+* **Fix: Table Editor Autosizing for Table Cell Editing**  
+Table cells now auto-grow in height as you are editing them when adding linefeeds or overflowing at the end of the line.
 
 ### 1.27
 <small>April 30th, 2021</small>

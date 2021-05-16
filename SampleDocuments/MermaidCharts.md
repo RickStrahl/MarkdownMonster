@@ -1,7 +1,16 @@
 ﻿# Mermaid
 Mermaid is a JavaScript based parsing engine that allows you to embed blocks of graph markup into a page. Markdown Monster supports two different approaches using either code block or HTML tag syntax to embed the mermaid blocks.
 
-> Note the MM internal preview can't properly display or refresh all chart types, but you can preview in your system browser via `Shift-F12` to see proper representation.
+```mermaid
+  graph LR
+      A --- B
+      B-->C[fa:fa-ban forbidden]
+      B-->D(fa:fa-spinner working)
+      B-->E(fa:fa-home Home)
+      D-->F(fa:fa-flag DONE)
+```
+
+> Note the MM internal preview can't properly display or refresh all chart types, but you can preview using the Chromium Preview Addin or using your system browser via `Shift-F12` to see the proper representation.
 
 ### Sequence Diagram
 You can use a `mermaid` code block:
