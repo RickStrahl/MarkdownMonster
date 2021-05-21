@@ -7,11 +7,24 @@
 ### 1.28
 <small>not released yet</small>
 
+* **Create Link from Document Outline Anchor**  
+You can now create a link in selected text from a header link in the document outline. A new context item creates a markdown link from the current text selection with the header ID for the link navigation.
+
 * **Hierarchical Configuration Settings for Project, Marker Files**  
 You can now override global configuration settings via JSON file settings in Markdown Monster Project Files (in the `Configuration` node), or in the `.markdownmonster` marker file. In both cases you can use JSON to override default configuration settings like font-size, editor and preview themes, formatting, line numbers etc.
 
+* **Add Default Search Engine Configuration Option**  
+For Web lookups you can now select a Search Engine (DuckDuckGo, Google, Bing) for opening the browser on a search page. Set via the new `WebBrowserSearchEngine` configuration setting in settings.
+
+* **Set Table Type when using Edit Table**  
+When editing Markdown or HTML tables, the table type is now properly set when the table editor is opened. Previously the default Pipe Table was used.
+
 * **Fix: Table Editor Autosizing for Table Cell Editing**  
 Table cells now auto-grow in height as you are editing them when adding linefeeds or overflowing at the end of the line.
+
+* **Fix: Table Editor Crash**  
+Fix Table Editor crash when reformatting mismatched table column counts. If a table had fewer columns for a row it would crash in some situations. Missing columns are now auto-created as empty columns.
+
 
 ### 1.27
 <small>April 30th, 2021</small>
