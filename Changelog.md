@@ -7,6 +7,12 @@
 ### 1.28
 <small>not released yet</small>
 
+* **Allow Swapping Editor and Preview Location**  
+You can now swap the editor and preview location via a new **View->Swap Editor and Preview Location** menu option and a via Editor/Preview Splitter Context Menu.
+
+* **New Splitter Context Menu**  
+Added a new context menu that displays options for swapping editor and preview, entering presentation mode and toggling the preview display.
+
 * **Create Link from Document Outline Anchor**  
 You can now create a link in selected text from a header link in the document outline. A new context item creates a markdown link from the current text selection with the header ID for the link navigation.
 
@@ -18,6 +24,9 @@ For Web lookups you can now select a Search Engine (DuckDuckGo, Google, Bing) fo
 
 * **Set Table Type when using Edit Table**  
 When editing Markdown or HTML tables, the table type is now properly set when the table editor is opened. Previously the default Pipe Table was used.
+
+* **Fix: Open From Url GitHub Repo Fixups for `Main`**  
+When extrapolating repository URLs MM now checks for `main` in addition to `master` branches for default documents and for repo URL fixups.
 
 * **Fix: Table Editor Autosizing for Table Cell Editing**  
 Table cells now auto-grow in height as you are editing them when adding linefeeds or overflowing at the end of the line.
