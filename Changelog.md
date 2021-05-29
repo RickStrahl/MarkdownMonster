@@ -34,6 +34,11 @@ Table cells now auto-grow in height as you are editing them when adding linefeed
 * **Fix: Table Editor Crash**  
 Fix Table Editor crash when reformatting mismatched table column counts. If a table had fewer columns for a row it would crash in some situations. Missing columns are now auto-created as empty columns.
 
+* **Fix: Drag and Drop Selection in the Folder Browser**  
+Fix issue where selecting an item would not always drag the correct item (due to invalid tree item selection). Items are now explicitly selected before dragging.
+
+* **Fix: Search Panel Result Selection Behavior**  
+Search panel result clicks now open search results in preview-only mode, only if the tab is not already open. Double click now opens the document as non-preview document. Fixes issue where a search result in an existing window might close an already open window.
 
 ### 1.27
 <small>April 30th, 2021</small>

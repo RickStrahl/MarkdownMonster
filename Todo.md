@@ -2,6 +2,13 @@
 
 ### Bugs
 
+### WebView2 Async Updates 
+
+* [ ] Fix Addin Interfaces
+* [ ] Fix Paste Code Dialog
+* [ ] Review Any Calls to `.Result` `.GetResult` `.Wait`
+
+
 #### Enhancements
 * [ ] Update detect changes on file saving and show Comparison editor (#734)
 
