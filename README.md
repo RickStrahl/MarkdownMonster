@@ -3,7 +3,6 @@
 [![download](https://img.shields.io/badge/download-latest-blue.svg)](https://markdownmonster.west-wind.com/download)
 [![NuGet](https://img.shields.io/chocolatey/v/markdownmonster.svg)](https://chocolatey.org/packages/MarkdownMonster)
 [![](https://img.shields.io/chocolatey/dt/markdownmonster.svg)](https://chocolatey.org/packages/MarkdownMonster)
-[![Gitter](https://img.shields.io/gitter/room/nwjs/nw.js.svg) ](https://gitter.im/MarkdownMonster/MarkdownMonster)
 
 
 
