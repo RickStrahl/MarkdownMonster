@@ -133,7 +133,7 @@ Did you know the Snippet Addin can turn an expansion key into expanded text? Tur
 ## Portable Version 
 Did you know you can install Markdown Monster's portable version on a USB drive and run it on any machine?
 
-![](https://raw.githubusercontent.com/RickStrahl/MarkdownMonster/master/MarkdownMonsterWeb/Images/ScreenShots/PortableVersionUSBFolder.png)
+![](https://raw.githubusercontent.com/RickStrahl/MarkdownMonster/main/MarkdownMonsterWeb/Images/ScreenShots/PortableVersionUSBFolder.png)
 
 ## Pasting Images into Content
 Did you know Markdown Monster can paste images from the clipboard into your Markdown documents? 

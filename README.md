@@ -10,7 +10,7 @@
 
 Markdown Monster is an easy to use and extensible **Markdown Editor**, **Viewer** and **Weblog Publisher** for Windows. Our goal is to provide the best Markdown specific editor for Windows and make it as easy as possible to create Markdown documents. We provide a core editor and previewer, and a number of non-intrusive helpers to help embed content like images, links, tables, code and more into your documents with minimal effort.
 
-* [See what's new](https://github.com/RickStrahl/MarkdownMonster/blob/master/Changelog.md)  
+* [See what's new](https://github.com/RickStrahl/MarkdownMonster/blob/main/Changelog.md)  
 * [License](#license)
 
 > ### Show your Support
@@ -283,7 +283,7 @@ When working with long documents it's important to have an easy way to navigate 
 ### Table Editor
 Markdown Monster includes a powerful two-way table editor that lets you interactively edit content in tables. You can use the rich table editor to enter your Table content, and re-open Markdown table code in the editor for later editing and re-formatting.
 
-![Markdown Monster Table Editor](https://github.com/RickStrahl/ImageDrop/raw/master/MarkdownMonster/MarkdownMonsterTableEditor.gif)
+![Markdown Monster Table Editor](https://github.com/RickStrahl/ImageDrop/raw/main/MarkdownMonster/MarkdownMonsterTableEditor.gif)
 
 ### Screen Captures
 The Screen Capture addin supports two separate capture modes: 
