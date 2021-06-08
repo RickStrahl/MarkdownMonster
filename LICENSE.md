@@ -1,6 +1,6 @@
 # Markdown Monster License
 
-Markdown Monster comes in several license modes: 
+Markdown Monster comes in several license modes:
 
 * Evaluation
 * Single User 

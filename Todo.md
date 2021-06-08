@@ -1,19 +1,37 @@
 # Markdown Monster ToDo List
 
-### Bugs
+| Header 1       | Header 2       |
+|----------------|---------------:|
+| Row 1 Column 1 | Row 1 Column 2 |
+| asdasd         | asdasdasd      |
+| asdasd         | asdasd         |
+
+
+
+<!--ResizeMode="CanResizeWithGrip"
+WindowStyle="SingleBorderWindow"-->
+
+
+### Bugs and Needed Features
+* Add Startup Check for WebView2
+* Add WebView2 Environment/Process Cleanup Command Line
+
 
 ### WebView2 Async Updates 
 
-* [ ] Fix Addin Interfaces
-* [ ] Fix Paste Code Dialog
-* [ ] Review Any Calls to `.Result` `.GetResult` `.Wait`
-
+* [ ] Fix Addin Interfaces to use `async`
+* [ ] Switch Table Editor to WebView2
+* [x] Fix Paste Code Dialog
+* [x] Review Any Calls to `.RunSync` `.Result` `.GetResult` `.Wait`
+* [ ] BrowserMessageBox -> WebView2 (should still work though)
 
 #### Enhancements
 * [ ] Update detect changes on file saving and show Comparison editor (#734)
+* [ ] Edit Code In Editor on Context Menu (like Edit Image/Edit HREF)
+* [ ] New Software Registration API
 
 
-* [ ] Configuration settings overrides in Yaml header
+* [ ] Configuration settings overrides in YAML header
 
 ### Nice to Have
 * [ ] Search for Blog Posts in Weblog Posts folder (walk tree and show titles)
@@ -24,10 +42,6 @@
 * [ ] Markup (Publishing) support
 * [ ] reveal.js presentations
 * [ ] Research **R Markdown**, **AsciiDoc**
-* [x] Switch to using WebView2 instead of Ie Web Browser Control
-      * Reviewed and looks viable in terms of features and interop
-      * WebView2 is still in Preview so distribution problematic
-      * Much bigger memory footprint than IE control
         
 
 ### Table Editor

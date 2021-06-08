@@ -3,7 +3,7 @@
   "ActiveSidebarIndex": 0,
   "PreviewWebRootPath": "C:\\projects\\MarkdownMonster",
   "Configuration": {
-    "EditorTheme": "vscodelight",
+    "EditorTheme": "vscodedark",
     "PreviewTheme": "Blackout",
     "Editor": {
       "FontSize": 18

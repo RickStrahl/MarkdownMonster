@@ -5,13 +5,16 @@
 [![Web Site](https://img.shields.io/badge/Markdown_Monster-WebSite-blue.svg)](https://markdownmonster.west-wind.com)
 
 ### 1.28
-<small>not released yet</small>
+<small>June 8th, 2021</small>
 
 * **Allow Swapping Editor and Preview Location**  
 You can now swap the editor and preview location via a new **View->Swap Editor and Preview Location** menu option and a via Editor/Preview Splitter Context Menu.
 
 * **New Splitter Context Menu**  
 Added a new context menu that displays options for swapping editor and preview, entering presentation mode and toggling the preview display.
+
+* **[Track Active Document in Folder Browser](https://markdownmonster.west-wind.com/docs/_4wu1cjyka.htm)**  
+As a heavily requested feature, we've added support for optional document tracking in the folder browser. Using the `FolderBrowser.TrackDocumentInFolderBrowser` configuration switch (also via  a toggle button in the Folder Browser) any time you change the document the Folder Browser navigates to that file.
 
 * **Create Link from Document Outline Anchor**  
 You can now create a link in selected text from a header link in the document outline. A new context item creates a markdown link from the current text selection with the header ID for the link navigation.
@@ -24,6 +27,9 @@ For Web lookups you can now select a Search Engine (DuckDuckGo, Google, Bing) fo
 
 * **Set Table Type when using Edit Table**  
 When editing Markdown or HTML tables, the table type is now properly set when the table editor is opened. Previously the default Pipe Table was used.
+
+* **Updates to the Table Editor**  
+Fix some navigation issues. Update editing field height to provide more consistent display of new fields when they are injected. Smaller font size - previously the font-size was larger than the default template.
 
 * **Fix: Open From Url GitHub Repo Fixups for `Main`**  
 When extrapolating repository URLs MM now checks for `main` in addition to `master` branches for default documents and for repo URL fixups.
@@ -45,9 +51,6 @@ Search panel result clicks now open search results in preview-only mode, only if
 
 * **[Rewritten Table Editor](https://markdownmonster.west-wind.com/docs/_53a0pfz0t.htm)**  
 Completely revamped the Markdown Table Editor to better support larger tables and quicker editing support. Editing now uses the current theme in the editor, and there's an optional previewer which also uses the current Preview Theme. There's new support for sorting and alignment of columns, as well as improved output and parsing support, plus much more.
-
-* **[Track Active Document in Folder Browser](https://markdownmonster.west-wind.com/docs/_4wu1cjyka.htm)**  
-As a heavily requested feature, we've added support for optional document tracking in the folder browser. Using the `FolderBrowser.TrackDocumentInFolderBrowser` configuration switch (also via  a toggle button in the Folder Browser) any time you change the document the Folder Browser navigates to that file.
 
 * **[Search Web and Search Web and Link on Editor Context Selection Menu](https://markdownmonster.west-wind.com/docs/_4xs10gaui.htm#embed-web-links)**  
 New option to allow searching for content on the Web by opening the browser from the selected text and another option that performs a search and displays a list of matches with URLs on a sub menu that can be auto-linked to the selected text.
