@@ -36,7 +36,7 @@
             max-width: 1000px;
             padding: 1em 2.5em;
         }
-        #DownloadButton {
+        #DownloadButton, #DownloadButton_Preview {
              border-radius: 4px;padding: 12px 20px; font-weight: 600;
         }
         @@media(max-width: 768px) {
@@ -100,7 +100,7 @@
                             <dd>@ReleaseDate</dd>
 
                             <dt>File size:</dt>
-                            <dd>10 mb</dd>
+                            <dd>20mb</dd>
                        </dl> 
                              
                         <p style="margin-top: 35px;">
@@ -122,7 +122,7 @@
 	                    
 						<a id="DownloadButton"  href="https://west-wind.com/files/MarkdownMonsterSetup.exe" 
                            class="btn btn-lg btn-primary"
-                           style=""
+                           style="width: 18.3em; text-align: left"
                            title="Download the full Markdown Monster Setup Installation Executable.&#013;This Installer is the recommended way to install Markdown Monster."                           
                            >
                             <i class="fa fa-download text-success" style="font-size: 1.4em; color: #e2c271; "></i> &nbsp; 
@@ -132,11 +132,22 @@
 	                    <a href="http://www.softpedia.com/get/Office-tools/Text-editors/Markdown-Monster.shtml#status">
 		                    <img src="images/Softpedia.png" style="margin: 5px; margin-left: 15px; height: 115px;"/>
 	                    </a>
+
+
+                        @* <a id="DownloadButton_Preview"  href="https://west-wind.com/files/MarkdownMonsterSetup_Latest.exe" 
+                           class="btn btn-lg btn-primary"
+                           style="margin-top: -1.5em; width: 18.3em; text-align: left; font-weight: normal;"
+                           title="Download a Preview of Markdown Monster 2.0"                           
+                           >
+                            <i class="fa fa-download text-success" style="font-size: 1.4em; color: #ccc; "></i> &nbsp; 
+                            Download v2.0 Preview
+                        </a> *@
+                      
                         
 						
-                        <div class="small" style="margin-top: 10px">alternates: 
+                        <div class="small mb-5" style="margin-top: 10px;">alternates: 
                             <a href="https://west-wind.com/files/MarkdownMonsterSetup.zip" 
-                               title="Full Setup exe wrapped in a zip file for those that can't download binaries directly.">Setup Zip</a> | 
+                               title="Full Setup exe wrapped in a zip file for those that can't download binaries directly.">Setup Zip</a> &bull;
 
                             <a href="https://west-wind.com/files/MarkdownMonsterPortable.zip" 
                                title="Self contained, non-admin installation for Markdown Monster.
@@ -147,12 +158,16 @@ to allow writing of settings that can move with your installation.
 
 If you install in a folder or drive without write permissions, 
 settings are stored in the `%appdata%\Markdown Monster` 
-user folder.">Portable Zip</a> | 
+user folder.">Portable Zip</a> &bull;
+
+                            <a href="https://github.com/RickStrahl/MarkdownMonsterReleases" 
+                               title="Download older versions of Markdown Monster from our GitHub Archive.">Archives</a> &bull;
 
                             <a href="https://west-wind.com/files/MarkdownMonsterSetup_Latest.exe" 
-                               title="Latest pre-release installer that might be slightly ahead of the current release version.">Latest pre-Release</a>
-                            <small style="font-size: 0.7em">(@LatestVersion)</small>
-                        </div> 
+                               title="Latest pre-release installer that might be slightly ahead of the current release version."> pre-Release</a>
+                            <small style="font-size: 0.7em">(@LatestVersion)</small>                            
+                        </div>
+
                         <div style="margin-top: 15px;">
                             <div class="fa fa-info-circle" style="font-size: 280%; color: steelblue; float: left;"></div>
                             <div style="margin-left: 50px;">
@@ -219,12 +234,16 @@ c:\> choco install markdownmonster.portable
                         <div id="FeatureList" class="panel-body">
                             <div>
                                 <i class="fa fa-check-circle"></i>
-                                Microsoft Windows 10-7 or Windows 2019-2008R2
+                                Microsoft Windows 10-7 or Server 2019-2012
                             </div>
                             <div>
                                 <i class="fa fa-check-circle"></i>
                                 Microsoft .NET Framework <a href="https://dotnet.microsoft.com/download/dotnet-framework">4.7.2 or later</a>
                             </div>   
+                            <div>
+                                <i class="fa fa-check-circle"></i>
+                                <a href="https://developer.microsoft.com/en-us/microsoft-edge/webview2/consumer/" target="_blank">WebView2 Runtime</a> <small>(installed w/ full setup)</small>
+                            </div>
                             <div>
                                 <i class="fa fa-check-circle"></i>
                                 <a href="https://git-scm.com/" target="_blank">Git</a> <small>(optional)</small>
@@ -237,7 +256,7 @@ c:\> choco install markdownmonster.portable
                 <div class="col-sm-6">
                     <div class="panel panel-default" >
                         <div class="panel-heading">
-                            <h5 class="panel-title">Installation Instructions</h5>
+                            <h5 class="panel-title">Startup Instructions</h5>
                         </div>
 
                         <div id="FeatureList" class="panel-body">
@@ -248,6 +267,10 @@ c:\> choco install markdownmonster.portable
                             <div>
                                 <i class="fa fa-check-circle"></i>
                                 Run <b>MarkdownMonsterSetup.exe</b>
+                            </div>
+                                <div>
+                                <i class="fa fa-check-circle"></i>
+                                Launch from Shortcut or Command Line (<code>mm</code>)
                             </div>
                             <div>
                                 <i class="fa fa-check-circle"></i>

@@ -1,21 +1,10 @@
-# Markdown Monster ToDo List
-
-| Header 1       | Header 2       |
-|----------------|---------------:|
-| Row 1 Column 1 | Row 1 Column 2 |
-| asdasd         | asdasdasd      |
-| asdasd         | asdasd         |
-
-
-
-<!--ResizeMode="CanResizeWithGrip"
-WindowStyle="SingleBorderWindow"-->
-
 
 ### Bugs and Needed Features
-* Add Startup Check for WebView2
-* Add WebView2 Environment/Process Cleanup Command Line
-
+* [x] Add Startup Check for WebView2
+* [ ] Add WebView2 Environment/Process Cleanup Command Line
+* [x] Non Markdown Files in Folder Browser are not opening properly (or previewing)
+* [ ] Addin loading for 2.0 (min version and max version)
+* [ ] Load Executables out of a separate `SupportBin` folder
 
 ### WebView2 Async Updates 
 

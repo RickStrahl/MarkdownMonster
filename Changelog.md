@@ -3,6 +3,30 @@
 [![download](https://img.shields.io/badge/Download-Installer-blue.svg)](https://markdownmonster.west-wind.com/download)
 [![Chocolatey](https://img.shields.io/chocolatey/v/markdownmonster)](https://chocolatey.org/packages/MarkdownMonster)
 [![Web Site](https://img.shields.io/badge/Markdown_Monster-WebSite-blue.svg)](https://markdownmonster.west-wind.com)
+### 2.0
+
+* **Use WebView2 and Chromium for all Web Rendering including Editor**  
+Markdown Monster now uses a Chromium based browser for **all Web rendering** including the Editor, the Preview, the Table Editor, Code Windows, and Browser Dialogs. Previously only the Preview was optionally enabled by using the Chromium Preview addin. The Addin is no longer needed as all content always uses the Chromium engine. This improves rendering fidelity and also provides better responsiveness due to asynchronous rendering of content which allows for larger content to be displayed and synced while typing.
+
+* **Table Editor Improvements**  
+With Chromium rendering a number of odd IE browser bugs are fixed that affected navigation and selection in the old version. Table Editor can now **Move Columns** to the left or right.
+
+* **Improved Folder Browser Navigation**  
+Folder browser navigation now shows previews for most text type documents in 'inactive' mode that is temporary until the next document is accessed. Documents become 'active' once you edit the document or double click to explicitly open for editing. Single click now also previews any non-edit formats externally, like PDFs, Office docs, etc. Executables open selected in Explorer but are not executed. Drag and Drop start operations are now less twitchy. 
+
+* **Move Support Binaries out of Root Folder**  
+Support binaries are now moved out of the root folder into a `BinSupport` subfolder to avoid ending up on the User's path and causing naming conflicts. Only applications that should be visible on the user path now are: `MarkdownMonster`, `mm` and `mmcli`.
+
+* **Fix: Remove WebViewPreviewer Addin from 1.x Installs**  
+Added logic to remove the WebViewPreviewer Addin from v1 which throws an error. If found this addin is now explicitly removed at startup since the code has moved inline.
+
+
+
+### 1.28.4
+
+* **Fix addin loading for new Addin Repository Urls**  
+Due to the upgrade to v2 all the Addin repository URLs have been broken for v1. This update fixes these URLs and can now again load v1 versions. Note for all older versions addins will no longer load from the addin manager as all addins have been updated for v2.
+
 
 ### 1.28 
 <small>June 8th, 2021</small>
