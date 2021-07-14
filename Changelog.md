@@ -3,6 +3,7 @@
 [![download](https://img.shields.io/badge/Download-Installer-blue.svg)](https://markdownmonster.west-wind.com/download)
 [![Chocolatey](https://img.shields.io/chocolatey/v/markdownmonster)](https://chocolatey.org/packages/MarkdownMonster)
 [![Web Site](https://img.shields.io/badge/Markdown_Monster-WebSite-blue.svg)](https://markdownmonster.west-wind.com)
+
 ### 2.0
 
 * **Use WebView2 and Chromium for all Web Rendering including Editor**  
@@ -20,7 +21,14 @@ Support binaries are now moved out of the root folder into a `BinSupport` subfol
 * **Fix: Remove WebViewPreviewer Addin from 1.x Installs**  
 Added logic to remove the WebViewPreviewer Addin from v1 which throws an error. If found this addin is now explicitly removed at startup since the code has moved inline.
 
+* **Fix: PDF Generation Errors**
+Fix issue where repeated output to PDF would report an error for PDF generation even when the PDF was generated.
 
+* **Fix: PDF Code Snippet Background**  
+Fix issue where the PDF output for code snippets was not properly applying the background color. Works in HTML but not for the PDF generator. Added custom print stylesheet overrides for `pre > code` style explicitly to match highlightjs color theme.
+
+* **Fix: Folder Browser Click and DoubleClick Behavior**  
+Fix issues where clicking would not allow keyboard navigation after click, folder opening wasn't opening folders on first click, and preview operations could hang.
 
 ### 1.28.4
 
