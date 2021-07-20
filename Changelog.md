@@ -14,11 +14,17 @@ Markdown Monster now uses a Chromium based browser for **all Web rendering** inc
 * **Table Editor Improvements**  
 With Chromium rendering a number of odd IE browser bugs are fixed that affected navigation and selection in the old version. Table Editor can now **Move Columns** to the left or right.
 
+* **64 bit Application**  
+With the removal of the IE based Web Browser control, Markdown Monster can now run as 64 bit application again. 32 bit mode is still possible on 32 bit systems as well.
+
 * **Improved Folder Browser Navigation**  
 Folder browser navigation now shows previews for most text type documents in 'inactive' mode that is temporary until the next document is accessed. Documents become 'active' once you edit the document or double click to explicitly open for editing. Single click now also previews any non-edit formats externally, like PDFs, Office docs, etc. Executables open selected in Explorer but are not executed. Drag and Drop start operations are now less twitchy. 
 
 * **Move Support Binaries out of Root Folder**  
 Support binaries are now moved out of the root folder into a `BinSupport` subfolder to avoid ending up on the User's path and causing naming conflicts. Only applications that should be visible on the user path now are: `MarkdownMonster`, `mm` and `mmcli`.
+
+* **Make Settings HelpText Selectable**  
+You can now select the help text associated with a configuration setting in the Settings window. This allows picking up URLs and other fixed values more easily. (#817)
 
 * **Fix: Remove WebViewPreviewer Addin from 1.x Installs**  
 Added logic to remove the WebViewPreviewer Addin from v1 which throws an error. If found this addin is now explicitly removed at startup since the code has moved inline.
