@@ -17,6 +17,15 @@ With Chromium rendering a number of odd IE browser bugs are fixed that affected 
 * **64 bit Application**  
 With the removal of the IE based Web Browser control, Markdown Monster can now run as 64 bit application again. 32 bit mode is still possible on 32 bit systems as well.
 
+* **Allow Swapping Editor and Preview Location**  
+You can now swap the editor and preview location via a new **View->Swap Editor and Preview Location** menu option and a via Editor/Preview Splitter Context Menu.
+
+* **New Splitter Context Menu**  
+Added a new context menu that displays options for swapping editor and preview, entering presentation mode and toggling the preview display.
+
+* **[Track Active Document in Folder Browser](https://markdownmonster.west-wind.com/docs/_4wu1cjyka.htm)**  
+As a heavily requested feature, we've added support for optional document tracking in the folder browser. Using the `FolderBrowser.TrackDocumentInFolderBrowser` configuration switch (also via  a toggle button in the Folder Browser) any time you change the document the Folder Browser navigates to that file.
+
 * **Improved Folder Browser Navigation**  
 Folder browser navigation now shows previews for most text type documents in 'inactive' mode that is temporary until the next document is accessed. Documents become 'active' once you edit the document or double click to explicitly open for editing. Single click now also previews any non-edit formats externally, like PDFs, Office docs, etc. Executables open selected in Explorer but are not executed. Drag and Drop start operations are now less twitchy. 
 
@@ -49,14 +58,6 @@ Due to the upgrade to v2 all the Addin repository URLs have been broken for v1. 
 ### 1.28 
 <small>June 8th, 2021</small>
 
-* **Allow Swapping Editor and Preview Location**  
-You can now swap the editor and preview location via a new **View->Swap Editor and Preview Location** menu option and a via Editor/Preview Splitter Context Menu.
-
-* **New Splitter Context Menu**  
-Added a new context menu that displays options for swapping editor and preview, entering presentation mode and toggling the preview display.
-
-* **[Track Active Document in Folder Browser](https://markdownmonster.west-wind.com/docs/_4wu1cjyka.htm)**  
-As a heavily requested feature, we've added support for optional document tracking in the folder browser. Using the `FolderBrowser.TrackDocumentInFolderBrowser` configuration switch (also via  a toggle button in the Folder Browser) any time you change the document the Folder Browser navigates to that file.
 
 * **Create Link from Document Outline Anchor**  
 You can now create a link in selected text from a header link in the document outline. A new context item creates a markdown link from the current text selection with the header ID for the link navigation.
