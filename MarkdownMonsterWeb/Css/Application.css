@@ -1,8 +1,8 @@
 body {
-    color: #333;    
+    color: #333;
     font-size: 16px;
     font-family: "Segoe UI","Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
-    line-height: 1.4;    
+    line-height: 1.4;
 }
 body::-webkit-scrollbar {
     width: 8px;
@@ -23,21 +23,51 @@ h2,h3,h4,h5 {
     color: steelblue;
 }
 
+.responsive-container {
+  display: flex;
+  vertical-align: middle;
+}
+.responsive-container>* {
+  margin-right: 3px;
+}
+.responsive-container>*:last-child {
+  margin-right: 0;
+}
+.stackable {
+}
+@media(max-width: 768px) {
+  .responsive-container {
+      flex-direction: column;
+  }
+      .responsive-container>* {
+          margin-right: 0;
+          margin-top: 4px;
+          width: 100% !important;
+      }
+  .stackable {
+      display: block;
+      margin-top: 4px;
+  }
+}
+
+
+
+
 a {
     font-weight: bold;
 }
-.banner {    
+.banner {
     background: #535353;
     color: #e1e1e1;
-    border-bottom: solid 4px black;    
+    border-bottom: solid 4px black;
     overflow: auto;
 }
 .banner-bottom {
     font-size: 8pt !important;
-    padding: 10px ;    
+    padding: 10px ;
     margin: 0;
     border-top: solid black 4px;
-    border-bottom: none;  
+    border-bottom: none;
     margin-top: 25px;
 }
 .banner.active  {
@@ -46,7 +76,7 @@ a {
 }
 
 .banner-title {
-    display: inline-block;    
+    display: inline-block;
     font-size: larger;
     font-weight: bold;
     padding: 13px;
@@ -85,7 +115,7 @@ a {
     max-height: 315px;
 }
 #FeatureList>div {
-    margin-bottom: 5px;    
+    margin-bottom: 5px;
 }
 .bullet-box-items {
     padding: 5px 20px;
@@ -104,9 +134,9 @@ a {
 .background {
     background: #222222;
 }
-.hidable {    
+.hidable {
 }
-.hidable-xs {    
+.hidable-xs {
 }
 #ContentContainer {
     max-width: 1200px;
@@ -139,7 +169,7 @@ h5 {
 }
 
 .twitter-sidebar {
-    display: none;    
+    display: none;
     max-height: 2800px;
     overflow: hidden;
 }
@@ -151,9 +181,9 @@ h5 {
     .twitter-sidebar {
         display: block;
         flex: 1 1 auto;
-        max-width: 350px;        
+        max-width: 350px;
     }
-    
+
 
 }
 @media(min-width: 1100px) {
@@ -222,7 +252,7 @@ h5 {
         display: block;
         margin-top: 5px;
         margin:5px auto;
-        
+
     }
     .hidable {
         display: none !important;
@@ -235,8 +265,8 @@ h5 {
 }
 
 @media (max-width: 580px) {
-    #TopMenu { 
-        margin: 0;       
+    #TopMenu {
+        margin: 0;
     }
     .bullet-box-items {
         font-size: 1.15em;
@@ -249,8 +279,8 @@ h5 {
     .created-by {
         display: block;
         float:none;
-        margin-top: 10px;  
-        margin-bottom: 0;     
+        margin-top: 10px;
+        margin-bottom: 0;
     }
     .banner a {
         float: none;

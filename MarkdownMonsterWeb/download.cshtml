@@ -103,35 +103,53 @@
                             <dd>20mb</dd>
                        </dl> 
                              
-                        <p style="margin-top: 35px;">
-                            <a href="purchase#License" class="btn btn-primary" style="width: 210px">
+                             <style>
+                                 a.btn { text-align: left; padding-left: 1.4em; }
+                             </style>
+                        <p  style="margin-top: 35px;">
+                            <a id="License" href="purchase#License" class="btn btn-primary" style="width: 210px">
                                 <i class="fa fa-info-circle" style="color: #ddd"></i>&nbsp;
                                 License Information
                             </a>
                         </p>
-                        <p id="License" >
-                            <a id="Licensing" href="purchase" class="btn btn-primary" style="width: 210px">
+                        <p>
+                            <a id="Purchase" href="purchase" class="btn btn-primary" style="width: 210px">
                                 <i class="fa fa-check" style="color: lightgreen"></i>&nbsp;
                                 Buy Markdown Monster
                             </a>
                         </p>
                        
+                       <p id="Upgrade" >
+                            <a id="purchase#upgrades" href="purchase" class="btn btn-primary" style="width: 210px">
+                                <i class="fa fa-arrow-up" style="color: lightgreen"></i>&nbsp;
+                                Upgrade from v1
+                            </a>
+                        </p>
 
                     </div>
                     <div class=" col-sm-7">
 	                    
-						<a id="DownloadButton"  href="https://west-wind.com/files/MarkdownMonsterSetup.exe" 
-                           class="btn btn-lg btn-primary"
-                           style="width: 18.3em; text-align: left"
-                           title="Download the full Markdown Monster Setup Installation Executable.&#013;This Installer is the recommended way to install Markdown Monster."                           
-                           >
-                            <i class="fa fa-download text-success" style="font-size: 1.4em; color: #e2c271; "></i> &nbsp; 
-                            Download Markdown Monster
-                        </a>
-						
-	                    <a href="http://www.softpedia.com/get/Office-tools/Text-editors/Markdown-Monster.shtml#status">
-		                    <img src="images/Softpedia.png" style="margin: 5px; margin-left: 15px; height: 115px;"/>
-	                    </a>
+                        <div class="responsive-container">
+                            <div style="margin-top: 23px;">
+                                <a id="DownloadButton"  href="https://west-wind.com/files/MarkdownMonsterSetup.exe" 
+                                class="btn btn-lg btn-primary"
+                                style="width: 19.5em; text-align: left"
+                                title="Download the full Markdown Monster Setup Installation Executable.
+This Installer is the recommended way to install Markdown Monster.
+Note: Markdown Monster v2 is a paid upgrade from v1."                            
+                                >
+                                    <i class="fa fa-download text-success" style="font-size: 1.4em; color: #e2c271; "></i> &nbsp; 
+                                    Download Markdown Monster 2.0
+                                </a><br>
+                                <a style="font-size: 0.75em; font-weight: normal;" href="https://github.com/RickStrahl/MarkdownMonsterReleases/tree/master/v1.28" 
+                               title="Download older versions of Markdown Monster from our GitHub Archive.">download v1</a>
+                            </div>
+                            <div>                            
+                                <a href="http://www.softpedia.com/get/Office-tools/Text-editors/Markdown-Monster.shtml#status">
+                                    <img src="images/Softpedia.png" style="margin: 5px; margin-left: 15px; height: 90px;"/>
+                                </a>
+                            </div>
+                        </div>
 
 
                         @* <a id="DownloadButton_Preview"  href="https://west-wind.com/files/MarkdownMonsterSetup_Latest.exe" 
