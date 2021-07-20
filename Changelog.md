@@ -6,7 +6,7 @@
 
 ### 2.0
 
-<small>not released yet</small>
+<small>July 20th, 2021</small>
 
 * **Use WebView2 and Chromium for all Web Rendering including Editor**  
 Markdown Monster now uses a Chromium based browser for **all Web rendering** including the Editor, the Preview, the Table Editor, Code Windows, and Browser Dialogs. Previously only the Preview was optionally enabled by using the Chromium Preview addin. The Addin is no longer needed as all content always uses the Chromium engine. This improves rendering fidelity and also provides better responsiveness due to asynchronous rendering of content which allows for larger content to be displayed and synced while typing.
