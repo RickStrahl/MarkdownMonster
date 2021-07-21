@@ -35,6 +35,9 @@ Support binaries are now moved out of the root folder into a `BinSupport` subfol
 * **Make Settings HelpText Selectable**  
 You can now select the help text associated with a configuration setting in the Settings window. This allows picking up URLs and other fixed values more easily. (#817)
 
+* **Dev: Add Debug Editor and Preview Template Paths**  
+Added configurable Editor and Preview Template paths that are configurable and allow pointing the template folders to the original development folder, rather than the deployed applications' folders. This allows making changes to the Html/Web templates without having to recompile code.
+
 * **Fix: Remove WebViewPreviewer Addin from 1.x Installs**  
 Added logic to remove the WebViewPreviewer Addin from v1 which throws an error. If found this addin is now explicitly removed at startup since the code has moved inline.
 
