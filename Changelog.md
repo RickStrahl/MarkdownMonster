@@ -6,7 +6,7 @@
 
 ### 2.0
 
-<small>July 20th, 2021</small>
+<small>July 20th, 2021 &bull; [Release Blog Post](https://weblog.west-wind.com/posts/2021/Jul/22/Markdown-Monster-20-is-here)</small>
 
 * **Use WebView2 and Chromium for all Web Rendering including Editor**  
 Markdown Monster now uses a Chromium based browser for **all Web rendering** including the Editor, the Preview, the Table Editor, Code Windows, and Browser Dialogs. Previously only the Preview was optionally enabled by using the Chromium Preview addin. The Addin is no longer needed as all content always uses the Chromium engine. This improves rendering fidelity and also provides better responsiveness due to asynchronous rendering of content which allows for larger content to be displayed and synced while typing.
@@ -49,6 +49,7 @@ Fix issue where the PDF output for code snippets was not properly applying the b
 
 * **Fix: Folder Browser Click and DoubleClick Behavior**  
 Fix issues where clicking would not allow keyboard navigation after click, folder opening wasn't opening folders on first click, and preview operations could hang.
+
 
 ### 1.28.4
 
