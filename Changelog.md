@@ -4,6 +4,20 @@
 [![Chocolatey](https://img.shields.io/chocolatey/v/markdownmonster)](https://chocolatey.org/packages/MarkdownMonster)
 [![Web Site](https://img.shields.io/badge/Markdown_Monster-WebSite-blue.svg)](https://markdownmonster.west-wind.com)
 
+### 2.1
+
+<small>not released yet</small>
+
+
+* **Fix: Favorites Tree Data Entry**  
+Fix various issues with the Favorites list where entering a new item would add two items and focus would switch unpredictably. You can now also navigate the list with the keyboard with `Enter` opening the item with editor focus and `Space` opening without editor focus.
+
+* **Fix: Startup Menu Folder Opening**  
+Fix issue Startup Screen folder opening issues where clicking on the folder icon next to the file, would not reliably open the Folder Browser. Fixed.
+
+* **Fix: WordPress Publishing Thumbnail Image Failure**  
+Fix issue with the WordPress publishing mechanism where if thumbnails are published the addin would fail due to a data type error
+
 ### 2.0
 
 <small>July 20th, 2021 &bull; [Release Blog Post](https://weblog.west-wind.com/posts/2021/Jul/22/Markdown-Monster-20-is-here)</small>
