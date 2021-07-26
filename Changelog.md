@@ -8,7 +8,6 @@
 
 <small>not released yet</small>
 
-
 * **Fix: Favorites Tree Data Entry**  
 Fix various issues with the Favorites list where entering a new item would add two items and focus would switch unpredictably. You can now also navigate the list with the keyboard with `Enter` opening the item with editor focus and `Space` opening without editor focus.
 
@@ -16,9 +15,12 @@ Fix various issues with the Favorites list where entering a new item would add t
 Fix issue Startup Screen folder opening issues where clicking on the folder icon next to the file, would not reliably open the Folder Browser. Fixed.
 
 * **Fix: WordPress Publishing Thumbnail Image Failure**  
-Fix issue with the WordPress publishing mechanism where if thumbnails are published the addin would fail due to a data type error
+Fix issue with the WordPress publishing mechanism where if thumbnails are published the addin would fail due to a data type error.
 
-### 2.0
+* **Fix: EnableBulletAutoComplete**  
+Fix this setting so it works on initial document load. Previously the setting only worked after the document was 're-activated'. Fixed.
+
+### 2.0.3 - Official release of v2.0
 
 <small>July 20th, 2021 &bull; [Release Blog Post](https://weblog.west-wind.com/posts/2021/Jul/22/Markdown-Monster-20-is-here)</small>
 
