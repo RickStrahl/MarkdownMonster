@@ -8,17 +8,26 @@
 
 <small>not released yet</small>
 
+* **Update: PDF Generation Tools**  
+Update to latest tool version of wkhtml2pdf for PDF generation which fixes a number of small rendering quirks in the PDF generation engine. Also added some rudimentary support for emoji rendering in PDF documents since that seems a common theme.
+
 * **Fix: Favorites Tree Data Entry**  
 Fix various issues with the Favorites list where entering a new item would add two items and focus would switch unpredictably. You can now also navigate the list with the keyboard with `Enter` opening the item with editor focus and `Space` opening without editor focus.
 
 * **Fix: Startup Menu Folder Opening**  
 Fix issue Startup Screen folder opening issues where clicking on the folder icon next to the file, would not reliably open the Folder Browser. Fixed.
 
+* **Fix: Search Settings in Settings Dialog**  
+Fix issue with Search Settings entry which was hanging up and not immediately refreshing the entered text. Reduced delay and ensured that operation occurs in dispatched mode to see the change.
+
 * **Fix: WordPress Publishing Thumbnail Image Failure**  
 Fix issue with the WordPress publishing mechanism where if thumbnails are published the addin would fail due to a data type error.
 
 * **Fix: EnableBulletAutoComplete**  
 Fix this setting so it works on initial document load. Previously the setting only worked after the document was 're-activated'. Fixed.
+
+* **Fix: Edit CenteredMode Pixel Width in Menu**  
+Fixed focus issue in the Centered Mode editor document width that determines how wide the editor column to actually edit is. This allows creating of white space around text if the size of the overall edit pane is larger. Fixed issue where focus could not be set easily in the menu option, which made it hard to edit the value. Fixed.
 
 ### 2.0.3 - Official release of v2.0
 
