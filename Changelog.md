@@ -14,6 +14,9 @@ Update to latest tool version of wkhtml2pdf for PDF generation which fixes a num
 * **Fix: Favorites Tree Data Entry**  
 Fix various issues with the Favorites list where entering a new item would add two items and focus would switch unpredictably. You can now also navigate the list with the keyboard with `Enter` opening the item with editor focus and `Space` opening without editor focus.
 
+* **Fix: Allow Render Scripts State Switches**  
+Fix issue where switching the allow render state flag on the menu or in settings wouldn't affect the actual rendering and still allow rendering scripts and `iframe` when rendered. Fixed binding for menu, and updated the refresh mechanism so that open documents are updated with the new setting and refreshed (from menu update).
+
 * **Fix: Startup Menu Folder Opening**  
 Fix issue Startup Screen folder opening issues where clicking on the folder icon next to the file, would not reliably open the Folder Browser. Fixed.
 
@@ -29,7 +32,7 @@ Fix this setting so it works on initial document load. Previously the setting on
 * **Fix: Edit CenteredMode Pixel Width in Menu**  
 Fixed focus issue in the Centered Mode editor document width that determines how wide the editor column to actually edit is. This allows creating of white space around text if the size of the overall edit pane is larger. Fixed issue where focus could not be set easily in the menu option, which made it hard to edit the value. Fixed.
 
-### 2.0.3 - Official release of v2.0
+### 2.0.5 - Official release of v2.0
 
 <small>July 20th, 2021 &bull; [Release Blog Post](https://weblog.west-wind.com/posts/2021/Jul/22/Markdown-Monster-20-is-here)</small>
 
