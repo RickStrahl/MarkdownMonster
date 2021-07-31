@@ -11,6 +11,12 @@
 * **Update: PDF Generation Tools**  
 Update to latest tool version of wkhtml2pdf for PDF generation which fixes a number of small rendering quirks in the PDF generation engine. Also added some rudimentary support for emoji rendering in PDF documents since that seems a common theme.
 
+* **Print and PDF Icons on the Toolbar**  
+Added PDF and Print Output icons to the toolbar to make these features more discoverable and more easily accessible with a single click.
+
+* **Fix: Alt Key Handling**  
+Fixed a number of issues around `alt` key handling. Fixed issue where some editor commands like `alt-shift` and `alt-ctrl` selection weren't working. This is due to the custom menu activation handling which requires `alt` plus a small delay to trigger now vs. simultaneous key press for `alt` key chords. Editor alt chord commands are expected to be **simultaneous** press operations to work.
+
 * **Fix: Favorites Tree Data Entry**  
 Fix various issues with the Favorites list where entering a new item would add two items and focus would switch unpredictably. You can now also navigate the list with the keyboard with `Enter` opening the item with editor focus and `Space` opening without editor focus.
 
