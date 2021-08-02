@@ -14,8 +14,11 @@ Update to latest tool version of wkhtml2pdf for PDF generation which fixes a num
 * **Print and PDF Icons on the Toolbar**  
 Added PDF and Print Output icons to the toolbar to make these features more discoverable and more easily accessible with a single click.
 
+* **Update: [Markdown Monster Addin Templates](https://markdownmonster.west-wind.com/docs/_4ne0s0qoi.htm)**  
+Both the Visual Studio and `dotnet new` Markdown Monster Addin templates have now been updated to support v2 Addin projects. The addin interfaces have changed to mostly `Task` based `async`, to make it easier to interact with the async document functionality required for many editor interactions. If you need to update a v1 project to v2, you will need to convert the main addin entry points to updated async signatures (`Task` or `async Task`) instead of the old `void` method types.
+
 * **Fix: Alt Key Handling**  
-Fixed a number of issues around `alt` key handling. Fixed issue where some editor commands like `alt-shift` and `alt-ctrl` selection weren't working. This is due to the custom menu activation handling which requires `alt` plus a small delay to trigger now vs. simultaneous key press for `alt` key chords. Editor alt chord commands are expected to be **simultaneous** press operations to work.
+Fixed a number of issues around `alt` key handling. Fixed issue where some editor commands like `alt-shift` and `alt-ctrl` selection weren't working. This is due to the custom menu activation handling which requires `alt` plus a small delay to trigger now vs. simultaneous key press for `alt` key chords. Editor alt chord commands are expected to be **simultaneous** press operations to work. This fixes block selections, block column selections and a host of other alt key based editor operations.
 
 * **Fix: Favorites Tree Data Entry**  
 Fix various issues with the Favorites list where entering a new item would add two items and focus would switch unpredictably. You can now also navigate the list with the keyboard with `Enter` opening the item with editor focus and `Space` opening without editor focus.
