@@ -8,11 +8,18 @@
 
 <small>not released yet</small>
 
+* **Output Generation icons on main Toolbar**  
+Added PDF, Print and HTML Output icons to the toolbar to make these features more discoverable and more easily accessible with a single click.
+
+* **Basic Syntax Detection for Pasted Text into Empty Untitled Documents**  
+When you paste content into a new `untitled` document, MM now tries to detect syntax and automatically sets the editor's syntax to this mode. This only applies if the document is empty otherwise the syntax is sticky.
+ 
+* **Remember Table Embedding Mode in Table Editor**  
+When you embed a table using the Table Editor window, your last selection is now preserved in a configuration setting `Editor.TablePasteMode`.
+
 * **Update: PDF Generation Tools**  
 Update to latest tool version of wkhtml2pdf for PDF generation which fixes a number of small rendering quirks in the PDF generation engine. Also added some rudimentary support for emoji rendering in PDF documents since that seems a common theme.
 
-* **Print and PDF Icons on the Toolbar**  
-Added PDF and Print Output icons to the toolbar to make these features more discoverable and more easily accessible with a single click.
 
 * **Update: [Markdown Monster Addin Templates](https://markdownmonster.west-wind.com/docs/_4ne0s0qoi.htm)**  
 Both the Visual Studio and `dotnet new` Markdown Monster Addin templates have now been updated to support v2 Addin projects. The addin interfaces have changed to mostly `Task` based `async`, to make it easier to interact with the async document functionality required for many editor interactions. If you need to update a v1 project to v2, you will need to convert the main addin entry points to updated async signatures (`Task` or `async Task`) instead of the old `void` method types.

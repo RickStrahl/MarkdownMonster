@@ -1,4 +1,4 @@
-﻿<img src="https://github.com/RickStrahl/MarkdownMonster/raw/master/Art/MarkdownMonster_Icon_128.png" align="right" style="height: 64px"/>
+<img src="https://github.com/RickStrahl/MarkdownMonster/raw/master/Art/MarkdownMonster_Icon_128.png" align="right" style="height: 64px"/>
 
 # Welcome to Markdown Monster
 Here are a few tips to get you started:
@@ -122,7 +122,7 @@ Help Builder includes a custom syntax for FontAwesome icons in its templates. Yo
 ```
 
 ### Emojiis
-You can also embed Emojiis into your markdown using the Emoji dialog or common 
+You can also embed Emojiis into your markdown using the Emoji dialog or common **emoji expressions**:
 
 ```markdown
 :smile: :rage: :sweat: :point_down:
@@ -133,6 +133,8 @@ You can also embed Emojiis into your markdown using the Emoji dialog or common
 :smile: :rage: :sweat: :point_down:
 
 :-) :-( :-/ 
+
+> You can also embed raw emojis by using the `windows-.` key, or by pasting from the clipboard.
 
 ### HTML Markup
 You can also embed plain HTML markup into the page if you like. For example, if you want full control over fontawesome icons you can use this:
@@ -374,3 +376,5 @@ Here is some text that includes a Footnote [^1] in the middle of its text. And h
 
 > ### @icon-info-circle Use the @icon-table Table Editor 
 > For easier table data entry and pretty rendered tables you can use the table editor which provides grid based table data entry. You can use the table editor with **Pipe**, **Grid** and **HTML** tables.
+
+

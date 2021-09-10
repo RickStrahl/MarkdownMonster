@@ -1,12 +1,10 @@
 
 ### Bugs and Needed Features
 
-* [ ] Add WebView2 Environment/Process Cleanup Command Line
-* [ ] Addin loading for 2.0 (min version and max version)
-* [x] PDF Code Snippets background color issues
-* [x] Non Markdown Files in Folder Browser are not opening properly (or previewing)
-* [x] Load Executables out of a separate `SupportBin` folder
-* [x] Add Startup Check for WebView2
+* [ ] Remove internal HtmlPackager and Replace with NuGet Package
+* [ ] Auto-detect content in Untitled Files
+* [x] Add WebView2 Environment/Process Cleanup Command Line
+* [x] Addin loading for 2.0 (min version and max version)
 
 #### Enhancements
 * [ ] Update detect changes on file saving and show Comparison editor (#734)
