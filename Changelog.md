@@ -11,15 +11,19 @@
 * **Output Generation icons on main Toolbar**  
 Added PDF, Print and HTML Output icons to the toolbar to make these features more discoverable and more easily accessible with a single click.
 
-* **Basic Syntax Detection for Pasted Text into Empty Untitled Documents**  
-When you paste content into a new `untitled` document, MM now tries to detect syntax and automatically sets the editor's syntax to this mode. This only applies if the document is empty otherwise the syntax is sticky.
+* **Basic Syntax Detection for Pasted Text into Empty Untitled Documents** When you paste content into a new `untitled` document, MM now tries to detect syntax and automatically sets the editor's syntax to this mode. This only applies if the document is empty otherwise the syntax is sticky.
  
 * **Remember Table Embedding Mode in Table Editor**  
 When you embed a table using the Table Editor window, your last selection is now preserved in a configuration setting `Editor.TablePasteMode`.
 
+* **Set File Sort Order in Folder Browser**  
+The context menu in the folder browser now has an option to set the file sort order to Name, Date Ascending and Date Descending. The file order setting is tracked via sticky configuration in `FolderBrowser.FileOrder`.
+
+* **Optional File Browser File Tooltips**  
+You can now optionally enable a new `FolderBrowser.ShowToolTips` configuration option to show file information when hovering over files and folders. The tooltip shows the file's full name, file size and last write date.
+
 * **Update: PDF Generation Tools**  
 Update to latest tool version of wkhtml2pdf for PDF generation which fixes a number of small rendering quirks in the PDF generation engine. Also added some rudimentary support for emoji rendering in PDF documents since that seems a common theme.
-
 
 * **Update: [Markdown Monster Addin Templates](https://markdownmonster.west-wind.com/docs/_4ne0s0qoi.htm)**  
 Both the Visual Studio and `dotnet new` Markdown Monster Addin templates have now been updated to support v2 Addin projects. The addin interfaces have changed to mostly `Task` based `async`, to make it easier to interact with the async document functionality required for many editor interactions. If you need to update a v1 project to v2, you will need to convert the main addin entry points to updated async signatures (`Task` or `async Task`) instead of the old `void` method types.
@@ -35,6 +39,9 @@ Fix issue where switching the allow render state flag on the menu or in settings
 
 * **Fix: Startup Menu Folder Opening**  
 Fix issue Startup Screen folder opening issues where clicking on the folder icon next to the file, would not reliably open the Folder Browser. Fixed.
+
+* **Fix: Tabs not auto-activating when loading from CLI**  
+When loading files from the command line files would not open properly in the editor, with tabs opened but not activated and showing an empty preview. Fixed.
 
 * **Fix: Search Settings in Settings Dialog**  
 Fix issue with Search Settings entry which was hanging up and not immediately refreshing the entered text. Reduced delay and ensured that operation occurs in dispatched mode to see the change.

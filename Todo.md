@@ -2,7 +2,7 @@
 ### Bugs and Needed Features
 
 * [ ] Remove internal HtmlPackager and Replace with NuGet Package
-* [ ] Auto-detect content in Untitled Files
+* [x] Auto-detect content in Untitled Files
 * [x] Add WebView2 Environment/Process Cleanup Command Line
 * [x] Addin loading for 2.0 (min version and max version)
 
