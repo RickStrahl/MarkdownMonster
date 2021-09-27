@@ -55,6 +55,12 @@ Fix this setting so it works on initial document load. Previously the setting on
 * **Fix: Edit CenteredMode Pixel Width in Menu**  
 Fixed focus issue in the Centered Mode editor document width that determines how wide the editor column to actually edit is. This allows creating of white space around text if the size of the overall edit pane is larger. Fixed issue where focus could not be set easily in the menu option, which made it hard to edit the value. Fixed.
 
+* **Fix: Configuration Editor Click to Jump to Json Editor Links**  
+Several configuration options that edit a collection of items, have links in the configuration editor. These links now properly open the JSON configuration file and jump to the appropriate section in the JSON document. Also fixed focus issue for JSON activation by closing the visual editor.
+
+* **Fix: Remember last document location in Recent Documents**  
+Last document location was no longer saving when documents were closed (due to async changes). Value is now picked up again before saving and applied when recent documents are opened.
+
 ### 2.0.5 - Official release of v2.0
 
 <small>July 20th, 2021 &bull; [Release Blog Post](https://weblog.west-wind.com/posts/2021/Jul/22/Markdown-Monster-20-is-here)</small>

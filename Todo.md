@@ -1,4 +1,3 @@
-
 ### Bugs and Needed Features
 
 * [ ] Remove internal HtmlPackager and Replace with NuGet Package
