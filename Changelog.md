@@ -6,7 +6,7 @@
 
 ### 2.1
 
-<small>not released yet</small>
+<small>October 12th, 2021</small>
 
 * **Output Generation icons on main Toolbar**  
 Added PDF, Print and HTML Output icons to the toolbar to make these features more discoverable and more easily accessible with a single click.
@@ -20,7 +20,16 @@ When you embed a table using the Table Editor window, your last selection is now
 The context menu in the folder browser now has an option to set the file sort order to Name, Date Ascending and Date Descending. The file order setting is tracked via sticky configuration in `FolderBrowser.FileOrder`.
 
 * **Optional File Browser File Tooltips**  
-You can now optionally enable a new `FolderBrowser.ShowToolTips` configuration option to show file information when hovering over files and folders. The tooltip shows the file's full name, file size and last write date.
+You can now optionally enable a new `FolderBrowser.ShowToolTips` configuration option to show file information when hovering over files and folders. The tooltip shows the file's full name, parent folder, file size and last write date.
+
+* **PDF specific Preview Theme**  
+Added a **Pdf Output** Preview Theme that can be used when printing output to PDF. This theme is specifically designed to work around the differences in PDF output which include printing code with non-syntax coloring, and special font handling in order for code snippets to display properly. You can copy and customize this theme as necessary.
+
+* **PDF Output now lets you set the Theme**  
+When you create PDF output via the **Save To -> Save to PDF** dialog, you can now select the theme that is used to render the document. Due to limitations of the PDF rendering we recommend you use the printing specific **Pdf Output** theme which is the default, but any theme will work and you can create your own custom themes for printing.
+
+* **Change: Markdown Link Rendering**  
+Changed Markdown link rendering to remove underscore using regular display to make it easier to read links that might have underscores in them. Links now display without link underscore, and only show the underscore when hovering to indicate that the link can be navigated (via Ctrl-Click). There's now also a tooltip to notify you of ctrl-click behavior. 
 
 * **Update: PDF Generation Tools**  
 Update to latest tool version of wkhtml2pdf for PDF generation which fixes a number of small rendering quirks in the PDF generation engine. Also added some rudimentary support for emoji rendering in PDF documents since that seems a common theme.
@@ -60,6 +69,9 @@ Several configuration options that edit a collection of items, have links in the
 
 * **Fix: Remember last document location in Recent Documents**  
 Last document location was no longer saving when documents were closed (due to async changes). Value is now picked up again before saving and applied when recent documents are opened.
+
+* **Fix: Adding links as Link Collections**  
+Fixed issue where **Add Link Collection** in the Paste Link dialog was failing and not producing a link.
 
 ### 2.0.5 - Official release of v2.0
 

@@ -1,4 +1,4 @@
-﻿# Markdown Monster Tip of the Day
+# Markdown Monster Tip of the Day
 
 ## Markdown Monster Shortcut Keys
 Here are a few useful Markdown Monster shortcuts to remember:
@@ -17,9 +17,13 @@ Did you know you can create Markdown Monster Add-ins using .NET Code? Addins can
 Find out more: https://markdownmonster.west-wind.com/docs/_4ne0s0qo…
 
 ### Markdown Link Spaces
-When embedding images into Markdown it's best not to use spaces in image file names. Same for links. While MM can handle the spacing with encoded URLs, they are ugly and can cause problems when you move links around.
+Tip: When embedding images or links into Markdown it's best not to use spaces for file names.
 
-Better to use CamelCase or SnakeCase if you have long names.
+While @markdownmonstr can handle spaces in links fine they're UrlEncoded and hard to read & edit.
+
+Better to use CamelCase or SnakeCase for files w\ long names.
+
+https://markdownmonster.west-wind.com
 
 ## Open from Url
 Did you know that Markdown Monster can open Markdown documents from a Url?
@@ -162,5 +166,3 @@ Use Tool->Settings->Backup to  easily back up to:
 
 * Zip File
 * Folder
-
-markdownmonster.west-wind.com
