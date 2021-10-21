@@ -4,6 +4,21 @@
 [![Chocolatey](https://img.shields.io/chocolatey/v/markdownmonster)](https://chocolatey.org/packages/MarkdownMonster)
 [![Web Site](https://img.shields.io/badge/Markdown_Monster-WebSite-blue.svg)](https://markdownmonster.west-wind.com)
 
+
+### 2.2
+
+<small>not released yet</small>
+
+* **Fix: Update RelativePath Processing**  
+Fix exceptions in Relative Path creation used for dropped and pasted files and images. Fix issue where invalid paths would cause a hard failure due to Path object exceptions.
+
+* **Fix: Control Tab Focus Handling**  
+Fix various issues with Control Tab locking the UI and not focusing the cursor. Fixes Ctrl-Tab and Click focus with cursor becoming active in editor for each.
+
+* **Update: Log more Exception Data**  
+Exceptions now log both the top level and base exception to provide a little extra info on failures.
+
+
 ### 2.1
 
 <small>October 12th, 2021</small>

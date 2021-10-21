@@ -1,4 +1,4 @@
-﻿# Math Expressions using MathJax
+# Math Expressions using MathJax[../TipOfTheDay.md](../TipOfTheDay.md)
 Markdown Monster has built in support for rendering Math expressions using Latex, MathML and AsciiMath syntax. 
 
 In order to use Math expressions on your page you have to make sure that you enable the `Markdown.UseMathematics` setting to `true`.
