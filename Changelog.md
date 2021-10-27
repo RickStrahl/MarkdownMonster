@@ -9,11 +9,20 @@
 
 <small>not released yet</small>
 
+* **Import from JSON to Markdown Table**  
+You can now import JSON object arrays as Markdown tables from file or the clipboard. Fieldnames are mapped to headers values as row content. An optional field exclusion list can be applied.
+
 * **Fix: Update RelativePath Processing**  
 Fix exceptions in Relative Path creation used for dropped and pasted files and images. Fix issue where invalid paths would cause a hard failure due to Path object exceptions.
 
+* **Fix: Favorites Intra Section Drag and Drop**  
+Fix issue where dragging a Favority in section would not 'stay' in the new drop location and revert after short delay.
+
 * **Fix: Control Tab Focus Handling**  
 Fix various issues with Control Tab locking the UI and not focusing the cursor. Fixes Ctrl-Tab and Click focus with cursor becoming active in editor for each.
+
+* **Fix: PDF Generation Intermediary HTML File Name**  
+Fixed the intermediary HTML filename used when generating PDF files. Previously the HTML file generated was the same name as the PDF file, which could cause conflicts if the HTML file already existed prior to generation. Added `__` prefix to the temp file.
 
 * **Update: Log more Exception Data**  
 Exceptions now log both the top level and base exception to provide a little extra info on failures.
