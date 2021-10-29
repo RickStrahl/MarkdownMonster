@@ -4,13 +4,22 @@
 [![Chocolatey](https://img.shields.io/chocolatey/v/markdownmonster)](https://chocolatey.org/packages/MarkdownMonster)
 [![Web Site](https://img.shields.io/badge/Markdown_Monster-WebSite-blue.svg)](https://markdownmonster.west-wind.com)
 
-
 ### 2.2
 
 <small>not released yet</small>
 
 * **Import from JSON to Markdown Table**  
 You can now import JSON object arrays as Markdown tables from file or the clipboard. Fieldnames are mapped to headers values as row content. An optional field exclusion list can be applied.
+
+* **Move Table Rows Up and Down**  
+You can now move table rows in the Table Editor, up and down. 
+
+* **Keyboard Navigation for Common Table Editor Cell and Row Operations**  
+You can now use keyboard navigation for moving rows up and down (`ctrl-up`, `ctrl-down`) and moving columns left and right (`ctrl-left`, `ctrl-right`). You can also insert new rows (`alt-up`, `alt-down`) and columns (`alt-left`, `alt-right`).
+
+* **mmCli cleanup-webview Command to clear WebView Environment**  
+Added command line helper to clear out the WebView Environment that MM uses. The environment is private and separate from global settings, and only used for MM's local rendering of generated content.
+
 
 * **Fix: Update RelativePath Processing**  
 Fix exceptions in Relative Path creation used for dropped and pasted files and images. Fix issue where invalid paths would cause a hard failure due to Path object exceptions.
