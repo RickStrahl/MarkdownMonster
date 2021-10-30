@@ -12,10 +12,10 @@
 You can now import JSON object arrays as Markdown tables from file or the clipboard. Fieldnames are mapped to headers values as row content. An optional field exclusion list can be applied.
 
 * **Move Table Rows Up and Down**  
-You can now move table rows in the Table Editor, up and down. 
+You can now move table rows in the Table Editor, up and down via context menu or `alt-up` and `alt-down`.
 
 * **Keyboard Navigation for Common Table Editor Cell and Row Operations**  
-You can now use keyboard navigation for moving rows up and down (`ctrl-up`, `ctrl-down`) and moving columns left and right (`ctrl-left`, `ctrl-right`). You can also insert new rows (`alt-up`, `alt-down`) and columns (`alt-left`, `alt-right`).
+You can now use keyboard navigation for moving rows up and down (`alt-up`, `alt-down`) and moving columns left and right (`alt-left`, `alt-right`). You can also insert rows above and below using (`alt-shift-up`, `alt-shift-down`).
 
 * **mmCli cleanup-webview Command to clear WebView Environment**  
 Added command line helper to clear out the WebView Environment that MM uses. The environment is private and separate from global settings, and only used for MM's local rendering of generated content.
