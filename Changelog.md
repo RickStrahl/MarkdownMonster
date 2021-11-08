@@ -20,19 +20,24 @@ You can now use keyboard navigation for moving rows up and down (`alt-up`, `alt-
 * **mmCli cleanup-webview Command to clear WebView Environment**  
 Added command line helper to clear out the WebView Environment that MM uses. The environment is private and separate from global settings, and only used for MM's local rendering of generated content.
 
+
 * **Spellchecking: Look up on Web**  
 The spell checking context menu now has an option to **Lookup on Web** when a spell checking error is found. This is useful if you have no match in the list of suggestions and need to find out correct spelling. Opens Search page in your specified search engine.
 
 * **Add Neeva and Brave to configurable Search Engines for Lookups**  
 Add the Neeva and Brave search engines to the list of supported search engines for various lookup operations. Look up operations are available for finding and embedding URLs, and the spell checker for example.
 
+* **Copy Favorites Path to Clipboard on Favorites Context Menu**  
+You can now copy the current favorite item's path to the clipboard from the Favorites Context Menu.
 
+* **Command Snippets: Warm up C# Compiler**  
+If you're using snippets that contain C# code (Expressions or Razor) there's now a configuration option that allows preloading the C# compiler to speed up first compiled snippet operation. Also fix code focus delay issue with Snippet insertion.
 
 * **Fix: Update RelativePath Processing**  
 Fix exceptions in Relative Path creation used for dropped and pasted files and images. Fix issue where invalid paths would cause a hard failure due to Path object exceptions.
 
 * **Fix: Favorites Intra Section Drag and Drop**  
-Fix issue where dragging a Favority in section would not 'stay' in the new drop location and revert after short delay.
+Fix issue where dragging a Favorite in section would not 'stay' in the new drop location and revert after short delay.
 
 * **Fix: Control Tab Focus Handling**  
 Fix various issues with Control Tab locking the UI and not focusing the cursor. Fixes Ctrl-Tab and Click focus with cursor becoming active in editor for each.
