@@ -8,8 +8,11 @@
 
 <small>not released yet</small>
 
+* **Improved Document Load Time**  
+We've improved the way editor and preview documents get loaded, which now load faster, with less flicker and without the occasional brief document load error page displayed.
+
 * **Import from JSON to Markdown Table**  
-You can now import JSON object arrays as Markdown tables from file or the clipboard. Fieldnames are mapped to headers values as row content. An optional field exclusion list can be applied.
+You can now import JSON object arrays as Markdown tables from file or the clipboard. Field names are mapped to headers values as row content. An optional field exclusion list can be applied.
 
 * **Move Table Rows Up and Down**  
 You can now move table rows in the Table Editor, up and down via context menu or `alt-up` and `alt-down`.
