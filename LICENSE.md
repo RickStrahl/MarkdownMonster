@@ -21,6 +21,13 @@ The Evaluation version has all the features and functionality of the registered 
 
 You can use the evaluation version with the notices enabled, but if you use Markdown Monster regularly or for commercial use, please register and support further development and maintenance.
 
+> IMPORTANT: 
+> Licenses are activated and occasionally
+> re-validated over the Internet, so an
+> Internet Connection is Required for using
+> WebSurge in licensed mode.
+
+
 #### Purchased License
 
 For continued use or commercial use of Markdown Monster a paid-for license is required. The paid-for license removes the freeware notices.

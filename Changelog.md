@@ -20,6 +20,9 @@ You can now move table rows in the Table Editor, up and down via context menu or
 * **Keyboard Navigation for Common Table Editor Cell and Row Operations**  
 You can now use keyboard navigation for moving rows up and down (`alt-up`, `alt-down`) and moving columns left and right (`alt-left`, `alt-right`). You can also insert rows above and below using (`alt-shift-up`, `alt-shift-down`).
 
+* **Copy To Clipboard for Markdown Tables in Table Editor**  
+The Markdown Table Editor has a new Copy button to copy the currently active table in the editor to Markdown and the clipboard. This allows using the editor for easy pasting of Markdown Tables into other applications.
+
 * **mmCli cleanup-webview Command to clear WebView Environment**  
 Added command line helper to clear out the WebView Environment that MM uses. The environment is private and separate from global settings, and only used for MM's local rendering of generated content.
 
@@ -47,6 +50,12 @@ Fix various issues with Control Tab locking the UI and not focusing the cursor. 
 
 * **Fix: PDF Generation Intermediary HTML File Name**  
 Fixed the intermediary HTML filename used when generating PDF files. Previously the HTML file generated was the same name as the PDF file, which could cause conflicts if the HTML file already existed prior to generation. Added `__` prefix to the temp file.
+
+* **Fix: SnagIt Image Capture Embedding**  
+Fix issue with SnagIt image embedding from the Screen Capture add-in. Previously, save operation failed silently. Fixed.
+
+* **Fix: Physical Path Formatting for Links and Images**  
+When embedding physical file locations into Markdown (in untitled documents mainly or if referencing non-relative locations) paths previously where using Windows style syntax with forward slashes. This worked previously but started failing recently with the WebView renderer. All paths - both physical and relative - are now embedded using URL style forward slashes even for Windows paths.
 
 * **Update: Log more Exception Data**  
 Exceptions now log both the top level and base exception to provide a little extra info on failures.
