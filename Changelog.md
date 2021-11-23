@@ -6,7 +6,7 @@
 
 ### 2.2
 
-<small>not released yet</small>
+<small>November 23rd, 2021</small>
 
 * **Improved Document Load Time**  
 We've improved the way editor and preview documents get loaded, which now load faster, with less flicker and without the occasional brief document load error page displayed.
