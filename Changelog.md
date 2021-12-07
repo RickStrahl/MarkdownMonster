@@ -4,6 +4,15 @@
 [![Chocolatey](https://img.shields.io/chocolatey/v/markdownmonster)](https://chocolatey.org/packages/MarkdownMonster)
 [![Web Site](https://img.shields.io/badge/Markdown_Monster-WebSite-blue.svg)](https://markdownmonster.west-wind.com)
 
+
+### 2.3 
+
+<small>not released yet</small>
+
+
+* **Add File Updated and Created to Folder Browser Tooltip**  
+Files and folders now display both created and updated dates in the File and Folder Browser.
+
 ### 2.2
 
 <small>November 23rd, 2021</small>

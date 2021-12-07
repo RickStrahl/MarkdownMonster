@@ -109,10 +109,12 @@
                         <img src="Images/MarkdownMonster_Icon_256.png" style="display: block; margin-bottom: 15px; width: 210px"/>
                         <p><b style=" font-size: 1.45em;font-weight: 800">Markdown Monster</b></p>
                         <dl>                            
-                            <dt>Version:</dt>
-                            <dd>v @Version
-                                <a style="font-size: 0.8em;padding-left: 15px" 
-                                   href="https://github.com/RickStrahl/MarkdownMonster/blob/main/Changelog.md">what's new?</a></dd>
+                            <dt>Version:</dt>  
+                            <dd><b>@Version</b>                                
+                                <a style="font-size: 0.825em;padding-left: 14px; font-weight: 500"
+                                   href="https://github.com/RickStrahl/MarkdownMonster/blob/main/Changelog.md">
+                                   <i class="fa fa-info-circle"></i>
+                                   what's new?</a></dd>
                                 
                             <dt>Released:</dt>
                             <dd>@ReleaseDate</dd>
@@ -233,7 +235,9 @@ user folder.">Portable Zip</a> &bull;
                         </div>
                         
                         <div style="margin-top: 20px;">
-                                                    
+                            
+                            <hr style="background: #888; color: #888" />        
+
                             <a href="http://chocolatey.org/packages/MarkdownMonster" style="display:block" >
                                         <img src="images/chocolatey.png" style="width: 170px; margin-top: 10px;margin-bottom: 5px" alt="Chocolatey" />                                        
                             </a>  
@@ -243,16 +247,23 @@ user folder.">Portable Zip</a> &bull;
                                     <style>
                                         .comment-line { color: forestgreen; }
                                     </style>                                                                 
-									<pre style="background: #111;color: #e2e2e2; font-weight: 500; padding: 10px 0 10px 15px;font-size: 1em;">
-<code><span class="comment-line"># install markdown monster</span>
+									<pre style="background: #111;color: #e2e2e2; font-weight: 500; padding: 1em 0 1em 15px;font-size: 1em;">
+<code><span class="comment-line"># first time installation</span>
 c:\> choco install markdownmonster
 
-<span class="comment-line"># upgrade to the latest version</span>
+<span class="comment-line"># upgrade to latest version</span>
 c:\> choco upgrade markdownmonster
+</code></pre>
 
-<span class="comment-line"># portable, non-admin installer</span>
-c:\> choco install markdownmonster.portable
-</code></pre>                                             
+<h2>WinGet</h2>
+<p>Markdown Monster is also available via the built-in WinGet tool on Windows 10:</p>
+<pre style="background: #111;color: #e2e2e2; font-weight: 500; padding: 1em 0 1em 15px;font-size: 1em;">
+<code><span class="comment-line"># first time installation</span>
+c:\> winget install markdown-monster
+
+<span class="comment-line"># upgrade to the latest version</span>
+c:\> winget upgrade markdown-monster
+</code></pre>                                            
                                 </div>                                                                       
                             </p>
                         </div>

@@ -170,9 +170,10 @@ h5 {
 
 .twitter-sidebar {
     display: none;
-    max-height: 2800px;
+    x-max-height: 200px;
     overflow: hidden;
 }
+
 
 @media(min-width: 1580px) {
     #ContentContainer {
