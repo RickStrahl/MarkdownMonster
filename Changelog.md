@@ -13,6 +13,12 @@
 * **Add File Updated and Created to Folder Browser Tooltip**  
 Files and folders now display both created and updated dates in the File and Folder Browser.
 
+* **Fix: Lockups on opening Documents**  
+Fixed issue with lockups when opening documents in some situations such as after search, dragging items. 
+
+* **Fix: Document Title Display with Full Path when switching from Preview**  
+Fix an issue when switching from a Preview document to an edited document where the tab title would display the path even though there's no duplicate item. Correct behavior is to display only the filename when a single file with that name is open.
+
 ### 2.2
 
 <small>November 23rd, 2021</small>
