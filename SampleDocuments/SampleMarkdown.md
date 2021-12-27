@@ -1,4 +1,3 @@
-<img src="https://github.com/RickStrahl/MarkdownMonster/raw/master/Art/MarkdownMonster_Icon_128.png" align="right" style="height: 64px"/>
 
 # Welcome to Markdown Monster
 Here are a few tips to get you started:
@@ -98,10 +97,12 @@ You can embed images by pasting from the Clipboard (**ctrl-v**), using the @icon
 ### Block Quotes
 Block quotes are callouts that are great for adding notes or warnings into documentation.
 
+````markdown
 ```markdown
-> ### @ icon-info-circle Headers break on their own
+> ### @icon—info-circle Headers break on their own
 > Note that headers don't need line continuation characters as they are block elements and automatically break. Only text lines require the double spaces for single line breaks.
 ```
+````
 
 > ### @icon-info-circle Headers break on their own
 > Note that headers don't need line continuation characters as they are block elements and automatically break. Only text lines require the double spaces for single line breaks.
@@ -115,14 +116,19 @@ You can also use simple block quotes:
 > **Note:** Block quotes can be used to highlight important ideas.
 
 ### Fontawesome Icons
-Help Builder includes a custom syntax for FontAwesome icons in its templates. You can embed a `@ icon-` followed by a font-awesome icon name to automatically embed that icon without full HTML syntax.
+Help Builder includes a custom syntax for FontAwesome icons in its templates. You can embed a `@icon—`  followed by a font-awesome icon name to automatically embed that icon without full HTML syntax.
+
 
 ```markdown
-@ icon-gear Configuration
+@icon—gear Configuration
 ```
 
-### Emojiis
-You can also embed Emojiis into your markdown using the Emoji dialog or common **emoji expressions**:
+which renders:
+
+@icon-gear Configuration
+
+### Emojis
+You can also embed Emojis into your markdown using the Emoji dialog or common **emoji expressions**:
 
 ```markdown
 :smile: :rage: :sweat: :point_down:
@@ -134,7 +140,7 @@ You can also embed Emojiis into your markdown using the Emoji dialog or common *
 
 :-) :-( :-/ 
 
-> You can also embed raw emojis by using the `windows-.` key, or by pasting from the clipboard.
+> You can also embed raw emojis by using the `windows-.` key, or by pasting from the clipboard. You can also use an online [emoji reference](https://www.webfx.com/tools/emoji-cheat-sheet/).
 
 ### HTML Markup
 You can also embed plain HTML markup into the page if you like. For example, if you want full control over fontawesome icons you can use this:
