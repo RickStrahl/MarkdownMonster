@@ -29,8 +29,15 @@ You can you use [Chocolatey](https://chocolatey.org/) to install from the Window
 c:\> choco install markdownmonster
 ```
 
+### WinGet
+You can also use the built-in Windows WinGet tool *(not maintained by us)*:
+
+```ps
+c:\> winget install markdown-monster
+```
+
 ### Scoop
-You can use [Scoop](https://scoop.sh/) to install and update from the Windows Command Prompt. You need to use the `extras` bucket. 
+You can also use [Scoop](https://scoop.sh/) to install and update from the Windows Command Prompt. You need to use the `extras` bucket. *(not maintained by use)*
 
 ```ps
 c:\> scoop install markdown-monster

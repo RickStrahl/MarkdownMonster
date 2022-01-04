@@ -1,5 +1,7 @@
-﻿# Mermaid
+# Mermaid
+
 Mermaid is a JavaScript based parsing engine that allows you to embed blocks of graph markup into a page. Markdown Monster supports two different approaches using either code block or HTML tag syntax to embed the mermaid blocks.
+
 
 ```mermaid
   graph LR
@@ -23,7 +25,10 @@ You can use a `mermaid` code block:
  ```
 ~~~
 
+
+
 to produce the following:
+
 
 ```mermaid
 sequenceDiagram
@@ -67,7 +72,6 @@ Here's another example (use `Shift-F12` to preview):
  </div>
  ```
 ````
-
 
 ```mermaid
 gantt

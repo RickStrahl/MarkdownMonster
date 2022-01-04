@@ -82,7 +82,7 @@ Go to the
 ---
 
 ### Images
-Images are similar to links:
+Image Markdown Syntax is similar to links:
 
 ```markdown
 ![Markdown Monster](https://markdownmonster.west-wind.com/Images/MarkdownMonster_Icon_128.png)
@@ -92,7 +92,7 @@ which renders:
 
 ![Markdown Monster](https://markdownmonster.west-wind.com/Images/MarkdownMonster_Icon_128.png)
 
-You can embed images by pasting from the Clipboard (**ctrl-v**), using the @icon-image Image Dialog, or by dragging and dropping into the document from the the Folder Browser, or Explorer.
+You can embed images by pasting from the Clipboard using the @icon-image Image Dialog (**ctrl-v**) or inline Markdown embedding (**ctrl-shift-v**), or by dragging and dropping into the document from the the Folder Browser,  Windows Explorer or most Web Browsers.
 
 ### Block Quotes
 Block quotes are callouts that are great for adding notes or warnings into documentation.

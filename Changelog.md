@@ -4,7 +4,6 @@
 [![Chocolatey](https://img.shields.io/chocolatey/v/markdownmonster)](https://chocolatey.org/packages/MarkdownMonster)
 [![Web Site](https://img.shields.io/badge/Markdown_Monster-WebSite-blue.svg)](https://markdownmonster.west-wind.com)
 
-
 ### 2.3 
 
 <small>not released yet</small>
