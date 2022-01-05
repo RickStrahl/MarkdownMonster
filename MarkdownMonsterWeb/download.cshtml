@@ -98,7 +98,7 @@
             <h2>Download Markdown Monster</h2>
             
             <p>
-                You can download the free version of West Wind Markdown Monster and start editing your
+                You can download the free version of Markdown Monster and start editing your
                 Markdown files like a pro.
             </p>
 
@@ -199,11 +199,15 @@ settings are stored in the `%appdata%\Markdown Monster`
 user folder.">Portable Zip</a> &bull;
 
                             <a href="https://github.com/RickStrahl/MarkdownMonsterReleases" 
-                               title="Download older versions of Markdown Monster from our GitHub Archive.">Archives</a> &bull;
+                               title="Download older versions of Markdown Monster from our GitHub Archive.">Archives</a> 
 
-                            <a href="https://west-wind.com/files/MarkdownMonsterSetup_Latest.exe" 
-                               title="Latest pre-release installer that might be slightly ahead of the current release version."> pre-Release</a>
-                            <small style="font-size: 0.7em">(@LatestVersion)</small>                            
+                            @if(LatestVersion != Version) {                        
+                                <text>&bull;</text>
+                                
+                                <a href="https://west-wind.com/files/MarkdownMonsterSetup_Latest.exe" 
+                                title="Latest pre-release installer that might be slightly ahead of the current release version."> pre-Release</a>
+                                <small style="font-size: 0.7em">(@LatestVersion)</small>                            
+                            }
                         </div>
 
                         <div style="margin-top: 15px;">
@@ -255,15 +259,7 @@ c:\> choco install markdownmonster
 c:\> choco upgrade markdownmonster
 </code></pre>
 
-<h2>WinGet</h2>
-<p>Markdown Monster is also available via the built-in WinGet tool on Windows 10:</p>
-<pre style="background: #111;color: #e2e2e2; font-weight: 500; padding: 1em 0 1em 15px;font-size: 1em;">
-<code><span class="comment-line"># first time installation</span>
-c:\> winget install markdown-monster
-
-<span class="comment-line"># upgrade to the latest version</span>
-c:\> winget upgrade markdown-monster
-</code></pre>                                            
+<small style="font-size: 0.825em">other package managers: <a href="https://github.com/RickStrahl/MarkdownMonster#winget">WinGet</a> &bull; <a href="https://github.com/RickStrahl/MarkdownMonster#scoop">Scoop</a></small>
                                 </div>                                                                       
                             </p>
                         </div>
@@ -281,7 +277,7 @@ c:\> winget upgrade markdown-monster
                         <div id="FeatureList" class="panel-body">
                             <div>
                                 <i class="fa fa-check-circle"></i>
-                                Microsoft Windows 10-7 or Server 2019-2012
+                                Microsoft Windows 11-7 or Server 2019-2012
                             </div>
                             <div>
                                 <i class="fa fa-check-circle"></i>

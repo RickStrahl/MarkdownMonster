@@ -8,9 +8,14 @@
 
 <small>not released yet</small>
 
-
 * **Add File Updated and Created to Folder Browser Tooltip**  
 Files and folders now display both created and updated dates in the File and Folder Browser.
+
+* **Move Symbol Configuration for Italic and Soft Line Breaks Characters**  
+Moved the Symbol configuration that allows you to specify what symbols to use for italic (`*` or `_`) and Soft Line Breaks (`  ` or `\`) into the main Markdown configuration so it's visible in the interactive editor. Previously these two values were nested in a sub key below the Markdown configuration and not visible in the editor. These symbols are used by the Toolbar/Shortcut insertion operations.
+
+* **[Add Support for Long Path Names](https://markdownmonster.west-wind.com/docs/_68d0r8rej.htm) (if enabled in Windows)**  
+Added support for long path names in MM via manifest setting that allows you to open and save documents and assets with paths longer than the Windows `MAX_PATH` (255 chars). For this to work, Long Pathnames have to be enabled in Windows via registry or group policy setting. 
 
 * **Fix: Lockups on opening Documents**  
 Fixed issue with lockups when opening documents in some situations such as after search, dragging items. 
