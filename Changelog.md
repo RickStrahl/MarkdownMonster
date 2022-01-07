@@ -8,7 +8,7 @@
 
 <small>not released yet</small>
 
-* **[Add Support for Long Path Names](https://markdownmonster.west-wind.com/docs/_68d0r8rej.htm) (if enabled in Windows)**  
+* **[Support for Long Path Names](https://markdownmonster.west-wind.com/docs/_68d0r8rej.htm) (if enabled in Windows)**  
 Added improved support for long path names in MM via manifest setting that allows you to open and save documents and assets with paths longer than the Windows `MAX_PATH` (255 chars). It now also works for many of the external application integrations. For this to work, Long Path Names have to be enabled in Windows (10/11) via registry or group policy setting.
 
 * **Add File Updated and Created to Folder Browser Tooltip**  
