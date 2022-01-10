@@ -1,4 +1,4 @@
-# Markdown Monster Change Log
+# Markdown Monster Change Log   
 
 [![download](https://img.shields.io/badge/Download-Installer-blue.svg)](https://markdownmonster.west-wind.com/download)
 [![Chocolatey](https://img.shields.io/chocolatey/v/markdownmonster)](https://chocolatey.org/packages/MarkdownMonster)
@@ -14,9 +14,11 @@ Added improved support for long path names in MM via manifest setting that allow
 * **Add File Updated and Created to Folder Browser Tooltip**  
 Files and folders now display both created and updated dates in the File and Folder Browser.
 
+* **Document Tab ToolTip now includes File Information**  
+The document tab tooltip now displays file information including file size and updated and creation times, using similar format to what's used for tooltips in the Folder Browser.
+
 * **Move Symbol Configuration for Italic and Soft Line Breaks Characters**  
 Moved the Symbol configuration that allows you to specify what symbols to use for italic (`*` or `_`) and Soft Line Breaks (`  ` or `\`) into the main Markdown configuration so it's visible in the interactive editor. Previously these two values were nested in a sub key below the Markdown configuration and not visible in the editor. These symbols are used by the Toolbar/Shortcut insertion operations.
-
 
 * **Fix: Lockups on opening Documents**  
 Fixed issue with lockups when opening documents in some situations such as after search, dragging items. 
