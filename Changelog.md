@@ -6,7 +6,7 @@
 
 ### 2.3 
 
-<small>not released yet</small>
+<small>January 14th, 2021</small>
 
 * **[Support for Long Path Names](https://markdownmonster.west-wind.com/docs/_68d0r8rej.htm) (if enabled in Windows)**  
 Added improved support for long path names in MM via manifest setting that allows you to open and save documents and assets with paths longer than the Windows `MAX_PATH` (255 chars). It now also works for many of the external application integrations. For this to work, Long Path Names have to be enabled in Windows (10/11) via registry or group policy setting.
@@ -20,11 +20,16 @@ The document tab tooltip now displays file information including file size and u
 * **Move Symbol Configuration for Italic and Soft Line Breaks Characters**  
 Moved the Symbol configuration that allows you to specify what symbols to use for italic (`*` or `_`) and Soft Line Breaks (`  ` or `\`) into the main Markdown configuration so it's visible in the interactive editor. Previously these two values were nested in a sub key below the Markdown configuration and not visible in the editor. These symbols are used by the Toolbar/Shortcut insertion operations.
 
+* **Improved Drag and Drop Operations in the Folder Browser**  
+Updated drag and drop logic that affects initial drag state activation to be less sensitive resulting in fewer accidental drag operations. Also fixed various selection and drop issues as well as better supporting dropping shell files into the Folder Browser.
+
+* **Fix: Folder and File Visibility when a Filter is Set**  
+Fix issue where new files or folders added would not respect the search filters and show up regardless of the filter settings.
+
 * **Fix: Lockups on opening Documents**  
 Fixed issue with lockups when opening documents in some situations such as after search, dragging items. 
 
-* **Fix: Document Title Display with Full Path when switching from Preview**  
-Fix an issue when switching from a Preview document to an edited document where the tab title would display the path even though there's no duplicate item. Correct behavior is to display only the filename when a single file with that name is open.
+* **Fix: Document Title Display with Full Path when switching from Preview** Fix an issue when switching from a Preview document to an edited document where the tab title would display the path even though there's no duplicate item. Correct behavior is to display only the filename when a single file with that name is open.
 
 ### 2.2
 
