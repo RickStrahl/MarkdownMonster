@@ -1,5 +1,7 @@
 ### Bugs and Needed Features
 * [ ] Remove internal HtmlPackager and Replace with NuGet Package
+* [ ] Allow for executing external code as admin
+* [ ] mmCLI: Enable Windows Long Path Support (win10)
 
 #### Enhancements
 * [ ] Update detect changes on file saving and show Comparison editor (#734)
