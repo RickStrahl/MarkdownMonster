@@ -1,7 +1,6 @@
 # Markdown Monster Change Log   
 
 [![download](https://img.shields.io/badge/Download-Installer-blue.svg)](https://markdownmonster.west-wind.com/download)
-[![Chocolatey](https://img.shields.io/chocolatey/v/markdownmonster)](https://chocolatey.org/packages/MarkdownMonster)
 [![Web Site](https://img.shields.io/badge/Markdown_Monster-WebSite-blue.svg)](https://markdownmonster.west-wind.com)
 
 ### 2.3 
@@ -10,6 +9,9 @@
 
 * **[Support for Long Path Names](https://markdownmonster.west-wind.com/docs/_68d0r8rej.htm) (if enabled in Windows)**  
 Added improved support for long path names in MM via manifest setting that allows you to open and save documents and assets with paths longer than the Windows `MAX_PATH` (255 chars). It now also works for many of the external application integrations. For this to work, Long Path Names have to be enabled in Windows (10/11) via registry or group policy setting.
+
+* **Improved Document Load Time**  
+We've improved the way editor and preview documents get loaded, which now load faster, with less flicker and without the occasional brief document load error page displayed.
 
 * **Add File Updated and Created to Folder Browser Tooltip**  
 Files and folders now display both created and updated dates in the File and Folder Browser.
@@ -34,9 +36,6 @@ Fixed issue with lockups when opening documents in some situations such as after
 ### 2.2
 
 <small>November 23rd, 2021</small>
-
-* **Improved Document Load Time**  
-We've improved the way editor and preview documents get loaded, which now load faster, with less flicker and without the occasional brief document load error page displayed.
 
 * **Import from JSON to Markdown Table**  
 You can now import JSON object arrays as Markdown tables from file or the clipboard. Field names are mapped to headers values as row content. An optional field exclusion list can be applied.
