@@ -3,6 +3,14 @@
 [![download](https://img.shields.io/badge/Download-Installer-blue.svg)](https://markdownmonster.west-wind.com/download)
 [![Web Site](https://img.shields.io/badge/Markdown_Monster-WebSite-blue.svg)](https://markdownmonster.west-wind.com)
 
+### 2.4
+
+<small>not released yet</small>
+
+
+* **Fix: Mermaid Rendering Infidelities with FontAwesome**  
+Fixed issue where Mermaid would not calculate widths properly when initially rendering graphs. Fixed with slight delay to allow layout to complete and ensure that FontAwesome is fully loaded. *[#902](https://github.com/RickStrahl/MarkdownMonster/issues/902)*
+
 ### 2.3 
 
 <small>January 14th, 2021</small>
