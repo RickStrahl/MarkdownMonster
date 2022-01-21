@@ -19,7 +19,7 @@ Fixed focus issues for opening a new or non-existing document from the command l
 
 * **Fix: GridTable LineFeed Issues**  
 Fix Grid table edit and format table inputs when table cells have empty lines. These empty lines are no longer stripped. Fix extra linefeed at end of generated GridTable output/paste operations.
-[#902](https://github.com/RickStrahl/MarkdownMonster/issues?q=is%3Aopen+is%3Aissue)
+[#901](https://github.com/RickStrahl/MarkdownMonster/issues?q=is%3Aopen+is%3Aissue)
 
 * **Fix: `markdownmonster:` Prototocol Handler with text**  
 Fix bug where the `markdownmonster:untitled.base64:<data>` handler was not assigning the document data passed into the newly opened document. Fixed.
