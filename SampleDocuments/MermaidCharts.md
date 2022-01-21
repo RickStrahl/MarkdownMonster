@@ -1,4 +1,4 @@
-# Mermaid
+# Mermaid Diagrams
 
 Mermaid is a JavaScript based parsing engine that allows you to embed blocks of graph markup into a page. Markdown Monster supports two different approaches using either code block or HTML tag syntax to embed the mermaid blocks.
 

@@ -8,8 +8,20 @@
 <small>not released yet</small>
 
 
+* **Updated: Mermaid and MathMl now work without requiring Allow Script Rendering**  
+These to RenderExtensions that provide diagram and math equation rendering into Markdown now work without explicitly requiring the `AllowRenderScriptTags` option to be set as they don't actually require JavaScript code inside of the rendered Markdown body any longer. They are still disabled by default but can now be enabled via the `UseMermaid` and `UseMathematics` configuration settings. A restart is required for changes to these values.
+
 * **Fix: Mermaid Rendering Infidelities with FontAwesome**  
 Fixed issue where Mermaid would not calculate widths properly when initially rendering graphs. Fixed with slight delay to allow layout to complete and ensure that FontAwesome is fully loaded. *[#902](https://github.com/RickStrahl/MarkdownMonster/issues/902)*
+
+* **Fix: Focus with New and Non-Existing Documents from Command Line**  
+Fixed focus issues for opening a new or non-existing document from the command line. Focus now starts in the editor.
+
+* **Fix: `markdownmonster:` Prototocol Handler with text**  
+Fix bug where the `markdownmonster:untitled.base64:<data>` handler was not assigning the document data passed into the newly opened document. Fixed.
+
+* **Fix: Re-enabled the [Microsoft DocFx Markdown Parser](https://markdownmonster.west-wind.com/docs/_5750qtgr2.htm#the-official-microsoft-docfx-markdown-parser)**  
+We temporarily had to remove the Microsoft DocFx parser, due to a dependency version conflict with the MarkDig parser. Now that MarkDig versions have been resynced to the latest versions the `DocFx` Parser is available again from the Markdown Parser dropdown on the toolbar.
 
 ### 2.3 
 
