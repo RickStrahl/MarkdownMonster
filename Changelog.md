@@ -7,9 +7,11 @@
 
 <small>not released yet</small>
 
-
 * **Updated: Mermaid and MathMl now work without requiring Allow Script Rendering**  
 These to RenderExtensions that provide diagram and math equation rendering into Markdown now work without explicitly requiring the `AllowRenderScriptTags` option to be set as they don't actually require JavaScript code inside of the rendered Markdown body any longer. They are still disabled by default but can now be enabled via the `UseMermaid` and `UseMathematics` configuration settings. A restart is required for changes to these values.
+
+* **Fix: Re-enabled the [Microsoft DocFx Markdown Parser](https://markdownmonster.west-wind.com/docs/_5750qtgr2.htm#the-official-microsoft-docfx-markdown-parser)**  
+We temporarily had to remove the Microsoft DocFx parser, due to a dependency version conflict with the MarkDig parser. Now that MarkDig versions have been re-synced to the latest versions the `DocFx` Parser is available again from the Markdown Parser dropdown on the toolbar.
 
 * **Fix: Mermaid Rendering Infidelities with FontAwesome**  
 Fixed issue where Mermaid would not calculate widths properly when initially rendering graphs. Fixed with slight delay to allow layout to complete and ensure that FontAwesome is fully loaded. *[#902](https://github.com/RickStrahl/MarkdownMonster/issues/902)*
@@ -21,11 +23,11 @@ Fixed focus issues for opening a new or non-existing document from the command l
 Fix Grid table edit and format table inputs when table cells have empty lines. These empty lines are no longer stripped. Fix extra linefeed at end of generated GridTable output/paste operations.
 [#901](https://github.com/RickStrahl/MarkdownMonster/issues?q=is%3Aopen+is%3Aissue)
 
-* **Fix: `markdownmonster:` Prototocol Handler with text**  
+* **Fix: `markdownmonster:` Protocol Handler with text**  
 Fix bug where the `markdownmonster:untitled.base64:<data>` handler was not assigning the document data passed into the newly opened document. Fixed.
 
-* **Fix: Re-enabled the [Microsoft DocFx Markdown Parser](https://markdownmonster.west-wind.com/docs/_5750qtgr2.htm#the-official-microsoft-docfx-markdown-parser)**  
-We temporarily had to remove the Microsoft DocFx parser, due to a dependency version conflict with the MarkDig parser. Now that MarkDig versions have been resynced to the latest versions the `DocFx` Parser is available again from the Markdown Parser dropdown on the toolbar.
+* **Fix: GridTable Parsing with Back to Back Tables**  
+Fix Grid Tables when tables are butted up against each other without separating lines. Note: This is legal but the preview won't actually render it and most Markdown parsers fail to render this correctly. Although the editor now supports this functionality, it's best to use a blank line between two tables to ensure it renders correctly regardless of parser. *[#904](https://github.com/RickStrahl/MarkdownMonster/issues/904)*
 
 ### 2.3 
 
@@ -206,7 +208,7 @@ As a heavily requested feature, we've added support for optional document tracki
 Folder browser navigation now shows previews for most text type documents in 'inactive' mode that is temporary until the next document is accessed. Documents become 'active' once you edit the document or double click to explicitly open for editing. Single click now also previews any non-edit formats externally, like PDFs, Office docs, etc. Executables open selected in Explorer but are not executed. Drag and Drop start operations are now less twitchy. 
 
 * **Move Support Binaries out of Root Folder**  
-Support binaries are now moved out of the root folder into a `BinSupport` subfolder to avoid ending up on the User's path and causing naming conflicts. Only applications that should be visible on the user path now are: `MarkdownMonster`, `mm` and `mmcli`.
+Support binaries are now moved out of the root folder into a `BinSupport` sub folder to avoid ending up on the User's path and causing naming conflicts. Only applications that should be visible on the user path now are: `MarkdownMonster`, `mm` and `mmcli`.
 
 * **Make Settings HelpText Selectable**  
 You can now select the help text associated with a configuration setting in the Settings window. This allows picking up URLs and other fixed values more easily. (#817)
@@ -221,7 +223,7 @@ Added logic to remove the WebViewPreviewer Addin from v1 which throws an error. 
 Fix issue where repeated output to PDF would report an error for PDF generation even when the PDF was generated.
 
 * **Fix: PDF Code Snippet Background**  
-Fix issue where the PDF output for code snippets was not properly applying the background color. Works in HTML but not for the PDF generator. Added custom print stylesheet overrides for `pre > code` style explicitly to match highlightjs color theme.
+Fix issue where the PDF output for code snippets was not properly applying the background color. Works in HTML but not for the PDF generator. Added custom print style sheet overrides for `pre > code` style explicitly to match highlightjs color theme.
 
 * **Fix: Folder Browser Click and DoubleClick Behavior**  
 Fix issues where clicking would not allow keyboard navigation after click, folder opening wasn't opening folders on first click, and preview operations could hang.
@@ -257,7 +259,7 @@ Fix some navigation issues. Update editing field height to provide more consiste
 * **Fix: Open From Url GitHub Repo Fixups for `Main`**  
 When extrapolating repository URLs MM now checks for `main` in addition to `master` branches for default documents and for repo URL fixups.
 
-* **Fix: Table Editor Autosizing for Table Cell Editing**  
+* **Fix: Table Editor auto sizing for Table Cell Editing**  
 Table cells now auto-grow in height as you are editing them when adding linefeeds or overflowing at the end of the line.
 
 * **Fix: Table Editor Crash**  
