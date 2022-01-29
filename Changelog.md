@@ -7,11 +7,11 @@
 
 <small>not released yet</small>
 
-* **Support Better Html Document Editing and Previewing**  
-There's now better raw HTML document editing support (ie. `.html files`) in Markdown Monster, so you get many of the same live preview benefits that are also available with Markdown documents. Images, styles, scripts and other related assets now correctly load in the previewer for HTML documents. [#907](https://github.com/RickStrahl/MarkdownMonster/issues/907)
+* **Support For Better Html Document Previews**  
+There's now better raw HTML document editing support (ie. `.html files`) in Markdown Monster as previews now show related resource content. You get many of the same live preview benefits that are also available with Markdown documents. Images, styles, scripts and other related assets now correctly load in the previewer for HTML documents via an inject `<base>` tag that points back to the document's host folder. [#907](https://github.com/RickStrahl/MarkdownMonster/issues/907)
 
 * **Updated: Mermaid and MathMl now work without requiring Allow Script Rendering**  
-These to RenderExtensions that provide diagram and math equation rendering into Markdown now work without explicitly requiring the `AllowRenderScriptTags` option to be set as they don't actually require JavaScript code inside of the rendered Markdown body any longer. They are still disabled by default but can now be enabled via the `UseMermaid` and `UseMathematics` configuration settings. A restart is required for changes to these values.
+These two RenderExtensions provide diagram and math equation rendering into Markdown now work without explicitly requiring the `AllowRenderScriptTags` option to be set as they don't actually require JavaScript code inside of the rendered Markdown body any longer. They are still disabled by default but can now be enabled via just the `UseMermaid` and `UseMathematics` configuration settings. A restart is required for changes to these values as the RenderExtensions need to be reloaded.
 
 * **Fix: Re-enabled the [Microsoft DocFx Markdown Parser](https://markdownmonster.west-wind.com/docs/_5750qtgr2.htm#the-official-microsoft-docfx-markdown-parser)**  
 We temporarily had to remove the Microsoft DocFx parser, due to a dependency version conflict with the MarkDig parser. Now that MarkDig versions have been re-synced to the latest versions the `DocFx` Parser is available again from the Markdown Parser dropdown on the toolbar.
