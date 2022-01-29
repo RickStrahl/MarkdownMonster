@@ -7,6 +7,9 @@
 
 <small>not released yet</small>
 
+* **Support Better Html Document Editing and Previewing**  
+There's now better raw HTML document editing support (ie. `.html files`) in Markdown Monster, so you get many of the same live preview benefits that are also available with Markdown documents. Images, styles, scripts and other related assets now correctly load in the previewer for HTML documents. [#907](https://github.com/RickStrahl/MarkdownMonster/issues/907)
+
 * **Updated: Mermaid and MathMl now work without requiring Allow Script Rendering**  
 These to RenderExtensions that provide diagram and math equation rendering into Markdown now work without explicitly requiring the `AllowRenderScriptTags` option to be set as they don't actually require JavaScript code inside of the rendered Markdown body any longer. They are still disabled by default but can now be enabled via the `UseMermaid` and `UseMathematics` configuration settings. A restart is required for changes to these values.
 
