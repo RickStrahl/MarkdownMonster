@@ -7,17 +7,33 @@
 
 <small>not released yet</small>
 
+* **[You Tube Embedding Window](https://markdownmonster.west-wind.com/docs/_69d0zwck0.htm)**  
+You can now embed YouTube videos into a document using the YouTube Widget on the toolbar. You can paste a YouTube Url (watch, embed or shortcut), preview the video, set a title and default resolution, then embed it into the page as an Html fragment. The Html is formatted to autosize both horizontally and vertically adjusted to the width of the document.
+
+* **[Twitter Tweet Embedding Information](https://markdownmonster.west-wind.com/docs/_69e0rchvh.htm)**  
+MM doesn't include special UI to embed Tweets into your content as Twitter provides an easy way to pick up ready to paste Html that you can paste into a Markdown document. However to make this process more discoverable we've added a shortcut Tweet toolbar button in the Extension Tags dropdown of the toolbar. This button links to a help topic that describes the two steps to create an Html widget on Twitter and paste it into markdown.
+
+* **[Command Line Opening of Files using `filename:lineno` Syntax](https://markdownmonster.west-wind.com/docs/_5fp0xp68p.htm#editor-ui-commands-mm.exe)**  
+In addition to the `--lineno` command line switch you can now also use `:lineno` at the end of a filename to open a file at that line. Example: `c:\temp\test.md:22`. The individual file lineno overrides the `--lineno` parameter which works only against the first opened file.
+
 * **Support For Better Html Document Previews**  
 There's now better raw HTML document editing support (ie. `.html files`) in Markdown Monster as previews now show related resource content. You get many of the same live preview benefits that are also available with Markdown documents. Images, styles, scripts and other related assets now correctly load in the previewer for HTML documents via an inject `<base>` tag that points back to the document's host folder. [#907](https://github.com/RickStrahl/MarkdownMonster/issues/907)
 
-* **Updated: Mermaid and MathMl now work without requiring Allow Script Rendering**  
+
+* **Addins: Add AdditionalDropdownMenuItems to AddinMenuItem**  
+You can now add additional menu items to the Addin drop down menu on the Toolbar. This allows addins to be more obvious about features available by the addin **in one place**, in addition to optional integration into the Main Menu (which requires a little more work).
+
+* **Addins: New `OnApplicationInitialized()` Handler**  
+This handler replaces the `OnModelLoaded()` handled which more clearly identifies the purpose of this handler. This method is now set up to be the default Addin configuration method where the default Id, name and menu item configuration is placed instead of in `OnApplicationStart()`. The problem with `OnApplicationStart()` is that it fires before there is any app context - no Window, no Dispatcher, no Model. `OnApplicationInitialized()` ensures the Window is instantiated, a Dispatcher is available and the `AppModel` is available.  
+
+* **Addins: Updated `dotnet new` and Visual Studio Addin Project Templates**  
+We've updated both types of templates in line with the changes for `OnApplicationInitialized()` and cleaned up the templates and added additional comments to the generated addin and configuration classes.
+
+* **Updated: [Mermaid](https://markdownmonster.west-wind.com/docs/_5ef0x96or.htm) and [MathMl](https://markdownmonster.west-wind.com/docs/_59l0mv2uw.htm) now work without requiring Allow Script Rendering**  
 These two RenderExtensions provide diagram and math equation rendering into Markdown now work without explicitly requiring the `AllowRenderScriptTags` option to be set as they don't actually require JavaScript code inside of the rendered Markdown body any longer. They are still disabled by default but can now be enabled via just the `UseMermaid` and `UseMathematics` configuration settings. A restart is required for changes to these values as the RenderExtensions need to be reloaded.
 
 * **Fix: Re-enabled the [Microsoft DocFx Markdown Parser](https://markdownmonster.west-wind.com/docs/_5750qtgr2.htm#the-official-microsoft-docfx-markdown-parser)**  
 We temporarily had to remove the Microsoft DocFx parser, due to a dependency version conflict with the MarkDig parser. Now that MarkDig versions have been re-synced to the latest versions the `DocFx` Parser is available again from the Markdown Parser dropdown on the toolbar.
-
-* **Fix: Mermaid Rendering Infidelities with FontAwesome**  
-Fixed issue where Mermaid would not calculate widths properly when initially rendering graphs. Fixed with slight delay to allow layout to complete and ensure that FontAwesome is fully loaded. *[#902](https://github.com/RickStrahl/MarkdownMonster/issues/902)*
 
 * **Fix: Focus with New and Non-Existing Documents from Command Line**  
 Fixed focus issues for opening a new or non-existing document from the command line. Focus now starts in the editor.
