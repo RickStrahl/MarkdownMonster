@@ -13,6 +13,9 @@ You can now embed YouTube videos into a document using the YouTube Widget on the
 * **[Twitter Tweet Embedding Information](https://markdownmonster.west-wind.com/docs/_69e0rchvh.htm)**  
 MM doesn't include special UI to embed Tweets into your content as Twitter provides an easy way to pick up ready to paste Html that you can paste into a Markdown document. However to make this process more discoverable we've added a shortcut Tweet toolbar button in the Extension Tags dropdown of the toolbar. This button links to a help topic that describes the two steps to create an Html widget on Twitter and paste it into markdown.
 
+* **[Updated Gist Embedding Addin](https://github.com/RickStrahl/GistIntegration-MarkdownMonster-Addin)**  
+Although external, this add in is used by quite a few people. The addin has been updated with a few UI updates to make it quicker and easier to use. You can now also copy a Gist id or script tag for existing Gists, delete Gists. Save to and Load From Gist also have a host of updates to make it easier to access these options from the Gist Listing view.
+
 * **[Command Line Opening of Files using `filename:lineno` Syntax](https://markdownmonster.west-wind.com/docs/_5fp0xp68p.htm#editor-ui-commands-mm.exe)**  
 In addition to the `--lineno` command line switch you can now also use `:lineno` at the end of a filename to open a file at that line. Example: `c:\temp\test.md:22`. The individual file lineno overrides the `--lineno` parameter which works only against the first opened file.
 
@@ -47,6 +50,9 @@ Fix bug where the `markdownmonster:untitled.base64:<data>` handler was not assig
 
 * **Fix: GridTable Parsing with Back to Back Tables**  
 Fix Grid Tables when tables are butted up against each other without separating lines. Note: This is legal but the preview won't actually render it and most Markdown parsers fail to render this correctly. Although the editor now supports this functionality, it's best to use a blank line between two tables to ensure it renders correctly regardless of parser. *[#904](https://github.com/RickStrahl/MarkdownMonster/issues/904)*
+
+* **Fix Mermaid Rendering**  
+Fix Mermaid rendering for certain Mermaid content by Html Encoding the body to render. Previously the unencoded text would fail to render correctly. Encoding is applied only the `` ```mermaid`` sections, not the raw Html `<div class="mermaid">` which is used as is meaning that user is responsible for encoding. [#911](https://github.com/RickStrahl/MarkdownMonster/issues/911)
 
 ### 2.3 
 

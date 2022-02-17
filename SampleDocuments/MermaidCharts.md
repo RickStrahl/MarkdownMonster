@@ -23,7 +23,6 @@ You can use a `mermaid` code block:
 ~~~
 
 
-
 to produce the following:
 
 
