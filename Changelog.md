@@ -1,11 +1,10 @@
-# Markdown Monster Change Log   
 
 [![download](https://img.shields.io/badge/Download-Installer-blue.svg)](https://markdownmonster.west-wind.com/download)
 [![Web Site](https://img.shields.io/badge/Markdown_Monster-WebSite-blue.svg)](https://markdownmonster.west-wind.com)
 
 ### 2.4
 
-<small>not released yet</small>
+<small>March 10th, 2022</small>
 
 * **[You Tube Embedding Window](https://markdownmonster.west-wind.com/docs/_69d0zwck0.htm)**  
 You can now embed YouTube videos into a document using the YouTube Widget on the toolbar. You can paste a YouTube Url (watch, embed or shortcut), preview the video, set a title and default resolution, then embed it into the page as an Html fragment. The Html is formatted to autosize both horizontally and vertically adjusted to the width of the document.
@@ -16,12 +15,24 @@ MM doesn't include special UI to embed Tweets into your content as Twitter provi
 * **[Updated Gist Embedding Addin](https://github.com/RickStrahl/GistIntegration-MarkdownMonster-Addin)**  
 Although external, this add in is used by quite a few people. The addin has been updated with a few UI updates to make it quicker and easier to use. You can now also copy a Gist id or script tag for existing Gists, delete Gists. Save to and Load From Gist also have a host of updates to make it easier to access these options from the Gist Listing view.
 
+* **Added Markdown HtmlEncode and UrlEncode Shortcuts**  
+You can now easily HtmlEncode a block of text or UrlEncode a value using shortcuts on the Extended Markdown Operations dropdown from the toolbar.
+
+* **Alt-X Shortcut for dropping down Extended Markdown Features**  
+There's new Alt-X (default) shortcut key that drops down the Extended Markdown features from the toolbar for quick access. This menu has things like Upper/Lower Case, bolditalic, HtmlEncode, UrlEncode etc. Also updated the [documentation for Markdown Monster Shortcut keys](https://markdownmonster.west-wind.com/docs/_4rd0xjy44.htm).
+
+* **Improved Markdown Quote Handling (ctrl-q)**  
+Quote handling (`> content`) now better supports single line or no selections, prepending the quote mark at the beginning of the line. MM now also checks for already quoted lines and doesn't double quote any longer.
+
 * **[Command Line Opening of Files using `filename:lineno` Syntax](https://markdownmonster.west-wind.com/docs/_5fp0xp68p.htm#editor-ui-commands-mm.exe)**  
 In addition to the `--lineno` command line switch you can now also use `:lineno` at the end of a filename to open a file at that line. Example: `c:\temp\test.md:22`. The individual file lineno overrides the `--lineno` parameter which works only against the first opened file.
 
 * **Support For Better Html Document Previews**  
 There's now better raw HTML document editing support (ie. `.html files`) in Markdown Monster as previews now show related resource content. You get many of the same live preview benefits that are also available with Markdown documents. Images, styles, scripts and other related assets now correctly load in the previewer for HTML documents via an inject `<base>` tag that points back to the document's host folder. [#907](https://github.com/RickStrahl/MarkdownMonster/issues/907)
 
+* **Addins: Fix Addin Repository Urls**  
+Due to changes at GitHub related to branch names etc. we've had to change the way addins report their default Urls. The new Urls require providing a branch name (ie. `/tree/main` etc. suffix to repo). This is required since we can no longer assume a `master` or `main` branch.  
+**This is a breaking change** - the new addin repository Urls break old applications so for older v2 versions the Addin Manager is broken. *Please update to latest*.
 
 * **Addins: Add AdditionalDropdownMenuItems to AddinMenuItem**  
 You can now add additional menu items to the Addin drop down menu on the Toolbar. This allows addins to be more obvious about features available by the addin **in one place**, in addition to optional integration into the Main Menu (which requires a little more work).
