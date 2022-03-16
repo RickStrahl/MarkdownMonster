@@ -2,6 +2,19 @@
 [![download](https://img.shields.io/badge/Download-Installer-blue.svg)](https://markdownmonster.west-wind.com/download)
 [![Web Site](https://img.shields.io/badge/Markdown_Monster-WebSite-blue.svg)](https://markdownmonster.west-wind.com)
 
+### 2.5
+
+<small>not released yet</small>
+
+* **Folder Browser Markdown Preview Modes**  
+Added a Folder Browser configuration switch `FolderBrowser.MarkdownPreviewMode` that lets you choose between the previous `EditorPreview` mode that displays a transitory document that is closed when another document is accessed **unless the document has been changed**, or the new `HtmlPreview` mode which displays the rendered Html view. Preview mode is triggered by a single click in the Folder browser, while double click (or **Open in Editor**) opens the document as a normal fully editable document.
+
+* **Fix: Cleanup Folder Browser Markdown Document Navigation**  
+Fixed several issues related to document navigation in the Folder browser that resulted in overly janky document opening and occasionally double opened documents.
+
+* **Fix: Non-intended Drag and Drop Operations**  
+Fix problem where slight mouse movements while clicking would trigger drag and drop operations that could cause accidental file moves. Widened drag minimums and fixed location pinning that was off and previously resulted in over eager drag operations.
+
 ### 2.4
 
 <small>March 10th, 2022</small>
