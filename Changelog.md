@@ -9,8 +9,14 @@
 * **Folder Browser Markdown Preview Modes**  
 Added a Folder Browser configuration switch `FolderBrowser.MarkdownPreviewMode` that lets you choose between the previous `EditorPreview` mode that displays a transitory document that is closed when another document is accessed **unless the document has been changed**, or the new `HtmlPreview` mode which displays the rendered Html view. Preview mode is triggered by a single click in the Folder browser, while double click (or **Open in Editor**) opens the document as a normal fully editable document.
 
+* **Improved Document Loading**  
+Updated the document load sequence to improve performance loading documents. Most performance gains can be seen around navigation from the folder browser which reduces extra document open/close operations by now reusing tabs in some situations. Overall better performance and less document load flicker.
+
 * **Fix: Cleanup Folder Browser Markdown Document Navigation**  
 Fixed several issues related to document navigation in the Folder browser that resulted in overly janky document opening and occasionally double opened documents.
+
+* **Fix: Folder Browser Double Click Flashes and Occasional Load Failures**  
+Fix issues related to double clicking in the folder browser that occasionally would cause documents to double load or fail to load and display a blank document.
 
 * **Fix: Non-intended Drag and Drop Operations**  
 Fix problem where slight mouse movements while clicking would trigger drag and drop operations that could cause accidental file moves. Widened drag minimums and fixed location pinning that was off and previously resulted in over eager drag operations.
