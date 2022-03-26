@@ -12,6 +12,12 @@ Added a Folder Browser configuration switch `FolderBrowser.MarkdownPreviewMode` 
 * **Improved Document Loading**  
 Updated the document load sequence to improve performance loading documents. Most performance gains can be seen around navigation from the folder browser which reduces extra document open/close operations by now reusing tabs in some situations. Overall better performance and less document load flicker.
 
+* **Improved Preview Document Loading in Folder Browser** 
+When clicking at editable documents in the Folder browser, documents are initially displayed in *Preview Mode* which is a transient tab that disappears until a change is made. Improved how these tabs are created and they are now reused to provide quicker and much smoother navigation of Markdown documents.
+
+* **Clicking into Preview Document now switches to Full Document**
+Previously preview document tabs had to receive a change to trigger becoming a 'normal', full document. Now, you can clicking into the document is all it takes to make it a normal, non-transitory tab.
+
 * **Fix: Cleanup Folder Browser Markdown Document Navigation**  
 Fixed several issues related to document navigation in the Folder browser that resulted in overly janky document opening and occasionally double opened documents.
 
@@ -21,15 +27,23 @@ Fix issues related to double clicking in the folder browser that occasionally wo
 * **Fix: Non-intended Drag and Drop Operations**  
 Fix problem where slight mouse movements while clicking would trigger drag and drop operations that could cause accidental file moves. Widened drag minimums and fixed location pinning that was off and previously resulted in over eager drag operations.
 
+* **Fix: Html Edit/Format Table Detection Failing**  
+Fixed issue where Edit and Format Table context menu choices were not working when trying to open the Table editor. [#932](https://github.com/RickStrahl/MarkdownMonster/issues/932)
+
+* **Fix: Table Editor with Pipe char in Pipe and Grid Tables**  
+Fix bug where editing or formatting a Pipe or Grid Table that contains **escaped pipe characters** - ie. `\|`- would create additional columns rather than capturing the pipe character. Fixed.
+[#933](https://github.com/RickStrahl/MarkdownMonster/issues/933)
+
+
 ### 2.4
 
 <small>March 10th, 2022</small>
 
 * **[You Tube Embedding Window](https://markdownmonster.west-wind.com/docs/_69d0zwck0.htm)**  
-You can now embed YouTube videos into a document using the YouTube Widget on the toolbar. You can paste a YouTube Url (watch, embed or shortcut), preview the video, set a title and default resolution, then embed it into the page as an Html fragment. The Html is formatted to autosize both horizontally and vertically adjusted to the width of the document.
+You can now embed YouTube videos into a document using the YouTube Widget on the toolbar. You can paste a YouTube Url (watch, embed or shortcut), preview the video, set a title and default resolution, then embed it into the page as an HTML fragment. The HTML is formatted to auto-size both horizontally and vertically adjusted to the width of the document.
 
 * **[Twitter Tweet Embedding Information](https://markdownmonster.west-wind.com/docs/_69e0rchvh.htm)**  
-MM doesn't include special UI to embed Tweets into your content as Twitter provides an easy way to pick up ready to paste Html that you can paste into a Markdown document. However to make this process more discoverable we've added a shortcut Tweet toolbar button in the Extension Tags dropdown of the toolbar. This button links to a help topic that describes the two steps to create an Html widget on Twitter and paste it into markdown.
+MM doesn't include special UI to embed Tweets into your content as Twitter provides an easy way to pick up ready to paste HTML that you can paste into a Markdown document. However to make this process more discoverable we've added a shortcut Tweet toolbar button in the Extension Tags dropdown of the toolbar. This button links to a help topic that describes the two steps to create an HTML widget on Twitter and paste it into markdown.
 
 * **[Updated Gist Embedding Addin](https://github.com/RickStrahl/GistIntegration-MarkdownMonster-Addin)**  
 Although external, this add in is used by quite a few people. The addin has been updated with a few UI updates to make it quicker and easier to use. You can now also copy a Gist id or script tag for existing Gists, delete Gists. Save to and Load From Gist also have a host of updates to make it easier to access these options from the Gist Listing view.
