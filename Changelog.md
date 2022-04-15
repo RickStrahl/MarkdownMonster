@@ -4,7 +4,7 @@
 
 ### 2.5
 
-<small>not released yet</small>
+not released yet
 
 * **Folder Browser Markdown Preview Modes**  
 Added a Folder Browser configuration switch `FolderBrowser.MarkdownPreviewMode` that lets you choose between the previous `EditorPreview` mode that displays a transitory document that is closed when another document is accessed **unless the document has been changed**, or the new `HtmlPreview` mode which displays the rendered Html view. Preview mode is triggered by a single click in the Folder browser, while double click (or **Open in Editor**) opens the document as a normal fully editable document.
@@ -21,8 +21,8 @@ Previously preview document tabs had to receive a change to trigger becoming a '
 * **Improved List Markdown Toolbar UI**  
 Added support for Checkbox Lists. Added a drop down next to the main List icon to show options for **Standard List**, **Numbered List**, **Checkbox List**. Improved handling of single line selections or no selections on line which now always add the list operator *to the front of the line* unlike before at the cursor position.
 
-* **Remove Leading Whitespace on Extra Markdown Features Menu**  
-This option on the Extra Features Dropdown strips all common leading white space from a multi-line selection. This is useful for stripping off white space from code pasted from a code editor that has indentation or other text that might be otherwise indented. Removes whitespace that is common to all lines of text.
+* **Remove Leading White space on Extra Markdown Features Menu**  
+This option on the Extra Features Dropdown strips all common leading white space from a multi-line selection. This is useful for stripping off white space from code pasted from a code editor that has indentation or other text that might be otherwise indented. Removes white space that is common to all lines of text. (then again for code use `alt-c` code pasting do this and fencing automatically)
 
 * **Fix: Cleanup Folder Browser Markdown Document Navigation**  
 Fixed several issues related to document navigation in the Folder browser that resulted in overly janky document opening and occasionally double opened documents.
@@ -41,8 +41,14 @@ Fix bug where editing or formatting a Pipe or Grid Table that contains **escaped
 [#933](https://github.com/RickStrahl/MarkdownMonster/issues/933)
 
 * **Fix: MM won't launch if an older WebView Runtime is installed**  
-MM by default won't launch if an older WebView runtime is installed and prompt for re-installing the latest WebView runtime. Usually this is not a problem but in some cases an older version may be installed. You can now override this behavior via a
+MM by default won't launch if an older WebView runtime is installed and prompt for re-installing the latest WebView runtime. Usually this is not a problem but in some cases an older version may be installed and the app should be allowed to run (such as when running Canary builds). You can now override this behavior via a
 `System.IgnoreWebViewVersionMismatch=true` configuration setting.
+
+* **Fix: Toggle External to Preview Browser**  
+Fix issue where the internal preview would not display when toggling from external to internal previewer. Previously you had to manually toggle the Previewer's visibility. Now external -> internal properly shows the internal previewer activated.
+
+* **Fix: Footnote Link Navigation in Previewer**  
+Fix issue with clicking on Footnote links and references not navigating the document to the footnote. Fixed. [#937](https://github.com/RickStrahl/MarkdownMonster/issues/937)
 
 ### 2.4
 
