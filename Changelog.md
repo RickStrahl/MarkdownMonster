@@ -24,6 +24,12 @@ Added support for Checkbox Lists. Added a drop down next to the main List icon t
 * **Remove Leading White space on Extra Markdown Features Menu**  
 This option on the Extra Features Dropdown strips all common leading white space from a multi-line selection. This is useful for stripping off white space from code pasted from a code editor that has indentation or other text that might be otherwise indented. Removes white space that is common to all lines of text. (then again for code use `alt-c` code pasting do this and fencing automatically)
 
+* **Sticky Search Subfolders for Folder Browser File Searching**  
+The subfolder option for inline and explicit search pane searches is now sticky via a `FolderBrowser.SearchInSubFolders` configuration setting. Once updated it's remembered across MM sessions. [#934](https://github.com/RickStrahl/MarkdownMonster/issues/934)
+
+* **Add Drag and Drop Links from Favorites**  
+You can now drag favorites into a document and link to the file in the same way you can for the Folder Browser. Not super practical unless the favorite link is relative to the current file or project.
+
 * **Fix: Cleanup Folder Browser Markdown Document Navigation**  
 Fixed several issues related to document navigation in the Folder browser that resulted in overly janky document opening and occasionally double opened documents.
 
@@ -99,6 +105,9 @@ We temporarily had to remove the Microsoft DocFx parser, due to a dependency ver
 
 * **Fix: Focus with New and Non-Existing Documents from Command Line**  
 Fixed focus issues for opening a new or non-existing document from the command line. Focus now starts in the editor.
+
+* **Fix: Presentation Mode preserves Folder Browser Sidebar Visibility**  
+When you use Presentation Mode to toggle between edit and presentation modes, MM now remembers and restores the preview state of the left folder browser sidebar.
 
 * **Fix: GridTable LineFeed Issues**  
 Fix Grid table edit and format table inputs when table cells have empty lines. These empty lines are no longer stripped. Fix extra linefeed at end of generated GridTable output/paste operations.
