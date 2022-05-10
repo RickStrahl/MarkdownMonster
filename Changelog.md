@@ -4,22 +4,26 @@
 
 ### 2.5
 
-not released yet
+May 10th, 2022
 
-* **Folder Browser Markdown Preview Modes**  
+* **[Command Palette](https://markdownmonster.west-wind.com/docs/_6b10l43hf.htm) (ctrl-shift-p)**  
+You now have a command palette that lets you search for most operations and apply them. There's a searchbox in the Windows title bar, where you can type commands to find and execute them. While this doesn't replace native shortcuts it provides for additional discovery of available commands and options.   
+*commands are still being added but most common functionality is available now*
+
+* **[Folder Browser Markdown Preview Modes](https://markdownmonster.west-wind.com/docs/_6bw0k5a23.htm)**  
 Added a Folder Browser configuration switch `FolderBrowser.MarkdownPreviewMode` that lets you choose between the previous `EditorPreview` mode that displays a transitory document that is closed when another document is accessed **unless the document has been changed**, or the new `HtmlPreview` mode which displays the rendered Html view. Preview mode is triggered by a single click in the Folder browser, while double click (or **Open in Editor**) opens the document as a normal fully editable document.
 
 * **Improved Document Loading**  
-Updated the document load sequence to improve performance loading documents. Most performance gains can be seen around navigation from the folder browser which reduces extra document open/close operations by now reusing tabs in some situations. Overall better performance and less document load flicker.
+Updated the document load sequence to improve performance and consistency loading documents. Most performance gains can be seen around navigation from the folder browser which reduces extra document open/close operations by now reusing tabs in some situations. Overall better performance and less document load flicker.
 
 * **Improved Preview Document Loading in Folder Browser** 
-When clicking at editable documents in the Folder browser, documents are initially displayed in *Preview Mode* which is a transient tab that disappears until a change is made. Improved how these tabs are created and they are now reused to provide quicker and much smoother navigation of Markdown documents.
+When clicking at editable documents in the Folder browser, documents are initially displayed in *Preview Mode* which is a transient tab that disappears until a change is made or - now - you click into the preview mode document. Improved how these tabs are created and they are now reused to provide quicker and much smoother navigation of Markdown documents.
 
 * **Clicking into Preview Document now switches to Full Document**
-Previously preview document tabs had to receive a change to trigger becoming a 'normal', full document. Now, you can clicking into the document is all it takes to make it a normal, non-transitory tab.
+Previously preview document tabs required changing text in the document to trigger becoming a 'normal', full document. Now, clicking into the documentis all it takes to make it a full, non-transitory tab.
 
-* **Improved List Markdown Toolbar UI**  
-Added support for Checkbox Lists. Added a drop down next to the main List icon to show options for **Standard List**, **Numbered List**, **Checkbox List**. Improved handling of single line selections or no selections on line which now always add the list operator *to the front of the line* unlike before at the cursor position.
+* **Improved Markdown List UI on Toolbar**  
+Added support for Checkbox Lists. The 3 list options now show on  drop down with the main button still adding a plain list as before. The three options are:  **Standard List**, **Numbered List**, **Checkbox List**. Also improved handling of single line selections or no selections on line which now always add the list operator *to the front of the line* unlike before at the cursor position.
 
 * **Remove Leading White space on Extra Markdown Features Menu**  
 This option on the Extra Features Dropdown strips all common leading white space from a multi-line selection. This is useful for stripping off white space from code pasted from a code editor that has indentation or other text that might be otherwise indented. Removes white space that is common to all lines of text. (then again for code use `alt-c` code pasting do this and fencing automatically)
@@ -29,6 +33,12 @@ The subfolder option for inline and explicit search pane searches is now sticky 
 
 * **Add Drag and Drop Links from Favorites**  
 You can now drag favorites into a document and link to the file in the same way you can for the Folder Browser. Not super practical unless the favorite link is relative to the current file or project.
+
+* **WebLog Custom Fields Context Menu**  
+Added a Custom Fields context menu which draws values from a user defined menu of custom weblog post values (such as `mt_githuburl`, `mt_location`, `mt_date`) etc. These are typically user defined values that have special meaning on the server, but can be painful to remember if you're using them for custom values. You can now define any custom keys in the Weblog configuration as `WeblogConfig.CustomFieldNames`.
+
+* **Make Spell Underlining Stylable**  
+Add logic to allow customizing the way the spell check highlighting looks via `editor-user-extesions.css` and the `.ace_marker-layer .misspelled` style. Allows changing colors, thickness etc. as other page elements. This was previously hardcoded in the custom spell check logic MM uses.
 
 * **Fix: Cleanup Folder Browser Markdown Document Navigation**  
 Fixed several issues related to document navigation in the Folder browser that resulted in overly janky document opening and occasionally double opened documents.
