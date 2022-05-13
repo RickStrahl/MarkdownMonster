@@ -2,9 +2,25 @@
 [![download](https://img.shields.io/badge/Download-Installer-blue.svg)](https://markdownmonster.west-wind.com/download)
 [![Web Site](https://img.shields.io/badge/Markdown_Monster-WebSite-blue.svg)](https://markdownmonster.west-wind.com)
 
+
+### 2.6
+
+<small>not released yet</small>
+
+* **Support for Async Code Snippet Templates**  
+Code Snippets now support `await` calls in C# expressions or code blocks. This is necessary for accessing many of the `Model.ActiveEditor` methods that effect editor behavior (most commonly `await Model.ActiveEditor.GetSelection()`). 
+
+* **Support for Structured Statements in Code Snippet Templates**
+C# snippets now also support structured code blocks using `{{% <statement> }}` that are directly embedded as code. This allows for `if` and `for` type structured statement blocks to execute in Snippets.
+
+* **Remove Support for Razor in Code Snippet Templates**  
+Razor language support has been removed from the Snippets addin as the new C# script syntax supports similar functionality for scripting. Razor has been problematic and adds a host of dependencies and inhibit future migration to .NET 6.0.
+
+
+
 ### 2.5
 
-May 10th, 2022
+<small>May 10th, 2022</small>
 
 * **[Command Palette](https://markdownmonster.west-wind.com/docs/_6b10l43hf.htm) (ctrl-shift-p)**  
 You now have a command palette that lets you search for most operations and apply them. There's a searchbox in the Windows title bar, where you can type commands to find and execute them. While this doesn't replace native shortcuts it provides for additional discovery of available commands and options.   
