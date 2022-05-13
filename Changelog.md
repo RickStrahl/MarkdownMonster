@@ -17,7 +17,6 @@ C# snippets now also support structured code blocks using `{{% <statement> }}` t
 Razor language support has been removed from the Snippets addin as the new C# script syntax supports similar functionality for scripting. Razor has been problematic and adds a host of dependencies and inhibit future migration to .NET 6.0.
 
 
-
 ### 2.5
 
 <small>May 10th, 2022</small>
