@@ -19,6 +19,9 @@ With the new Roslyn integration which runs in-process,  startup speed of first s
 
 #### Breaking Changes
 
+* **Recommend a full Uninstall/Reinstall**  
+The updated Roslyn support in version 2.5.4 and later changes a number of runtime dependencies and it's recommended that if you were running a pre-2.5.4 version you completely uninstall Markdown Monster and reinstall in order to clean the installation folder of old dependencies.
+
 * **Razor Support removed for Code Snippet Templates**  
 Razor language support has been removed from the Snippets addin as the new C# script syntax supports similar functionality for scripting. Razor has been problematic and adds a host of dependencies and inhibit future migration to .NET 6.0. To migrate you can move your scripts to the Handlebar style C# syntax.
 
