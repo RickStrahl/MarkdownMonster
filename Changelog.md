@@ -13,8 +13,14 @@ Code Snippets now support `await` calls in C# expressions or code blocks. This i
 * **Support for Structured Statements in Code Snippet Templates**
 C# snippets now also support structured code blocks using `{{% <statement> }}` that are directly embedded as code. This allows for `if` and `for` type structured statement blocks to execute in Snippets.
 
-* **Remove Support for Razor in Code Snippet Templates**  
-Razor language support has been removed from the Snippets addin as the new C# script syntax supports similar functionality for scripting. Razor has been problematic and adds a host of dependencies and inhibit future migration to .NET 6.0.
+* **Improved Snippet Startup Speed**  
+With the new Roslyn integration which runs in-process,  startup speed of first snippet activation  is much improved even on a cold start. Additionally the `PreloadCSharpCompiler` configuration flag in the Snippets addin can reduce startup speed down to a fractional second.
+
+
+#### Breaking Changes
+
+* **Razor Support removed for Code Snippet Templates**  
+Razor language support has been removed from the Snippets addin as the new C# script syntax supports similar functionality for scripting. Razor has been problematic and adds a host of dependencies and inhibit future migration to .NET 6.0. To migrate you can move your scripts to the Handlebar style C# syntax.
 
 
 ### 2.5
