@@ -2,7 +2,6 @@
 [![download](https://img.shields.io/badge/Download-Installer-blue.svg)](https://markdownmonster.west-wind.com/download)
 [![Web Site](https://img.shields.io/badge/Markdown_Monster-WebSite-blue.svg)](https://markdownmonster.west-wind.com)
 
-
 ### 2.6
 
 <small>not released yet</small>
@@ -16,6 +15,8 @@ C# snippets now also support structured code blocks using `{{% <statement> }}` t
 * **Improved Snippet Startup Speed**  
 With the new Roslyn integration which runs in-process,  startup speed of first snippet activation  is much improved even on a cold start. Additionally the `PreloadCSharpCompiler` configuration flag in the Snippets addin can reduce startup speed down to a fractional second.
 
+* **Fix: Format PipeTable with Line Breaks in Header**  
+Fix issue where line breaks (via `<br>) in Pipe Table headers was breaking the formatter and resulted in not being able to format the table or edit it in the Table editor. The change now formates based on the full single line instead of the individual line lengths which - assuming the table width is not too wide - will still nicely format a table even with linebreaks. <small>([#959](https://github.com/RickStrahl/MarkdownMonster/issues/959)</small>
 
 #### Breaking Changes
 
