@@ -1,5 +1,6 @@
 ### Bugs and Needed Features
-* [ ] Update Emoji Picker (use Html and color icons)
+* [x] Drag and Drop from Document Outline
+* [x] Update Emoji Picker (use Html and color icons)
 * [x] Add Normalize Whitespace Extended Html Formatter
 * [x] Add Checkbox List Extended Html Formatter
 * [ ] Remove internal HtmlPackager and Replace with NuGet Package

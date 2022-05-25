@@ -15,6 +15,12 @@ C# snippets now also support structured code blocks using `{{% <statement> }}` t
 * **Improved Snippet Startup Speed**  
 With the new Roslyn integration which runs in-process,  startup speed of first snippet activation  is much improved even on a cold start. Additionally the `PreloadCSharpCompiler` configuration flag in the Snippets addin can reduce startup speed down to a fractional second.
 
+* **Drag and Drop Link Insertion from Document Outline into Editor**  
+You can now drag a document outline selection into the open Markdown Document as a link that points at the `#Hash` id in the document. <small>([#936](https://github.com/RickStrahl/MarkdownMonster/issues/936))</small>
+
+* **Update Ace Editor to v1.5**  
+Updated to latest Ace Editor version (1.5.1). Several small additional tweaks to the markdown editor behavior for the editor.
+
 * **Fix: Format PipeTable with Line Breaks in Header**  
 Fix issue where line breaks (via `<br>`) in Pipe Table headers was breaking the formatter and resulted in not being able to format the table or edit it in the Table editor. The change now formates based on the full single line instead of the individual line lengths which - assuming the table width is not too wide - will still nicely format a table even with linebreaks. <small>([#959](https://github.com/RickStrahl/MarkdownMonster/issues/959))</small>
 
