@@ -23,7 +23,7 @@ You can download Markdown Monster using the self-contained installer:
 
 ### Chocolatey
 
-You can you use [Chocolatey](https://chocolatey.org/) to install from the Windows Command Prompt:
+You can you use [Chocolatey](https://chocolatey.org/) to install from the Windows Command Prompt *(maintained by us - always up to date)*
 
 ```ps
 c:\> choco install markdownmonster
@@ -37,7 +37,7 @@ c:\> winget install markdown-monster
 ```
 
 ### Scoop
-You can also use [Scoop](https://scoop.sh/) to install and update from the Windows Command Prompt. You need to use the `extras` bucket. *(not maintained by use)*
+You can also use [Scoop](https://scoop.sh/) to install and update. You need to use the `extras` bucket. *(not maintained by us)*
 
 ```ps
 c:\> scoop install markdown-monster
