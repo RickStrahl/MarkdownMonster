@@ -4,7 +4,7 @@
 * [x] Add Normalize Whitespace Extended Html Formatter
 * [x] Add Checkbox List Extended Html Formatter
 * [ ] Remove internal HtmlPackager and Replace with NuGet Package
-* [ ] Allow for executing external code as admin
+* [ ] Allow saving documents as admin when permissions fail
 * [ ] mmCLI: Enable Windows Long Path Support (win10)
 
 #### Enhancements

@@ -6,6 +6,9 @@
 
 <small>not released yet</small>
 
+* **Drag and Drop Link Insertion from Document Outline into Editor**  
+You can now drag a document outline selection into the open Markdown Document as a link that points at the `#Hash` id in the document. <small>([#936](https://github.com/RickStrahl/MarkdownMonster/issues/936))</small>
+
 * **Support for Async Code Snippet Templates**  
 Code Snippets now support `await` calls in C# expressions or code blocks. This is necessary for accessing many of the `Model.ActiveEditor` methods that effect editor behavior (most commonly `await Model.ActiveEditor.GetSelection()`). 
 
@@ -15,8 +18,8 @@ C# snippets now also support structured code blocks using `{{% <statement> }}` t
 * **Improved Snippet Startup Speed**  
 With the new Roslyn integration which runs in-process,  startup speed of first snippet activation  is much improved even on a cold start. Additionally the `PreloadCSharpCompiler` configuration flag in the Snippets addin can reduce startup speed down to a fractional second.
 
-* **Drag and Drop Link Insertion from Document Outline into Editor**  
-You can now drag a document outline selection into the open Markdown Document as a link that points at the `#Hash` id in the document. <small>([#936](https://github.com/RickStrahl/MarkdownMonster/issues/936))</small>
+* **Many Updated Command Palette Commands**  
+Added many additional Commands to the Command Palette including many more markup operations, a number of toggle settings, and view options.
 
 * **Update Ace Editor to v1.5**  
 Updated to latest Ace Editor version (1.5.1). Several small additional tweaks to the markdown editor behavior for the editor.
