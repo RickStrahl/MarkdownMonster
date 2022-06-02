@@ -259,10 +259,12 @@ Having a dedicated Markdown Editor that gets out of your way, yet provides a few
 ### Markdown Monster wants to eat your Markdown!
 Markdown Monster is a Markdown editor and Viewer for Windows that lets you create edit or simply preview Markdown text. It provides basic editing functionality with a few nice usability features for quickly embedding images, links, code, tables, screen shots and other markup. You get a responsive text editor that's got you covered with Markdown syntax highlighting, a collapsible live preview, so you can see what your output looks like, inline spellchecking and a handful of optimized menu options that help you mark up your text and embed and link content into your Markdown document. Additionally utility features let you quickly jump to the command line or an Explorer window, commit a document to Git, or even edit images in your favorite image editor.
 
-### Git Integration
-These days working with Markdown often means working with Git repositories and Markdown Monster integrates common Git tasks that you need to perform during editing. You can easily review, commit and push changes, as well as cloning and creating of new repositories.
 
-![](Assets/GitCommitDialog.png)
+### Table Editor
+Markdown Monster includes a powerful two-way table editor that lets you interactively edit content in tables. You can use the rich table editor to enter your Table content, and re-open Markdown table code in the editor for later editing and re-formatting.
+
+![Markdown Monster Table Editor](https://github.com/RickStrahl/ImageDrop/raw/master/MarkdownMonster/MarkdownMonsterTableEditor.gif)
+
 
 ### Folder Browser
 Markdown editing often requires managing related content like images, or multiple files for links etc. and Markdown Monster provides a folder browser to see and navigate files while in the editor. The browser has built-in Git status support so you can immediately see what documents have changed in your folder tree and you can easily review and undo changes. The browser lets you navigate folders, create, delete and move files and there are many options to view, open and edit files.
@@ -274,10 +276,12 @@ The folder browser also supports searching, moving and renaming of files as you 
 ### Document Outline
 When working with long documents it's important to have an easy way to navigate the document's structure quickly, and the Document Outline makes it easy to see the document's structure at a glance and jump to any section quickly. The outline also lets you pick up document Ids for quickly embedding same-document links.
 
-### Table Editor
-Markdown Monster includes a powerful two-way table editor that lets you interactively edit content in tables. You can use the rich table editor to enter your Table content, and re-open Markdown table code in the editor for later editing and re-formatting.
 
-![Markdown Monster Table Editor](https://github.com/RickStrahl/ImageDrop/raw/master/MarkdownMonster/MarkdownMonsterTableEditor.gif)
+### Git Integration
+These days working with Markdown often means working with Git repositories and Markdown Monster integrates common Git tasks that you need to perform during editing. You can easily review, commit and push changes, as well as cloning and creating of new repositories.
+
+![](Assets/GitCommitDialog.png)
+
 
 ### Screen Captures
 The Screen Capture addin supports two separate capture modes: 
