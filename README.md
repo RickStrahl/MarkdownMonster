@@ -259,17 +259,6 @@ Having a dedicated Markdown Editor that gets out of your way, yet provides a few
 ### Markdown Monster wants to eat your Markdown!
 Markdown Monster is a Markdown editor and Viewer for Windows that lets you create edit or simply preview Markdown text. It provides basic editing functionality with a few nice usability features for quickly embedding images, links, code, tables, screen shots and other markup. You get a responsive text editor that's got you covered with Markdown syntax highlighting, a collapsible live preview, so you can see what your output looks like, inline spellchecking and a handful of optimized menu options that help you mark up your text and embed and link content into your Markdown document. Additionally utility features let you quickly jump to the command line or an Explorer window, commit a document to Git, or even edit images in your favorite image editor.
 
-### Weblog Publishing
-A common use case for Markdown is to create rich blog posts with embedded links and content and Markdown Monster makes it easy to pull together content from various sources. You can easily embed images by pasting from the the clipboard, or by linking images from URLs or files or using the built-in Screen Capture addin or [SnagIt](https://techsmith.com/snagit) support.
-
-Writing long blog posts and articles, and coordinating lots of related content is one of the main reasons I built this tool in the first place as is publishing and updating content easily to various types of blogs and content generators.
-
-You can take any Markdown and turn it into a blog post by using the Weblog publishing feature. If you use WordPress, a MetaWeblog API Blog, Medium or Jekyll, you can click the Weblog button on the toolbar and set up your blog (MetaWebLog, WordPress or Medium), and then specify the Weblog specifics like title, abstract, tags and Web Site to publish to. Posts can be easily published and also re-published with the click of a button. You can also download existing blog posts from your blog and edit them as Markdown and then republish them.
-
-![Weblog Publishing Addin](Assets/WebLogPublishingAddin.png)
-
-![Weblog Publishing Addin Download](Assets/WebLogPublishingAddin_download.png)
-
 ### Git Integration
 These days working with Markdown often means working with Git repositories and Markdown Monster integrates common Git tasks that you need to perform during editing. You can easily review, commit and push changes, as well as cloning and creating of new repositories.
 
@@ -288,7 +277,7 @@ When working with long documents it's important to have an easy way to navigate 
 ### Table Editor
 Markdown Monster includes a powerful two-way table editor that lets you interactively edit content in tables. You can use the rich table editor to enter your Table content, and re-open Markdown table code in the editor for later editing and re-formatting.
 
-![Markdown Monster Table Editor](https://github.com/RickStrahl/ImageDrop/raw/main/MarkdownMonster/MarkdownMonsterTableEditor.gif)
+![Markdown Monster Table Editor](https://github.com/RickStrahl/ImageDrop/raw/master/MarkdownMonster/MarkdownMonsterTableEditor.gif)
 
 ### Screen Captures
 The Screen Capture addin supports two separate capture modes: 
@@ -307,6 +296,22 @@ Here's the **SnagIt Screen Capture** in action:
 And here is the self-contained, built-in Screen Capture Module:
 
 ![](Assets/ClassicScreenCapture.gif)
+
+### Template Expansions
+The built-in Snippets addin allows you to create templates - including dynamic templates using C# code - to expand text either on a typed expansion keyword, via interactive selection or via a pre-defined shortcut key.
+
+![](https://github.com/RickStrahl/ImageDrop/raw/master/MarkdownMonster/SnippetsAddin.gif)
+
+### Weblog Publishing
+A common use case for Markdown is to create rich blog posts with embedded links and content and Markdown Monster makes it easy to pull together content from various sources. You can easily embed images by pasting from the the clipboard, or by linking images from URLs or files or using the built-in Screen Capture addin or [SnagIt](https://techsmith.com/snagit) support.
+
+Writing long blog posts and articles, and coordinating lots of related content is one of the main reasons I built this tool in the first place as is publishing and updating content easily to various types of blogs and content generators.
+
+You can take any Markdown and turn it into a blog post by using the Weblog publishing feature. If you use WordPress, a MetaWeblog API Blog, Medium or Jekyll, you can click the Weblog button on the toolbar and set up your blog (MetaWebLog, WordPress or Medium), and then specify the Weblog specifics like title, abstract, tags and Web Site to publish to. Posts can be easily published and also re-published with the click of a button. You can also download existing blog posts from your blog and edit them as Markdown and then republish them.
+
+![Weblog Publishing Addin](Assets/WebLogPublishingAddin.png)
+
+![Weblog Publishing Addin Download](Assets/WebLogPublishingAddin_download.png)
 
 ### Customizable
 Most editing and UI features in Markdown Monster are optional and can be turned on and off. Want to work distraction free and see no preview or spell checking hints? You can turn them off. Want to store configuration data in a shared cloud folder? You can do that too.
