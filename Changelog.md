@@ -18,6 +18,12 @@ C# snippets now also support structured code blocks using `{{% <statement> }}` t
 * **Improved Snippet Startup Speed**  
 With the new Roslyn integration which runs in-process,  startup speed of first snippet activation  is much improved even on a cold start. Additionally the `PreloadCSharpCompiler` configuration flag in the Snippets addin can reduce startup speed down to a fractional second.
 
+* **Add Subscript and Superscript Markup Operations**  
+Added sub and superscript to the Extra Markdown operation drop down menu which creates `<sub></sub>` and `<super></super>` wrappings around text selections.
+
+* **Keybindings for Numbered List and CheckBox List**  
+Added keybindings for number list (`ctrl-shift-l`) and checkbox list (`ctrl-alt-l`).
+
 * **Many Updated Command Palette Commands**  
 Added many additional Commands to the Command Palette including many more markup operations, a number of toggle settings, and view options.
 
