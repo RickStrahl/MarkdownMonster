@@ -6,7 +6,7 @@
 
 <small>not released yet</small>
 
-* **[Drag and Drop Link Insertion from Document Outline into Editor](https://github.com/RickStrahl/ImageDrop/raw/master/MarkdownMonster/DocumentOutlineDragAndDrop.gif)**  
+* **[Drag and Drop Link Insertion from Document Outline into Editor](https://markdownmonster.west-wind.com/docs/_55o1bd4n1.htm)**  
 You can now drag a document outline selection into the open Markdown Document as a link that points at the `#Hash` id in the document. <small>([#936](https://github.com/RickStrahl/MarkdownMonster/issues/936))</small>
 
 * **[Support for Async Code Snippet Templates](https://markdownmonster.west-wind.com/docs/_5gs0uc49h.htm#c-code-execution)**  
@@ -26,6 +26,9 @@ Added keybindings for number list (`ctrl-shift-l`) and checkbox list (`ctrl-alt-
 
 * **Many Updated Command Palette Commands**  
 Added many additional Commands to the Command Palette including many more markup operations, a number of toggle settings, and view options.
+
+* **Add ShortCut Keys to the Web Lookup links in Link Dialog**  
+The link dialog now has shortcut keys for the `Search on Web` (alt-s) and `Search and Link` (alt-l) buttons in the Link Dialog to allow for better hands free operation of these two operations.
 
 * **Update Ace Editor to v1.5**  
 Updated to latest Ace Editor version (1.5.1). Several small additional tweaks to the markdown editor behavior for the editor.
