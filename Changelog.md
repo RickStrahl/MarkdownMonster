@@ -6,13 +6,13 @@
 
 <small>not released yet</small>
 
-* **Drag and Drop Link Insertion from Document Outline into Editor**  
+* **[Drag and Drop Link Insertion from Document Outline into Editor](https://github.com/RickStrahl/ImageDrop/raw/master/MarkdownMonster/DocumentOutlineDragAndDrop.gif)**  
 You can now drag a document outline selection into the open Markdown Document as a link that points at the `#Hash` id in the document. <small>([#936](https://github.com/RickStrahl/MarkdownMonster/issues/936))</small>
 
-* **Support for Async Code Snippet Templates**  
+* **[Support for Async Code Snippet Templates](https://markdownmonster.west-wind.com/docs/_5gs0uc49h.htm#c-code-execution)**  
 Code Snippets now support `await` calls in C# expressions or code blocks. This is necessary for accessing many of the `Model.ActiveEditor` methods that effect editor behavior (most commonly `await Model.ActiveEditor.GetSelection()`). 
 
-* **Support for Structured Statements in Code Snippet Templates**
+* **[Support for Structured Statements in Code Snippet Templates](https://markdownmonster.west-wind.com/docs/_5gs0uc49h.htm#c-code-execution)**
 C# snippets now also support structured code blocks using `{{% <statement> }}` that are directly embedded as code. This allows for `if` and `for` type structured statement blocks that can bracket other text or expression. But it also allows for arbitrary C# code blocks to be executed and act as integrated code.
 
 * **Improved Snippet Startup Speed**  
@@ -36,18 +36,13 @@ Fix issue where line breaks (via `<br>`) in Pipe Table headers was breaking the 
 * **Fix: Preview not rendering first Mermaid Diagram**  
 Fixed issue where entering a first Mermaid diagram into a page will not render until the page or tab is fully refreshed. This is due to the way MM caches the page and only replaces content, so when Mermaid is added after the page is loaded the script was not available to transform Mermaid charts. Added logic to explicitly check for Mermaid script and refresh page if not found. <small>([#960](https://github.com/RickStrahl/MarkdownMonster/issues/960))</small>
 
-
-
-
-
-
 #### Breaking Changes
 
 * **Recommend a full Uninstall/Reinstall**  
 The updated Roslyn support in version 2.5.4 and later changes a number of runtime dependencies and it's recommended that if you were running a pre-2.5.4 version you completely uninstall Markdown Monster and reinstall in order to clean the installation folder of old dependencies.
 
 * **Razor Support removed for Code Snippet Templates**  
-Razor language support has been removed from the Snippets addin as the new C# script syntax supports similar functionality for scripting. Razor has been problematic and adds a host of dependencies and inhibit future migration to .NET 6.0. To migrate you can move your scripts to the Handlebar style C# syntax.
+Razor language support has been removed from the Snippets addin as the new C# script syntax supports similar functionality for scripting. Razor has been problematic and adds a host of dependencies and inhibit future migration to .NET 6.0. To migrate you can move your scripts to the [Handlebars style C# syntax](https://markdownmonster.west-wind.com/docs/_5gs0uc49h.htm#text-with-c-expressions).
 
 
 ### 2.5
