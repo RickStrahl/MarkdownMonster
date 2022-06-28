@@ -25,7 +25,7 @@ You can use the evaluation version with the notices enabled, but if you use Mark
 > Licenses are activated and occasionally
 > re-validated over the Internet, so an
 > Internet Connection is Required for using
-> WebSurge in licensed mode.
+> Markdown Monster in licensed mode.
 
 
 #### Purchased License

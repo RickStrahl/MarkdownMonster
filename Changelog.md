@@ -30,6 +30,9 @@ Added many additional Commands to the Command Palette including many more markup
 * **Add ShortCut Keys to the Web Lookup links in Link Dialog**  
 The link dialog now has shortcut keys for the `Search on Web` (alt-s) and `Search and Link` (alt-l) buttons in the Link Dialog to allow for better hands free operation of these two operations.
 
+* **Add Preview And Sidebar Width to Window Presets**  
+The Sidebar Window drop down now allows for setting the preview and sidebar panel widths in addition to a Window size. 
+
 * **Update Ace Editor to v1.5**  
 Updated to latest Ace Editor version (1.5.1). Several small additional tweaks to the markdown editor behavior for the editor.
 
