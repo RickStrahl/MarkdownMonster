@@ -12,7 +12,7 @@ You can now drag a document outline selection into the open Markdown Document as
 * **[Support for Async Code Snippet Templates](https://markdownmonster.west-wind.com/docs/_5gs0uc49h.htm#c-code-execution)**  
 Code Snippets now support `await` calls in C# expressions or code blocks. This is necessary for accessing many of the `Model.ActiveEditor` methods that effect editor behavior (most commonly `await Model.ActiveEditor.GetSelection()`). 
 
-* **[Support for Structured Statements in Code Snippet Templates](https://markdownmonster.west-wind.com/docs/_5gs0uc49h.htm#c-code-execution)**
+* **[Support for Structured Statements in Code Snippet Templates](https://markdownmonster.west-wind.com/docs/_5gs0uc49h.htm#c-code-execution)**  
 C# snippets now also support structured code blocks using `{{% <statement> }}` that are directly embedded as code. This allows for `if` and `for` type structured statement blocks that can bracket other text or expression. But it also allows for arbitrary C# code blocks to be executed and act as integrated code.
 
 * **Improved Snippet Startup Speed**  
@@ -40,14 +40,18 @@ Updated to latest Ace Editor version (1.5.1). Several small additional tweaks to
 Fix issue where line breaks (via `<br>`) in Pipe Table headers was breaking the formatter and resulted in not being able to format the table or edit it in the Table editor. The change now formates based on the full single line instead of the individual line lengths which - assuming the table width is not too wide - will still nicely format a table even with linebreaks. <small>([#959](https://github.com/RickStrahl/MarkdownMonster/issues/959))</small>
 
 * **Fix: GridTable with leading Spaces in multi-line Cells**  
-Fix issue where multi-line cells in a grid table would strip leading spaces resulting in potentially lost markdown formatting. <small>[#961](https://github.com/RickStrahl/MarkdownMonster/issues/961)</small>
+Fix issue where multi-line cells in a grid table would strip leading spaces resulting in potentially lost markdown formatting. <small>([#961](https://github.com/RickStrahl/MarkdownMonster/issues/961))</small>
 
 * **Fix: GridTable white space issues**  
 Fix issue where white space is is not cleaned up properly when deleting lines from a cell in a gridtable. 
-<small>[#962](https://github.com/RickStrahl/MarkdownMonster/issues/962)</small>
+<small>([#962](https://github.com/RickStrahl/MarkdownMonster/issues/962))</small>
 
 * **Fix: Preview not rendering first Mermaid Diagram**  
 Fixed issue where entering a first Mermaid diagram into a page will not render until the page or tab is fully refreshed. This is due to the way MM caches the page and only replaces content, so when Mermaid is added after the page is loaded the script was not available to transform Mermaid charts. Added logic to explicitly check for Mermaid script and refresh page if not found. <small>([#960](https://github.com/RickStrahl/MarkdownMonster/issues/960))</small>
+
+* **Fix: Display full Git Error Messages for Commit and Push Operations**  
+Change display of error messages so the full message is displayed instead of the status bar only message which is often truncated. Display a message box instead so the full error can be captured. Important due to the new Git Security `safe.directory` features that require (`git config --global --add safe.directory <path>`)
+
 
 #### Breaking Changes
 
