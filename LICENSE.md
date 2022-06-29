@@ -7,7 +7,7 @@ Markdown Monster comes in several license modes:
 * Multiple User
 * Site License.
 
-Markdown Monster is a licensed product that requires a paid-for license for continued use. The software is licensed as *© Rick Strahl, West Wind Technologies, 2015-2021*.
+Markdown Monster is a licensed product that requires a paid-for license for continued use. The software is licensed as *© Rick Strahl, West Wind Technologies, 2015-2022*.
 
 A fully functional, free evaluation version is available for evaluation use, but continued use requires purchase of a license.
 
@@ -24,9 +24,8 @@ You can use the evaluation version with the notices enabled, but if you use Mark
 > IMPORTANT: 
 > Licenses are activated and occasionally
 > re-validated over the Internet, so an
-> Internet Connection is Required for using
+> **Internet connection is required** for using
 > Markdown Monster in licensed mode.
-
 
 #### Purchased License
 
