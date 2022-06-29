@@ -3,7 +3,7 @@
 [![Web Site](https://img.shields.io/badge/Markdown_Monster-WebSite-blue.svg)](https://markdownmonster.west-wind.com)
 
 ### 2.6
-
+ 
 <small>not released yet</small>
 
 * **[Drag and Drop Link Insertion from Document Outline into Editor](https://markdownmonster.west-wind.com/docs/_55o1bd4n1.htm)**  
