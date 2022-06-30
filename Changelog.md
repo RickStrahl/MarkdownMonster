@@ -4,7 +4,7 @@
 
 ### 2.6
  
-<small>not released yet</small>
+<small>June 30th, 2022</small>
  
 * **[Drag and Drop Link Insertion from Document Outline into Editor](https://markdownmonster.west-wind.com/docs/_55o1bd4n1.htm)**  
 You can now drag a document outline selection into the open Markdown Document as a link that points at the `#Hash` id in the document. <small>([#936](https://github.com/RickStrahl/MarkdownMonster/issues/936))</small>
