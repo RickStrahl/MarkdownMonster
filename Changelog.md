@@ -2,6 +2,18 @@
 [![download](https://img.shields.io/badge/Download-Installer-blue.svg)](https://markdownmonster.west-wind.com/download)
 [![Web Site](https://img.shields.io/badge/Markdown_Monster-WebSite-blue.svg)](https://markdownmonster.west-wind.com)
 
+
+### 2.7
+
+<small>not released yet</small>
+
+* **Add File Info Tooltips for Preview Tabs**  
+Preview tabs now show the filename and display a tooltip that has file information in the same way as editor documents do.
+
+* **Add Image Size to Image File Tooltips**  
+Images in the Folder Browser and Tabs now display image tooltips that include image size (width x height) and image DPI.
+
+
 ### 2.6
  
 <small>June 30th, 2022</small>
