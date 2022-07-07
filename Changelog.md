@@ -13,6 +13,12 @@ Preview tabs now show the filename and display a tooltip that has file informati
 * **Add Image Size to Image File Tooltips**  
 Images in the Folder Browser and Tabs now display image tooltips that include image size (width x height) and image DPI.
 
+* **Fix: Open With From Folder Browser**  
+Open With stopped working apparently due to a framework change that related to the `UseShellExecute` setting which has to be explicitly set off to open the dialog.
+
+* **Fix: Folder Browser External File Update and File Info**  
+Fix issue where newly added files and files that have changed did not reflect current file information. Change detection now reloads updated file information.
+
 
 ### 2.6
  
