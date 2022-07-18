@@ -11,7 +11,10 @@
 Preview tabs now show the filename and display a tooltip that has file information in the same way as editor documents do.
 
 * **Add Image Size to Image File Tooltips**  
-Images in the Folder Browser and Tabs now display image tooltips that include image size (width x height) and image DPI.
+Images in the Folder Browser and open Tabs now display image tooltips that include image size (width x height) and image DPI.
+
+* **Preview Tab File Names and Tooltip**  
+Preview tabs for non-document files now show the filename and file tooltip info just like document tabs. Previously, non-document tabs behaved differently due to the missing document instance.
 
 * **Fix: Open With From Folder Browser**  
 Open With stopped working apparently due to a framework change that related to the `UseShellExecute` setting which has to be explicitly set off to open the dialog.
@@ -19,6 +22,11 @@ Open With stopped working apparently due to a framework change that related to t
 * **Fix: Folder Browser External File Update and File Info**  
 Fix issue where newly added files and files that have changed did not reflect current file information. Change detection now reloads updated file information.
 
+* **Fix: Right Click Focus in Folder Browser**  
+Fix folder browser focus when right clicking on files. In some situations the selection of the previous item would not clear and the context menu would pop up for the previous selection. Updated logic to explicitly select on right click. Fixed.
+
+* **Command Palette: Add Speech/Read Aloud COmmands**  
+Add commands for reading aloud to the command palette. Access via *Speak* or *Read Aloud* keywords.
 
 ### 2.6
  
