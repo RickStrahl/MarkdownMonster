@@ -2,7 +2,6 @@
 [![download](https://img.shields.io/badge/Download-Installer-blue.svg)](https://markdownmonster.west-wind.com/download)
 [![Web Site](https://img.shields.io/badge/Markdown_Monster-WebSite-blue.svg)](https://markdownmonster.west-wind.com)
 
-
 ### 2.7
 
 <small>not released yet</small>
@@ -16,6 +15,9 @@ Images in the Folder Browser and open Tabs now display image tooltips that inclu
 * **Preview Tab File Names and Tooltip**  
 Preview tabs for non-document files now show the filename and file tooltip info just like document tabs. Previously, non-document tabs behaved differently due to the missing document instance.
 
+* **Command Palette: Add Speech/Read Aloud Commands**  
+Add commands for reading aloud to the command palette. Access via *Speak* or *Read Aloud* keywords.
+
 * **Fix: Open With From Folder Browser**  
 Open With stopped working apparently due to a framework change that related to the `UseShellExecute` setting which has to be explicitly set off to open the dialog.
 
@@ -25,8 +27,11 @@ Fix issue where newly added files and files that have changed did not reflect cu
 * **Fix: Right Click Focus in Folder Browser**  
 Fix folder browser focus when right clicking on files. In some situations the selection of the previous item would not clear and the context menu would pop up for the previous selection. Updated logic to explicitly select on right click. Fixed.
 
-* **Command Palette: Add Speech/Read Aloud COmmands**  
-Add commands for reading aloud to the command palette. Access via *Speak* or *Read Aloud* keywords.
+* **Fix: Context Menu Key not working**  
+Fix the Context Menu key on keyboards not working. Re-enabled, but behavior is not ideal as it displays at mouse cursor, not at editor position. 
+
+* **Fix: Escape Pipe `|` Characters in Grid Tables**  
+Pipe characters in Grid Tables have to be escaped and using pipes in Grid Tables prerviously broke Grid parsing as the `|` was interpreted as a column break. Fixed by now properly escaping `|` with `\|` in the Markdown editor and using plain `|` in the Table Editor.
 
 ### 2.6
  

@@ -1,4 +1,5 @@
 ### Bugs and Needed Features
+* [ ] Renable License Check when new Certificate is available
 * [x] Drag and Drop from Document Outline
 * [x] Update Emoji Picker (use Html and color icons)
 * [x] Add Normalize Whitespace Extended Html Formatter
