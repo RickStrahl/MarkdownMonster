@@ -18,6 +18,9 @@ Preview tabs for non-document files now show the filename and file tooltip info 
 * **Command Palette: Add Speech/Read Aloud Commands**  
 Add commands for reading aloud to the command palette. Access via *Speak* or *Read Aloud* keywords.
 
+* **Fix: Properly Refresh Image Pasting from Clipboard**  
+Fixed issue where pasting an image from the clipboard would not properly refresh the preview and scroll to the top of the preview - until next cursor movement. Now works for full refresh to ensure that images updated show the latest version and also reset the cursor position in most scenarios.
+
 * **Fix: Open With From Folder Browser**  
 Open With stopped working apparently due to a framework change that related to the `UseShellExecute` setting which has to be explicitly set off to open the dialog.
 
@@ -32,6 +35,12 @@ Fix the Context Menu key on keyboards not working. Re-enabled, but behavior is n
 
 * **Fix: Escape Pipe `|` Characters in Grid Tables**  
 Pipe characters in Grid Tables have to be escaped and using pipes in Grid Tables prerviously broke Grid parsing as the `|` was interpreted as a column break. Fixed by now properly escaping `|` with `\|` in the Markdown editor and using plain `|` in the Table Editor.
+
+* **Fix: Pull Issue with Pull when using Branch other than Master**  
+Fixed issue with Pull not respecting the active Branch in the Git dialog. ([#976](https://github.com/RickStrahl/MarkdownMonster/issues/976))
+
+* **Fix: Pop up Context Menu with Context Menu Key at Cursor Position**  
+Fix issue where keyboard Context Menu key was not opening the context menu at the current cursor location.
 
 ### 2.6
  
