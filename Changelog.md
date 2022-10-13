@@ -18,11 +18,14 @@ Preview tabs for non-document files now show the filename and file tooltip info 
 * **Command Palette: Add Speech/Read Aloud Commands**  
 Add commands for reading aloud to the command palette. Access via *Speak* or *Read Aloud* keywords.
 
-* **Fix: Properly Refresh Image Pasting from Clipboard**  
-Fixed issue where pasting an image from the clipboard would not properly refresh the preview and scroll to the top of the preview - until next cursor movement. Now works for full refresh to ensure that images updated show the latest version and also reset the cursor position in most scenarios.
+* **Fix: Refresh Cached Images from Clipboard**  
+Fixed issue where pasting an image from the clipboard would not properly refresh the preview and scroll to the top of the preview - until next cursor movement. Also fixed caching issue where pasting new same name image would cache and not show the new image.
 
-* **Fix: Open With From Folder Browser**  
+* **Fix: *Open With...* From Folder Browser**  
 Open With stopped working apparently due to a framework change that related to the `UseShellExecute` setting which has to be explicitly set off to open the dialog.
+
+* **Fix: Startup Path Fixup for `CommonFolder`**  
+Fixed issues with the common folder location that requires that some files and folders to be stored on the local machine. Previously the `InternalCommonFolder` was erroneously the same as `CommonFolder` causing some look up issues
 
 * **Fix: Folder Browser External File Update and File Info**  
 Fix issue where newly added files and files that have changed did not reflect current file information. Change detection now reloads updated file information.
@@ -41,6 +44,9 @@ Fixed issue with Pull not respecting the active Branch in the Git dialog. ([#976
 
 * **Fix: Pop up Context Menu with Context Menu Key at Cursor Position**  
 Fix issue where keyboard Context Menu key was not opening the context menu at the current cursor location.
+
+* **Fix: Cached WebBrowser Environment Location**  
+Fixed browser environment location which now properly uses the local machine common path, rather than a potentially shared common path. Sharing in a common path could cause corruption and unexpected browser lockups and crashes.
 
 ### 2.6
  
