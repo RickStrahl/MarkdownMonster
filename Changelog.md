@@ -18,6 +18,9 @@ Preview tabs for non-document files now show the filename and file tooltip info 
 * **Command Palette: Add Speech/Read Aloud Commands**  
 Add commands for reading aloud to the command palette. Access via *Speak* or *Read Aloud* keywords.
 
+* **Command Palette: Many more Commands Added**  
+All List operations (plain, numbered and checkbox), Emojii, YouTube embedding, Find in document, Find Files, Find in Files, among otherrs. To access Command Palette press `Ctrl-Shift-P` or use the searchbox in the Title bar.
+
 * **Fix: Refresh Cached Images from Clipboard**  
 Fixed issue where pasting an image from the clipboard would not properly refresh the preview and scroll to the top of the preview - until next cursor movement. Also fixed caching issue where pasting new same name image would cache and not show the new image.
 
