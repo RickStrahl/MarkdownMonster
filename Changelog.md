@@ -2,9 +2,14 @@
 [![download](https://img.shields.io/badge/Download-Installer-blue.svg)](https://markdownmonster.west-wind.com/download)
 [![Web Site](https://img.shields.io/badge/Markdown_Monster-WebSite-blue.svg)](https://markdownmonster.west-wind.com)
 
+### 2.8
+
+*<small>not released yet</small>*
+
+
 ### 2.7
 
-<small>not released yet</small>
+*<small>October 18th, 2022</small>*
 
 * **Add File Info Tooltips for Preview Tabs**  
 Preview tabs now show the filename and display a tooltip that has file information in the same way as editor documents do.
@@ -50,6 +55,9 @@ Fix issue where keyboard Context Menu key was not opening the context menu at th
 
 * **Fix: Cached WebBrowser Environment Location**  
 Fixed browser environment location which now properly uses the local machine common path, rather than a potentially shared common path. Sharing in a common path could cause corruption and unexpected browser lockups and crashes.
+
+* **Fix: License Unregistering**  
+Fixed issue with licenses getting unregistered due to a registration issue on the server end missing the version number. Fixed recent licenses by adding versions properly, and new licenses creating with product version supplied.
 
 ### 2.6
  
