@@ -6,6 +6,11 @@
 
 *<small>not released yet</small>*
 
+* **Enable Mermaid Charts By Default**  
+With wider support of Mermaid in various rendering platforms including GitHub, Mermaid rendering is now enabled by default. There's still a Setting flag that can be used to turn checking for Mermaid code on and off which improves load and render speed very slightly. *Note: If you're updating a previous version, your current setting will not change so if it was set at default of `false` it'll continue to stay that way and have to be manually enabled. You can use Tools|Settings|Mermaid to set this value.*
+
+* **Fix: Folder Browser File Renaming Issues**  
+Fix issue where rename operations would in some cases not save pending changes and wouldn't delete the originally renamed file. Error was introduced during async conversion and due to timing issues. Fixed. [#986](https://github.com/RickStrahl/MarkdownMonster/issues/986)
 
 ### 2.7
 
@@ -1025,3 +1030,5 @@ Fix version check shutdown logic to properly save the last check date.
 
 * **Dev: Update to ACE Editor 1.4.6**  
 Updated to the latest version of ACE Editor which fixes a few small bugs that have been plaguing the editor namely fenced HTML code block tag lock ups/slowdowns and end of document caret movement.
+
+
