@@ -1,16 +1,12 @@
 ### Bugs and Needed Features
-* [x] Renable License Check when new Certificate is available
-* [x] Drag and Drop from Document Outline
-* [x] Update Emoji Picker (use Html and color icons)
-* [x] Add Normalize Whitespace Extended Html Formatter
-* [x] Add Checkbox List Extended Html Formatter
+* [x] Fix upper/lower case via Control Palette
 * [ ] Remove internal HtmlPackager and Replace with NuGet Package
 * [ ] Allow saving documents as admin when permissions fail
 * [ ] mmCLI: Enable Windows Long Path Support (win10)
 
 #### Enhancements
+* [x] Proper Casing 
 * [ ] Edit Code In Editor on Context Menu (like Edit Image/Edit HREF)
-* [x] Move some dialogs (like new version) to Windows Notifications
 
 ### Nice to Have
 * Conversion .NET Core 6.0  
