@@ -8,7 +8,7 @@
 * **Enable Mermaid Charts By Default**  
 With wider support of Mermaid in various rendering platforms including GitHub, Mermaid rendering is now enabled by default. There's still a Setting flag that can be used to turn checking for Mermaid code on and off which improves load and render speed very slightly. *Note: If you're updating a previous version, your current setting will not change so if it was set at default of `false` it'll continue to stay that way and have to be manually enabled. You can use Tools|Settings|Mermaid to set this value.*
 
-* **Command Palette: Add Proper and Camel Case**  
+* **Add Proper and Camel Case to Extra Commands and Command Palette**  
 You can now make selected text proper/title cased or camel cased via the command palette.
 
 * **Command Palette: Added Font Settings**  
@@ -19,11 +19,13 @@ When navigating the folder browser with the up and down keys, the editor now dis
 
 
 * **Update: Default Font Size to 16px**  
-Set default font-size a little smaller to prevent very low res displays from displaying to big of a font initially. This will make fonts smaller for hi-res displays, but people that have these are used to having to adjust font-sizes up typically.
+Set default font-size a little smaller to prevent very low res displays from displaying too big of a font initially. This will make fonts smaller for hi-res displays, but people that have these are used to having to adjust font-sizes up typically.
+
+* **Fix: Document Navigation in the Previewer**  
+Fix crash/hang issue when navigating to other documents from the Preview Window.
 
 * **Fix: Change Scrollbar Sizes for Editor and Preview**  
 The default scrollbar sizes for the Editor and Previewer have been bumped up slightly to better work with hi-res displays and sizing has been switched from hard pixel sizing to `em` sizing. Previewer and Editor scrollbar styling can be applied in the generic `Editor/editor.css` and `PreviewThemes/MyTheme/theme.css` for the specifically active theme.
-
 
 * **Fix: Folder Browser File Renaming Issues**  
 Fix issue where rename operations would in some cases not save pending changes and wouldn't delete the originally renamed file. Error was introduced during async conversion and due to timing issues. Fixed. [#986](https://github.com/RickStrahl/MarkdownMonster/issues/986)
