@@ -5,8 +5,11 @@
 
 *<small>not released yet</small>*
 
-* **Enable Mermaid Charts By Default**  
-With wider support of Mermaid in various rendering platforms including GitHub, Mermaid rendering is now enabled by default. There's still a Setting flag that can be used to turn checking for Mermaid code on and off which improves load and render speed very slightly. *Note: If you're updating a previous version, your current setting will not change so if it was set at default of `false` it'll continue to stay that way and have to be manually enabled. You can use Tools|Settings|Mermaid to set this value.*
+* **[Add Custom External Programs for Documents](https://markdownmonster.west-wind.com/docs/_6if1ephjm.htm)**  
+You can now add external programs to launch for active document in the editor or for files and folders in the Folder Browser. Launch individual programs or URLs and specify arguments in a variety of ways. (belatedly fixes [#947](https://github.com/RickStrahl/MarkdownMonster/issues/947))
+
+* **[Enable Mermaid Charts By Default](https://markdownmonster.west-wind.com/docs/_5ef0x96or.htm)**  
+With wider support of Mermaid in various rendering platforms including GitHub, Mermaid rendering is now enabled by default. There's still a Setting flag that can be used to turn checking for Mermaid code on and off which can improve load and render speed very slightly when `false`. *Note: If you're updating a previous version, your current setting will not change so if it was set at default of `false` it'll continue to stay that way and have to be manually enabled. You can use Tools|Settings|Mermaid to set this value.*
 
 * **Add Proper and Camel Case to Extra Commands and Command Palette**  
 You can now make selected text proper/title cased or camel cased via the command palette.
@@ -16,7 +19,6 @@ You can now access the font settings in the Visual Settings Editor via `Ctrl-Shi
 
 * **Folder Browser Keyboard Navigation now Previews**  
 When navigating the folder browser with the up and down keys, the editor now displays a preview of documents similar to the behavior when single clicking on a document. Editable (Markdown, text and other known editable formats) are opened in preview mode, meaning once you navigate off the document is closed or replaced by the next preview document, unless the document has been edited or explicitly opened as a full document.
-
 
 * **Update: Default Font Size to 16px**  
 Set default font-size a little smaller to prevent very low res displays from displaying too big of a font initially. This will make fonts smaller for hi-res displays, but people that have these are used to having to adjust font-sizes up typically.
