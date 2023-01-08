@@ -20,11 +20,17 @@ You can now access the font settings in the Visual Settings Editor via `Ctrl-Shi
 * **Folder Browser Keyboard Navigation now Previews**  
 When navigating the folder browser with the up and down keys, the editor now displays a preview of documents similar to the behavior when single clicking on a document. Editable (Markdown, text and other known editable formats) are opened in preview mode, meaning once you navigate off the document is closed or replaced by the next preview document, unless the document has been edited or explicitly opened as a full document.
 
+* **Table Editor Paste now supports CSV directly**  
+CSV imports into the table editor have been support via **Load From** for a long time, but you can now also use the **Paste** operation to directly paste CSV content from Excel, Google Docs etc. directly into the table editor. **Load From** still has more control but **Paste** is quicker assuming the content uses tab delimited clipboard CSV. Paste now supports: Grid Table, Pipe Table, HTML, JSON and CSV. Load From also allows loading CSV and JSON from files (and clipboard explicitly with options).
+
 * **Update: Default Font Size to 16px**  
 Set default font-size a little smaller to prevent very low res displays from displaying too big of a font initially. This will make fonts smaller for hi-res displays, but people that have hi-resolutiuon displays are used to having to adjust font-sizes up typically.
 
 * **Fix: Table Editor Add Row on Bottom**  
 Fix behavior of Add row on bottom to continue keeping focus and scroll into visible viewport. Also now allow adding multiple empty rows at the end (previously this wasn't allowed). You can now also add a new Header row by Add new Row in the header.
+
+* **Fix: Various Range Bound Errors in Table Editor**  
+Fix several errors that caused the table editor to crash when adding/removing many rows/columns.
 
 * **Fix: Status Icon Animation Sizing**  
 Fix issue where on occasion the status icon would bloat to massive size if messages were overlapping.
