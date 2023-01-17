@@ -90,8 +90,11 @@ Fix the Context Menu key on keyboards not working. Re-enabled, but behavior is n
 * **Fix: Escape Pipe `|` Characters in Grid Tables**  
 Pipe characters in Grid Tables have to be escaped and using pipes in Grid Tables prerviously broke Grid parsing as the `|` was interpreted as a column break. Fixed by now properly escaping `|` with `\|` in the Markdown editor and using plain `|` in the Table Editor.
 
-* **Fix: Pull Issue with Pull when using Branch other than Master**  
+* **Fix: Git Pull Issue with Pull when using Branch other than Master**  
 Fixed issue with Pull not respecting the active Branch in the Git dialog. ([#976](https://github.com/RickStrahl/MarkdownMonster/issues/976))
+
+* **Fix: Weblog Post not updating Markdown YAML Metadata**  
+Depending on your selection of `Auto Save Document` information typed into the Weblog Publishing dialog would not update the meta data in the document. When Auto Save was not set the data was not updated (incorrect) and not saved (correct). Fixed: Now the document is always updated, and the flag correctly affects only whether the document is auto-saved after the meta data has been updated.
 
 * **Fix: Pop up Context Menu with Context Menu Key at Cursor Position**  
 Fix issue where keyboard Context Menu key was not opening the context menu at the current cursor location.
