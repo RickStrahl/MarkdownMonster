@@ -150,7 +150,7 @@
                     <div class=" col-sm-7">
 	                    
                         <div class="responsive-container">
-                            <div style="margin-top: 23px;">
+                            <div style="margin-top: 23px;" id="Download">
                                 <a id="DownloadButton"  href="https://west-wind.com/files/MarkdownMonsterSetup.exe" 
                                 class="btn btn-lg btn-primary"
                                 style="width: 37rem; text-align: left"
@@ -193,7 +193,7 @@ user folder.">Portable Zip</a> &bull;
                             @if(LatestVersion != Version) {                        
                                 <text>&bull;</text>
                                 
-                                <a href="https://west-wind.com/files/MarkdownMonsterSetup_Latest.exe" 
+                                <a href="https://west-wind.com/files/MarkdownMonsterSetup_Latest.exe"  id="DownloadPrerelease"
                                 title="Latest pre-release installer that might be slightly ahead of the current release version."> pre-Release</a>
                                 <small style="font-size: 0.7em">(@LatestVersion)</small>                            
                             }
@@ -211,23 +211,17 @@ user folder.">Portable Zip</a> &bull;
                                     Markdown Monster on as many computers you wish with your license.
                                     </p>
                                     <p>
-                                    Want a <a href="purchase#Contribute">free license</a>? Contributors who help out with code, feature suggestions, 
-                                    documentation or promotion qualify for a free license.
-                                    </p>
-                                    <p>
                                     This download provides a fully functional, non-limited version that includes all of 
                                     Markdown Monster's features.<br />
                                     </p>
                                     <p>
-                                    Thanks for playing fair.                                
-                                    </p>
-                                    
+                                    <i><b>Thanks for playing fair.</b></i>
+                                    </p>                                    
                                 </div>
-
                             </div>
                         </div>
                         
-                        <div style="margin-top: 20px;">
+                        <div>
                             
                             <hr style="background: #888; color: #888" />        
 
@@ -266,7 +260,7 @@ c:\> choco upgrade markdownmonster
                         <div id="FeatureList" class="panel-body">
                             <div>
                                 <i class="fa fa-check-circle"></i>
-                                Microsoft Windows 11-7 or Server 2019-2012
+                                Microsoft Windows 11-7 or Server 2022-2012
                             </div>
                             <div>
                                 <i class="fa fa-check-circle"></i>

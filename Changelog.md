@@ -21,10 +21,16 @@ You can now access the font settings in the Visual Settings Editor via `Ctrl-Shi
 When navigating the folder browser with the up and down keys, the editor now displays a preview of documents similar to the behavior when single clicking on a document. Editable (Markdown, text and other known editable formats) are opened in preview mode, meaning once you navigate off the document is closed or replaced by the next preview document, unless the document has been edited or explicitly opened as a full document.
 
 * **Table Editor Paste now supports CSV directly**  
-CSV imports into the table editor have been support via **Load From** for a long time, but you can now also use the **Paste** operation to directly paste CSV content from Excel, Google Docs etc. directly into the table editor. **Load From** still has more control but **Paste** is quicker assuming the content uses tab delimited clipboard CSV. Paste now supports: Grid Table, Pipe Table, HTML, JSON and CSV. Load From also allows loading CSV and JSON from files (and clipboard explicitly with options).
+CSV imports into the table editor have been supported via **Load From** for a long time, but you can now also use the **Paste** operation to CSV content from Excel, Google Docs etc. directly into the table editor. **Load From** still has more control but **Paste** is quicker assuming the content uses tab delimited clipboard CSV. Paste now supports: Grid Table, Pipe Table, HTML, JSON and CSV. Load From also allows loading CSV and JSON from files (and clipboard explicitly with options).
 
 * **Update: Default Font Size to 16px**  
 Set default font-size a little smaller to prevent very low res displays from displaying too big of a font initially. This will make fonts smaller for hi-res displays, but people that have hi-resolutiuon displays are used to having to adjust font-sizes up typically.
+
+* **Fix: Move Markdown Monster to latest Web View Async Model**  
+A few versions ago, changes in the async WebView control model broke most of Markdown Monsters JavaScript to .NET interop functionality. In this release we've refactored all of our JS->.NET interfaces to work with the new functionality. This true async support should also improve responsiveness of some tasks, as well as reduce the occasional WebView crashes we've observed in our logs.
+
+* **Fix: Git Commit Dialog Load Time**  
+Fix issue with the Git dialog taking a long time to load with large repositories. We've refactored the dialog to load the repository after the form has initialized which removes a race condition that was severely slowing down the initial load of the repository. The form now loads immediately with a status message in case of slowish loads (which should now be rare) and for most repos the load should be near instant.
 
 * **Fix: Table Editor Add Row on Bottom**  
 Fix behavior of Add row on bottom to continue keeping focus and scroll into visible viewport. Also now allow adding multiple empty rows at the end (previously this wasn't allowed). You can now also add a new Header row by Add new Row in the header.
