@@ -26,8 +26,8 @@ CSV imports into the table editor have been supported via **Load From** for a lo
 * **Update: Default Font Size to 16px**  
 Set default font-size a little smaller to prevent very low res displays from displaying too big of a font initially. This will make fonts smaller for hi-res displays, but people that have hi-resolutiuon displays are used to having to adjust font-sizes up typically.
 
-* **Fix: Move Markdown Monster to latest Web View Async Model**  
-A few versions ago, changes in the async WebView control model broke most of Markdown Monsters JavaScript to .NET interop functionality. In this release we've refactored all of our JS->.NET interfaces to work with the new functionality. This true async support should also improve responsiveness of some tasks, as well as reduce the occasional WebView crashes we've observed in our logs.
+* **Update: Markdown Monster now uses latest WebView Async Model**  
+A few versions ago, changes in the async WebView control model broke most of Markdown Monsters JavaScript to .NET interop functionality that caused us to stick with older versions of the .NET WebView connector. In this release we've refactored all of our JS->.NET interfaces to work with the new async behaviors. This true async support should also improve responsiveness of some tasks, as well as minimize the occasional WebView crashes we've observed in our logs.
 
 * **Fix: Git Commit Dialog Load Time**  
 Fix issue with the Git dialog taking a long time to load with large repositories. We've refactored the dialog to load the repository after the form has initialized which removes a race condition that was severely slowing down the initial load of the repository. The form now loads immediately with a status message in case of slowish loads (which should now be rare) and for most repos the load should be near instant.
