@@ -3,7 +3,7 @@
 
 ### 2.8
 
-*<small>not released yet</small>*
+*<small>January 26th, 2023</small>*
 
 * **[Add Custom External Programs for Documents](https://markdownmonster.west-wind.com/docs/_6if1ephjm.htm)**  
 You can now add external programs to launch for active document in the editor or for files and folders in the Folder Browser. Launch individual programs or URLs and specify arguments in a variety of ways. (belatedly fixes [#947](https://github.com/RickStrahl/MarkdownMonster/issues/947))
