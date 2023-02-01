@@ -1,6 +1,19 @@
 [![download](https://img.shields.io/badge/Download-Installer-blue.svg)](https://markdownmonster.west-wind.com/download)
 [![Web Site](https://img.shields.io/badge/Markdown_Monster-WebSite-blue.svg)](https://markdownmonster.west-wind.com)
 
+### 2.9
+
+*<small>not released yet*
+
+* **Multi-Line Markup for Inline Elements**  
+You can now select multiple lines of inline elements - bold, italic, strikethrough, underline etc. - and apply it to multiple lines.
+
+* **Multi-Line Markup for Soft Returns**  
+You can now select multiple lines and apply Soft Returns to all the lines in the selection which makes it easier to work with list text that doesn't use bullets.
+
+* **Fix: Startup Offscreen Positioning**  
+Change logic used for startup detection of offscreen locations and moving the window into the visible Viewport if completely or mostly obscured.
+
 ### 2.8
 
 *<small>January 26th, 2023</small>*

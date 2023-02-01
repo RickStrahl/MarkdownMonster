@@ -5,8 +5,7 @@
 * [ ] mmCLI: Enable Windows Long Path Support (win10)
 
 #### Enhancements
-* [x] Proper Casing 
-* [ ] Edit Code In Editor on Context Menu (like Edit Image/Edit HREF)
+* [ ] Open Files List from Command Palette
 
 ### Nice to Have
 * Conversion .NET Core 6.0  
