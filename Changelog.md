@@ -3,7 +3,7 @@
 
 ### 2.9
 
-*<small>not released yet*
+*<small>not released yet*</small>
 
 * **Multi-Line Markup for Inline Elements**  
 You can now select multiple lines of inline elements - bold, italic, strikethrough, underline etc. - and apply it to multiple lines.
@@ -11,8 +11,14 @@ You can now select multiple lines of inline elements - bold, italic, strikethrou
 * **Multi-Line Markup for Soft Returns**  
 You can now select multiple lines and apply Soft Returns to all the lines in the selection which makes it easier to work with list text that doesn't use bullets.
 
+* **Easier Html Exports with a new Export Dialog**  
+Html Exports from your markdown are now easier with a dedicated dialog that lets you select the type of Html export (raw fragment, self-contained Html document, folder assets, zip file). This makes the export a lot less cryptic than previous Save File dialog that used only file types for 'hints' on functionality.
+
+* **Change: Unlabled fenced Codeblocks render as Text**  
+Code blocks that don't have an explicit language specified (ie. ` ``` ` instead of  ` ```csharp`) now render as plain text instead of attempting to auto-detect language. Auto-detection often would pick the wrong language as it can be very ambiguous and GitHub also renders as plain text.
+
 * **Fix: Startup Offscreen Positioning**  
-Change logic used for startup detection of offscreen locations and moving the window into the visible Viewport if completely or mostly obscured.
+Change logic used for startup detection of offscreen locations and moving the window into the visible Viewport if completely or mostly obscured. In some instances Windows were moved even if they were fully visible.
 
 ### 2.8
 
