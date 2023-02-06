@@ -6,19 +6,25 @@
 *<small>not released yet*</small>
 
 * **Multi-Line Markup for Inline Elements**  
-You can now select multiple lines of inline elements - bold, italic, strikethrough, underline etc. - and apply it to multiple lines.
+You can now select multiple lines of inline elements - bold, italic, strikethrough, underline etc. - and apply it to multiple lines. ([#1003](https://github.com/RickStrahl/MarkdownMonster/issues/1003))
 
 * **Multi-Line Markup for Soft Returns**  
-You can now select multiple lines and apply Soft Returns to all the lines in the selection which makes it easier to work with list text that doesn't use bullets.
+You can now select multiple lines and apply Soft Returns to all the lines in the selection which makes it easier to work with list text that doesn't use bullets. ([#1003](https://github.com/RickStrahl/MarkdownMonster/issues/1003))
 
 * **Easier Html Exports with a new Export Dialog**  
-Html Exports from your markdown are now easier with a dedicated dialog that lets you select the type of Html export (raw fragment, self-contained Html document, folder assets, zip file). This makes the export a lot less cryptic than previous Save File dialog that used only file types for 'hints' on functionality.
+Html Exports from your markdown are now easier with a dedicated dialog that lets you select the type of Html export (raw fragment, self-contained Html document, folder assets, zip file). This makes the export a lot less cryptic than previous Save File dialog that used only file types for 'hints' on functionality. ([#1000](https://github.com/RickStrahl/MarkdownMonster/issues/1000))
 
 * **Change: Unlabled fenced Codeblocks render as Text**  
-Code blocks that don't have an explicit language specified (ie. ` ``` ` instead of  ` ```csharp`) now render as plain text instead of attempting to auto-detect language. Auto-detection often would pick the wrong language as it can be very ambiguous and GitHub also renders as plain text.
+Code blocks that don't have an explicit language specified (ie. ` ``` ` instead of  ` ```csharp`) now render as plain text instead of attempting to auto-detect language. Auto-detection often would pick the wrong language as it can be very ambiguous and GitHub also renders as plain text. ([#1001](https://github.com/RickStrahl/MarkdownMonster/issues/1001))
 
 * **Fix: Startup Offscreen Positioning**  
-Change logic used for startup detection of offscreen locations and moving the window into the visible Viewport if completely or mostly obscured. In some instances Windows were moved even if they were fully visible.
+Change logic used for startup detection of offscreen locations and moving the window into the visible Viewport if completely or mostly obscured. In some instances Windows were moved even if they were fully visible. ([#998](https://github.com/RickStrahl/MarkdownMonster/issues/998))
+
+* **Fix: Format Table with Left and Center Alignment**  
+Fix issue where left and center alignment on Pipe tables was adding an extra space. ([#1005](https://github.com/RickStrahl/MarkdownMonster/issues/1005))
+
+* **Fix: Text Drag and Drop starting with # tag No longer drops as Link**  
+Fixed issue where dragging a text selection in the editor that starts with `#` would drop as a link expansion rather than plain text. The `#` now pastes as plain text as expected. ([#1002](https://github.com/RickStrahl/MarkdownMonster/issues/1002))
 
 ### 2.8
 
