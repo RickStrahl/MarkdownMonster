@@ -425,15 +425,14 @@ c:\> choco upgrade markdownmonster
             try 
             {
                 var version = FileVersionInfo.GetVersionInfo(path);
-                _latestVersion = version.FileVersion.ToString();
+                _latestVersion = version.FileVersion.ToString().Trim();
                 _lastAccess = DateTime.UtcNow;
             }
             catch {
                 return string.Empty;
             }
 
-            return LatestVersion;
-           
+            return _latestVersion;           
         }
     }
 
