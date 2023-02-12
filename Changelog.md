@@ -17,8 +17,14 @@ Html Exports from your markdown are now easier with a dedicated dialog that lets
 * **Add DarkMode to Emojii Picker**  
 Added dark mode operation to the Emoji picker and also bumped up the size of the individual emojis a bit.
 
+* **Add Copy to Clipboard for Code Snippets to GitHub Preview**  
+The GitHub preview now has buttons on code snippets to copy code to clipboard when previewing or exporting as HTML.
+
 * **Change: Unlabled fenced Codeblocks render as Text**  
 Code blocks that don't have an explicit language specified (ie. ` ``` ` instead of  ` ```csharp`) now render as plain text instead of attempting to auto-detect language. Auto-detection often would pick the wrong language as it can be very ambiguous and GitHub also renders as plain text. ([#1001](https://github.com/RickStrahl/MarkdownMonster/issues/1001))
+
+* **Fix: Context Menu Oddities**  
+Fixed timing issue with context menus where menus were occasionally displaying the default Edge context menu instead of MMs native menu. Removed async call interface, and only applied to the spellcheck display now which improves menu popup speed and always bypasses the native menu.
 
 * **Fix: Startup Offscreen Positioning**  
 Change logic used for startup detection of offscreen locations and moving the window into the visible Viewport if completely or mostly obscured. In some instances Windows were moved even if they were fully visible. ([#998](https://github.com/RickStrahl/MarkdownMonster/issues/998))
