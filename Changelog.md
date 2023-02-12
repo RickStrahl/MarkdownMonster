@@ -20,14 +20,17 @@ Added dark mode operation to the Emoji picker and also bumped up the size of the
 * **Add Copy to Clipboard for Code Snippets to GitHub Preview**  
 The GitHub preview now has buttons on code snippets to copy code to clipboard when previewing or exporting as HTML.
 
-* **Change: Unlabled fenced Codeblocks render as Text**  
+* **New WebLog Post Option to post the New-Posts first**  
+For those of you that write a lot of blog posts or procrastinate with finishing posts, it can be useful to create new posts in the *New Posts* folder until the post is ready to be published. If the post is in `New-Posts` or `Drafts` folder, publishing will prompt you to optionally save the post in the WebLog post folder structure (`postFolder/yyyy-MM/title-of-the-post`). There's no obligation to use this of course and you can always move your posts to whatever location you like.
+
+* **Change: Unlabeled fenced Code Blocks render as Text**  
 Code blocks that don't have an explicit language specified (ie. ` ``` ` instead of  ` ```csharp`) now render as plain text instead of attempting to auto-detect language. Auto-detection often would pick the wrong language as it can be very ambiguous and GitHub also renders as plain text. ([#1001](https://github.com/RickStrahl/MarkdownMonster/issues/1001))
 
 * **Fix: Context Menu Oddities**  
 Fixed timing issue with context menus where menus were occasionally displaying the default Edge context menu instead of MMs native menu. Removed async call interface, and only applied to the spellcheck display now which improves menu popup speed and always bypasses the native menu. This was most notable with Table Editor functionality like Edit and Format Table.
 
 * **Fix: Startup Offscreen Positioning**  
-Change logic used for startup detection of offscreen locations and moving the window into the visible Viewport if completely or mostly obscured. In some instances Windows were moved even if they were fully visible. ([#998](https://github.com/RickStrahl/MarkdownMonster/issues/998))
+Changed logic used for MM startup detection of offscreen locations on the desktop, and moving the window into the visible Viewport if completely or mostly obscured. Previously, in some instances Windows were moved even if they were fully visible. ([#998](https://github.com/RickStrahl/MarkdownMonster/issues/998))
 
 * **Fix: Format Table with Left and Center Alignment**  
 Fix issue where left and center alignment on Pipe tables was adding an extra space. ([#1005](https://github.com/RickStrahl/MarkdownMonster/issues/1005))
