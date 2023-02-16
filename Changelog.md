@@ -1,6 +1,14 @@
 [![download](https://img.shields.io/badge/Download-Installer-blue.svg)](https://markdownmonster.west-wind.com/download)
 [![Web Site](https://img.shields.io/badge/Markdown_Monster-WebSite-blue.svg)](https://markdownmonster.west-wind.com)
 
+[2.8](#28)
+
++----------------+----------------+
+| Header 1       | Header 2       |
++================+================+
+| Row 1 Column 1 | Row 1 Column 2 |
++----------------+----------------+
+
 ### 2.9
 
 *<small>not released yet*</small>
@@ -26,6 +34,9 @@ For those of you that write a lot of blog posts or procrastinate with finishing 
 * **Change: Unlabeled fenced Code Blocks render as Text**  
 Code blocks that don't have an explicit language specified (ie. ` ``` ` instead of  ` ```csharp`) now render as plain text instead of attempting to auto-detect language. Auto-detection often would pick the wrong language as it can be very ambiguous and GitHub also renders as plain text. ([#1001](https://github.com/RickStrahl/MarkdownMonster/issues/1001))
 
+* **Fix: Preview Link Navigation**  
+Fix regression bug related to async processing which caused navi
+
 * **Fix: Context Menu Oddities**  
 Fixed timing issue with context menus where menus were occasionally displaying the default Edge context menu instead of MMs native menu. Removed async call interface, and only applied to the spellcheck display now which improves menu popup speed and always bypasses the native menu. This was most notable with Table Editor functionality like Edit and Format Table.
 
@@ -37,6 +48,7 @@ Fix issue where left and center alignment on Pipe tables was adding an extra spa
 
 * **Fix: Text Drag and Drop starting with # tag No longer drops as Link**  
 Fixed issue where dragging a text selection in the editor that starts with `#` would drop as a link expansion rather than plain text. The `#` now pastes as plain text as expected. ([#1002](https://github.com/RickStrahl/MarkdownMonster/issues/1002))
+
 
 ### 2.8
 
