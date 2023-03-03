@@ -1,6 +1,7 @@
 ### Bugs and Needed Features
-* [x] Fix upper/lower case via Control Palette
-* [ ] Remove internal HtmlPackager and Replace with NuGet Package
+* [ ] External file links in previewer open in browser before navigating
+* [ ] In Editor links don't work in lists
+* [ ] Image File Drag and Drop no longer works
 * [ ] Allow saving documents as admin when permissions fail
 * [ ] mmCLI: Enable Windows Long Path Support (win10)
 
@@ -30,11 +31,13 @@
 	  *(fails to load in Core)*
 	* Windows Speech Engine (not supported for .NET Core)  
 	  *(conditionally removed for Core)*
+	  *Found explicit library that can be shipped from NuGet*
 
 	* Wpf.FontAwesome  
 	  *(apparently works with net462 binary)*
-	* HUnspell  
+	* HUnspell (fixed with ported version)
 	  *(apparently works with net462 binary)*
+	  
 * Pathing Resolution issues 
 	* Weird File not Found errors  
 	*(file not found errors in Folder Browser and other places)*

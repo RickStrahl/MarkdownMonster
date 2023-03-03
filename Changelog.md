@@ -1,13 +1,6 @@
 [![download](https://img.shields.io/badge/Download-Installer-blue.svg)](https://markdownmonster.west-wind.com/download)
 [![Web Site](https://img.shields.io/badge/Markdown_Monster-WebSite-blue.svg)](https://markdownmonster.west-wind.com)
 
-[2.8](#28)
-
-+----------------+----------------+
-| Header 1       | Header 2       |
-+================+================+
-| Row 1 Column 1 | Row 1 Column 2 |
-+----------------+----------------+
 
 ### 2.9
 
@@ -31,11 +24,17 @@ The GitHub preview now has buttons on code snippets to copy code to clipboard wh
 * **New WebLog Post Option to post the New-Posts first**  
 For those of you that write a lot of blog posts or procrastinate with finishing posts, it can be useful to create new posts in the *New Posts* folder until the post is ready to be published. If the post is in `New-Posts` or `Drafts` folder, publishing will prompt you to optionally save the post in the WebLog post folder structure (`postFolder/yyyy-MM/title-of-the-post`). There's no obligation to use this of course and you can always move your posts to whatever location you like.
 
+* **Re-enable Shell Drag and Drop for Images and Markdown Documents**  
+You can now once again drag images and Markdown documents into the editor from Explorer or other shell explorers. Files can only be dropped at the currently selected cursor location - the location cannot be changed with the drag cursor unfortunately. This feature was temporarily disabled as the new WebView uses a completely different mechanism for file dropping.
+
 * **Change: Unlabeled fenced Code Blocks render as Text**  
 Code blocks that don't have an explicit language specified (ie. ` ``` ` instead of  ` ```csharp`) now render as plain text instead of attempting to auto-detect language. Auto-detection often would pick the wrong language as it can be very ambiguous and GitHub also renders as plain text. ([#1001](https://github.com/RickStrahl/MarkdownMonster/issues/1001))
 
 * **Fix: Preview Link Navigation**  
-Fix regression bug related to async processing which caused navi
+Fix regression bug related to async processing which caused navigation to external links to navigate the browser and lose the preview document. Fixed. Also refactored the document processing pipeline for opening documents from the previewer to fix previous lockups in that process and navigation to specific lines in the editor after opening.
+
+* **Fix: File System Drag and Drop into the Editor**  
+When the WebView was introduced file system drag and drop into the editor no longer worked. Files dropped would open in a browser window or open in the shell. This update supports various types of dropped files, from explorer by dropping them into the document at the current editor location (no support for moving the caret though). Browser links and images can now also be dropped and auto-link as links or remote images (use **Copy Image** for locally copying Web images).
 
 * **Fix: Context Menu Oddities**  
 Fixed timing issue with context menus where menus were occasionally displaying the default Edge context menu instead of MMs native menu. Removed async call interface, and only applied to the spellcheck display now which improves menu popup speed and always bypasses the native menu. This was most notable with Table Editor functionality like Edit and Format Table.

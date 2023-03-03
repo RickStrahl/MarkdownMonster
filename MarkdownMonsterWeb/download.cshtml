@@ -396,6 +396,7 @@ c:\> choco upgrade markdownmonster
                 {
                     ReleaseDate = matches[0].Groups[1].Value;
                 }
+                var t = LatestVersion; // refresh too before updating timestamp
                 _lastAccess = DateTime.UtcNow;
             }
             catch (Exception ex)
@@ -418,7 +419,7 @@ c:\> choco upgrade markdownmonster
 
             if (!System.IO.File.Exists(path))
             {
-                _latestVersion = _version;
+                _latestVersion = _version.Trim();
                 return _latestVersion;
             }
 
@@ -426,6 +427,13 @@ c:\> choco upgrade markdownmonster
             {
                 var version = FileVersionInfo.GetVersionInfo(path);
                 _latestVersion = version.FileVersion.ToString().Trim();
+                if(_latestVersion.EndsWith(".0.0")) 
+                {
+                    _latestVersion = _latestVersion.Substring(0,_latestVersion.Length - 4);
+                }
+                else if(_latestVersion.EndsWith(".0")) {    
+                        _latestVersion = _latestVersion.Substring(0,_latestVersion.Length - 2);                    
+                }
                 _lastAccess = DateTime.UtcNow;
             }
             catch {
