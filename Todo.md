@@ -1,11 +1,13 @@
 ### Bugs and Needed Features
-* [ ] External file links in previewer open in browser before navigating
-* [ ] In Editor links don't work in lists
-* [ ] Image File Drag and Drop no longer works
+
+* [ ] Gist Addin - Fix Refresh in Previewer
 * [ ] Allow saving documents as admin when permissions fail
 * [ ] mmCLI: Enable Windows Long Path Support (win10)
+navigating~~
+* [x] ~~Image File Drag and Drop no longer works~~
 
 #### Enhancements
+* [ ] Support inline Soft returns for Rendering
 * [ ] Open Files List from Command Palette
 
 ### Nice to Have

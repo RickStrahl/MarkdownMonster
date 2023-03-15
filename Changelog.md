@@ -1,7 +1,6 @@
 [![download](https://img.shields.io/badge/Download-Installer-blue.svg)](https://markdownmonster.west-wind.com/download)
 [![Web Site](https://img.shields.io/badge/Markdown_Monster-WebSite-blue.svg)](https://markdownmonster.west-wind.com)
 
-
 ### 2.9
 
 *<small>not released yet*</small>
@@ -15,7 +14,7 @@ You can now select multiple lines and apply Soft Returns to all the lines in the
 * **Easier Html Exports with a new Export Dialog**  
 Html Exports from your markdown are now easier with a dedicated dialog that lets you select the type of Html export (raw fragment, self-contained Html document, folder assets, zip file). This makes the export a lot less cryptic than previous Save File dialog that used only file types for 'hints' on functionality. ([#1000](https://github.com/RickStrahl/MarkdownMonster/issues/1000))
 
-* **Add DarkMode to Emojii Picker**  
+* **Add DarkMode to Emoji Picker**  
 Added dark mode operation to the Emoji picker and also bumped up the size of the individual emojis a bit.
 
 * **Add Copy to Clipboard for Code Snippets to GitHub Preview**  
@@ -32,6 +31,12 @@ Code blocks that don't have an explicit language specified (ie. ` ``` ` instead 
 
 * **Fix: Preview Link Navigation**  
 Fix regression bug related to async processing which caused navigation to external links to navigate the browser and lose the preview document. Fixed. Also refactored the document processing pipeline for opening documents from the previewer to fix previous lockups in that process and navigation to specific lines in the editor after opening.
+
+* **Fix: PDF Links with Spaces or Extended Characters**  
+Fix an issue where PDF output was breaking links that were UrlEncoded due to spaces or extended characters in the link. Fixed by Url Decoding before rendering. ([#1011](https://github.com/RickStrahl/MarkdownMonster/issues/1011))
+
+* **Fix: Save as PDF Extra Page**  
+Fix issue where when you use the Print Dialog's Save to PDF generates a trailing blank page due to CSS styling. Fix CSS to remove extra page.
 
 * **Fix: File System Drag and Drop into the Editor**  
 When the WebView was introduced file system drag and drop into the editor no longer worked. Files dropped would open in a browser window or open in the shell. This update supports various types of dropped files, from explorer by dropping them into the document at the current editor location (no support for moving the caret though). Browser links and images can now also be dropped and auto-link as links or remote images (use **Copy Image** for locally copying Web images).
