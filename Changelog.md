@@ -44,6 +44,9 @@ When the WebView was introduced file system drag and drop into the editor no lon
 * **Fix: Context Menu Oddities**  
 Fixed timing issue with context menus where menus were occasionally displaying the default Edge context menu instead of MMs native menu. Removed async call interface, and only applied to the spellcheck display now which improves menu popup speed and always bypasses the native menu. This was most notable with Table Editor functionality like Edit and Format Table.
 
+* **Fix: Document Outline Sidebar with Bold and Italic Text**  
+Document outline incorrectly displayed inline bold and italic text as Markdig Inlines. Fixed. ([#1013](https://github.com/RickStrahl/MarkdownMonster/issues/1013))
+
 * **Fix: Startup Offscreen Positioning**  
 Changed logic used for MM startup detection of offscreen locations on the desktop, and moving the window into the visible Viewport if completely or mostly obscured. Previously, in some instances Windows were moved even if they were fully visible. ([#998](https://github.com/RickStrahl/MarkdownMonster/issues/998))
 
