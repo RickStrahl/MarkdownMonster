@@ -1,5 +1,6 @@
 ### Bugs and Needed Features
 
+* [ ] Fix Simple Editor - Copy/Paste operations not working (menu)
 * [ ] Gist Addin - Fix Refresh in Previewer
 * [ ] Allow saving documents as admin when permissions fail
 * [ ] mmCLI: Enable Windows Long Path Support (win10)

@@ -14,6 +14,9 @@ You can now select multiple lines and apply Soft Returns to all the lines in the
 * **Easier Html Exports with a new Export Dialog**  
 Html Exports from your markdown are now easier with a dedicated dialog that lets you select the type of Html export (raw fragment, self-contained Html document, folder assets, zip file). This makes the export a lot less cryptic than previous Save File dialog that used only file types for 'hints' on functionality. ([#1000](https://github.com/RickStrahl/MarkdownMonster/issues/1000))
 
+* **Add Mermaid Markup ShortCuts and Command Pallette**  
+You can now use the Extra Markdown dropdown and the Command Palette to wrap Mermaid diagrams automatically with the required Mermaid markup tags. You can wrap Mermaid code from the Clipboard or from the editor text selection.
+
 * **Add DarkMode to Emoji Picker**  
 Added dark mode operation to the Emoji picker and also bumped up the size of the individual emojis a bit.
 
@@ -26,6 +29,9 @@ For those of you that write a lot of blog posts or procrastinate with finishing 
 * **Re-enable Shell Drag and Drop for Images and Markdown Documents**  
 You can now once again drag images and Markdown documents into the editor from Explorer or other shell explorers. Files can only be dropped at the currently selected cursor location - the location cannot be changed with the drag cursor unfortunately. This feature was temporarily disabled as the new WebView uses a completely different mechanism for file dropping.
 
+* **Embedded Document TOC now preserves header Markup (bold, italic, code etc.)**  
+When you embed a TOC into the document, any markup in extracted headers is preserved. So the TOC now includes inline bold, italic, and code text to match the original headers. 
+
 * **Change: Unlabeled fenced Code Blocks render as Text**  
 Code blocks that don't have an explicit language specified (ie. ` ``` ` instead of  ` ```csharp`) now render as plain text instead of attempting to auto-detect language. Auto-detection often would pick the wrong language as it can be very ambiguous and GitHub also renders as plain text. ([#1001](https://github.com/RickStrahl/MarkdownMonster/issues/1001))
 
@@ -37,6 +43,9 @@ Fix an issue where PDF output was breaking links that were UrlEncoded due to spa
 
 * **Fix: Save as PDF Extra Page**  
 Fix issue where when you use the Print Dialog's Save to PDF generates a trailing blank page due to CSS styling. Fix CSS to remove extra page.
+
+* **Fix Presentation Mode Scrolling and Sync**  
+Fix issue with presentation mode where the viewer was not scrolling properly in presentation mode. Fixed. Also fixed issue with the sync between the editor and the preview in presentation mode which now preserves the location when toggling between modes and keeps in sync in presentation mode.
 
 * **Fix: File System Drag and Drop into the Editor**  
 When the WebView was introduced file system drag and drop into the editor no longer worked. Files dropped would open in a browser window or open in the shell. This update supports various types of dropped files, from explorer by dropping them into the document at the current editor location (no support for moving the caret though). Browser links and images can now also be dropped and auto-link as links or remote images (use **Copy Image** for locally copying Web images).
