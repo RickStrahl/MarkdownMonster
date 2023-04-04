@@ -14,7 +14,7 @@ You can now select multiple lines and apply Soft Returns to all the lines in the
 * **Easier Html Exports with a new Export Dialog**  
 Html Exports from your markdown are now easier with a dedicated dialog that lets you select the type of Html export (raw fragment, self-contained Html document, folder assets, zip file). This makes the export a lot less cryptic than previous Save File dialog that used only file types for 'hints' on functionality. ([#1000](https://github.com/RickStrahl/MarkdownMonster/issues/1000))
 
-* **Add Mermaid Markup ShortCuts and Command Pallette**  
+* **Add Mermaid Markup ShortCuts and Command Palette**  
 You can now use the Extra Markdown dropdown and the Command Palette to wrap Mermaid diagrams automatically with the required Mermaid markup tags. You can wrap Mermaid code from the Clipboard or from the editor text selection. ([#1018](https://github.com/RickStrahl/MarkdownMonster/issues/1018))
 
 * **Add DarkMode to Emoji Picker**  
