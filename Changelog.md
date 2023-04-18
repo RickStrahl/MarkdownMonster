@@ -38,6 +38,10 @@ Code blocks that don't have an explicit language specified (ie. ` ``` ` instead 
 * **Fix: Preview Link Navigation**  
 Fix regression bug related to async processing which caused navigation to external links to navigate the browser and lose the preview document. Fixed. Also refactored the document processing pipeline for opening documents from the previewer to fix previous lockups in that process and navigation to specific lines in the editor after opening.
 
+* **Fix: Alt Menu Activation**  
+Alt Menu activation for the Window menu was not working and often crashing the application due to a change in the underlying WebView2 control. Fixed menu activation logic.  
+*Note: Alt menu activation from within the editor tends to need an **extra character** to activate the menu for navigation (ie. to activate the Window menu  `alt-alt-w` or `alt-w-w` get you there instead of `alt-w`).*
+
 * **Fix: PDF Links with Spaces or Extended Characters**  
 Fix an issue where PDF output was breaking links that were UrlEncoded due to spaces or extended characters in the link. Fixed by Url Decoding before rendering. ([#1011](https://github.com/RickStrahl/MarkdownMonster/issues/1011))
 
