@@ -38,6 +38,9 @@ Code blocks that don't have an explicit language specified (ie. ` ``` ` instead 
 * **Fix: Preview Link Navigation**  
 Fix regression bug related to async processing which caused navigation to external links to navigate the browser and lose the preview document. Fixed. Also refactored the document processing pipeline for opening documents from the previewer to fix previous lockups in that process and navigation to specific lines in the editor after opening.
 
+* **Fix: Random Application Crashes**  
+Fix a problem with random crashes related to dialogs opening in an invalid Task context and Alt menu activation in some instances causing crashes. Both operations are related to a recent bug introduced in the WebView and code getting triggered that fails at the system level. Fixed by properly handling the Task environment for these operations, so that the WebView code that triggers these errors is not actually invoked.
+
 * **Fix: Alt Menu Activation**  
 Alt Menu activation for the Window menu was not working and often crashing the application due to a change in the underlying WebView2 control. Fixed menu activation logic.  
 *Note: Alt menu activation from within the editor tends to need an **extra character** to activate the menu for navigation (ie. to activate the Window menu  `alt-alt-w` or `alt-w-w` get you there instead of `alt-w`).*
