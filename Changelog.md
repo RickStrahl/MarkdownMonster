@@ -72,6 +72,10 @@ Fix issue where left and center alignment on Pipe tables was adding an extra spa
 * **Fix: Text Drag and Drop starting with # tag No longer drops as Link**  
 Fixed issue where dragging a text selection in the editor that starts with `#` would drop as a link expansion rather than plain text. The `#` now pastes as plain text as expected. ([#1002](https://github.com/RickStrahl/MarkdownMonster/issues/1002))
 
+* **Fix: Snippet Execution Fails with Dynamic C# Expressions/Code**  
+Fix bug with Snippets execution which include code snippets due to a removed reference.
+([#1027](https://github.com/RickStrahl/MarkdownMonster/issues/1027))
+
 
 ### 2.8
 
