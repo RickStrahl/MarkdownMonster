@@ -32,6 +32,9 @@ You can now once again drag images and Markdown documents into the editor from E
 * **Embedded Document TOC now preserves header Markup (bold, italic, code etc.)**  
 When you embed a TOC into the document, any markup in extracted headers is preserved. So the TOC now includes inline bold, italic, and code text to match the original headers. 
 
+* **Add a Show All Files Button to the Folder Browser**  
+The Folder Browser now has a button that shows all files that ignores the file and folder ignore list. This lets you see back up files (if enabled), git and editor files and more as well as any custom ignored files you've added.
+
 * **Change: Unlabeled fenced Code Blocks render as Text**  
 Code blocks that don't have an explicit language specified (ie. ` ``` ` instead of  ` ```csharp`) now render as plain text instead of attempting to auto-detect language. Auto-detection often would pick the wrong language as it can be very ambiguous and GitHub also renders as plain text. ([#1001](https://github.com/RickStrahl/MarkdownMonster/issues/1001))
 
@@ -44,6 +47,9 @@ Fix a problem with random crashes related to dialogs opening in an invalid Task 
 * **Fix: Alt Menu Activation**  
 Alt Menu activation for the Window menu was not working and often crashing the application due to a change in the underlying WebView2 control. Fixed menu activation logic.  
 *Note: Alt menu activation from within the editor tends to need an **extra character** to activate the menu for navigation (ie. to activate the Window menu  `alt-alt-w` or `alt-w-w` get you there instead of `alt-w`).*
+
+* **Fix: Automatic File Backup not Working**  
+Fixed issue where Auto file back was not correctly saving the backup file in the same location as the base document. Fixed. Related Fix: Added support to Show all Files in Folder browser that lets you see the backup files in the Folder browser.
 
 * **Fix: PDF Links with Spaces or Extended Characters**  
 Fix an issue where PDF output was breaking links that were UrlEncoded due to spaces or extended characters in the link. Fixed by Url Decoding before rendering. ([#1011](https://github.com/RickStrahl/MarkdownMonster/issues/1011))
