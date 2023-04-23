@@ -32,6 +32,9 @@ You can now once again drag images and Markdown documents into the editor from E
 * **Embedded Document TOC now preserves header Markup (bold, italic, code etc.)**  
 When you embed a TOC into the document, any markup in extracted headers is preserved. So the TOC now includes inline bold, italic, and code text to match the original headers. 
 
+* **Show Diff Editor for Crash Backup files when Opening Files**  
+If `AutoSaveBackups` is enabled MM creates a backup file of the open document that is removed when the document is saved or closed. If the file is around when the document is opened MM likely crashed and lost some changes. If the backup file is found, MM will now open a Diff editor if configured and also position the folder browser on the back up file.
+
 * **Add a Show All Files Button to the Folder Browser**  
 The Folder Browser now has a button that shows all files that ignores the file and folder ignore list. This lets you see back up files (if enabled), git and editor files and more as well as any custom ignored files you've added.
 
