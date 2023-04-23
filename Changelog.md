@@ -5,6 +5,7 @@
 
 <small>*not released yet*</small>
 
+
 * **Multi-Line Markup for Inline Elements**  
 You can now select multiple lines of inline elements - bold, italic, strikethrough, underline etc. - and apply it to multiple lines. ([#1003](https://github.com/RickStrahl/MarkdownMonster/issues/1003))
 
@@ -53,6 +54,9 @@ Alt Menu activation for the Window menu was not working and often crashing the a
 
 * **Fix: Automatic File Backup not Working**  
 Fixed issue where Auto file back was not correctly saving the backup file in the same location as the base document. Fixed. Related Fix: Added support to Show all Files in Folder browser that lets you see the backup files in the Folder browser.
+
+* **Fix: Change File Detection in Inactive Tabs**  
+Fix issue where inactive tabs that have underlying file changes and aren't dirty locally were not automatically updating from underlying file changes. Now an underlying file change will automatically update the document when the tab is activated.
 
 * **Fix: PDF Links with Spaces or Extended Characters**  
 Fix an issue where PDF output was breaking links that were UrlEncoded due to spaces or extended characters in the link. Fixed by Url Decoding before rendering. ([#1011](https://github.com/RickStrahl/MarkdownMonster/issues/1011))
