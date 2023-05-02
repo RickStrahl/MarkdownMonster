@@ -9,7 +9,7 @@
 You can now select multiple lines of inline elements - bold, italic, strikethrough, underline etc. - and apply it to multiple lines. ([#1003](https://github.com/RickStrahl/MarkdownMonster/issues/1003))
 
 * **Multi-Line Markup for Soft Returns**  
-You can now select multiple lines and apply Soft Returns to all the lines in the selection which makes it easier to work with list text that doesn't use bullets. ([#1003](https://github.com/RickStrahl/MarkdownMonster/issues/1003))
+You can now select multiple lines and apply Soft Returns to all the lines in the selection which makes it easier to work with list text that doesn't use bullets.  ([#1003](https://github.com/RickStrahl/MarkdownMonster/issues/1003))
 
 * **Easier Html Exports with a new Export Dialog**  
 Html Exports from your markdown are now easier with a dedicated dialog that lets you select the type of Html export (raw fragment, self-contained Html document, folder assets, zip file). This makes the export a lot less cryptic than previous Save File dialog that used only file types for 'hints' on functionality. ([#1000](https://github.com/RickStrahl/MarkdownMonster/issues/1000))
