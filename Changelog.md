@@ -3,8 +3,7 @@
 
 ### 2.9
 
-<small>*not released yet*</small>
-
+<small>April 2nd, 2023</small>
 
 * **Multi-Line Markup for Inline Elements**  
 You can now select multiple lines of inline elements - bold, italic, strikethrough, underline etc. - and apply it to multiple lines. ([#1003](https://github.com/RickStrahl/MarkdownMonster/issues/1003))
