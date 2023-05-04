@@ -1,6 +1,13 @@
 [![download](https://img.shields.io/badge/Download-Installer-blue.svg)](https://markdownmonster.west-wind.com/download)
 [![Web Site](https://img.shields.io/badge/Markdown_Monster-WebSite-blue.svg)](https://markdownmonster.west-wind.com)
 
+### 2.10
+
+<small>not released yet</small>
+
+* **Update ACE Editor to current version**  
+It's been a while since the last synced update to Ace Editor. Since we have customization for the Markdown and several other themes so we don't 
+
 ### 2.9
 
 <small>April 2nd, 2023</small>
