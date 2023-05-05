@@ -11,7 +11,7 @@ It's been a while since the last synced to Ace Editor updates and it looks like 
 * **Preview Zoom Sticky across Tabs**  
 Preview Zoom previously only worked on the active Preview tab and would not stick around if a new tab was activated or even when navigating back to the same tab. Now applying a zoom level (via Ctrl-Mousewheel or `ctrl-+` and `ctrl+-`) is applied to **all preview tabs** and remains sticky for the entire session.
 
-* **Fix: High DPI Scaling**  
+* **Fix: High DPI Scaling for Editor Pane**  
 Fix issue where large DPI zoom levels were over adjusting the size of the editor pane's font size.
 
 ### 2.9
