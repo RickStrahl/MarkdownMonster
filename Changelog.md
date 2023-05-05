@@ -5,8 +5,14 @@
 
 <small>not released yet</small>
 
-* **Update ACE Editor to current version**  
+* **Update ACE Editor to current version**   
 It's been a while since the last synced to Ace Editor updates and it looks like there are a number of improvements and updates to the Markdown syntax. Also added a few additional updates to the csharp syntax.
+
+* **Preview Zoom Sticky across Tabs**  
+Preview Zoom previously only worked on the active Preview tab and would not stick around if a new tab was activated or even when navigating back to the same tab. Now applying a zoom level (via Ctrl-Mousewheel or `ctrl-+` and `ctrl+-`) is applied to **all preview tabs** and remains sticky for the entire session.
+
+* **Fix: High DPI Scaling**  
+Fix issue where large DPI zoom levels were over adjusting the size of the editor pane's font size.
 
 ### 2.9
 
@@ -14,9 +20,6 @@ It's been a while since the last synced to Ace Editor updates and it looks like 
 
 * **Multi-Line Markup for Inline Elements**  
 You can now select multiple lines of inline elements - bold, italic, strikethrough, underline etc. - and apply it to multiple lines. ([#1003](https://github.com/RickStrahl/MarkdownMonster/issues/1003))
-
-* **Fix: High DPI Scaling**  
-Fix issue where large DPI zoom levels were over adjusting the size of the editor pane's font size.
 
 * **Multi-Line Markup for Soft Returns**  
 You can now select multiple lines and apply Soft Returns to all the lines in the selection which makes it easier to work with list text that doesn't use bullets.  ([#1003](https://github.com/RickStrahl/MarkdownMonster/issues/1003))
