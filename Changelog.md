@@ -11,8 +11,14 @@ It's been a while since the last synced to Ace Editor updates and it looks like 
 * **Preview Zoom Sticky across Tabs**  
 Preview Zoom previously only worked on the active Preview tab and would not stick around if a new tab was activated or even when navigating back to the same tab. Now applying a zoom level (via Ctrl-Mousewheel or `ctrl-+` and `ctrl+-`) is applied to **all preview tabs** and remains sticky for the entire session.
 
+* **Add Non-Breaking Space and Non-Breaking Hyphen Markup**  
+Added menu and command palette options for inserting non-breaking space and non-breaking (`&nbsp;`) and non-breaking hyphen (`&#8209;`) characters into markup. You can find it on the `Extra Markup (ctrl-x)` menu and using the command palette. ([#1034](https://github.com/RickStrahl/MarkdownMonster/issues/1034))
+
 * **Fix: High DPI Scaling for Editor Pane**  
 Fix issue where large DPI zoom levels were over adjusting the size of the editor pane's font size.
+
+* **Fix Presentation Mode when navigating to other documents** 
+Fix issue where navigating to other documents from within presentation mode would jump out of presentation mode and into a broken intermediate mode where you need to press F11 once to get back to 'regular' edit/preview mode and twice to get back into presentation mode. The fix lets you navigate the target document which then also shows in presentation mode. ([#1033](https://github.com/RickStrahl/MarkdownMonster/issues/1033))
 
 ### 2.9
 
