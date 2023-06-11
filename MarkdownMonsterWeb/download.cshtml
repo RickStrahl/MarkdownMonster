@@ -201,25 +201,29 @@ user folder.">Portable Zip</a> &bull;
                             <a href="https://github.com/RickStrahl/MarkdownMonsterReleases" 
                                title="Download older versions of Markdown Monster from our GitHub Archive.">Archives</a> 
 
- &bull;
+ @* &bull;
                             <a href="https://west-wind.com/files/MarkdownMonsterSetup_Preview.exe" 
                                title="Download a preview of Markdown Monster 3.0.
 
 Important: Requires .NET 7.0 Desktop Runtime.
 
 If this runtime is not installed you will be redirected to 
-download and install it from the Microsoft Web site.">v3.0 Preview</a> 
+download and install it from the Microsoft Web site.">v3.0 Preview</a>  *@
 
-@*
+
                             @if(LatestVersion != Version) {                        
                                 <text>&bull;</text>
                                 
                                 <a href="https://west-wind.com/files/MarkdownMonsterSetup_Latest.exe"  id="DownloadPrerelease"
-                                title="Latest pre-release installer that might be slightly ahead of the current release version."> pre-Release</a>
-                                <small style="font-size: 0.7em">(@LatestVersion)</small>                             
+                                title="Download the latest preview version of Markdown Monster 3.0.
 
+Important: Requires .NET 7.0 Desktop Runtime.
+
+If this runtime is not installed you will be redirected to 
+download and install it from the Microsoft Web site."> pre-Release</a>
+                                <small style="font-size: 0.7em">(@LatestVersion)</small>                             
                             }
-*@
+
                         </div>
 
                         <div style="margin-top: 15px;">
