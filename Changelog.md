@@ -1,9 +1,20 @@
 [![download](https://img.shields.io/badge/Download-Installer-blue.svg)](https://markdownmonster.west-wind.com/download)
 [![Web Site](https://img.shields.io/badge/Markdown_Monster-WebSite-blue.svg)](https://markdownmonster.west-wind.com)
 
-### 2.10
+### 3.0 Preview
 
-<small>not released yet</small>
+* **Updated Version runs on .NET 7.0**  
+We've moved Markdown Monster to run under **.NET 7.0** to take advantage of better integration with support libraries as well as slightly improved performance and development improvements on our end. We do require that the **.NET 7.0 Desktop Runtime** is installed, or you can install with Chocolatey which will automatically install it for you if not present.
+
+* **New WebLog Post Option to post the New-Posts first**  
+For those of you that write a lot of blog posts or procrastinate with finishing posts, it can be useful to create new posts in the *New Posts* folder until the post is ready to be published. If the post is in `New-Posts` or `Drafts` folder, publishing will prompt you to optionally save the post in the WebLog post folder structure (`postFolder/yyyy-MM/title-of-the-post`). There's no obligation to use this of course and you can always move your posts to whatever location you like.
+
+* **[Add Custom External Programs for Documents](https://markdownmonster.west-wind.com/docs/_6if1ephjm.htm)**  
+You can now add external programs to launch for active document in the editor or for files and folders in the Folder Browser. Launch individual programs or URLs and specify arguments in a variety of ways. (belatedly fixes [#947](https://github.com/RickStrahl/MarkdownMonster/issues/947))
+
+* **[Enable Mermaid Charts By Default](https://markdownmonster.west-wind.com/docs/_5ef0x96or.htm)**  
+With wider support of Mermaid in various rendering platforms including GitHub, Mermaid rendering is now enabled by default. There's still a Setting flag that can be used to turn checking for Mermaid code on and off which can improve load and render speed very slightly when `false`. *Note: If you're updating a previous version, your current setting will not change so if it was set at default of `false` it'll continue to stay that way and have to be manually enabled. You can use Tools|Settings|Mermaid to set this value.*
+
 
 * **Update ACE Editor to current version**   
 It's been a while since the last synced to Ace Editor updates and it looks like there are a number of improvements and updates to the Markdown syntax. Also added a few additional updates to the csharp syntax.
@@ -16,6 +27,9 @@ Added menu and command palette options for inserting non-breaking space and non-
 
 * **Improvements to Folder Browser Navigation and Context Menu**  
 More improvements to improve folder browser navigation. Selections should be much smoother, drag and drop more responsive and the context menu should show with less jitter.
+
+* **Fix: Opening folders from the Command Line in Folder Browser**  
+Fixed issue When using the Commandline syntax (ie. `mm .` or `mm c:\temp`) to open folders which open in the folder browser. Folder often would or start loading and 'get stuck'. Fixed via slightly delayed load and async updates.
 
 * **Fix: High DPI Scaling for Editor Pane**  
 Fix issue where large DPI zoom levels were over adjusting the size of the editor pane's font size.
@@ -50,9 +64,6 @@ Added dark mode operation to the Emoji picker and also bumped up the size of the
 
 * **Add Copy to Clipboard for Code Snippets to GitHub Preview**  
 The GitHub preview now has buttons on code snippets to copy code to clipboard when previewing or exporting as HTML.
-
-* **New WebLog Post Option to post the New-Posts first**  
-For those of you that write a lot of blog posts or procrastinate with finishing posts, it can be useful to create new posts in the *New Posts* folder until the post is ready to be published. If the post is in `New-Posts` or `Drafts` folder, publishing will prompt you to optionally save the post in the WebLog post folder structure (`postFolder/yyyy-MM/title-of-the-post`). There's no obligation to use this of course and you can always move your posts to whatever location you like.
 
 * **Re-enable Shell Drag and Drop for Images and Markdown Documents**  
 You can now once again drag images and Markdown documents into the editor from Explorer or other shell explorers. Files can only be dropped at the currently selected cursor location - the location cannot be changed with the drag cursor unfortunately. This feature was temporarily disabled as the new WebView uses a completely different mechanism for file dropping.
@@ -120,12 +131,6 @@ Fix bug with Snippets execution which include code snippets due to a removed ref
 ### 2.8
 
 *<small>January 26th, 2023</small>*
-
-* **[Add Custom External Programs for Documents](https://markdownmonster.west-wind.com/docs/_6if1ephjm.htm)**  
-You can now add external programs to launch for active document in the editor or for files and folders in the Folder Browser. Launch individual programs or URLs and specify arguments in a variety of ways. (belatedly fixes [#947](https://github.com/RickStrahl/MarkdownMonster/issues/947))
-
-* **[Enable Mermaid Charts By Default](https://markdownmonster.west-wind.com/docs/_5ef0x96or.htm)**  
-With wider support of Mermaid in various rendering platforms including GitHub, Mermaid rendering is now enabled by default. There's still a Setting flag that can be used to turn checking for Mermaid code on and off which can improve load and render speed very slightly when `false`. *Note: If you're updating a previous version, your current setting will not change so if it was set at default of `false` it'll continue to stay that way and have to be manually enabled. You can use Tools|Settings|Mermaid to set this value.*
 
 * **Add Proper and Camel Case to Extra Commands and Command Palette**  
 You can now make selected text proper/title cased or camel cased via the command palette.
