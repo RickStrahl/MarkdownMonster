@@ -6,6 +6,33 @@
 
 <img src="Art/MarkdownMonster_Github.jpg" width=600 />
 
+---
+
+
+## Video
+![Video](TheArbiterOfTruth.mp4)
+
+![Video](https://anti-trust.rocks/albums/TheArbiterOfTruth.mp4)
+
+## Audio
+![Music](TheArbiterOfTruth.mp3)
+
+![Music](https://github.com/RickStrahl/anti-trust-guilty-album/raw/main/Albums/Angry/mp3/07%20War%20Machine.mp3)
+
+## Image
+![](../YouTube%20-%20The%20ArbiterOfTruth.png)
+
+
+## Raw Video Embedding
+
+<video style="width: 100%" controls>
+    <source src="TheArbiterOfTruth.mp4" type="video/mp4">
+</video>
+
+---
+
+
+
 Markdown Monster is an easy to use and extensible **Markdown Editor**, **Viewer** and **Weblog Publisher** for Windows. Our goal is to provide the best Markdown specific editor for Windows and make it as easy as possible to create Markdown documents. We provide a core editor and previewer, and a number of non-intrusive helpers to help embed content like images, links, tables, code and more into your documents with minimal effort.
 
 * [See what's new](https://github.com/RickStrahl/MarkdownMonster/blob/main/Changelog.md)  
