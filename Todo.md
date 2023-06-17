@@ -1,30 +1,15 @@
 ### Bugs and Needed Features
 
-* [ ] Fix Pipe Table Import/Format
-
-* [ ] Fix Simple Editor - Copy/Paste operations not working (menu)
 * [ ] Gist Addin - Fix Refresh in Previewer
 * [ ] Allow saving documents as admin when permissions fail
-* [ ] mmCLI: Enable Windows Long Path Support (win10)
-navigating~~
-* [x] ~~Image File Drag and Drop no longer works~~
 
 #### Enhancements
-* [ ] GitHub Dark Theme
 * [ ] Open Files List from Command Palette
-
-### Nice to Have
-* Conversion .NET Core 6.0  
-	* Issues:
-		* `ExcecuteScript()` functionality
-		* use of `dynamic` fixes
-		* Figure out Runtime Distribution
 
 ### Consideration
 * [ ] Markup (Publishing) support
 * [ ] reveal.js presentations as an Addin
 * [ ] FTP Upload Addin (started)
-
 
 
 ### Markdown Monster .NET CORE 6.0 Migration
