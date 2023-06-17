@@ -1,5 +1,7 @@
 ### Bugs and Needed Features
 
+* [ ] Fix Pipe Table Import/Format
+
 * [ ] Fix Simple Editor - Copy/Paste operations not working (menu)
 * [ ] Gist Addin - Fix Refresh in Previewer
 * [ ] Allow saving documents as admin when permissions fail
@@ -8,7 +10,7 @@ navigating~~
 * [x] ~~Image File Drag and Drop no longer works~~
 
 #### Enhancements
-* [ ] Support inline Soft returns for Rendering
+* [ ] GitHub Dark Theme
 * [ ] Open Files List from Command Palette
 
 ### Nice to Have

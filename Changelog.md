@@ -6,6 +6,10 @@
 * **Updated Version runs on .NET 7.0**  
 We've moved Markdown Monster to run under **.NET 7.0** to take advantage of better integration with support libraries as well as slightly improved performance and development improvements on our end. We do require that the **.NET 7.0 Desktop Runtime** is installed, or you can install with Chocolatey which will automatically install it for you if not present.
 
+* **Drag and Drop support for Video and Audio Files Links**  
+You can now drag video and music files from the folder browser and Explorer into the editor and have them auto-linked as media files. Videos embed as a video player, audio files as audio player.  
+*Note: Audio/Video linking is not supported by all Markdown platforms/renderers, so make sure that your target platform supports this functionality.*
+
 * **New WebLog Post Option to post the New-Posts first**  
 For those of you that write a lot of blog posts or procrastinate with finishing posts, it can be useful to create new posts in the *New Posts* folder until the post is ready to be published. If the post is in `New-Posts` or `Drafts` folder, publishing will prompt you to optionally save the post in the WebLog post folder structure (`postFolder/yyyy-MM/title-of-the-post`). There's no obligation to use this of course and you can always move your posts to whatever location you like.
 
@@ -14,7 +18,6 @@ You can now add external programs to launch for active document in the editor or
 
 * **[Enable Mermaid Charts By Default](https://markdownmonster.west-wind.com/docs/_5ef0x96or.htm)**  
 With wider support of Mermaid in various rendering platforms including GitHub, Mermaid rendering is now enabled by default. There's still a Setting flag that can be used to turn checking for Mermaid code on and off which can improve load and render speed very slightly when `false`. *Note: If you're updating a previous version, your current setting will not change so if it was set at default of `false` it'll continue to stay that way and have to be manually enabled. You can use Tools|Settings|Mermaid to set this value.*
-
 
 * **Update ACE Editor to current version**   
 It's been a while since the last synced to Ace Editor updates and it looks like there are a number of improvements and updates to the Markdown syntax. Also added a few additional updates to the csharp syntax.
@@ -28,6 +31,8 @@ Added menu and command palette options for inserting non-breaking space and non-
 * **Improvements to Folder Browser Navigation and Context Menu**  
 More improvements to improve folder browser navigation. Selections should be much smoother, drag and drop more responsive and the context menu should show with less jitter.
 
+* **Light Theme Adjustments**  
+Added a number of modifications and cleanups to the light theme.
 
 * **Change: Unlabeled fenced Code Blocks render as Text**  
 Code blocks that don't have an explicit language specified (ie. ` ``` ` instead of  ` ```csharp`) now render as plain text instead of attempting to auto-detect language. Auto-detection often would pick the wrong language as it can be very ambiguous and GitHub also renders as plain text. ([#1001](https://github.com/RickStrahl/MarkdownMonster/issues/1001))
@@ -38,6 +43,12 @@ Code Snippets now support `await` calls in C# expressions or code blocks. This i
 
 * **[Support for Structured Statements in Code Snippet Templates](https://markdownmonster.west-wind.com/docs/_5gs0uc49h.htm#c-code-execution)**  
 C# snippets now also support structured code blocks using `{{% <statement> }}` that are directly embedded as code. This allows for `if` and `for` type structured statement blocks that can bracket other text or expression. But it also allows for arbitrary C# code blocks to be executed and act as integrated code.
+
+* **Updated Installation Process removes WebView Installer Run in most Cases**  
+Installation now no longer always runs the WebView installer. With the Windows 10+ requirement for MM 3.0 the WebView Runtime is updated with Windows and so tends to be up to date. The application now checks for the minimum runtime version and if that's not installed runs the installer. In most cases the installer won't run.
+
+* **Custom, On-Demand .NET Runtime Installation Launcher**  
+MM 3.0 uses .NET 7.0 and requires a Desktop Runtime installation to run and these runtimes are not installed on Windows by default.  We've created a custom, on-demand runtime checker and download and install process that only runs if the minimum runtime requested for MM isn't installed. This helps run on .NET 7.0 without having to ship runtimes as part of the distribution keeping download sizes down. Currently we require .NET 7.0.3 or later.
 
 * **Fix: Opening folders from the Command Line in Folder Browser**  
 Fixed issue When using the Commandline syntax (ie. `mm .` or `mm c:\temp`) to open folders which open in the folder browser. Folder often would or start loading and 'get stuck'. Fixed via slightly delayed load and async updates.
@@ -53,6 +64,9 @@ Fix issue with Folder Browser context menu not closing. Fixed. ([#1036](https://
 
 * **Fix: Slow Git Window Activation on large Git Repos**  
 When accessing large Git repos first load of the Git dialog was very slow. Reduced reptitive status look up and added an async wrapper to initial status retrieval. Fixed.
+
+* **Fix: Better Error Messages for Unbalanced Grid Tables**  
+Provide better error message that includes the row that failed when Grid tables cannot be parsed - typically due to unbalanced `|` characters. You now get a status error message that lists the row where the problem occurs.
 
 ### 2.9
 
