@@ -4,7 +4,7 @@
 ### 3.0 Preview
 
 * **Updated Version runs on .NET 7.0**  
-We've moved Markdown Monster to run under **.NET 7.0** to take advantage of better integration with support libraries as well as slightly improved performance and development improvements on our end. We do require that the **.NET 7.0 Desktop Runtime** is installed, or you can install with Chocolatey which will automatically install it for you if not present.
+We've moved Markdown Monster to run under **.NET 7.0** to take advantage of better integration with new .NET features and support libraries as well as slightly improved performance and many development improvements on our end. This release requires the **.NET 7.0 Desktop Runtime** (7.0.3 or later). The latest runtime is installed as part of the full setup process *if a compatible version is not present*. For the portable version the runtime either needs to be present or has to be installed. To install the runtime you can use  `mm.exe -runtimeinstall` or manually download and install from Microsoft's [.NET Download site](https://dotnet.microsoft.com/en-us/download/dotnet/7.0).
 
 * **Added GitHub Dark Preview Theme**  
 Since GitHub has supported dark mode for some time we've added a `GitHub Dark` theme. This is now also the default preview theme for dark mode. Additionally there are a few adjustments to the GitHub (light) theme to keep it up to date with the actual GitHub site.
