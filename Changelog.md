@@ -13,8 +13,8 @@ Since GitHub has supported dark mode for some time we've added a `GitHub Dark` t
 You can now drag video and music files from the folder browser and Explorer into the editor and have them auto-linked as media files. Videos embed as a video player, audio files as audio player.  
 *Note: Audio/Video linking is not supported by all Markdown platforms/renderers, so make sure that your target platform supports this functionality.*
 
-* **New WebLog Post Option to post the New-Posts first**  
-For those of you that write a lot of blog posts or procrastinate with finishing posts, it can be useful to create new posts in the *New Posts* folder until the post is ready to be published. If the post is in `New-Posts` or `Drafts` folder, publishing will prompt you to optionally save the post in the WebLog post folder structure (`postFolder/yyyy-MM/title-of-the-post`). There's no obligation to use this of course and you can always move your posts to whatever location you like.
+* **New WebLog Post Option to post to New-Posts Folder first**  
+For those of you that write a lot of blog posts or procrastinate with finishing posts, it can be useful to create new posts in the *New Posts* folder until the post is ready to be published. If the post is in `New-Posts` or `Drafts` folder, publishing will prompt you to optionally save the post in the WebLog post folder structure (`postFolder/yyyy-MM/title-of-the-post`). There's no obligation to use this of course and you can always move your posts to whatever location you like, but this provides an organized way to keep track of your posts and drafts.
 
 * **[Add Custom External Programs for Documents](https://markdownmonster.west-wind.com/docs/_6if1ephjm.htm)**  
 You can now add external programs to launch for active document in the editor or for files and folders in the Folder Browser. Launch individual programs or URLs and specify arguments in a variety of ways. (belatedly fixes [#947](https://github.com/RickStrahl/MarkdownMonster/issues/947))
