@@ -6,8 +6,8 @@
 * **Updated Version runs on .NET 7.0**  
 We've moved Markdown Monster to run under **.NET 7.0** to take advantage of better integration with support libraries as well as slightly improved performance and development improvements on our end. We do require that the **.NET 7.0 Desktop Runtime** is installed, or you can install with Chocolatey which will automatically install it for you if not present.
 
-* **Added Github Dark Preview Theme**  
-Since GitHub has supported dark mode for some time we've added a `Github Dark` theme. This is now also the default preview theme and assigned when switching to dark mode from light mode. Additionally there are a few adjustments to the Github (light) theme to keep it up to date with the actual Github site.
+* **Added GitHub Dark Preview Theme**  
+Since GitHub has supported dark mode for some time we've added a `GitHub Dark` theme. This is now also the default preview theme for dark mode. Additionally there are a few adjustments to the GitHub (light) theme to keep it up to date with the actual GitHub site.
 
 * **Drag and Drop support for Video and Audio Files Links**  
 You can now drag video and music files from the folder browser and Explorer into the editor and have them auto-linked as media files. Videos embed as a video player, audio files as audio player.  
