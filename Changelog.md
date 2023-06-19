@@ -9,6 +9,9 @@ We've moved Markdown Monster to run under **.NET 7.0** to take advantage of bett
 * **Added GitHub Dark Preview Theme**  
 Since GitHub has supported dark mode for some time we've added a `GitHub Dark` theme. This is now also the default preview theme for dark mode. Additionally there are a few adjustments to the GitHub (light) theme to keep it up to date with the actual GitHub site.
 
+* **Light Theme Improvements**  
+Added a number of modifications and cleanups to the light theme. Many improvements in background/foreground combos, selections as well as using more distinctive colors for separators and borders.
+
 * **Drag and Drop support for Video and Audio Files Links**  
 You can now drag video and music files from the folder browser and Explorer into the editor and have them auto-linked as media files. Videos embed as a video player, audio files as audio player.  
 *Note: Audio/Video linking is not supported by all Markdown platforms/renderers, so make sure that your target platform supports this functionality.*
@@ -33,9 +36,6 @@ Added menu and command palette options for inserting non-breaking space and non-
 
 * **Improvements to Folder Browser Navigation and Context Menu**  
 More improvements to improve folder browser navigation. Selections should be much smoother, drag and drop more responsive and the context menu should show with less jitter.
-
-* **Light Theme Adjustments**  
-Added a number of modifications and cleanups to the light theme.
 
 * **Change: Unlabeled fenced Code Blocks render as Text**  
 Code blocks that don't have an explicit language specified (ie. ` ``` ` instead of  ` ```csharp`) now render as plain text instead of attempting to auto-detect language. Auto-detection often would pick the wrong language as it can be very ambiguous and GitHub also renders as plain text. ([#1001](https://github.com/RickStrahl/MarkdownMonster/issues/1001))
