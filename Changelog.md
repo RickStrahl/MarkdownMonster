@@ -53,6 +53,12 @@ Installation now no longer always runs the WebView installer. With the Windows 1
 * **Custom, On-Demand .NET Runtime Installation Launcher**  
 MM 3.0 uses .NET 7.0 and requires a Desktop Runtime installation to run and these runtimes are not installed on Windows by default.  We've created a custom, on-demand runtime checker and download and install process that only runs if the minimum runtime requested for MM isn't installed. This helps run on .NET 7.0 without having to ship runtimes as part of the distribution keeping download sizes down. Currently we require .NET 7.0.3 or later.
 
+* **Remove automatic WebView Installer in Setup**  
+As Windows 10+ now automatically updates the WebView control as part of Windows updates, we'll assume a valid version of the WebView is installed, so the WebView installer no longer runs during setup. The application still checks on startup for the correct version and if it can't be found then launches the installer. 
+
+* **Dropped Support for Windows 7 and 8, pre Server 2016**
+This unfortunate change is due to changes in the WebView requirements. The WebView is used in MM to render the editor and preview panes as well as various support screens. Due to a change in platform targeting of the core Chromium engine used by the WebView, MM also is dropping support for pre-Windows 10 and pre-Server 2016 OS versions. It still works as of now until the 1900 releases of the WebView come into release.
+
 * **Fix: Opening folders from the Command Line in Folder Browser**  
 Fixed issue When using the Commandline syntax (ie. `mm .` or `mm c:\temp`) to open folders which open in the folder browser. Folder often would or start loading and 'get stuck'. Fixed via slightly delayed load and async updates.
 
