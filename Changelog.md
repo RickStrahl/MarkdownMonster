@@ -1,3 +1,17 @@
+---
+title: ''
+featuredImageUrl: https://img.shields.io/badge/Download-Installer-blue.svg
+abstract: ''
+keywords: ''
+categories: ''
+weblogName: West Wind Web Log
+postId: 3898782
+permalink: https://weblog.west-wind.com/posts/2023/Jun/26/
+postDate: 2023-06-26T11:02:35.7069447-07:00
+postStatus: publish
+dontInferFeaturedImage: false
+dontStripH1Header: false
+---
 [![download](https://img.shields.io/badge/Download-Installer-blue.svg)](https://markdownmonster.west-wind.com/download)
 [![Web Site](https://img.shields.io/badge/Markdown_Monster-WebSite-blue.svg)](https://markdownmonster.west-wind.com)
 
@@ -12,7 +26,7 @@ Since GitHub has supported dark mode for some time we've added a `GitHub Dark` t
 * **Light Theme Improvements**  
 Added a number of modifications and cleanups to the light theme. Many improvements in background/foreground combos, selections as well as using more distinctive colors for separators and borders.
 
-* **Update Main Toolbar and Sidebar icon**  
+* **Update Main Toolbar and Sidebar Icons**  
 We needed to move off our old FontAwesome 4 icon set due to incompatibility issues in .NET Core, and in the process we now are running on FontAwesome 6 which provides many additional icon options as well as improved color support. For now Toolbar and Sidebar icons have been updated with some new icons and touches of two-tone colors. The rest of the  app forms will be gradually moved over to new icons over the next few updates.
 
 * **Drag and Drop support for Video and Audio Files Links**  
