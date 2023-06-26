@@ -12,6 +12,9 @@ Since GitHub has supported dark mode for some time we've added a `GitHub Dark` t
 * **Light Theme Improvements**  
 Added a number of modifications and cleanups to the light theme. Many improvements in background/foreground combos, selections as well as using more distinctive colors for separators and borders.
 
+* **Update Main Toolbar and Sidebar icon**  
+We needed to move off our old FontAwesome 4 icon set due to incompatibility issues in .NET Core, and in the process we now are running on FontAwesome 6 which provides many additional icon options as well as improved color support. For now Toolbar and Sidebar icons have been updated with some new icons and touches of two-tone colors. The rest of the  app forms will be gradually moved over to new icons over the next few updates.
+
 * **Drag and Drop support for Video and Audio Files Links**  
 You can now drag video and music files from the folder browser and Explorer into the editor and have them auto-linked as media files. Videos embed as a video player, audio files as audio player.  
 *Note: Audio/Video linking is not supported by all Markdown platforms/renderers, so make sure that your target platform supports this functionality.*
