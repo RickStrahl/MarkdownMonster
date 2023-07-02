@@ -187,7 +187,7 @@ h5 {
 
 
 }
-@media(min-width: 1100px) {
+@media(min-width: 1500px) {
     #ContentContainer {
         margin: 0 auto !important;
     }
@@ -195,6 +195,17 @@ h5 {
         display: block;
         flex: 1 1 auto;
         max-width: 350px;
+    }    
+}
+
+@media(min-width: 1800px) {
+    #ContentContainer {
+        margin: 0 auto !important;
+    }
+    .twitter-sidebar {
+        display: block;
+        flex: 1 1 auto;
+        max-width: 600px;
     }
 
 }
