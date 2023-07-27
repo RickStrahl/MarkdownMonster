@@ -1,4 +1,3 @@
-
 [![download](https://img.shields.io/badge/Download-Installer-blue.svg)](https://markdownmonster.west-wind.com/download)
 [![Web Site](https://img.shields.io/badge/Markdown_Monster-WebSite-blue.svg)](https://markdownmonster.west-wind.com)
 
@@ -13,8 +12,8 @@ Since GitHub has supported dark mode for some time we've added a `GitHub Dark` t
 * **Light Theme Improvements**  
 Added a number of modifications and cleanups to the light theme. Many improvements in background/foreground combos, selections as well as using more distinctive colors for separators and borders.
 
-* **Update Main Toolbar and Sidebar Icons**  
-We needed to move off our old FontAwesome 4 icon set due to incompatibility issues in .NET Core, and in the process we now are running on FontAwesome 6 which provides many additional icon options as well as improved color support. For now Toolbar and Sidebar icons have been updated with some new icons and touches of two-tone colors. The rest of the  app forms will be gradually moved over to new icons over the next few updates.
+* **Updated Icons throughout Application**  
+We needed to move off our old FontAwesome 4 icon set due to incompatibility issues in .NET Core, and in the process we are now are running on FontAwesome 6 which provides many additional icon options as well as improved color and stroke support. New and sharper icons make for clearer toolbar, button and menu options throughout the application.
 
 * **Drag and Drop support for Video and Audio Files Links**  
 You can now drag video and music files from the folder browser and Explorer into the editor and have them auto-linked as media files. Videos embed as a video player, audio files as audio player.  
@@ -41,6 +40,9 @@ Added menu and command palette options for inserting non-breaking space and non-
 * **Improvements to Folder Browser Navigation and Context Menu**  
 More improvements to improve folder browser navigation. Selections should be much smoother, drag and drop more responsive and the context menu should show with less jitter.
 
+* **[Built-in Web Server improvements](https://markdownmonster.west-wind.com/docs/_5s1009yx1.htm)**  
+The built-in Web server now is more responsive and provides additional commands for remote execution.
+
 * **Change: Unlabeled fenced Code Blocks render as Text**  
 Code blocks that don't have an explicit language specified (ie. ` ``` ` instead of  ` ```csharp`) now render as plain text instead of attempting to auto-detect language. Auto-detection often would pick the wrong language as it can be very ambiguous and GitHub also renders as plain text. ([#1001](https://github.com/RickStrahl/MarkdownMonster/issues/1001))
 
@@ -51,17 +53,16 @@ Code Snippets now support `await` calls in C# expressions or code blocks. This i
 * **[Support for Structured Statements in Code Snippet Templates](https://markdownmonster.west-wind.com/docs/_5gs0uc49h.htm#c-code-execution)**  
 C# snippets now also support structured code blocks using `{{% <statement> }}` that are directly embedded as code. This allows for `if` and `for` type structured statement blocks that can bracket other text or expression. But it also allows for arbitrary C# code blocks to be executed and act as integrated code.
 
-* **Updated Installation Process removes WebView Installer Run in most Cases**  
-Installation now no longer always runs the WebView installer. With the Windows 10+ requirement for MM 3.0 the WebView Runtime is updated with Windows and so tends to be up to date. The application now checks for the minimum runtime version and if that's not installed runs the installer. In most cases the installer won't run.
 
-* **Custom, On-Demand .NET Runtime Installation Launcher**  
+* **[Custom, On-Demand .NET Runtime Installation Launcher](https://weblog.west-wind.com/posts/2023/Jun/21/Creating-a-Runtime-Checker-and-Installer-for-a-NET-Core-WPF-Application)**  
 MM 3.0 uses .NET 7.0 and requires a Desktop Runtime installation to run and these runtimes are not installed on Windows by default.  We've created a custom, on-demand runtime checker and download and install process that only runs if the minimum runtime requested for MM isn't installed. This helps run on .NET 7.0 without having to ship runtimes as part of the distribution keeping download sizes down. Currently we require .NET 7.0.3 or later.
 
-* **Remove automatic WebView Installer in Setup**  
-As Windows 10+ now automatically updates the WebView control as part of Windows updates, we'll assume a valid version of the WebView is installed, so the WebView installer no longer runs during setup. The application still checks on startup for the correct version and if it can't be found then launches the installer. 
+* **Removed automatic WebView Installer in Setup**  
+As Windows 10+ now automatically updates the WebView control as part of Windows updates, we'll assume a valid version of the WebView is installed, so the WebView installer no longer runs on setup, but rather checks for a valid version inside of the application on startup. In the rare case that a newer version is required we then run the installer explicitly. This makes for a much cleaner and quicker install experience in most cases.
 
-* **Dropped Support for Windows 7 and 8, pre Server 2016**
-This unfortunate change is due to changes in the WebView requirements. The WebView is used in MM to render the editor and preview panes as well as various support screens. Due to a change in platform targeting of the core Chromium engine used by the WebView, MM also is dropping support for pre-Windows 10 and pre-Server 2016 OS versions. It still works as of now until the 1900 releases of the WebView come into release.
+* **Dropped Support for Windows 7 and 8, Server 2012 and earlier**
+This unfortunate change is due to requirements of the WebView component and Chromium Engine used by that that is dropping support for pre-Windows 10 versions of Windows. The WebView is used in MM to render the editor and preview panes as well as various support screens. MM still works as of now until the 1900 releases of the WebView come into release which officially drop the earlier Windows versions.
+*versions prior to 3.0 should continue to work with older Windows versions*
 
 * **Fix: Opening folders from the Command Line in Folder Browser**  
 Fixed issue When using the Commandline syntax (ie. `mm .` or `mm c:\temp`) to open folders which open in the folder browser. Folder often would or start loading and 'get stuck'. Fixed via slightly delayed load and async updates.

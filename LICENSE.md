@@ -14,7 +14,6 @@ A fully functional, free evaluation version is available for evaluation use, but
 Licenses can be purchased from:  
 https://store.west-wind.com/product/markdown_monster
 
-
 #### Evaluation License
 
 The Evaluation version has all the features and functionality of the registered version, except that it shows occasional freeware notices. Tampering with or removing of the notices is not allowed with the evaluation license.
