@@ -48,7 +48,7 @@ To request access for the private repository please:
 
 * Provide a GitHub email address
 * A brief note what you plan to use access for
-* Send the request to `markdownmonster@@west-wind.com`
+* Send the request to `markdownmonster@west-wind.com`
 
 Access to the repository is by our discretion.
 

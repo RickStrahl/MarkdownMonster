@@ -40,6 +40,12 @@ Added menu and command palette options for inserting non-breaking space and non-
 * **Improvements to Folder Browser Navigation and Context Menu**  
 More improvements to improve folder browser navigation. Selections should be much smoother, drag and drop more responsive and the context menu should show with less jitter.
 
+* **Folder Browser PDF Documents now display in the Previewer**  
+When you use the Folder Browser and navigate to a Pdf file, the file is now displayed in the previewer without requiring to click in explicitly. You can still open PDF files externally via `Open` options on the context menu. The previewer is a Chromium based preview so you get all standard browser print and PDF export options as you would in an external browser.
+
+* **Video and MP3 Files now open in the Previewer**  
+`.mp4` and `.mp3` files now open in the Previewer to play when double clicked in the Folder Browser.
+
 * **[Built-in Web Server improvements](https://markdownmonster.west-wind.com/docs/_5s1009yx1.htm)**  
 The built-in Web server now is more responsive and provides additional commands for remote execution.
 
@@ -69,6 +75,9 @@ Fixed issue When using the Commandline syntax (ie. `mm .` or `mm c:\temp`) to op
 
 * **Fix: High DPI Scaling for Editor Pane**  
 Fix issue where large DPI zoom levels were over adjusting the size of the editor pane's font size.
+
+* **Fix: Track Requests in Folder Browser**  
+Fix the tracking feature so that it selects the currently active file in addition to the folder. Regression fix for behavior change in recent async upgrade.
 
 * **Fix Presentation Mode when navigating to other documents** 
 Fix issue where navigating to other documents from within presentation mode would jump out of presentation mode and into a broken intermediate mode where you need to press F11 once to get back to 'regular' edit/preview mode and twice to get back into presentation mode. The fix lets you navigate the target document which then also shows in presentation mode. ([#1033](https://github.com/RickStrahl/MarkdownMonster/issues/1033))
