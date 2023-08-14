@@ -37,6 +37,9 @@ Preview Zoom previously only worked on the active Preview tab and would not stic
 * **Add Non-Breaking Space and Non-Breaking Hyphen Markup**  
 Added menu and command palette options for inserting non-breaking space and non-breaking (`&nbsp;`) and non-breaking hyphen (`&#8209;`) characters into markup. You can find it on the `Extra Markup (ctrl-x)` menu and using the command palette. ([#1034](https://github.com/RickStrahl/MarkdownMonster/issues/1034))
 
+* **Add Smaller Text Icon to Main Toolbar**  
+There's now a small text icon on the toolbar that wraps text with `<small>text</small>` tags.
+
 * **Improvements to Folder Browser Navigation and Context Menu**  
 More improvements to improve folder browser navigation. Selections should be much smoother, drag and drop more responsive and the context menu should show with less jitter.
 
@@ -88,8 +91,12 @@ Fix issue with Folder Browser context menu not closing. Fixed. ([#1036](https://
 * **Fix: Slow Git Window Activation on large Git Repos**  
 When accessing large Git repos first load of the Git dialog was very slow. Reduced reptitive status look up and added an async wrapper to initial status retrieval. Fixed.
 
+* **Fix: Mermaid Rendering to use new Markup Syntax**  
+Mermaid recently switched its default rendering syntax from using `<div>` tags to `<pre>` tags. Oddly some charts still worked, while others were failing only working with `<pre>` tags. We now use `<pre>` tag translation of **``` mermaid** directives.
+
 * **Fix: Better Error Messages for Unbalanced Grid Tables**  
 Provide better error message that includes the row that failed when Grid tables cannot be parsed - typically due to unbalanced `|` characters. You now get a status error message that lists the row where the problem occurs.
+
 
 ### 2.9
 
