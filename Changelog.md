@@ -60,7 +60,7 @@ Code blocks that don't have an explicit language specified (ie. ` ``` ` instead 
 Code Snippets now support `await` calls in C# expressions or code blocks. This is necessary for accessing many of the `Model.ActiveEditor` methods that effect editor behavior (most commonly `await Model.ActiveEditor.GetSelection()`). 
 
 * **[Support for Structured Statements in Code Snippet Templates](https://markdownmonster.west-wind.com/docs/_5gs0uc49h.htm#c-code-execution)**  
-C# snippets now also support structured code blocks using `{{% <statement> }}` that are directly embedded as code. This allows for `if` and `for` type structured statement blocks that can bracket other text or expression. But it also allows for arbitrary C# code blocks to be executed and act as integrated code.
+C# snippets now also support structured code blocks using `{{% <statement> }}` that are directly embedded as code. This allows for `if` and `for` type structured statement blocks that can bracket other text or expressions. But it also allows for arbitrary C# code blocks to be executed and act as integrated code.
 
 
 * **[Custom, On-Demand .NET Runtime Installation Launcher](https://weblog.west-wind.com/posts/2023/Jun/21/Creating-a-Runtime-Checker-and-Installer-for-a-NET-Core-WPF-Application)**  
@@ -72,6 +72,9 @@ As Windows 10+ now automatically updates the WebView control as part of Windows 
 * **Dropped Support for Windows 7 and 8, Server 2012 and earlier**
 This unfortunate change is due to requirements of the WebView component and Chromium Engine used by that that is dropping support for pre-Windows 10 versions of Windows. The WebView is used in MM to render the editor and preview panes as well as various support screens. MM still works as of now until the 1900 releases of the WebView come into release which officially drop the earlier Windows versions.
 *versions prior to 3.0 should continue to work with older Windows versions*
+
+* **[Add `mmcli enable-windows-longpaths`](https://markdownmonster.west-wind.com/docs/_68d0r8rej.htm)**  
+Added two `mmcli` commands to allow enable/disable Windows Long Path support. Two commands are `enable-windows-longpaths` and `disable-windows-longpaths`.
 
 * **Fix: Opening folders from the Command Line in Folder Browser**  
 Fixed issue When using the Commandline syntax (ie. `mm .` or `mm c:\temp`) to open folders which open in the folder browser. Folder often would or start loading and 'get stuck'. Fixed via slightly delayed load and async updates.
