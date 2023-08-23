@@ -100,6 +100,8 @@ Mermaid recently switched its default rendering syntax from using `<div>` tags t
 * **Fix: Better Error Messages for Unbalanced Grid Tables**  
 Provide better error message that includes the row that failed when Grid tables cannot be parsed - typically due to unbalanced `|` characters. You now get a status error message that lists the row where the problem occurs.
 
+* **Fix: Distraction Free Mode Issues**  
+Fix distraction free mode bug that didn't hide Tabs in Light mode. Fix issues with properly restoring mode when undoing distraction free mode.
 
 ### 2.9
 
@@ -182,6 +184,9 @@ Fixed issue where dragging a text selection in the editor that starts with `#` w
 * **Fix: Snippet Execution Fails with Dynamic C# Expressions/Code**  
 Fix bug with Snippets execution which include code snippets due to a removed reference.
 ([#1027](https://github.com/RickStrahl/MarkdownMonster/issues/1027))
+
+* **Fix: Distraction Free Mode Issues**  
+Fix Tab Headers not hiding in Light Theme mode. Fix resizing when coming out of DFM. Don't save Window sizing information when shutting down and restore to previous non DFM state.
 
 
 ### 2.8
