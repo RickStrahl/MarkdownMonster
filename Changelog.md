@@ -1,7 +1,7 @@
 [![download](https://img.shields.io/badge/Download-Installer-blue.svg)](https://markdownmonster.west-wind.com/download)
 [![Web Site](https://img.shields.io/badge/Markdown_Monster-WebSite-blue.svg)](https://markdownmonster.west-wind.com)
 
-### 3.0
+### 3.0.1 - Official Release
 
 * **Updated Version runs on .NET 7.0**  
 We've moved Markdown Monster to run under **.NET 7.0** to take advantage of better integration with new .NET features and support libraries as well as slightly improved performance and many development improvements on our end. This release requires the **.NET 7.0 Desktop Runtime** (7.0.3 or later). The latest runtime is installed as part of the full setup process *if a compatible version is not present*. For the portable version the runtime either needs to be present or has to be installed. To install the runtime you can use  `mm.exe -runtimeinstall` or manually download and install from Microsoft's [.NET Download site](https://dotnet.microsoft.com/en-us/download/dotnet/7.0).
