@@ -1,6 +1,24 @@
 [![download](https://img.shields.io/badge/Download-Installer-blue.svg)](https://markdownmonster.west-wind.com/download)
 [![Web Site](https://img.shields.io/badge/Markdown_Monster-WebSite-blue.svg)](https://markdownmonster.west-wind.com)
 
+### 3.0.3
+
+* **Installation moved to Program Files**  
+We've moved the default installation location for the full installation to the `Program Files` folder to avoid common installation issues related to Windows Account usage that in the past would install certain components in the wrong location when elevation was required. We've also moved all remaining updatable content (except the preview templates and previewers) out of the install folder into common file location.
+
+* **Portable Install Behavior Remains unchanged**  
+Besides the changes to the full install, the Portable Install can still be installed in any location of your choice as a self-contained install that can store all application, and common updatable configuration and support data in a local folder hierarchy. Portable installs by default use a contained `PortableSettings` folder which falls back to the `%appdata%\Markdown Monster` common path that is also used by the full install **if** permissions are not available to write files. This behavior is mostly unchanged except the additional files that now go into the `PortableSettings` or common folder.
+
+* **Fix: WebView Install Folder in Startup Location**  
+Fixed issue where the YouTube embedding dialog was causing the WebView to create a separate WebView environment in the install folder rather than the common shared location used by all other WebView controls. This also fixes a common point of crashes
+
+#### Breaking and Recommended Changes 
+* **Recommend full uninstall and reinstall for Full Installations**  
+Due to the move to `Program Files` we recommend you do a full, uninstall and then re-install Markdown Monster if you are using the full installer or Chocolatey install. It's not required, and if you don't re-install the existing `%localappdata%\Markdown Monster` or your own custom location will continue to be used. The explicit uninstall ensures that the new Programs Files path is used on a new install. Portable installs don't need to have anything changed.
+
+* **Remove `WebView_` Folder From Markdown Monster Install Folder (if present)**  
+If your MM installation folder contains a `WebView_*` folder, it's recommended that you shut down MM and delete the entire folder. This folder was not intended to be placed and should be deleted so it will no longer take up space.
+
 ### 3.0.1 - Official Release
 
 * **Updated Version runs on .NET 7.0**  
@@ -334,6 +352,8 @@ Change display of error messages so the full message is displayed instead of the
 
 
 #### Breaking Changes
+
+
 
 * **Recommend a full Uninstall/Reinstall**  
 The updated Roslyn support in version 2.5.5 and later changes a number of runtime dependencies and it's recommended that if you were running a pre-2.5.5 version you completely uninstall Markdown Monster and reinstall in order to clean the installation folder of old dependencies.
