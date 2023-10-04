@@ -1,14 +1,16 @@
 [![download](https://img.shields.io/badge/Download-Installer-blue.svg)](https://markdownmonster.west-wind.com/download)
 [![Web Site](https://img.shields.io/badge/Markdown_Monster-WebSite-blue.svg)](https://markdownmonster.west-wind.com)
 
-### 3.0.4
+### 3.0.6
 
 * **Improved Folder Browser Search Results**  
 The Find in Files functionality now includes a file icon for file type, the number of matches per file, the file date, and a tool tip that shows file information and a preview of the file's content for quick review.
 
+* **Add Copy Link for Web Links and Images**  
+In the preview browser you can now copy links for Web images and links to the clipboard from the Previewer context menu. Note that only Web links - not relative or local file path links - show this option on the context menu.
+
 * **Move WebView Environment to %localappdata%**  
 Due to some issues with portable installs and write permissions, the local WebView environment folder has now been moved to the `%localappdata%\Markdown Monster` folder which is (normally) writable and always accessible. This avoids problems with users installing the portable version and not setting their `PortableSettings` folder to be writable. This at least ensures that the editors and other viewers load correctly.
-
 
 ### 3.0.3
 
