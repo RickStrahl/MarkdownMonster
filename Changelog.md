@@ -1,7 +1,7 @@
 [![download](https://img.shields.io/badge/Download-Installer-blue.svg)](https://markdownmonster.west-wind.com/download)
 [![Web Site](https://img.shields.io/badge/Markdown_Monster-WebSite-blue.svg)](https://markdownmonster.west-wind.com)
 
-### 3.0.6
+### 3.0.5
 
 * **Improved Folder Browser Search Results**  
 The Find in Files functionality now includes a file icon for file type, the number of matches per file, the file date, and a tool tip that shows file information and a preview of the file's content for quick review.
