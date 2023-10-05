@@ -12,6 +12,12 @@ In the preview browser you can now copy links for Web images and links to the cl
 * **Move WebView Environment to %localappdata%**  
 Due to some issues with portable installs and write permissions, the local WebView environment folder has now been moved to the `%localappdata%\Markdown Monster` folder which is (normally) writable and always accessible. This avoids problems with users installing the portable version and not setting their `PortableSettings` folder to be writable. This at least ensures that the editors and other viewers load correctly.
 
+* **Fix: Non-existant .md File Navigation in Previewer**  
+Fix Previewer so that when navigating a non-existent Markdown file no navigation (to an error page before) occurs and a statusbar error is displayed pointing at the missing expanded filename.
+
+* **Fix: Image Link Navigation in Previewer**  
+Fix issue where image links (links that wrap an image) are not properly navigated due to the initial image target. Fixed to treat nested image links like simple links for preview navigation.
+
 ### 3.0.3
 
 * **Installation moved to Program Files**  
