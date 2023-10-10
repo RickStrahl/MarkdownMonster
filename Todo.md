@@ -1,7 +1,7 @@
 ### Bugs and Needed Features
 
 * [ ] Gist Addin - Fix Refresh in Previewer
-* [ ] Allow saving documents as admin when permissions fail
+* [x] Allow saving documents as admin when permissions fail
 
 #### Enhancements
 * [ ] Open Files List from Command Palette
@@ -15,7 +15,5 @@
 ### Markdown Monster .NET CORE 6.0 Migration
 
 **Issues**
-* .NET Framework Assemblies that require updates
-	* Wpf.FontAwesome  
-	  *(apparently works with net462 binary)*
+
 
