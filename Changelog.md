@@ -3,7 +3,7 @@
 
 ### 3.0.5
 
-* **Add Support to Save with Elevated Rights**  
+* **[Add Support to Save with Elevated Rights](https://github.com/RickStrahl/ImageDrop/blob/master/MarkdownMonster/SaveElevated.gif)**  
 You can now optionally save documents that are permissions restricted by elevating to Administrator. If a file is not authorized a notification pops up to show an option to save with elevated rights instead.
 
 * **Improved Folder Browser Search Results**  
@@ -12,11 +12,11 @@ The Find in Files functionality now includes a file icon for file type, the numb
 * **'Copy Link' for Web Links and 'Copy Image Link' for Images in Previewer**  
 In the preview browser you can now copy links for Web images and links to the clipboard from the Previewer context menu. Note that only Web links - not relative or local file path links - show this option on the context menu.
 
-* **Move WebView Environment to %localappdata%**  
-Due to some issues with portable installs and write permissions, the local WebView environment folder has now been moved to the `%localappdata%\Markdown Monster` folder which is (normally) writable and always accessible. This avoids problems with users installing the portable version and not setting their `PortableSettings` folder to be writable. This at least ensures that the editors and other viewers load correctly.
-
 * **Add Caption to Dropped Files and Images**  
 When dragging or pasting files or images into the editor, we now try to guess the caption based on the filename using Proper Case, Snake Case, Camel case deconversions if no spaces are present.
+
+* **Move WebView Environment to %localappdata%**  
+Due to some issues with portable installs and write permissions, the local WebView environment folder has now been moved to the `%localappdata%\Markdown Monster` folder which is (normally) writable and always accessible. This avoids problems with users installing the portable version and not setting their `PortableSettings` folder to be writable. This at least ensures that the editors and other viewers load correctly.
 
 * **Fix: Non-existant .md File Navigation in Previewer**  
 Fix Previewer so that when navigating a non-existent Markdown file no navigation (to an error page before) occurs and a statusbar error is displayed pointing at the missing expanded filename.
