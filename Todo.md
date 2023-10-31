@@ -1,7 +1,8 @@
 ### Bugs and Needed Features
+* [ ] Open With in Preview Tab uses .md File not Preview file (.pdf/.html/.png)
+* [ ] PDF Printing - open after render doesn't work
 
 * [ ] Gist Addin - Fix Refresh in Previewer
-* [x] Allow saving documents as admin when permissions fail
 
 #### Enhancements
 * [ ] Open Files List from Command Palette

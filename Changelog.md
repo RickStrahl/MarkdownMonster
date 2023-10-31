@@ -1,7 +1,7 @@
 [![download](https://img.shields.io/badge/Download-Installer-blue.svg)](https://markdownmonster.west-wind.com/download)
 [![Web Site](https://img.shields.io/badge/Markdown_Monster-WebSite-blue.svg)](https://markdownmonster.west-wind.com)
 
-### 3.0.5
+### 3.0.10
 
 * **[Add Support to Save with Elevated Rights](https://github.com/RickStrahl/ImageDrop/blob/master/MarkdownMonster/SaveElevated.gif)**  
 You can now optionally save documents that are permissions restricted by elevating to Administrator. If a file is not authorized a notification pops up to show an option to save with elevated rights instead.
@@ -23,6 +23,12 @@ Fix Previewer so that when navigating a non-existent Markdown file no navigation
 
 * **Fix: Image Link Navigation in Previewer**  
 Fix issue where image links (links that wrap an image) are not properly navigated due to the initial image target. Fixed to treat nested image links like simple links for preview navigation.
+
+* **Fix: PDF Generation output does not open file for Viewing**  
+Fix issue where even if you have the **Display output file** checkbox set on the PDF generation form output was not displayed. Fixed and you should now see the output displayed in your system configured PDF Viewer.
+
+* **Fix: Consolidate WebView Initialization**  
+Fix WebView Initialization by consolidating the WebView environment into a single instance that is shared across all instances. This fixes the rare WebView crashes with `UnauthorizedException` errors caused by potentially errand WebView instances. It also appears to improve initial load performance.
 
 ### 3.0.3
 
