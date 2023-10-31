@@ -1,7 +1,7 @@
 [![download](https://img.shields.io/badge/Download-Installer-blue.svg)](https://markdownmonster.west-wind.com/download)
 [![Web Site](https://img.shields.io/badge/Markdown_Monster-WebSite-blue.svg)](https://markdownmonster.west-wind.com)
 
-### 3.0.10
+### 3.0.11
 
 * **[Add Support to Save with Elevated Rights](https://github.com/RickStrahl/ImageDrop/blob/master/MarkdownMonster/SaveElevated.gif)**  
 You can now optionally save documents that are permissions restricted by elevating to Administrator. If a file is not authorized a notification pops up to show an option to save with elevated rights instead.
@@ -17,6 +17,9 @@ When dragging or pasting files or images into the editor, we now try to guess th
 
 * **Move WebView Environment to %localappdata%**  
 Due to some issues with portable installs and write permissions, the local WebView environment folder has now been moved to the `%localappdata%\Markdown Monster` folder which is (normally) writable and always accessible. This avoids problems with users installing the portable version and not setting their `PortableSettings` folder to be writable. This at least ensures that the editors and other viewers load correctly.
+
+* **Emoji Picker Improvements**  
+The Emoji Viewer now loads considerably faster by delay loading some of the 1600+ icons out of band. The picker now shows a count of icons in the list in the status bar, with the list updated as you search and filter.
 
 * **Fix: Non-existant .md File Navigation in Previewer**  
 Fix Previewer so that when navigating a non-existent Markdown file no navigation (to an error page before) occurs and a statusbar error is displayed pointing at the missing expanded filename.
