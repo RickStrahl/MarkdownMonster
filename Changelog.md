@@ -21,6 +21,12 @@ Due to some issues with portable installs and write permissions, the local WebVi
 * **Emoji Picker Improvements**  
 The Emoji Viewer now loads considerably faster by delay loading some of the 1600+ icons out of band. The picker now shows a count of icons in the list in the status bar, with the list updated as you search and filter.
 
+* **Installation moved to Program Files**  
+We've moved the default installation location for the full installation to the `Program Files` folder to avoid common installation issues related to Windows Account usage that in the past would install certain components in the wrong location when elevation was required. We've also moved all remaining updatable content (except the preview templates and previewers) out of the install folder into common file location.
+
+* **Portable Install Behavior Remains unchanged**  
+Besides the changes to the full install, the Portable Install can still be installed in any location of your choice as a self-contained install that can store all application, and common updatable configuration and support data in a local folder hierarchy. Portable installs by default use a contained `PortableSettings` folder which falls back to the `%appdata%\Markdown Monster` common path that is also used by the full install **if** permissions are not available to write files. This behavior is mostly unchanged except the additional files that now go into the `PortableSettings` or common folder.
+
 * **Fix: Non-existant .md File Navigation in Previewer**  
 Fix Previewer so that when navigating a non-existent Markdown file no navigation (to an error page before) occurs and a statusbar error is displayed pointing at the missing expanded filename.
 
@@ -32,14 +38,6 @@ Fix issue where even if you have the **Display output file** checkbox set on the
 
 * **Fix: Consolidate WebView Initialization**  
 Fix WebView Initialization by consolidating the WebView environment into a single instance that is shared across all instances. This fixes rare WebView crashes with `UnauthorizedException` errors caused by potentially errand WebView instances. It also slightly improves initial load performance.
-
-### 3.0.3
-
-* **Installation moved to Program Files**  
-We've moved the default installation location for the full installation to the `Program Files` folder to avoid common installation issues related to Windows Account usage that in the past would install certain components in the wrong location when elevation was required. We've also moved all remaining updatable content (except the preview templates and previewers) out of the install folder into common file location.
-
-* **Portable Install Behavior Remains unchanged**  
-Besides the changes to the full install, the Portable Install can still be installed in any location of your choice as a self-contained install that can store all application, and common updatable configuration and support data in a local folder hierarchy. Portable installs by default use a contained `PortableSettings` folder which falls back to the `%appdata%\Markdown Monster` common path that is also used by the full install **if** permissions are not available to write files. This behavior is mostly unchanged except the additional files that now go into the `PortableSettings` or common folder.
 
 * **Fix: WebView Install Folder in Startup Location**  
 Fixed issue where the YouTube embedding dialog was causing the WebView to create a separate WebView environment in the install folder rather than the common shared location used by all other WebView controls. This also fixes a common point of crashes
