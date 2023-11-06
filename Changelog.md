@@ -1,7 +1,7 @@
 [![download](https://img.shields.io/badge/Download-Installer-blue.svg)](https://markdownmonster.west-wind.com/download)
 [![Web Site](https://img.shields.io/badge/Markdown_Monster-WebSite-blue.svg)](https://markdownmonster.west-wind.com)
 
-### 3.0.11
+### 3.1
 
 * **[Add Support to Save with Elevated Rights](https://github.com/RickStrahl/ImageDrop/blob/master/MarkdownMonster/SaveElevated.gif)**  
 You can now optionally save documents that are permissions restricted by elevating to Administrator. If a file is not authorized a notification pops up to show an option to save with elevated rights instead.
@@ -13,7 +13,7 @@ The Find in Files functionality now includes a file icon for file type, the numb
 In the preview browser you can now copy links for Web images and links to the clipboard from the Previewer context menu. Note that only Web links - not relative or local file path links - show this option on the context menu.
 
 * **Add Caption to Dropped Files and Images**  
-When dragging or pasting files or images into the editor, we now try to guess the caption based on the filename using Proper Case, Snake Case, Camel case deconversions if no spaces are present.
+When dragging or pasting files or images into the editor, we now try to guess the caption based on the filename using Proper Case, Snake Case, Camel case de-conversions if no spaces are present.
 
 * **Move WebView Environment to %localappdata%**  
 Due to some issues with portable installs and write permissions, the local WebView environment folder has now been moved to the `%localappdata%\Markdown Monster` folder which is (normally) writable and always accessible. This avoids problems with users installing the portable version and not setting their `PortableSettings` folder to be writable. This at least ensures that the editors and other viewers load correctly.
@@ -31,7 +31,7 @@ Fix issue where image links (links that wrap an image) are not properly navigate
 Fix issue where even if you have the **Display output file** checkbox set on the PDF generation form output was not displayed. Fixed and you should now see the output displayed in your system configured PDF Viewer.
 
 * **Fix: Consolidate WebView Initialization**  
-Fix WebView Initialization by consolidating the WebView environment into a single instance that is shared across all instances. This fixes the rare WebView crashes with `UnauthorizedException` errors caused by potentially errand WebView instances. It also appears to improve initial load performance.
+Fix WebView Initialization by consolidating the WebView environment into a single instance that is shared across all instances. This fixes rare WebView crashes with `UnauthorizedException` errors caused by potentially errand WebView instances. It also slightly improves initial load performance.
 
 ### 3.0.3
 
