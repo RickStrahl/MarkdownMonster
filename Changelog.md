@@ -2,6 +2,7 @@
 [![Web Site](https://img.shields.io/badge/Markdown_Monster-WebSite-blue.svg)](https://markdownmonster.west-wind.com)
 
 ### 3.1
+<small>*November 7th, 2023*</small>
 
 * **[Add Support to Save with Elevated Rights](https://github.com/RickStrahl/ImageDrop/blob/master/MarkdownMonster/SaveElevated.gif)**  
 You can now optionally save documents that are permissions restricted by elevating to Administrator. If a file is not authorized a notification pops up to show an option to save with elevated rights instead.
@@ -50,6 +51,7 @@ Due to the move to `Program Files` we recommend you do a full, uninstall and the
 If your MM installation folder contains a `WebView_*` folder, it's recommended that you shut down MM and delete the entire folder. This folder was not intended to be placed and should be deleted so it will no longer take up space.
 
 ### 3.0.1 - Official Release
+<small>*August 28th, 2023*</small>
 
 * **Updated Version runs on .NET 7.0**  
 We've moved Markdown Monster to run under **.NET 7.0** to take advantage of better integration with new .NET features and support libraries as well as slightly improved performance and many development improvements on our end. This release requires the **.NET 7.0 Desktop Runtime** (7.0.3 or later). The latest runtime is installed as part of the full setup process *if a compatible version is not present*. For the portable version the runtime either needs to be present or has to be installed. To install the runtime you can use  `mm.exe -runtimeinstall` or manually download and install from Microsoft's [.NET Download site](https://dotnet.microsoft.com/en-us/download/dotnet/7.0).
@@ -153,7 +155,7 @@ Fix distraction free mode bug that didn't hide Tabs in Light mode. Fix issues wi
 
 ### 2.9
 
-<small>April 2nd, 2023</small>
+<small>*April 2nd, 2023*</small>
 
 * **Multi-Line Markup for Inline Elements**  
 You can now select multiple lines of inline elements - bold, italic, strikethrough, underline etc. - and apply it to multiple lines. ([#1003](https://github.com/RickStrahl/MarkdownMonster/issues/1003))
