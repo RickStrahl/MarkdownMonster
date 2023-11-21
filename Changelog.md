@@ -1,6 +1,22 @@
 [![download](https://img.shields.io/badge/Download-Installer-blue.svg)](https://markdownmonster.west-wind.com/download)
 [![Web Site](https://img.shields.io/badge/Markdown_Monster-WebSite-blue.svg)](https://markdownmonster.west-wind.com)
 
+### 3.2
+<small>*in progress*</small>
+
+* **Install .NET 8.0 Runtime if Runtime Missing**  
+MM now installs the .NET 8.0 runtime if .NET 7.0 or 8.0 is not installed. We're still compiling with a 7.0 target but automatically roll forward to 8.0 if available. If no 7.0 runtime is found, 8.0 is now installed. In future versions we'll switch to requiring 8.0 but for now either 7 or 8 are valid pre-requisites.
+
+* **Updated GitHub Preview Styling**  
+Minor tweaks to the GitHub default preview templates: Remove the grid outline when rendering under 980px frame width to reduce wasted space.  Grid outline is rendered in larger screen sizes (980px+). Clean up blockquotes and docfx renderings and backgrounds. Clean up differences between the Github light and dark preview templates.
+
+* **Updates to DocFx Preview Styling**  
+In light of GitHub's addition of some DocFx functionality in its Markdown renderer we've more closely matched the default styling of the Note/Warning/Info/Tip block quote rendering to more closely match the GitHub styling in the GitHub styles. Also updated the Blackout template styling. 
+
+* **Fix: DocFx include/code Embedding**  
+Fix issue with built-in DocFx include/code embedding directives (`[!include]` and `[!code-lang]`) which were failing if multiple directives were used on the same page.
+
+
 ### 3.1
 <small>*November 7th, 2023*</small>
 
