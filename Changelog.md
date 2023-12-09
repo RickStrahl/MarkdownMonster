@@ -4,7 +4,7 @@
 ### 3.2
 <small>*in progress*</small>
 
-* **Add OpenAI Image Generation Plug in (Preview)**  
+* **[Add OpenAI Image Generation Plug in (Preview)](https://markdownmonster.west-wind.com/docs/_6rz0smzc0.htm)**  
 You can now generate AI images using the Open AI Dall-E-3 models to generate images in your documents. The plugin provides an interactive way to generate prompts and save them, and includes support for many image operations to manage captured images.  
 *requires an OpenAI API key*
 
