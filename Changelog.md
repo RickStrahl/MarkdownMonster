@@ -5,7 +5,7 @@
 <small>*in progress*</small>
 
 * **[Add OpenAI Image Generation Plug in (Preview)](https://markdownmonster.west-wind.com/docs/_6rz0smzc0.htm)**  
-You can now generate AI images using the Open AI Dall-E-3 models to generate images in your documents. The plugin provides an interactive way to generate prompts and save them, and includes support for many image operations to manage captured images.  
+You can now generate AI images using OpenAI models to generate images in your documents or for general purpose use. The plugin provides an interactive way to create prompts, generate images. You embed, save or copy images, and images captured are saved for later review.  
 *requires an OpenAI API key*
 
 * **Install .NET 8.0 Runtime if Runtime Missing**  
