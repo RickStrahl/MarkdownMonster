@@ -1,8 +1,23 @@
 [![download](https://img.shields.io/badge/Download-Installer-blue.svg)](https://markdownmonster.west-wind.com/download)
 [![Web Site](https://img.shields.io/badge/Markdown_Monster-WebSite-blue.svg)](https://markdownmonster.west-wind.com)
 
-### 3.2
+### 3.1.12
 <small>*in progress*</small>
+
+* **Image Generation Updates**  
+Additional image operation to view and save the generate images. Add Context menu to the previewer. Fix issues with generation and previewing at the same time. Improve initial load of images. Encrypt saved API keys.
+
+* **Small And Italic Command Palette**  
+Added *Small and Italic* to the command palette as a quick short cut to add the compound operation to a selection. Similar to the existing *Bold and Italic* operation. 
+
+* **Fix: Image Generator Memory Usage**  
+Fix memory leaks for the image list loading which result in very large memory usage when repeatedly loading the AI Image Generation Addin.
+
+* **Fix: Image Generator Load Time**  
+Fix slow startup and UI lockup when loading the AI Image Generator with a lot of images. Images are now loaded asynchronously and leave the UI responsive even with large amounts of recent images displayed.
+
+### 3.1.8
+<small>December 2nd, 2023</small>
 
 * **[Add OpenAI Image Generation Plug in (Preview)](https://markdownmonster.west-wind.com/docs/_6rz0smzc0.htm)**  
 You can now generate AI images using OpenAI models to generate images in your documents or for general purpose use. The plugin provides an interactive way to create prompts and generate images. You can embed, save or copy generated images and images captured are saved for later review.
