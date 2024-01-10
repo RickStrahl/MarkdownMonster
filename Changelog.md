@@ -1,11 +1,18 @@
 [![download](https://img.shields.io/badge/Download-Installer-blue.svg)](https://markdownmonster.west-wind.com/download)
 [![Web Site](https://img.shields.io/badge/Markdown_Monster-WebSite-blue.svg)](https://markdownmonster.west-wind.com)
 
-### 3.1.12
+### 3.1.14
 <small>*in progress*</small>
 
+* **Move to .NET 8.0**  
+Move all application binaries to .NET 8.0. The installer now requires .NET 8.0, so updates on machines that are running .NET 7.0 will no update to .NET 8.0.
+
+* **Image Generator Azure OpenAI Support**  
+We've added support for Azure OpenAI keys for using the Image generator.  
+<small>*Note: Currently Dall-E 3 is only supported in a single Azure Region (Sweden Central), and you have to set up an Azure Dall-E deployment specifically in this region.*</small>
+
 * **Image Generation Updates**  
-Additional image operation to view and save the generate images. Add Context menu to the previewer. Fix issues with generation and previewing at the same time. Improve initial load of images. Encrypt saved API keys.
+Additional image operation to view and save the generated images. Add Context menu to the previewer. Fix issues with generation and previewing at the same time. Improve initial load time of recent images. Encrypt saved API keys.
 
 * **Small And Italic Command Palette**  
 Added *Small and Italic* to the command palette as a quick short cut to add the compound operation to a selection. Similar to the existing *Bold and Italic* operation. 
@@ -16,12 +23,14 @@ Fix memory leaks for the image list loading which result in very large memory us
 * **Fix: Image Generator Load Time**  
 Fix slow startup and UI lockup when loading the AI Image Generator with a lot of images. Images are now loaded asynchronously and leave the UI responsive even with large amounts of recent images displayed.
 
+
 ### 3.1.8
 <small>December 2nd, 2023</small>
 
-* **[Add OpenAI Image Generation Plug in (Preview)](https://markdownmonster.west-wind.com/docs/_6rz0smzc0.htm)**  
+* **[Add OpenAI Image Generation Addin in (Preview)](https://markdownmonster.west-wind.com/docs/_6rz0smzc0.htm)**  
 You can now generate AI images using OpenAI models to generate images in your documents or for general purpose use. The plugin provides an interactive way to create prompts and generate images. You can embed, save or copy generated images and images captured are saved for later review.
 *requires an OpenAI API key*
+
 
 * **Install .NET 8.0 Runtime if Runtime Missing**  
 MM now installs the .NET 8.0 runtime if .NET 7.0 or 8.0 is not installed. We're still compiling with a 7.0 target but automatically roll forward to 8.0 if available. If no 7.0 runtime is found, 8.0 is now installed. In future versions we'll switch to requiring 8.0 but for now either 7 or 8 are valid pre-requisites to avoid unnecessary installation of runtimes.
