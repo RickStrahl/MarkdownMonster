@@ -1,7 +1,7 @@
 [![download](https://img.shields.io/badge/Download-Installer-blue.svg)](https://markdownmonster.west-wind.com/download)
 [![Web Site](https://img.shields.io/badge/Markdown_Monster-WebSite-blue.svg)](https://markdownmonster.west-wind.com)
 
-### 3.1.15
+### 3.1.16
 <small>*in progress*</small>
 
 * **Move to .NET 8.0**  
