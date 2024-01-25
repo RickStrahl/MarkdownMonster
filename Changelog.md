@@ -1,39 +1,34 @@
 [![download](https://img.shields.io/badge/Download-Installer-blue.svg)](https://markdownmonster.west-wind.com/download)
 [![Web Site](https://img.shields.io/badge/Markdown_Monster-WebSite-blue.svg)](https://markdownmonster.west-wind.com)
 
-### 3.1.16
-<small>*in progress*</small>
+### 3.2
+<small>January 25th, 2024</small>
 
 * **Move to .NET 8.0**  
-Move all application binaries to .NET 8.0. The installer now requires .NET 8.0, so updates on machines that are running .NET 7.0 will no update to .NET 8.0.
-
-* **Image Generator Azure OpenAI Support**  
-We've added support for Azure OpenAI keys for using the Image generator.  
-<small>*Note: Currently Dall-E 3 is only supported in a single Azure Region (Sweden Central), and you have to set up an Azure Dall-E deployment specifically in this region.*</small>
-
-* **Image Generation Updates**  
-Additional image operation to view and save the generated images. Add Context menu to the previewer. Fix issues with generation and previewing at the same time. Improve initial load time of recent images. Encrypt saved API keys.
-
-* **Small And Italic Command Palette**  
-Added *Small and Italic* to the command palette as a quick short cut to add the compound operation to a selection. Similar to the existing *Bold and Italic* operation. 
-
-* **Fix: Image Generator Memory Usage**  
-Fix memory leaks for the image list loading which result in very large memory usage when repeatedly loading the AI Image Generation Addin.
-
-* **Fix: Image Generator Load Time**  
-Fix slow startup and UI lockup when loading the AI Image Generator with a lot of images. Images are now loaded asynchronously and leave the UI responsive even with large amounts of recent images displayed.
-
-
-### 3.1.8
-<small>December 2nd, 2023</small>
+Move all application binaries to .NET 8.0. The installer now requires .NET 8.0, so updates on machines that are running .NET 7.0 will no update to .NET 8.0. .NET 8.0 Shared Runtime is dynamically installed during setup or at runtime (for portable installs).
 
 * **[Add OpenAI Image Generation Addin in (Preview)](https://markdownmonster.west-wind.com/docs/_6rz0smzc0.htm)**  
-You can now generate AI images using OpenAI models to generate images in your documents or for general purpose use. The plugin provides an interactive way to create prompts and generate images. You can embed, save or copy generated images and images captured are saved for later review.
+You can now generate AI images using OpenAI and Dall-E 3 to generate images in your documents or for general purpose use. The plugin provides an interactive way to create prompts and generate images. You can embed, save or copy generated images and browse through and manage previously generated images for later review or re-prompting.
 *requires an OpenAI API key*
 
+* **Image Generator Azure OpenAI Support**  
+We've added support for Azure OpenAI keys for using the Image generator. 
+<small>*Note: Currently Dall-E 3 is only supported in a single Azure Region (Sweden Central), and you have to set up an Azure Dall-E deployment specifically in this region.*</small>
 
-* **Install .NET 8.0 Runtime if Runtime Missing**  
-MM now installs the .NET 8.0 runtime if .NET 7.0 or 8.0 is not installed. We're still compiling with a 7.0 target but automatically roll forward to 8.0 if available. If no 7.0 runtime is found, 8.0 is now installed. In future versions we'll switch to requiring 8.0 but for now either 7 or 8 are valid pre-requisites to avoid unnecessary installation of runtimes.
+* **[Add Support to Save with Elevated Rights](https://github.com/RickStrahl/ImageDrop/blob/master/MarkdownMonster/SaveElevated.gif)**  
+You can now optionally save documents that are permissions restricted by elevating to Administrator. If a file is not authorized a notification pops up to show an option to save with elevated rights instead.
+
+* **Add MathJax 3.0 Support**  
+Update the Math rendering extension to use the latest version of MathJax which has much richer support including much improved Accessibility (including Braille support). ([#1080](https://github.com/RickStrahl/MarkdownMonster/issues/1080))
+
+* **Improved KeyBinding Manager Support for any Command**  
+You can now bind any of MM's internal commands to a keyboard shortcut. You can specify the command by `CommandName` in the `MarkdownMonster-Keybindings.json` configuration file. Command names can be found in the class reference documentation under `AppCommands` and its various sub-objects. Commands can be specified by their property name or with the full `xxxxCommand` name.
+
+* **Add Caption to Dropped Files and Images**  
+When dragging or pasting files or images into the editor, we now try to guess the caption based on the filename using Proper Case, Snake Case, Camel case de-conversions if no spaces are present.
+
+* **'Copy Link' for Web Links and 'Copy Image Link' for Images in Previewer**  
+In the preview browser you can now copy links for Web images and links to the clipboard from the Previewer context menu. Note that only Web links - not relative or local file path links - show this option on the context menu.
 
 * **Updated GitHub Preview Styling**  
 Minor tweaks to the GitHub default preview templates: Remove the grid outline when rendering under 980px frame width to reduce wasted space.  Grid outline is rendered in larger screen sizes (980px+). Clean up blockquotes and docfx renderings and backgrounds. Clean up differences between the GitHub light and dark preview templates.
@@ -41,38 +36,35 @@ Minor tweaks to the GitHub default preview templates: Remove the grid outline wh
 * **Updates to DocFx Preview Styling**  
 In light of GitHub's addition of some DocFx functionality in its Markdown renderer we've more closely matched the default styling of the Note/Warning/Info/Tip block quote rendering to more closely match the GitHub styling in the GitHub styles. Also updated the Blackout template styling. 
 
-* **Fix: DocFx include/code Embedding**  
-Fix issue with built-in DocFx include/code embedding directives (`[!include]` and `[!code-lang]`) which were failing if multiple directives were used on the same page.
+* **Small And Italic Command Palette**  
+Added *Small and Italic* to the command palette as a quick short cut to add the compound operation to a selection. Similar to the existing *Bold and Italic* operation. 
 
-* **Fix: Preview Render Bug When # (and others) Character in Base Path**  
-Fix issue with a number of extended characters that are legal for local file names, but not legal in URLs. Due to the way browsers parse URLs this is 'partial' url encoding so a custom encoding scheme is used. [ #1068](https://github.com/RickStrahl/MarkdownMonster/issues/1068)
-
-### 3.1
-<small>*November 7th, 2023*</small>
-
-* **[Add Support to Save with Elevated Rights](https://github.com/RickStrahl/ImageDrop/blob/master/MarkdownMonster/SaveElevated.gif)**  
-You can now optionally save documents that are permissions restricted by elevating to Administrator. If a file is not authorized a notification pops up to show an option to save with elevated rights instead.
+* **Table Editor Commands to Command Palette**  
+You can now access **Insert Table**, **Format Table** and **Edit Table** as commands from the Command Palette (`ctrl-shift-p`).
 
 * **Improved Folder Browser Search Results**  
 The Find in Files functionality now includes a file icon for file type, the number of matches per file, the file date, and a tool tip that shows file information and a preview of the file's content for quick review.
 
-* **'Copy Link' for Web Links and 'Copy Image Link' for Images in Previewer**  
-In the preview browser you can now copy links for Web images and links to the clipboard from the Previewer context menu. Note that only Web links - not relative or local file path links - show this option on the context menu.
-
-* **Add Caption to Dropped Files and Images**  
-When dragging or pasting files or images into the editor, we now try to guess the caption based on the filename using Proper Case, Snake Case, Camel case de-conversions if no spaces are present.
-
 * **Move WebView Environment to %localappdata%**  
 Due to some issues with portable installs and write permissions, the local WebView environment folder has now been moved to the `%localappdata%\Markdown Monster` folder which is (normally) writable and always accessible. This avoids problems with users installing the portable version and not setting their `PortableSettings` folder to be writable. This at least ensures that the editors and other viewers load correctly.
-
-* **Emoji Picker Improvements**  
-The Emoji Viewer now loads considerably faster by delay loading some of the 1600+ icons out of band. The picker now shows a count of icons in the list in the status bar, with the list updated as you search and filter.
 
 * **Installation moved to Program Files**  
 We've moved the default installation location for the full installation to the `Program Files` folder to avoid common installation issues related to Windows Account usage that in the past would install certain components in the wrong location when elevation was required. We've also moved all remaining updatable content (except the preview templates and previewers) out of the install folder into common file location.
 
 * **Portable Install Behavior Remains unchanged**  
 Besides the changes to the full install, the Portable Install can still be installed in any location of your choice as a self-contained install that can store all application, and common updatable configuration and support data in a local folder hierarchy. Portable installs by default use a contained `PortableSettings` folder which falls back to the `%appdata%\Markdown Monster` common path that is also used by the full install **if** permissions are not available to write files. This behavior is mostly unchanged except the additional files that now go into the `PortableSettings` or common folder.
+
+* **Fix: Image Generator Memory Usage**  
+Fix memory leaks for the image list loading which result in very large memory usage when repeatedly loading the AI Image Generation Addin.
+
+* **Fix: Image Generator Load Time**  
+Fix slow startup and UI lockup when loading the AI Image Generator with a lot of images. Images are now loaded asynchronously and leave the UI responsive even with large amounts of recent images displayed.### 
+
+* **Fix: DocFx include/code Embedding**  
+Fix issue with built-in DocFx include/code embedding directives (`[!include]` and `[!code-lang]`) which were failing if multiple directives were used on the same page.
+
+* **Fix: Preview Render Bug When # (and others) Character in Base Path**  
+Fix issue with a number of extended characters that are legal for local file names, but not legal in URLs. Due to the way browsers parse URLs this is 'partial' url encoding so a custom encoding scheme is used. [ #1068](https://github.com/RickStrahl/MarkdownMonster/issues/1068)
 
 * **Fix: Non-existant .md File Navigation in Previewer**  
 Fix Previewer so that when navigating a non-existent Markdown file no navigation (to an error page before) occurs and a statusbar error is displayed pointing at the missing expanded filename.
@@ -91,7 +83,7 @@ Fixed issue where the YouTube embedding dialog was causing the WebView to create
 
 #### Breaking and Recommended Changes 
 * **Recommend full uninstall and reinstall for Full Installations**  
-Due to the move to `Program Files` we recommend you do a full, uninstall and then re-install Markdown Monster if you are using the full installer or Chocolatey install. It's not required, and if you don't re-install the existing `%localappdata%\Markdown Monster` or your own custom location will continue to be used. The explicit uninstall ensures that the new Programs Files path is used on a new install. Portable installs don't need to have anything changed.
+Due to the move to `Program Files` from `LocalAppData` install location, we recommend you do a full, uninstall and then re-install Markdown Monster if you are using the full installer or Chocolatey install. It's not required, and if you don't re-install the existing `%localappdata%\Markdown Monster` or your own custom location will continue to be used. The explicit uninstall ensures that the new Programs Files path is used on a new install. Portable installs don't need to have anything changed.
 
 * **Remove `WebView_` Folder From Markdown Monster Install Folder (if present)**  
 If your MM installation folder contains a `WebView_*` folder, it's recommended that you shut down MM and delete the entire folder. This folder was not intended to be placed and should be deleted so it will no longer take up space.
