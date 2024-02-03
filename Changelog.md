@@ -1,6 +1,12 @@
 [![download](https://img.shields.io/badge/Download-Installer-blue.svg)](https://markdownmonster.west-wind.com/download)
 [![Web Site](https://img.shields.io/badge/Markdown_Monster-WebSite-blue.svg)](https://markdownmonster.west-wind.com)
 
+### 3.2.1
+<small>not released yet</small>
+
+* **Fix: KeyBinding Manager editing inside of the MM editor**  
+MM now saves and applies hotkeys immediately by reloading all key bindings. This makes hot keys added or changed immediately available (if they don't interfere with other bindings) and also fixes an issue where new keys where sometimes 'lost' and overwritten.
+
 ### 3.2
 <small>January 25th, 2024</small>
 
