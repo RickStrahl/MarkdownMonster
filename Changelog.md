@@ -7,6 +7,12 @@
 * **Fix: KeyBinding Manager editing inside of the MM editor**  
 MM now saves and applies hotkeys immediately by reloading all key bindings. This makes hot keys added or changed immediately available (if they don't interfere with other bindings) and also fixes an issue where new keys where sometimes 'lost' and overwritten.
 
+* **Additional System Information on About**  
+The About dialog now shows additional system information if you hover over or click on the version information. Clicking the new info icon (or the entire line) will copy the information to be copied to your clipboard. Info includes WebView Runtime and SDK versions now. 
+
+* **Log WebView Runtime and SDK with Errors**  
+When errors occur, we now log the WebView runtime and sdk versions. Since a large percentage of errors are related to WebView internal issues that are forwarded to the WebView team this information is often useful for them.
+
 ### 3.2
 <small>January 25th, 2024</small>
 
