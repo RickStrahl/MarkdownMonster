@@ -1,11 +1,18 @@
 [![download](https://img.shields.io/badge/Download-Installer-blue.svg)](https://markdownmonster.west-wind.com/download)
 [![Web Site](https://img.shields.io/badge/Markdown_Monster-WebSite-blue.svg)](https://markdownmonster.west-wind.com)
 
-### 3.2.1
+### 3.2.5
 <small>not released yet</small>
 
 * **Fix: KeyBinding Manager editing inside of the MM editor**  
 MM now saves and applies hotkeys immediately by reloading all key bindings. This makes hot keys added or changed immediately available (if they don't interfere with other bindings) and also fixes an issue where new keys where sometimes 'lost' and overwritten.
+
+* **External Programs can now set a EditorKeyBoardShortcut**  
+You can now associate a keyboard shortcut to an external program that is added. The shortcut is active only inside of the editor, but it allows for quick launching programs.
+
+* **Making changes to MarkdownMonster.json Configuration file now automatically reloads Settings**  
+It's been notoriously difficult to make changes manually to MM's configuration in `markdownmonster.json` **while MM is running**, because MM overwrites changes when it exits. When you edit through the IDE in the editor and save, MM now reloads the configuration settings so most settings now immediately reflect their updated state.    
+*We still recommend that you use the interactive Settings UI where possible to avoid accidentally setting invalid configuration values*, but this is useful for settings that can't be directly set inside of the Settings UI.
 
 * **Additional System Information on About**  
 The About dialog now shows additional system information if you hover over or click on the version information. Clicking the new info icon (or the entire line) will copy the information to be copied to your clipboard. Info includes WebView Runtime and SDK versions now. 
