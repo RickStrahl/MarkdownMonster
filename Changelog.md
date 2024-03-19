@@ -16,9 +16,16 @@ When errors occur, we now log the WebView runtime and SDK versions. Since a larg
 * **Improve PDF Output for Page Breaks**  
 Add additional Print styling to the HTML generated for print to attempt to better keep together paragraphs, headers and code blocks. This especially improves the Print to Pdf functionality.
 
+* **Support for \[\[\_TOC\_]\] Auto-Generated TOC**  
+You can now insert \[\[\_TOC\_\]\] into your document to force the preview and HTML output to generate a table of content dynamically into the document. The Document outline has a new button that inserts this dynamic link.  
+*Note*: This feature may not be supported by your Markdown server tooling (ie. GitHub does not support this while GitLab and Azure does). ([#1084](https://github.com/RickStrahl/MarkdownMonster/issues/1084))
+
+* **Improved CSV Import Options**  
+CSV import fixes ability to use tab character as you weren't able to set that character previous in the input field. There's no a dropdown for common CSV separator characters including tab (`\t`) which can now also be represented in the input field. The separator value is now remembered. ([#1086](https://github.com/RickStrahl/MarkdownMonster/issues/1086))
+
 * **Fix: Making changes to MarkdownMonster.json Configuration file in IDE now automatically reloads Settings**  
 It's been notoriously difficult to make changes manually to MM's configuration in `markdownmonster.json` **while MM is running**, due to the way active settings were saved on shutdown. We now reload settings from file if `markdownmonster.json` is saved from within the IDE which ensures the latest settings are active. Note: If you save externally in another editor this won't happen and you still need to ensure MM **is not running** in order to update settings that will stick.  
-*We still recommend that you use the interactive Settings UI where possible to avoid accidentally setting invalid configuration values*, but this is useful for settings that can't be directly set inside of the Settings UI.
+*We still recommend that you use the interactive Settings UI where possible to avoid accidentally setting invalid configuration values*, but this is useful for settings that can't be directly set inside of the Settings UI. ([#1083](https://github.com/RickStrahl/MarkdownMonster/issues/1083))
 
 * **Fix: KeyBinding Manager editing inside of the MM editor**  
 MM now saves and applies hotkeys immediately by reloading all key bindings. This makes hot keys added or changed immediately available (if they don't interfere with other bindings) and also fixes an issue where new keys where sometimes 'lost' and overwritten. As previous fix: This only works if you use the internal editor - if using external editors make sure MM is not running to ensure changes take.
