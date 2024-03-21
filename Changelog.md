@@ -33,6 +33,9 @@ MM now saves and applies hotkeys immediately by reloading all key bindings. This
 * **Fix: PDF Output Preview not working**  
 Fix issue where Save To PDF failed to display the PDF even when the option to display after generation was checked.
 
+* **Fix: Pop out YouTube Links to new Shell Browser**  
+Any of the links in the Embed YouTube Videos dialog browser now navigate in the user's configured shell Web Browser (ie. Edge, Chrome, Brave, FireFox etc.) rather than popping up a limited WebView browser window. Specifically this is meant for clicking on the video title or Watch on YouTube links but also any links that are shown in-video or after the video completes.
+
 ### 3.2
 <small>January 25th, 2024</small>
 
