@@ -23,6 +23,9 @@ You can now insert \[\[\_TOC\_\]\] into your document to force the preview and H
 * **Improved CSV Import Options**  
 CSV import fixes ability to use tab character as you weren't able to set that character previous in the input field. There's no a dropdown for common CSV separator characters including tab (`\t`) which can now also be represented in the input field. The separator value is now remembered. ([#1086](https://github.com/RickStrahl/MarkdownMonster/issues/1086))
 
+* **Add Git -> Open in Diff Editor on Context Menus**  
+There are now context menu options on the Folder Browser and Document Tab context menus to open the current (saved) document on disk in the configured Diff editor. Note that files are diffed from disk and any updates will affect the disk file. If the editor file has no pending changes any changes are immediately updated in the editor. If there are pending changes, the save operation will prompt to decide which file to choose or to diff files again cherry pick changes.
+
 * **Fix: Making changes to MarkdownMonster.json Configuration file in IDE now automatically reloads Settings**  
 It's been notoriously difficult to make changes manually to MM's configuration in `markdownmonster.json` **while MM is running**, due to the way active settings were saved on shutdown. We now reload settings from file if `markdownmonster.json` is saved from within the IDE which ensures the latest settings are active. Note: If you save externally in another editor this won't happen and you still need to ensure MM **is not running** in order to update settings that will stick.  
 *We still recommend that you use the interactive Settings UI where possible to avoid accidentally setting invalid configuration values*, but this is useful for settings that can't be directly set inside of the Settings UI. ([#1083](https://github.com/RickStrahl/MarkdownMonster/issues/1083))
@@ -35,6 +38,12 @@ Fix issue where Save To PDF failed to display the PDF even when the option to di
 
 * **Fix: Pop out YouTube Links to new Shell Browser**  
 Any of the links in the Embed YouTube Videos dialog browser now navigate in the user's configured shell Web Browser (ie. Edge, Chrome, Brave, FireFox etc.) rather than popping up a limited WebView browser window. Specifically this is meant for clicking on the video title or Watch on YouTube links but also any links that are shown in-video or after the video completes.
+
+* **Fix: Use Theirs when file was updated externally**   
+Fix the **Use Theirs** option that reloads the document from disk, if you try to save and the file has been externally changed. You get options to **Use Yours**, **Use Theirs** and **Compare** which brings up your configured Diff editor to chose individual changes. ([#1099](https://github.com/RickStrahl/MarkdownMonster/issues/1099))
+
+* **Fix: Add Reload Editor Context Menu Option to force document to reload**  
+This functionality existed previously, but there was no indication this was available. We've also removed the various 'window' context menu options when the window height is <1100 pixels to avoid too menu menu choices that overflow the screen. If window is big the larger menu still displays. ([#1099](https://github.com/RickStrahl/MarkdownMonster/issues/1099))
 
 ### 3.2
 <small>January 25th, 2024</small>
