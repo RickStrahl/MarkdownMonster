@@ -7,12 +7,6 @@
 * **External Programs can now set a EditorKeyBoardShortcut**  
 You can now associate a keyboard shortcut to an external program that is added. The shortcut is active only inside of the editor, but it allows for quick launching programs.
 
-* **Additional System Information on About**  
-The About dialog now shows additional system information if you hover over or click on the version information. Clicking the new info icon (or the entire line) will copy the information to be copied to your clipboard which is useful for bug reports. Info also includes WebView Runtime and SDK versions now. 
-
-* **Log WebView Runtime and SDK with Errors**  
-When errors occur, we now log the WebView runtime and SDK versions. Since a large percentage of errors are related to WebView internal issues that are forwarded to the WebView team this information is often useful for them.
-
 * **Improve PDF Output for Page Breaks**  
 Add additional Print styling to the HTML generated for print to attempt to better keep together paragraphs, headers and code blocks. This especially improves the Print to Pdf functionality.
 
@@ -20,11 +14,20 @@ Add additional Print styling to the HTML generated for print to attempt to bette
 You can now insert \[\[\_TOC\_\]\] into your document to force the preview and HTML output to generate a table of content dynamically into the document. The Document outline has a new button that inserts this dynamic link.  
 *Note*: This feature may not be supported by your Markdown server tooling (ie. GitHub does not support this while GitLab and Azure does). ([#1084](https://github.com/RickStrahl/MarkdownMonster/issues/1084))
 
+* **Additional System Information on About**  
+The About dialog now shows additional system information if you hover over or click on the version information. Clicking the new info icon (or the entire line) will copy the information to be copied to your clipboard which is useful for bug reports. Info also includes WebView Runtime and SDK versions now. 
+
+* **Log WebView Runtime and SDK with Errors**  
+When errors occur, we now log the WebView runtime and SDK versions. Since a large percentage of errors are related to WebView internal issues that are forwarded to the WebView team this information is often useful for them.
+
 * **Improved CSV Import Options**  
 CSV import fixes ability to use tab character as you weren't able to set that character previous in the input field. There's no a dropdown for common CSV separator characters including tab (`\t`) which can now also be represented in the input field. The separator value is now remembered. ([#1086](https://github.com/RickStrahl/MarkdownMonster/issues/1086))
 
 * **Add Git -> Open in Diff Editor on Context Menus**  
 There are now context menu options on the Folder Browser and Document Tab context menus to open the current (saved) document on disk in the configured Diff editor. Note that files are diffed from disk and any updates will affect the disk file. If the editor file has no pending changes any changes are immediately updated in the editor. If there are pending changes, the save operation will prompt to decide which file to choose or to diff files again cherry pick changes.
+
+* **Improved Link Lookup in Paste Href Dialog**  
+The `Link from Web` button now runs considerably faster to retrieve search results and provides more consistent results. There's now also a status bar that provides better progress and error information when retrieving links. The context menu has also been adjusted for better optimized viewing. You can now also use hot keys
 
 * **Fix: Making changes to MarkdownMonster.json Configuration file in IDE now automatically reloads Settings**  
 It's been notoriously difficult to make changes manually to MM's configuration in `markdownmonster.json` **while MM is running**, due to the way active settings were saved on shutdown. We now reload settings from file if `markdownmonster.json` is saved from within the IDE which ensures the latest settings are active. Note: If you save externally in another editor this won't happen and you still need to ensure MM **is not running** in order to update settings that will stick.  
