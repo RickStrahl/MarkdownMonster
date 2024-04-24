@@ -1,4 +1,4 @@
-[![download](https://img.shields.io/badge/Download-Installer-blue.svg)](https://markdownmonster.west-wind.com/download)
+3[![download](https://img.shields.io/badge/Download-Installer-blue.svg)](https://markdownmonster.west-wind.com/download)
 [![Web Site](https://img.shields.io/badge/Markdown_Monster-WebSite-blue.svg)](https://markdownmonster.west-wind.com)
 
 ### 3.3
@@ -12,7 +12,7 @@ Add additional Print styling to the HTML generated for print to attempt to bette
 
 * **Support for \[\[\_TOC\_]\] Auto-Generated TOC**  
 You can now insert \[\[\_TOC\_\]\] into your document to force the preview and HTML output to generate a table of content dynamically into the document. The Document outline has a new button that inserts this dynamic link.  
-*Note*: This feature may not be supported by your Markdown server tooling (ie. GitHub does not support this while GitLab and Azure does). ([#1084](https://github.com/RickStrahl/MarkdownMonster/issues/1084))
+*Note: This feature may not be supported by your Markdown server tooling (ie. GitHub does not support this while GitLab and Azure does).* ([#1084](https://github.com/RickStrahl/MarkdownMonster/issues/1084))
 
 * **Additional System Information on About**  
 The About dialog now shows additional system information if you hover over or click on the version information. Clicking the new info icon (or the entire line) will copy the information to be copied to your clipboard which is useful for bug reports. Info also includes WebView Runtime and SDK versions now. 
@@ -27,11 +27,17 @@ CSV import fixes ability to use tab character as you weren't able to set that ch
 There are now context menu options on the Folder Browser and Document Tab context menus to open the current (saved) document on disk in the configured Diff editor. Note that files are diffed from disk and any updates will affect the disk file. If the editor file has no pending changes any changes are immediately updated in the editor. If there are pending changes, the save operation will prompt to decide which file to choose or to diff files again cherry pick changes.
 
 * **Improved Link Lookup in Paste Href Dialog**  
-The `Link from Web` button now runs considerably faster to retrieve search results and provides more consistent results. There's now also a status bar that provides better progress and error information when retrieving links. The context menu has also been adjusted for better optimized viewing. You can now also use hot keys
+The `Link from Web` button now runs considerably faster to retrieve search results and provides more consistent results. There's now also a status bar that provides better progress and error information when retrieving links. The context menu has also been adjusted for better optimized viewing. You can now also use alt-l (Link Lookup) and alt-s (search web) via hot keys inside of the dialog.
+
+* **Add Header Level to Document Outline**  
+The document outline sidebar now displays the header level as a small number snext to the header icon. This makes it easier to see at a glance what indentation level the current selection has as the document outline stays in sync with cursor position. It also lets you more easily see if your document levels are skipping levels. ([#1089](https://github.com/RickStrahl/MarkdownMonster/issues/1089))
 
 * **Fix: Making changes to MarkdownMonster.json Configuration file in IDE now automatically reloads Settings**  
 It's been notoriously difficult to make changes manually to MM's configuration in `markdownmonster.json` **while MM is running**, due to the way active settings were saved on shutdown. We now reload settings from file if `markdownmonster.json` is saved from within the IDE which ensures the latest settings are active. Note: If you save externally in another editor this won't happen and you still need to ensure MM **is not running** in order to update settings that will stick.  
 *We still recommend that you use the interactive Settings UI where possible to avoid accidentally setting invalid configuration values*, but this is useful for settings that can't be directly set inside of the Settings UI. ([#1083](https://github.com/RickStrahl/MarkdownMonster/issues/1083))
+
+* **Fix: TOC formatting for Inline Code and Escaped Characters**  
+When generating a Markdown TOC into the document the inserted text now handles non-plain text that contains escaped text and inline code better. (related to[#1084](https://github.com/RickStrahl/MarkdownMonster/issues/1084))
 
 * **Fix: KeyBinding Manager editing inside of the MM editor**  
 MM now saves and applies hotkeys immediately by reloading all key bindings. This makes hot keys added or changed immediately available (if they don't interfere with other bindings) and also fixes an issue where new keys where sometimes 'lost' and overwritten. As previous fix: This only works if you use the internal editor - if using external editors make sure MM is not running to ensure changes take.
@@ -47,6 +53,16 @@ Fix the **Use Theirs** option that reloads the document from disk, if you try to
 
 * **Fix: Add Reload Editor Context Menu Option to force document to reload**  
 This functionality existed previously, but there was no indication this was available. We've also removed the various 'window' context menu options when the window height is <1100 pixels to avoid too menu menu choices that overflow the screen. If window is big the larger menu still displays. ([#1099](https://github.com/RickStrahl/MarkdownMonster/issues/1099))
+
+* **Fix: Check Integrity of JSON before saving MarkdownMonster.json config file**  
+Before saving a potentially invalid JSON file, if editing `MarkdownMonster.json` configuration file manually in the MM editor, the file is now checked for validity first. If the JSON is invalid a status error message is displayed and the file is not saved.   
+*Note: Externally editing the file and saving can still result in an invalid file in which case the configuration file will revert to its default settings.* ([#1098](https://github.com/RickStrahl/MarkdownMonster/issues/1098))
+
+* **Change: Link Dialog Path Resolution**  
+When selecting a file or folder from disk to link to paths are now always embedded as relative paths, **except** when paths walk all the way back to the root and back up. Any of those root paths are embedded as absolute `file:///` path links. ([#1044](https://github.com/RickStrahl/MarkdownMonster/issues/1044))
+
+* **Fix: Spellchecker with Quotes around Strings**  
+Fix issue where quotes around strings were causing the spell checker to incorrectly place spell check error highlights. ([#1101](https://github.com/RickStrahl/MarkdownMonster/issues/1101))
 
 ### 3.2
 <small>January 25th, 2024</small>
