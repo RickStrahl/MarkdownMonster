@@ -65,6 +65,10 @@ When selecting a file or folder from disk to link to paths are now always embedd
 * **Fix: Spellchecker with Quotes around Strings**  
 Fix issue where quotes around strings were causing the spell checker to incorrectly place spell check error highlights. ([#1101](https://github.com/RickStrahl/MarkdownMonster/issues/1101))
 
+* **Fix: Table Editor Remembered Position when Window is Pinned**  
+Fix issue where a pinned main window was causing an invalid, potentially off screen location for the table editor on launch. 
+([#1102](https://github.com/RickStrahl/MarkdownMonster/issues/1102))
+
 ### 3.2
 <small>January 25th, 2024</small>
 
