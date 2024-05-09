@@ -3,7 +3,7 @@
 [![](https://img.shields.io/chocolatey/dt/MarkdownMonster.svg)](https://chocolatey.org/packages/MarkdownMonster)
 
 ### 3.3
-<small>not released yet</small>
+<small>not released yet</small> 
 
 * **External Programs can now set a EditorKeyBoardShortcut**  
 You can now associate a keyboard shortcut to an external program that is added. The shortcut is active only inside of the editor, but it allows for quick launching programs.
@@ -68,6 +68,12 @@ Fix issue where quotes around strings were causing the spell checker to incorrec
 * **Fix: Table Editor Remembered Position when Window is Pinned**  
 Fix issue where a pinned main window was causing an invalid, potentially off screen location for the table editor on launch. 
 ([#1102](https://github.com/RickStrahl/MarkdownMonster/issues/1102))
+
+* **Fix: Document Stats on Preview Editor Display**  
+Fix issue where document stats on the status bar were not updating when the document is browsed in preview mode from the Folder browser. ([#1109](https://github.com/RickStrahl/MarkdownMonster/issues/1109))
+
+* **Fix: Context Menu in Folder Browser Navigates Item**   
+When right clicking into the context menu in the folder browser, the selected item was navigated, which is unusual behavior. Changed now to **not** navigate to that item, but the context menu acts on the item underneath the cursor regardless of selection status. ([#1112](https://github.com/RickStrahl/MarkdownMonster/issues/1112))
 
 ### 3.2
 <small>January 25th, 2024</small>
