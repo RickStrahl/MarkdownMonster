@@ -75,6 +75,9 @@ Fix issue where document stats on the status bar were not updating when the docu
 * **Fix: Context Menu in Folder Browser Navigates Item**   
 When right clicking into the context menu in the folder browser, the selected item was navigated, which is unusual behavior. Changed now to **not** navigate to that item, but the context menu acts on the item underneath the cursor regardless of selection status. ([#1112](https://github.com/RickStrahl/MarkdownMonster/issues/1112))
 
+* **Fix: Handle .razor Files in Folder Browser and Editor**  
+Added `.razor` as a default supported editor format so these files can be previewed and edited in the editor. Note: Razor/Blazor syntax is is not directly supported, it's provided as an Html dialect. You can view externally with Open With or Open in VS Code (if installed) for more complete functionality.
+
 ### 3.2
 <small>January 25th, 2024</small>
 
