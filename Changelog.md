@@ -3,17 +3,23 @@
 [![](https://img.shields.io/chocolatey/dt/MarkdownMonster.svg)](https://chocolatey.org/packages/MarkdownMonster)
 
 ### 3.3
-<small>not released yet</small> 
-
-* **External Programs can now set a EditorKeyBoardShortcut**  
-You can now associate a keyboard shortcut to an external program that is added. The shortcut is active only inside of the editor, but it allows for quick launching programs.
-
-* **Improve PDF Output for Page Breaks**  
-Add additional Print styling to the HTML generated for print to attempt to better keep together paragraphs, headers and code blocks. This especially improves the Print to Pdf functionality.
+<small>May 21st, 2024</small> 
 
 * **Support for \[\[\_TOC\_]\] Auto-Generated TOC**  
 You can now insert \[\[\_TOC\_\]\] into your document to force the preview and HTML output to generate a table of content dynamically into the document. The Document outline has a new button that inserts this dynamic link.  
 *Note: This feature may not be supported by your Markdown server tooling (ie. GitHub does not support this while GitLab and Azure does).* ([#1084](https://github.com/RickStrahl/MarkdownMonster/issues/1084))
+
+* **External Programs can now set a EditorKeyBoardShortcut**  
+You can now associate a keyboard shortcut to an external program that is added. The shortcut is active only inside of the editor, but it allows for quick launching programs.
+
+* **Improved Link Lookup in Paste Href Dialog**  
+The `Link from Web` button now runs considerably faster to retrieve search results and provides more consistent results. There's now also a status bar that provides better progress and error information when retrieving links. The context menu has also been adjusted for better optimized viewing. You can now also use alt-l (Link Lookup) and alt-s (search web) via hot keys inside of the dialog.
+
+* **Add Header Level to Document Outline**  
+The document outline sidebar now displays the header level as a small number snext to the header icon. This makes it easier to see at a glance what indentation level the current selection has as the document outline stays in sync with cursor position. It also lets you more easily see if your document levels are skipping levels. ([#1089](https://github.com/RickStrahl/MarkdownMonster/issues/1089))
+
+* **Improve PDF Output for Page Breaks**  
+Add additional Print styling to the HTML generated for print to attempt to better keep together paragraphs, headers and code blocks. This especially improves the Print to Pdf functionality.
 
 * **Additional System Information on About**  
 The About dialog now shows additional system information if you hover over or click on the version information. Clicking the new info icon (or the entire line) will copy the information to be copied to your clipboard which is useful for bug reports. Info also includes WebView Runtime and SDK versions now. 
@@ -27,11 +33,8 @@ CSV import fixes ability to use tab character as you weren't able to set that ch
 * **Add Git -> Open in Diff Editor on Context Menus**  
 There are now context menu options on the Folder Browser and Document Tab context menus to open the current (saved) document on disk in the configured Diff editor. Note that files are diffed from disk and any updates will affect the disk file. If the editor file has no pending changes any changes are immediately updated in the editor. If there are pending changes, the save operation will prompt to decide which file to choose or to diff files again cherry pick changes.
 
-* **Improved Link Lookup in Paste Href Dialog**  
-The `Link from Web` button now runs considerably faster to retrieve search results and provides more consistent results. There's now also a status bar that provides better progress and error information when retrieving links. The context menu has also been adjusted for better optimized viewing. You can now also use alt-l (Link Lookup) and alt-s (search web) via hot keys inside of the dialog.
-
-* **Add Header Level to Document Outline**  
-The document outline sidebar now displays the header level as a small number snext to the header icon. This makes it easier to see at a glance what indentation level the current selection has as the document outline stays in sync with cursor position. It also lets you more easily see if your document levels are skipping levels. ([#1089](https://github.com/RickStrahl/MarkdownMonster/issues/1089))
+* **Fix: Many Fixes in the Folder Browser**  
+Thanks to [@internationils](https://github.com/internationils) for his many support issues posted, that helped fix many small inconsistencies in the folder browser related to drag and drop, renaming, context menu operation and more.
 
 * **Fix: Making changes to MarkdownMonster.json Configuration file in IDE now automatically reloads Settings**  
 It's been notoriously difficult to make changes manually to MM's configuration in `markdownmonster.json` **while MM is running**, due to the way active settings were saved on shutdown. We now reload settings from file if `markdownmonster.json` is saved from within the IDE which ensures the latest settings are active. Note: If you save externally in another editor this won't happen and you still need to ensure MM **is not running** in order to update settings that will stick.  
