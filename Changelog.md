@@ -2,6 +2,15 @@
 [![NuGet](https://img.shields.io/chocolatey/v/MarkdownMonster.svg)](https://chocolatey.org/packages/MarkdownMonster)
 [![](https://img.shields.io/chocolatey/dt/MarkdownMonster.svg)](https://chocolatey.org/packages/MarkdownMonster)
 
+### 3.4
+<small>not released yet</small> 
+
+* **[Add Support for PlantUml Diagrams](https://markdownmonster.west-wind.com/docs/_6x60qvpvi.htm)**  
+You can now preview embedded PlantUml diagrams in the previewer as well as capture and export diagram output in your Markdown documents.
+
+* **Toggle Preview Zoom**  
+Provide a more consistent way to zoom the preview window within the editor. You can now press Ctrl-11 to zoom the preview in the editor/preview pane, and the choice persists across documents.
+
 ### 3.3
 <small>May 21st, 2024</small> 
 
@@ -64,6 +73,9 @@ Before saving a potentially invalid JSON file, if editing `MarkdownMonster.json`
 
 * **Change: Link Dialog Path Resolution**  
 When selecting a file or folder from disk to link to paths are now always embedded as relative paths, **except** when paths walk all the way back to the root and back up. Any of those root paths are embedded as absolute `file:///` path links. ([#1044](https://github.com/RickStrahl/MarkdownMonster/issues/1044))
+
+* **Allow for specifying background color for PreviewBrowser**  
+There's a new configuration setting that can be used to specify a 
 
 * **Fix: Spellchecker with Quotes around Strings**  
 Fix issue where quotes around strings were causing the spell checker to incorrectly place spell check error highlights. ([#1101](https://github.com/RickStrahl/MarkdownMonster/issues/1101))
