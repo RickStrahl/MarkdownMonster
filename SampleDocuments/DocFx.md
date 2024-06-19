@@ -1,6 +1,5 @@
 # DocFx Note Boxes
 
-
 > [!WARNING]
 > This is some **Note Text**
 > that spreads across two lines  

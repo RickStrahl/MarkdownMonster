@@ -12,7 +12,8 @@ You can now preview the embedded PlantUml diagrams in the previewer as well as c
 Provide a more consistent way to zoom the preview window within the editor. You can now press Ctrl-11 to zoom the preview in the editor/preview pane, and the choice persists across documents.
 
 * **Switched FontAwesome v6.x**
-Markdown Monster now uses FontAwesome 6.0 in the preview renderer from the v4.70 (ugh!). All font styles and the compatibility layer are included to ensure that existing usage of FA fonts in the preview continues to work.
+Markdown Monster now uses FontAwesome 6.0 in the preview renderer from the v4.70 (ugh!). All font styles and the compatibility layer are included to ensure that existing usage of FA fonts in the preview continues to work.  
+*Keep in mind that FA icon usage depends on support in your final Markdown output rendering target (ie. GitHub, Doc or Blog site etc.) and that engine has to support FontAwesome*.
 
 * **Fix: Cleanup DocFX formatting**  
 Changed DocFx formatting for note boxes to more closely match GitHub's light and dark theme styling. (#)
