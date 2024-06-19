@@ -6,10 +6,16 @@
 <small>not released yet</small> 
 
 * **[Add Support for PlantUml Diagrams](https://markdownmonster.west-wind.com/docs/_6x60qvpvi.htm)**  
-You can now preview embedded PlantUml diagrams in the previewer as well as capture and export diagram output in your Markdown documents.
+You can now preview the embedded PlantUml diagrams in the previewer as well as capture and export diagram output in your Markdown documents.
 
 * **Toggle Preview Zoom**  
 Provide a more consistent way to zoom the preview window within the editor. You can now press Ctrl-11 to zoom the preview in the editor/preview pane, and the choice persists across documents.
+
+* **Switched FontAwesome v6.x**
+Markdown Monster now uses FontAwesome 6.0 in the preview renderer from the v4.70 (ugh!). All font styles and the compatibility layer are included to ensure that existing usage of FA fonts in the preview continues to work.
+
+* **Fix: Cleanup DocFX formatting**  
+Changed DocFx formatting for note boxes to more closely match GitHub's light and dark theme styling. (#)
 
 ### 3.3
 <small>May 21st, 2024</small> 
@@ -25,7 +31,7 @@ You can now associate a keyboard shortcut to an external program that is added. 
 The `Link from Web` button now runs considerably faster to retrieve search results and provides more consistent results. There's now also a status bar that provides better progress and error information when retrieving links. The context menu has also been adjusted for better optimized viewing. You can now also use alt-l (Link Lookup) and alt-s (search web) via hot keys inside of the dialog.
 
 * **Add Header Level to Document Outline**  
-The document outline sidebar now displays the header level as a small number snext to the header icon. This makes it easier to see at a glance what indentation level the current selection has as the document outline stays in sync with cursor position. It also lets you more easily see if your document levels are skipping levels. ([#1089](https://github.com/RickStrahl/MarkdownMonster/issues/1089))
+The document outline sidebar now displays the header level as a small number next to the header icon. This makes it easier to see at a glance what indentation level the current selection has as the document outline stays in sync with cursor position. It also lets you more easily see if your document levels are skipping levels. ([#1089](https://github.com/RickStrahl/MarkdownMonster/issues/1089))
 
 * **Improve PDF Output for Page Breaks**  
 Add additional Print styling to the HTML generated for print to attempt to better keep together paragraphs, headers and code blocks. This especially improves the Print to Pdf functionality.
