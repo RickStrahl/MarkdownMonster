@@ -1,3 +1,4 @@
+
 [![download](https://img.shields.io/badge/download-latest-blue.svg)](https://markdownmonster.west-wind.com/download)
 [![NuGet](https://img.shields.io/chocolatey/v/MarkdownMonster.svg)](https://chocolatey.org/packages/MarkdownMonster)
 [![](https://img.shields.io/chocolatey/dt/MarkdownMonster.svg)](https://chocolatey.org/packages/MarkdownMonster)
@@ -11,12 +12,15 @@ You can now preview the embedded PlantUml diagrams in the previewer as well as c
 * **Toggle Preview Zoom**  
 Provide a more consistent way to zoom the preview window within the editor. You can now press Ctrl-11 to zoom the preview in the editor/preview pane, and the choice persists across documents.
 
-* **Switched FontAwesome v6.x**
+* **Switched FontAwesome v6.x**  
 Markdown Monster now uses FontAwesome 6.0 in the preview renderer from the v4.70 (ugh!). All font styles and the compatibility layer are included to ensure that existing usage of FA fonts in the preview continues to work.  
 *Keep in mind that FA icon usage depends on support in your final Markdown output rendering target (ie. GitHub, Doc or Blog site etc.) and that engine has to support FontAwesome*.
 
 * **Fix: Cleanup DocFX formatting**  
 Changed DocFx formatting for note boxes to more closely match GitHub's light and dark theme styling. (#)
+
+* **Fix: Search Link in Link Dialog and Link Lookup**  
+Fix search engine lookup that provides a link list for the selected search text. Provide current Edge browser string to help with Bing not identifying content as a bot.
 
 ### 3.3
 <small>May 21st, 2024</small> 
