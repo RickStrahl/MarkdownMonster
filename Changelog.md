@@ -6,9 +6,12 @@
 ### 3.4
 <small>not released yet</small> 
 
-* **AI Support Features: Summarize, Translate, Grammar Checking**  
-We've added a number of AI assisted operations that allow you to create a summary of the current document or selection, translate a selection or the entire document, or perform a basic grammar check of a selection of text.    
+* **[AI Support Features: Summarize, Translate, Grammar Checking](https://markdownmonster.west-wind.com/docs/_6y41clpfe.htm)**  
+We've added a number of AI assisted operations that allow you to create a summary of the current document or selection, translate a selection or the entire document, or perform a basic grammar check of a selection of text.
 <small>*Features require an OpenAI/Azure OpenAI API key or local a OpenAI server like Ollama.*</small> 
+
+* **[Updated OpenAI Image Generation Connections](https://markdownmonster.west-wind.com/docs/_6rz0smzc0.htm)**  
+We've made changes to the way OpenAI Image Generation API connections are made, using a shared mechanism with the new completion features. If you had a previously configured image provider you'll likely need to re-enter the connection information.
 
 * **[Add Support for PlantUml Diagrams](https://markdownmonster.west-wind.com/docs/_6x60qvpvi.htm)**  
 You can now preview the embedded PlantUml diagrams in the previewer as well as capture and export diagram output in your Markdown documents.
