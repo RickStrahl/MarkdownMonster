@@ -6,6 +6,10 @@
 ### 3.4
 <small>not released yet</small> 
 
+* **AI Support Features: Summarize, Translate, Grammar Checking**  
+We've added a number of AI assisted operations that allow you to create a summary of the current document or selection, translate a selection or the entire document, or perform a basic grammar check of a selection of text.    
+<small>*Features require an OpenAI/Azure OpenAI API key or local a OpenAI server like Ollama.*</small> 
+
 * **[Add Support for PlantUml Diagrams](https://markdownmonster.west-wind.com/docs/_6x60qvpvi.htm)**  
 You can now preview the embedded PlantUml diagrams in the previewer as well as capture and export diagram output in your Markdown documents.
 
@@ -15,6 +19,9 @@ Provide a more consistent way to zoom the preview window within the editor. You 
 * **Switched FontAwesome v6.x**  
 Markdown Monster now uses FontAwesome 6.0 in the preview renderer from the v4.70 (ugh!). All font styles and the compatibility layer are included to ensure that existing usage of FA fonts in the preview continues to work.  
 *Keep in mind that FA icon usage depends on support in your final Markdown output rendering target (ie. GitHub, Doc or Blog site etc.) and that engine has to support FontAwesome*.
+
+* **Add OnContextMenuOpened Addin Handler**  
+This method allows interception of several of the context menus that get opened. You can check for a specific context menu type and then use this to potentially inject additional menu options into the context menus.
 
 * **Fix: Cleanup DocFX formatting**  
 Changed DocFx formatting for note boxes to more closely match GitHub's light and dark theme styling. (#)
