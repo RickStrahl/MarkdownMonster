@@ -4,7 +4,7 @@
 [![](https://img.shields.io/chocolatey/dt/MarkdownMonster.svg)](https://chocolatey.org/packages/MarkdownMonster)
 
 ### 3.4
-<small>not released yet</small> 
+<small>August 20th, 2024</small> 
 
 * **[AI Support Features: Summarize, Translate, Grammar Checking](https://markdownmonster.west-wind.com/docs/_6y41clpfe.htm)**  
 We've added a number of AI assisted operations that allow you to create a summary of the current document or selection, translate a selection or the entire document, or perform a basic grammar check of a selection of text.
@@ -25,6 +25,12 @@ Markdown Monster now uses FontAwesome 6.0 in the preview renderer from the v4.70
 
 * **Add OnContextMenuOpened Addin Handler**  
 This method allows interception of several of the context menus that get opened. You can check for a specific context menu type and then use this to potentially inject additional menu options into the context menus.
+
+* **Add Copy Selection on Preview Context Menu**  
+Add visual Copy Selection to the Preview Context menu. Previously you could only use Ctrl-C to copy content.
+
+* **Add Support for Addin Loading for mmCli**
+Addins are now loaded for mmCli so things like Markdown Render Extensions and Custom Parsers can run in mmCli.
 
 * **Fix: Cleanup DocFX formatting**  
 Changed DocFx formatting for note boxes to more closely match GitHub's light and dark theme styling. (#)
