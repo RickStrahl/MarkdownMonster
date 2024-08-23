@@ -6,8 +6,8 @@
 ### 3.4
 <small>August 20th, 2024</small> 
 
-* **[AI Support Features: Summarize, Translate, Grammar Checking](https://markdownmonster.west-wind.com/docs/_6y41clpfe.htm)**  
-We've added a number of AI assisted operations that allow you to create a summary of the current document or selection, translate a selection or the entire document, or perform a basic grammar check of a selection of text.
+* **[AI Support Features: Summarize, Translate, Grammar Checking](https://markdownmonster.west-wind.com/docs/_6z50u9437.htm)**  
+We've added a number of AI assisted operations that allow you to create a summary of the current document or selection, translate a selection or the entire document, or perform a basic grammar check of a selection of text.  
 <small>*Features require an OpenAI/Azure OpenAI API key or local a OpenAI server like Ollama.*</small> 
 
 * **[Updated OpenAI Image Generation Connections](https://markdownmonster.west-wind.com/docs/_6rz0smzc0.htm)**  
