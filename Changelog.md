@@ -3,6 +3,20 @@
 [![NuGet](https://img.shields.io/chocolatey/v/MarkdownMonster.svg)](https://chocolatey.org/packages/MarkdownMonster)
 [![](https://img.shields.io/chocolatey/dt/MarkdownMonster.svg)](https://chocolatey.org/packages/MarkdownMonster)
 
+### 3.5
+
+* **Move to .NET 9.0**  
+Preview release that now runs on .NET 9.0 and installs the .NET 9.0 runtime. 
+
+* **Arm64 Support Improvements**  
+Markdown Monster has had support for running on Arm for some time, but in this update we've fixed a few small minor issues related to platform differences. 
+
+* **Add Arm64 Runtime Installer**  
+Although MM has supported running on Arm, our setup didn't support Arm runtime installation in the same way as the x64 install. The runtime installer now checks for and installs the Arm runtime.
+
+* **Hide Hidden Files in Default Folder Browser View**  
+Hidden files on disk are now hidden in the Folder Browser by default, unless you explictly use the **Show All** option to view files. Show All shows all files including hidden files as well as filtered folders and file extensions.
+
 ### 3.4
 <small>August 20th, 2024</small> 
 
@@ -19,9 +33,9 @@ You can now preview the embedded PlantUml diagrams in the previewer as well as c
 * **Toggle Preview Zoom**  
 Provide a more consistent way to zoom the preview window within the editor. You can now press Ctrl-11 to zoom the preview in the editor/preview pane, and the choice persists across documents.
 
-* **Switched FontAwesome v6.x**  
-Markdown Monster now uses FontAwesome 6.0 in the preview renderer from the v4.70 (ugh!). All font styles and the compatibility layer are included to ensure that existing usage of FA fonts in the preview continues to work.  
-*Keep in mind that FA icon usage depends on support in your final Markdown output rendering target (ie. GitHub, Doc or Blog site etc.) and that engine has to support FontAwesome*.
+* **Switched to FontAwesome v6.x**  
+Markdown Monster now uses FontAwesome 6.0 in the preview renderer from the old v4.70 (ugh!). All font styles and the compatibility layer are included to ensure that existing usage of FA fonts in the preview continues to work.  
+<small>*Keep in mind that FA icon usage depends on support in your final Markdown output rendering target (ie. GitHub, Doc or Blog site etc.) and that engine has to support FontAwesome*. GitHub does not support FontAwesome in its Markdown renderer.</small>.
 
 * **Add OnContextMenuOpened Addin Handler**  
 This method allows interception of several of the context menus that get opened. You can check for a specific context menu type and then use this to potentially inject additional menu options into the context menus.
