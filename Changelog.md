@@ -4,6 +4,7 @@
 [![](https://img.shields.io/chocolatey/dt/MarkdownMonster.svg)](https://chocolatey.org/packages/MarkdownMonster)
 
 ### 3.5
+<small>not released yet</small>
 
 * **Move to .NET 9.0**  
 Preview release that now runs on .NET 9.0 and installs the .NET 9.0 runtime. 

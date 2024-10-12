@@ -805,6 +805,7 @@
 
             // set default dates for fallback here
             _version = "1.0";
+            _previewVersion = "1.0";
             ReleaseDate = @DateTime.UtcNow.ToString("MMM dd, yyyy");
 
             try
@@ -829,6 +830,13 @@
                     ReleaseDate = matches[0].Groups[1].Value;
                 }
                 _lastAccess = DateTime.UtcNow;
+
+                regex = new Regex(@"<PreviewVersion>(.*)<\/PreviewVersion>");
+                
+                if (matches != null && matches.Count > 0)
+                {
+                    _previewVersion = matches[0].Groups[1].Value;
+                }                
             }
             catch (Exception ex)
             {
