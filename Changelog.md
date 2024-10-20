@@ -18,9 +18,11 @@ Markdown Monster has had support for running on Arm for some time, but in this u
 * **Add Arm64 Runtime Installer**  
 Although MM has supported running on Arm, our setup didn't support Arm runtime installation in the same way as the x64 install. The runtime installer now checks for and installs the Arm runtime.
 
+* **Allow for ~ Paths in Configuration and Recent File Names**  
+Configuration file paths now support ~ and Environment variables for paths and files saved automatically adjust the user path to ~ paths when saving in the user path. This should improve the ability to use configuration files across multiple machines using shared folders like Dropbox/OneDrive/iCloud etc.
 
 * **Hide Hidden Files in Default Folder Browser View**  
-Hidden files on disk are now hidden in the Folder Browser by default, unless you explictly use the **Show All** option to view files. Show All shows all files including hidden files as well as filtered folders and file extensions.
+Hidden files on disk are now hidden  in the Folder Browser by default, unless you explictly use the **Show All** option to view files. Show All shows all files including hidden files as well as filtered folders and file extensions.
 
 ### 3.4
 <small>August 20th, 2024</small> 
