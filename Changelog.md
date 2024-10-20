@@ -6,7 +6,10 @@
 ### 3.5
 <small>not released yet</small>
 
-* **Move to .NET 9.0**  
+* **Updated PDF Rendering via WebView**  
+Added alternate PDF rendering for the Save As Pdf feature. You can now choose between the old (and somewhat outdated) wkhtmltopdf engine, and the new WebView engine. There are some tradeoffs with each approach with much improved, more accurate rendering in the new WebView version, but better support for support features like headers and footers in the old wkhtmltopdf engine.
+
+* **.NET 9.0**  
 Preview release that now runs on .NET 9.0 and installs the .NET 9.0 runtime. 
 
 * **Arm64 Support Improvements**  
@@ -14,6 +17,7 @@ Markdown Monster has had support for running on Arm for some time, but in this u
 
 * **Add Arm64 Runtime Installer**  
 Although MM has supported running on Arm, our setup didn't support Arm runtime installation in the same way as the x64 install. The runtime installer now checks for and installs the Arm runtime.
+
 
 * **Hide Hidden Files in Default Folder Browser View**  
 Hidden files on disk are now hidden in the Folder Browser by default, unless you explictly use the **Show All** option to view files. Show All shows all files including hidden files as well as filtered folders and file extensions.
