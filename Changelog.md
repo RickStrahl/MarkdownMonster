@@ -24,6 +24,16 @@ Configuration file paths now support ~ and Environment variables for paths and f
 * **Hide Hidden Files in Default Folder Browser View**  
 Hidden files on disk are now hidden  in the Folder Browser by default, unless you explictly use the **Show All** option to view files. Show All shows all files including hidden files as well as filtered folders and file extensions.
 
+* **Fix: Folder Browser File Renaming Leaves old File Tab Open**  
+Fix issue where when renaming a file in the Folder Browser would open the  new file in a tab, but occasionally leave open the old file and also leave the old file in place.  
+([#1141](https://github.com/RickStrahl/MarkdownMonster/issues/1141))
+
+
+* **Fix: Empty Bold, Italic, Underline, Strikeout etc. behavior**  
+When using bolding on the above tags we now (again) create empty tags with the cursor in between the markup symbols (ie. `**~**` where `~` is the cursor location).  
+([#1140](https://github.com/RickStrahl/MarkdownMonster/issues/1140))
+
+
 ### 3.4
 <small>August 20th, 2024</small> 
 
