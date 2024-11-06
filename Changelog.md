@@ -15,11 +15,8 @@ Due to the removal of wkHtmlToPdf the installer size has been cut by 40% and ins
 * **.NET 9.0**  
 v3.5 now runs on the .NET 9.0 Desktop runtime. v9 has further performance improvements including improved startup speed provided as part of the core runtime.
 
-* **Arm64 Support Improvements**  
-Markdown Monster has had support for running on Arm for some time, but in this update we've fixed a few small minor issues related to platform differences and explicitly now support Arm64 runtime downloads during installation.
-
-* **Add Arm64 Runtime Installer**  
-Although MM has supported running on Arm, our setup didn't support Arm runtime installation in the same way as the x64 install. The runtime installer now checks for and installs the Arm runtime.
+* **Arm64 Support Improvements and Arm64 Runtime Installer**  
+Markdown Monster has had support for running on Arm for some time, but in this update we've fixed a few minor issues related to platform differences and we now explicitly support Arm64 runtime downloads during installation if .NET 9.0 is not installed.
 
 * **Allow for ~ Paths in Configuration and Recent File Names**  
 Configuration file paths now support ~ and Environment variables for paths and files saved automatically adjust the user path to ~ paths when saving in the user path. This should improve the ability to use configuration files across multiple machines using shared folders like Dropbox/OneDrive/iCloud etc.
