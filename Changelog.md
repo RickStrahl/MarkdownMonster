@@ -7,13 +7,16 @@
 <small>not released yet</small>
 
 * **Updated PDF Rendering via WebView**  
-Added alternate PDF rendering for the Save As Pdf feature. You can now choose between the old (and somewhat outdated) wkhtmltopdf engine, and the new WebView engine. There are some tradeoffs with each approach with much improved, more accurate rendering in the new WebView version, but better support for support features like headers and footers in the old wkhtmltopdf engine.
+Swapped out the old wkHtmlToPdf engine for WebView for PDF rendering. The new engine provides more accurate rendering and allows for rendering styled themes, embedded fonts including FontAwesome icon fonts, customizable headers and footers, and improved print performance.
+
+* **Reduced Installation Footprint**  
+Due to the removal of wkHtmlToPdf the installer size has been cut by 40% and installation footprint by nearly 50 megs.
 
 * **.NET 9.0**  
-Preview release that now runs on .NET 9.0 and installs the .NET 9.0 runtime. 
+v3.5 now runs on the .NET 9.0 Desktop runtime. v9 has further performance improvements including improved startup speed provided as part of the core runtime.
 
 * **Arm64 Support Improvements**  
-Markdown Monster has had support for running on Arm for some time, but in this update we've fixed a few small minor issues related to platform differences. 
+Markdown Monster has had support for running on Arm for some time, but in this update we've fixed a few small minor issues related to platform differences and explicitly now support Arm64 runtime downloads during installation.
 
 * **Add Arm64 Runtime Installer**  
 Although MM has supported running on Arm, our setup didn't support Arm runtime installation in the same way as the x64 install. The runtime installer now checks for and installs the Arm runtime.
@@ -32,6 +35,12 @@ Fix issue where when renaming a file in the Folder Browser would open the  new f
 * **Fix: Empty Bold, Italic, Underline, Strikeout etc. behavior**  
 When using bolding on the above tags we now (again) create empty tags with the cursor in between the markup symbols (ie. `**~**` where `~` is the cursor location).  
 ([#1140](https://github.com/RickStrahl/MarkdownMonster/issues/1140))
+
+* **Fix: Clean up Spell Check Icon on ControlBox**  
+Make the spellcheck state icon more obvious with check mark and x-mark to indicate current spell checking state.
+
+* **Fix: Non-Markdown or Text Files are initially spellchecked**  
+Fix issue where non-markdown or non-text documents show spelling errors when they shouldn't. ([#1143](https://github.com/RickStrahl/MarkdownMonster/issues/1143))
 
 
 ### 3.4
