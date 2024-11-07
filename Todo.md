@@ -1,8 +1,12 @@
 ### Bugs and Needed Features
-* [ ] Open With in Preview Tab uses .md File not Preview file (.pdf/.html/.png)
-* [ ] PDF Printing - open after render doesn't work
-
+* [ ] Left Sidebar
+    * Addin events for adding and refreshing
+    
+* [ ] Script for Twitter Embedding not working reliably in Preview    
+    * check Script Configuration setting
+    
 * [ ] Gist Addin - Fix Refresh in Previewer
+
 
 #### Enhancements
 * [ ] Open Files List from Command Palette
