@@ -9,6 +9,9 @@
 * **Updated PDF Rendering via WebView**  
 Swapped out the old wkHtmlToPdf engine for WebView for PDF rendering. The new engine provides more accurate rendering and allows for rendering styled themes, embedded fonts including FontAwesome icon fonts, customizable headers and footers, and improved print performance.
 
+* **Vertically Split Panel for Sidebar**  
+The left sidebar can now be split into two stacked vertical panes. By default the top pane shows the folder browser and favorites while the bottom shows the document outline at all times. A context menu lets you split the panel and to move tabs between panels.
+
 * **Reduced Installation Footprint**  
 Due to the removal of wkHtmlToPdf the installer size has been cut by 40% and installation footprint by nearly 50 megs.
 
@@ -18,8 +21,7 @@ v3.5 now runs on the .NET 9.0 Desktop runtime. v9 has further performance improv
 * **Arm64 Support Improvements and Arm64 Runtime Installer**  
 Markdown Monster has had support for running on Arm for some time, but in this update we've fixed a few minor issues related to platform differences and we now explicitly support Arm64 runtime downloads during installation if .NET 9.0 is not installed.
 
-* **Vertically Split Panel for Sidebar**  
-The left sidebar can now be split into two stacked vertical panes. By default the top pane shows the folder browser and favorites while the bottom shows the document outline at all times. Currently configurable manually in configuration file only.
+
 
 * **Allow for ~ Paths in Configuration and Recent File Names**  
 Configuration file paths now support ~ and Environment variables for paths and files saved automatically adjust the user path to ~ paths when saving in the user path. This should improve the ability to use configuration files across multiple machines using shared folders like Dropbox/OneDrive/iCloud etc.
@@ -28,7 +30,7 @@ Configuration file paths now support ~ and Environment variables for paths and f
 Hidden files on disk are now hidden  in the Folder Browser by default, unless you explictly use the **Show All** option to view files. Show All shows all files including hidden files as well as filtered folders and file extensions.
 
 * **Html Output now generates `<title>` Tag**  
-A title tag is now generated into all rendered Markdown, which effects both the preview and exported HTML documents.
+A title tag is now generated into all rendered Markdown, which effects both the preview and exported HTML documents. It also allows the PDF generator to automatically pull the title out for headers.
 
 * **Html Preview Output now renders into its own Temp Folder**  
 MM now renders preview output into a dedicated `%TEMP%\mm` folder. Previously MM rendered the preview HTML output into the user `TEMP` path, but there were occasional complications due to very large file counts. This can show as problems writing, slow write/read speed, and if for some reasons viewing the HTML output (ie. View Html) it was very slow if auto-follow is on in the folder browser due to massive file counts in temp. The dedicated folder alleviates all these potential issues.
@@ -51,6 +53,8 @@ Fix issue where non-markdown or non-text documents show spelling errors when the
 
 ### 3.4
 <small>August 20th, 2024</small> 
+
+
 
 * **[AI Support Features: Summarize, Translate, Grammar Checking](https://markdownmonster.west-wind.com/docs/_6z50u9437.htm)**  
 We've added a number of AI assisted operations that allow you to create a summary of the current document or selection, translate a selection or the entire document, or perform a basic grammar check of a selection of text.  
