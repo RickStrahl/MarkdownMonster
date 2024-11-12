@@ -1,6 +1,7 @@
 ### Bugs and Needed Features
-* [ ] Left Sidebar
+* [] Left Sidebar
     * Addin events for adding and refreshing
+    * TOC generation has wrong spacing if there items start with header `###`
     
 * [ ] Script for Twitter Embedding not working reliably in Preview    
     * check Script Configuration setting

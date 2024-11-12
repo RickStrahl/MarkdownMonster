@@ -3,8 +3,10 @@
 [![NuGet](https://img.shields.io/chocolatey/v/MarkdownMonster.svg)](https://chocolatey.org/packages/MarkdownMonster)
 [![](https://img.shields.io/chocolatey/dt/MarkdownMonster.svg)](https://chocolatey.org/packages/MarkdownMonster)
 
+
+
 ### 3.5
-<small>not released yet</small>
+<small>November 12th, 2024</small>
 
 * **Updated PDF Rendering via WebView**  
 Swapped out the old wkHtmlToPdf engine for WebView for PDF rendering. The new engine provides more accurate rendering and allows for rendering styled themes, embedded fonts including FontAwesome icon fonts, customizable headers and footers, and improved print performance.
@@ -20,8 +22,6 @@ v3.5 now runs on the .NET 9.0 Desktop runtime. v9 has further performance improv
 
 * **Arm64 Support Improvements and Arm64 Runtime Installer**  
 Markdown Monster has had support for running on Arm for some time, but in this update we've fixed a few minor issues related to platform differences and we now explicitly support Arm64 runtime downloads during installation if .NET 9.0 is not installed.
-
-
 
 * **Allow for ~ Paths in Configuration and Recent File Names**  
 Configuration file paths now support ~ and Environment variables for paths and files saved automatically adjust the user path to ~ paths when saving in the user path. This should improve the ability to use configuration files across multiple machines using shared folders like Dropbox/OneDrive/iCloud etc.
