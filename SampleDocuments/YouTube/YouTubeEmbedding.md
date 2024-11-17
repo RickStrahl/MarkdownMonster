@@ -6,15 +6,15 @@
 
 ----
 
-<style>
 
-.video { position: relative; 
+<div class="video" style="
+  position: relative; 
         width: 100%; 
         max-width: 1280px;
-}
-
-.video a {
-   position: absolute;
+">
+    <img src="https://img.youtube.com/vi/C5fKGla-RtQ/maxresdefault.jpg" />
+    <a href="https://img.youtube.com/vi/C5fKGla-RtQ/0.jpg" style="
+    position: absolute;
    display: block;
    background: url(YouTubePlay.png);
    background-repeat: no-repeat;
@@ -25,10 +25,5 @@
    width: 16%;
    bottom: 10%;
    right: 5%;
-}
-</style>
-
-<div class="video">
-    <img src="https://img.youtube.com/vi/C5fKGla-RtQ/maxresdefault.jpg" />
-    <a href="https://img.youtube.com/vi/C5fKGla-RtQ/0.jpg"></a>
+    "></a>
 </div>
