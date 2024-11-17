@@ -1,20 +1,16 @@
 # You Tube Embedding
 
-[![Anti-Trust - No More Lies](https://img.youtube.com/vi/C5fKGla-RtQ/0.jpg)](https://www.youtube.com/watch?v=C5fKGla-RtQ)
+[![Gibson Tried & Failed to Crush this Small Builder](https://img.youtube.com/vi/cdq1OQm8vdo/0.jpg)](https://www.youtube.com/watch?v=cdq1OQm8vdo)  
+<small>*click image to [open video](https://www.youtube.com/watch?v=cdq1OQm8vdo)*</small>
 
-![](https://img.youtube.com/vi/C5fKGla-RtQ/maxresdefault.jpg)
-
-----
-
-
-<div class="video" style="
-  position: relative; 
+<style>
+.video { position: relative; 
         width: 100%; 
         max-width: 1280px;
-">
-    <img src="https://img.youtube.com/vi/C5fKGla-RtQ/maxresdefault.jpg" />
-    <a href="https://img.youtube.com/vi/C5fKGla-RtQ/0.jpg" style="
-    position: absolute;
+}
+
+.video a {
+   position: absolute;
    display: block;
    background: url(YouTubePlay.png);
    background-repeat: no-repeat;
@@ -25,5 +21,10 @@
    width: 16%;
    bottom: 10%;
    right: 5%;
-    "></a>
+}
+</style>
+
+<div class="video" >
+    <img src="https://img.youtube.com/vi/C5fKGla-RtQ/maxresdefault.jpg" />
+    <a href="https://img.youtube.com/vi/C5fKGla-RtQ/0.jpg"></a>
 </div>
