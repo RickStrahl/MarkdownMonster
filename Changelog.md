@@ -3,6 +3,18 @@
 [![NuGet](https://img.shields.io/chocolatey/v/MarkdownMonster.svg)](https://chocolatey.org/packages/MarkdownMonster)
 [![](https://img.shields.io/chocolatey/dt/MarkdownMonster.svg)](https://chocolatey.org/packages/MarkdownMonster)
 
+### 3.6
+
+<small>not released yet</small>
+
+* **Embed YouTube Enhancements**  
+Add **Open YouTube** button when no video is selected yet. Automatically capture YouTube Url on clipboard when returning to the form and the Url is empty.
+
+* **Fix: Print to PDF Failures**  
+Fix a number edge case failures: Printing untitled files, fix issue with invalid margin numbers, update header/footer tooltip documentation and help docs. ([#1151](https://github.com/RickStrahl/MarkdownMonster/issues/1151))
+
+* **Fix: Split Panel Rendering**  
+Refactor split panel rendering to operate quicker and more smoothly. Rather than redrawing on rearrangements, we cache and reuse panels now whenever possible and only re-render in rare cases.
 
 
 ### 3.5
