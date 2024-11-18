@@ -1,8 +1,11 @@
 # You Tube Embedding
 
-[![Gibson Tried & Failed to Crush this Small Builder](https://img.youtube.com/vi/cdq1OQm8vdo/0.jpg)](https://www.youtube.com/watch?v=cdq1OQm8vdo)  
-<small>*click image to [open video](https://www.youtube.com/watch?v=cdq1OQm8vdo)*</small>
+### YouTube Thumbnail Linking works
+[![Anti-Trust - The Masters of Disaster](https://img.youtube.com/vi/5zFzz5bxpMU/maxresdefault.jpg)](https://www.youtube.com/watch?v=5zFzz5bxpMU)  
+<small>*click image to [open video](https://www.youtube.com/watch?v=5zFzz5bxpMU)*</small>
 
+
+### Styling Doesn't Work unfortunately
 <style>
 .video { position: relative; 
         width: 100%; 
