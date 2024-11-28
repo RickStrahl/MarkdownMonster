@@ -10,6 +10,13 @@
 * **Embed YouTube Enhancements**  
 Add **Open YouTube** button when no video is selected yet. Automatically capture YouTube Url on clipboard when returning to the form and the Url is empty. New option to embed an Image Link instead of embedded IFRAME video to support hosts like GitHub with HTML/Script/CSS restrictions.
 
+* **Add X AI API Preset**  
+Add new AI preset for the X AI that presets the URL and default model. 
+
+
+* **Improved Left Sidebar Split Panel Rendering**  
+Refactor split panel rendering to operate quicker and more smoothly. Rather than redrawing on rearrangements, we cache and reuse panels now whenever possible and only re-render in rare cases which results in non-janky and faster panel refresh display.
+
 * **Fix: Print to PDF Failures**  
 Fix a number edge case failures: Printing untitled files, fix issue with invalid margin numbers, update header/footer tooltip documentation and help docs. ([#1151](https://github.com/RickStrahl/MarkdownMonster/issues/1151))
 
