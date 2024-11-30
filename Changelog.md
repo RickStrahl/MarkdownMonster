@@ -17,6 +17,9 @@ Add new AI preset for the X AI that presets the URL and default model.
 * **Improved Left Sidebar Split Panel Rendering**  
 Refactor split panel rendering to operate quicker and more smoothly. Rather than redrawing on rearrangements, we cache and reuse panels now whenever possible and only re-render in rare cases which results in non-janky and faster panel refresh display.
 
+* **Update Ace Editor to 1.36.5**  
+Update to latest version of ACE Editor component. Fixes a few small editor bugs and also adds a GitHub Dark Editor Theme.
+
 * **Fix: Print to PDF Failures**  
 Fix a number edge case failures: Printing untitled files, fix issue with invalid margin numbers, update header/footer tooltip documentation and help docs. ([#1151](https://github.com/RickStrahl/MarkdownMonster/issues/1151))
 
