@@ -10,6 +10,12 @@
 * **Embed YouTube Enhancements**  
 Add **Open YouTube** button when no video is selected yet. Automatically capture YouTube Url on clipboard when returning to the form and the Url is empty. New option to embed an Image Link instead of embedded IFRAME video to support hosts like GitHub with HTML/Script/CSS restrictions.
 
+* **Capture YouTube Preview Images**  
+You can now capture the YouTube Preview screen as an image for embedding into your content. This allows linking of YouTube videos that encourage clicking links that looks like the YouTube player but is actually a linkable image. 
+
+* **YouTube Paste Options for non-embeddable Platform like GitHub**  
+There are new YouTube embedding options that allow for capturing the Preview screen to an image and linking it into your content, or embedding the image content into the Markdown itself. These options allow for YouTube links on GitHub and other platforms that don't allow player embedding.
+
 * **Add X AI API Preset**  
 Add new AI preset for the X AI that presets the URL and default model. 
 
@@ -19,6 +25,9 @@ Refactor split panel rendering to operate quicker and more smoothly. Rather than
 
 * **Update Ace Editor to 1.36.5**  
 Update to latest version of ACE Editor component. Fixes a few small editor bugs and also adds a GitHub Dark Editor Theme.
+
+* **Update HighlightJs to 11.10**  
+Update the Code Syntax highlighting in the previewer. 
 
 * **Fix: Print to PDF Failures**  
 Fix a number edge case failures: Printing untitled files, fix issue with invalid margin numbers, update header/footer tooltip documentation and help docs. ([#1151](https://github.com/RickStrahl/MarkdownMonster/issues/1151))
@@ -56,6 +65,9 @@ A title tag is now generated into all rendered Markdown, which effects both the 
 
 * **Html Preview Output now renders into its own Temp Folder**  
 MM now renders preview output into a dedicated `%TEMP%\mm` folder. Previously MM rendered the preview HTML output into the user `TEMP` path, but there were occasional complications due to very large file counts. This can show as problems writing, slow write/read speed, and if for some reasons viewing the HTML output (ie. View Html) it was very slow if auto-follow is on in the folder browser due to massive file counts in temp. The dedicated folder alleviates all these potential issues.
+
+* **YouTube Embedding - Capture Title Screen**  
+You can now capture the YouTube title screen so you can create link embeddings for sites that don't support native YouTube IFRAME embedding. You can capture the preview screen to clipboard, file or embed it directly into the document.
 
 * **Fix: Folder Browser File Renaming Leaves old File Tab Open**  
 Fix issue where when renaming a file in the Folder Browser would open the  new file in a tab, but occasionally leave open the old file and also leave the old file in place.  
