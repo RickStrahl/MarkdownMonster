@@ -35,6 +35,11 @@ Fix a number edge case failures: Printing untitled files, fix issue with invalid
 * **Fix: Split Panel Rendering**  
 Refactor split panel rendering to operate quicker and more smoothly. Rather than redrawing on rearrangements, we cache and reuse panels now whenever possible and only re-render in rare cases.
 
+* **Fix: Configuration Backup locking up UI**  
+Fix issue that was causing the UI to lock up while backing up configuration files to Zip file or a folder.
+
+* **Fix: Remember Monitor Position for Maximized Windows**  
+Fixes issue where window position for maximized windows was not remembered: If you closed down MM when maximized it would always re-launch on the main screen. MM now remembers the maximized status and window position. It now also restores non-maximixed window position properly when coming out of maximized mode after a restart. ([#1158](https://github.com/RickStrahl/MarkdownMonster/issues/1158))
 
 ### 3.5
 <small>November 12th, 2024</small>

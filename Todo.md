@@ -1,7 +1,8 @@
 ### Bugs and Needed Features
-* [] Left Sidebar
+I [ ] Backup to Zip hangs the Configuration UI
+* [ ] Left Sidebar
     * Addin events for adding and refreshing
-    * TOC generation has wrong spacing if there items start with header `###`
+* [ ] TOC generation has wrong spacing if there items start with header `###`
     
 * [ ] Script for Twitter Embedding not working reliably in Preview    
     * check Script Configuration setting
