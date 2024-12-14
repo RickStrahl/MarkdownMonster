@@ -7,6 +7,9 @@
 
 <small>not released yet</small>
 
+* **New Check Document Links Sidebar Panel (Preview)**  
+Added a new sidebar panel that can be used to validate links in the current document. **Check Document Links** is an option on the Tool menu and can also be accessed via the Command Pallette (`ctrl-shift-p` -> Check Document Links`). A new sidebar pane is used to display links ordered by broken and valid links and you can click links to navigate to the corresponding link.
+
 * **Embed YouTube Enhancements**  
 Add **Open YouTube** button when no video is selected yet. Automatically capture YouTube Url on clipboard when returning to the form and the Url is empty. New option to embed an Image Link instead of embedded IFRAME video to support hosts like GitHub with HTML/Script/CSS restrictions.
 
