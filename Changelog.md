@@ -7,8 +7,8 @@
 
 <small>not released yet</small>
 
-* **New Check Document Links Sidebar Panel (Preview)**  
-Added a new sidebar panel that can be used to validate links in the current document. **Check Document Links** is an option on the Tool menu and can also be accessed via the Command Pallette (`ctrl-shift-p` -> Check Document Links`). A new sidebar pane is used to display links ordered by broken and valid links and you can click links to navigate to the corresponding link.
+* **New Check Document Links Sidebar Panel**  
+Added a new sidebar panel that can be used to validate links in the current document. **Check Document Links** is an option on the Tool menu and can also be accessed via the Command Palette (`ctrl-shift-p` -> Check Document Links`). A new sidebar pane is used to display links ordered by broken and valid links and you can click links to navigate to the corresponding link.
 
 * **Embed YouTube Enhancements**  
 Add **Open YouTube** button when no video is selected yet. Automatically capture YouTube Url on clipboard when returning to the form and the Url is empty. New option to embed an Image Link instead of embedded IFRAME video to support hosts like GitHub with HTML/Script/CSS restrictions.
@@ -18,6 +18,9 @@ You can now capture the YouTube Preview screen as an image for embedding into yo
 
 * **YouTube Paste Options for non-embeddable Platform like GitHub**  
 There are new YouTube embedding options that allow for capturing the Preview screen to an image and linking it into your content, or embedding the image content into the Markdown itself. These options allow for YouTube links on GitHub and other platforms that don't allow player embedding.
+
+* **AI Updates**  
+AI Translate, Summarize and Grammar Check are now accessible on the AI Toolbar drop down menu and via the Command Palette <small>*(`ctrl-shift-p`)*</small>.
 
 * **Add X AI API Preset**  
 Add new AI preset for the X AI that presets the URL and default model. 
@@ -62,7 +65,7 @@ v3.5 now runs on the .NET 9.0 Desktop runtime. v9 has further performance improv
 * **Arm64 Support Improvements and Arm64 Runtime Installer**  
 Markdown Monster has had support for running on Arm for some time, but in this update we've fixed a few minor issues related to platform differences and we now explicitly support Arm64 runtime downloads during installation if .NET 9.0 is not installed.
 
-* **Allow for ~ Paths in Configuration and Recent File Names**  
+* **Allow for ~  Paths in Configuration and Recent File Names**  
 Configuration file paths now support ~ and Environment variables for paths and files saved automatically adjust the user path to ~ paths when saving in the user path. This should improve the ability to use configuration files across multiple machines using shared folders like Dropbox/OneDrive/iCloud etc.
 
 * **Hide Hidden Files in Default Folder Browser View**  
