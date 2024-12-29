@@ -50,10 +50,10 @@ For more detailed info on licensing please visit licensing information here:
 
 [Markdown Monster Licensing](https://markdownmonster.west-wind.com/purchase#License)
 
-### Source code no longer available here
-Due to rampant license abuse and misuse of the source code by a few bad actors, this repository no longer holds any of Markdown Monster's source code. The source code has moved to a private repository and access is [available by request](https://markdownmonster.west-wind.com/purchase#License).
-
-This repository serves as the GitHub information page for downloads and features, as well as for feedback on bug reports and enhancement requests in the [Issues section](https://github.com/RickStrahl/MarkdownMonster/issues). For more general questions, you an also use our [support message board](https://support.west-wind.com?forum=Markdown+Monster) in the Markdown Monster section.
+> ### Source code no longer available here
+> Due to rampant license abuse and misuse of the source code by a few bad actors, this repository no longer holds any of Markdown Monster's source code. The source code has moved to a private repository and access is [available by request](https://markdownmonster.west-wind.com/purchase#License) only.
+> 
+> This repository serves as the GitHub information page for downloads and features, as well as for feedback on bug reports and enhancement requests in the [Issues section](https://github.com/RickStrahl/MarkdownMonster/issues). For more general questions, you an also use our [support message board](https://support.west-wind.com?forum=Markdown+Monster) in the Markdown Monster section.
 
 ## Overview
 Here's what Markdown Monster looks like using the default **Dark Theme**: 
