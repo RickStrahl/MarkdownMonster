@@ -67,7 +67,7 @@ and here is the **Light Theme**:
 <small>*Note that you can individually customize the theming for the editor, the preview and even the code snippet display in the previewer.*</small>
 
 ### Productive
-Markdown Monster has a lot of features, but we work hard to keep those features out of your way when you don't need them. If you just want to write, MM provides a minimal editing experience that provides pleasant white space around your content and an optional distraction free mode. But if you want to be more productive use shortcuts and helpers to enhance your editing experience, we help you with many useful tools to enhance your editing experience with thoughtful productivity features. Most commands have keyboard shortcuts and can be accomplished with one or two keystrokes.
+Markdown Monster has a lot of features, but we work hard to keep those features out of your way when you don't need them. If you just want to write, MM provides a minimal editing experience that provides pleasant white space around your content and an optional distraction free mode. But if you want to be more productive, use shortcuts and helpers to enhance your editing experience, we help you with many useful tools to enhance your editing experience with thoughtful productivity features. Most commands have keyboard shortcuts and can be accomplished with one or two keystrokes even those that involve visible UI.
 
 Easily embed things like images, links, tables, code snippets and more with a couple of keystrokes and smart link fix ups. Because images are such a big part of content creation, our image embedding support is especially rich and supports pasting images from the clipboard, embedding with the image file/url dialog, drag and drop from explorer or a browser, and even a built-in image capture utility.
 
@@ -143,6 +143,7 @@ Markdown Monster provides many useful features:
 * Smart, unobtrusive toolbar and shortcut key helpers
 * Snippet expansion from text templates
 * Document Outline to navigate large documents
+* Link Checker lets you check images and links for validity
 * Many Editor customization options
 
 ### Output and Selections
@@ -177,6 +178,7 @@ Markdown Monster provides many useful features:
 * Drag and drop documents from Explorer and Folder Browser
 * Open a Terminal, Explorer or Git Client
 
+
 ### Organization and File Access
 * Integrated File and Folder browser
 * Quick File Search
@@ -195,6 +197,14 @@ Markdown Monster provides many useful features:
 * Add Ignored Files
 * Clone Repository
 * Open in Git Client
+
+### AI Support
+* Support for any OpenAI based API local or remote
+*requires your own API keys*
+* AI Image Generation
+* AI Document and Selection Summaries
+* AI Translation
+* AI Grammar Check
 
 ### Weblog Publishing
 * Create or edit Weblog posts using Markdown

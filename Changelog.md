@@ -7,16 +7,16 @@
 
 <small>not released yet</small>
 
-* **New Check Document Links Sidebar Panel**  
+* **[New Check Document Links Sidebar Panel](https://markdownmonster.west-wind.com/docs/_72k0uwlqp.htm)**  
 Added a new sidebar panel that can be used to validate links in the current document. **Check Document Links** is an option on the Tool menu and can also be accessed via the Command Palette (`ctrl-shift-p` -> Check Document Links`). A new sidebar pane is used to display links ordered by broken and valid links and you can click links to navigate to the corresponding link.
 
-* **Embed YouTube Enhancements**  
+* **[Embed YouTube Enhancements](https://markdownmonster.west-wind.com/docs/_69d0zwck0.htm)**  
 Add **Open YouTube** button when no video is selected yet. Automatically capture YouTube Url on clipboard when returning to the form and the Url is empty. New option to embed an Image Link instead of embedded IFRAME video to support hosts like GitHub with HTML/Script/CSS restrictions.
 
-* **Capture YouTube Preview Images**  
+* **[Capture YouTube Preview Images](https://markdownmonster.west-wind.com/docs/_69d0zwck0.htm#capture-youtube-cover-image)**  
 You can now capture the YouTube Preview screen as an image for embedding into your content. This allows linking of YouTube videos that encourage clicking links that looks like the YouTube player but is actually a linkable image. 
 
-* **YouTube Paste Options for non-embeddable Platform like GitHub**  
+* **[YouTube Paste Options for non-embeddable Platform like GitHub](https://markdownmonster.west-wind.com/docs/_69d0zwck0.htm#embedded-cover-image-link-embedding)**  
 There are new YouTube embedding options that allow for capturing the Preview screen to an image and linking it into your content, or embedding the image content into the Markdown itself. These options allow for YouTube links on GitHub and other platforms that don't allow player embedding.
 
 * **AI Updates**  
