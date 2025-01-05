@@ -25,7 +25,6 @@ AI Translate, Summarize and Grammar Check are now accessible on the AI Toolbar d
 * **Add X AI API Preset**  
 Add new AI preset for the X AI that presets the URL and default model. 
 
-
 * **Improved Left Sidebar Split Panel Rendering**  
 Refactor split panel rendering to operate quicker and more smoothly. Rather than redrawing on rearrangements, we cache and reuse panels now whenever possible and only re-render in rare cases which results in non-janky and faster panel refresh display.
 
@@ -46,6 +45,12 @@ Fix issue that was causing the UI to lock up while backing up configuration file
 
 * **Fix: Remember Monitor Position for Maximized Windows**  
 Fixes issue where window position for maximized windows was not remembered: If you closed down MM when maximized it would always re-launch on the main screen. MM now remembers the maximized status and window position. It now also restores non-maximixed window position properly when coming out of maximized mode after a restart. ([#1158](https://github.com/RickStrahl/MarkdownMonster/issues/1158))
+
+* **Fix: Create Weblog and Delete WebLog Inconsistencies**  
+Fix issue that caused the Weblog list to not update properly when adding and deleting Weblogs, requiring exiting the Weblog form and coming back in. Fixed so that updates are immediate. ([#1127](https://github.com/RickStrahl/MarkdownMonster/issues/1137))
+
+* **Fix: WebLog Strip H1 Headers Setting**  
+Fix behavior of the **Strip H1 Document Header** checkbox on the Weblog publish form. Renamed the configuration key and 'un-negated' the checkbox text. The new default is `true` (checked) as most services like WordPress, Medium etc manage the title separate from the blog content. ([#1138](https://github.com/RickStrahl/MarkdownMonster/issues/1138))
 
 ### 3.5
 <small>November 12th, 2024</small>
