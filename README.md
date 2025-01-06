@@ -21,6 +21,7 @@ You can download Markdown Monster using the self-contained installer:
 
 [Download Markdown Monster](http://markdownmonster.west-wind.com/download)
 
+*This installer always provides the newest available version. All the other package managers versions might lag behind.*
 ### Chocolatey
 
 You can you use [Chocolatey](https://chocolatey.org/) to install from the Windows Command Prompt *(maintained by us - always up to date)*
@@ -30,7 +31,7 @@ c:\> choco install markdownmonster
 ```
 
 ### WinGet
-You can also use the built-in Windows WinGet tool *(not maintained by us)*:
+You can also use the built-in Windows WinGet tool:
 
 ```ps
 c:\> winget install markdown-monster

@@ -8,22 +8,22 @@
 <small>not released yet</small>
 
 * **[New Check Document Links Sidebar Panel](https://markdownmonster.west-wind.com/docs/_72k0uwlqp.htm)**  
-Added a new sidebar panel that can be used to validate links in the current document. **Check Document Links** is an option on the Tool menu and can also be accessed via the Command Palette (`ctrl-shift-p` -> Check Document Links`). A new sidebar pane is used to display links ordered by broken and valid links and you can click links to navigate to the corresponding link.
+There's new sidebar panel tab that can be used to validate links in the current document. **Check Document Links** is an option on the Tool menu and can also be accessed via the Command Palette (`ctrl-shift-p` -> Check Document Links`). A new sidebar pane is used to display links ordered by broken and valid links and you can click links to navigate to the corresponding link in the document. A context menu has additional options for links and images.
 
 * **[Embed YouTube Enhancements](https://markdownmonster.west-wind.com/docs/_69d0zwck0.htm)**  
 Add **Open YouTube** button when no video is selected yet. Automatically capture YouTube Url on clipboard when returning to the form and the Url is empty. New option to embed an Image Link instead of embedded IFRAME video to support hosts like GitHub with HTML/Script/CSS restrictions.
 
-* **[Capture YouTube Preview Images](https://markdownmonster.west-wind.com/docs/_69d0zwck0.htm#capture-youtube-cover-image)**  
-You can now capture the YouTube Preview screen as an image for embedding into your content. This allows linking of YouTube videos that encourage clicking links that looks like the YouTube player but is actually a linkable image. 
-
 * **[YouTube Paste Options for non-embeddable Platform like GitHub](https://markdownmonster.west-wind.com/docs/_69d0zwck0.htm#embedded-cover-image-link-embedding)**  
-There are new YouTube embedding options that allow for capturing the Preview screen to an image and linking it into your content, or embedding the image content into the Markdown itself. These options allow for YouTube links on GitHub and other platforms that don't allow player embedding.
+When embedding YouTube videos from YouTube dialog, you can now choose from several embedding modes: IFrame (existed previously), Captured Preview Image and Link, or Markdown Media Link. The new options allow for YouTube links on GitHub and other platforms that don't allow for IFRAME player embedding.
+
+* **[Capture YouTube Preview Images](https://markdownmonster.west-wind.com/docs/_69d0zwck0.htm#capture-youtube-cover-image)**  
+You can now capture the YouTube Preview screen as an image for embedding into your content. This allows linking of YouTube videos that encourage clicking links that looks like the YouTube player but is actually a linkable image. You can manually do this via the Preview Image capture, or use Embed Image Link to directly embed the linked image into the document. The explicit clipboard copy can be useful as a generic feature outside of Markdown Monster.
 
 * **AI Updates**  
-AI Translate, Summarize and Grammar Check are now accessible on the AI Toolbar drop down menu and via the Command Palette <small>*(`ctrl-shift-p`)*</small>.
+AI Translate, Summarize and Grammar Check are now accessible on the AI Toolbar drop down menu and via the Command Palette <small>*(`ctrl-shift-p`)*</small>. The various dialogs that pop up have been cleaned up for simpler UI, and with options to re-run the current operation. 
 
 * **Add X AI API Preset**  
-Add new AI preset for the X AI that presets the URL and default model. 
+Add new AI preset for the X AI (ie. Grok) that presets the URL and default model. 
 
 * **Improved Left Sidebar Split Panel Rendering**  
 Refactor split panel rendering to operate quicker and more smoothly. Rather than redrawing on rearrangements, we cache and reuse panels now whenever possible and only re-render in rare cases which results in non-janky and faster panel refresh display.
