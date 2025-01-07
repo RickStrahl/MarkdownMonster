@@ -52,6 +52,9 @@ Fix issue that caused the Weblog list to not update properly when adding and del
 * **Fix: WebLog Strip H1 Headers Setting**  
 Fix behavior of the **Strip H1 Document Header** checkbox on the Weblog publish form. Renamed the configuration key and 'un-negated' the checkbox text. The new default is `true` (checked) as most services like WordPress, Medium etc manage the title separate from the blog content. ([#1138](https://github.com/RickStrahl/MarkdownMonster/issues/1138))
 
+* **Fix: WebLog Publish with Absolute Images**  
+Fix issue where blog posts that contain absolute image paths were not sending these images. Although we recommend you **don't use absolute paths in Markdown** and rather copy images to your local project or folder close to the document, image uploads from absolute paths now work correctly for WordPress and and MetaWeblog interfaces. ([#1137](https://github.com/RickStrahl/MarkdownMonster/issues/1137))
+
 ### 3.5
 <small>November 12th, 2024</small>
 
