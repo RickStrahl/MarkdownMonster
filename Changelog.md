@@ -19,6 +19,9 @@ When embedding YouTube videos from YouTube dialog, you can now choose from sever
 * **[Capture YouTube Preview Images](https://markdownmonster.west-wind.com/docs/_69d0zwck0.htm#capture-youtube-cover-image)**  
 You can now capture the YouTube Preview screen as an image for embedding into your content. This allows linking of YouTube videos that encourage clicking links that looks like the YouTube player but is actually a linkable image. You can manually do this via the Preview Image capture, or use Embed Image Link to directly embed the linked image into the document. The explicit clipboard copy can be useful as a generic feature outside of Markdown Monster.
 
+* **New Editor Scroll Speed Configuration Switch**  
+You can now set the editor scroll speed which allows for speeding up scrolling. This is especially useful for touch pad users that can be limited by slow single line scroll speeds. Speed can be set from 1 (baseline) to 20. The new default is 5.
+
 * **AI Updates**  
 AI Translate, Summarize and Grammar Check are now accessible on the AI Toolbar drop down menu and via the Command Palette <small>*(`ctrl-shift-p`)*</small>. The various dialogs that pop up have been cleaned up for simpler UI, and with options to re-run the current operation. 
 
