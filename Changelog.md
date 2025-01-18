@@ -10,6 +10,9 @@
 * **[New Check Document Links Sidebar Panel](https://markdownmonster.west-wind.com/docs/_72k0uwlqp.htm)**  
 There's new sidebar panel tab that can be used to validate links in the current document. **Check Document Links** is an option on the Tool menu and can also be accessed via the Command Palette (`ctrl-shift-p` -> Check Document Links`). A new sidebar pane is used to display links ordered by broken and valid links and you can click links to navigate to the corresponding link in the document. A context menu has additional options for links and images.
 
+* **Improved Left Sidebar Split Panel Rendering**  
+Refactor split panel rendering to operate quicker and more smoothly. Rather than redrawing on rearrangements, we cache and reuse panels now whenever possible and only re-render in rare cases which results in non-janky and faster panel refresh display.
+
 * **[Embed YouTube Enhancements](https://markdownmonster.west-wind.com/docs/_69d0zwck0.htm)**  
 Add **Open YouTube** button when no video is selected yet. Automatically capture YouTube Url on clipboard when returning to the form and the Url is empty. New option to embed an Image Link instead of embedded IFRAME video to support hosts like GitHub with HTML/Script/CSS restrictions.
 
@@ -27,9 +30,6 @@ AI Translate, Summarize and Grammar Check are now accessible on the AI Toolbar d
 
 * **Add X AI API Preset**  
 Add new AI preset for the X AI (ie. Grok) that presets the URL and default model. 
-
-* **Improved Left Sidebar Split Panel Rendering**  
-Refactor split panel rendering to operate quicker and more smoothly. Rather than redrawing on rearrangements, we cache and reuse panels now whenever possible and only re-render in rare cases which results in non-janky and faster panel refresh display.
 
 * **Update Ace Editor to 1.36.5**  
 Update to latest version of ACE Editor component. Fixes a few small editor bugs and also adds a GitHub Dark Editor Theme.
@@ -121,7 +121,7 @@ We've added a number of AI assisted operations that allow you to create a summar
 <small>*Features require an OpenAI/Azure OpenAI API key or local a OpenAI server like Ollama.*</small> 
 
 * **[Updated OpenAI Image Generation Connections](https://markdownmonster.west-wind.com/docs/_6rz0smzc0.htm)**  
-We've made changes to the way OpenAI Image Generation API connections are made, using a shared mechanism with the new completion features. If you had a previously configured image provider you'll likely need to re-enter your provider connection information.
+    We've made changes to the way OpenAI Image Generation API connections are made, using a shared mechanism with the new completion features. If you had a previously configured image provider you'll likely need to re-enter your provider connection information.
 
 * **[Add Support for PlantUml Diagrams](https://markdownmonster.west-wind.com/docs/_6x60qvpvi.htm)**  
 You can now preview the embedded PlantUml diagrams in the previewer as well as capture and export diagram output in your Markdown documents.
