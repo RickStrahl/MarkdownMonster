@@ -58,6 +58,10 @@ Fix behavior of the **Strip H1 Document Header** checkbox on the Weblog publish 
 * **Fix: WebLog Publish with Absolute Images**  
 Fix issue where blog posts that contain absolute image paths were not sending these images. Although we recommend you **don't use absolute paths in Markdown** and rather copy images to your local project or folder close to the document, image uploads from absolute paths now work correctly for WordPress and and MetaWeblog interfaces. ([#1137](https://github.com/RickStrahl/MarkdownMonster/issues/1137))
 
+* **Fix: External Preview Window UI Issues**  
+Fix problem with empty preview pane when external preview is active. Fix Window resizing when switching between internal and external browsing modes. Properly remember preview mode and state across restarts.
+([#1172](https://github.com/RickStrahl/MarkdownMonster/issues/1172))
+
 ### 3.5
 <small>November 12th, 2024</small>
 
