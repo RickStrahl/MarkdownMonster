@@ -62,6 +62,12 @@ Fix issue where blog posts that contain absolute image paths were not sending th
 Fix problem with empty preview pane when external preview is active. Fix Window resizing when switching between internal and external browsing modes. Properly remember preview mode and state across restarts.
 ([#1172](https://github.com/RickStrahl/MarkdownMonster/issues/1172))
 
+* **Fix: Command Line Markdown To Pdf DLL Not Found Error**  
+Fix issue where running the command line Markdown to PDF generation fails due to a missing DLL dependency. Fixed. ([#1174](https://github.com/RickStrahl/MarkdownMonster/issues/1174))
+
+* **Fix: Command Line Markdown To Pdf File Access Errors**  
+Fix issue where if a markdown file in a protected/read-only folder was rendered it would fail with access denied errors due to writing temp HTML file into the same folder as the source file. Moved temp file to temp location with base tag fix ups. Fixed. ([#1175](https://github.com/RickStrahl/MarkdownMonster/issues/1175))
+
 ### 3.5
 <small>November 12th, 2024</small>
 
