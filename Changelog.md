@@ -10,8 +10,11 @@
 * **[New Check Document Links Sidebar Panel](https://markdownmonster.west-wind.com/docs/_72k0uwlqp.htm)**  
 There's new sidebar panel tab that can be used to validate links in the current document. **Check Document Links** is an option on the Tool menu and can also be accessed via the Command Palette (`ctrl-shift-p` -> Check Document Links`). A new sidebar pane is used to display links ordered by broken and valid links and you can click links to navigate to the corresponding link in the document. A context menu has additional options for links and images.
 
-* **Improved Left Sidebar Split Panel Rendering**  
-Refactor split panel rendering to operate quicker and more smoothly. Rather than redrawing on rearrangements, we cache and reuse panels now whenever possible and only re-render in rare cases which results in non-janky and faster panel refresh display.
+* **Left Sidebar Split Panel Rendering**  
+Refactored Left Sidebar split panel rendering to operate quicker and more smoothly. Rather than redrawing on rearrangements, we cache and reuse panels now whenever possible and only re-render in rare cases which results in non-janky and faster panel refresh display.
+
+* **[Support for Admonitions Markdown Extensions](https://markdownmonster.west-wind.com/docs/_73g0o81ge.htm)**   
+Added support for a new Admonitions RenderExtension that renders Admonitions note/alert boxes. 
 
 * **[Embed YouTube Enhancements](https://markdownmonster.west-wind.com/docs/_69d0zwck0.htm)**  
 Add **Open YouTube** button when no video is selected yet. Automatically capture YouTube Url on clipboard when returning to the form and the Url is empty. New option to embed an Image Link instead of embedded IFRAME video to support hosts like GitHub with HTML/Script/CSS restrictions.
