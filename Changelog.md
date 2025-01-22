@@ -5,7 +5,7 @@
 
 ### 3.6
 
-<small>not released yet</small>
+<small>January 22nd, 2025</small>
 
 * **[New Check Document Links Sidebar Panel](https://markdownmonster.west-wind.com/docs/_72k0uwlqp.htm)**  
 There's new sidebar panel tab that can be used to validate links in the current document. **Check Document Links** is an option on the Tool menu and can also be accessed via the Command Palette (`ctrl-shift-p` -> Check Document Links`). A new sidebar pane is used to display links ordered by broken and valid links and you can click links to navigate to the corresponding link in the document. A context menu has additional options for links and images.
