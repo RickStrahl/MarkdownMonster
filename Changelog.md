@@ -11,7 +11,7 @@
 There's new sidebar panel tab that can be used to validate links in the current document. **Check Document Links** is an option on the Tool menu and can also be accessed via the Command Palette (`ctrl-shift-p` -> Check Document Links`). A new sidebar pane is used to display links ordered by broken and valid links and you can click links to navigate to the corresponding link in the document. A context menu has additional options for links and images.
 
 * **Left Sidebar Split Panel Rendering**  
-Refactored Left Sidebar split panel rendering to operate quicker and more smoothly. Rather than redrawing on rearrangements, we cache and reuse panels now whenever possible and only re-render in rare cases which results in non-janky and faster panel refresh display.
+The left sidebar now splits (optionally) into top and bottom panels that can be resized which allows for multiple views simultaneously. The top view by default hold file related views, while the bottom holds the Document Outline and Link Checker and other tools. The sidebar was refactored to operate quicker and more smoothly than in the original release. Rather than redrawing on rearrangements, we cache and reuse panels now whenever possible and only re-render in rare cases which results in non-janky and faster panel refresh display.
 
 * **[Support for Admonitions Markdown Extensions](https://markdownmonster.west-wind.com/docs/_73g0o81ge.htm)**   
 Added support for a new Admonitions RenderExtension that renders Admonitions note/alert boxes. 
