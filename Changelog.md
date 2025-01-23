@@ -3,6 +3,14 @@
 [![NuGet](https://img.shields.io/chocolatey/v/MarkdownMonster.svg)](https://chocolatey.org/packages/MarkdownMonster)
 [![](https://img.shields.io/chocolatey/dt/MarkdownMonster.svg)](https://chocolatey.org/packages/MarkdownMonster)
 
+:::note
+Actual downloadable versions that sit in between major releases may already reflect the changes described in the *not released yet* version.
+:::
+
+### 3.7
+
+<small>not released yet</small>
+
 ### 3.6
 
 <small>January 22nd, 2025</small>
