@@ -3,13 +3,13 @@
 [![NuGet](https://img.shields.io/chocolatey/v/MarkdownMonster.svg)](https://chocolatey.org/packages/MarkdownMonster)
 [![](https://img.shields.io/chocolatey/dt/MarkdownMonster.svg)](https://chocolatey.org/packages/MarkdownMonster)
 
-:::note
-Actual downloadable versions that sit in between major releases may already reflect the changes described in the *not released yet* version.
-:::
-
 ### 3.7
 
 <small>not released yet</small>
+
+* **DeepSeek AI Connection Configuration**  
+Added DeepSeek AI connection default for using the DeepSeek AI for various AI operations (Summary, Grammar, Translation).
+
 
 ### 3.6
 
