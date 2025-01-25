@@ -3,7 +3,9 @@
 [![NuGet](https://img.shields.io/chocolatey/v/MarkdownMonster.svg)](https://chocolatey.org/packages/MarkdownMonster)
 [![](https://img.shields.io/chocolatey/dt/MarkdownMonster.svg)](https://chocolatey.org/packages/MarkdownMonster)
 
-### 3.7
+# What's new in Markdown Monster
+
+## 3.7
 
 <small>not released yet</small>
 
@@ -11,7 +13,7 @@
 Added DeepSeek AI connection default for using the DeepSeek AI for various AI operations (Summary, Grammar, Translation).
 
 
-### 3.6
+## 3.6
 
 <small>January 22nd, 2025</small>
 
@@ -79,7 +81,7 @@ Fix issue where running the command line Markdown to PDF generation fails due to
 * **Fix: Command Line Markdown To Pdf File Access Errors**  
 Fix issue where if a markdown file in a protected/read-only folder was rendered it would fail with access denied errors due to writing temp HTML file into the same folder as the source file. Moved temp file to temp location with base tag fix ups. Fixed. ([#1175](https://github.com/RickStrahl/MarkdownMonster/issues/1175))
 
-### 3.5
+## 3.5
 <small>November 12th, 2024</small>
 
 * **Updated PDF Rendering via WebView**  
@@ -128,7 +130,7 @@ Make the spellcheck state icon more obvious with check mark and x-mark to indica
 Fix issue where non-markdown or non-text documents show spelling errors when they shouldn't. ([#1143](https://github.com/RickStrahl/MarkdownMonster/issues/1143))
 
 
-### 3.4
+## 3.4
 <small>August 20th, 2024</small> 
 
 
@@ -165,7 +167,7 @@ Changed DocFx formatting for note boxes to more closely match GitHub's light and
 * **Fix: Search Link in Link Dialog and Link Lookup**  
 Fix search engine lookup that provides a link list for the selected search text. Provide current Edge browser string to help with Bing not identifying content as a bot.
 
-### 3.3
+## 3.3
 <small>May 21st, 2024</small> 
 
 * **Support for \[\[\_TOC\_]\] Auto-Generated TOC**  
@@ -247,7 +249,7 @@ When right clicking into the context menu in the folder browser, the selected it
 * **Fix: Handle .razor Files in Folder Browser and Editor**  
 Added `.razor` as a default supported editor format so these files can be previewed and edited in the editor. Note: Razor/Blazor syntax is is not directly supported, it's provided as an Html dialect. You can view externally with Open With or Open in VS Code (if installed) for more complete functionality.
 
-### 3.2
+## 3.2
 <small>January 25th, 2024</small>
 
 * **Move to .NET 8.0**  
@@ -304,7 +306,7 @@ Besides the changes to the full install, the Portable Install can still be insta
 Fix memory leaks for the image list loading which result in very large memory usage when repeatedly loading the AI Image Generation Addin.
 
 * **Fix: Image Generator Load Time**  
-Fix slow startup and UI lockup when loading the AI Image Generator with a lot of images. Images are now loaded asynchronously and leave the UI responsive even with large amounts of recent images displayed.### 
+Fix slow startup and UI lockup when loading the AI Image Generator with a lot of images. Images are now loaded asynchronously and leave the UI responsive even with large amounts of recent images displayed.## 
 
 * **Fix: DocFx include/code Embedding**  
 Fix issue with built-in DocFx include/code embedding directives (`[!include]` and `[!code-lang]`) which were failing if multiple directives were used on the same page.
@@ -327,14 +329,14 @@ Fix WebView Initialization by consolidating the WebView environment into a singl
 * **Fix: WebView Install Folder in Startup Location**  
 Fixed issue where the YouTube embedding dialog was causing the WebView to create a separate WebView environment in the install folder rather than the common shared location used by all other WebView controls. This also fixes a common point of crashes
 
-#### Breaking and Recommended Changes 
+### Breaking and Recommended Changes 
 * **Recommend full uninstall and reinstall for Full Installations**  
 Due to the move to `Program Files` from `LocalAppData` install location, we recommend you do a full, uninstall and then re-install Markdown Monster if you are using the full installer or Chocolatey install. It's not required, and if you don't re-install the existing `%localappdata%\Markdown Monster` or your own custom location will continue to be used. The explicit uninstall ensures that the new Programs Files path is used on a new install. Portable installs don't need to have anything changed.
 
 * **Remove `WebView_` Folder From Markdown Monster Install Folder (if present)**  
 If your MM installation folder contains a `WebView_*` folder, it's recommended that you shut down MM and delete the entire folder. This folder was not intended to be placed and should be deleted so it will no longer take up space.
 
-### 3.0.1 - Official Release
+## 3.0.1 - Official Release
 <small>*August 28th, 2023*</small>
 
 * **Updated Version runs on .NET 7.0**  
@@ -437,7 +439,7 @@ Provide better error message that includes the row that failed when Grid tables 
 * **Fix: Distraction Free Mode Issues**  
 Fix distraction free mode bug that didn't hide Tabs in Light mode. Fix issues with properly restoring mode when undoing distraction free mode.
 
-### 2.9
+## 2.9
 
 <small>*April 2nd, 2023*</small>
 
@@ -523,7 +525,7 @@ Fix bug with Snippets execution which include code snippets due to a removed ref
 Fix Tab Headers not hiding in Light Theme mode. Fix resizing when coming out of DFM. Don't save Window sizing information when shutting down and restore to previous non DFM state.
 
 
-### 2.8
+## 2.8
 
 *<small>January 26th, 2023</small>*
 
@@ -566,7 +568,7 @@ The default scrollbar sizes for the Editor and Previewer have been bumped up sli
 * **Fix: Folder Browser File Renaming Issues**  
 Fix issue where rename operations would in some cases not save pending changes and wouldn't delete the originally renamed file. Error was introduced during async conversion and due to timing issues. Fixed. [#986](https://github.com/RickStrahl/MarkdownMonster/issues/986)
 
-### 2.7
+## 2.7
 
 *<small>October 18th, 2022</small>*
 
@@ -621,7 +623,7 @@ Fixed browser environment location which now properly uses the local machine com
 * **Fix: License Unregistering**  
 Fixed issue with licenses getting unregistered due to a registration issue on the server end missing the version number. Fixed recent licenses by adding versions properly, and new licenses creating with product version supplied.
 
-### 2.6
+## 2.6
  
 <small>June 30th, 2022</small>
  
@@ -667,7 +669,7 @@ Fixed issue where entering a first Mermaid diagram into a page will not render u
 Change display of error messages so the full message is displayed instead of the status bar only message which is often truncated. Display a message box instead so the full error can be captured. Important due to the new Git Security `safe.directory` features that require (`git config --global --add safe.directory <path>`)
 
 
-#### Breaking Changes
+### Breaking Changes
 
 
 
@@ -678,7 +680,7 @@ The updated Roslyn support in version 2.5.5 and later changes a number of runtim
 Razor language support has been removed from the Snippets addin as the new C# script syntax supports similar functionality for scripting. Razor has been problematic and adds a host of dependencies and inhibit future migration to .NET 6.0. To migrate you can move your scripts to the [Handlebars style C# syntax](https://markdownmonster.west-wind.com/docs/_5gs0uc49h.htm#text-with-c-expressions).
 
 
-### 2.5
+## 2.5
 
 <small>May 10th, 2022</small>
 
@@ -742,7 +744,7 @@ Fix issue where the internal preview would not display when toggling from extern
 * **Fix: Footnote Link Navigation in Previewer**  
 Fix issue with clicking on Footnote links and references not navigating the document to the footnote. Fixed. [#937](https://github.com/RickStrahl/MarkdownMonster/issues/937)
 
-### 2.4
+## 2.4
 
 <small>March 10th, 2022</small>
 
@@ -808,7 +810,7 @@ Fix Grid Tables when tables are butted up against each other without separating 
 * **Fix Mermaid Rendering**  
 Fix Mermaid rendering for certain Mermaid content by Html Encoding the body to render. Previously the unencoded text would fail to render correctly. Encoding is applied only the `mermaid` sections, not the raw Html `<div>` which is used as is meaning that user is responsible for encoding. [#911](https://github.com/RickStrahl/MarkdownMonster/issues/911)
 
-### 2.3 
+## 2.3 
 
 <small>January 14th, 2021</small>
 
@@ -838,7 +840,7 @@ Fixed issue with lockups when opening documents in some situations such as after
 
 * **Fix: Document Title Display with Full Path when switching from Preview** Fix an issue when switching from a Preview document to an edited document where the tab title would display the path even though there's no duplicate item. Correct behavior is to display only the filename when a single file with that name is open.
 
-### 2.2
+## 2.2
 
 <small>November 23rd, 2021</small>
 
@@ -892,7 +894,7 @@ When embedding physical file locations into Markdown (in untitled documents main
 Exceptions now log both the top level and base exception to provide a little extra info on failures.
 
 
-### 2.1
+## 2.1
 
 <small>October 12th, 2021</small>
 
@@ -961,7 +963,7 @@ Last document location was no longer saving when documents were closed (due to a
 * **Fix: Adding links as Link Collections**  
 Fixed issue where **Add Link Collection** in the Paste Link dialog was failing and not producing a link.
 
-### 2.0.5 - Official release of v2.0
+## 2.0.5 - Official release of v2.0
 
 <small>July 20th, 2021 &bull; [Release Blog Post](https://weblog.west-wind.com/posts/2021/Jul/22/Markdown-Monster-20-is-here)</small>
 
