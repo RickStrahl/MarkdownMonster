@@ -12,6 +12,11 @@
 * **DeepSeek AI Connection Configuration**  
 Added DeepSeek AI connection default for using the DeepSeek AI for various AI operations (Summary, Grammar, Translation).
 
+* **Improved External Preview Browser UI**  
+Improve start up speed and UI jankiness when starting up and switching from internal to external modes. Adjust Window positioning with tighter separation. Fix sizing issues.
+
+* **Favorites now Highlight Missing Files**  
+If you have files or folders stored in your favorites, resources that are missing are now flagged so you can easily see that there's a problem and so you can edit and fix the favorite quickly.
 
 ## 3.6
 
