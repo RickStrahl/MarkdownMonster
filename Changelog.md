@@ -18,9 +18,13 @@ Improve start up speed and UI jankiness when starting up and switching from inte
 * **Favorites now Highlight Missing Files**  
 If you have files or folders stored in your favorites, resources that are missing are now flagged so you can easily see that there's a problem and so you can edit and fix the favorite quickly.
 
+* **Better Mousewheel & Touchpad Scrolling**  
+Added better support for adjusting scroll speed both in the editor and the various sidebar lists like the Folder Browser, Document View and Link Checker. You can now set the `Editor.ScrollSpeed` and `FolderBrowser.ListScrollSpeed` settings to scroll behavior. The default WPF behavior was very unfriendly to touchpad operation as it was too fast. The new default uses explicit scroll speed for the lists that makes them work better with touchpads and sensitive clutchless scrollwheels, and allows for explicit adjustment.
+
 ## 3.6
 
 <small>January 22nd, 2025</small>
+
 
 * **[New Check Document Links Sidebar Panel](https://markdownmonster.west-wind.com/docs/_72k0uwlqp.htm)**  
 There's new sidebar panel tab that can be used to validate links in the current document. **Check Document Links** is an option on the Tool menu and can also be accessed via the Command Palette (`ctrl-shift-p` -> Check Document Links`). A new sidebar pane is used to display links ordered by broken and valid links and you can click links to navigate to the corresponding link in the document. A context menu has additional options for links and images.
