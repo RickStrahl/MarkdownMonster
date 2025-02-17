@@ -1,19 +1,3 @@
----
-title: 
-abstract: 
-keywords: 
-categories: 
-weblogName: West Wind Web Log
-postId: 
-postDate: 2025-01-29T13:59:19.4638563-10:00
-postStatus: publish
-dontInferFeaturedImage: false
-stripH1Header: true
----
-[![download](https://img.shields.io/badge/download-latest-blue.svg)](https://markdownmonster.west-wind.com/download)
-[![NuGet](https://img.shields.io/chocolatey/v/MarkdownMonster.svg)](https://chocolatey.org/packages/MarkdownMonster)
-[![](https://img.shields.io/chocolatey/dt/MarkdownMonster.svg)](https://chocolatey.org/packages/MarkdownMonster)
-
 # What's new in Markdown Monster
 
 ## 3.7
@@ -21,7 +5,7 @@ stripH1Header: true
 <small>not released yet</small>
 
 * **Improved External Preview Browser UI**  
-Improve start up speed and UI jankiness when starting up and switching from internal to external modes. Adjust Window positioning with tighter separation. Fix sizing issues.
+Improve start up speed and UI jankiness when starting up and switching from internal to external modes. Adjust Window positioning with tighter separation. Fix sizing and docking to main window issues.
 
 * **Image Dialog Adds Option for Save as Project Relative Path**  
 You can now specify that the path generated from a Image Paste operation from the clipboard (or loaded into the preview editor) is linked with a project relative path, rather than a document relative which is used by default. [Project Paths](https://markdownmonster.west-wind.com/docs/_5fz0ozkln.htm) can be 'marked' via marker or project files.
