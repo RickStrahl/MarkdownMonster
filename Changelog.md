@@ -1,4 +1,15 @@
-
+---
+title: 
+abstract: 
+keywords: 
+categories: 
+weblogName: West Wind Web Log
+postId: 
+postDate: 2025-01-29T13:59:19.4638563-10:00
+postStatus: publish
+dontInferFeaturedImage: false
+stripH1Header: true
+---
 [![download](https://img.shields.io/badge/download-latest-blue.svg)](https://markdownmonster.west-wind.com/download)
 [![NuGet](https://img.shields.io/chocolatey/v/MarkdownMonster.svg)](https://chocolatey.org/packages/MarkdownMonster)
 [![](https://img.shields.io/chocolatey/dt/MarkdownMonster.svg)](https://chocolatey.org/packages/MarkdownMonster)
@@ -9,11 +20,14 @@
 
 <small>not released yet</small>
 
-* **DeepSeek AI Connection Configuration**  
-Added DeepSeek AI connection default for using the DeepSeek AI for various AI operations (Summary, Grammar, Translation).
-
 * **Improved External Preview Browser UI**  
 Improve start up speed and UI jankiness when starting up and switching from internal to external modes. Adjust Window positioning with tighter separation. Fix sizing issues.
+
+* **Image Dialog Adds Option for Save as Project Relative Path**  
+You can now specify that the path generated from a Image Paste operation from the clipboard (or loaded into the preview editor) is linked with a project relative path, rather than a document relative which is used by default. [Project Paths](https://markdownmonster.west-wind.com/docs/_5fz0ozkln.htm) can be 'marked' via marker or project files.
+
+* **DeepSeek AI Connection Configuration**  
+Added DeepSeek AI connection default for using the DeepSeek AI for various AI operations (Summary, Grammar, Translation).
 
 * **Favorites now Highlight Missing Files**  
 If you have files or folders stored in your favorites, resources that are missing are now flagged so you can easily see that there's a problem and so you can edit and fix the favorite quickly.
