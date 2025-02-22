@@ -5,10 +5,10 @@
 <small>not released yet</small>
 
 * **Improved External Preview Browser UI**  
-Improve start up speed and UI jankiness when starting up and switching from internal to external modes. Adjust Window positioning with tighter separation. Fix sizing and docking to main window issues.
+Improve start up speed and UI jankiness when using the external previewer, especially when starting up MM in external view mode or switching from internal to external modes. Adjust Window positioning with tighter separation. Fix sizing and docking to main window issues.
 
 * **Image Dialog Adds Option for Save as Project Relative Path**  
-You can now specify that the path generated from a Image Paste operation from the clipboard (or loaded into the preview editor) is linked with a project relative path, rather than a document relative which is used by default. [Project Paths](https://markdownmonster.west-wind.com/docs/_5fz0ozkln.htm) can be 'marked' via marker or project files.
+You can now specify that the path generated from a Image Paste operation from the clipboard (or loaded into the preview editor) is linked with a project relative path, rather than a document relative which is used by default. [Project Paths](https://markdownmonster.west-wind.com/docs/_5fz0ozkln.htm) can be 'marked' as a project root via several different marker or project files.
 
 * **DeepSeek AI Connection Configuration**  
 Added DeepSeek AI connection default for using the DeepSeek AI for various AI operations (Summary, Grammar, Translation).
@@ -18,6 +18,13 @@ If you have files or folders stored in your favorites, resources that are missin
 
 * **Better Mousewheel & Touchpad Scrolling**  
 Added better support for adjusting scroll speed both in the editor and the various sidebar lists like the Folder Browser, Document View and Link Checker. You can now set the `Editor.ScrollSpeed` and `FolderBrowser.ListScrollSpeed` settings to scroll behavior. The default WPF behavior was very unfriendly to touchpad operation as it was too fast. The new default uses explicit scroll speed for the lists that makes them work better with touchpads and sensitive clutchless scrollwheels, and allows for explicit adjustment.
+
+* **Installer completely clears Install Folder on Updates**  
+The installer now completely nukes the Markdown Monster install folder to ensure that any old left over files are cleared out. Previously it was possible that - especially across many version updates - there could be left over files that would interfere with versioning. Now every install starts from a clean slate.   
+*Note: this affects only the Installation folder, which does not and should not contain any updatable files.* 
+
+* **Fix: Image Preview in the Paste Image Dialog**  
+Fix issue where on occasion images captured from clipboard show with scan lines. Fixed.
 
 ## 3.6
 
