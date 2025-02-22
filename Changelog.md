@@ -23,6 +23,9 @@ Added better support for adjusting scroll speed both in the editor and the vario
 The installer now completely nukes the Markdown Monster install folder to ensure that any old left over files are cleared out. Previously it was possible that - especially across many version updates - there could be left over files that would interfere with versioning. Now every install starts from a clean slate.   
 *Note: this affects only the Installation folder, which does not and should not contain any updatable files.* 
 
+* **Fix: Resizing Handles for Left Side of Main and Preview Windows**  
+Make it easier to resize the main MM window and the Preview browser windows by providing slightly larger margin, which makes it easier to get a drag handle for resizing. Browser hosting windows tend to lose a little of their mouse sensitivity so the wider margin brings back better ability to get a drag handle for resizing.
+
 * **Fix: Image Preview in the Paste Image Dialog**  
 Fix issue where on occasion images captured from clipboard show with scan lines. Fixed.
 
