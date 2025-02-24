@@ -7,8 +7,12 @@
 * **Improved External Preview Browser UI**  
 Improve start up speed and UI jankiness when using the external previewer, especially when starting up MM in external view mode or switching from internal to external modes. Adjust Window positioning with tighter separation. Fix sizing and docking to main window issues.
 
+* **Improved List Handling via Configuration.Editor.EnableListAutoCompletion**  
+Updated automatic List auto completion for bullet and numbered lists. Tab now increases or decreases the indentation level, and automatically renumbers numbered lists. ([#1180](https://github.com/RickStrahl/MarkdownMonster/issues/1180))
+
 * **Image Dialog Adds Option for Save as Project Relative Path**  
 You can now specify that the path generated from a Image Paste operation from the clipboard (or loaded into the preview editor) is linked with a project relative path, rather than a document relative which is used by default. [Project Paths](https://markdownmonster.west-wind.com/docs/_5fz0ozkln.htm) can be 'marked' as a project root via several different marker or project files.
+
 
 * **DeepSeek AI Connection Configuration**  
 Added DeepSeek AI connection default for using the DeepSeek AI for various AI operations (Summary, Grammar, Translation).
@@ -26,8 +30,8 @@ The installer now completely nukes the Markdown Monster install folder to ensure
 * **Fix: Resizing Handles for Left Side of Main and Preview Windows**  
 Make it easier to resize the main MM window and the Preview browser windows by providing slightly larger margin, which makes it easier to get a drag handle for resizing. Browser hosting windows tend to lose a little of their mouse sensitivity so the wider margin brings back better ability to get a drag handle for resizing.
 
-* **Fix: Image Preview in the Paste Image Dialog**  
-Fix issue where on occasion images captured from clipboard show with scan lines. Fixed.
+* **Fix: Image Previews in Paste Image and AI Image Dialogs**  
+Fixes an image corruption issue that caused images to preview incorrectly due to missing bitness and color depth values. Fixed. This fix should also improve load performance of the AI Image generator image history thumbnail strip.
 
 ## 3.6
 
