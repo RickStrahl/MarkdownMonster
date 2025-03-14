@@ -10,28 +10,47 @@ Improve start up speed and UI jankiness when using the external previewer, espec
 * **Improved List Handling via Configuration.Editor.EnableListAutoCompletion**  
 Updated automatic List auto completion for bullet and numbered lists. Tab now increases or decreases the indentation level, and automatically renumbers numbered lists. ([#1180](https://github.com/RickStrahl/MarkdownMonster/issues/1180))
 
+* **[Support for Voice Dictation](https://markdownmonster.west-wind.com/docs/Features/Voice-Dictation.html)**  
+You can now enable voice dictation by setting the `UseVoiceDictationOnCtrlKey` configuration setting. Once set you can hold the `CTRL` key to record and insert your dictated text. Releasing `CTRL` stops capture. In order to enable this feature you have to restart Markdown Monster.
+*Note: Requires that Windows Speech Recognition and Microphone Access are enabled.*
+
+
 * **Image Dialog Adds Option for Save as Project Relative Path**  
 You can now specify that the path generated from a Image Paste operation from the clipboard (or loaded into the preview editor) is linked with a project relative path, rather than a document relative which is used by default. [Project Paths](https://markdownmonster.west-wind.com/docs/_5fz0ozkln.htm) can be 'marked' as a project root via several different marker or project files.
 
+
+*Note you can also use `Windows-H` key with the native Windows feature* but it's not quite as flexible and doesn't always detect when you're done.
 
 * **DeepSeek AI Connection Configuration**  
 Added DeepSeek AI connection default for using the DeepSeek AI for various AI operations (Summary, Grammar, Translation).
 
 * **Favorites now Highlight Missing Files**  
-If you have files or folders stored in your favorites, resources that are missing are now flagged so you can easily see that there's a problem and so you can edit and fix the favorite quickly.
+If you have files or folders stored in your favorites, resources that are missing are now flagged so you can easily see that there's a problem and so you can edit and fix the favorite quickly. 
 
 * **Better Mousewheel & Touchpad Scrolling**  
 Added better support for adjusting scroll speed both in the editor and the various sidebar lists like the Folder Browser, Document View and Link Checker. You can now set the `Editor.ScrollSpeed` and `FolderBrowser.ListScrollSpeed` settings to scroll behavior. The default WPF behavior was very unfriendly to touchpad operation as it was too fast. The new default uses explicit scroll speed for the lists that makes them work better with touchpads and sensitive clutchless scrollwheels, and allows for explicit adjustment.
 
+
+* **Open in External Editor**  
+Added a **Open in External Editor** editor option the tab, editor and file browser context menus. This option lets you open the selected file or open document and open it in another editor that you can configure. A new configuration option lets you configure the External text editor. The setting is `ExternalEditorPath` and it defaults to VS Code, Notepad++ or Notepad if installed. You can change the default in **Tools->Settings**.   
+***Reminder Note**: You can also [add any number of External Programs](https://markdownmonster.west-wind.com/docs/Configuration-Settings/Run-External-Programs-via-Open-With.html#configuring-external-programs) to edit/display various types of files like text and images and have it show on the context menu.*
+
 * **Installer completely clears Install Folder on Updates**  
 The installer now completely nukes the Markdown Monster install folder to ensure that any old left over files are cleared out. Previously it was possible that - especially across many version updates - there could be left over files that would interfere with versioning. Now every install starts from a clean slate.   
 *Note: this affects only the Installation folder, which does not and should not contain any updatable files.* 
+
+* **Syntax Support: Lua and LaTex**  
+Add explicit support for Lua and Latex both in the editor and the previewer for syntax highlighting.
+
 
 * **Fix: Resizing Handles for Left Side of Main and Preview Windows**  
 Make it easier to resize the main MM window and the Preview browser windows by providing slightly larger margin, which makes it easier to get a drag handle for resizing. Browser hosting windows tend to lose a little of their mouse sensitivity so the wider margin brings back better ability to get a drag handle for resizing.
 
 * **Fix: Image Previews in Paste Image and AI Image Dialogs**  
 Fixes an image corruption issue that caused images to preview incorrectly due to missing bitness and color depth values. Fixed. This fix should also improve load performance of the AI Image generator image history thumbnail strip.
+
+* **Fix: Restore .Html File Preview Option**  
+We had briefly removed Html previewing for `.html` files in interim releases, which has now been restored. There is now also an `Configuration.Editor.EnablePreviewForHtmlDocuments` option that can be set in the Settings to *disable* Html preview of `.html` files. The reason for this is that there is not 1st class support for Html documents and due to the document defaults Html content may not display very well. Also there are a few scenarios where switching between different documents will not preserve the previewer correctly for `.html` documents. These issues remain, but we've re-enabled due to several requests that this was a useful - and apparently used by many - feature most likely for it's easy Live Previewing of content.
 
 ## 3.6
 
@@ -70,6 +89,7 @@ Update to latest version of ACE Editor component. Fixes a few small editor bugs 
 
 * **Update HighlightJs to 11.10**  
 Update the Code Syntax highlighting in the previewer. 
+
 
 * **Fix: Print to PDF Failures**  
 Fix a number edge case failures: Printing untitled files, fix issue with invalid margin numbers, update header/footer tooltip documentation and help docs. ([#1151](https://github.com/RickStrahl/MarkdownMonster/issues/1151))
