@@ -4,22 +4,17 @@
 
 <small>not released yet</small>
 
+* **[Support for Voice Dictation](https://markdownmonster.west-wind.com/docs/Features/Voice-Dictation.html)** *(Preview)*  
+You can now enable voice dictation by setting the `EnableVoiceDictation` configuration setting. Once set you can press `F4`(or configure another key) to start listening until you press `ESC` to stop. Text is captured in real time and inserted directly into the editor after a brief pause in speaking, or when pressing `ESC`.  An optional 'Cleanup Dictated Text' feature can be used to clean up punctuation, spelling and grammar of dictated and selected text.
+
 * **Improved External Preview Browser UI**  
 Improve start up speed and UI jankiness when using the external previewer, especially when starting up MM in external view mode or switching from internal to external modes. Adjust Window positioning with tighter separation. Fix sizing and docking to main window issues.
 
 * **Improved List Handling via Configuration.Editor.EnableListAutoCompletion**  
 Updated automatic List auto completion for bullet and numbered lists. Tab now increases or decreases the indentation level, and automatically renumbers numbered lists. ([#1180](https://github.com/RickStrahl/MarkdownMonster/issues/1180))
 
-* **[Support for Voice Dictation](https://markdownmonster.west-wind.com/docs/Features/Voice-Dictation.html)**  
-You can now enable voice dictation by setting the `UseVoiceDictationOnCtrlKey` configuration setting. Once set you can hold the `CTRL` key to record and insert your dictated text. Releasing `CTRL` stops capture. In order to enable this feature you have to restart Markdown Monster.
-*Note: Requires that Windows Speech Recognition and Microphone Access are enabled.*
-
-
 * **Image Dialog Adds Option for Save as Project Relative Path**  
 You can now specify that the path generated from a Image Paste operation from the clipboard (or loaded into the preview editor) is linked with a project relative path, rather than a document relative which is used by default. [Project Paths](https://markdownmonster.west-wind.com/docs/_5fz0ozkln.htm) can be 'marked' as a project root via several different marker or project files.
-
-
-*Note you can also use `Windows-H` key with the native Windows feature* but it's not quite as flexible and doesn't always detect when you're done.
 
 * **DeepSeek AI Connection Configuration**  
 Added DeepSeek AI connection default for using the DeepSeek AI for various AI operations (Summary, Grammar, Translation).
