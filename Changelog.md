@@ -33,10 +33,11 @@ Added a **Open in External Editor** editor option the tab, editor and file brows
 * **Installer completely clears Install Folder on Updates**  
 The installer now completely nukes the Markdown Monster install folder to ensure that any old left over files are cleared out. Previously it was possible that - especially across many version updates - there could be left over files that would interfere with versioning. Now every install starts from a clean slate.   
 *Note: this affects only the Installation folder, which does not and should not contain any updatable files.* 
-
 * **Syntax Support: Lua and LaTex**  
 Add explicit support for Lua and Latex both in the editor and the previewer for syntax highlighting.
 
+* **List Item (ctrl-l) Now Toggles**  
+List items can now be toggled between list prefix and no prefix when pressing Ctrl-L to insert/remove a list item. Works with non-ordered and check lists, but not with numbered lists.
 
 * **Fix: Resizing Handles for Left Side of Main and Preview Windows**  
 Make it easier to resize the main MM window and the Preview browser windows by providing slightly larger margin, which makes it easier to get a drag handle for resizing. Browser hosting windows tend to lose a little of their mouse sensitivity so the wider margin brings back better ability to get a drag handle for resizing.
@@ -46,6 +47,9 @@ Fixes an image corruption issue that caused images to preview incorrectly due to
 
 * **Fix: Restore .Html File Preview Option**  
 We had briefly removed Html previewing for `.html` files in interim releases, which has now been restored. There is now also an `Configuration.Editor.EnablePreviewForHtmlDocuments` option that can be set in the Settings to *disable* Html preview of `.html` files. The reason for this is that there is not 1st class support for Html documents and due to the document defaults Html content may not display very well. Also there are a few scenarios where switching between different documents will not preserve the previewer correctly for `.html` documents. These issues remain, but we've re-enabled due to several requests that this was a useful - and apparently used by many - feature most likely for it's easy Live Previewing of content.
+
+* **Fix: Zoom Level in Status Bar**  
+Added additional preset values (90%, 110% which are common) and fixed the way the values are adjusted to avoid validation errors in the UI. Zoom level updates immediately show in the editor as you type now.
 
 ## 3.6
 
