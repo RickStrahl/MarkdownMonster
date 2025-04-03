@@ -2,7 +2,7 @@
 
 ## 3.7
 
-<small>not released yet</small>
+<small>April 3rd, 2025</small>
 
 * **[Support for Voice Dictation](https://markdownmonster.west-wind.com/docs/Features/Voice-Dictation.html)** *(Preview)*  
 You can now enable voice dictation by setting the `EnableVoiceDictation` configuration setting. Once set you can press `F4`(or configure another key) to start listening until you press `ESC` to stop. Text is captured in real time and inserted directly into the editor after a brief pause in speaking, or when pressing `ESC`.  An optional 'Cleanup Dictated Text' feature can be used to clean up punctuation, spelling and grammar of dictated and selected text.
