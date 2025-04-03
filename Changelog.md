@@ -1,5 +1,13 @@
 # What's new in Markdown Monster
 
+## 3.7.1 
+
+<small>not released yet</small>
+
+* **Add Azure DevOps Mermaid Syntax Support**  
+Azure DevOps uses slightly different Mermaid syntax than GitHub and most other Markdown environments by using `:::mermaid` instead of `` ```mermaid``. The AOD syntax now works for mermaid diagrams as well.
+
+
 ## 3.7
 
 <small>April 3rd, 2025</small>
