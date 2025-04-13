@@ -1,11 +1,17 @@
 # What's new in Markdown Monster
 
-## 3.7.1 
+## 3.8
 
 <small>not released yet</small>
 
 * **Add Azure DevOps Mermaid Syntax Support**  
 Azure DevOps uses slightly different Mermaid syntax than GitHub and most other Markdown environments by using `:::mermaid` instead of `` ```mermaid``. The AOD syntax now works for mermaid diagrams as well.
+
+* **Header Formatting Improvements**  
+Headers (H1, H2, H3 etc.) can now be toggled and switched easily using the toolbar options or the Ctrl-1 through 5 shortcuts. 
+
+* **Changed Voice Dictation**  
+Change original voice implementation to using native Windows Voice Dictation features which can now be triggered through the `F4` hotkey. This is similar in behavior to the native `Win-H` operation but provides some visual feedback. We removed the inferior WinSDK based implementation due to the deployment burden it imposed as well as requirements for addins and other consumers of MM's code. Bonus: Distribution size dropped back by 8mb.
 
 
 ## 3.7
@@ -13,7 +19,7 @@ Azure DevOps uses slightly different Mermaid syntax than GitHub and most other M
 <small>April 3rd, 2025</small>
 
 * **[Support for Voice Dictation](https://markdownmonster.west-wind.com/docs/Features/Voice-Dictation.html)** *(Preview)*  
-You can now enable voice dictation by setting the `EnableVoiceDictation` configuration setting. Once set you can press `F4`(or configure another key) to start listening until you press `ESC` to stop. Text is captured in real time and inserted directly into the editor after a brief pause in speaking, or when pressing `ESC`.  An optional 'Cleanup Dictated Text' feature can be used to clean up punctuation, spelling and grammar of dictated and selected text.
+You can now enable voice dictation by setting the `EnableVoiceDictation` configuration setting. Once set you can press `F4`(or configure another key). Text is captured in real time and inserted directly into the editor as you speak using the native Windows Dictation feature. To stop press any key. An optional 'Cleanup Dictated Text' feature can be used to clean up punctuation, spelling and grammar of dictated and selected text although the native capture tends to be very good about automatically adding punctuation and sentence breaks.
 
 * **Improved External Preview Browser UI**  
 Improve start up speed and UI jankiness when using the external previewer, especially when starting up MM in external view mode or switching from internal to external modes. Adjust Window positioning with tighter separation. Fix sizing and docking to main window issues.
