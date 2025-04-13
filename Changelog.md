@@ -11,8 +11,7 @@ Azure DevOps uses slightly different Mermaid syntax than GitHub and most other M
 Headers (H1, H2, H3 etc.) can now be toggled and switched easily using the toolbar options or the Ctrl-1 through 5 shortcuts. 
 
 * **Changed Voice Dictation**  
-Change original voice implementation to using native Windows Voice Dictation features which can now be triggered through the `F4` hotkey. This is similar in behavior to the native `Win-H` operation but provides some visual feedback. We removed the inferior WinSDK based implementation due to the deployment burden it imposed as well as requirements for addins and other consumers of MM's code. Bonus: Distribution size dropped back by 8mb.
-
+Change original voice implementation to using native Windows Voice Dictation features which can now be triggered through the `F4` hotkey. While this updated voice dictation implementation is not quite as integrated as the original implementation, it provides vastly improved dictation capture, with automatic punctuation detection and better word and sentence detection and auto stop and complete sentence handling etc. By doing so we were also able to drop the burdensome dependency on the Windows SDK which brought on large size gain as well as major hassles for Addin dependencies.
 
 ## 3.7
 
