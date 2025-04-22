@@ -13,6 +13,9 @@ You can now specify one of Mermaid's default display themes in the MM configurat
 * **Header Formatting Improvements**  
 Headers (H1, H2, H3 etc.) can now be toggled and switched easily using the toolbar options or the Ctrl-1 through 5 shortcuts. 
 
+* **Emoji now embedded as Emoji Font or Markdown Text**  
+There's a new option in the Emoji picker window to let you choose between embedding Emojis either as the actual emoji character or the Markdown text representation. The latter was the previous behavior. The value set is sticky and remembered as part of the configuration.
+
 * **[Customized Preview Theme Folder in Common Folder](https://markdownmonster.west-wind.com/docs/Common-Tasks/Switching-and-Customizing-Preview-Themes.html)**  
 Customized Preview themes can now be stored in the Markdown Monster common folder (`%appdata%\Markdown Monster\PreviewThemes` by default). This helps separate your custom themes from the built-in themes. This also fixes a bug introduced in recent releases where the Install folder is completely nuked and re-installed from scratch wiping out any custom Preview Themes.
 
