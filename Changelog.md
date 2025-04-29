@@ -7,14 +7,19 @@
 * **Add Azure DevOps Mermaid Syntax Support**  
 Azure DevOps uses slightly different Mermaid syntax than GitHub and most other Markdown environments by using `:::mermaid` instead of `` ```mermaid``. The AOD syntax now works for mermaid diagrams as well.
 
+* **Emojis are now embedded as Emoji Font or Markdown Text**  
+There's a new option in the Emoji picker window that lets you choose between embedding emojis either as the actual emoji character or as the Markdown text representation. The latter was the previous behavior. The value set is sticky and remembered as part of the configuration.
+
+* **gpt-image-1 Model Support for AI Image generation**  
+Added support for the newer gpt-based OpenAI image models which allow for richer prompt evaluation and more details to be included and rendered in images. You can dynamically switch between `dall-e-3` and `gpt-image-1` models with appropriate settings exposed for each.  
+*Note: gpt-image-1 is significantly more expensive than `dall-e-3`.*
+
 * **[Mermaid Rendering Configuration](https://markdownmonster.west-wind.com/docs/Markdown-Rendering-Extensions/Rendering-Mermaid-Charts.html#mermaid-theming)**  
 You can now specify one of Mermaid's default display themes in the MM configuration via the `Markdown.MermaidTheme` configuration value. You can now also create a custom **Mermaid Initializer** that allows you to customize Mermaid options including custom theming, addins, security settings and more.
 
 * **Header Formatting Improvements**  
 Headers (H1, H2, H3 etc.) can now be toggled and switched easily using the toolbar options or the Ctrl-1 through 5 shortcuts. 
 
-* **Emoji now embedded as Emoji Font or Markdown Text**  
-There's a new option in the Emoji picker window to let you choose between embedding Emojis either as the actual emoji character or the Markdown text representation. The latter was the previous behavior. The value set is sticky and remembered as part of the configuration.
 
 * **[Customized Preview Theme Folder in Common Folder](https://markdownmonster.west-wind.com/docs/Common-Tasks/Switching-and-Customizing-Preview-Themes.html)**  
 Customized Preview themes can now be stored in the Markdown Monster common folder (`%appdata%\Markdown Monster\PreviewThemes` by default). This helps separate your custom themes from the built-in themes. This also fixes a bug introduced in recent releases where the Install folder is completely nuked and re-installed from scratch wiping out any custom Preview Themes.
