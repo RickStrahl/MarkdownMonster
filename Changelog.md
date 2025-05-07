@@ -20,7 +20,6 @@ You can now specify one of Mermaid's default display themes in the MM configurat
 * **Header Formatting Improvements**  
 Headers (H1, H2, H3 etc.) can now be toggled and switched easily using the toolbar options or the Ctrl-1 through 5 shortcuts. 
 
-
 * **[Customized Preview Theme Folder in Common Folder](https://markdownmonster.west-wind.com/docs/Common-Tasks/Switching-and-Customizing-Preview-Themes.html)**  
 Customized Preview themes can now be stored in the Markdown Monster common folder (`%appdata%\Markdown Monster\PreviewThemes` by default). This helps separate your custom themes from the built-in themes. This also fixes a bug introduced in recent releases where the Install folder is completely nuked and re-installed from scratch wiping out any custom Preview Themes.
 
@@ -29,6 +28,12 @@ Change original voice implementation to using native Windows Voice Dictation fea
 
 * **Improved Arm64 Installation**  
 Fixed issue where Arm64 installations would under some circumstances not properly install the arm64 executable (which is significantly faster than running x64 in emulation). Added a pre-install checker and main exe swapper to ensure that the arm64 exe is installed as the default executable. All installations now include the base `MarkdownMonster.exe` and `MarkdownMonsterArm64.exe` which allows for portable installs to run the explicit arm64 executable (or you can manually rename).
+
+* **Fix: Left Sidebar Panel Collapsing to Invisible**  
+Fixed issue where the bottom sidebar panel would collapse and become invisible. Fixed by forcing a minimum size.
+
+* **Fix: Command Line Startup with Line Number**  
+Fix issue where loading with line numbers sometimes didn't work due to a race condition. Fixed the race condition and also fixed support for `file.txt:10` line number syntax including support for quoted strings.
 
 ## 3.7
 
