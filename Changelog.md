@@ -32,8 +32,11 @@ Fixed issue where Arm64 installations would under some circumstances not properl
 * **Fix: Left Sidebar Panel Collapsing to Invisible**  
 Fixed issue where the bottom sidebar panel would collapse and become invisible. Fixed by forcing a minimum size.
 
-* **Fix: Command Line Startup with Line Number**  
+* **[Fix: Command Line Startup with Line Number](https://markdownmonster.west-wind.com/docs/Startup-and-Command-Line-Options/Command-Line-Operations.html)**  
 Fix issue where loading with line numbers sometimes didn't work due to a race condition. Fixed the race condition and also fixed support for `file.txt:10` line number syntax including support for quoted strings.
+
+* **Fix: Remove Link Dialog Files `file:///` Prefix**  
+Fix link dialog when embedding local files that are not relatively pathed using `file:///` scheme. The scheme is unnecessary and is no longer applied resulting in cleaner absolute file links. Also when embedding files the file extension is stripped from the default link text. (similar to the way dropped files are handled)
 
 ## 3.7
 
