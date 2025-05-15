@@ -38,6 +38,15 @@ Fix issue where loading with line numbers sometimes didn't work due to a race co
 * **Fix: Remove Link Dialog Files `file:///` Prefix**  
 Fix link dialog when embedding local files that are not relatively pathed using `file:///` scheme. The scheme is unnecessary and is no longer applied resulting in cleaner absolute file links. Also when embedding files the file extension is stripped from the default link text. (similar to the way dropped files are handled)
 
+* **Fix: Link Checker Root Path**  
+The link checker now respects the 'project' root path as defined by a Markdown Monster project file, or a `.markdownmonster` file,  or files `.docmonster` or `.docs.json` extensions.
+
+* **Fix: Remove Markdown Extra Linefeed**  
+Fix issue where using Remove Markdown (ctrl-shift-z) added a linefeed. Fixed.
+
+* **Fix: Edit Preview Theme Folder Opening**  
+Fix issue where Edit Preview Theme from Preview Context menu was opening the PreviewThemes folder instead of currently active theme for pre-installed themes. While that now works, remember that installed themes should not be modified in place, but rather be copied to the `%appdata%\Markdown Monster\PreviewThemes` folder as a new theme which can be customized and won't be overwritten by Markdown Monster updates.
+
 ## 3.7
 
 <small>April 3rd, 2025</small>
