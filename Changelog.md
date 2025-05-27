@@ -29,6 +29,9 @@ Change original voice implementation to using native Windows Voice Dictation fea
 * **Improved Arm64 Installation**  
 Fixed issue where Arm64 installations would under some circumstances not properly install the arm64 executable (which is significantly faster than running x64 in emulation). Added a pre-install checker and main exe swapper to ensure that the arm64 exe is installed as the default executable. All installations now include the base `MarkdownMonster.exe` and `MarkdownMonsterArm64.exe` which allows for portable installs to run the explicit arm64 executable (or you can manually rename).
 
+* **Add support UseSoftlineBreakAsHardlineBreak**  
+Add option to toggle soft linebreak behavior for linebreaks in existing files. If true this flag renders soft line breaks as hard line breaks in the Previewer. By default soft line breaks that don't use explicit Markdown formatting (ie. two spaces or `\`) are rendered as a space. With this option on these are rendered as hard line breaks (`<br/>`). ([#1200](https://github.com/RickStrahl/MarkdownMonster/issues/1200))
+
 * **Fix: Left Sidebar Panel Collapsing to Invisible**  
 Fixed issue where the bottom sidebar panel would collapse and become invisible. Fixed by forcing a minimum size.
 
