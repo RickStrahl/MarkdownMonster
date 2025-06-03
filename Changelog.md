@@ -20,6 +20,9 @@ You can now specify one of Mermaid's default display themes in the MM configurat
 * **Header Formatting Improvements**  
 Headers (H1, H2, H3 etc.) can now be toggled and switched easily using the toolbar options or the Ctrl-1 through 5 shortcuts. 
 
+* **Emoji Window is now non-modal and can stay open**  
+You can now use the emoji window to insert multiple emoji, as well as leaving the window open for quicker access. The window always injects at the current editor location.
+
 * **[Customized Preview Theme Folder in Common Folder](https://markdownmonster.west-wind.com/docs/Common-Tasks/Switching-and-Customizing-Preview-Themes.html)**  
 Customized Preview themes can now be stored in the Markdown Monster common folder (`%appdata%\Markdown Monster\PreviewThemes` by default). This helps separate your custom themes from the built-in themes. This also fixes a bug introduced in recent releases where the Install folder is completely nuked and re-installed from scratch wiping out any custom Preview Themes.
 
@@ -34,6 +37,9 @@ Add option to toggle soft linebreak behavior for linebreaks in existing files. I
 
 * **Fix: Left Sidebar Panel Collapsing to Invisible**  
 Fixed issue where the bottom sidebar panel would collapse and become invisible. Fixed by forcing a minimum size.
+
+* **Fix: Drop Favorites on empty Control Area**  
+Fix issue where dropping a tab onto the Favorites panel when there aren't any items, or when dropping into the empty space of the list would do nothing. We now add the item to the root of the Favorites list.
 
 * **[Fix: Command Line Startup with Line Number](https://markdownmonster.west-wind.com/docs/Startup-and-Command-Line-Options/Command-Line-Operations.html)**  
 Fix issue where loading with line numbers sometimes didn't work due to a race condition. Fixed the race condition and also fixed support for `file.txt:10` line number syntax including support for quoted strings.
