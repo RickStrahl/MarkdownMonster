@@ -4,24 +4,28 @@
 
 <small>not released yet</small>
 
+* **AI Editor Autosuggestion**  
+If you have AI API key configured there's now support for auto-suggestions based on context of your current document by pressing `ctrl-space`. Auto suggestions suggest based on the active document and current cursor position context.
+
 * **Add Azure DevOps Mermaid Syntax Support**  
 Azure DevOps uses slightly different Mermaid syntax than GitHub and most other Markdown environments by using `:::mermaid` instead of `` ```mermaid``. The AOD syntax now works for mermaid diagrams as well.
 
 * **Emojis are now embedded as Emoji Font or Markdown Text**  
-There's a new option in the Emoji picker window that lets you choose between embedding emojis either as the actual emoji character or as the Markdown text representation. The latter was the previous behavior. The value set is sticky and remembered as part of the configuration.
+There's a new option in the Emoji picker window that lets you choose between embedding emojis either as the actual emoji character or as the Markdown text representation. The latter was the previous behavior. The value set is sticky and remembered as part of the configuration. 
+
+* **Emoji Window is now non-modal and can stay open**  
+You can now use the emoji window to insert multiple emoji, as well as leaving the window open for quicker access. The window always injects at the current active editor location.
 
 * **gpt-image-1 Model Support for AI Image generation**  
 Added support for the newer gpt-based OpenAI image models which allow for richer prompt evaluation and more details to be included and rendered in images. You can dynamically switch between `dall-e-3` and `gpt-image-1` models with appropriate settings exposed for each.  
 *Note: gpt-image-1 is significantly more expensive than `dall-e-3`.*
 
 * **[Mermaid Rendering Configuration](https://markdownmonster.west-wind.com/docs/Markdown-Rendering-Extensions/Rendering-Mermaid-Charts.html#mermaid-theming)**  
-You can now specify one of Mermaid's default display themes in the MM configuration via the `Markdown.MermaidTheme` configuration value. You can now also create a custom **Mermaid Initializer** that allows you to customize Mermaid options including custom theming, addins, security settings and more.
+You can now specify one of Mermaid's default display themes in the MM configuration via the `Markdown.MermaidTheme` configuration value. You can now also create a custom **Mermaid Initializer**  that allows you to customize Mermaid options including custom theming, addins, security settings and more.
 
 * **Header Formatting Improvements**  
 Headers (H1, H2, H3 etc.) can now be toggled and switched easily using the toolbar options or the Ctrl-1 through 5 shortcuts. 
 
-* **Emoji Window is now non-modal and can stay open**  
-You can now use the emoji window to insert multiple emoji, as well as leaving the window open for quicker access. The window always injects at the current editor location.
 
 * **[Customized Preview Theme Folder in Common Folder](https://markdownmonster.west-wind.com/docs/Common-Tasks/Switching-and-Customizing-Preview-Themes.html)**  
 Customized Preview themes can now be stored in the Markdown Monster common folder (`%appdata%\Markdown Monster\PreviewThemes` by default). This helps separate your custom themes from the built-in themes. This also fixes a bug introduced in recent releases where the Install folder is completely nuked and re-installed from scratch wiping out any custom Preview Themes.

@@ -1,7 +1,6 @@
 ### Bugs and Needed Features
-I [ ] Backup to Zip hangs the Configuration UI
-* [ ] Left Sidebar
-    * Addin events for adding and refreshing
+* [ ] Drag and drop in Favorites duplicates item and changes name
+* [ ] Favorites should support ~\ file syntax
 * [ ] TOC generation has wrong spacing if there items start with header `###`
     
 * [ ] Script for Twitter Embedding not working reliably in Preview    
