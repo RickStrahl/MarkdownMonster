@@ -7,28 +7,31 @@
 * **AI Editor Autosuggestion**  
 If you have AI API key configured there's now support for auto-suggestions based on context of your current document by pressing `ctrl-space`. Auto suggestions suggest based on the active document and current cursor position context.
 
-* **Add Azure DevOps Mermaid Syntax Support**  
-Azure DevOps uses slightly different Mermaid syntax than GitHub and most other Markdown environments by using `:::mermaid` instead of `` ```mermaid``. The AOD syntax now works for mermaid diagrams as well.
-
 * **Emojis are now embedded as Emoji Font or Markdown Text**  
 There's a new option in the Emoji picker window that lets you choose between embedding emojis either as the actual emoji character or as the Markdown text representation. The latter was the previous behavior. The value set is sticky and remembered as part of the configuration. 
 
 * **Emoji Window is now non-modal and can stay open**  
 You can now use the emoji window to insert multiple emoji, as well as leaving the window open for quicker access. The window always injects at the current active editor location.
 
-* **gpt-image-1 Model Support for AI Image generation**  
-Added support for the newer gpt-based OpenAI image models which allow for richer prompt evaluation and more details to be included and rendered in images. You can dynamically switch between `dall-e-3` and `gpt-image-1` models with appropriate settings exposed for each.  
-*Note: gpt-image-1 is significantly more expensive than `dall-e-3`.*
+* **Header Formatting Improvements**  
+Headers (H1, H2, H3 etc.) can now be toggled and switched easily using the toolbar options or the Ctrl-1 through 5 shortcuts. 
+
+* **[Customized Preview Theme Folder in Common Folder](https://markdownmonster.west-wind.com/docs/Common-Tasks/Switching-and-Customizing-Preview-Themes.html)**  
+Customized Preview themes can now be stored in the Markdown Monster common folder (`%appdata%\Markdown Monster\PreviewThemes` by default). This helps separate your custom themes from the built-in themes. This also fixes a bug introduced in recent releases where the Install folder is completely nuked and re-installed from scratch wiping out any custom Preview Themes.
 
 * **[Mermaid Rendering Configuration](https://markdownmonster.west-wind.com/docs/Markdown-Rendering-Extensions/Rendering-Mermaid-Charts.html#mermaid-theming)**  
 You can now specify one of Mermaid's default display themes in the MM configuration via the `Markdown.MermaidTheme` configuration value. You can now also create a custom **Mermaid Initializer**  that allows you to customize Mermaid options including custom theming, addins, security settings and more.
 
-* **Header Formatting Improvements**  
-Headers (H1, H2, H3 etc.) can now be toggled and switched easily using the toolbar options or the Ctrl-1 through 5 shortcuts. 
+* **Add Azure DevOps Mermaid Syntax Support**  
+Azure DevOps uses slightly different Mermaid syntax than GitHub and most other Markdown environments by using `:::mermaid` instead of `` ```mermaid``. The AOD syntax now works for mermaid diagrams as well.
 
+* **Add support UseSoftlineBreakAsHardlineBreak**  
+Add option to toggle soft linebreak behavior for linebreaks in existing files. If true this flag renders soft line breaks as hard line breaks in the Previewer. By default soft line breaks that don't use explicit Markdown formatting (ie. two spaces or `\`) are rendered as a space. With this option on these are rendered as hard line breaks (`<br/>`). ([#1200](https://github.com/RickStrahl/MarkdownMonster/issues/1200))
 
-* **[Customized Preview Theme Folder in Common Folder](https://markdownmonster.west-wind.com/docs/Common-Tasks/Switching-and-Customizing-Preview-Themes.html)**  
-Customized Preview themes can now be stored in the Markdown Monster common folder (`%appdata%\Markdown Monster\PreviewThemes` by default). This helps separate your custom themes from the built-in themes. This also fixes a bug introduced in recent releases where the Install folder is completely nuked and re-installed from scratch wiping out any custom Preview Themes.
+* **gpt-image-1 Model Support for AI Image generation**  
+Added support for the newer gpt-based OpenAI image models which allow for richer prompt evaluation and more details to be included and rendered in images. You can dynamically switch between `dall-e-3` and `gpt-image-1` models with appropriate settings exposed for each.  
+*Note: gpt-image-1 is significantly more expensive than `dall-e-3`.*
+
 
 * **Changed Voice Dictation**  
 Change original voice implementation to using native Windows Voice Dictation features which can now be triggered through the `F4` hotkey. While this updated voice dictation implementation is not quite as integrated as the original implementation, it provides vastly improved dictation capture, with automatic punctuation detection and better word and sentence detection and auto stop and complete sentence handling etc. By doing so we were also able to drop the burdensome dependency on the Windows SDK which brought on large size gain as well as major hassles for Addin dependencies. The new implementation also works on  Arm64 - the old one didn't.
@@ -36,8 +39,6 @@ Change original voice implementation to using native Windows Voice Dictation fea
 * **Improved Arm64 Installation**  
 Fixed issue where Arm64 installations would under some circumstances not properly install the arm64 executable (which is significantly faster than running x64 in emulation). Added a pre-install checker and main exe swapper to ensure that the arm64 exe is installed as the default executable. All installations now include the base `MarkdownMonster.exe` and `MarkdownMonsterArm64.exe` which allows for portable installs to run the explicit arm64 executable (or you can manually rename).
 
-* **Add support UseSoftlineBreakAsHardlineBreak**  
-Add option to toggle soft linebreak behavior for linebreaks in existing files. If true this flag renders soft line breaks as hard line breaks in the Previewer. By default soft line breaks that don't use explicit Markdown formatting (ie. two spaces or `\`) are rendered as a space. With this option on these are rendered as hard line breaks (`<br/>`). ([#1200](https://github.com/RickStrahl/MarkdownMonster/issues/1200))
 
 * **Fix: Left Sidebar Panel Collapsing to Invisible**  
 Fixed issue where the bottom sidebar panel would collapse and become invisible. Fixed by forcing a minimum size.
