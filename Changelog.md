@@ -4,11 +4,12 @@
 
 <small>not released yet</small>
 
-* **AI Editor Autosuggestion**  
+
+* **[AI Editor Autosuggestion](https://markdownmonster.west-wind.com/docs/AI-Integration-Features/Text-Suggestions.html)**  
 If you have AI API key configured there's now support for auto-suggestions based on context of your current document by pressing `ctrl-space`. Auto suggestions suggest based on the active document and current cursor position context.
 
 * **Emojis are now embedded as Emoji Font or Markdown Text**  
-There's a new option in the Emoji picker window that lets you choose between embedding emojis either as the actual emoji character or as the Markdown text representation. The latter was the previous behavior. The value set is sticky and remembered as part of the configuration. 
+There's a new option in the Emoji picker window that lets you choose between embedding emojis either as the actual emoji character or as the Markdown text representation. The latter was the previous behavior. The value set is sticky and remembered as part of the configuration.
 
 * **Emoji Window is now non-modal and can stay open**  
 You can now use the emoji window to insert multiple emoji, as well as leaving the window open for quicker access. The window always injects at the current active editor location.
@@ -22,7 +23,7 @@ Customized Preview themes can now be stored in the Markdown Monster common folde
 * **[Mermaid Rendering Configuration](https://markdownmonster.west-wind.com/docs/Markdown-Rendering-Extensions/Rendering-Mermaid-Charts.html#mermaid-theming)**  
 You can now specify one of Mermaid's default display themes in the MM configuration via the `Markdown.MermaidTheme` configuration value. You can now also create a custom **Mermaid Initializer**  that allows you to customize Mermaid options including custom theming, addins, security settings and more.
 
-* **Add Azure DevOps Mermaid Syntax Support**  
+ **Add Azure DevOps Mermaid Syntax Support**  
 Azure DevOps uses slightly different Mermaid syntax than GitHub and most other Markdown environments by using `:::mermaid` instead of `` ```mermaid``. The AOD syntax now works for mermaid diagrams as well.
 
 * **Add support UseSoftlineBreakAsHardlineBreak**  
