@@ -67,7 +67,7 @@ The link checker now respects the 'project' root path as defined by a Markdown M
 * **Fix: Remove Markdown Extra Linefeed**  
 Fix issue where using Remove Markdown (ctrl-shift-z) added a linefeed. Fixed.
 
-* **Fix: Edit Preview Theme Folder Opening**  
+* **Fix: Edit Preview Theme Folder Opening**   
 Fix issue where Edit Preview Theme from Preview Context menu was opening the PreviewThemes folder instead of currently active theme for pre-installed themes. While that now works, remember that installed themes should not be modified in place, but rather be copied to the `%appdata%\Markdown Monster\PreviewThemes` folder as a new theme which can be customized and won't be overwritten by Markdown Monster updates.
 
 * **Fix: Sidebar Activation Menu Options**  
