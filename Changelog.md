@@ -2,11 +2,13 @@
 
 ## 3.8
 
-<small>not released yet</small>
+<small>June 11th, 2025</small>
 
+* **[AI Editor Text Autosuggestion](https://markdownmonster.west-wind.com/docs/AI-Integration-Features/Text-Suggestions.html) (ghost text)**  
+If you have AI API key configured there's now support for auto-suggestions based on context of your current document by pressing `Ctrl-Space`. Auto suggestions suggest and display *ghost text*  based on the active document and current cursor position context. Press `Tab` to accept or any other key to dismiss.
 
-* **[AI Editor Autosuggestion](https://markdownmonster.west-wind.com/docs/AI-Integration-Features/Text-Suggestions.html)**  
-If you have AI API key configured there's now support for auto-suggestions based on context of your current document by pressing `ctrl-space`. Auto suggestions suggest based on the active document and current cursor position context.
+* **AI Context Menu Shortcut**  
+The AI context menu now has a `Ctrl-Shift-A` shortcut key to pop up at the current cursor position for quick keyboard only activation.
 
 * **Emojis are now embedded as Emoji Font or Markdown Text**  
 There's a new option in the Emoji picker window that lets you choose between embedding emojis either as the actual emoji character or as the Markdown text representation. The latter was the previous behavior. The value set is sticky and remembered as part of the configuration.
@@ -23,7 +25,7 @@ Customized Preview themes can now be stored in the Markdown Monster common folde
 * **[Mermaid Rendering Configuration](https://markdownmonster.west-wind.com/docs/Markdown-Rendering-Extensions/Rendering-Mermaid-Charts.html#mermaid-theming)**  
 You can now specify one of Mermaid's default display themes in the MM configuration via the `Markdown.MermaidTheme` configuration value. You can now also create a custom **Mermaid Initializer**  that allows you to customize Mermaid options including custom theming, addins, security settings and more.
 
- **Add Azure DevOps Mermaid Syntax Support**  
+* **Add Azure DevOps Mermaid Syntax Support**  
 Azure DevOps uses slightly different Mermaid syntax than GitHub and most other Markdown environments by using `:::mermaid` instead of `` ```mermaid``. The AOD syntax now works for mermaid diagrams as well.
 
 * **Add support UseSoftlineBreakAsHardlineBreak**  
@@ -33,12 +35,18 @@ Add option to toggle soft linebreak behavior for linebreaks in existing files. I
 Added support for the newer gpt-based OpenAI image models which allow for richer prompt evaluation and more details to be included and rendered in images. You can dynamically switch between `dall-e-3` and `gpt-image-1` models with appropriate settings exposed for each.  
 *Note: gpt-image-1 is significantly more expensive than `dall-e-3`.*
 
+* **GitHub Models added to default AI Model Configuration**  
+GitHub models is now an option for AI configuration with preset values for the endpoint and model config. GitHub models are free for limited usage, but you need to [set up a personal access token to use it](https://docs.github.com/en/github-models/use-github-models/prototyping-with-ai-models#experimenting-with-ai-models-using-the-api).
 
 * **Changed Voice Dictation**  
 Change original voice implementation to using native Windows Voice Dictation features which can now be triggered through the `F4` hotkey. While this updated voice dictation implementation is not quite as integrated as the original implementation, it provides vastly improved dictation capture, with automatic punctuation detection and better word and sentence detection and auto stop and complete sentence handling etc. By doing so we were also able to drop the burdensome dependency on the Windows SDK which brought on large size gain as well as major hassles for Addin dependencies. The new implementation also works on  Arm64 - the old one didn't.
 
 * **Improved Arm64 Installation**  
 Fixed issue where Arm64 installations would under some circumstances not properly install the arm64 executable (which is significantly faster than running x64 in emulation). Added a pre-install checker and main exe swapper to ensure that the arm64 exe is installed as the default executable. All installations now include the base `MarkdownMonster.exe` and `MarkdownMonsterArm64.exe` which allows for portable installs to run the explicit arm64 executable (or you can manually rename).
+
+
+* **AI Menu Shortcut (ctrl-shift-a)**  
+There's now a menu shortcut to get to the AI features menu without a mouse. The context menu pops up at the current cursor position and is focused for keyboard navigation.
 
 
 * **Fix: Left Sidebar Panel Collapsing to Invisible**  
@@ -61,6 +69,9 @@ Fix issue where using Remove Markdown (ctrl-shift-z) added a linefeed. Fixed.
 
 * **Fix: Edit Preview Theme Folder Opening**  
 Fix issue where Edit Preview Theme from Preview Context menu was opening the PreviewThemes folder instead of currently active theme for pre-installed themes. While that now works, remember that installed themes should not be modified in place, but rather be copied to the `%appdata%\Markdown Monster\PreviewThemes` folder as a new theme which can be customized and won't be overwritten by Markdown Monster updates.
+
+* **Fix: Sidebar Activation Menu Options**  
+Fix menu link and commands for activating various sidebar panels. Fixed regression after implementing split side bar panels.
 
 ## 3.7
 
