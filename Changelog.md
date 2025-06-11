@@ -5,7 +5,7 @@
 <small>June 11th, 2025</small>
 
 * **[AI Editor Text Autosuggestion](https://markdownmonster.west-wind.com/docs/AI-Integration-Features/Text-Suggestions.html) (ghost text)**  
-If you have AI API key configured there's now support for auto-suggestions based on context of your current document by pressing `Ctrl-Space`. Auto suggestions suggest and display *ghost text*  based on the active document and current cursor position context. Press `Tab` to accept or any other key to dismiss.
+If you have an AI API key configured, there's now support for auto-suggestions based on context of your current document by pressing `Ctrl-Space`. Auto suggestions suggest and display *ghost text*  based on the active document and current cursor position context. Press `Tab` to accept or any other key to dismiss.
 
 * **AI Context Menu Shortcut**  
 The AI context menu now has a `Ctrl-Shift-A` shortcut key to pop up at the current cursor position for quick keyboard only activation.
