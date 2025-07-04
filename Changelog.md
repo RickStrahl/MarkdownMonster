@@ -1,5 +1,25 @@
 # What's new in Markdown Monster
 
+## 3.9
+
+<small>not released yet</small>
+
+* **Remember Preview Zoom Setting**  
+The preview Zoom setting now has a dedicated dropdown on the status bar and is remembered across MM sessions. The preview Zoom setting applies to all preview/document instances.
+
+* **Emojis are now embedded as Emoji Font or Markdown Text**  
+There's a new option in the Emoji picker window that lets you choose between embedding emojis either as the actual emoji character or as the Markdown text representation. The latter was the previous behavior. The value set is sticky and remembered as part of the configuration.
+
+* **Emoji Window is now non-modal and can stay open**  
+For those of you that are heavy Emoji users, you can now use the emoji window to insert multiple emoji, as well as leaving the window open for quicker access. The window always injects at the current active editor location.
+
+* **Fix: Edit Preview Theme Folder Opening**   
+Fix issue where Edit Preview Theme from Preview Context menu was opening the PreviewThemes folder instead of currently active theme for pre-installed themes. While that now works, remember that installed themes should not be modified in place, but rather be copied to the `%appdata%\Markdown Monster\PreviewThemes` folder as a new theme which can be customized and won't be overwritten by Markdown Monster updates.
+
+* **Fix: Sidebar Activation Menu Options**  
+Fix menu link and commands for activating various sidebar panels. Fixed regression after implementing split side bar panels.
+
+
 ## 3.8
 
 <small>June 11th, 2025</small>
@@ -9,12 +29,6 @@ If you have an AI API key configured, there's now support for auto-suggestions b
 
 * **AI Context Menu Shortcut**  
 The AI context menu now has a `Ctrl-Shift-A` shortcut key to pop up at the current cursor position for quick keyboard only activation.
-
-* **Emojis are now embedded as Emoji Font or Markdown Text**  
-There's a new option in the Emoji picker window that lets you choose between embedding emojis either as the actual emoji character or as the Markdown text representation. The latter was the previous behavior. The value set is sticky and remembered as part of the configuration.
-
-* **Emoji Window is now non-modal and can stay open**  
-You can now use the emoji window to insert multiple emoji, as well as leaving the window open for quicker access. The window always injects at the current active editor location.
 
 * **Header Formatting Improvements**  
 Headers (H1, H2, H3 etc.) can now be toggled and switched easily using the toolbar options or the Ctrl-1 through 5 shortcuts. 
@@ -48,7 +62,6 @@ Fixed issue where Arm64 installations would under some circumstances not properl
 * **AI Menu Shortcut (ctrl-shift-a)**  
 There's now a menu shortcut to get to the AI features menu without a mouse. The context menu pops up at the current cursor position and is focused for keyboard navigation.
 
-
 * **Fix: Left Sidebar Panel Collapsing to Invisible**  
 Fixed issue where the bottom sidebar panel would collapse and become invisible. Fixed by forcing a minimum size.
 
@@ -67,11 +80,6 @@ The link checker now respects the 'project' root path as defined by a Markdown M
 * **Fix: Remove Markdown Extra Linefeed**  
 Fix issue where using Remove Markdown (ctrl-shift-z) added a linefeed. Fixed.
 
-* **Fix: Edit Preview Theme Folder Opening**   
-Fix issue where Edit Preview Theme from Preview Context menu was opening the PreviewThemes folder instead of currently active theme for pre-installed themes. While that now works, remember that installed themes should not be modified in place, but rather be copied to the `%appdata%\Markdown Monster\PreviewThemes` folder as a new theme which can be customized and won't be overwritten by Markdown Monster updates.
-
-* **Fix: Sidebar Activation Menu Options**  
-Fix menu link and commands for activating various sidebar panels. Fixed regression after implementing split side bar panels.
 
 ## 3.7
 
