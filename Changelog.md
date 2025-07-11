@@ -16,8 +16,14 @@ For those of you that are heavy Emoji users, you can now use the emoji window to
 * **Fix: Edit Preview Theme Folder Opening**   
 Fix issue where Edit Preview Theme from Preview Context menu was opening the PreviewThemes folder instead of currently active theme for pre-installed themes. While that now works, remember that installed themes should not be modified in place, but rather be copied to the `%appdata%\Markdown Monster\PreviewThemes` folder as a new theme which can be customized and won't be overwritten by Markdown Monster updates.
 
+* **Better Menu Accelerator Handling**  
+MM's Accelerator handling out of the editor has been sub-optimal up to now due to some focus limitations. This issues has been addressed via some new WebView features that better handle accelerator key forwarding. This means pressing menu key combinations (ie. Alt-W for the Window menu)  now properly activates the main menu and sets focus to the menu.
+
 * **Fix: Sidebar Activation Menu Options**  
 Fix menu link and commands for activating various sidebar panels. Fixed regression after implementing split side bar panels.
+
+* **Fix: Startup Line Numbers off by One**  
+Fixed issue where the line number on recent documents was one line short of the actual previous line number. Also changed the internal goto line behavior to not scroll but just set to avoid the occasional jumping cursor related to manual line movement.
 
 
 ## 3.8
