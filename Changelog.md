@@ -5,10 +5,13 @@
 <small>not released yet</small>
 
 * **Remember Preview Zoom Setting**  
-The preview Zoom setting now has a dedicated dropdown on the status bar and is remembered across MM sessions. The preview Zoom setting applies to all preview/document instances.
+The preview Zoom setting now has a dedicated dropdown on the status bar and that shows the remembered zoom percentage across MM sessions. The setting applies to all preview/document instances and can be controlled with `Ctl+/-` or `Ctrl-Scrollwheel` or using the drop down.
 
 * **Better Menu Accelerator Handling**  
 MM's Accelerator handling out of the editor has been sub-optimal up to now due to some focus limitations. This issues has been addressed via some new WebView features that better handle accelerator key forwarding. This means pressing menu key combinations (ie. Alt-W for the Window menu)  now properly activates the main menu and sets focus to the menu.
+
+* **Markdown Inline Python and C/C++Syntax Highlighting**  
+Python and C/C++ are now supported as inline, syntax colored languages in the Markdown editor in addition to various others: C#, Powershell, Json, JavaScript, Html, Css, Xml and a few others. Not all editor languages are supported to keep the markdown parser fast but Python and C++ seem to be very popular in our user base.
 
 * **Emojis are now embedded as Emoji Font or Markdown Text**  
 There's a new option in the Emoji picker window that lets you choose between embedding emojis either as the actual emoji character or as the Markdown text representation. The latter was the previous behavior. The value set is sticky and remembered as part of the configuration.
