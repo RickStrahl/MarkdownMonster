@@ -22,6 +22,9 @@ Fix issue where Edit Preview Theme from Preview Context menu was opening the Pre
 * **Fix: Sidebar Activation Menu Options**  
 Fix menu link and commands for activating various sidebar panels. Fixed regression after implementing split side bar panels.
 
+* **Fix: Command Line Opening of Relative Path Files**  
+Fix a regression bug for files opened out of a folder via relative path not resolving properly.
+
 * **Fix: Startup Line Numbers off by One**  
 Fixed issue where the line number on recent documents was one line short of the actual previous line number. Also changed the internal goto line behavior to not scroll but just set to avoid the occasional jumping cursor related to manual line movement.
 
