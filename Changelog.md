@@ -11,10 +11,13 @@ The preview Zoom setting now has a dedicated dropdown on the status bar and that
 MM's Accelerator handling out of the editor has been sub-optimal up to now due to some focus limitations. This issues has been addressed via some new WebView features that better handle accelerator key forwarding. This means pressing menu key combinations (ie. Alt-W for the Window menu)  now properly activates the main menu and sets focus to the menu.
 
 * **Markdown Inline Python and C/C++Syntax Highlighting**  
-Python and C/C++ are now supported as inline, syntax colored languages in the Markdown editor in addition to various others: C#, Powershell, Json, JavaScript, Html, Css, Xml and a few others. Not all editor languages are supported to keep the markdown parser fast but Python and C++ seem to be very popular in our user base.
+Python and C/C++ are now supported as inline, syntax colored languages in the Markdown editor in addition to various others: C#, Powershell, Json, JavaScript, Html, Css, Xml and a few others. Not all editor languages are supported to keep the Markdown parser fast, but Python and C++ seem to be very popular in our user base.
+
+* **RegEx Searches now can match Line Breaks, Tabs etc.**  
+After a recent update to ACE Editor the editor now supports `\n` and other escape sequences in the editor for RegEx searches. Previously ACE Editor did not support this functionality.
 
 * **Emojis are now embedded as Emoji Font or Markdown Text**  
-There's a new option in the Emoji picker window that lets you choose between embedding emojis either as the actual emoji character or as the Markdown text representation. The latter was the previous behavior. The value set is sticky and remembered as part of the configuration.
+There's a new option in the Emoji picker window that lets you choose between embedding emojis either as the actual emoji character or as the Markdown text representation. The latter was the previous behavior. The value set is sticky and remembered as part of the configuration. 
 
 * **Emoji Window is now non-modal and can stay open**  
 For those of you that are heavy Emoji users, you can now use the emoji window to insert multiple emoji, as well as leaving the window open for quicker access. The window always injects at the current active editor location.
@@ -37,6 +40,8 @@ Fixed issue where occasionally an document would load with no content especially
 * **Fix: Opening Multiple Files From Explorer**  
 Fix timing issue that failed to open multiple files from Explorer and would often load the last document blank. ([#1216](https://github.com/RickStrahl/MarkdownMonster/issues/1216))
 
+* **Fix: DocFx Expansion in Code Blocks**  
+Fix issue where DocFx expressions in code blocks would expand as rendered DocFx. Fixed.  ([#1217](https://github.com/RickStrahl/MarkdownMonster/issues/1217))
 
 ## 3.8
 
