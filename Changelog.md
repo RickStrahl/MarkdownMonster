@@ -2,7 +2,7 @@
 
 ## 3.9
 
-<small>not released yet</small>
+<small>August 8th, 2025</small>
 
 * **Remember Preview Zoom Setting**  
 The preview Zoom setting now has a dedicated dropdown on the status bar and that shows the remembered zoom percentage across MM sessions. The setting applies to all preview/document instances and can be controlled with `Ctl+/-` or `Ctrl-Scrollwheel` or using the drop down.
@@ -22,14 +22,11 @@ MM's Accelerator handling out of the editor has been sub-optimal up to now due t
 * **Markdown Inline Python and C/C++Syntax Highlighting**  
 Python and C/C++ are now supported as inline, syntax colored languages in the Markdown editor in addition to various others: C#, Powershell, Json, JavaScript, Html, Css, Xml and a few others. Not all editor languages are supported to keep the Markdown parser fast, but Python and C++ seem to be very popular in our user base.
 
-
-
 * **Emojis are now embedded as Emoji Font or Markdown Text**  
 There's a new option in the Emoji picker window that lets you choose between embedding emojis either as the actual emoji character or as the Markdown text representation. The latter was the previous behavior. The value set is sticky and remembered as part of the configuration. 
 
 * **Emoji Window is now non-modal and can stay open**  
 For those of you that are heavy Emoji users, you can now use the emoji window to insert multiple emoji, as well as leaving the window open for quicker access. The window always injects at the current active editor location.
-
 
 * **Fix: Edit Preview Theme Folder Opening**   
 Fix issue where Edit Preview Theme from Preview Context menu was opening the PreviewThemes folder instead of currently active theme for pre-installed themes. While that now works, remember that installed themes should not be modified in place, but rather be copied to the `%appdata%\Markdown Monster\PreviewThemes` folder as a new theme which can be customized and won't be overwritten by Markdown Monster updates.
