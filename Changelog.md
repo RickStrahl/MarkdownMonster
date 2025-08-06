@@ -7,20 +7,29 @@
 * **Remember Preview Zoom Setting**  
 The preview Zoom setting now has a dedicated dropdown on the status bar and that shows the remembered zoom percentage across MM sessions. The setting applies to all preview/document instances and can be controlled with `Ctl+/-` or `Ctrl-Scrollwheel` or using the drop down.
 
+* **RegEx Searches now can match Line Breaks, Tabs etc.**  
+After a recent update to ACE Editor the editor now supports `\n` and other escape sequences in the editor for RegEx searches. Previously ACE Editor did not support this functionality. A big thanks to the folks at ACE for finally addressing this! ([#1214](https://github.com/RickStrahl/MarkdownMonster/issues/1214))
+
+* **Support for Mermaid Files and Syntax Highlighting for Inline Mermaid**  
+You can now open and create Mermaid `.mmd` files. Mermaid files are self-contained files that contain a single Mermaid diagram. These have become popular for sharing graphs and also are common for use with LLMs as input and output. Limited Syntax highlighting is now provided for both mermaid files and inline mermaid snippets.
+
+* **Support for Font Ligatures**  
+If you choose a font that supports ligatures like [Hasklig](https://community.chocolatey.org/packages/Hasklig) or [Fira Code](https://community.chocolatey.org/packages/firacode) it will automatically display with ligatures enabled.
+
 * **Better Menu Accelerator Handling**  
 MM's Accelerator handling out of the editor has been sub-optimal up to now due to some focus limitations. This issues has been addressed via some new WebView features that better handle accelerator key forwarding. This means pressing menu key combinations (ie. Alt-W for the Window menu)  now properly activates the main menu and sets focus to the menu.
 
 * **Markdown Inline Python and C/C++Syntax Highlighting**  
 Python and C/C++ are now supported as inline, syntax colored languages in the Markdown editor in addition to various others: C#, Powershell, Json, JavaScript, Html, Css, Xml and a few others. Not all editor languages are supported to keep the Markdown parser fast, but Python and C++ seem to be very popular in our user base.
 
-* **RegEx Searches now can match Line Breaks, Tabs etc.**  
-After a recent update to ACE Editor the editor now supports `\n` and other escape sequences in the editor for RegEx searches. Previously ACE Editor did not support this functionality.
+
 
 * **Emojis are now embedded as Emoji Font or Markdown Text**  
 There's a new option in the Emoji picker window that lets you choose between embedding emojis either as the actual emoji character or as the Markdown text representation. The latter was the previous behavior. The value set is sticky and remembered as part of the configuration. 
 
 * **Emoji Window is now non-modal and can stay open**  
 For those of you that are heavy Emoji users, you can now use the emoji window to insert multiple emoji, as well as leaving the window open for quicker access. The window always injects at the current active editor location.
+
 
 * **Fix: Edit Preview Theme Folder Opening**   
 Fix issue where Edit Preview Theme from Preview Context menu was opening the PreviewThemes folder instead of currently active theme for pre-installed themes. While that now works, remember that installed themes should not be modified in place, but rather be copied to the `%appdata%\Markdown Monster\PreviewThemes` folder as a new theme which can be customized and won't be overwritten by Markdown Monster updates.
