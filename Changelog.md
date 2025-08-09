@@ -1,5 +1,13 @@
 # What's new in Markdown Monster
 
+## 3.10
+
+<small>not released yet</small>
+
+* **Save Untitled Documents when closing**  
+Untitled documents are now preserved on disk when closing Markdown Monster, and re-opened when you restart MM. They are treated as all other open documents and re-opened up to the max Rembered Last Document count <small>(*Remember Number of Last Documents* setting)</small>. Untitled documents are closed only when explicitly closed, saved to a new filename or when overrunning Remembered Document Count.
+
+
 ## 3.9
 
 <small>August 8th, 2025</small>
@@ -17,10 +25,10 @@ You can now open and create Mermaid `.mmd` files. Mermaid files are self-contain
 If you choose a font that supports ligatures like [Hasklig](https://community.chocolatey.org/packages/Hasklig) or [Fira Code](https://community.chocolatey.org/packages/firacode) it will automatically display with ligatures enabled.
 
 * **Better Menu Accelerator Handling**  
-MM's Accelerator handling out of the editor has been sub-optimal up to now due to some focus limitations. This issues has been addressed via some new WebView features that better handle accelerator key forwarding. This means pressing menu key combinations (ie. Alt-W for the Window menu)  now properly activates the main menu and sets focus to the menu.
+MM's Accelerator handling out of the editor has been sub-optimal up to now due to some focus limitations. This issues has been addressed via some new WebView features that better handle accelerator key forwarding. This means pressing menu key combinations (ie. Alt-W for the Window menu)  now properly activates the main menu and sets focus to the menu allowing for menu keyboard shortcut navigation (ie. `alt-w-l` to close all windows) to work as expected.
 
 * **Markdown Inline Python and C/C++Syntax Highlighting**  
-Python and C/C++ are now supported as inline, syntax colored languages in the Markdown editor in addition to various others: C#, Powershell, Json, JavaScript, Html, Css, Xml and a few others. Not all editor languages are supported to keep the Markdown parser fast, but Python and C++ seem to be very popular in our user base.
+Python and C/C++ are now supported as inline, syntax colored language code snippets in the Markdown editor in addition to various others: C#, Powershell, Json, JavaScript, Html, Css, Xml and a few others. Not all editor languages are supported to keep the Markdown parser fast, but Python and C++ seem to be very popular in our user base.
 
 * **Emojis are now embedded as Emoji Font or Markdown Text**  
 There's a new option in the Emoji picker window that lets you choose between embedding emojis either as the actual emoji character or as the Markdown text representation. The latter was the previous behavior. The value set is sticky and remembered as part of the configuration. 
