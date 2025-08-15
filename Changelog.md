@@ -7,6 +7,11 @@
 * **Save Untitled Documents when closing**  
 Untitled documents are now preserved on disk when closing Markdown Monster, and re-opened when you restart MM. They are treated as all other open documents and re-opened up to the max Rembered Last Document count <small>(*Remember Number of Last Documents* setting)</small>. Untitled documents are closed only when explicitly closed, saved to a new filename or when overrunning Remembered Document Count.
 
+* **Untitled Document Tab and Title Naming**  
+As part of the updated handling for untitled documents that are now preserved across MM sessions, the headers for both tabs and the window are now updated with the title of the text if it can be determined (first h1 element in document). If you run more than a single untitled tab this will be useful to keep them distinguished and easily identifiable.
+
+* **Fix: Mermaid Diagrams require a leading empty Line**  
+Fix issue where Mermaid diagrams required a blank line prior to the Mermaid block to render properly. Previously not having the line would break the Mermaid renderer (bomb display). Fixed now by properly rendering the leading line break into the generated mermaid block. ([#1219](https://github.com/RickStrahl/MarkdownMonster/issues/1219))
 
 ## 3.9
 
