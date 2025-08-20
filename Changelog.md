@@ -7,6 +7,9 @@
 * **Save Untitled Documents when closing**  
 Untitled documents are now preserved on disk when closing Markdown Monster, and re-opened when you restart MM. They are treated as all other open documents and re-opened up to the max Rembered Last Document count <small>(*Remember Number of Last Documents* setting)</small>. Untitled documents are closed only when explicitly closed, saved to a new filename or when overrunning Remembered Document Count.
 
+* **Explicit Folder Selection for Favorites**  
+When creating a Favorite manually you can now choose to explicitly select a folder with a separate folder selection dialog. Previously you couldn't only pick a file and would have to remove the filename or type in the folder name directly.
+
 * **Untitled Document Tab and Title Naming**  
 As part of the updated handling for untitled documents that are now preserved across MM sessions, the headers for both tabs and the window are now updated with the title of the text if it can be determined (first h1 element in document). If you run more than a single untitled tab this will be useful to keep them distinguished and easily identifiable.
 
@@ -413,7 +416,7 @@ When right clicking into the context menu in the folder browser, the selected it
 Added `.razor` as a default supported editor format so these files can be previewed and edited in the editor. Note: Razor/Blazor syntax is is not directly supported, it's provided as an Html dialect. You can view externally with Open With or Open in VS Code (if installed) for more complete functionality.
 
 ## 3.2
-<small>January 25th, 2024</small>
+<small>January 25th, 2024</small> 
 
 * **Move to .NET 8.0**  
 Move all application binaries to .NET 8.0. The installer now requires .NET 8.0, so updates on machines that are running .NET 7.0 will no update to .NET 8.0. .NET 8.0 Shared Runtime is dynamically installed during setup or at runtime (for portable installs).
