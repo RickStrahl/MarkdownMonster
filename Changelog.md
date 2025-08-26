@@ -4,8 +4,11 @@
 
 <small>not released yet</small>
 
+* **Integrated LLM Chat Interface (preview)**  
+There's a new Chat Interface accessible from the AI toolbar and context menu (`ctrl-shift-a`) that lets you work against your local documents. Create summaries, clean up your writing, ask for suggestions etc. By default the active document is provided as context, but you can add additional files or open documents. Uses *Bring your own Api Keys** for LLM access.
+
 * **Save Untitled Documents when closing**  
-Untitled documents are now preserved on disk when closing Markdown Monster, and re-opened when you restart MM. They are treated as all other open documents and re-opened up to the max Rembered Last Document count <small>(*Remember Number of Last Documents* setting)</small>. Untitled documents are closed only when explicitly closed, saved to a new filename or when overrunning Remembered Document Count.
+Untitled documents are now preserved on disk when closing Markdown Monster, and re-opened when you restart MM. They are treated as all other open documents and re-opened up to the max Rembered Last Document count <small>(*Remember Number of Last Documents* setting)</small>. Untitled documents are closed only when explicitly closed, saved to a new filename or when overrunning Remembered Document Count. Untitled documents are stored in `%localappdata%\Markdown Monster\Sessions` folder until either saved explicitly or closed.
 
 * **Explicit Folder Selection for Favorites**  
 When creating a Favorite manually you can now choose to explicitly select a folder with a separate folder selection dialog. Previously you couldn't only pick a file and would have to remove the filename or type in the folder name directly.
