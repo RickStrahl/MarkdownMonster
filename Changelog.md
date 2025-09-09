@@ -16,6 +16,9 @@ When creating a Favorite manually you can now choose to explicitly select a fold
 * **Untitled Document Tab and Title Naming**  
 As part of the updated handling for untitled documents that are now preserved across MM sessions, the headers for both tabs and the window are now updated with the title of the text if it can be determined (first h1 element in document). If you run more than a single untitled tab this will be useful to keep them distinguished and easily identifiable.
 
+* **External Preview: Configuration in Window Control Box**  
+Window docking and activation status is now displayed in the top control box of the Window rather than on the status bar which provides a few more pixels for   display surface to display content.
+
 * **Fix: Mermaid Diagrams require a leading empty Line**  
 Fix issue where Mermaid diagrams required a blank line prior to the Mermaid block to render properly. Previously not having the line would break the Mermaid renderer (bomb display). Fixed now by properly rendering the leading line break into the generated mermaid block. ([#1219](https://github.com/RickStrahl/MarkdownMonster/issues/1219))
 
