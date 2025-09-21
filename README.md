@@ -60,7 +60,6 @@ For more detailed info on licensing please visit licensing information here:
 Here's what Markdown Monster looks like using the default **Dark Theme**: 
 
 ![Markdown Monster Screen Shot](ScreenShot.png)
-
 and here is the **Light Theme**:
 
 ![Markdown Monster Screen Shot](ScreenShot_Light.png)
@@ -84,6 +83,7 @@ Markdown Monster is extensible with .NET code. You can use our Snippets or Comma
 If you have a blog chances are you can use Markdown Monster to create your content and publish it to your blogging service. Markdown Monster can publish to many common Weblog engines including WordPress, Medium and any service that use MetaWeblog API. MM automatically handles converting your Markdown content to HTML, fixing up links and publishing and re-publishing your Markdown content cleanly to blogging services.
 
 The **New Weblog Post** feature automatically sets up a post folder in a Weblog Posts directory hierarchy to let you organize posts in a shared DropBox or OneDrive (if available) folder so you can easily work on posts from multiple machines.
+
 
 Markdown Monster's integrated Git features also work great for  any Git based service like Jekyll, Ghost, Hugo or Wyam to write your posts locally and immediately push them to your remote Git repository to publish. Git integration is built into MM to commit your changes either individually or in batch or you can open your favorite Git Client to publish your changes to your hosted content blog.
 

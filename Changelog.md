@@ -8,7 +8,7 @@
 There's a new Chat Interface accessible from the AI toolbar and context menu (`ctrl-shift-a`) that lets you work against your local documents. Create summaries, clean up your writing, ask for suggestions etc. By default the active document is provided as context, but you can add additional files or open documents. Uses *Bring your own Api Keys** for LLM access.
 
 * **Save Untitled Documents when closing**  
-Untitled documents are now preserved on disk when closing Markdown Monster, and re-opened when you restart MM. They are treated as all other open documents and re-opened up to the max Rembered Last Document count <small>(*Remember Number of Last Documents* setting)</small>. Untitled documents are closed only when explicitly closed, saved to a new filename or when overrunning Remembered Document Count. Untitled documents are stored in `%localappdata%\Markdown Monster\Sessions` folder until either saved explicitly or closed.
+Untitled documents are now preserved on disk when closing Markdown Monster, and re-opened when you restart MM. They are treated as all other open documents and re-opened up to the max *Remembered Last Document* count <small>(*Remember Number of Last Documents* setting)</small>. Untitled documents are closed only when explicitly closed, saved to a new filename or when overrunning Remembered Document Count. Untitled documents are stored in `%localappdata%\Markdown Monster\Sessions` folder until either saved explicitly or closed.
 
 * **Explicit Folder Selection for Favorites**  
 When creating a Favorite manually you can now choose to explicitly select a folder with a separate folder selection dialog. Previously you couldn't only pick a file and would have to remove the filename or type in the folder name directly.
@@ -18,6 +18,12 @@ As part of the updated handling for untitled documents that are now preserved ac
 
 * **External Preview: Configuration in Window Control Box**  
 Window docking and activation status is now displayed in the top control box of the Window rather than on the status bar which provides a few more pixels for   display surface to display content.
+
+* **Editor Theme Extension Support**    
+Changed how editor themes can be extended via `editor-user-extensions.css` and `editor-user-extensions.js` in `<commonFolder>\Markdown Monster\EditorThemes`. These files were supported before but lived the install folder which has as of recent versions been wiped out on new installs. This moves the extensions to a preserved location in the common configuration folder.
+
+* **Preview Theme ScriptFolder Template Var**  
+Preview themes have been updated with a script folder variable both to simplify Preview Theme templates and to provide an easier path to create extension themes that are stored in `<commonfolder\Markdown Monster\PreviewThemes`. Previously the `scripts` folder had to be copied from the main install - the new `{$scriptPath}` variable in `Theme.html` explicitly points to the script location in the Markdown Monster install folder.
 
 * **Fix: Mermaid Diagrams require a leading empty Line**  
 Fix issue where Mermaid diagrams required a blank line prior to the Mermaid block to render properly. Previously not having the line would break the Mermaid renderer (bomb display). Fixed now by properly rendering the leading line break into the generated mermaid block. ([#1219](https://github.com/RickStrahl/MarkdownMonster/issues/1219))
