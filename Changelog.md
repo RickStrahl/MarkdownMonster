@@ -10,11 +10,14 @@ There's a new Chat Interface accessible from the AI toolbar and context menu (`c
 * **Save Untitled Documents when closing**  
 Untitled documents are now preserved on disk when closing Markdown Monster, and re-opened when you restart MM. They are treated as all other open documents and re-opened up to the max *Remembered Last Document* count <small>(*Remember Number of Last Documents* setting)</small>. Untitled documents are closed only when explicitly closed, saved to a new filename or when overrunning Remembered Document Count. Untitled documents are stored in `%localappdata%\Markdown Monster\Sessions` folder until either saved explicitly or closed.
 
+* **Untitled Document Tab and Title Naming**  
+As part of the updated handling for untitled documents that are now preserved across MM sessions, the headers for both tabs and the window are now updated with the title of the text if it can be determined (first h1 element in document). If you run more than a single untitled tab this will be useful to keep them distinguished and easily identifiable.
+
 * **Explicit Folder Selection for Favorites**  
 When creating a Favorite manually you can now choose to explicitly select a folder with a separate folder selection dialog. Previously you couldn't only pick a file and would have to remove the filename or type in the folder name directly.
 
-* **Untitled Document Tab and Title Naming**  
-As part of the updated handling for untitled documents that are now preserved across MM sessions, the headers for both tabs and the window are now updated with the title of the text if it can be determined (first h1 element in document). If you run more than a single untitled tab this will be useful to keep them distinguished and easily identifiable.
+* **Drag and Drop into Favorites from Windows Explorer**  
+You can now drag and drop files and folders into Favorites from Windows Explorer.
 
 * **External Preview: Configuration in Window Control Box**  
 Window docking and activation status is now displayed in the top control box of the Window rather than on the status bar which provides a few more pixels for   display surface to display content.
@@ -28,8 +31,6 @@ Preview themes have been updated with a script folder variable both to simplify 
 * **Table Editor: ESC to Cancel Changes and Prompt**  
 You can now exit the table editor with ESC to abort changes. Additionally there's a new dialog that prompts on whether to embed changes, discard changes or go back to the table editor for all cancel operations. ([#1226](https://github.com/RickStrahl/MarkdownMonster/issues/1226))
 
-* **Drag and Drop into Favorites from Windows Explorer**  
-You can now drag and drop into Favorites from Windows Explorer.
 
 * **Fix: Table Editor Changes in active edit area not saved**  
 Fixed issue where changes in the current edit field were not always saved if control focus was not lost. Related to hot-key exits via `ctrl-enter` and `esc` which could result in missing changes or not detecting changes on canceling. Fixed. ([#1226](https://github.com/RickStrahl/MarkdownMonster/issues/1226))
