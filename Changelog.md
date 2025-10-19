@@ -26,13 +26,19 @@ Changed how editor themes can be extended via `editor-user-extensions.css` and `
 Preview themes have been updated with a script folder variable both to simplify Preview Theme templates and to provide an easier path to create extension themes that are stored in `<commonfolder\Markdown Monster\PreviewThemes`. Previously the `scripts` folder had to be copied from the main install - the new `{$scriptPath}` variable in `Theme.html` explicitly points to the script location in the Markdown Monster install folder. *The old `{$themePath}..\scripts\` path syntax continues to work the same as before*.
 
 * **Table Editor: ESC to Cancel Changes and Prompt**  
-You can now exit the table editor with ESC to abort changes. Additionally there's a new dialog that asks whether it's OK to cancel if there are changes in the document. ([#1226](https://github.com/RickStrahl/MarkdownMonster/issues/1226))
+You can now exit the table editor with ESC to abort changes. Additionally there's a new dialog that prompts on whether to embed changes, discard changes or go back to the table editor for all cancel operations. ([#1226](https://github.com/RickStrahl/MarkdownMonster/issues/1226))
+
+* **Drag and Drop into Favorites from Windows Explorer**  
+You can now drag and drop into Favorites from Windows Explorer.
 
 * **Fix: Table Editor Changes in active edit area not saved**  
 Fixed issue where changes in the current edit field were not always saved if control focus was not lost. Related to hot-key exits via `ctrl-enter` and `esc` which could result in missing changes or not detecting changes on canceling. Fixed. ([#1226](https://github.com/RickStrahl/MarkdownMonster/issues/1226))
 
 * **Fix: Mermaid Diagrams require a leading empty Line**  
 Fix issue where Mermaid diagrams required a blank line prior to the Mermaid block to render properly. Previously not having the line would break the Mermaid renderer (bomb display). Fixed now by properly rendering the leading line break into the generated mermaid block. ([#1219](https://github.com/RickStrahl/MarkdownMonster/issues/1219))
+
+* **Fix: Items duplicating when using Drag and Drop Favorite List**  
+When dragging and dropping items within the Favorites list, items were duplicating in many situations. Items now properly move to the new location. Note that copy operation is not supported internally - only Move.
 
 ## 3.9
 
