@@ -1,17 +1,32 @@
 # What's new in Markdown Monster
 
-## 3.10
+## 4.0
 
 <small>not released yet</small>
 
 * **Integrated LLM Chat Interface (preview)**  
 There's a new Chat Interface accessible from the AI toolbar and context menu (`ctrl-shift-a`) that lets you work against your local documents. Create summaries, clean up your writing, ask for suggestions etc. By default the active document is provided as context, but you can add additional files or open documents. Uses *Bring your own Api Keys** for LLM access.
 
+* **Switch .NET 10 Runtime Update**  
+Updated to the latest RC release of the .NET Runtime for v4 release cycle. Installer installs the RC runtime to switch to RTM release as soon as it becomes available later in November.
+
+* **Markdown Inline Python and C/C++Syntax Highlighting**  
+Python and C/C++ are now supported as inline, syntax colored language code snippets in the Markdown editor in addition to various others: C#, Powershell, Json, JavaScript, Html, Css, Xml and a few others. Not all editor languages are supported to keep the Markdown parser fast, but Python and C++ seem to be very popular in our user base.
+
+* **Support for Mermaid Files and Syntax Highlighting for Inline Mermaid**  
+You can now open and create Mermaid `.mmd` files. Mermaid files are self-contained files that contain a single Mermaid diagram. These have become popular for sharing graphs and also are common for use with LLMs as input and output. Limited Syntax highlighting is now provided for both mermaid files and inline mermaid snippets.
+
+* **Support for Font Ligatures**  
+If you choose a font that supports ligatures like [Hasklig](https://community.chocolatey.org/packages/Hasklig) or [Fira Code](https://community.chocolatey.org/packages/firacode) it will automatically display with ligatures enabled.
+
 * **Save Untitled Documents when closing**  
 Untitled documents are now preserved on disk when closing Markdown Monster, and re-opened when you restart MM. They are treated as all other open documents and re-opened up to the max *Remembered Last Document* count <small>(*Remember Number of Last Documents* setting)</small>. Untitled documents are closed only when explicitly closed, saved to a new filename or when overrunning Remembered Document Count. Untitled documents are stored in `%localappdata%\Markdown Monster\Sessions` folder until either saved explicitly or closed.
 
 * **Untitled Document Tab and Title Naming**  
 As part of the updated handling for untitled documents that are now preserved across MM sessions, the headers for both tabs and the window are now updated with the title of the text if it can be determined (first h1 element in document). If you run more than a single untitled tab this will be useful to keep them distinguished and easily identifiable.
+
+* **Remember Preview Zoom Setting**  
+The preview Zoom setting now has a dedicated dropdown on the status bar and that shows the remembered zoom percentage across MM sessions. The setting applies to all preview/document instances and can be controlled with `Ctl+/-` or `Ctrl-Scrollwheel` or using the drop down.
 
 * **Explicit Folder Selection for Favorites**  
 When creating a Favorite manually you can now choose to explicitly select a folder with a separate folder selection dialog. Previously you couldn't only pick a file and would have to remove the filename or type in the folder name directly.
@@ -20,7 +35,7 @@ When creating a Favorite manually you can now choose to explicitly select a fold
 You can now drag and drop files and folders into Favorites from Windows Explorer.
 
 * **External Preview: Configuration in Window Control Box**  
-Window docking and activation status is now displayed in the top control box of the Window rather than on the status bar which provides a few more pixels for   display surface to display content.
+Window docking and activation status is now displayed in the top control box of the external preview window, rather than on the status bar which provides a few more pixels for viewable display surface for content.
 
 * **Editor Theme Extension Support**    
 Changed how editor themes can be extended via `editor-user-extensions.css` and `editor-user-extensions.js` in `<commonFolder>\Markdown Monster\EditorThemes`. These files were supported before but lived the install folder which has as of recent versions been wiped out on new installs. This moves the extensions to a preserved location in the common configuration folder.
@@ -45,23 +60,14 @@ When dragging and dropping items within the Favorites list, items were duplicati
 
 <small>August 8th, 2025</small>
 
-* **Remember Preview Zoom Setting**  
-The preview Zoom setting now has a dedicated dropdown on the status bar and that shows the remembered zoom percentage across MM sessions. The setting applies to all preview/document instances and can be controlled with `Ctl+/-` or `Ctrl-Scrollwheel` or using the drop down.
 
 * **RegEx Searches now can match Line Breaks, Tabs etc.**  
 After a recent update to ACE Editor the editor now supports `\n` and other escape sequences in the editor for RegEx searches. Previously ACE Editor did not support this functionality. A big thanks to the folks at ACE for finally addressing this! ([#1214](https://github.com/RickStrahl/MarkdownMonster/issues/1214))
 
-* **Support for Mermaid Files and Syntax Highlighting for Inline Mermaid**  
-You can now open and create Mermaid `.mmd` files. Mermaid files are self-contained files that contain a single Mermaid diagram. These have become popular for sharing graphs and also are common for use with LLMs as input and output. Limited Syntax highlighting is now provided for both mermaid files and inline mermaid snippets.
-
-* **Support for Font Ligatures**  
-If you choose a font that supports ligatures like [Hasklig](https://community.chocolatey.org/packages/Hasklig) or [Fira Code](https://community.chocolatey.org/packages/firacode) it will automatically display with ligatures enabled.
 
 * **Better Menu Accelerator Handling**  
 MM's Accelerator handling out of the editor has been sub-optimal up to now due to some focus limitations. This issues has been addressed via some new WebView features that better handle accelerator key forwarding. This means pressing menu key combinations (ie. Alt-W for the Window menu)  now properly activates the main menu and sets focus to the menu allowing for menu keyboard shortcut navigation (ie. `alt-w-l` to close all windows) to work as expected.
 
-* **Markdown Inline Python and C/C++Syntax Highlighting**  
-Python and C/C++ are now supported as inline, syntax colored language code snippets in the Markdown editor in addition to various others: C#, Powershell, Json, JavaScript, Html, Css, Xml and a few others. Not all editor languages are supported to keep the Markdown parser fast, but Python and C++ seem to be very popular in our user base.
 
 * **Emojis are now embedded as Emoji Font or Markdown Text**  
 There's a new option in the Emoji picker window that lets you choose between embedding emojis either as the actual emoji character or as the Markdown text representation. The latter was the previous behavior. The value set is sticky and remembered as part of the configuration. 
