@@ -8,8 +8,8 @@
 * **Integrated LLM Chat Interface (preview)**  
 There's a new Chat Interface accessible from the AI toolbar and context menu (`ctrl-shift-a`) that lets you work against your local documents. Create summaries, clean up your writing, ask for suggestions etc. By default the active document is provided as context, but you can add additional files or open documents. Uses *Bring your own Api Keys** for LLM access.
 
-* **Switch .NET 10 Runtime Update**  
-Updated to the latest RC release of the .NET Runtime for v4 release cycle. Installer installs the RC runtime to switch to RTM release as soon as it becomes available later in November.
+* **Update to .NET 10 Runtime**  
+Updated to the latest RC release of the .NET Runtime for v4 release cycle. Installer installs the RC runtime for the preview. We'll switch to RTM release as soon as it becomes available later in November.
 
 * **Markdown Inline Python and C/C++Syntax Highlighting**  
 Python and C/C++ are now supported as inline, syntax colored language code snippets in the Markdown editor in addition to various others: C#, Powershell, Json, JavaScript, Html, Css, Xml and a few others. Not all editor languages are supported to keep the Markdown parser fast, but Python and C++ seem to be very popular in our user base.
@@ -18,7 +18,7 @@ Python and C/C++ are now supported as inline, syntax colored language code snipp
 You can now open and create Mermaid `.mmd` files. Mermaid files are self-contained files that contain a single Mermaid diagram. These have become popular for sharing graphs and also are common for use with LLMs as input and output. Limited Syntax highlighting is now provided for both mermaid files and inline mermaid snippets.
 
 * **Support for Font Ligatures**  
-If you choose a font that supports ligatures like [Hasklig](https://community.chocolatey.org/packages/Hasklig) or [Fira Code](https://community.chocolatey.org/packages/firacode) it will automatically display with ligatures enabled.
+If you choose a font that supports ligatures like [Hasklig](https://community.chocolatey.org/packages/Hasklig) or [Fira Code](https://community.chocolatey.org/packages/firacode) it will automatically display with ligatures enabled. Thanks to the [ACE Editor](https://ace.c9.io/) folks for this update.
 
 * **Save Untitled Documents when closing**  
 Untitled documents are now preserved on disk when closing Markdown Monster, and re-opened when you restart MM. They are treated as all other open documents and re-opened up to the max *Remembered Last Document* count <small>(*Remember Number of Last Documents* setting)</small>. Untitled documents are closed only when explicitly closed, saved to a new filename or when overrunning Remembered Document Count. Untitled documents are stored in `%localappdata%\Markdown Monster\Sessions` folder until either saved explicitly or closed.
