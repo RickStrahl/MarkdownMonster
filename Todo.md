@@ -1,4 +1,6 @@
 ### Bugs and Needed Features
+* [ ] ChatUI allow images to be dropped into prompt
+* [ ] File location tracking is not working
 * [ ] Drag and drop in Favorites duplicates item and changes name
 * [ ] Favorites should support ~\ file syntax
 * [ ] TOC generation has wrong spacing if there items start with header `###`

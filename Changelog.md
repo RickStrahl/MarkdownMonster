@@ -5,8 +5,12 @@
 
 <small>not released yet</small>
 
-* **Integrated LLM Chat Interface (preview)**  
+* **Integrated LLM Chat Interface**  
 There's a new Chat Interface accessible from the AI toolbar and context menu (`ctrl-shift-a`) that lets you work against your local documents. Create summaries, clean up your writing, ask for suggestions etc. By default the active document is provided as context, but you can add additional files or open documents. Uses *Bring your own Api Keys** for LLM access.
+
+* **Add Image Pasting and Drag and Drop to Chat Interface**  
+You can now drag images from a browser, from Explorer or paste images from the clipboard into the Chat UI prompt interface and provide image data to any prompt.  
+*Note: this feature depends on the model supporting image inputs. Most major online models support multi-modal inputs, but many small local models do not.*
 
 * **Update to .NET 10 Runtime**  
 Updated to the latest RC release of the .NET Runtime for v4 release cycle. Installer installs the RC runtime for the preview. We'll switch to RTM release as soon as it becomes available later in November.
@@ -32,13 +36,13 @@ The preview Zoom setting now has a dedicated dropdown on the status bar and that
 * **Explicit Folder Selection for Favorites**  
 When creating a Favorite manually you can now choose to explicitly select a folder with a separate folder selection dialog. Previously you couldn't only pick a file and would have to remove the filename or type in the folder name directly.
 
-* **Drag and Drop into Favorites from Windows Explorer**  
+* **[Drag and Drop into Favorites from Windows Explorer](https://markdownmonster.west-wind.com/docs/Features/Use-Favorites-to-link-Frequently-Used-Files-and-Folders.html)**  
 You can now drag and drop files and folders into Favorites from Windows Explorer.
 
 * **External Preview: Configuration in Window Control Box**  
 Window docking and activation status is now displayed in the top control box of the external preview window, rather than on the status bar which provides a few more pixels for viewable display surface for content.
 
-* **Editor Theme Extension Support**    
+* **[Editor Theme Extension Support](https://markdownmonster.west-wind.com/docs/Common-Tasks/Customizing-Editor-CSS-Styling-and-JS-Overrides.html)**    
 Changed how editor themes can be extended via `editor-user-extensions.css` and `editor-user-extensions.js` in `<commonFolder>\Markdown Monster\EditorThemes`. These files were supported before but lived the install folder which has as of recent versions been wiped out on new installs. This moves the extensions to a preserved location in the common configuration folder.
 
 * **Preview Theme ScriptFolder Template Var**  
