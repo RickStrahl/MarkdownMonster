@@ -1,6 +1,6 @@
 # What's new in Markdown Monster
 
-## 4.0 Preview
+## 4.0 Beta
 <small>*currently in preview and usable with v3 license until RTM. v4 Licenses work with both v4 and v3*</small>
 
 <small>not released yet</small>
