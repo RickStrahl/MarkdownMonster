@@ -1,7 +1,13 @@
 # What's new in Markdown Monster
 
+[![download](https://img.shields.io/badge/download-latest-blue.svg)](https://markdownmonster.west-wind.com/download) [![NuGet](https://img.shields.io/chocolatey/v/MarkdownMonster.svg)](https://chocolatey.org/packages/MarkdownMonster) [![](https://img.shields.io/chocolatey/dt/MarkdownMonster.svg)](https://chocolatey.org/packages/MarkdownMonster)
+
+
 ## 4.0 Beta
-<small>*currently in preview and usable with v3 license until RTM. v4 Licenses work with both v4 and v3*</small>
+<small>*currently in beta and usable with a v3 license until RTM. v4 Licenses work with both v4 and v3*  
+[![upgrade](https://img.shields.io/badge/v4-upgrade-blue.svg)](https://markdownmonster.west-wind.com/purchase)
+
+</small>
 
 <small>not released yet</small>
 
@@ -60,6 +66,13 @@ Fix issue where Mermaid diagrams required a blank line prior to the Mermaid bloc
 
 * **Fix: Items duplicating when using Drag and Drop Favorite List**  
 When dragging and dropping items within the Favorites list, items were duplicating in many situations. Items now properly move to the new location. Note that copy operation is not supported internally - only Move.
+
+## 3.11
+
+<small>November 4th, 2025</small>
+
+* **Last v3.x Release**  
+This is the last v3 release before v4 will be released.
 
 ## 3.9
 
