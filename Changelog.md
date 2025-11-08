@@ -36,6 +36,9 @@ Untitled documents are now preserved on disk when closing Markdown Monster, and 
 * **Untitled Document Tab and Title Naming**  
 As part of the updated handling for untitled documents that are now preserved across MM sessions, the headers for both tabs and the window are now updated with the title of the text if it can be determined (first h1 element in document). If you run more than a single untitled tab this will be useful to keep them distinguished and easily identifiable.
 
+* **Improved Preview Rendering of Html Documents in Editor**  
+Html documents now support both full Html documents as well as Html Fragments. Previous unsupported, Html fragments (ie. now `<html>` header) now render using MM preview templates and styling. Additionally both modes now attempt to set the `<base>` path to allow for pulling in relative path dependencies. ([#1239](https://github.com/RickStrahl/MarkdownMonster/issues/1239))
+
 * **Remember Preview Zoom Setting**  
 The preview Zoom setting now has a dedicated dropdown on the status bar and that shows the remembered zoom percentage across MM sessions. The setting applies to all preview/document instances and can be controlled with `Ctl+/-` or `Ctrl-Scrollwheel` or using the drop down.
 
@@ -53,6 +56,9 @@ Changed how editor themes can be extended via `editor-user-extensions.css` and `
 
 * **Preview Theme ScriptFolder Template Var**  
 Preview themes have been updated with a script folder variable both to simplify Preview Theme templates and to provide an easier path to create extension themes that are stored in `<commonfolder\Markdown Monster\PreviewThemes`. Previously the `scripts` folder had to be copied from the main install - the new `{$scriptPath}` variable in `Theme.html` explicitly points to the script location in the Markdown Monster install folder. *The old `{$themePath}..\scripts\` path syntax continues to work the same as before*.
+
+* **Table Editor: Create Compact Pipe Table**  
+When generating output from the Table Editor you now have an option to create compact Pipe Table output that strips all white space for minimal character usage that is nevertheless valid. Also an option on the Editor Context menu inside of pipe tables to compact existing tables without opening the editor first. Useful for providing documents to LLMs and saving some $$ on token usage.
 
 * **Table Editor: ESC to Cancel Changes and Prompt**  
 You can now exit the table editor with ESC to abort changes. Additionally there's a new dialog that prompts on whether to embed changes, discard changes or go back to the table editor for all cancel operations. ([#1226](https://github.com/RickStrahl/MarkdownMonster/issues/1226))
