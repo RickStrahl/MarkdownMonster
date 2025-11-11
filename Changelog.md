@@ -4,7 +4,7 @@
 
 
 ## 4.0 Preview 1
-<small>*currently in beta and usable with a v3 license until RTM. v4 Licenses work with both v4 and v3*  
+<small>*currently in preview and usable with a v3 license **until RTM**. v4 Licenses work with both v4 and v3*  
 [![upgrade](https://img.shields.io/badge/v4-upgrade-blue.svg)](https://markdownmonster.west-wind.com/purchase)
 
 </small>
