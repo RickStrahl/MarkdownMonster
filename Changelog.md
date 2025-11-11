@@ -1,5 +1,5 @@
 # What's new in Markdown Monster
-
+	
 [![download](https://img.shields.io/badge/download-latest-blue.svg)](https://markdownmonster.west-wind.com/download) [![NuGet](https://img.shields.io/chocolatey/v/MarkdownMonster.svg)](https://chocolatey.org/packages/MarkdownMonster) [![](https://img.shields.io/chocolatey/dt/MarkdownMonster.svg)](https://chocolatey.org/packages/MarkdownMonster)
 
 
@@ -58,7 +58,8 @@ Changed how editor themes can be extended via `editor-user-extensions.css` and `
 Preview themes have been updated with a script folder variable both to simplify Preview Theme templates and to provide an easier path to create extension themes that are stored in `<commonfolder\Markdown Monster\PreviewThemes`. Previously the `scripts` folder had to be copied from the main install - the new `{$scriptPath}` variable in `Theme.html` explicitly points to the script location in the Markdown Monster install folder. *The old `{$themePath}..\scripts\` path syntax continues to work the same as before*.
 
 * **Table Editor: Create Compact Pipe Table**  
-When generating output from the Table Editor you now have an option to create compact Pipe Table output that strips all white space for minimal character usage that is nevertheless valid. Also an option on the Editor Context menu inside of pipe tables to compact existing tables without opening the editor first. Useful for providing documents to LLMs and saving some $$ on token usage.
+When generating output from the Table Editor you now have an option to create compact Pipe Table output that strips all white space for minimal character usage that is nevertheless valid. Also an option on the Editor Context menu inside of pipe tables to compact existing tables without opening the editor first. Useful for providing documents to LLMs and saving some $$ on token usage. ( [#1241](https://github.com/RickStrahl/MarkdownMonster/issues/1241)
+
 
 * **Table Editor: ESC to Cancel Changes and Prompt**  
 You can now exit the table editor with ESC to abort changes. Additionally there's a new dialog that prompts on whether to embed changes, discard changes or go back to the table editor for all cancel operations. ([#1226](https://github.com/RickStrahl/MarkdownMonster/issues/1226))
@@ -72,6 +73,9 @@ Fix issue where Mermaid diagrams required a blank line prior to the Mermaid bloc
 
 * **Fix: Items duplicating when using Drag and Drop Favorite List**  
 When dragging and dropping items within the Favorites list, items were duplicating in many situations. Items now properly move to the new location. Note that copy operation is not supported internally - only Move.
+
+* **Fix: Link Checker MisReporting UrlEncoded File Links**  
+Fixed issue where the link checker would mark linked file references that contain spaces and other Url Encoded characters as not found.
 
 ## 3.11
 
