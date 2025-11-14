@@ -64,6 +64,8 @@ When generating output from the Table Editor you now have an option to create co
 * **Table Editor: ESC to Cancel Changes and Prompt**  
 You can now exit the table editor with ESC to abort changes. Additionally there's a new dialog that prompts on whether to embed changes, discard changes or go back to the table editor for all cancel operations. ([#1226](https://github.com/RickStrahl/MarkdownMonster/issues/1226))
 
+* **Table Editor: Add Export To Json and CSV**  
+You can now export the active table to Json or CSV output either on the clipboard or to a saved file. ([#1085](https://github.com/RickStrahl/MarkdownMonster/issues/1085))
 
 * **Fix: Table Editor Changes in active edit area not saved**  
 Fixed issue where changes in the current edit field were not always saved if control focus was not lost. Related to hot-key exits via `ctrl-enter` and `esc` which could result in missing changes or not detecting changes on canceling. Fixed. ([#1226](https://github.com/RickStrahl/MarkdownMonster/issues/1226))
