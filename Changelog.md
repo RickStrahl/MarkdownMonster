@@ -79,6 +79,10 @@ When dragging and dropping items within the Favorites list, items were duplicati
 * **Fix: Link Checker MisReporting UrlEncoded File Links**  
 Fixed issue where the link checker would mark linked file references that contain spaces and other Url Encoded characters as not found.
 
+* **Fix: Line Number in CommandLine not always working**  
+Fixed issue where line number parsing using the `--line` command line or the `:line` file postfix was not always moving the cursor to the specified line.
+
+
 ## 3.11
 
 <small>November 4th, 2025</small>
