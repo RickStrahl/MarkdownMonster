@@ -42,6 +42,9 @@ Html documents now support both full Html documents as well as Html Fragments. P
 * **Remember Preview Zoom Setting**  
 The preview Zoom setting now has a dedicated dropdown on the status bar and that shows the remembered zoom percentage across MM sessions. The setting applies to all preview/document instances and can be controlled with `Ctl+/-` or `Ctrl-Scrollwheel` or using the drop down.
 
+* **Allow Document Print Scaling for [Save As Pdf](https://markdownmonster.west-wind.com/docs/Common-Tasks/Generating-PDF-Output.html)**  
+You can now optionally specify a scale factor to print output that is generated to Pdf using the Save As Pdf dialog. A common scenario is to use a lower scaling percentage resulting in effectively smaller print size to fit more content onto pages. Allowed values are from 20% to 200%.
+
 * **Explicit Folder Selection for Favorites**  
 When creating a Favorite manually you can now choose to explicitly select a folder with a separate folder selection dialog. Previously you couldn't only pick a file and would have to remove the filename or type in the folder name directly.
 
