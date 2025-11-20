@@ -3,7 +3,7 @@
 [![download](https://img.shields.io/badge/download-latest-blue.svg)](https://markdownmonster.west-wind.com/download) [![NuGet](https://img.shields.io/chocolatey/v/MarkdownMonster.svg)](https://chocolatey.org/packages/MarkdownMonster) [![](https://img.shields.io/chocolatey/dt/MarkdownMonster.svg)](https://chocolatey.org/packages/MarkdownMonster)
 
 
-## 4.0 Preview 1
+## 4.0 Beta
 <small>*currently in preview and usable with a v3 license **until RTM**. v4 Licenses work with both v4 and v3*  
 [![upgrade](https://img.shields.io/badge/v4-upgrade-blue.svg)](https://markdownmonster.west-wind.com/purchase)
 
@@ -42,8 +42,8 @@ Html documents now support both full Html documents as well as Html Fragments. P
 * **Remember Preview Zoom Setting**  
 The preview Zoom setting now has a dedicated dropdown on the status bar and that shows the remembered zoom percentage across MM sessions. The setting applies to all preview/document instances and can be controlled with `Ctl+/-` or `Ctrl-Scrollwheel` or using the drop down.
 
-* **Allow Document Print Scaling for [Save As Pdf](https://markdownmonster.west-wind.com/docs/Common-Tasks/Generating-PDF-Output.html)**  
-You can now optionally specify a scale factor to print output that is generated to Pdf using the Save As Pdf dialog. A common scenario is to use a lower scaling percentage resulting in effectively smaller print size to fit more content onto pages. Allowed values are from 20% to 200%.
+* **[Allow Document Print Scaling for Save As Pdf](https://markdownmonster.west-wind.com/docs/Common-Tasks/Generating-PDF-Output.html)**  
+You can now optionally specify a scale factor to print output that is generated to Pdf using the Save As Pdf dialog. A common scenario is to use a lower scaling percentage resulting in effectively smaller print size to fit more content onto pages. Allowed values are from 20% to 200%. ([#1242](https://github.com/RickStrahl/MarkdownMonster/issues/1242))
 
 * **Explicit Folder Selection for Favorites**  
 When creating a Favorite manually you can now choose to explicitly select a folder with a separate folder selection dialog. Previously you couldn't only pick a file and would have to remove the filename or type in the folder name directly.
@@ -63,6 +63,11 @@ Preview themes have been updated with a script folder variable both to simplify 
 * **Table Editor: Create Compact Pipe Table**  
 When generating output from the Table Editor you now have an option to create compact Pipe Table output that strips all white space for minimal character usage that is nevertheless valid. Also an option on the Editor Context menu inside of pipe tables to compact existing tables without opening the editor first. Useful for providing documents to LLMs and saving some $$ on token usage. ( [#1241](https://github.com/RickStrahl/MarkdownMonster/issues/1241)
 
+* **Folder Browser: Image Preview on Image Files**  
+Image files now display the image as large thumbnail in the tooltip  when hovering over a file. As before image dimensions and DPI is also displayed.
+
+* **Favorites: Cleaner and Tighter Favorites List**  
+Change the layout of the Favorites list to not display folder names of items to allow for greater favorites density. To provide more info there's now a tool tip like the folder browser to view file information to resolve ambivalent file name displays.
 
 * **Table Editor: ESC to Cancel Changes and Prompt**  
 You can now exit the table editor with ESC to abort changes. Additionally there's a new dialog that prompts on whether to embed changes, discard changes or go back to the table editor for all cancel operations. ([#1226](https://github.com/RickStrahl/MarkdownMonster/issues/1226))
