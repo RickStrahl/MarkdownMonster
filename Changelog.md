@@ -37,16 +37,13 @@ Untitled documents are now preserved on disk when closing Markdown Monster, and 
 As part of the updated handling for untitled documents that are now preserved across MM sessions, the headers for both tabs and the window are now updated with the title of the text if it can be determined (first h1 element in document). If you run more than a single untitled tab this will be useful to keep them distinguished and easily identifiable.
 
 * **Improved Preview Rendering of Html Documents in Editor**  
-Html documents now support both full Html documents as well as Html Fragments. Previous unsupported, Html fragments (ie. now `<html>` header) now render using MM preview templates and styling. Additionally both modes now attempt to set the `<base>` path to allow for pulling in relative path dependencies. ([#1239](https://github.com/RickStrahl/MarkdownMonster/issues/1239))
+Html documents now support both full Html documents as well as Html Fragments. Previous unsupported, Html fragments (ie. no `<html>` header) now render using MM preview templates and styling. Additionally both modes now attempt to set the `<base>` path to allow for pulling in relative path dependencies. ([#1239](https://github.com/RickStrahl/MarkdownMonster/issues/1239))
 
 * **Remember Preview Zoom Setting**  
 The preview Zoom setting now has a dedicated dropdown on the status bar and that shows the remembered zoom percentage across MM sessions. The setting applies to all preview/document instances and can be controlled with `Ctl+/-` or `Ctrl-Scrollwheel` or using the drop down.
 
 * **[Allow Document Print Scaling for Save As Pdf](https://markdownmonster.west-wind.com/docs/Common-Tasks/Generating-PDF-Output.html)**  
 You can now optionally specify a scale factor to print output that is generated to Pdf using the Save As Pdf dialog. A common scenario is to use a lower scaling percentage resulting in effectively smaller print size to fit more content onto pages. Allowed values are from 20% to 200%. ([#1242](https://github.com/RickStrahl/MarkdownMonster/issues/1242))
-
-* **Explicit Folder Selection for Favorites**  
-When creating a Favorite manually you can now choose to explicitly select a folder with a separate folder selection dialog. Previously you couldn't only pick a file and would have to remove the filename or type in the folder name directly.
 
 * **[Drag and Drop into Favorites from Windows Explorer](https://markdownmonster.west-wind.com/docs/Features/Use-Favorites-to-link-Frequently-Used-Files-and-Folders.html)**  
 You can now drag and drop files and folders into Favorites from Windows Explorer.
@@ -68,6 +65,11 @@ Image files now display the image as large thumbnail in the tooltip  when hoveri
 
 * **Favorites: Cleaner and Tighter Favorites List**  
 Change the layout of the Favorites list to not display folder names of items to allow for greater favorites density. To provide more info there's now a tool tip like the folder browser to view file information to resolve ambivalent file name displays.
+
+
+* **Favorites: Explicit Folder Selection for Favorites**  
+When creating a Favorite manually you can now choose to explicitly select a folder with a separate folder selection dialog. Previously you couldn't only pick a file and would have to remove the filename or type in the folder name directly.
+
 
 * **Table Editor: ESC to Cancel Changes and Prompt**  
 You can now exit the table editor with ESC to abort changes. Additionally there's a new dialog that prompts on whether to embed changes, discard changes or go back to the table editor for all cancel operations. ([#1226](https://github.com/RickStrahl/MarkdownMonster/issues/1226))
