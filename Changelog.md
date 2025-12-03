@@ -1,17 +1,15 @@
 # What's new in Markdown Monster
 	
 [![download](https://img.shields.io/badge/download-latest-blue.svg)](https://markdownmonster.west-wind.com/download) [![NuGet](https://img.shields.io/chocolatey/v/MarkdownMonster.svg)](https://chocolatey.org/packages/MarkdownMonster) [![](https://img.shields.io/chocolatey/dt/MarkdownMonster.svg)](https://chocolatey.org/packages/MarkdownMonster)
+[![upgrade](https://img.shields.io/badge/v4-upgrade-blue.svg)](https://markdownmonster.west-wind.com/purchase#upgrades)
 
 
-## 4.0 Beta
-<small>*currently in preview and usable with a v3 license **until RTM**. v4 Licenses work with both v4 and v3*  
-[![upgrade](https://img.shields.io/badge/v4-upgrade-blue.svg)](https://markdownmonster.west-wind.com/purchase)
+## 4.0.1
 
-</small>
 
-<small>not released yet</small>
+<small>official 4.0 release - December 3rd, 2025</small>
 
-* **Integrated LLM Chat Interface**  
+* **[Integrated LLM Chat Interface](https://markdownmonster.west-wind.com/docs/AI-Integration-Features/AI-Chat-Interface.html)**  
 There's a new Chat Interface accessible from the AI toolbar and context menu (`ctrl-shift-a`) that lets you work against your local documents. Create summaries, clean up your writing, ask for suggestions etc. By default the active document is provided as context, but you can add additional files or open documents. Uses *Bring your own Api Keys** for LLM access.
 
 * **Add Image Pasting and Drag and Drop to Chat Interface**  
