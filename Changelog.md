@@ -6,7 +6,6 @@
 
 ## 4.0.1
 
-
 <small>official 4.0 release - December 3rd, 2025</small>
 
 * **[Integrated LLM Chat Interface](https://markdownmonster.west-wind.com/docs/AI-Integration-Features/AI-Chat-Interface.html)**  
