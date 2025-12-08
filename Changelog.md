@@ -1,11 +1,30 @@
 # What's new in Markdown Monster
 	
-[![download](https://img.shields.io/badge/download-latest-blue.svg)](https://markdownmonster.west-wind.com/download) [![NuGet](https://img.shields.io/chocolatey/v/MarkdownMonster.svg)](https://chocolatey.org/packages/MarkdownMonster) [![](https://img.shields.io/chocolatey/dt/MarkdownMonster.svg)](https://chocolatey.org/packages/MarkdownMonster)
-[![upgrade](https://img.shields.io/badge/v4-upgrade-blue.svg)](https://markdownmonster.west-wind.com/purchase#upgrades)
+[![download](https://img.shields.io/badge/download-latest-blue.svg)](https://markdownmonster.west-wind.com/download) [![NuGet](https://img.shields.io/chocolatey/v/MarkdownMonster.svg)](https://chocolatey.org/packages/MarkdownMonster) [![](https://img.shields.io/chocolatey/dt/MarkdownMonster.svg)](https://chocolatey.org/packages/MarkdownMonster) [![upgrade](https://img.shields.io/badge/v4-upgrade-blue.svg)](https://markdownmonster.west-wind.com/purchase#upgrades)
 
+## 4.1
+<small>not released yet</small>
+
+* **Add Ollama AI Cloud Provider Configuration Template**  
+You can now create new Ollama Cloud providers directly when adding new providers.
+
+* **Changed AI Icon on Toolbar**  
+After several suggestions that it's hard to find the AI Chat feature, the toolbar icon has been changed to the more standard Sparkle Wand that typically identifies AI features. :smile:
+
+* **Fix: AI Image Generation Connection Issues**  
+Fix issues with accessing Azure via the OpenAI Image Generations API. Switch to new OpenAI compatibility Urls that are consistent with OpenAI syntax instead of Azure specific URL syntax and header formats.  
+**Breaking Change:** The Url template for Image Generation has changed to `{0}\openai\v1\{1}`
+
+<div class="WARNING">
+
+### Breaking Changes
+
+* **AI Image Generation Azure Url Template Changes Required**  
+The Azure Image Generation Url Template has changed to `{0}\openai\v1\{1}` for direct OpenAi compatibility. Older connections might fail, unless the template is updated. You can either fix the template or create a new Azure image connection which now uses the new template.
+
+</div>
 
 ## 4.0.1
-
 <small>official 4.0 release - December 3rd, 2025</small>
 
 * **[Integrated LLM Chat Interface](https://markdownmonster.west-wind.com/docs/AI-Integration-Features/AI-Chat-Interface.html)**  
@@ -906,16 +925,17 @@ Fixed issue where entering a first Mermaid diagram into a page will not render u
 * **Fix: Display full Git Error Messages for Commit and Push Operations**  
 Change display of error messages so the full message is displayed instead of the status bar only message which is often truncated. Display a message box instead so the full error can be captured. Important due to the new Git Security `safe.directory` features that require (`git config --global --add safe.directory <path>`)
 
+<div class="WARNING">
 
 ### Breaking Changes
-
-
 
 * **Recommend a full Uninstall/Reinstall**  
 The updated Roslyn support in version 2.5.5 and later changes a number of runtime dependencies and it's recommended that if you were running a pre-2.5.5 version you completely uninstall Markdown Monster and reinstall in order to clean the installation folder of old dependencies.
 
 * **Razor Support removed for Code Snippet Templates**  
 Razor language support has been removed from the Snippets addin as the new C# script syntax supports similar functionality for scripting. Razor has been problematic and adds a host of dependencies and inhibit future migration to .NET 6.0. To migrate you can move your scripts to the [Handlebars style C# syntax](https://markdownmonster.west-wind.com/docs/_5gs0uc49h.htm#text-with-c-expressions).
+
+</div>
 
 
 ## 2.5
