@@ -5,11 +5,21 @@
 ## 4.1
 <small>not released yet</small>
 
-* **Add Ollama AI Cloud Provider Configuration Template**  
-You can now create new Ollama Cloud providers directly when adding new providers.
+* **Add additional AI Cloud Providers in Configuration Templates**  
+Added additional cloud provider templates for quick setup with BYOK setups. Added: Ollama Cloud, Gemini, Mistral and Perplexity APIs.
 
 * **Changed AI Icon on Toolbar**  
 After several suggestions that it's hard to find the AI Chat feature, the toolbar icon has been changed to the more standard Sparkle Wand that typically identifies AI features. :smile:
+
+* **AI Operations are now available in the Command Palette**  
+You can now access most AI features and configuration via the Command Palette `(ctrl-shift-p)`. Type your AI operation and select from the dropdown for quick access. Also remember `ctrl-shift-a` to bring up the AI context menu quickly.
+
+* **Updated: Print PDF Font Configuration**  
+Tweaked default print/PDF fonts to use standard system base fonts rather than a mix of explicit platform specific fonts and emoji fonts. The explicit use of Emoji fonts was causing issues with some characters not printing correctly. With the new Chromium print engine instead of wkhtml2pdf, Chromium now automatically handles symbol and emoji fallbacks.  
+*If you've created your own custom themes, check your font usage and match to the default themes.*
+
+* **Fix: `\\.\null` Device Failure in Folder Browser**  
+Some users have been seeing null device failures in the folder browser due to potentially invalid symlinks in folder listings. We now filter out devices that are unable to retrieve attributes (devices typically).
 
 * **Fix: AI Image Generation Connection Issues**  
 Fix issues with accessing Azure via the OpenAI Image Generations API. Switch to new OpenAI compatibility Urls that are consistent with OpenAI syntax instead of Azure specific URL syntax and header formats.  
