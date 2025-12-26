@@ -1276,5 +1276,6 @@ Fix issues where clicking would not allow keyboard navigation after click, folde
 
 
 <style>
-h3 { color: firebrick }
+h3 { color: indianred }
+h3+ul { border-left: 0.5em solid indianred; }
 </style>
