@@ -28,11 +28,9 @@ Fix issues with accessing Azure via the OpenAI Image Generations API. Switch to 
 * **Fix: Document Outline not updating when Preview is not visible**  
 Fix document outline handling in scenarios where the preview is not visible. Since the Doc outline is tied to the preview fixed order and checks for Document Outline update routines.
 
-
-:::WARNING
-### Breaking Changes
-
-* **AI Image Generation Azure Url Template Changes Required**  
+> [!CAUTION]
+> ### Breaking Changes
+> * **AI Image Generation Azure Url Template Changes Required**  
 The Azure Image Generation Url Template has changed to `{0}\openai\v1\{1}` for direct OpenAi compatibility. Older connections might fail, unless the template is updated. You can either fix the template or create a new Azure image connection which now uses the new template.
 
 </div>
@@ -402,8 +400,6 @@ Fix issue where non-markdown or non-text documents show spelling errors when the
 
 ## 3.4
 <small>August 20th, 2024</small> 
-
-
 
 * **[AI Support Features: Summarize, Translate, Grammar Checking](https://markdownmonster.west-wind.com/docs/_6z50u9437.htm)**  
 We've added a number of AI assisted operations that allow you to create a summary of the current document or selection, translate a selection or the entire document, or perform a basic grammar check of a selection of text.  
