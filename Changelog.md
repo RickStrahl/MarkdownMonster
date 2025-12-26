@@ -28,9 +28,11 @@ Fix issues with accessing Azure via the OpenAI Image Generations API. Switch to 
 * **Fix: Document Outline not updating when Preview is not visible**  
 Fix document outline handling in scenarios where the preview is not visible. Since the Doc outline is tied to the preview fixed order and checks for Document Outline update routines.
 
-> [!CAUTION]
-> ### Breaking Changes
-> * **AI Image Generation Azure Url Template Changes Required**  
+<div style="padding: 0.5em; border-left: 0.2em solid firebrick">
+
+### Breaking Changes
+
+* **AI Image Generation Azure Url Template Changes Required**  
 The Azure Image Generation Url Template has changed to `{0}\openai\v1\{1}` for direct OpenAi compatibility. Older connections might fail, unless the template is updated. You can either fix the template or create a new Azure image connection which now uses the new template.
 
 </div>
