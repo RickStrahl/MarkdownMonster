@@ -26,16 +26,13 @@ Fix issues with accessing Azure via the OpenAI Image Generations API. Switch to 
 **Breaking Change:** The Url template for Image Generation has changed to `{0}\openai\v1\{1}`
 
 * **Fix: Document Outline not updating when Preview is not visible**  
-Fix document outline handling in scenarios where the preview is not visible. Since the Doc outline is tied to the preview fixed order and checks for Document Outline update routines.
-
-<div style="padding: 0.5em; border-left: 0.2em solid firebrick">
+Fix document outline handling in scenarios where the preview is not visible. Since the Doc outline is tied to the preview fixed order and checks for Document Outline update routines. ([#1245](https://github.com/RickStrahl/MarkdownMonster/issues/1245))
 
 ### Breaking Changes
 
 * **AI Image Generation Azure Url Template Changes Required**  
 The Azure Image Generation Url Template has changed to `{0}\openai\v1\{1}` for direct OpenAi compatibility. Older connections might fail, unless the template is updated. You can either fix the template or create a new Azure image connection which now uses the new template.
 
-</div>
 
 ## 4.0.1
 <small>official 4.0 release - December 3rd, 2025</small>
@@ -597,7 +594,9 @@ Fix WebView Initialization by consolidating the WebView environment into a singl
 * **Fix: WebView Install Folder in Startup Location**  
 Fixed issue where the YouTube embedding dialog was causing the WebView to create a separate WebView environment in the install folder rather than the common shared location used by all other WebView controls. This also fixes a common point of crashes
 
-### Breaking and Recommended Changes 
+
+### Breaking Changes 
+
 * **Recommend full uninstall and reinstall for Full Installations**  
 Due to the move to `Program Files` from `LocalAppData` install location, we recommend you do a full, uninstall and then re-install Markdown Monster if you are using the full installer or Chocolatey install. It's not required, and if you don't re-install the existing `%localappdata%\Markdown Monster` or your own custom location will continue to be used. The explicit uninstall ensures that the new Programs Files path is used on a new install. Portable installs don't need to have anything changed.
 
@@ -936,7 +935,6 @@ Fixed issue where entering a first Mermaid diagram into a page will not render u
 * **Fix: Display full Git Error Messages for Commit and Push Operations**  
 Change display of error messages so the full message is displayed instead of the status bar only message which is often truncated. Display a message box instead so the full error can be captured. Important due to the new Git Security `safe.directory` features that require (`git config --global --add safe.directory <path>`)
 
-<div class="WARNING">
 
 ### Breaking Changes
 
@@ -945,8 +943,6 @@ The updated Roslyn support in version 2.5.5 and later changes a number of runtim
 
 * **Razor Support removed for Code Snippet Templates**  
 Razor language support has been removed from the Snippets addin as the new C# script syntax supports similar functionality for scripting. Razor has been problematic and adds a host of dependencies and inhibit future migration to .NET 6.0. To migrate you can move your scripts to the [Handlebars style C# syntax](https://markdownmonster.west-wind.com/docs/_5gs0uc49h.htm#text-with-c-expressions).
-
-</div>
 
 
 ## 2.5
@@ -1277,3 +1273,8 @@ Fix issue where the PDF output for code snippets was not properly applying the b
 
 * **Fix: Folder Browser Click and DoubleClick Behavior**  
 Fix issues where clicking would not allow keyboard navigation after click, folder opening wasn't opening folders on first click, and preview operations could hang.
+
+
+<style>
+h3 { color: firebrick }
+</style>
