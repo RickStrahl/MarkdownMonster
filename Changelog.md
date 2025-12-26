@@ -25,8 +25,11 @@ Some users have been seeing null device failures in the folder browser due to po
 Fix issues with accessing Azure via the OpenAI Image Generations API. Switch to new OpenAI compatibility Urls that are consistent with OpenAI syntax instead of Azure specific URL syntax and header formats.  
 **Breaking Change:** The Url template for Image Generation has changed to `{0}\openai\v1\{1}`
 
-<div class="WARNING">
+* **Fix: Document Outline not updating when Preview is not visible**  
+Fix document outline handling in scenarios where the preview is not visible. Since the Doc outline is tied to the preview fixed order and checks for Document Outline update routines.
 
+
+:::WARNING
 ### Breaking Changes
 
 * **AI Image Generation Azure Url Template Changes Required**  
