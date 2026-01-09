@@ -14,6 +14,9 @@ After several suggestions that it's hard to find the AI Chat feature, the toolba
 * **AI Operations are now available in the Command Palette**  
 You can now access most AI features and configuration via the Command Palette `(ctrl-shift-p)`. Type your AI operation and select from the dropdown for quick access. Also remember `ctrl-shift-a` to bring up the AI context menu quickly.
 
+* **Cleanup Selection AI Editor Operation**  
+Changed the existing AI based  *Fix Grammar* menu option to *Cleanup Selection*. Refactored Diff UI to display merged output in syntax colored editor view in dialog. Updated the cleanup system prompt and allow for customizing the system prompt in the dialog.
+
 * **Updated: Print PDF Font Configuration**  
 Tweaked default print/PDF fonts to use standard system base fonts rather than a mix of explicit platform specific fonts and emoji fonts. The explicit use of Emoji fonts was causing issues with some characters not printing correctly. With the new Chromium print engine instead of wkhtml2pdf, Chromium now automatically handles symbol and emoji fallbacks.  
 *If you've created your own custom themes, check your font usage and match to the default themes.*
