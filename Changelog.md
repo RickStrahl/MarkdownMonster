@@ -21,6 +21,9 @@ Changed the existing AI based  *Fix Grammar* menu option to *Cleanup Selection*.
 Tweaked default print/PDF fonts to use standard system base fonts rather than a mix of explicit platform specific fonts and emoji fonts. The explicit use of Emoji fonts was causing issues with some characters not printing correctly. With the new Chromium print engine instead of wkhtml2pdf, Chromium now automatically handles symbol and emoji fallbacks.  
 *If you've created your own custom themes, check your font usage and match to the default themes.*
 
+* **Allow Setting the List Symbol via Settings (\* or -)**  
+A new `ListBulletSymbol` setting has been added to specify how lists are generated. Default is `*` but you can also use the alternate `-` character. Applies to built-in list operations and the **Paste Html as Markdown** Edit menu option.
+
 * **Fix: `\\.\null` Device Failure in Folder Browser**  
 Some users have been seeing null device failures in the folder browser due to potentially invalid symlinks in folder listings. We now filter out devices that are unable to retrieve attributes (devices typically).
 
@@ -30,6 +33,10 @@ Fix issues with accessing Azure via the OpenAI Image Generations API. Switch to 
 
 * **Fix: Document Outline not updating when Preview is not visible**  
 Fix document outline handling in scenarios where the preview is not visible. Since the Doc outline is tied to the preview fixed order and checks for Document Outline update routines. ([#1245](https://github.com/RickStrahl/MarkdownMonster/issues/1245))
+
+* **Fix: Slow Rendering for Settings Dialog**  
+Fixed a performance bug that was unnecessarily throwing captured exceptions for many property types slowing down rendering of the Settings UI especially with filters.
+
 
 ### Breaking Changes
 
