@@ -9,7 +9,7 @@
 Added additional cloud provider templates for quick setup with BYOK setups. Added: Ollama Cloud, Gemini, Mistral and Perplexity APIs.
 
 * **Changed AI Icon on Toolbar**  
-After several suggestions that it's hard to find the AI Chat feature, the toolbar icon has been changed to the more standard Sparkle Wand that typically identifies AI features. :smile:
+After several suggestions that it was hard to find the AI Chat feature, the toolbar icon has been changed to the more standard sparkle wand that typically identifies AI features. :smile:
 
 * **AI Operations are now available in the Command Palette**  
 You can now access most AI features and configuration via the Command Palette `(ctrl-shift-p)`. Type your AI operation and select from the dropdown for quick access. Also remember `ctrl-shift-a` to bring up the AI context menu quickly.
@@ -27,15 +27,19 @@ A new `ListBulletSymbol` setting has been added to specify how lists are generat
 * **Fix: `\\.\null` Device Failure in Folder Browser**  
 Some users have been seeing null device failures in the folder browser due to potentially invalid symlinks in folder listings. We now filter out devices that are unable to retrieve attributes (devices typically).
 
-* **Fix: AI Image Generation Connection Issues**  
-Fix issues with accessing Azure via the OpenAI Image Generations API. Switch to new OpenAI compatibility Urls that are consistent with OpenAI syntax instead of Azure specific URL syntax and header formats.  
-**Breaking Change:** The Url template for Image Generation has changed to `{0}\openai\v1\{1}`
+* **Fix: AI Image Generation Connection Issues**   
+Fix issues accessing Azure via the OpenAI Image Generations API. Switch to new OpenAI compatibility URLs that are consistent with OpenAI syntax instead of Azure‑specific URL syntax and header formats.   
+**Breaking Change:** The URL template for image generation has changed to `{0}\openai\v1\{1}`  
 
-* **Fix: Document Outline not updating when Preview is not visible**  
-Fix document outline handling in scenarios where the preview is not visible. Since the Doc outline is tied to the preview fixed order and checks for Document Outline update routines. ([#1245](https://github.com/RickStrahl/MarkdownMonster/issues/1245))
+* **Fix: Document Outline not updating when Preview is not visible**   
+Fix document outline handling in scenarios where the preview is not visible. Since the document outline is tied to the preview's fixed order, it checks for document outline update routines.  
+([#1245](https://github.com/RickStrahl/MarkdownMonster/issues/1245))  
 
-* **Fix: Slow Rendering for Settings Dialog**  
-Fixed a performance bug that was unnecessarily throwing captured exceptions for many property types slowing down rendering of the Settings UI especially with filters.
+* **Fix: Format/Edit Table replaces strips trailing Linefeed**  
+Fixed issue where the trailing line feed was eaten when formatting and in some cases pasting a table from the table editor. Changed selection behavior to not leave table selected. ([#1258](https://github.com/RickStrahl/MarkdownMonster/issues/1258))
+
+* **Fix: Slow Rendering for Settings Dialog**   
+Fixed a performance bug that was unnecessarily throwing captured exceptions for many property types, slowing down rendering of the Settings UI, especially with filters.
 
 
 ### Breaking Changes
