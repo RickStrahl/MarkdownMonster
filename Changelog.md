@@ -25,7 +25,10 @@ Tweaked default print/PDF fonts to use standard system base fonts rather than a 
 A new `ListBulletSymbol` setting has been added to specify how lists are generated. Default is `*` but you can also use the alternate `-` character. Applies to built-in list operations and the **Paste Html as Markdown** Edit menu option.
 
 * **Fix: `\\.\null` Device Failure in Folder Browser**  
-Some users have been seeing null device failures in the folder browser due to potentially invalid symlinks in folder listings. We now filter out devices that are unable to retrieve attributes (devices typically).
+Some users have been seeing null device failures in the folder browser due to potentially invalid sym-links in folder listings. We now filter out devices that are unable to retrieve attributes (devices typically).
+
+* **Fix: Folder Browser not showing Folders**  
+Regression bug that caused folders not to display in the Folder Browser, only files. Fixed ([Support](https://support.west-wind.com/Thread7DD0QN9XW.wwt))
 
 * **Fix: AI Image Generation Connection Issues**   
 Fix issues accessing Azure via the OpenAI Image Generations API. Switch to new OpenAI compatibility URLs that are consistent with OpenAI syntax instead of Azure‑specific URL syntax and header formats.   
