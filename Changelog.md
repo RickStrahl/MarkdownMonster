@@ -5,6 +5,13 @@
 ## 4.1
 <small>not released yet</small>
 
+* **Updated: Print PDF Font Configuration**  
+Tweaked default print/PDF fonts to use standard system base fonts rather than a mix of explicit platform specific fonts and emoji fonts. The explicit use of Emoji fonts was causing issues with some characters not printing correctly. With the new Chromium print engine instead of wkhtml2pdf, Chromium now automatically handles symbol and emoji font fall backs.  
+*If you've created your own custom themes, check your font usage and match to the default themes.*
+
+* **Allow Setting the List Symbol via Settings (\* or -)**  
+A new `ListBulletSymbol` setting has been added to specify how lists are generated. Default is `*` but you can also use the alternate `-` character. Applies to built-in list operations off selections and the **Paste Html as Markdown** Edit menu option.
+
 * **Add additional AI Cloud Providers in Configuration Templates**  
 Added additional cloud provider templates for quick setup with BYOK setups. Added: Ollama Cloud, Gemini, Mistral and Perplexity APIs.
 
@@ -16,13 +23,6 @@ You can now access most AI features and configuration via the Command Palette `(
 
 * **Cleanup Selection AI Editor Operation**  
 Changed the existing AI based  *Fix Grammar* menu option to *Cleanup Selection*. Refactored Diff UI to display merged output in syntax colored editor view in dialog. Updated the cleanup system prompt and allow for customizing the system prompt in the dialog.
-
-* **Updated: Print PDF Font Configuration**  
-Tweaked default print/PDF fonts to use standard system base fonts rather than a mix of explicit platform specific fonts and emoji fonts. The explicit use of Emoji fonts was causing issues with some characters not printing correctly. With the new Chromium print engine instead of wkhtml2pdf, Chromium now automatically handles symbol and emoji fallbacks.  
-*If you've created your own custom themes, check your font usage and match to the default themes.*
-
-* **Allow Setting the List Symbol via Settings (\* or -)**  
-A new `ListBulletSymbol` setting has been added to specify how lists are generated. Default is `*` but you can also use the alternate `-` character. Applies to built-in list operations and the **Paste Html as Markdown** Edit menu option.
 
 * **Fix: `\\.\null` Device Failure in Folder Browser**  
 Some users have been seeing null device failures in the folder browser due to potentially invalid sym-links in folder listings. We now filter out devices that are unable to retrieve attributes (devices typically).
