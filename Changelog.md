@@ -5,6 +5,9 @@
 ## 4.1
 <small>not released yet</small>
 
+* **Emoji Selector as a Sidebar Tab**  
+Moved the Emoji Picker to a left sidebar tab that is always active and more easily accessible.
+
 * **Updated: Print PDF Font Configuration**  
 Tweaked default print/PDF fonts to use standard system base fonts rather than a mix of explicit platform specific fonts and emoji fonts. The explicit use of Emoji fonts was causing issues with some characters not printing correctly. With the new Chromium print engine instead of wkhtml2pdf, Chromium now automatically handles symbol and emoji font fall backs.  
 *If you've created your own custom themes, check your font usage and match to the default themes.*
