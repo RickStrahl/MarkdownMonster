@@ -6,7 +6,10 @@
 <small>not released yet</small>
 
 * **Emoji Selector as a Sidebar Tab**  
-Moved the Emoji Picker to a left sidebar tab that is always active and more easily accessible.
+Moved the Emoji Picker to a left sidebar tab that is always active and more easily accessible. Also improved initial load time of the panel.
+
+* **Sidebar Panel Activation Visual Notification**  
+For many sidebar operations that focus on sidebar panels (Emoji, Search in Files, Bookmarks) the sidebar is now briefly visually highlighted to point attention to the new tool context.
 
 * **Updated: Print PDF Font Configuration**  
 Tweaked default print/PDF fonts to use standard system base fonts rather than a mix of explicit platform specific fonts and emoji fonts. The explicit use of Emoji fonts was causing issues with some characters not printing correctly. With the new Chromium print engine instead of wkhtml2pdf, Chromium now automatically handles symbol and emoji font fall backs.  
