@@ -6,17 +6,17 @@
 <small>January 21st, 2026</small>
 
 * **Emoji Selector as a Sidebar Tab**  
-Moved the Emoji Picker to a left sidebar tab that is always active and more easily accessible. Also improved initial load time of the panel.
+Moved the Emoji Picker to a left sidebar tab that is always active and more easily accessible. Toolbar access and  `ctrl-j` still work too, but they now activate the sidebar. Also improved initial load time of the panel. Tab on the default search box prompt switches focus back into the editor.
 
 * **Sidebar Panel Activation Visual Notification**  
 For many sidebar operations that focus on sidebar panels (Emoji, Search in Files, Bookmarks) the sidebar is now briefly visually highlighted to point attention to the new tool context.
 
+* **Allow Setting the List Symbol via Settings (\* or -)**  
+A new `ListBulletSymbol` setting has been added to specify how lists are generated. Default is `*` but you can also use the alternate `-` character. Applies to built-in list operations off selections and the **Paste Html as Markdown** Edit menu option.
+
 * **Updated: Print PDF Font Configuration**  
 Tweaked default print/PDF fonts to use standard system base fonts rather than a mix of explicit platform specific fonts and emoji fonts. The explicit use of Emoji fonts was causing issues with some characters not printing correctly. With the new Chromium print engine instead of wkhtml2pdf, Chromium now automatically handles symbol and emoji font fall backs.  
 *If you've created your own custom themes, check your font usage and match to the default themes.*
-
-* **Allow Setting the List Symbol via Settings (\* or -)**  
-A new `ListBulletSymbol` setting has been added to specify how lists are generated. Default is `*` but you can also use the alternate `-` character. Applies to built-in list operations off selections and the **Paste Html as Markdown** Edit menu option.
 
 * **Add additional AI Cloud Providers in Configuration Templates**  
 Added additional cloud provider templates for quick setup with BYOK setups. Added: Ollama Cloud, Gemini, Mistral and Perplexity APIs.
@@ -25,7 +25,7 @@ Added additional cloud provider templates for quick setup with BYOK setups. Adde
 After several suggestions that it was hard to find the AI Chat feature, the toolbar icon has been changed to the more standard sparkle wand that typically identifies AI features. :smile:
 
 * **AI Operations are now available in the Command Palette**  
-You can now access most AI features and configuration via the Command Palette `(ctrl-shift-p)`. Type your AI operation and select from the dropdown for quick access. Also remember `ctrl-shift-a` to bring up the AI context menu quickly.
+You can now access most AI features and configuration via the Command Palette `(ctrl-shift-p)`. Type your AI operation and select from the dropdown for quick access. Also remember `ctrl-shift-a` to bring up the AI context menu quickly as well as the dropdown next to the AI magic wand icon.
 
 * **Cleanup Selection AI Editor Operation**  
 Changed the existing AI based  *Fix Grammar* menu option to *Cleanup Selection*. Refactored Diff UI to display merged output in syntax colored editor view in dialog. Updated the cleanup system prompt and allow for customizing the system prompt in the dialog.
