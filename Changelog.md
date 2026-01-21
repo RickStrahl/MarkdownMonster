@@ -3,7 +3,7 @@
 [![download](https://img.shields.io/badge/download-latest-blue.svg)](https://markdownmonster.west-wind.com/download) [![NuGet](https://img.shields.io/chocolatey/v/MarkdownMonster.svg)](https://chocolatey.org/packages/MarkdownMonster) [![](https://img.shields.io/chocolatey/dt/MarkdownMonster.svg)](https://chocolatey.org/packages/MarkdownMonster) [![upgrade](https://img.shields.io/badge/v4-upgrade-blue.svg)](https://markdownmonster.west-wind.com/purchase#upgrades)
 
 ## 4.1
-<small>not released yet</small>
+<small>January 21st, 2026</small>
 
 * **Emoji Selector as a Sidebar Tab**  
 Moved the Emoji Picker to a left sidebar tab that is always active and more easily accessible. Also improved initial load time of the panel.
