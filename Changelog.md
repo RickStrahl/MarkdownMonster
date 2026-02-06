@@ -6,7 +6,8 @@
 <small>not released yet</small>
 
 * **Add Open Documents and Project Files to Command Palette**  
-When you search using the Command Palette (`ctrl-shift-p`), the search now includes a list of open documents (title and filename displayed), and list of matching files in the current project tree (filename and folder displayed).
+When you search using the Command Palette (`ctrl-shift-p`), the search now includes on the bottom a list of open documents (title and filename displayed), and list of matching files based on the project base path file tree (filename and folder displayed). This effectively gives you a quick way to search and open/activate files that are either open or on the file system.   
+<small>*Note that you can [establish a project base folder](https://markdownmonster.west-wind.com/docs/Recipes/Configuring-Site-Relative-Base-Paths.html) via marker files*</small>
 
 * **Add WordPress API Weblog Publishing**  
 We've supported WordPress XML-RPC publishing since the beginning but we've now added support for the more modern REST API publishing. No changes to overall behaviors, but using the currently recommended architecture instead. Handles both self-hosted and WordPress published sites.
