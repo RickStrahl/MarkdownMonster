@@ -2,6 +2,15 @@
 	
 [![download](https://img.shields.io/badge/download-latest-blue.svg)](https://markdownmonster.west-wind.com/download) [![NuGet](https://img.shields.io/chocolatey/v/MarkdownMonster.svg)](https://chocolatey.org/packages/MarkdownMonster) [![](https://img.shields.io/chocolatey/dt/MarkdownMonster.svg)](https://chocolatey.org/packages/MarkdownMonster) [![upgrade](https://img.shields.io/badge/v4-upgrade-blue.svg)](https://markdownmonster.west-wind.com/purchase#upgrades)
 
+## 4.2
+<small>not released yet</small>
+
+* **Add Open Documents and Project Files to Command Palette**  
+When you search using the Command Palette (`ctrl-shift-p`), the search now includes a list of open documents (title and filename displayed), and list of matching files in the current project tree (filename and folder displayed).
+
+* **Add WordPress API Weblog Publishing**  
+We've supported WordPress XML-RPC publishing since the beginning but we've now added support for the more modern REST API publishing. No changes to overall behaviors, but using the currently recommended architecture instead. Handles both self-hosted and WordPress published sites.
+
 ## 4.1
 <small>January 21st, 2026</small>
 
