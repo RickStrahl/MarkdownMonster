@@ -6,11 +6,15 @@
 <small>not released yet</small>
 
 * **Add Open Documents and Project Files to Command Palette**  
-When you search using the Command Palette (`ctrl-shift-p`), the search now includes on the bottom a list of open documents (title and filename displayed), and list of matching files based on the project base path file tree (filename and folder displayed). This effectively gives you a quick way to search and open/activate files that are either open or on the file system.   
+When you search using the Command Palette (`ctrl-shift-p`), the search result now includes  a list of open documents (title and filename displayed), and a list of matching files based on the project base path file tree (filename and folder displayed). These new items are displayed on the bottom of the results list. This effectively gives you a quick way to search and open/activate files that are either open or in the file system in the project's (or current and down) path.   
 <small>*Note that you can [establish a project base folder](https://markdownmonster.west-wind.com/docs/Recipes/Configuring-Site-Relative-Base-Paths.html) via marker files*</small>
 
 * **Add WordPress API Weblog Publishing**  
 We've supported WordPress XML-RPC publishing since the beginning but we've now added support for the more modern REST API publishing. No changes to overall behaviors, but using the currently recommended architecture instead. Handles both self-hosted and WordPress published sites.
+
+* **Fix: Format and Edit Table when there's Whitespace Before**  
+Fix issue when a table that is to be formatted or edited has white space in front of it, for example in a list that results in an list level indent. Previously table was inserted into column zero. This fix maintains the spacing based on the first line of the table. ([#1260](https://github.com/RickStrahl/MarkdownMonster/issues/1260))
+
 
 ## 4.1
 <small>January 21st, 2026</small>
