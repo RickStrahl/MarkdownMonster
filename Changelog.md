@@ -5,6 +5,9 @@
 ## 4.2
 <small>not released yet</small>
 
+* **Improve Image Refresh in Preview**  
+Improve image refresh if images are updated outside of MM. Various Refresh Browser options now hard refresh and clear the cache explicitly to force the preview browser to update images (browser context menu and edit menu and clipboard paste and drag and drop operations).
+
 * **Add Open Documents and Project Files to Command Palette**  
 When you search using the Command Palette (`ctrl-shift-p`), the search result now includes  a list of open documents (title and filename displayed), and a list of matching files based on the project base path file tree (filename and folder displayed). These new items are displayed on the bottom of the results list. This effectively gives you a quick way to search and open/activate files that are either open or in the file system in the project's (or current and down) path.   
 <small>*Note that you can [establish a project base folder](https://markdownmonster.west-wind.com/docs/Recipes/Configuring-Site-Relative-Base-Paths.html) via marker files*</small>
@@ -12,8 +15,14 @@ When you search using the Command Palette (`ctrl-shift-p`), the search result no
 * **Add WordPress API Weblog Publishing**  
 We've supported WordPress XML-RPC publishing since the beginning but we've now added support for the more modern REST API publishing. No changes to overall behaviors, but using the currently recommended architecture instead. Handles both self-hosted and WordPress published sites.
 
-* **Fix: Format and Edit Table when there's Whitespace Before**  
+* **Improved Git Undo Change Handling**  
+Added separate options for Undoing and Deleting currently selected file or all checked files. Also you can now Revert all changes in the repo with a single button. Previously only single file operations where supported. Related: Fix Undo bug that in some cases was not actually discarding changes.
+
+* **Fix: Format and Edit Table when there's White Space Before**  
 Fix issue when a table that is to be formatted or edited has white space in front of it, for example in a list that results in an list level indent. Previously table was inserted into column zero. This fix maintains the spacing based on the first line of the table. ([#1260](https://github.com/RickStrahl/MarkdownMonster/issues/1260))
+
+* **Fix: Configuration Help Text Formatting**  
+Fix the documentation XML Docs import to properly handle leading spaces in help content. Fixes the misaligned first line regression bug introduced in updated object structure parsing. Related fix: Improved performance of the configuration screen initial display by eliminating excessive exceptions.
 
 
 ## 4.1
