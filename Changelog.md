@@ -8,6 +8,9 @@
 * **Improve Image Refresh in Preview**  
 Improve image refresh if images are updated outside of MM. Various Refresh Browser options now hard refresh and clear the cache explicitly to force the preview browser to update images (browser context menu and edit menu and clipboard paste and drag and drop operations).
 
+* **Improved MathML Handling in Preview**  
+The preview now properly renders MathML expressions immediately instead of requiring a potential refresh for first rendering an added first math expression. This fix is due to the way MM renders without completely refreshing the page and this fix adds a specific check for Math expressions to force a full reload if the library is not yet loaded.
+
 * **Add Open Documents and Project Files to Command Palette**  
 When you search using the Command Palette (`ctrl-shift-p`), the search result now includes  a list of open documents (title and filename displayed), and a list of matching files based on the project base path file tree (filename and folder displayed). These new items are displayed on the bottom of the results list. This effectively gives you a quick way to search and open/activate files that are either open or in the file system in the project's (or current and down) path.   
 <small>*Note that you can [establish a project base folder](https://markdownmonster.west-wind.com/docs/Recipes/Configuring-Site-Relative-Base-Paths.html) via marker files*</small>
@@ -23,6 +26,9 @@ Fix issue when a table that is to be formatted or edited has white space in fron
 
 * **Fix: Configuration Help Text Formatting**  
 Fix the documentation XML Docs import to properly handle leading spaces in help content. Fixes the misaligned first line regression bug introduced in updated object structure parsing. Related fix: Improved performance of the configuration screen initial display by eliminating excessive exceptions.
+
+* **Fix: AI Chat Interface Cancel Operation**  
+Canceling an in-flight chat request now properly updates the UI and hides the spinning ball and displays a cancel message in the response view.
 
 
 ## 4.1
