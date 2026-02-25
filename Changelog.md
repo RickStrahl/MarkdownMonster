@@ -5,6 +5,7 @@
 ## 4.2
 <small>not released yet</small>
 
+
 * **Improve Image Refresh in Preview**  
 Improve image refresh if images are updated outside of MM. Various Refresh Browser options now hard refresh and clear the cache explicitly to force the preview browser to update images (browser context menu and edit menu and clipboard paste and drag and drop operations).
 
@@ -14,6 +15,9 @@ The preview now properly renders MathML expressions immediately instead of requi
 * **Add Open Documents and Project Files to Command Palette**  
 When you search using the Command Palette (`ctrl-shift-p`), the search result now includes  a list of open documents (title and filename displayed), and a list of matching files based on the project base path file tree (filename and folder displayed). These new items are displayed on the bottom of the results list. This effectively gives you a quick way to search and open/activate files that are either open or in the file system in the project's (or current and down) path.   
 <small>*Note that you can [establish a project base folder](https://markdownmonster.west-wind.com/docs/Recipes/Configuring-Site-Relative-Base-Paths.html) via marker files*</small>
+
+* **Go To Line**  
+Added Go To Line to the edit menu and via `ctrl-g`. Surprisingly this has been a missing feature.
 
 * **Add WordPress API Weblog Publishing**  
 We've supported WordPress XML-RPC publishing since the beginning but we've now added support for the more modern REST API publishing. No changes to overall behaviors, but using the currently recommended architecture instead. Handles both self-hosted and WordPress published sites.
