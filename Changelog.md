@@ -5,19 +5,18 @@
 ## 4.2
 <small>not released yet</small>
 
-
 * **Improve Image Refresh in Preview**  
 Improve image refresh if images are updated outside of MM. Various Refresh Browser options now hard refresh and clear the cache explicitly to force the preview browser to update images (browser context menu and edit menu and clipboard paste and drag and drop operations).
 
 * **Improved MathML Handling in Preview**  
-The preview now properly renders MathML expressions immediately instead of requiring a potential refresh for first rendering an added first math expression. This fix is due to the way MM renders without completely refreshing the page and this fix adds a specific check for Math expressions to force a full reload if the library is not yet loaded.
+The preview now properly renders MathML expressions **immediately** when added to the page, compared to the prior behavior that required reloading the page on first insert to get the library loaded. The page now detects the missing math library on dynamic preview updates when required and automatically does a full page reload.
 
 * **Add Open Documents and Project Files to Command Palette**  
 When you search using the Command Palette (`ctrl-shift-p`), the search result now includes  a list of open documents (title and filename displayed), and a list of matching files based on the project base path file tree (filename and folder displayed). These new items are displayed on the bottom of the results list. This effectively gives you a quick way to search and open/activate files that are either open or in the file system in the project's (or current and down) path.   
 <small>*Note that you can [establish a project base folder](https://markdownmonster.west-wind.com/docs/Recipes/Configuring-Site-Relative-Base-Paths.html) via marker files*</small>
 
-* **Go To Line**  
-Added Go To Line to the edit menu and via `ctrl-g`. Surprisingly this has been a missing feature.
+* **Go To Line in the Editor**  
+Added Go To Line to the edit menu and via `ctrl-g`. Surprisingly this has been a missing feature. Also available in the Command Palette.
 
 * **Add WordPress API Weblog Publishing**  
 We've supported WordPress XML-RPC publishing since the beginning but we've now added support for the more modern REST API publishing. No changes to overall behaviors, but using the currently recommended architecture instead. Handles both self-hosted and WordPress published sites.
@@ -33,6 +32,9 @@ Fix the documentation XML Docs import to properly handle leading spaces in help 
 
 * **Fix: AI Chat Interface Cancel Operation**  
 Canceling an in-flight chat request now properly updates the UI and hides the spinning ball and displays a cancel message in the response view.
+
+* **Fix: Open in New Window With Untitled Documents**  
+Fix bug where attempting to open in new window fails with untitled documents and loses the unsaved untitled document text **if the file isn't saved when prompted**. Fixed by **not** saving the file and opening the file in memory in the new editor - ie. in the same untitled/unsaved mode as in the previous editor. Also fixed various activation issues around this feature in the various avenues that access this feature (editor, tab, window menu). ([#1262](https://github.com/RickStrahl/MarkdownMonster/issues/1262))
 
 
 ## 4.1
