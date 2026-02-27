@@ -24,6 +24,9 @@ We've supported WordPress XML-RPC publishing since the beginning but we've now a
 * **Improved Git Undo Change Handling**  
 Added separate options for Undoing and Deleting currently selected file or all checked files. Also you can now Revert all changes in the repo with a single button. Previously only single file operations where supported. Related: Fix Undo bug that in some cases was not actually discarding changes.
 
+* **Weblog Publishing: Generate AI Abstract from Document**   
+The Weblog publishing dialog now has an AI Generate Abstract button (if an AI provider is configured) to generate a single paragraph abstract from the document.
+
 * **Fix: Format and Edit Table when there's White Space Before**  
 Fix issue when a table that is to be formatted or edited has white space in front of it, for example in a list that results in an list level indent. Previously table was inserted into column zero. This fix maintains the spacing based on the first line of the table. ([#1260](https://github.com/RickStrahl/MarkdownMonster/issues/1260))
 
