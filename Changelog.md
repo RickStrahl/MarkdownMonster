@@ -3,13 +3,16 @@
 [![download](https://img.shields.io/badge/download-latest-blue.svg)](https://markdownmonster.west-wind.com/download) [![NuGet](https://img.shields.io/chocolatey/v/MarkdownMonster.svg)](https://chocolatey.org/packages/MarkdownMonster) [![](https://img.shields.io/chocolatey/dt/MarkdownMonster.svg)](https://chocolatey.org/packages/MarkdownMonster) [![upgrade](https://img.shields.io/badge/v4-upgrade-blue.svg)](https://markdownmonster.west-wind.com/purchase#upgrades)
 
 ## 4.2
-<small>not released yet</small>
+<small>March 9th, 2026</small>
+
+* **Improved Preview Syncing**  
+We've revamped the preview syncing mechanism to better sync the preview page position closer to the the editor's current cursor position during editing, clicking into and selecting text. For scroll operations, the preview is synced at the top of the page to the top of the editor. ([#1264](https://github.com/RickStrahl/MarkdownMonster/issues/1264))
 
 * **Improve Image Refresh in Preview**  
-Improve image refresh if images are updated outside of MM. Various Refresh Browser options now hard refresh and clear the cache explicitly to force the preview browser to update images (browser context menu and edit menu and clipboard paste and drag and drop operations).
+Improve image refresh if images are updated outside of MM. Various Refresh Browser options now hard refresh and clear the cache explicitly to force the preview browser to update images immediately when performing image related operations (browser context menu and edit menu and clipboard paste and drag and drop operations). The explicit image refresh now also explicitly clears the cache for when images are updated without any explicit image updates in the UI.
 
 * **Improved MathML Handling in Preview**  
-The preview now properly renders MathML expressions **immediately** when added to the page, compared to the prior behavior that required reloading the page on first insert to get the library loaded. The page now detects the missing math library on dynamic preview updates when required and automatically does a full page reload.
+The preview browser now properly renders MathML expressions **immediately** when added to the page, compared to the prior behavior that required reloading the page on first insert to get the library loaded. The page now detects the missing math library on dynamic preview updates when required and automatically does a full page reload immediately.
 
 * **Add Open Documents and Project Files to Command Palette**  
 When you search using the Command Palette (`ctrl-shift-p`), the search result now includes  a list of open documents (title and filename displayed), and a list of matching files based on the project base path file tree (filename and folder displayed). These new items are displayed on the bottom of the results list. This effectively gives you a quick way to search and open/activate files that are either open or in the file system in the project's (or current and down) path.   
@@ -38,6 +41,9 @@ Canceling an in-flight chat request now properly updates the UI and hides the sp
 
 * **Fix: Open in New Window With Untitled Documents**  
 Fix bug where attempting to open in new window fails with untitled documents and loses the unsaved untitled document text **if the file isn't saved when prompted**. Fixed by **not** saving the file and opening the file in memory in the new editor - ie. in the same untitled/unsaved mode as in the previous editor. Also fixed various activation issues around this feature in the various avenues that access this feature (editor, tab, window menu). ([#1262](https://github.com/RickStrahl/MarkdownMonster/issues/1262))
+
+* **Fix: Editor Text Scaling**  
+Fix the percentage drop down to accurately reflect the editor scale size as set via scroll wheel or Ctrl-+/- and by selecting values from the dropdown. Previously the dropdown was not reflecting the updated value and was affecting the font size resulting in the numbers not accurately reflecting the actual scale value. Fixed.
 
 
 ## 4.1
