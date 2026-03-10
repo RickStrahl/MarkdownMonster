@@ -5,10 +5,10 @@
 ## 4.2
 <small>March 9th, 2026</small>
 
-* **Improved Preview Syncing**  
+* **[Improved Preview Syncing](https://markdownmonster.west-wind.com/docs/Features/Working-with-the-HTML-Preview.html)**  
 We've revamped the preview syncing mechanism to better sync the preview page position closer to the the editor's current cursor position during editing, clicking into and selecting text. For scroll operations, the preview is synced at the top of the page to the top of the editor. ([#1264](https://github.com/RickStrahl/MarkdownMonster/issues/1264))
 
-* **Improve Image Refresh in Preview**  
+* **Improved Image Refresh in Preview**  
 Improve image refresh if images are updated outside of MM. Various Refresh Browser options now hard refresh and clear the cache explicitly to force the preview browser to update images immediately when performing image related operations (browser context menu and edit menu and clipboard paste and drag and drop operations). The explicit image refresh now also explicitly clears the cache for when images are updated without any explicit image updates in the UI.
 
 * **Improved MathML Handling in Preview**  
@@ -18,7 +18,7 @@ The preview browser now properly renders MathML expressions **immediately** when
 When you search using the Command Palette (`ctrl-shift-p`), the search result now includes  a list of open documents (title and filename displayed), and a list of matching files based on the project base path file tree (filename and folder displayed). These new items are displayed on the bottom of the results list. This effectively gives you a quick way to search and open/activate files that are either open or in the file system in the project's (or current and down) path.   
 <small>*Note that you can [establish a project base folder](https://markdownmonster.west-wind.com/docs/Recipes/Configuring-Site-Relative-Base-Paths.html) via marker files*</small>
 
-* **Go To Line in the Editor**  
+* **[Go To Line in the Editor](https://raw.githubusercontent.com/RickStrahl/ImageDrop/refs/heads/master/MarkdownMonster/GotoLine.png)**  
 Added Go To Line to the edit menu and via `ctrl-g`. Surprisingly this has been a missing feature. Also available in the Command Palette.
 
 * **Add WordPress API Weblog Publishing**  
