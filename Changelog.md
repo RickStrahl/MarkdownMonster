@@ -6,7 +6,7 @@
 <small>Not released yet</small>
 
 * **Some Performance Improvements for Larger Documents**  
-We made some optimizations around the preview refresh mechanism that helps reduce latency when running with large multi-megabyte documents. This helps especially with files in the 1 to 5mb range or with smaller sizes on low end hardware.
+We made some optimizations around the preview refresh mechanism that helps reduce latency when running with large multi-megabyte documents. This helps especially with files in the 1 to 3mb range (on decent hardware).
 
 * **Fix: Ctrl-F in File Browser and File Navigation**  
 Fixed missing Ctrl-F hotkey in the file browser that jumps the Search box to provide a file search string. Fixed keyboard navigation in the Folder browser where keystrokes in the tree jump to nearest file on the current level match based on the current filter string.
