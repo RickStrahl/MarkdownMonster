@@ -2,6 +2,15 @@
 	
 [![download](https://img.shields.io/badge/download-latest-blue.svg)](https://markdownmonster.west-wind.com/download) [![NuGet](https://img.shields.io/chocolatey/v/MarkdownMonster.svg)](https://chocolatey.org/packages/MarkdownMonster) [![](https://img.shields.io/chocolatey/dt/MarkdownMonster.svg)](https://chocolatey.org/packages/MarkdownMonster) [![upgrade](https://img.shields.io/badge/v4-upgrade-blue.svg)](https://markdownmonster.west-wind.com/purchase#upgrades)
 
+## 4.3 
+<small>Not released yet</small>
+
+* **Some Performance Improvements for Larger Documents**  
+We made some optimizations around the preview refresh mechanism that helps reduce latency when running with large multi-megabyte documents. This helps especially with files in the 1 to 5mb range or with smaller sizes on low end hardware.
+
+* **Fix: Ctrl-F in File Browser and File Navigation**  
+Fixed missing Ctrl-F hotkey in the file browser that jumps the Search box to provide a file search string. Fixed keyboard navigation in the Folder browser where keystrokes in the tree jump to nearest file on the current level match based on the current filter string.
+
 ## 4.2
 <small>March 9th, 2026</small>
 
@@ -9,7 +18,7 @@
 We've revamped the preview syncing mechanism to better sync the preview page position closer to the the editor's current cursor position during editing, clicking into and selecting text. For scroll operations, the preview is synced at the top of the page to the top of the editor. ([#1264](https://github.com/RickStrahl/MarkdownMonster/issues/1264))
 
 * **Improved Image Refresh in Preview**  
-Improve image refresh if images are updated outside of MM. Various Refresh Browser options now hard refresh and clear the cache explicitly to force the preview browser to update images immediately when performing image related operations (browser context menu and edit menu and clipboard paste and drag and drop operations). The explicit image refresh now also explicitly clears the cache for when images are updated without any explicit image updates in the UI.
+Improve image refresh if images are updated outside of MM. Various Refresh Browser options now hard refresh and clear the cache explicitly to force the preview browser to update images immediately when performing image related operations (browser context menu and edit menu and clipboard paste and drag and drop operations). The explicit image refresh now also explicitly clears the cache for when images are updated without any explicit image updates in the UI, but it still requires a manual operation (ie. **Hard Browser Refresh**)
 
 * **Improved MathML Handling in Preview**  
 The preview browser now properly renders MathML expressions **immediately** when added to the page, compared to the prior behavior that required reloading the page on first insert to get the library loaded. The page now detects the missing math library on dynamic preview updates when required and automatically does a full page reload immediately.
