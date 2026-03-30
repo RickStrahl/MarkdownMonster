@@ -8,8 +8,13 @@
 * **Some Performance Improvements for Larger Documents**  
 We made some optimizations around the preview refresh mechanism that helps reduce latency when running with large multi-megabyte documents. This helps especially with files in the 1 to 3mb range (on decent hardware).
 
+* **Update AI Image Generator for better Gpt-Image Support**  
+Fixed support for newer iterations of OpenAI `gpt-image-1.5` model and reset defaults to use this model from Dall-E-3 which is being retired. Several fixes including error handling and improved switch over of stored images to newer models. *(gpt-image-1)
+
 * **Fix: Ctrl-F in File Browser and File Navigation**  
 Fixed missing Ctrl-F hotkey in the file browser that jumps the Search box to provide a file search string. Fixed keyboard navigation in the Folder browser where keystrokes in the tree jump to nearest file on the current level match based on the current filter string.
+
+
 
 ## 4.2
 <small>March 9th, 2026</small>
