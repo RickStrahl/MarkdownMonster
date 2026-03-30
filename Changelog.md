@@ -6,7 +6,7 @@
 <small>Not released yet</small>
 
 * **Some Performance Improvements for Larger Documents**  
-We made some optimizations around the preview refresh mechanism that helps reduce latency when running with large multi-megabyte documents. This helps especially with files in the 1 to 3mb range (on decent hardware).
+We made some optimizations around the preview refresh mechanism that helps reduce latency when running with large multi-megabyte documents. This helps especially with files in the 1 to 2mb range (on decent hardware).
 
 * **Update AI Image Generator for better Gpt-Image Support**  
 Fixed support for newer iterations of OpenAI `gpt-image-1.5` model and reset defaults to use this model from Dall-E-3 which is being retired. Several fixes including error handling and improved switch over of stored images to newer models. *(gpt-image-1)
