@@ -5,8 +5,12 @@
 ## 4.3 
 <small>Not released yet</small>
 
-* **Some Performance Improvements for Larger Documents**  
-We made some optimizations around the preview refresh mechanism that helps reduce latency when running with large multi-megabyte documents. This helps especially with files in the 1 to 2mb range (on decent hardware).
+
+* **[Improved Preview Syncing](https://markdownmonster.west-wind.com/docs/Features/Working-with-the-HTML-Preview.html)**  
+We've revamped the preview syncing mechanism to better sync the preview page position closer to the the editor's current cursor position during editing, clicking into and selecting text. For scroll operations, the preview is synced at the top of the page to the top of the editor.  ([#1264](https://github.com/RickStrahl/MarkdownMonster/issues/1264))
+
+* **Performance Improvements for Larger Documents**  
+We made some optimizations around the preview refresh mechanism that helps reduce latency when running with large multi-megabyte documents. This helps especially with files in the 3 to 5mb+ which can be edited fairly comfortably,  and up to 10mb range (on decent hardware) which work with some stuttering.
 
 * **Update AI Image Generator for better Gpt-Image Support**  
 Fixed support for newer iterations of OpenAI `gpt-image-1.5` model and reset defaults to use this model from Dall-E-3 which is being retired. Several fixes including error handling and improved switch over of stored images to newer models. *(gpt-image-1)
@@ -19,8 +23,6 @@ Fixed missing Ctrl-F hotkey in the file browser that jumps the Search box to pro
 ## 4.2
 <small>March 9th, 2026</small>
 
-* **[Improved Preview Syncing](https://markdownmonster.west-wind.com/docs/Features/Working-with-the-HTML-Preview.html)**  
-We've revamped the preview syncing mechanism to better sync the preview page position closer to the the editor's current cursor position during editing, clicking into and selecting text. For scroll operations, the preview is synced at the top of the page to the top of the editor. ([#1264](https://github.com/RickStrahl/MarkdownMonster/issues/1264))
 
 * **Improved Image Refresh in Preview**  
 Improve image refresh if images are updated outside of MM. Various Refresh Browser options now hard refresh and clear the cache explicitly to force the preview browser to update images immediately when performing image related operations (browser context menu and edit menu and clipboard paste and drag and drop operations). The explicit image refresh now also explicitly clears the cache for when images are updated without any explicit image updates in the UI, but it still requires a manual operation (ie. **Hard Browser Refresh**)
