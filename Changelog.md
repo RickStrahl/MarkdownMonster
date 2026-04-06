@@ -15,14 +15,15 @@ We made some optimizations around the preview refresh mechanism that helps reduc
 * **Update AI Image Generator for better Gpt-Image Support**  
 Fixed support for newer iterations of OpenAI `gpt-image-1.5` model and reset defaults to use this model from Dall-E-3 which is being retired. Several fixes including error handling and improved switch over of stored images to newer models *(gpt-image-1)*.
 
-* **Fix: Ctrl-F in File Browser and File Navigation**  
-Fixed missing Ctrl-F hotkey in the file browser that jumps the Search box to provide a file search string. Fixed keyboard navigation in the Folder browser where keystrokes in the tree jump to nearest file on the current level match based on the current filter string.
-
-* **Fix: Editor Zoom now Recenters the Editor on Selected Line**  
-When chaning the editor zoom level via the drop down on the bottom the editor recenters the selected line. Previously the line selection was left unchanged which often scrolled off the selected line and left it still selected but not actually visible.
+* **Fix: Editor Zoom now Re-centers the Editor on Selected Line**  
+When changing the editor zoom level via the drop down on the bottom the editor re-centers the selected line. Previously the line selection was left unchanged which often scrolled off the selected line and left it still selected but not actually visible.
 
 * **Fix: Editor Find Popup Shift-Tab Key Focus**   
 Fixed issue where the cursor would expand `Shift-Tab` in the editor when pressed from the search and search and replace popup window. Both tab and shift-tab now keep focus in the popup properly and toggle between the two fields (search and replace) or stay focused on the current control (search only). ([#1271](https://github.com/RickStrahl/MarkdownMonster/issues/1271))
+
+* **Fix: Ctrl-F in File Browser and File Navigation**  
+Fixed missing Ctrl-F hotkey in the file browser that jumps the Search box to provide a file search string. Fixed keyboard navigation in the Folder browser where keystrokes in the tree jump to nearest file on the current level match based on the current filter string.
+
 
 ## 4.2
 <small>March 9th, 2026</small>
