@@ -6,13 +6,13 @@
 <small>Not released yet</small>
 
 
-* **[Improved Preview Syncing](https://markdownmonster.west-wind.com/docs/Features/Working-with-the-HTML-Preview.html)**  
+* [Improved Preview Syncing](https://markdownmonster.west-wind.com/docs/Features/Working-with-the-HTML-Preview.html)  
 We've revamped the preview syncing mechanism to better sync the preview page position closer to the the editor's current cursor position during editing, clicking into and selecting text. For scroll operations, the preview is synced at the top of the page to the top of the editor. Updated again in `v4.2.6+`. ([#1264](https://github.com/RickStrahl/MarkdownMonster/issues/1264))
 
-* **[Editor and Preview Performance Improvements for Multi-Megabyte Documents](https://markdownmonster.west-wind.com/docs/Features/Working-with-the-HTML-Preview.html)**  
+* [Editor and Preview Performance Improvements for Multi-Megabyte Documents](https://markdownmonster.west-wind.com/docs/Features/Working-with-the-HTML-Preview.html)  
 We made some optimizations around the preview refresh mechanism that helps reduce latency when running with large multi-megabyte documents. This helps especially with files in the 2 to 4mb+ which can be edited comfortably on mid-range+ hardware, and up to 8-10mb range which work with some stuttering.
 
-* **Update AI Image Generator for better Gpt-Image Support**  
+* [Update AI Image Generator for better Gpt-Image Support](https://markdownmonster.west-wind.com/docs/AI-Integration-Features/OpenAI-Image-Generation.html)  
 Fixed support for newer iterations of OpenAI `gpt-image-1.5` model and reset defaults to use this model from Dall-E-3 which is being retired. Several fixes including error handling and improved switch over of stored images to newer models *(gpt-image-1)*.
 
 * **Fix: Editor Zoom now Re-centers the Editor on Selected Line**  
