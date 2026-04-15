@@ -5,7 +5,6 @@
 ## 4.3 
 <small>Not released yet</small>
 
-
 * [Improved Preview Syncing](https://markdownmonster.west-wind.com/docs/Features/Working-with-the-HTML-Preview.html)  
 We've revamped the preview syncing mechanism to better sync the preview page position closer to the the editor's current cursor position during editing, clicking into and selecting text. For scroll operations, the preview is synced at the top of the page to the top of the editor. Updated again in `v4.2.6+`. ([#1264](https://github.com/RickStrahl/MarkdownMonster/issues/1264))
 
@@ -14,6 +13,15 @@ We made some optimizations around the preview refresh mechanism that helps reduc
 
 * [Update AI Image Generator for better Gpt-Image Support](https://markdownmonster.west-wind.com/docs/AI-Integration-Features/OpenAI-Image-Generation.html)  
 Fixed support for newer iterations of OpenAI `gpt-image-1.5` model and reset defaults to use this model from Dall-E-3 which is being retired. Several fixes including error handling and improved switch over of stored images to newer models *(gpt-image-1)*.
+
+* **Folder Browser: Directory ToolTip now shows Directory Info**  
+When hovering over a folder in the Folder Browser you now see a summary of detail about the folder: Number of folders and files and total size.
+
+* **Fix: Slow Document Outline View on Large Documents**  
+When working with very large documents with many sections the document outline became very, very slow. By changing the rendering template mode performance improved by at least 10x - it was a huge bottleneck. The document outline was the main reason for very laggy performance for larger documents and with the fix we can now handle much larger documents with decent performance. Combined with the preview sync enhancements large document editor performance is drastically improved.
+
+* **Fix: Preview BasePath breaks Relative Links**  
+Fixed issue where the base path generated for the preview document generated a path to the full document's filename instead of the parent folder. The base path ensures that relative resources can be found, but because of filename as part of the path, the base path was effectively broken. Fixed. [#1273](https://github.com/RickStrahl/MarkdownMonster/issues/1273)
 
 * **Fix: Editor Zoom now Re-centers the Editor on Selected Line**  
 When changing the editor zoom level via the drop down on the bottom the editor re-centers the selected line. Previously the line selection was left unchanged which often scrolled off the selected line and left it still selected but not actually visible.
