@@ -2,8 +2,15 @@
 	
 [![download](https://img.shields.io/badge/download-latest-blue.svg)](https://markdownmonster.west-wind.com/download) [![NuGet](https://img.shields.io/chocolatey/v/MarkdownMonster.svg)](https://chocolatey.org/packages/MarkdownMonster) [![](https://img.shields.io/chocolatey/dt/MarkdownMonster.svg)](https://chocolatey.org/packages/MarkdownMonster) [![upgrade](https://img.shields.io/badge/v4-upgrade-blue.svg)](https://markdownmonster.west-wind.com/purchase#upgrades)
 
+## 4.4
+<small>not released yet</small>
+
+
+* **BlazePost API for Blog Publishing**  
+Added our own Westwind BlazePost API for publishing to Weblogs for very quick and efficient publishing. 
+
 ## 4.3 
-<small>Not released yet</small>
+<small>May 1st, 2026</small>
 
 * [Improved Preview Syncing](https://markdownmonster.west-wind.com/docs/Features/Working-with-the-HTML-Preview.html)  
 We've revamped the preview syncing mechanism to better sync the preview page position closer to the the editor's current cursor position during editing, clicking into and selecting text. For scroll operations, the preview is synced at the top of the page to the top of the editor. Updated again in `v4.2.6+`. ([#1264](https://github.com/RickStrahl/MarkdownMonster/issues/1264))
