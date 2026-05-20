@@ -3,8 +3,6 @@
 * [ ] TOC generation has wrong spacing if there items start with header `###`
 * [ ] Gist Addin - Fix Refresh in Previewer* 
 
-#### Enhancements
-* Do DOM Diffing instead of innerHtml replacement
 
 ### Consideration
 * [ ] Markup (Publishing) support

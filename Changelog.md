@@ -5,6 +5,9 @@
 ## 4.4
 <small>not released yet</small>
 
+* **Window Resizing now preserves Editor/Preview Size Ratio**  
+Changed the behavior of the editor on window resizing, so that the editor and preview width stay at the same ratio set via splitter bar resizing. Previously preview width was fixed and editor width adjusted on window resizing. The new behavior is more consistent and requires less tweaking of the splitter placement.
+
 * **BlazePost API for Blog Publishing**  
 Added our own Westwind BlazePost API for publishing to Weblogs for very quick and efficient publishing. 
 
