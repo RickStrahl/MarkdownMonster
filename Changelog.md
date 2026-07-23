@@ -3,6 +3,7 @@
 [![download](https://img.shields.io/badge/download-latest-blue.svg)](https://markdownmonster.west-wind.com/download) [![NuGet](https://img.shields.io/chocolatey/v/MarkdownMonster.svg)](https://chocolatey.org/packages/MarkdownMonster) [![](https://img.shields.io/chocolatey/dt/MarkdownMonster.svg)](https://chocolatey.org/packages/MarkdownMonster) [![upgrade](https://img.shields.io/badge/v4-upgrade-blue.svg)](https://markdownmonster.west-wind.com/purchase#upgrades)
 
 ## 4.5
+<small>*not released yet*</small>
 
 * **Switch Editor to run on Monaco Editor**  
 Refactored the editor from ACE Editor to run on Monaco which is the same engine that is used by VS Code. Monaco enables a host of features not available in ACE with a more complete and modern editor API that is accessible.
@@ -21,7 +22,7 @@ ASP.NET Razor and CUrl syntax are now supported in the editor itself for ` ```ra
 We've updated HighlighJs to the latest version available which provides additional syntax support and improved render speed for code snippets. There is now support for **Razor** and **Http** syntaxes in the previewer.
 
 ## 4.4
-<small>June 1st, 2026</small>
+<small>*June 1st, 2026*</small>
 
 * **Window Resizing now preserves Editor/Preview Size Ratio**  
 Changed the behavior of the editor on window resizing, so that the editor and preview width stay at the same ratio set via splitter bar resizing. Previously preview width was fixed and editor width adjusted on window resizing. The new behavior is more consistent and requires less tweaking of the splitter placement.
