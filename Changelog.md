@@ -2,6 +2,24 @@
 	
 [![download](https://img.shields.io/badge/download-latest-blue.svg)](https://markdownmonster.west-wind.com/download) [![NuGet](https://img.shields.io/chocolatey/v/MarkdownMonster.svg)](https://chocolatey.org/packages/MarkdownMonster) [![](https://img.shields.io/chocolatey/dt/MarkdownMonster.svg)](https://chocolatey.org/packages/MarkdownMonster) [![upgrade](https://img.shields.io/badge/v4-upgrade-blue.svg)](https://markdownmonster.west-wind.com/purchase#upgrades)
 
+## 4.5
+
+* **Switch Editor to run on Monaco Editor**  
+Refactored the editor from ACE Editor to run on Monaco which is the same engine that is used by VS Code. Monaco enables a host of features not available in ACE with a more complete and modern editor API that is accessible.
+
+* **Add Inline Diff Viewer**  
+MM now has an inline Diff Viewer that's accessible from the Tab and Editor context menus. At any time you can switch into Diff view to see the differences between saved file on disk and what you're currently editing. Diff view is also available from the Folder Browser where the Diff Viewer when invoked shows diff view for Git files (if folder is Git controlled).
+
+* **MiniMap Support**  
+As a side effect of using Monaco Editor we now have optional support for document mini map in the scrollbar margin. MiniMap is off by default but can be enabled via the Options dialog or the settings file in `Editor.showMiniMap`.
+
+* **Support for Razor and CUrl Syntax**  
+ASP.NET Razor and CUrl syntax are now supported in the editor itself for ` ```razor` and ` ```curl` syntax as well as in the rendered preview.  
+<small>*Note: Syntax rendering depends on [HighlightJs](https://highlightjs.org/) and custom sytnaxes that are provided by the MM Preview themes. Make sure your hosting platform for Markdown supports the syntax you're using inline or code may show as generic unformatted code.*</small>
+
+* **HighlightJs updated to latest ES6 Version**  
+We've updated HighlighJs to the latest version available which provides additional syntax support and improved render speed for code snippets. There is now support for **Razor** and **Http** syntaxes in the previewer.
+
 ## 4.4
 <small>June 1st, 2026</small>
 
