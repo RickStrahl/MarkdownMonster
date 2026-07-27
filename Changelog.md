@@ -11,6 +11,9 @@ Refactored the editor from ACE Editor to run on Monaco which is the same engine 
 * **Add Inline Diff Viewer**  
 MM now has an inline Diff Viewer that's accessible from the Tab and Editor context menus. At any time you can switch into Diff view to see the differences between saved file on disk and what you're currently editing. Diff view is also available from the Folder Browser where the Diff Viewer when invoked shows diff view for Git files (if folder is Git controlled).
 
+* **Open Current Document as Diff Viewer**  
+You can now open the current document using **Open in Diff Editor** mode that lets you see the differences between the file on disk and your current edits. You can then **Close Diff Editor** to return to standard view. Once active the Diff editor continues to track changes back to when the diff editor was first accessed (not to when the file is saved after load).
+
 * **MiniMap Support**  
 As a side effect of using Monaco Editor we now have optional support for document mini map in the scrollbar margin. MiniMap is off by default but can be enabled via the Options dialog or the settings file in `Editor.showMiniMap`.
 
