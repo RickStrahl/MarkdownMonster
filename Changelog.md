@@ -5,10 +5,6 @@
 ## 4.5
 <small>*not released yet*</small>
 
-```typescript
-var x = 1;
-```
-
 * **Change Editor Platform to Monaco Editor**  
 Refactored the editor from ACE Editor to run on Monaco Editor which is the same editor core that is used by VS Code. Monaco enables a host of features not available in ACE with a more complete and modern editor API that is more customizable and programmable.
 
