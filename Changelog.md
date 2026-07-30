@@ -2,7 +2,7 @@
 	
 [![download](https://img.shields.io/badge/download-latest-blue.svg)](https://markdownmonster.west-wind.com/download) [![NuGet](https://img.shields.io/chocolatey/v/MarkdownMonster.svg)](https://chocolatey.org/packages/MarkdownMonster) [![](https://img.shields.io/chocolatey/dt/MarkdownMonster.svg)](https://chocolatey.org/packages/MarkdownMonster) [![upgrade](https://img.shields.io/badge/v4-upgrade-blue.svg)](https://markdownmonster.west-wind.com/purchase#upgrades)
 
-## 4.5
+## 4.5 Beta
 <small>*not released yet*</small>
 
 * **Change Editor Platform to Monaco Editor**  
@@ -20,12 +20,18 @@ Another side benefit of the Monaco Editor integration is a cleaner and more func
 * **MiniMap Support**  
 As a side effect of using Monaco Editor we now have optional support for document mini map in the scrollbar margin. MiniMap is off by default but can be enabled via the Options dialog or the settings file in `Editor.showMiniMap`.
 
+* **Marker Indicators on Scroll Bar**  
+Another Monaco inherited improvement is that in-doc markers like spell checking errors and diffs are visible as markers in the scroll bar so you can quickly see issues in the document at a glance and jump to them quickly.
+
 * **Support for Razor and CUrl Syntax**  
 ASP.NET Razor and CUrl syntax are now supported in the editor itself for ` ```razor` and ` ```curl` syntax as well as in the rendered preview.  
 <small>*Note: Syntax rendering depends on [HighlightJs](https://highlightjs.org/) and custom syntax that are provided by the MM Preview themes. Make sure your hosting platform for Markdown supports the syntax you're using inline or code may show as generic unformatted code.*</small>
 
 * **HighlightJs updated to latest ES6 Version**  
 We've updated HighlighJs to the latest version available which provides additional syntax support and improved render speed for code snippets. There is now support for **Razor** and **Http** syntaxes in the previewer.
+
+  * **Updated External Programs**  
+External programs now has the ability to specify a working directory for the program to run in via `{ProjectFolder}` expansion. Also refactored numeric expansion (ie. `{0}` `{1}` etc.) to named expansions `{CurrentFile}`, `{CurrentFolder}`, `{CurrentRow}`, `{CurrentColumn}`, `{ProjectFolder}` to be more consistent and allow for multiple expansions in the same command line. Previously only a single expansion was supported.
 
 
 
