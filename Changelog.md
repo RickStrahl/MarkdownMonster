@@ -15,13 +15,13 @@ MM now has an inline Diff Viewer that's accessible from the Tab and Editor and F
 You can now open the current document using **Open in Diff Editor** mode that lets you see the differences between the file on disk and your current edits. You can then **Close Diff Editor** to return to standard view. Once active the Diff editor continues to track changes back to when the diff editor was first accessed (not to when the file is saved after load).
 
 * **Improved Find Dialog**  
-Another side benefit of the Monaco Editor integration is a cleaner and more functional Find and Replace dialog (Ctrl-F and Ctrl-H). Previously in ACE we had to custom style and fix various key combinations and focus issues for the dialog, where the Monaco version looks proper and behaves correctly out of box.
+Another side benefit of the Monaco Editor integration is a cleaner and more functional Find and Replace dialog (Ctrl-F and Ctrl-H). Previously in ACE we had to custom style and fix various key combinations and focus issues for the dialog, where the Monaco version looks proper and behaves correctly out of box. 
 
 * **MiniMap Support**  
 As a side effect of using Monaco Editor we now have optional support for document mini map in the scrollbar margin. MiniMap is off by default but can be enabled via the Options dialog or the settings file in `Editor.showMiniMap`.
 
 * **Marker Indicators on Scroll Bar**  
-Another Monaco inherited improvement is that in-doc markers like spell checking errors and diffs are visible as markers in the scroll bar so you can quickly see issues in the document at a glance and jump to them quickly.
+Another Monaco inherited improvement is that in-doc markers like spell checking errors and diffs are visible as markers in the scroll bar, so you can quickly see issues in the document at a glance and jump to them quickly.
 
 * **Support for Razor and CUrl Syntax**  
 ASP.NET Razor and CUrl syntax are now supported in the editor itself for ` ```razor` and ` ```curl` syntax as well as in the rendered preview.  
@@ -30,10 +30,8 @@ ASP.NET Razor and CUrl syntax are now supported in the editor itself for ` ```ra
 * **HighlightJs updated to latest ES6 Version**  
 We've updated HighlighJs to the latest version available which provides additional syntax support and improved render speed for code snippets. There is now support for **Razor** and **Http** syntaxes in the previewer.
 
-  * **Updated External Programs**  
-External programs now has the ability to specify a working directory for the program to run in via `{ProjectFolder}` expansion. Also refactored numeric expansion (ie. `{0}` `{1}` etc.) to named expansions `{CurrentFile}`, `{CurrentFolder}`, `{CurrentRow}`, `{CurrentColumn}`, `{ProjectFolder}` to be more consistent and allow for multiple expansions in the same command line. Previously only a single expansion was supported.
-
-
+* **Updated External Programs**  
+External allow you to create an **Open...** link to external programs you configure. The configuration  now has the ability to specify a working directory for the program to run in via `{ProjectFolder}` expansion. Also refactored numeric expansion (ie. `{0}`-`{3}` etc.) to named expansions `{CurrentFile}`, `{CurrentFolder}`, `{CurrentRow}`, `{CurrentColumn}`, `{ProjectFolder}` to be more consistent. Previously only the numeric values were supported.
 
 ## 4.4
 <small>*June 1st, 2026*</small>
