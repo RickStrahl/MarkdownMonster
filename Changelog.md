@@ -6,7 +6,7 @@
 <small>*not released yet*</small>
 
 * **Change Editor Platform to Monaco Editor**  
-Refactored the editor from ACE Editor to run on Monaco Editor which is the same editor core that is used by VS Code. Monaco enables a host of features not available in ACE with a more complete and modern editor API that is more customizable and programmable.
+Refactored the editor from ACE Editor to run on [Monaco Editor](https://microsoft.github.io/monaco-editor/) which is the same editor core that is used by VS Code. Monaco enables a host of features not available in ACE with a more complete and modern editor API that is more customizable and programmable and more agent friendly than ACE.
 
 * **Add Inline Diff Viewer**  
 MM now has an inline Diff Viewer that's accessible from the Tab and Editor and Folder Browser context menus. The Folder Browser version shows Git differences between the current file and its last GIT commit. The Editor versions (Tab and Editor Context menu) show current file differences vs. disk file if the file has changes. The view is shown as inline .diff that shows changes inside of the active document with changed and unchanged text stacked in green (added) and red (deleted).
