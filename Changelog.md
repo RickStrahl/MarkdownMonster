@@ -31,7 +31,7 @@ ASP.NET Razor and CUrl syntax are now supported in the editor itself for ` ```ra
 We've updated HighlighJs to the latest version available which provides additional syntax support and improved render speed for code snippets. There is now support for **Razor** and **Http** syntaxes in the previewer.
 
 * **Updated External Programs**  
-External allow you to create an **Open...** link to external programs you configure. The configuration  now has the ability to specify a working directory for the program to run in via `{ProjectFolder}` expansion. Also refactored numeric expansion (ie. `{0}`-`{3}` etc.) to named expansions `{CurrentFile}`, `{CurrentFolder}`, `{CurrentRow}`, `{CurrentColumn}`, `{ProjectFolder}` to be more consistent. Previously only the numeric values were supported.
+**External Programs** allow you to create an **Open...** link to external programs that you configure yourself. The configuration  now has the ability to specify a working directory for the program to run in via `{ProjectFolder}` expansion which can point back a ['project' base path](https://markdownmonster.west-wind.com/docs/Recipes/Configuring-Site-Relative-Base-Paths.html#site-relative-path-overrides). Also refactored numeric expansion (ie. `{0}`-`{3}` etc.) to named expansions `{CurrentFile}`, `{CurrentFolder}`, `{CurrentRow}`, `{CurrentColumn}`, `{ProjectFolder}` to be more consistent. Previously only the numeric values were supported.
 
 ## 4.4
 <small>*June 1st, 2026*</small>
