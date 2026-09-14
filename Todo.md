@@ -1,6 +1,5 @@
 ### Bugs and Needed Features
-* [ ] Diff Commands on Command Palette are not working correctly
-* [ ] Diff Commands for MM CommandLine/CLI
+* [ ] Open as Diff breaks when opening an Untitled document
 * [ ] Tweak VS Code Dark Color Theme
 * [ ] Check into Markdown nested coloring issues in Markdown syntax files
 
