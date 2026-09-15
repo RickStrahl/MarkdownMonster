@@ -4,6 +4,8 @@
 
 ## 4.5.3
 
+<small>Sept. 15th, 2026</small>
+
 * **Add External Image Support to AI Image Generation**  
 You can now provide input images in your AI Image Generation prompts in the OpenAI Image generator. You can drag and drop or paste images into the prompt box to use those images as input for image prompting. Use images for source images to combine or cleanup, or as a style guide to guide the prompt.
 
