@@ -2,7 +2,7 @@
 	
 [![download](https://img.shields.io/badge/download-latest-blue.svg)](https://markdownmonster.west-wind.com/download) [![NuGet](https://img.shields.io/chocolatey/v/MarkdownMonster.svg)](https://chocolatey.org/packages/MarkdownMonster) [![](https://img.shields.io/chocolatey/dt/MarkdownMonster.svg)](https://chocolatey.org/packages/MarkdownMonster) [![upgrade](https://img.shields.io/badge/v4-upgrade-blue.svg)](https://markdownmonster.west-wind.com/purchase#upgrades)
 
-## 4.5.2
+## 4.5.3
 
 * **Add External Image Support to AI Image Generation**  
 You can now provide input images in your AI Image Generation prompts in the OpenAI Image generator. You can drag and drop or paste images into the prompt box to use those images as input for image prompting. Use images for source images to combine or cleanup, or as a style guide to guide the prompt.
@@ -11,8 +11,10 @@ You can now provide input images in your AI Image Generation prompts in the Open
 v4.5 introduced the Diff editor. In this release we've added more natural context menu behavior for accepting or reverting changes for each change block, or the entire document. Right click on any change block in a Diff document to see the options.
 
 * **Improve Recovery Document Behavior**  
-If MM shut down unexpectedly due to system failure or a hard reboot etc. and you have Auto-Backup enabled, MM has your last batch of unsaved changes. When you restart it shows you those changes in a Diff editor that shows the differences. As of 4.5 the Diff shows in the main editor as an inline Diff, but the update now adds a **Rocovery Mode Banner** for quickly **Accepting** or **Reverting** all changes in addition to the full context menu options for accepting or reverting specific or all changes.
+If MM shut down unexpectedly due to system failure or a hard reboot etc. and you have Auto-Backup enabled, MM has your last batch of unsaved changes. When you restart it shows you those changes in a Diff editor that shows the differences. As of 4.5 the Diff shows in the main editor as an inline Diff, but the update now adds a **Recovery Mode Banner** for quickly **Accepting** or **Reverting** all changes in addition to the full context menu options for accepting or reverting specific or all changes.
 
+* **Fix: AI Summarize Dialog Clipboard Output**  
+Fix issue with the AI Summary window not properly assigning the ResultText when the prompt result arrives. Previously the result displayed in the editorl, but you couldn't copy or embed the content.
 
 ## 4.5.1
 
