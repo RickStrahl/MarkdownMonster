@@ -2,12 +2,23 @@
 	
 [![download](https://img.shields.io/badge/download-latest-blue.svg)](https://markdownmonster.west-wind.com/download) [![NuGet](https://img.shields.io/chocolatey/v/MarkdownMonster.svg)](https://chocolatey.org/packages/MarkdownMonster) [![](https://img.shields.io/chocolatey/dt/MarkdownMonster.svg)](https://chocolatey.org/packages/MarkdownMonster) [![upgrade](https://img.shields.io/badge/v4-upgrade-blue.svg)](https://markdownmonster.west-wind.com/purchase#upgrades)
 
+
+## 4.5.4
+
+<small>in progress</small>
+
+* **Add Prompt Generation Options to Image Generator**  
+The AI Image generator now has options to create a prompt from the current document. The default asks to create an abstract image from a) the full document or b) a short summary of the document. The summary is LLM generated if a text Completions model has been configured.
+
+* **Fix: Speak Document Not Working**  
+Fixed issue where Speak document was not working. ([#1289](https://github.com/RickStrahl/MarkdownMonster/issues/1289))
+
 ## 4.5.3
 
 <small>Sept. 15th, 2026</small>
 
 * **Add External Image Support to AI Image Generation**  
-You can now provide input images in your AI Image Generation prompts in the OpenAI Image generator. You can drag and drop or paste images into the prompt box to use those images as input for image prompting. Use images for source images to combine or cleanup, or as a style guide to guide the prompt.
+You can now provide input images in your AI Image Generation prompts in the OpenAI Image generator  to allow for using images for reference and style guidelines or for things like combining or cleaning up of images. You can drag and drop from Explorer or Web Browser, or paste images (`ctrl-v`) from the Clipboard into the prompt box to use those images as input for image prompting. Images are preserved in the prompt history.
 
 * **Diff Editor Improvements**  
 v4.5 introduced the Diff editor. In this release we've added more natural context menu behavior for accepting or reverting changes for each change block, or the entire document. Right click on any change block in a Diff document to see the options.
