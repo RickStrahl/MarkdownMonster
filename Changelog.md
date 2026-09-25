@@ -10,6 +10,9 @@
 * **Add Prompt Generation Options to Image Generator**  
 The AI Image generator now has options to create a prompt from the current document. The default asks to create an abstract image from a) the full document or b) a short summary of the document. The summary is LLM generated if a text Completions model has been configured.
 
+* **Fix: PDF Missing or Incomplete Resources**  
+Addressed issue that caused PDF Generation to occasionally fail to render images or other dependent resources, or async loaded content like Mermaid diagrams resulting in partial renders or other incomplete results. A new **Pdf Generation Delay** option has been added to the PDF output window that delays generation of the PDF **after** the document has been rendered to Html in the WebView DOM that is used for printing to PDF. Defaults to 120ms which seems enough for most scenarios, but you can bump the value for **very large** documents, slow connections or other special cases where async content may be slow to load. ([#1279](https://github.com/RickStrahl/MarkdownMonster/issues/1279))
+
 * **Fix: Speak Document Not Working**  
 Fixed issue where Speak document was not working. ([#1289](https://github.com/RickStrahl/MarkdownMonster/issues/1289))
 
