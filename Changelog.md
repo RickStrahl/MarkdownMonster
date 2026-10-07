@@ -3,31 +3,31 @@
 [![download](https://img.shields.io/badge/download-latest-blue.svg)](https://markdownmonster.west-wind.com/download) [![NuGet](https://img.shields.io/chocolatey/v/MarkdownMonster.svg)](https://chocolatey.org/packages/MarkdownMonster) [![](https://img.shields.io/chocolatey/dt/MarkdownMonster.svg)](https://chocolatey.org/packages/MarkdownMonster) [![upgrade](https://img.shields.io/badge/v4-upgrade-blue.svg)](https://markdownmonster.west-wind.com/purchase#upgrades)
 
 
-## 4.5.4
+## 4.5.5
 
-<small>in progress</small>
-
-* **Add Prompt Generation Options to Image Generator**  
-The AI Image generator now has options to create a prompt from the current document. The default asks to create an abstract image from a) the full document or b) a short summary of the document. The summary is LLM generated if a text Completions model has been configured.
-
-* **Fix: PDF Missing or Incomplete Resources**  
-Addressed issue that caused PDF Generation to occasionally fail to render images or other dependent resources, or async loaded content like Mermaid diagrams resulting in partial renders or other incomplete results. A new **Pdf Generation Delay** option has been added to the PDF output window that delays generation of the PDF **after** the document has been rendered to Html in the WebView DOM that is used for printing to PDF. Defaults to 120ms which seems enough for most scenarios, but you can bump the value for **very large** documents, slow connections or other special cases where async content may be slow to load. ([#1279](https://github.com/RickStrahl/MarkdownMonster/issues/1279))
-
-* **Fix: Speak Document Not Working**  
-Fixed issue where Speak document was not working. ([#1289](https://github.com/RickStrahl/MarkdownMonster/issues/1289))
-
-## 4.5.3
-
-<small>Sept. 15th, 2026</small>
-
-* **Add External Image Support to AI Image Generation**  
-You can now provide input images in your AI Image Generation prompts in the OpenAI Image generator  to allow for using images for reference and style guidelines or for things like combining or cleaning up of images. You can drag and drop from Explorer or Web Browser, or paste images (`ctrl-v`) from the Clipboard into the prompt box to use those images as input for image prompting. Images are preserved in the prompt history.
+<small>October 8th, 2026</small>
 
 * **Diff Editor Improvements**  
 v4.5 introduced the Diff editor. In this release we've added more natural context menu behavior for accepting or reverting changes for each change block, or the entire document. Right click on any change block in a Diff document to see the options.
 
 * **Improve Recovery Document Behavior**  
 If MM shut down unexpectedly due to system failure or a hard reboot etc. and you have Auto-Backup enabled, MM has your last batch of unsaved changes. When you restart it shows you those changes in a Diff editor that shows the differences. As of 4.5 the Diff shows in the main editor as an inline Diff, but the update now adds a **Recovery Mode Banner** for quickly **Accepting** or **Reverting** all changes in addition to the full context menu options for accepting or reverting specific or all changes.
+
+* **Add Prompt Generation Options to Image Generator**  
+The AI Image generator now has options to create a prompt from the current document. The default asks to create an abstract image from a) the full document or b) a short summary of the document. The summary is LLM generated if a text Completions model has been configured.
+
+* **Add External Image Support to AI Image Generation**  
+You can now provide input images in your AI Image Generation prompts in the OpenAI Image generator  to allow for using images for reference and style guidelines or for things like combining or cleaning up of images. You can drag and drop from Explorer or Web Browser, or paste images (`ctrl-v`) from the Clipboard into the prompt box to use those images as input for image prompting. Images are preserved in the prompt history.
+
+* **Fix: PDF Missing or Incomplete Images/Resources**  
+Addressed issue that caused PDF Generation to occasionally fail to render images or other dependent online resources, or async loaded content like Mermaid diagrams resulting in partially rendered content or other incomplete results. A new **Pdf Generation Delay** option has been added to the PDF output window that delays generation of the PDF **after** the document has been rendered to Html in the WebView DOM that is used for printing to PDF. Defaults to a minimum of 120ms which seems enough for most scenarios, but you can bump the value for **very large** documents, slow connections or other special cases where async content may be slow to load. ([#1279](https://github.com/RickStrahl/MarkdownMonster/issues/1279))
+
+* **Fix: Speak Document Not Working**  
+Fixed issue where Speak document was not working. ([#1289](https://github.com/RickStrahl/MarkdownMonster/issues/1289))
+
+* **Fix: Drag and Drop File as Links from Favorites**  
+Fix drag and drop from the Favorites sidebar to behave in the same fashion as drag and drop from the File and Folder Browser to embed a link to the file into the document. (
+[#1291](https://github.com/RickStrahl/MarkdownMonster/issues/1291))
 
 * **Fix: AI Summarize Dialog Clipboard Output**  
 Fix issue with the AI Summary window not properly assigning the ResultText when the prompt result arrives. Previously the result displayed in the editorl, but you couldn't copy or embed the content.
