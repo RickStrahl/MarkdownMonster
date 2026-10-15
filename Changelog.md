@@ -3,6 +3,18 @@
 [![download](https://img.shields.io/badge/download-latest-blue.svg)](https://markdownmonster.west-wind.com/download) [![NuGet](https://img.shields.io/chocolatey/v/MarkdownMonster.svg)](https://chocolatey.org/packages/MarkdownMonster) [![](https://img.shields.io/chocolatey/dt/MarkdownMonster.svg)](https://chocolatey.org/packages/MarkdownMonster) [![upgrade](https://img.shields.io/badge/v4-upgrade-blue.svg)](https://markdownmonster.west-wind.com/purchase#upgrades)
 
 
+## 4.6
+<small>not released yet</small>
+
+* **Document Outline Context Menu now shows active ID**  
+The document outline now shows the id when using the context menu, so you can at a glance see the generated Id value. This is in addition to the link insertion and copy options on the menu.
+
+* **Additional Table Editor Column Management Shortcuts**  
+Added additional shortcuts for Insert Column Left (`alt-shift-left`), Insert Column Right (`alt-shift-right`) and Delete Column (`alt-shift-delete`). 
+
+* **Consistent Table Editor Context Menu**  
+Fixed context menu so it shows properly not only when on a text selection. Context menu now triggers in table cells and no browser default context menu is shown at the bottom no content area.
+
 ## 4.5.5
 
 <small>October 8th, 2026</small>
