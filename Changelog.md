@@ -9,16 +9,6 @@
 * **Document Outline Context Menu now shows active ID**  
 The document outline now shows the id when using the context menu, so you can at a glance see the generated Id value. This is in addition to the link insertion and copy options on the menu.
 
-* **Additional Table Editor Column Management Shortcuts**  
-Added additional shortcuts for Insert Column Left (`alt-shift-left`), Insert Column Right (`alt-shift-right`) and Delete Column (`alt-shift-delete`). 
-
-* **Consistent Table Editor Context Menu**  
-Fixed context menu so it shows properly not only when on a text selection. Context menu now triggers in table cells and no browser default context menu is shown at the bottom no content area.
-
-## 4.5.5
-
-<small>October 8th, 2026</small>
-
 * **Diff Editor Improvements**  
 v4.5 introduced the Diff editor. In this release we've added more natural context menu behavior for accepting or reverting changes for each change block, or the entire document. Right click on any change block in a Diff document to see the options.
 
@@ -30,6 +20,13 @@ The AI Image generator now has options to create a prompt from the current docum
 
 * **Add External Image Support to AI Image Generation**  
 You can now provide input images in your AI Image Generation prompts in the OpenAI Image generator  to allow for using images for reference and style guidelines or for things like combining or cleaning up of images. You can drag and drop from Explorer or Web Browser, or paste images (`ctrl-v`) from the Clipboard into the prompt box to use those images as input for image prompting. Images are preserved in the prompt history.
+
+
+* **Additional Table Editor Column Management Shortcuts**  
+Added additional shortcuts for Insert Column Left (`alt-shift-left`), Insert Column Right (`alt-shift-right`) and Delete Column (`alt-shift-delete`). ([#1278](https://github.com/RickStrahl/MarkdownMonster/issues/1278))
+
+* **Consistent Table Editor Context Menu**  
+Fixed the table editor context menu so it shows properly when there's no text selection in the table. Previously focus had to be on the edit control and a browser context menu was shown when focus was on the cell itself or the bottom of the content area. Cell selections now correctly trigger, and the empty content shows no context menu.
 
 * **Fix: PDF Missing or Incomplete Images/Resources**  
 Addressed issue that caused PDF Generation to occasionally fail to render images or other dependent online resources, or async loaded content like Mermaid diagrams resulting in partially rendered content or other incomplete results. A new **Pdf Generation Delay** option has been added to the PDF output window that delays generation of the PDF **after** the document has been rendered to Html in the WebView DOM that is used for printing to PDF. Defaults to a minimum of 120ms which seems enough for most scenarios, but you can bump the value for **very large** documents, slow connections or other special cases where async content may be slow to load. ([#1279](https://github.com/RickStrahl/MarkdownMonster/issues/1279))
