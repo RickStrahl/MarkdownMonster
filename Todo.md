@@ -1,6 +1,6 @@
 ### Bugs and Needed Features
 * [ ] Open as Diff breaks when opening an Untitled document
-* [ ] Tweak VS Code Dark Color Theme
+* [x] Tweak VS Code Dark Color Theme
 * [ ] Check into Markdown nested coloring issues in Markdown syntax files
 
 * [ ] File location tracking is not working

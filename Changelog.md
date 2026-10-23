@@ -9,6 +9,9 @@
 * **Document Outline Context Menu now shows active ID**  
 The document outline now shows the id when using the context menu, so you can at a glance see the generated Id value. This is in addition to the link insertion and copy options on the menu.
 
+* **Collapsible Headers in Document Outline**  
+Each header section in the Document Outline is now collapsible to make it easier to view large documents with many sections. You can also collapse all, and expand all.
+
 * **Diff Editor Improvements**  
 v4.5 introduced the Diff editor. In this release we've added more natural context menu behavior for accepting or reverting changes for each change block, or the entire document. Right click on any change block in a Diff document to see the options.
 
