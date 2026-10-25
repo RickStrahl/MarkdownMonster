@@ -5,12 +5,11 @@
 
 ## 4.6
 <small>not released yet</small>
+* **Collapsible Headers in Document Outline**  
+Each header section in the Document Outline is now collapsible to make it easier to view large documents with many sections. You can also collapse all, and expand all. ([#1295](https://github.com/RickStrahl/MarkdownMonster/issues/1295))
 
 * **Document Outline Context Menu now shows active ID**  
 The document outline now shows the id when using the context menu, so you can at a glance see the generated Id value. This is in addition to the link insertion and copy options on the menu.
-
-* **Collapsible Headers in Document Outline**  
-Each header section in the Document Outline is now collapsible to make it easier to view large documents with many sections. You can also collapse all, and expand all.
 
 * **Diff Editor Improvements**  
 v4.5 introduced the Diff editor. In this release we've added more natural context menu behavior for accepting or reverting changes for each change block, or the entire document. Right click on any change block in a Diff document to see the options.
@@ -38,11 +37,14 @@ Addressed issue that caused PDF Generation to occasionally fail to render images
 Fixed issue where Speak document was not working. ([#1289](https://github.com/RickStrahl/MarkdownMonster/issues/1289))
 
 * **Fix: Drag and Drop File as Links from Favorites**  
-Fix drag and drop from the Favorites sidebar to behave in the same fashion as drag and drop from the File and Folder Browser to embed a link to the file into the document. (
+Fix drag and drop from the **Favorites Sidebar** to behave in the same fashion as drag and drop from the **File and Folder Browser** to embed a link to the file into the document. (
 [#1291](https://github.com/RickStrahl/MarkdownMonster/issues/1291))
 
 * **Fix: AI Summarize Dialog Clipboard Output**  
 Fix issue with the AI Summary window not properly assigning the ResultText when the prompt result arrives. Previously the result displayed in the editorl, but you couldn't copy or embed the content.
+
+* **Fix: Link Checker doesn't resolve Document Relative Links**  
+Fix issue where the link checker failed to resolve valid document relative links as success, when there's a document root path marker file (ie. `.markdownmonster` or similar) is present. ([#1296](https://github.com/RickStrahl/MarkdownMonster/issues/1296))
 
 ## 4.5.1
 
