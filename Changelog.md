@@ -2,6 +2,14 @@
 	
 [![download](https://img.shields.io/badge/download-latest-blue.svg)](https://markdownmonster.west-wind.com/download) [![NuGet](https://img.shields.io/chocolatey/v/MarkdownMonster.svg)](https://chocolatey.org/packages/MarkdownMonster) [![](https://img.shields.io/chocolatey/dt/MarkdownMonster.svg)](https://chocolatey.org/packages/MarkdownMonster) [![upgrade](https://img.shields.io/badge/v4-upgrade-blue.svg)](https://markdownmonster.west-wind.com/purchase#upgrades)
 
+  
+## 4.7 
+
+<small>not released yet</small>
+
+* **New Table Interface**  
+When creating new tables the Table Editor now pops up a small dialog to let you 'draw' the table shape setting the number of rows and columns via a selection grid. It's a quick way to set up columns more quickly than manually adding them via shortcuts (`alt-shift-left` and `alt-shift-right`) or context menu one at a time.
+
 
 ## 4.6
 <small>October 27th, 2026</small>
