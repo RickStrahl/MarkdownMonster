@@ -4,7 +4,8 @@
 
 
 ## 4.6
-<small>not released yet</small>
+<small>October 27th, 2026</small>
+
 * **Collapsible Headers in Document Outline**  
 Each header section in the Document Outline is now collapsible to make it easier to view large documents with many sections. You can also collapse all, and expand all. ([#1295](https://github.com/RickStrahl/MarkdownMonster/issues/1295))
 
@@ -31,7 +32,7 @@ Added additional shortcuts for Insert Column Left (`alt-shift-left`), Insert Col
 Fixed the table editor context menu so it shows properly when there's no text selection in the table. Previously focus had to be on the edit control and a browser context menu was shown when focus was on the cell itself or the bottom of the content area. Cell selections now correctly trigger, and the empty content shows no context menu.
 
 * **Fix: PDF Missing or Incomplete Images/Resources**  
-Addressed issue that caused PDF Generation to occasionally fail to render images or other dependent online resources, or async loaded content like Mermaid diagrams resulting in partially rendered content or other incomplete results. A new **Pdf Generation Delay** option has been added to the PDF output window that delays generation of the PDF **after** the document has been rendered to Html in the WebView DOM that is used for printing to PDF. Defaults to a minimum of 120ms which seems enough for most scenarios, but you can bump the value for **very large** documents, slow connections or other special cases where async content may be slow to load. ([#1279](https://github.com/RickStrahl/MarkdownMonster/issues/1279))
+Addressed issue that caused PDF Generation to occasionally fail to render images or other dependent online resources, or async loaded content like Mermaid diagrams resulting in partially rendered content or other incomplete results. A new **PDF Generation Delay** option has been added to the PDF output window that delays generation of the PDF **after** the document has been rendered to Html in the WebView DOM that is used for printing to PDF. Defaults to a minimum of 120ms which seems enough for most scenarios, but you can bump the value for **very large** documents, slow connections or other special cases where async content may be slow to load. ([#1279](https://github.com/RickStrahl/MarkdownMonster/issues/1279))
 
 * **Fix: Speak Document Not Working**  
 Fixed issue where Speak document was not working. ([#1289](https://github.com/RickStrahl/MarkdownMonster/issues/1289))
