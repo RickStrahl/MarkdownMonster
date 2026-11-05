@@ -2,14 +2,27 @@
 	
 [![download](https://img.shields.io/badge/download-latest-blue.svg)](https://markdownmonster.west-wind.com/download) [![NuGet](https://img.shields.io/chocolatey/v/MarkdownMonster.svg)](https://chocolatey.org/packages/MarkdownMonster) [![](https://img.shields.io/chocolatey/dt/MarkdownMonster.svg)](https://chocolatey.org/packages/MarkdownMonster) [![upgrade](https://img.shields.io/badge/v4-upgrade-blue.svg)](https://markdownmonster.west-wind.com/purchase#upgrades)
 
-  
+
+
+
 ## 4.7 
 
 <small>not released yet</small>
 
-* **New Table Interface**  
-When creating new tables the Table Editor now pops up a small dialog to let you 'draw' the table shape setting the number of rows and columns via a selection grid. It's a quick way to set up columns more quickly than manually adding them via shortcuts (`alt-shift-left` and `alt-shift-right`) or context menu one at a time.
+* **New Table Creation Interface**  
+When creating a new, empty table using the Table Editor, the editor now pops up a small dialog to let you 'draw' the *table shape* by setting the number of rows and columns via a quick selection grid. It's a quick way to set up columns (and rows) more quickly than manually adding them via shortcuts (`alt-shift-left` and `alt-shift-right`) or context menu one at a time.
 
+* **Editor.ScrollbarSize Setting**  
+You can now set the width of the scrollbar in the editor via the `Editor.ScrollbarSize` setting or **Scrollbar Size** in the Settings dialog. The default has also been widened slightly to avoid scrollbar hanging when scrolling due to focus loss of the editor on the right when effectively moving focus outside of the editor. 
+
+* **Native `[TOC]` Table of Content Support via MarkDig**  
+We've modified the Document Outline bar to insert the standard `[TOC]` for a Markdown rendered Table of contents. MarkDig recently added native support for the `[TOC]` attribute in Markdown and we've removed our previous non-standard support for `[[_TOC_]]` that was used previously.     
+*Potentially Breaking Change*{style="color:indianred;font-size: 0.8em;"}
+
+### Breaking Changes
+
+* **Old custom `[[_TOC_]]` syntax for Table of Contents Generation has been discontinued**  
+If you have older documents that use the old `[[_TOC_]]` syntax for automatic Table of Contents generation replace it with common Markdown extension syntax of `[TOC]`. 
 
 ## 4.6
 <small>October 27th, 2026</small>
