@@ -2,10 +2,7 @@
 	
 [![download](https://img.shields.io/badge/download-latest-blue.svg)](https://markdownmonster.west-wind.com/download) [![NuGet](https://img.shields.io/chocolatey/v/MarkdownMonster.svg)](https://chocolatey.org/packages/MarkdownMonster) [![](https://img.shields.io/chocolatey/dt/MarkdownMonster.svg)](https://chocolatey.org/packages/MarkdownMonster) [![upgrade](https://img.shields.io/badge/v4-upgrade-blue.svg)](https://markdownmonster.west-wind.com/purchase#upgrades)
 
-
-
-
-## 4.7 
+## 4.7
 
 <small>not released yet</small>
 
@@ -18,6 +15,9 @@ You can now set the width of the scrollbar in the editor via the `Editor.Scrollb
 * **Native `[TOC]` Table of Content Support via MarkDig**  
 We've modified the Document Outline bar to insert the standard `[TOC]` for a Markdown rendered Table of contents. MarkDig recently added native support for the `[TOC]` attribute in Markdown and we've removed our previous non-standard support for `[[_TOC_]]` that was used previously.     
 *Potentially Breaking Change*{style="color:indianred;font-size: 0.8em;"}
+
+* **.NET 11 Runtime Update**  
+We've switched to the new version of the .NET Runtime on release of the new runtime version. The new runtime provides improved overall performance and startup speed and reduced working memory usage. In addition new async features in the runtime reduce binaries and improve our debugging process for tracking down tricky async issues in the future.
 
 ### Breaking Changes
 
