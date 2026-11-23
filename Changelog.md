@@ -6,6 +6,9 @@
 ## 4.8 
 <small>not released yet</small>
 
+* **AI Image Generator Custom Image Sizes**  
+You can now configure image sizes for the OpenAI image generator via configuration setting `ImageSizes[]` in the JSON configuration. Values are specified as `"1440x672"` and must be multiples of 16 up to a max size of `"3840x2160"`.   
+
 * **Fix: Folder Browser Issue with `\\.\nul` Files**  
 This fix addresses problems in the Folder Browser where `\\.\nul` created created by Claude that would crash the directory lookup. ([#1298](https://github.com/RickStrahl/MarkdownMonster/issues/1298))
 
