@@ -15,7 +15,7 @@ This fix addresses problems in the Folder Browser where `\\.\nul` created create
 
 ## 4.7
 
-<small>November 12th, 20256</small>
+<small>November 20th, 2026</small>
 
 * **New Table Creation Interface**  
 When creating a new, empty table using the Table Editor, the editor now pops up a small dialog to let you 'draw' the *table shape* by setting the number of rows and columns via a quick selection grid. It's a quick way to set up columns (and rows) more quickly than manually adding them via shortcuts (`alt-shift-left` and `alt-shift-right`) or context menu one at a time.
