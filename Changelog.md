@@ -1,5 +1,5 @@
 # What's new in Markdown Monster
-	
+
 [![download](https://img.shields.io/badge/download-latest-blue.svg)](https://markdownmonster.west-wind.com/download) [![NuGet](https://img.shields.io/chocolatey/v/MarkdownMonster.svg)](https://chocolatey.org/packages/MarkdownMonster) [![](https://img.shields.io/chocolatey/dt/MarkdownMonster.svg)](https://chocolatey.org/packages/MarkdownMonster) [![upgrade](https://img.shields.io/badge/v4-upgrade-blue.svg)](https://markdownmonster.west-wind.com/purchase#upgrades)
 
 
@@ -7,7 +7,7 @@
 <small>not released yet</small>
 
 * **AI Image Generator Custom Image Sizes**  
-You can now configure image sizes for the OpenAI image generator via configuration setting `ImageSizes[]` in the JSON configuration. Values are specified as `"1440x672"` and must be multiples of 16 up to a max size of `"3840x2160"`.   
+You can now configure image sizes for the OpenAI image generator via configuration setting `ImageSizes[]` in the JSON configuration. Values are specified as `"1440x672"` and must be multiples of 16 up to a max size of `"3840x2160"`. You can also write in an image size and optionally add it to the `ImageSizes` configuration for reuse.
 
 * **Fix: Folder Browser Issue with `\\.\nul` Files**  
 This fix addresses problems in the Folder Browser where `\\.\nul` created created by Claude that would crash the directory lookup. ([#1298](https://github.com/RickStrahl/MarkdownMonster/issues/1298))
