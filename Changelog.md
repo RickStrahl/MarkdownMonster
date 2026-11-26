@@ -2,9 +2,12 @@
 
 [![download](https://img.shields.io/badge/download-latest-blue.svg)](https://markdownmonster.west-wind.com/download) [![NuGet](https://img.shields.io/chocolatey/v/MarkdownMonster.svg)](https://chocolatey.org/packages/MarkdownMonster) [![](https://img.shields.io/chocolatey/dt/MarkdownMonster.svg)](https://chocolatey.org/packages/MarkdownMonster) [![upgrade](https://img.shields.io/badge/v4-upgrade-blue.svg)](https://markdownmonster.west-wind.com/purchase#upgrades)
 
-
+	
 ## 4.8 
 <small>not released yet</small>
+
+* **Added Explicit View Toolbar for Edit/Split/Preview Modes**  
+Added more obvious toolbar icons to allow setting various common display modes: Split View, Editor View and Preview modes. The toolbar buttons make it easier to quickly jump between these modes. The Control Box options are also still available and allow additional options for external previewer, presentation mode etc.
 
 * **AI Image Generator Custom Image Sizes**  
 You can now configure image sizes for the OpenAI image generator via configuration setting `ImageSizes[]` in the JSON configuration. Values are specified as `"1440x672"` and must be multiples of 16 up to a max size of `"3840x2160"`. You can also write in an image size and optionally add it to the `ImageSizes` configuration for reuse.
@@ -12,6 +15,8 @@ You can now configure image sizes for the OpenAI image generator via configurati
 * **Fix: Folder Browser Issue with `\\.\nul` Files**  
 This fix addresses problems in the Folder Browser where `\\.\nul` created created by Claude that would crash the directory lookup. ([#1298](https://github.com/RickStrahl/MarkdownMonster/issues/1298))
 
+* **Fix: New Document Focus**  
+Fix regression bug when creating a new document (`ctrl-n`) focus didn't set into the new document. Fixed.
 
 ## 4.7
 
