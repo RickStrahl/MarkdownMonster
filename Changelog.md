@@ -18,6 +18,9 @@ This fix addresses problems in the Folder Browser where `\\.\nul` created create
 * **Fix: New Document Focus**  
 Fix regression bug when creating a new document (`ctrl-n`) focus didn't set into the new document. Fixed.
 
+* **Fix: Fenced Code Block Language Aliases**  
+Fixed another regression where C# language prefixes other than  `csharp` where not highlighting the C# code in the editor. You can now use `cs` and `c#` as before again for fenced code blocks. Note that rendering of the markdown preview was never affected - this was only an issue in the editor.
+
 ## 4.7
 
 <small>November 20th, 2026</small>
